@@ -1,0 +1,301 @@
+<template>
+  <div class="container mcontainer" v-if="forumDetails">
+    <h1 class="tw-text-2xl tw-font-semibold"> {{ forumDetails.title }} </h1>
+    <div class="d-flex">
+      <p class="tw-text-sm tw-text-gray-400 tw-my-2 ">
+        پرسیده شده
+        <span class="tw-text-black px-1">
+          {{time_ago(forumDetails.createDate) }}
+        </span>
+      </p>
+      <p class="tw-text-sm tw-text-gray-400 tw-my-2 px-3">
+        بازدید
+        <span class="tw-text-black px-1">
+          {{forumDetails.viewsCount}}
+      </span>
+      </p>
+    </div>
+
+    <div class="row py-3">
+      <div class="col-lg-8 tw-flex-shirink-0">
+        <div class="row boxMainContent mx-auto custom_card">
+          <div class="d-flex flex-column">
+            <div class="d-flex align-items-center row">
+              <div class="d-flex flex-column justify-content-center align-items-center col-1">
+                <button @click="likeQuestion">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+                <div style="color:hsl(210,8%,45%);">{{likes}}</div>
+                <button @click="dislikeQuestion">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+              <div class="d-flex flex-column col-11 pb-3">
+                <p class="tw-mt-3 tw-mb-0" style="font-size: 16px">
+                  {{forumDetails.description}}
+                </p>
+
+                <div class="d-flex justify-content-start px-3">
+                  <div v-for="tag in forumDetails.tags" class="back_tags p-1 m-1">{{tag.title}}</div>
+                </div>
+                <div class="d-flex align-items-center tw-mt-3" style="height: 40px;">
+                  <div class="d-flex px-3">
+                    <nuxt-link to="#">
+                      <TelegramIcon style="width: 20px; height: 20px;"/>
+                    </nuxt-link>
+                    <nuxt-link to="#">
+                      <WhatsappIcon style="width: 20px; height: 20px;"/>
+                    </nuxt-link>
+                    <nuxt-link to="#">
+                      <InstagramIcon style="width: 20px; height: 20px;"/>
+                    </nuxt-link>
+                  </div>
+                  <button type="button" class="button p-2" style="font-size: 12px; height: 28px">
+                    دنبال کردن
+                  </button>
+                  <div class=" d-flex tw-mr-auto justify-content-center align-items-center" :class="[]">
+                    <div v-if="!show_comment_input" class="tw-text-gray-400" style="font-size: 15px; font-style: italic;" @click="show_comment_input = !show_comment_input"> افزودن نظر ...</div>
+                    <input v-on:keyup.enter="addComment()" v-if="show_comment_input" v-model="forum_comment"
+                           style="border-radius: 50px; background-color: rgb(243 244 246); height: 40px !important;"
+                           value="" type="text" class="form-control mx-1"
+                           placeholder="نظر خود را وارد کنید...">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-if="forumDetails.comments.length>0" class="pt-3 tw-font-bold" style="font-weight: 600; font-size: 20px">{{ forumDetails.comments.length }} پاسخ</div>
+            <hr v-if="forumDetails.comments.length>0"/>
+          </div>
+
+
+          <ul class="tw-divide-y tw-divide-gray-100 sm:tw-m-0 tw--mx-5">
+            <li v-for="comment in forumDetails.comments">
+              <div class="d-flex align-items-center row">
+                <div class="d-flex flex-column mt-3 justify-content-center align-items-center col-1">
+                  <div class="d-flex flex-column justify-content-center align-items-center ">
+                    <button @click="likeQuestion">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
+                      </svg>
+                    </button>
+                    <div style="color:hsl(210,8%,45%);">{{likes}}</div>
+                    <button @click="dislikeQuestion">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="d-flex flex-column col-11 pb-3">
+                  <p class="tw-mt-3 p-1" style="font-size: 13px">
+                    {{comment.text}}
+                  </p>
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex px-3 mt-2">
+                      <nuxt-link to="#">
+                        <TelegramIcon style="width: 20px; height: 20px;"/>
+                      </nuxt-link>
+                      <nuxt-link to="#">
+                        <WhatsappIcon style="width: 20px; height: 20px;"/>
+                      </nuxt-link>
+                      <nuxt-link to="#">
+                        <InstagramIcon style="width: 20px; height: 20px;"/>
+                      </nuxt-link>
+                    </div>
+                    <button type="button" class="button p-2" style="font-size: 12px; height: 28px">
+                      دنبال کردن
+                    </button>
+
+                  </div>
+                </div>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-4 tw-pt-5">
+        <div>
+          <h2 class="tw-text-xl tw-font-semibold tw-mb-2"> مشارکت کنندگان برتر </h2>
+          <p> افرادی که بیشترین بحث را در گفتگوها شروع کردند. </p>
+          <br>
+          <ul class="tw-space-y-3">
+            <li v-for="i in 5">
+              <div class="tw-flex tw-items-center my-2">
+                <img src="~/assets/images/products/product_image.jpg" alt="" class="tw-w-8 tw-h-8 tw-rounded-full">
+                <nuxt-link to="#" class="tw-font-semibold tw-px-2 text-decoration-none tw-text-gray-700"> علی حسینی </nuxt-link>
+                <div class="tw-flex tw-items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-lg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                  <span class="px-2"> 137 </span>
+                </div>
+              </div>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+</template>
+
+<script>
+import TelegramIcon from "../../components/Icons/TelegramIcon";
+import WhatsappIcon from "../../components/Icons/WhatsappIcon";
+import InstagramIcon from "../../components/Icons/InstagramIcon";
+export default {
+  name: "_slug",
+  components: {InstagramIcon, WhatsappIcon, TelegramIcon},
+  layout: "BanooClubLayout",
+  head(){
+    return{
+      title: this.forumDetails?this.forumDetails.title:'انجمن'
+    }
+  },
+  async fetch() {
+    try {
+      const forum_details = await this.$repositories.getAForum.getAForum(
+        {
+          forumId:this.$route.params.id
+        }
+      )
+      this.forumDetails = forum_details.data
+      console.log('this.forumDetails',this.forumDetails)
+    }
+    catch (error){
+      console.log(error)
+    }
+
+  },
+  data(){
+    return{
+      likes:0,
+      show_comment_input:false,
+      forumDetails:null,
+      forum_comment:''
+
+    }
+  },
+  methods:{
+    async addComment(){
+      if(this.forum_comment == ''){
+        this.$toast.error("لطفا متن نظر را وارد کنید");
+      }
+      else{
+        this.$nuxt.$loading.start();
+        try{
+          await this.$repositories.createForumComment.createForumComment({
+            userId: 0,
+            forumId: this.forumDetails.forumId,
+            text: this.forum_comment,
+            parentId: this.forumDetails.forumId,
+          })
+          this.$nuxt.$loading.finish();
+          this.$nuxt.loading = false;
+          this.$nuxt.refresh();
+        } catch (error) {
+          console.log(error);
+          this.$nuxt.$loading.finish();
+          this.$nuxt.loading = false;
+        }
+      }
+
+    },
+
+    likeQuestion(){
+      this.likes++
+    },
+    dislikeQuestion(){
+      this.likes--
+    },
+    time_ago(time) {
+      switch (typeof time) {
+        case 'number':
+          break;
+        case 'string':
+          time = +new Date(time);
+          break;
+        case 'object':
+          if (time.constructor === Date) time = time.getTime();
+          break;
+        default:
+          time = +new Date();
+      }
+      let time_formats = [
+        [60, 'ثانیه ', 1], // 60
+        [120, '1 دقیقه پیش', 'یک دقیقه از الان'], // 60*2
+        [3600, 'دقیقه ', 60], // 60*60, 60
+        [7200, '1 ساعت پیش', '1 ساعت از الان'], // 60*60*2
+        [86400, 'ساعت ', 3600], // 60*60*24, 60*60
+        [172800, 'دیروز', 'فردا'], // 60*60*24*2
+        [604800, 'روز ', 86400], // 60*60*24*7, 60*60*24
+        [1209600, 'هفته پیش', 'هفته بعد'], // 60*60*24*7*4*2
+        [2419200, 'هفته', 604800], // 60*60*24*7*4, 60*60*24*7
+        [4838400, 'ماه پیش', 'ماه بعد'], // 60*60*24*7*4*2
+        [29030400, 'ماه', 2419200], // 60*60*24*7*4*12, 60*60*24*7*4
+        [58060800, 'سال پیش', 'سال بعد'], // 60*60*24*7*4*12*2
+        [2903040000, 'سال', 29030400], // 60*60*24*7*4*12*100, 60*60*24*7*4*12
+
+      ];
+      let seconds = (+new Date() - time) / 1000,
+        token = 'پیش',
+        list_choice = 1;
+
+      if (seconds == 0) {
+        return 'همین حالا'
+      }
+      if (seconds < 0) {
+        seconds = Math.abs(seconds);
+        token = 'از الان';
+        list_choice = 2;
+      }
+      let i = 0,
+        format;
+      while (format = time_formats[i++])
+        if (seconds < format[0]) {
+          if (typeof format[2] == 'string')
+            return format[list_choice];
+          else
+            return Math.floor(seconds / format[2]) + ' ' + format[1] + ' ' + token;
+        }
+      return time;
+    },
+
+  }
+
+}
+</script>
+
+<style scoped>
+@media (min-width: 1024px) {
+  .mcontainer {
+    max-width: 1000px;
+    padding: 30px 0px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+@media (max-width: 1024px) {
+  .mcontainer {
+    max-width: 1000px;
+    padding: 25px 0px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.forum_links{
+  color:hsl(210,8%,45%);
+  font-size: 13px;
+}
+
+</style>

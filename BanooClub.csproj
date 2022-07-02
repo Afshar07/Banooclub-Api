@@ -1,0 +1,82 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="ClientApp\.nuxt\loading.html" />
+		<Content Include="ClientApp\.nuxt\routes.json" />
+		<Content Include="ClientApp\.nuxt\vetur\tags.json" />
+		<Content Include="ClientApp\.nuxt\views\app.template.html" />
+		<Content Include="ClientApp\.nuxt\views\error.html" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Dapper" Version="2.0.90" />
+		<PackageReference Include="kavenegar" Version="1.2.4" />
+		<PackageReference Include="MailKit" Version="2.15.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.22" />
+		<PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.0.0-preview6.19307.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.9">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.9">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.22" />
+		<PackageReference Include="morelinq" Version="3.3.2" />
+		<PackageReference Include="Seq.Extensions.Logging" Version="6.0.0" />
+		<PackageReference Include="SmsIrRestfulNetCore" Version="1.1.4" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="ClientApp\.nuxt\App.js" />
+		<None Include="ClientApp\.nuxt\axios.js" />
+		<None Include="ClientApp\.nuxt\client.js" />
+		<None Include="ClientApp\.nuxt\components\index.js" />
+		<None Include="ClientApp\.nuxt\components\nuxt-build-indicator.vue" />
+		<None Include="ClientApp\.nuxt\components\nuxt-child.js" />
+		<None Include="ClientApp\.nuxt\components\nuxt-error.vue" />
+		<None Include="ClientApp\.nuxt\components\nuxt-link.client.js" />
+		<None Include="ClientApp\.nuxt\components\nuxt-link.server.js" />
+		<None Include="ClientApp\.nuxt\components\nuxt-loading.vue" />
+		<None Include="ClientApp\.nuxt\components\nuxt.js" />
+		<None Include="ClientApp\.nuxt\components\plugin.js" />
+		<None Include="ClientApp\.nuxt\components\readme.md" />
+		<None Include="ClientApp\.nuxt\empty.js" />
+		<None Include="ClientApp\.nuxt\index.js" />
+		<None Include="ClientApp\.nuxt\jsonp.js" />
+		<None Include="ClientApp\.nuxt\middleware.js" />
+		<None Include="ClientApp\.nuxt\mixins\fetch.client.js" />
+		<None Include="ClientApp\.nuxt\mixins\fetch.server.js" />
+		<None Include="ClientApp\.nuxt\router.js" />
+		<None Include="ClientApp\.nuxt\router.scrollBehavior.js" />
+		<None Include="ClientApp\.nuxt\server.js" />
+		<None Include="ClientApp\.nuxt\utils.js" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="wwwroot\Media\Gallery\Banner\" />
+		<Folder Include="wwwroot\Media\Gallery\GalleryImages\" />
+		<Folder Include="wwwroot\Media\Gallery\GalleryVideos\" />
+		<Folder Include="wwwroot\Media\Gallery\AdsPhotos\" />
+		<Folder Include="wwwroot\Media\Gallery\KartMelliDocs\" />
+		<Folder Include="wwwroot\Media\Gallery\Group\" />
+		<Folder Include="wwwroot\Media\Gallery\LawyerCertificate\" />
+		<Folder Include="wwwroot\Media\Gallery\ServiceCategory\" />
+		<Folder Include="wwwroot\Media\Gallery\Service\" />
+		<Folder Include="wwwroot\Media\Gallery\Newspaper\" />
+		<Folder Include="wwwroot\Media\Gallery\VideoIdentity\" />
+		<Folder Include="wwwroot\Media\Gallery\Ticket\" />
+		<Folder Include="wwwroot\Media\Gallery\PassportDocs\" />
+		<Folder Include="wwwroot\Media\Gallery\RoomatePhotos\" />
+		<Folder Include="wwwroot\Media\Gallery\Profile\" />
+	</ItemGroup>
+
+
+</Project>
