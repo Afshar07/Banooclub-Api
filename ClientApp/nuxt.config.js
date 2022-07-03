@@ -2,14 +2,14 @@ var webpack = require("webpack");
 module.exports = {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: "بانو کلاب پلاس",
+    title: "بانو کلاب ",
     htmlAttrs: {
       lang: "fa",
     },
     meta: [
       {charset: "utf-8"},
       {name: "viewport", content: "width=device-width, initial-scale=1"},
-      {hid: "description", name: "description", content: "بانو کلاب پلاس"},
+      {hid: "description", name: "description", content: "بانو کلاب "},
       {name: "format-detection", content: "telephone=no"},
     ],
     link: [
