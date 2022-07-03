@@ -114,4 +114,11 @@ export default (context, resources) => ({
       console.log(error);
     }
   },
+  async forgetPassword(params){
+      const response = await context.$axios.post(resources,null,{
+        params
+      });
+      return response;
+
+  }
 });

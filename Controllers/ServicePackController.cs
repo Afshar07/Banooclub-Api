@@ -20,14 +20,14 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost]
-        [Route("[action]")]
+        [Route("[action]"),Authorize(Roles ="Admin,Vendor")]
         public async Task<long> Create([FromBody] ServicePack inputDto)
         {
             return await this.servicePackService.Create(inputDto);
         }
 
         [HttpPost]
-        [Route("[action]")]
+        [Route("[action]"), Authorize(Roles = "Admin,Vendor")]
         public async Task<ServicePack> Update([FromBody] ServicePack inputDto)
         {
             return await this.servicePackService.Update(inputDto);
@@ -41,7 +41,7 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost]
-        [Route("[action]")]
+        [Route("[action]"), Authorize(Roles = "Admin,Vendor")]
         public async Task<bool> Delete(long id)
         {
             return await servicePackService.Delete(id);

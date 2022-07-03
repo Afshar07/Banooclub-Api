@@ -31,6 +31,7 @@ export default (context, inject) => {
     ),
     validateUsername: createAuthRepository(context, "Account/CheckUserName"),
     sendSignupRequest: createAuthRepository(context, "Account/SignUp"),
+    forgetPassword: createAuthRepository(context, "Account/ForgotPassword"),
 
     //  Authentication repositories end
 

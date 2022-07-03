@@ -8,7 +8,7 @@
           ثبت نام
         </h2>
         <p class="log-title-text" :class="{ TextWhite: userType !== 0 }">
-          از پشت بام پلاس استفاده میکنید ؟
+          از بانو کلاب پلاس استفاده میکنید ؟
           <nuxt-link
             to="/register"
             href="#"
@@ -26,7 +26,6 @@
             اینجا کلیک کنید
           </nuxt-link>
         </p>
-
         <div class="row py-2" v-show="!isOtpSent">
           <div
             class="col-6 text-center"

@@ -23,7 +23,7 @@
       @close="displaySideNavPictureVideo = false"
     />
     <div
-      class="row gaping position-relative col-12 mx-auto"
+      class="row gaping position-relative col-12 mx-auto tw-overflow-x-hidden"
       @click="closingHeader = true"
     >
 

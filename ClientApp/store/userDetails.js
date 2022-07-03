@@ -7,7 +7,7 @@ export const state = () => ({
 export const mutations = {
   setUserDetails(state, payload) {
     state.userDetails = payload;
-    console.log(state.userDetails);
+
   },
 };
 

@@ -38,6 +38,7 @@ namespace BanooClub.Services.AccountServices
         private readonly IConfirmationCodeSetting _confirmationCodeSetting;
         private readonly IDecryptService _decryptService;
         private readonly IDistributedCache distributedCache;
+        private static Random random = new Random();
         public AccountManagerService(IEncryptService encryptService, IGenerateJwtService generateJwtService,
             IDistributedCache cache, ILogger<AccountManagerService> logger, IDateTime dateTime, IDistributedCache distributedCache,
         IBanooClubEFRepository<UserType> roleRepository, IBanooClubEFRepository<User> userRepository, IBanooClubEFRepository<ViewHistory> viewHistoryRepository,
@@ -248,7 +249,7 @@ namespace BanooClub.Services.AccountServices
         #endregion
 
         #region SignUp
-        public async Task<IServiceResult<object>> SignUpWithMobileAndMail(string firstname, string lastName, string mobile, string email, string code, long signUpType, string password,string userName,long UserRole)
+        public async Task<IServiceResult<object>> SignUpWithMobileAndMail(string firstname, string lastName, string mobile, string email, string code, long signUpType, string password,string userName,long UserRole,long? ServiceCategoryId,string IntroducerCode)
         {
             if (UserRole ==2)
             {
@@ -324,11 +325,29 @@ namespace BanooClub.Services.AccountServices
                         //_viewHistoryRepository.Insert(dbViewHistory);
                         #endregion
 
+
+                        if(IntroducerCode == null || IntroducerCode =="")
+                        {
+                            IntroducerCode = null;
+                        }
+                        var ServiceCatId = "";
+                        if(ServiceCategoryId == null)
+                        {
+                            ServiceCatId ="NULL";
+                        }
+                        else
+                        {
+                            ServiceCatId = $"{ServiceCategoryId}";
+                        }
+                        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                        var UserCode = new string(Enumerable.Repeat(chars, 8)
+                            .Select(s => s[random.Next(s.Length)]).ToArray());
+
                         var cmd = "BEGIN TRANSACTION [Tran1]" +
                             "BEGIN TRY" +
                             " declare @LASTID bigint" +
-                            " INSERT INTO[User].Users(Mobile, Name, Type, FamilyName, Email, IsDeleted, Password, Status,FormalId,UserName)" +
-                            $" VALUES('{mobile}', N'{firstname}', {UserRole}, N'{lastName}', '{email}', 0, '{password}', 1,0,N'{userName}')" +
+                            " INSERT INTO[User].Users(Mobile, Name, Type, FamilyName, Email, IsDeleted, Password, Status,FormalId,UserName,ServiceCategoryId,UserCode,IntroducerCode)" +
+                            $" VALUES('{mobile}', N'{firstname}', {UserRole}, N'{lastName}', '{email}', 0, '{password}', 1,0,N'{userName}',{ServiceCatId},N'{UserCode}',N'{IntroducerCode}')" +
                             " SET @LASTID = SCOPE_IDENTITY()" +
                             " INSERT INTO[User].UserSettings(ActiveRoomate,IsPrivateActivity, VideoIdentityStatus, IsPrivateRoomate, IsPrivateAds, IsPrivateSocial, Flag, Bio, Gender, IsDeleted, BirthDate, UserTag, UserId ,LawyerCertificateStatus,NewspaperStatus )" +
                             "  VALUES(0,0,1, 0, 0, 0, '', '', 0, 0, GETDATE(), '', @LASTID , 4 , 4)" +
@@ -437,10 +456,10 @@ namespace BanooClub.Services.AccountServices
                 switch (model.Type)
                 {
                     case (int)AuthTypes.Mobile:
-                        var mobileResult = await SignUpWithMobileAndMail(model.FirstName, model.LastName, model.Mobile, model.Mail, model.VerifyCode, model.Type, model.Password, model.UserName,model.UserRole);
+                        var mobileResult = await SignUpWithMobileAndMail(model.FirstName, model.LastName, model.Mobile, model.Mail, model.VerifyCode, model.Type, model.Password, model.UserName,model.UserRole,model.ServiceCategoryId,model.IntroducerCode);
                         return new ServiceResult<object>().Ok(mobileResult.Data);
                     case (int)AuthTypes.Email:
-                        var mailResult = await SignUpWithMobileAndMail(model.FirstName, model.LastName, model.Mobile, model.Mail, model.VerifyCode, model.Type, model.Password, model.UserName,model.UserRole);
+                        var mailResult = await SignUpWithMobileAndMail(model.FirstName, model.LastName, model.Mobile, model.Mail, model.VerifyCode, model.Type, model.Password, model.UserName,model.UserRole, model.ServiceCategoryId, model.IntroducerCode);
                         return new ServiceResult<object>().Ok(mailResult.Data);
                     case (int)AuthTypes.WithoutPassword:
                         var result = await SignUpWithoutCode(model.FirstName, model.LastName, model.EncryptedMail);
@@ -583,7 +602,7 @@ namespace BanooClub.Services.AccountServices
                     if (result.IsSuccess)
                     {
                         byte[] bytes = Encoding.UTF8.GetBytes(confirmCode.ToCharArray());
-                        await _cache.SetAsync(phoneNumber, bytes, new DistributedCacheEntryOptions() { AbsoluteExpiration = _dateTime.Now().AddMinutes(4) });
+                        await _cache.SetAsync(phoneNumber, bytes, new DistributedCacheEntryOptions() { AbsoluteExpiration = _dateTime.Now().AddMinutes(2) });
                         return new ServiceResult<object>().Ok(new { hasUser, message = "A Confirmation code has been sent to you" });
                     }
                     return new ServiceResult<object>().Ok(new { hasUser, message = result.ErrorMessage });
@@ -661,7 +680,7 @@ namespace BanooClub.Services.AccountServices
             if (type==AuthTypes.Email)
             {
                 MimeMessage message = new MimeMessage();
-                MailboxAddress from = new MailboxAddress("BanooClub", "info@BanooClub.com");
+                MailboxAddress from = new MailboxAddress("BanooClub", "info@BanooClub.simagar.com");
                 message.From.Add(from);
 
                 MailboxAddress to = new MailboxAddress("User", $"{PhoneOrEmail}");
@@ -675,7 +694,7 @@ namespace BanooClub.Services.AccountServices
 
                 SmtpClient client = new SmtpClient();
                 client.Connect("95.216.101.100", 587, false);
-                client.Authenticate("info@BanooClub.com", "123a@a.com");
+                client.Authenticate("info@BanooClub.simagar.com", "123a@a.com");
 
                 client.Send(message);
                 client.Disconnect(true);

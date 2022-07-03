@@ -1,11 +1,11 @@
 <template>
-  <div class="container mcontainer" v-if="!$fetchState.pending">
+  <div class="container mcontainer tw-overflow-x-hidden" v-if="!$fetchState.pending" >
     <div class="row">
       <div class="col-md-12 col-lg-8 add_post px-0 custom_padding_for_posts">
         <ProductDetail :service_details="ServiceDetails"/>
       </div>
       <div class=" col-lg-4">
-        <SideBar @SideNavPictureVideo="SideNavPictureVideoToggle($event)"/>
+        <SideBar class="tw-mt-5" @SideNavPictureVideo="SideNavPictureVideoToggle($event)"/>
       </div>
     </div>
 

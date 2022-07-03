@@ -136,8 +136,15 @@ namespace BanooClub.Services.ForumServices
         {
             try
             {
-                var forum = forumRepository.GetQuery().FirstOrDefault(z => z.ForumId == id);
-                await forumRepository.Delete(forum);
+                //var forum = forumRepository.GetQuery().FirstOrDefault(z => z.ForumId == id);
+                //await forumRepository.Delete(forum);
+
+                var cmnd = $" Update Social.ForumComments set IsDeleted = 1 where ForumId = {id} " +
+                    $"Update Common.tags set IsDeleted = 1  where Type = 2 and ObjectId = {id} " +
+                    $"Update Social.Forums set IsDeleted = 1  where ForumId ={id} ";
+                await forumRepository.DapperSqlQuery(cmnd);
+
+
                 return true;
             }
             catch (Exception ex)

@@ -274,8 +274,12 @@ namespace BanooClub.Services.ServicePackServices
         {
             try
             {
-                var service = servicePackRepository.GetQuery().FirstOrDefault(z => z.ServicePackId == id);
-                await servicePackRepository.Delete(service);
+                var cmnd = $" Update Service.ServiceComments set IsDeleted = 1 where ServiceId = {id} " +
+                    $"Update Common.tags set IsDeleted = 1  where Type = 1 and ObjectId = {id} " +
+                    $"Update Service.ServiceProperties set IsDeleted = 1  where ServiceId = {id} " +
+                    $"Update Service.ServicePacks set IsDeleted = 1  where ServicePackId ={id} ";
+                await servicePackRepository.DapperSqlQuery(cmnd);
+
                 return true;
             }
             catch (Exception ex)

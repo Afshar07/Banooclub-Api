@@ -1,41 +1,45 @@
 <template>
-  <div class="row">
+  <div class="row px-3">
     <div class="col-12 p-0 m-0">
       <div class="col-12 form-group mt-3">
         <div class="form-floating text-end">
           <input
             type="text"
-            class="form-control w-100 border-0 border-bottom"
+            class=" w-100 with-border"
             :placeholder="inputPlaceholder"
             @input="setInputValue"
             :value="getInputValue"
             @keydown.prevent.enter="sendOtpCode"
             required
           />
-          <label>
-            {{ inputPlaceholder }}
-          </label>
         </div>
       </div>
     </div>
-    <div class="col-12 d-flex align-items-center justify-content-center mt-4">
-      <recaptcha @success="setCaptchaSuccess" />
-    </div>
+<!--    <div class="col-12 d-flex align-items-center justify-content-center mt-4">-->
+<!--      <recaptcha @success="setCaptchaSuccess" />-->
+<!--    </div>-->
     <div class="col-12 mt-3 text-center">
       <button
         type="button"
-        class="btn p-2 btn-sm submitRegisterButton"
+        class="tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full mt-3"
         @click="sendOtpCode"
       >
         ارسال کد
       </button>
+<!--      <button-->
+<!--        type="button"-->
+<!--        class="btn p-2 btn-sm submitRegisterButton"-->
+<!--        @click="sendOtpCode"-->
+<!--      >-->
+<!--        ارسال کد-->
+<!--      </button>-->
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  emits: ["OtpSent", "getNumber", "getMail"],
+  emits: ["OtpSent", "getNumber", "getMail","setCounter"],
   props: {
     registerType: {
       type: Number,
@@ -55,6 +59,7 @@ export default {
       captcha: true,
       mobile: null,
       mail: null,
+      counter:22000
     };
   },
   methods: {
@@ -86,11 +91,17 @@ export default {
           const response =
             await this.$repositories.sendOtpToEmail.sendOtpToEmail(this.mail);
           if (response.data.message === "Confirmation code has not expired") {
-            this.$toast.error("کد تایید منقضی نشده است");
+            // this.$toast.error("کد تایید منقضی نشده است");
+            this.$emit("setCounter",this.counter);
+            this.$emit("OtpSent");
           } else if (response.data.hasUser === 1) {
             this.$toast.error("کاربری با این ایمیل قبلا ثبت نام کرده است");
+            this.$emit("OtpSent");
+            this.$emit("setCounter",this.counter);
           } else {
+            this.$emit("setCounter",this.counter);
             this.$toast.success("کد تایید برای شما ارسال شد");
+
             this.$emit("OtpSent");
             this.$emit("getMail", this.mail);
             // this.Time = new Date().getTime() + 250000;
@@ -116,12 +127,18 @@ export default {
               this.mobile
             );
           if (response.data.message === "Confirmation code has not expired") {
-            this.$toast.error("کد تایید منقضی نشده است");
+            // this.$toast.error("کد تایید منقضی نشده است");
+            this.$emit("OtpSent");
+            this.$emit("setCounter",this.counter);
           } else if (response.data.hasUser === 1) {
+            this.$emit("setCounter",this.counter);
             this.$toast.error(
               "کاربری با این شماره موبایل قبلا ثبت نام کرده است"
             );
+            this.$emit("OtpSent");
+
           } else {
+            this.$emit("setCounter",this.counter);
             this.$toast.success("کد تایید برای شما ارسال شد");
             this.$emit("OtpSent");
             this.$emit("getNumber", this.mobile);

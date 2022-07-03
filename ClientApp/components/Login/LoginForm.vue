@@ -39,18 +39,18 @@
           </button>
           <!--        <label for="password">رمز عبور</label>-->
         </div>
-        <div class="col-12 mt-0 mt-3">
-          <div class="form-check d-flex align-items-center">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value=""
-              id="acceptCondition"
-            />
-            <label class="form-check-label check-box" for="acceptCondition"></label>
-            <span class="rememberMe px-2 pb-1">همیشه من را به یاد داشته باش</span>
-          </div>
-        </div>
+<!--        <div class="col-12 mt-0 mt-3">-->
+<!--          <div class="form-check d-flex align-items-center">-->
+<!--            <input-->
+<!--              class="form-check-input"-->
+<!--              type="checkbox"-->
+<!--              value=""-->
+<!--              id="acceptCondition"-->
+<!--            />-->
+<!--            <label class="form-check-label check-box" for="acceptCondition"></label>-->
+<!--            <span class="rememberMe px-2 pb-1">همیشه من را به یاد داشته باش</span>-->
+<!--          </div>-->
+<!--        </div>-->
 
         <button
           type="button"
@@ -60,10 +60,8 @@
           ورود
         </button>
 
-        <div class="text-center mt-3 pb-3" style="border-bottom: 1px solid #80808038">
-          <nuxt-link class="forgetPassword text-decoration-none" to="Login">
+        <div class="text-center mt-3 pb-3 tw-text-blue-500 forget_pass"  @click="openForgetModal" >
             رمز عبور خود را فراموش کرده اید ؟
-          </nuxt-link>
         </div>
 
       </div>
@@ -75,7 +73,8 @@
         </button>
       </div>
     </form>
-    <RegisterModal :is_modal_open="is_modal_open" @close_modal="closeModal"/>
+    <RegisterModal :is_modal_open="is_modal_open" @close_register_modal="closeRegisterModal"/>
+    <ForgetPassModal :is_modal_open="is_forget_modal_open" @close_modal="closeForgetModal"/>
   </div>
 <!--  <form class="tw-p-6 tw-space-y-4 tw-relative" autocomplete="off">-->
 <!--    <input v-model="login_field" type="text" placeholder="ایمیل یا شماره موبایل" class="with-border" autocomplete="off">-->
@@ -99,8 +98,9 @@
 
 import RegisterModal from "../Register/RegisterModal";
 import BaseModal from "../../components/utilities/BaseModal";
+import ForgetPassModal from "../ForgetPass/ForgetPassModal";
 export default {
-  components: {BaseModal, RegisterModal},
+  components: {ForgetPassModal, BaseModal, RegisterModal},
   props: {
     loginType: {
       type: Number,
@@ -126,18 +126,29 @@ export default {
       mail: null,
       password: null,
       isShowingPassword: false,
+      is_forget_modal_open:false
     };
   },
   mounted() {
     console.log(this.$auth.loggedIn);
   },
-  emits:['open_register_modal'],
+  emits:['open_register_modal','close_register_modal'],
   methods: {
-    closeModal(){
+    closeRegisterModal(){
       this.is_modal_open = false
+      this.$emit('close_register_modal')
+
+    },
+    closeForgetModal(){
+      this.is_forget_modal_open = false
+      this.$emit('close_register_modal')
     },
     openRegisterModal(){
       this.is_modal_open = true
+      this.$emit('open_register_modal')
+    },
+    openForgetModal(){
+      this.is_forget_modal_open = true
       this.$emit('open_register_modal')
     },
     setInputValue(event) {
@@ -223,6 +234,9 @@ export default {
 </script>
 
 <style scoped>
+.forget_pass:hover{
+  cursor: pointer;
+}
 .viewPassword {
   left: 0;
   bottom: 0;

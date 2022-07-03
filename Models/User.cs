@@ -15,6 +15,9 @@ namespace BanooClub.Models
         public long? FormalId { get; set; }
         public string Password { get; set; }
         public string UserName { get; set; }
+        public long? ServiceCategoryId { get; set; }
+        public string UserCode { get; set; }
+        public string IntroducerCode { get; set; }
 
         [NotMapped]
         public int FollowersCount { get; set; }
@@ -44,6 +47,8 @@ namespace BanooClub.Models
         public long Type { get; set; }
         public string UserName { get; set; }
         public long UserRole { get; set; }
+        public long? ServiceCategoryId { get; set; }
+        public string IntroducerCode { get; set; }
     }
     public class UserAndUserSetting
     {

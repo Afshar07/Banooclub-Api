@@ -616,7 +616,7 @@
         </div>
         <div v-if="!isChatLayout" class="col-lg-5 col-xl-4 header_search tw-relative">
           <SearchIcon class="tw-absolute tw-top-1/2 -tw-translate-y-1/2 -tw-translate-x-1/2 tw-flex tw-items-center tw-pointer-events-none"/>
-          <input v-model="SearchUsers" value="" type="text" class="form-control" placeholder="جستوجو دوستان" autocomplete="off">
+          <input v-model="SearchUsers" value="" type="text" class="form-control" placeholder="جست وجو دوستان" autocomplete="off">
           <div
             class="bg-white p-3 SearchContainer"
             v-if="SearchUsers !== ''"
@@ -782,7 +782,7 @@
               </div>
               <div class="position-relative custom_header_size">
                 <img
-                  v-if="$auth.user.baseData.selfie"
+                  v-if="$auth.user.baseData.selfie && $auth.user.baseData"
                   class="img-fluid headerPicture"
                   :src="`https://BanooClubapi.simagar.com/${$auth.user.baseData.selfie}`"
                   alt=""
@@ -1187,6 +1187,7 @@
             </div>
             <div class="position-relative custom_header_size">
               <img
+
                 v-if="$auth.user.baseData.selfie"
                 class="img-fluid headerPicture"
                 :src="`https://BanooClubapi.simagar.com/${$auth.user.baseData.selfie}`"
@@ -1617,7 +1618,7 @@ export default {
       ) {
         tmpnotif.title = "اطلاعات حقوقی";
         tmpnotif.body =
-          "تبریک! حساب کاربری شما فعال است. از پشت بام پلاس لذت ببرید";
+          "تبریک! حساب کاربری شما فعال است. از بانو کلاب پلاس لذت ببرید";
         tmpnotif.link = false;
         const clone = {...tmpnotif};
         tmpNotifs.push(clone);
@@ -1683,7 +1684,7 @@ export default {
       if (data.type === 4 && data.videoIdentityStatus === 3) {
         tmpnotif.title = "احراز هویت";
         tmpnotif.body =
-          "تبریک ! حساب کاربری شما فعال است. از پشت بام پلاس لذت ببرید";
+          "تبریک ! حساب کاربری شما فعال است. از بانو کلاب پلاس لذت ببرید";
         tmpnotif.link = true;
         const clone = {...tmpnotif};
         tmpNotifs.push(clone);

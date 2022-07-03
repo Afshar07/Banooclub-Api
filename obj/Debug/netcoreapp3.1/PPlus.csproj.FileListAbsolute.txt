@@ -88,3 +88,5 @@ E:\Projects\PPlus\obj\Debug\netcoreapp3.1\PPlus.dll
 E:\Projects\PPlus\obj\Debug\netcoreapp3.1\PPlus.pdb
 E:\Projects\PPlus\obj\Debug\netcoreapp3.1\PPlus.genruntimeconfig.cache
 E:\Projects\PPlus\obj\Debug\netcoreapp3.1\PPlus.csproj.AssemblyReference.cache
+E:\Projects\PPlus\bin\Debug\netcoreapp3.1\package-lock.json
+E:\Projects\PPlus\bin\Debug\netcoreapp3.1\package.json

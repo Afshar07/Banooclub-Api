@@ -27,6 +27,8 @@ E:\Projects\PPlus\obj\Release\netcoreapp3.1\win-x64\PubTmp\Out\appsettings.Devel
 E:\Projects\PPlus\obj\Release\netcoreapp3.1\win-x64\PubTmp\Out\appsettings.json
 E:\Projects\PPlus\obj\Release\netcoreapp3.1\win-x64\PubTmp\Out\ClientApp\package-lock.json
 E:\Projects\PPlus\obj\Release\netcoreapp3.1\win-x64\PubTmp\Out\ClientApp\package.json
+E:\Projects\PPlus\obj\Release\netcoreapp3.1\win-x64\PubTmp\Out\package-lock.json
+E:\Projects\PPlus\obj\Release\netcoreapp3.1\win-x64\PubTmp\Out\package.json
 E:\Projects\PPlus\obj\Release\netcoreapp3.1\win-x64\PubTmp\Out\PPlus.dll
 E:\Projects\PPlus\obj\Release\netcoreapp3.1\win-x64\PubTmp\Out\PPlus.runtimeconfig.json
 E:\Projects\PPlus\obj\Release\netcoreapp3.1\win-x64\PubTmp\Out\PPlus.pdb

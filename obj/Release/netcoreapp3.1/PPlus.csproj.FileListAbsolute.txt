@@ -88,3 +88,5 @@ E:\Projects\PPlus\obj\Release\netcoreapp3.1\PPlus.dll
 E:\Projects\PPlus\obj\Release\netcoreapp3.1\PPlus.pdb
 E:\Projects\PPlus\obj\Release\netcoreapp3.1\PPlus.genruntimeconfig.cache
 E:\Projects\PPlus\bin\Release\netcoreapp3.1\ClientApp\package-lock.json
+E:\Projects\PPlus\bin\Release\netcoreapp3.1\package-lock.json
+E:\Projects\PPlus\bin\Release\netcoreapp3.1\package.json

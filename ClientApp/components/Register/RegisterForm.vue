@@ -11,14 +11,14 @@
         <div class="form-floating text-end">
           <input
             type="text"
-            class="form-control border-0 pe-2"
+            class="with-border  pe-2"
             id="UserNameEmail"
             placeholder="نام کاربری"
             dir="rtl"
             lang="fa"
             @input="validateUsername"
           />
-          <label class="fa-pull-right" for="firstName">نام کاربری</label>
+<!--          <label class="fa-pull-right" for="firstName">نام کاربری</label>-->
           <div class="text-danger fw-bold mt-2" v-if="!isUsernameAvailable">
             این نام کاربری قبلا ثبت شده است.
           </div>
@@ -28,35 +28,46 @@
           <div class="form-floating text-end">
             <input
               type="text"
-              class="form-control border-0"
+              class="with-border"
               id="firstName"
               placeholder="نام"
               dir="rtl"
               lang="fa"
               v-model.trim="payload.firstName"
             />
-            <label class="fa-pull-right" for="firstName">نام</label>
+<!--            <label class="fa-pull-right" for="firstName">نام</label>-->
           </div>
         </div>
         <div class="col-12 mt-3">
           <div class="form-floating text-end">
             <input
               type="text"
-              class="form-control border-0"
+              class="with-border"
               id="lastName"
               placeholder="نام خانوادگی"
               dir="rtl"
               lang="fa"
               v-model.trim="payload.lastName"
             />
-            <label class="fa-pull-right" for="lastName">نام خانوادگی</label>
+<!--            <label class="fa-pull-right" for="lastName">نام خانوادگی</label>-->
           </div>
+        </div>
+        <div class="col-12 mt-3">
+          <select v-model="payload.serviceCategoryId" class="form-select" aria-label="Default select example">
+            <option :value="0">دسته بندی خدمت</option>
+            <option v-for="service_category in categories" :value="service_category.serviceCategoryId">
+              {{ service_category.title }}
+            </option>
+          </select>
+        </div>
+        <div class="col-12 mt-3">
+          <input v-model="payload.verification_code" type="text" placeholder="کد معرف" class="with-border">
         </div>
         <div class="col-12 mt-3 position-relative">
           <div class="form-floating text-end">
             <input
               :type="fieldPassword"
-              class="form-control border-0 border-bottom"
+              class="with-border  border-bottom"
               id="password"
               placeholder="رمز عبور"
               v-model.trim="payload.password"
@@ -75,7 +86,7 @@
                 v-if="fieldPassword === 'text'"
               />
             </button>
-            <label for="password">رمز عبور</label>
+<!--            <label for="password">رمز عبور</label>-->
           </div>
         </div>
         <div class="col-12 mt-3 position-relative">
@@ -83,7 +94,7 @@
             <input
               :class="isPasswordsMatch ? '' : 'notEqualPassword'"
               :type="fieldPassword"
-              class="form-control border-0 border-bottom"
+              class="with-border border-bottom"
               id="passwordRepeat"
               placeholder="تکرار رمز عبور"
               v-model.trim="passwordRepeat"
@@ -102,7 +113,7 @@
                 v-if="fieldPassword === 'text'"
               />
             </button>
-            <label for="passwordRepeat">تکرار رمز عبور</label>
+<!--            <label for="passwordRepeat">تکرار رمز عبور</label>-->
             <div class="text-danger fw-bold mt-4" v-if="!isPasswordsMatch">
               رمز تطابق ندارد
             </div>
@@ -116,16 +127,16 @@
           <div class="form-floating text-end">
             <input
               type="text"
-              class="form-control border-0 border-bottom"
+              class="with-border "
               id="otp"
               placeholder="کد تایید"
               v-model.trim="payload.verifyCode"
             />
-            <label for="otp">کد تایید</label>
+<!--            <label for="otp">کد تایید</label>-->
           </div>
         </div>
         <div class="col-12 my-2">
-          <div class="form-check">
+          <div class="form-check d-flex align-items-center">
             <input
               class="form-check-input"
               type="checkbox"
@@ -134,33 +145,60 @@
               v-model="isAcceptedTos"
             />
             <label
-              class="form-check-label check-box text-muted"
+              class="form-check-label check-box text-muted mx-2"
               for="tos"
             ></label>
             <span class="privacyAccept text-muted">
               شرایط و ضوابط را قبول دارم
             </span>
             <br />
-            <nuxt-link to="/">
-              <span class="privacyAccept text-black"
-                >قبلا ثبت نام کرده اید ؟ اینجا کلیک کنید
-              </span>
-            </nuxt-link>
+<!--            <nuxt-link to="/">-->
+<!--              <span class="privacyAccept text-black"-->
+<!--                >قبلا ثبت نام کرده اید ؟ اینجا کلیک کنید-->
+<!--              </span>-->
+<!--            </nuxt-link>-->
           </div>
         </div>
-        <div class="col-md-6 d-flex align-items-start gap-1">
+<!--        <div class="col-md-12 d-flex align-items-center gap-2">-->
+<!--          <client-only>-->
+<!--            <div v-if="!CodeSent" >-->
+<!--              <client-only>-->
+<!--                <countdown @finish="CodeSent =! CodeSent" :end-time="new Date().getTime() + localCounter">-->
+<!--             <span slot-scope="{ timeObj }" class=" px-3 gap-2 rounded " >-->
+<!--               <div class="d-flex ">-->
+<!--                 <small>{{`${timeObj.m}`}}</small>-->
+<!--               <small>:</small>-->
+<!--               <small>{{`${timeObj.s}`}}</small>-->
+<!--               </div>-->
+<!--             </span>-->
+<!--                </countdown>-->
+<!--              </client-only>-->
+<!--            </div>-->
+<!--          </client-only>-->
+<!--        </div>-->
+<!--        <div v-if="CodeSent" class="col-md-12 my-3">-->
+<!--          <button-->
+<!--            type="button"-->
+<!--            class="tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full mt-3"-->
+<!--            @click="sendOtpCode"-->
+<!--          >-->
+<!--            ارسال کد-->
+<!--          </button>-->
+<!--      </div>-->
+
+        <div class="col-md-12 d-flex align-items-start gap-1 ">
+
           <button
             @click="sendSignUpRequest"
             :disabled="isButtonDisabled"
             type="button"
-            class="btn btn px-1 submitRegisterButton"
+            class="tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full"
           >
             ثبت نام
           </button>
-          <button type="button" class="btn btn px-1 submitRegisterButton">
-            ارسال مجدد کد
-          </button>
+
         </div>
+
         <!-- <div
           class="col-md-6 d-flex align-items-center"
           v-if="!ShowSendAgainBtn"
@@ -203,13 +241,34 @@
 <script>
 import SelectUserType from "./SelectUserType.vue";
 export default {
-  emits: ["getUserRole", "getSignUpPayload"],
+  emits: ["getUserRole", "getSignUpPayload","close_register_modal"],
+  props:['counterNumber'],
   components: {
     SelectUserType,
+  },
+  async fetch() {
+    console.log(this.counterNumber)
+    if(this.counterNumber){
+     this.localCounter = this.counterNumber
+    }
+
+    try {
+      const allCategories =
+        await this.$repositories.getAllServicesCategory.getAllServicesCategory();
+      this.categories = allCategories.data.serviceCategories;
+    } catch (error) {
+      console.error(error)
+    }
+    // Get categories
+
   },
 
   data() {
     return {
+      localCounter:0,
+      categories:[],
+      CodeSent:false,
+
       payload: {
         userName: null,
         firstName: null,
@@ -217,6 +276,8 @@ export default {
         password: null,
         verifyCode: null,
         userRole: 0,
+        serviceCategoryId:0,
+        introducerCodeL:null
       },
       passwordRepeat: null,
       fieldPassword: "password",
@@ -226,6 +287,73 @@ export default {
     };
   },
   methods: {
+    sendOtpCode() {
+      // Handle both otp codes here
+      if (this.registerType == 1) {
+        this.sendMobileOtpCode();
+      } else {
+        this.sendEmailOtpCode();
+      }
+    },
+    async sendEmailOtpCode() {
+      try {
+        this.$nuxt.$loading.start();
+
+        if (!this.captcha) {
+          this.$toast.error("لطفا کپچا را تکمیل کنید");
+        } else {
+          const response =
+            await this.$repositories.sendOtpToEmail.sendOtpToEmail(this.mail);
+          if (response.data.message === "Confirmation code has not expired") {
+            this.$toast.error("کد تایید منقضی نشده است");
+          } else if (response.data.hasUser === 1) {
+            this.$toast.error("کاربری با این ایمیل قبلا ثبت نام کرده است");
+          } else {
+            this.$toast.success("کد تایید برای شما ارسال شد");
+            this.$emit("OtpSent");
+            this.$emit("getMail", this.mail);
+            // this.Time = new Date().getTime() + 250000;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.$nuxt.$loading.finish();
+      }
+    },
+    async sendMobileOtpCode() {
+      try {
+        this.$nuxt.$loading.start();
+
+        if (this.mobile.length < 11) {
+          this.$toast.error("شماره موبایل وارد شده معتبر نیست");
+        } else if (!this.captcha) {
+          this.$toast.error("لطفا کپچا را تکمیل کنید");
+        } else {
+          const response =
+            await this.$repositories.sendOtpToMobile.sendOtpToMobile(
+              this.mobile
+            );
+          if (response.data.message === "Confirmation code has not expired") {
+            this.$toast.error("کد تایید منقضی نشده است");
+          } else if (response.data.hasUser === 1) {
+            this.$toast.error(
+              "کاربری با این شماره موبایل قبلا ثبت نام کرده است"
+            );
+          } else {
+            this.$toast.success("کد تایید برای شما ارسال شد");
+            this.$emit("OtpSent");
+            this.$emit("getNumber", this.mobile);
+
+            // this.Time = new Date().getTime() + 250000;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.$nuxt.$loading.finish();
+      }
+    },
     sendSignUpRequest() {
       if (!this.isAcceptedTos) {
         this.$toast.error("برای ثبت نام باید شرایط و قوانین را بپذیرید.");
@@ -239,6 +367,7 @@ export default {
         this.$toast.error("کد تایید را وارد کنید.");
       } else {
         this.$emit("getSignUpPayload", this.payload);
+
       }
     },
     // startTimer(duration, display) {
@@ -338,7 +467,7 @@ export default {
   color: white !important;
 }
 .viewPassword {
-  top: 0.75rem;
+  top: 0.4rem;
   left: 0;
 }
 

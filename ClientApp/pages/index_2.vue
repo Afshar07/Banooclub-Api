@@ -1,97 +1,52 @@
 <template>
-  <div>
-    <div v-if="register_modal_is_open" class="tw-z-[99] tw-fixed tw-w-screen tw-h-screen tw-top-0 tw-left-0 tw-bg-gray-200 tw-bg-opacity-80"></div>
-    <div class="lg:tw-flex tw-max-w-5xl tw-min-h-screen tw-mx-auto tw-p-6 tw-py-10">
-      <div class="tw-flex tw-flex-col tw-items-center lg:tw-flex-row lg:tw-space-x-10">
-
-        <div class="lg:tw-mb-12 tw-flex-1 lg:tw-text-left tw-text-center">
-          <p class="tw-font-medium lg:tw-mx-0 md:tw-text-2xl tw-mt-6 tw-mx-auto sm:tw-w-3/4 tw-text-xl tw-text-right" style="color:rgb(102 102 102);">
-            BanooClub
-            با دوستان و دنیای اطراف خود با BanooClub ارتباط برقرار کنید.
-          </p>
-        </div>
-        <div class="d-flex flex-column">
-          <div class="lg:tw-mt-0 lg:tw-w-96 md:tw-w-1/2 sm:tw-w-2/3 tw-mt-10 tw-w-full custom_navs tw-bg-white tw-shadow-lg tw-rounded-lg">
-            <div class="d-flex justify-content-between">
-              <div
-                class="text-center col-6 my-0"
-                :class="loginType == 2 ? 'TabActive' : 'deActiveTab'"
-                @click="setLoginMethod(2)"
-              >
-                ورود با ایمیل
-              </div>
-              <div
-                class="border-end text-center col-6 my-0"
-                :class="loginType == 1 ? 'TabActive' : 'deActiveTab'"
-                @click="setLoginMethod(1)"
-              >
-                ورود با شماره موبایل
-              </div>
-            </div>
-            <LoginForm :login-type="loginType" @open_register_modal="openRegisterModal()"/>
-
+  <div class="row container-fluid px-0 mx-0">
+    <div
+      class="col-md-6 col-12 px-0 order-0 order-md-1 login-reg-bg position-relative"
+    >
+      <div class="log-reg-area position-absolute" dir="rtl">
+        <h2 class="log-title">ورود</h2>
+        <p class="log-title-text">
+          هنوز از بانو کلاب پلاس استفاده نکرده اید؟
+          <nuxt-link to="/" title="">قوانین را بخوانید</nuxt-link>
+          یا
+          <nuxt-link to="/register" title=""> به اینجا ملحق شوید </nuxt-link>
+        </p>
+        <div class="row py-2">
+          <div
+            class="col-6 text-center"
+            :class="loginType == 2 ? 'TabActive' : 'deActiveTab'"
+            @click="setLoginMethod(2)"
+          >
+            ورود با ایمیل
           </div>
-          <div class="tw-mt-8 tw-text-center tw-text-sm">
-            <nuxt-link to="#" class="tw-font-semibold hover:tw-underline tw-no-underline">یک صفحه</nuxt-link> برای افراد مشهور، گروه موسیقی یا تجارت ایجاد کنید
+          <div
+            class="col-6 border-end text-center"
+            :class="loginType == 1 ? 'TabActive' : 'deActiveTab'"
+            @click="setLoginMethod(1)"
+          >
+            ورود با شماره موبایل
           </div>
-
         </div>
-
+        <login-form :loginType="loginType"></login-form>
       </div>
     </div>
+    <div class="col-md-6 col-12 px-0 order-1 order-md-0">
+      <LoginBanner />
+    </div>
   </div>
-<!--  <div class="row container-fluid px-0 mx-0">-->
-<!--    <div class="col-md-6 col-12 px-0 order-0 order-md-1 login-reg-bg position-relative">-->
-<!--      <div class="log-reg-area position-absolute" dir="rtl">-->
-<!--        <h2 class="log-title">ورود</h2>-->
-<!--        <p class="log-title-text">-->
-<!--          هنوز از پشت بام پلاس استفاده نکرده اید؟-->
-<!--          <nuxt-link to="/" title="">قوانین را بخوانید</nuxt-link>-->
-<!--          یا-->
-<!--          <nuxt-link to="/register" title=""> به اینجا ملحق شوید </nuxt-link>-->
-<!--        </p>-->
-<!--        <div class="row py-2">-->
-<!--          <div-->
-<!--            class="col-6 text-center"-->
-<!--            :class="loginType == 2 ? 'TabActive' : 'deActiveTab'"-->
-<!--            @click="setLoginMethod(2)"-->
-<!--          >-->
-<!--            ورود با ایمیل-->
-<!--          </div>-->
-<!--          <div-->
-<!--            class="col-6 border-end text-center"-->
-<!--            :class="loginType == 1 ? 'TabActive' : 'deActiveTab'"-->
-<!--            @click="setLoginMethod(1)"-->
-<!--          >-->
-<!--            ورود با شماره موبایل-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <login-form :loginType="loginType"></login-form>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="col-md-6 col-12 px-0 order-1 order-md-0">-->
-<!--      <LoginBanner />-->
-<!--    </div>-->
-<!--  </div>-->
-
 </template>
 
 <script>
 import LoginBanner from "../components/LoginBanner";
 import LoginForm from "../components/Login/LoginForm.vue";
-import RegisterModal from "../components/Register/RegisterModal";
-
 export default {
   name: "Login",
   loading: false,
   auth: "guest",
 
-  components: {RegisterModal, LoginBanner, LoginForm },
+  components: { LoginBanner, LoginForm },
   data() {
     return {
-      login_field:'',
-      is_modal_open: false,
-      register_modal_is_open:false,
       isActive: null,
       loginType: 1,
     };
@@ -103,148 +58,46 @@ export default {
     });
   },
   methods: {
-    openRegisterModal(){
-      this.register_modal_is_open = true
+    setLoginMethod(type) {
+      this.loginType = type;
     },
     showPassword() {
       this.fieldPassword =
         this.fieldPassword === "password" ? "text" : "password";
       this.isActive = this.isActive === "active" ? "" : "active";
     },
-    closeModal(){
-      this.is_modal_open = false
-    },
-    setLoginMethod(type) {
-      this.loginType = type;
-    },
-    async submitLogin() {
-      try {
-        this.$nuxt.$loading.start();
-        const response = await this.$auth.loginWith("local", {
-          data: {
-            mobile: this.mobile,
-            mail: this.mail,
-            firstName: "string",
-            lastName: "string",
-            password: this.password,
-            verifyCode: "string",
-            encryptedMail: "string",
-            // userName: "string",
-            userRole: 0,
-            type: this.loginType,
-          },
-        });
-        if (response.data.status === 3) {
-          this.$toast.error("نام کاربری یا رمز عبور اشتباه است.");
-        } else if (response.data.status === 4) {
-          this.$toast.error(
-            "کد ارسال شده منتقضی شده است،لطفا دوباره امتحان کنید."
-          );
-        } else if (response.data.status === 5) {
-          this.$toast.error("کد وارد شده اشتباه است.");
-        } else if (response.data.status === 6) {
-          this.$toast.error("کاربری با این نام کاربری وجود ندارد.");
-        } else if (response.data.status === 7) {
-          this.$auth.setUser(response.data.data.user);
-        } else if (response.data.status === 8) {
-          this.$toast.error("قبلا کاربری با این نام کاربری ثبت نام کرده است.");
-        } else if (response.data.status === 9) {
-          this.$toast.error("پسورد شما ایمن نیست.");
-        } else if (response.data.status === 10) {
-          this.$toast.error("نام کاربری قبلا ثبت نام کرده است.");
-        } else if (response.data.status === 11) {
-          this.$toast.error("اکانت شما غیرفعال شده است.");
-        }
-        // this.$store.dispatch("login", {
-        //   payload: response.data.data,
-        // });
-        // this.$store.commit("setUser", {
-        //   user: response.data.data.user,
-        // });
-        if (response.data.data.user.role === "Admin") {
-          this.$router.push({ name: "SuperAdmin", path: "/SuperAdmin" });
-        } else {
-          this.$router.push({ path: "/social" });
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        this.$nuxt.$loading.finish();
-      }
-    },
+
   },
 };
 </script>
 
 <style scoped>
-select, textarea, input, input[type="text"], input[type="password"], input[type="email"], input[type="number"] {
-  height: 46px;
-  line-height: 46px;
-  padding: 0 20px;
-  outline: none;
-  font-size: 15px;
-  color: #808080;
-  max-width: 100%;
-  width: 100%;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  display: block;
-  background-color: #fff;
-  font-weight: 400;
-  opacity: 1;
-  border-radius: 6px;
-  border: none;
-}
-
-input.with-border, input[type="text"].with-border, input[type="password"].with-border, input[type="email"].with-border, input[type="number"].with-border {
-  border: 1px solid #e0e0e0;
-}
-
-/* With Border */
-textarea.with-border, select.with-border {
-  border: 1px solid #e0e0e0;
-}
-
-input.with-border:focus, input[type="text"].with-border:focus, input[type="password"].with-border:focus, input[type="email"].with-border:focus, input[type="number"].with-border:focus {
-  border: 1px solid #e0e0e0;
-}
-
-textarea.with-border:focus {
-  border: 1px solid #e0e0e0;
-}
-
-
 .viewPassword {
   top: 0.75rem;
   left: 0;
 }
 
 .TabActive {
-  background: white;
-  border-bottom: 3px solid #0d6efd;
-  color: #0d6efd;
+  background: #088dcd;
+  color: white;
   font-size: 14px;
   padding: 10px 0;
   text-transform: uppercase;
   margin: 10px 0;
   cursor: pointer;
-  border-right: none !important;
-  border-left: none !important;
 }
 
 .deActiveTab {
-  background: white none repeat scroll 0 0;
+  background: #eeeeee none repeat scroll 0 0;
   font-size: 14px;
   padding: 10px 0;
   text-transform: uppercase;
   margin: 10px 0;
   cursor: pointer;
-  border-right: none !important;
-  border-left: none !important;
 }
 
 .deActiveTab:hover {
-  color: #0d6efd;
+  color: #2fa7cd;
 }
 
 .login-reg-bg {

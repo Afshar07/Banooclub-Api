@@ -2,14 +2,14 @@ var webpack = require("webpack");
 module.exports = {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: "پشت بام پلاس شبکه‌ی اجتماعی مهاجرت پارسی زبان ها",
+    title: "بانو کلاب پلاس",
     htmlAttrs: {
       lang: "fa",
     },
     meta: [
       {charset: "utf-8"},
       {name: "viewport", content: "width=device-width, initial-scale=1"},
-      {hid: "description", name: "description", content: ""},
+      {hid: "description", name: "description", content: "بانو کلاب پلاس"},
       {name: "format-detection", content: "telephone=no"},
     ],
     link: [
@@ -67,6 +67,7 @@ module.exports = {
     {src: "~/plugins/datePicker", mode: "client", ssr: false},
     {src: "~/plugins/v-select", mode: "client"},
     {src: "~plugins/nuxt-quill-plugin", ssr: false},
+    {src: "~plugins/vue-awesome-counter", ssr: false,mode:'client'},
     {src: "~/plugins/vuex-persist", ssr: false},
     {src: "@/plugins/vue-flags.js"},
     {src: "~/plugins/chart.js", mode: "client"},
