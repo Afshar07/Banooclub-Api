@@ -115,7 +115,7 @@ export default {
     CustomHeader,
     MyPostsTabContents, MyFriendTabContent, MyPhotosTabContent
   },
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   computed: {
     VuexHeaderData() {
       return this.$store.state.HeaderData;
@@ -219,12 +219,12 @@ export default {
     },
     imgUserAvatar() {
       if (this.userinfo.selfieFileData !== null) {
-        this.userImageApi = `https://BanooClubapi.simagar.com/${this.userinfo.selfieFileData}`;
+        this.userImageApi = `https://pplusapi.simagar.com/${this.userinfo.selfieFileData}`;
       }
     },
     imageBackground() {
       if (this.userinfo.bannerFileData !== null) {
-        this.BackgroundApi = `https://BanooClubapi.simagar.com/${this.userinfo.bannerFileData}`;
+        this.BackgroundApi = `https://pplusapi.simagar.com/${this.userinfo.bannerFileData}`;
       }
     },
 

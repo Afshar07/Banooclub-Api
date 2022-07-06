@@ -94,7 +94,7 @@ import ChargeWalletSideNav from "../../components/ChargeWalletSideNav";
 
 export default {
   name: "index",
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   components: {
     ChargeWalletSideNav,
     PlusIcon

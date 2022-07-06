@@ -78,7 +78,7 @@ import ForumMainItem from "../../components/Forums/ForumMainItem";
 export default {
   name: "index",
   components: {ForumMainItem},
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   data(){
     return{
       AllForums: null

@@ -605,12 +605,12 @@
             <!--            <i class="fas fa-stream"></i>-->
           </button>
           <a href="/social">
-            BanooClub
+            PoshtebamPlus
 <!--            <img-->
-<!--              src="../assets/images/BanooClubLogo.png"-->
+<!--              src="../assets/images/PoshtebamPlusLogo.png"-->
 <!--              width="100px"-->
 <!--              height="40px"-->
-<!--              alt="BanooClub Logo"-->
+<!--              alt="PoshtebamPlus Logo"-->
 <!--            />-->
           </a>
         </div>
@@ -631,7 +631,7 @@
                 <img
                   v-if="item.selfieFileData !== null"
                   class="img-fluid myPicture rounded-circle tw-pl-0"
-                  :src="`https://BanooClubapi.simagar.com/${item.selfieFileData}`"
+                  :src="`https://pplusapi.simagar.com/${item.selfieFileData}`"
                   alt=""
                   style="width: 35px; height: 35px;"
                 />
@@ -770,7 +770,7 @@
                 <img
                   v-if="$auth.user && $auth.user.baseData &&  $auth.user.baseData.selfie"
                   class="img-fluid headerPicture"
-                  :src="`https://BanooClubapi.simagar.com/${$auth.user.baseData.selfie}`"
+                  :src="`https://pplusapi.simagar.com/${$auth.user.baseData.selfie}`"
                   alt=""
                   @click="profileHeader"
                 />
@@ -846,7 +846,7 @@
                             v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
                             class="img-fluid rounded-circle"
                             style="width: 45px; height: 45px;"
-                            :src="`https://BanooClubapi.simagar.com/${$auth.user.baseData.selfie}`"
+                            :src="`https://pplusapi.simagar.com/${$auth.user.baseData.selfie}`"
                             alt=""
                             @click="profileHeader"
                           />
@@ -950,13 +950,13 @@
           </div>
           <div>
             <a href="/social">
-              BanooClub
+              PoshtebamPlus
 <!--              <img-->
 <!--                data-not-lazy-->
 <!--                class="headerMobileIcon"-->
 <!--                width="100px"-->
 <!--                height="60px"-->
-<!--                src="../assets/images/BanooClubLogo.png"-->
+<!--                src="../assets/images/PoshtebamPlusLogo.png"-->
 <!--              />-->
             </a>
           </div>
@@ -996,7 +996,7 @@
                   v-if="item.selfieFileData !== null"
                   style="width: 35px;height: 35px;"
                   class="myPicture rounded-circle align-self-center"
-                  :src="`https://BanooClubapi.simagar.com/${item.selfieFileData}`"
+                  :src="`https://pplusapi.simagar.com/${item.selfieFileData}`"
                   alt=""
                 />
                 <img
@@ -1176,7 +1176,7 @@
 
                 v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
                 class="img-fluid headerPicture"
-                :src="`https://BanooClubapi.simagar.com/${$auth.user.baseData.selfie}`"
+                :src="`https://pplusapi.simagar.com/${$auth.user.baseData.selfie}`"
                 alt=""
                 @click="profileHeader"
               />
@@ -1252,7 +1252,7 @@
                           v-if="loggedInfoData.selfie"
                           class="img-fluid rounded-circle"
                           style="width: 45px; height: 45px;"
-                          :src="`https://BanooClubapi.simagar.com/${loggedInfoData.selfie}`"
+                          :src="`https://pplusapi.simagar.com/${loggedInfoData.selfie}`"
                           alt=""
                           @click="profileHeader"
                         />
@@ -2011,12 +2011,12 @@ export default {
     },
     imgUserAvatar() {
       if (this.userinfo.selfieFileData !== null) {
-        this.userImageApi = `https://BanooClubapi.simagar.com/${this.userinfo.selfieFileData}`;
+        this.userImageApi = `https://pplusapi.simagar.com/${this.userinfo.selfieFileData}`;
       }
     },
     imageBackground() {
       if (this.userinfo.bannerFileData !== null) {
-        this.BackgroundApi = `https://BanooClubapi.simagar.com/${this.userinfo.bannerFileData}`;
+        this.BackgroundApi = `https://pplusapi.simagar.com/${this.userinfo.bannerFileData}`;
       }
     },
     async getUserInfo() {

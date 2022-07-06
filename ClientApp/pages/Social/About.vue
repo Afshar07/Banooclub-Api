@@ -104,7 +104,7 @@
 <script>
 export default {
   name: "About",
-  layout: 'BanooClubLayout',
+  layout: 'PoshtebamPlusLayout',
   data() {
     return {
       activeBox: 'mainInformation',

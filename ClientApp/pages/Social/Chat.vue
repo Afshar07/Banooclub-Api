@@ -787,7 +787,7 @@ import { mapGetters } from "vuex";
 import BaseModal from "../../components/utilities/BaseModal";
 export default {
   name: "Chat",
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   components: {BaseModal, GroupModal, MainChat, Picker, EditIcon },
   fetchOnServer() {
     return false;

@@ -208,10 +208,10 @@ module.exports = {
   axios: {
     plugins: ["~/plugins/auth.js"],
     credentials: true,
-    baseURL: "https://BanooClubapi.simagar.com/api/",
+    baseURL: "https://pplusapi.simagar.com/api/",
     // baseURL: 'https://localhost:44330/',
   },
   env: {
-    pic: "https://BanooClubapi.simagar.com/",
+    pic: "https://pplusapi.simagar.com/",
   },
 };

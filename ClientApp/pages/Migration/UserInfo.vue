@@ -54,7 +54,7 @@
                     <swiper-slide class="slide-1" v-for="item in roomateData.roomate.photos" :key="item.adsId">
                       <img class="img-fluid"
                            v-if="roomateData.roomate.photos !== undefined && roomateData.roomate.photos.length > 0"
-                           :src="`https://BanooClubapi.simagar.com/${ item.base64}`"
+                           :src="`https://pplusapi.simagar.com/${ item.base64}`"
                       />
                     </swiper-slide>
                   </swiper>
@@ -412,7 +412,7 @@
                          :key="index">
                       <div class="d-flex flex-row">
                         <div class="">
-                          <!--                          <img :src="`https://BanooClubapi.simagar.com/${Follower.userInfo.selfieFileData}`"-->
+                          <!--                          <img :src="`https://pplusapi.simagar.com/${Follower.userInfo.selfieFileData}`"-->
                           <!--                               class="pictureFriend img-fluid"/>-->
                         </div>
                         <div class="">
@@ -432,7 +432,7 @@
                          :key="index">
                       <div class="d-flex flex-row">
                         <div class="">
-                          <!--                          <img :src="`https://BanooClubapi.simagar.com/${Follower.userInfo.selfieFileData}`"-->
+                          <!--                          <img :src="`https://pplusapi.simagar.com/${Follower.userInfo.selfieFileData}`"-->
                           <!--                               class="pictureFriend img-fluid"/>-->
                         </div>
                         <div class="">
@@ -459,7 +459,7 @@
         <div class="row p-0 text-center">
           <div class="col-12">{{ userInfoData.name + ' ' + userInfoData.familyName }}</div>
           <div class="col-12 my-3">
-            <img class="img-fluid infoPicture" :src="`https://BanooClubapi.simagar.com/${userInfoData.selfieFileData}`">
+            <img class="img-fluid infoPicture" :src="`https://pplusapi.simagar.com/${userInfoData.selfieFileData}`">
           </div>
           <div class="col-12">
             <div class="d-flex justify-content-center gap-4 my-2">
@@ -499,7 +499,7 @@ export default {
     SocialPost, AdvertiseCard, veeno, Swiper,
     SwiperSlide
   },
-  layout: 'BanooClubLayout',
+  layout: 'PoshtebamPlusLayout',
 
   data() {
     return {

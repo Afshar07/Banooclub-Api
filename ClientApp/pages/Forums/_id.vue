@@ -155,7 +155,7 @@ import InstagramIcon from "../../components/Icons/InstagramIcon";
 export default {
   name: "_slug",
   components: {InstagramIcon, WhatsappIcon, TelegramIcon},
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   head(){
     return{
       title: this.forumDetails?this.forumDetails.title:'انجمن'

@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  layout:'BanooClubLayout',
+  layout:'PoshtebamPlusLayout',
   name: "UserFollowers",
   data(){
     return{

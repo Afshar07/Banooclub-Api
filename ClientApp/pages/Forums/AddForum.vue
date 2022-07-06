@@ -60,7 +60,7 @@
 <script>
 export default {
   name: "AddForum",
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   data() {
     return {
       forum_title: '',

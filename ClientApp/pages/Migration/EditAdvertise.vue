@@ -170,7 +170,7 @@
 
     export default {
         name: "CreateAdvertise",
-        layout: 'BanooClubLayout',
+        layout: 'PoshtebamPlusLayout',
         data() {
             return {
                 createDate:'',

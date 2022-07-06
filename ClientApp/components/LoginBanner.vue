@@ -3,7 +3,7 @@
   <div class="row pt-5 " >
 
 <!--    <div class="col-md-12 my-5 d-flex justify-content-center ">-->
-<!--      <img src="../assets/images/BanooClubLogo.png" class="img-fluid"  alt="">-->
+<!--      <img src="../assets/images/PoshtebamPlusLogo.png" class="img-fluid"  alt="">-->
 <!--    </div>-->
 <!--    <div class="col-md-12" style="height: 700px;overflow-y: scroll">-->
 <!--      <ul class="timeline">-->

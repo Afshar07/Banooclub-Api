@@ -1,6 +1,6 @@
 <template>
   <div class="row SuperAdminFooter">
-    <div class="col-12 text-secondary pe-2">حق کپی رایت برای BanooClub محفوظ است</div>
+    <div class="col-12 text-secondary pe-2">حق کپی رایت برای PoshtebamPlus محفوظ است</div>
   </div>
 </template>
 

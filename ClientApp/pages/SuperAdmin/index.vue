@@ -50,7 +50,7 @@
             <div class="col-5 text-center position-relative">
               <img
                 v-if="item.selfieFileData"
-                :src="`https://BanooClubapi.simagar.com/${item.selfieFileData}`"
+                :src="`https://pplusapi.simagar.com/${item.selfieFileData}`"
                 class="img-fluid user-avatar"
                 alt="user-avatar"
               />

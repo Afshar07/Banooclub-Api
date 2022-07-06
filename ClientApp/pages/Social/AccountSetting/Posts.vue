@@ -33,7 +33,7 @@ import OtherUserHeader from "../../../components/OtherUserHeader";
 export default {
   name: "MyPosts",
   components: {OtherUserHeader, QuillExampleNuxt, SocialPost },
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   fetchOnServer() {
     return false;
   },

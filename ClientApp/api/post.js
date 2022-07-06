@@ -1,7 +1,9 @@
 export default (context, resources) => ({
-  async getFollowingPosts() {
+  async getFollowingPosts(params) {
     try {
-      const response = await context.$axios.post(resources, null);
+      const response = await context.$axios.post(resources, null,{
+        params
+      });
       return response;
     } catch (error) {
       console.log(error);
@@ -19,13 +21,10 @@ export default (context, resources) => ({
       console.log(error);
     }
   },
-  async getMyPosts(count = 10, pageNumber = 1) {
+  async getMyPosts(params) {
     try {
       const response = await context.$axios.post(resources, null, {
-        params: {
-          count,
-          pageNumber,
-        },
+        params
       });
       return response;
     } catch (error) {

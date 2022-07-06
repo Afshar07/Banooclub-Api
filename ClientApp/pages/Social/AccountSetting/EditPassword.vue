@@ -54,7 +54,7 @@
 <script>
 export default {
   name: "EditPassword",
-  layout: 'BanooClubLayout',
+  layout: 'PoshtebamPlusLayout',
   data() {
     return {
       newPassword: '',

@@ -9,7 +9,7 @@ import {mapActions} from "vuex";
 // This parent is created only for making request before rendering child page
 // To cleanup header shitshow
 export default {
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   fetchOnServer() {
     return false;
   },

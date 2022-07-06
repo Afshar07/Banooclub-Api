@@ -17,7 +17,7 @@ import ProductItem from "../../components/Products/ProductItem";
 
 export default {
   name: "MyServices",
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   components: {
     ProductItem,
   },

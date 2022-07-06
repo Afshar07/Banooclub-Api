@@ -97,7 +97,7 @@
 <script>
 export default {
   name: "Contact",
-  layout: 'BanooClubLayout',
+  layout: 'PoshtebamPlusLayout',
   data() {
     return {
       userName: '',

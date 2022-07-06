@@ -52,7 +52,7 @@
                     advertiseDetail.photos !== undefined &&
                     advertiseDetail.photos.length > 0
                   "
-                  :src="`https://BanooClubapi.simagar.com/${item.base64}`"
+                  :src="`https://pplusapi.simagar.com/${item.base64}`"
                 />
               </swiper-slide>
               <div
@@ -104,7 +104,7 @@ import "swiper/css/swiper.css";
 
 export default {
   name: "AdvertiseDetail",
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   fetchOnServer() {
     return true;
   },

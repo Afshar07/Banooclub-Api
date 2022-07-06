@@ -3,7 +3,7 @@
       <div class="card-media tw-h-40">
         <div class="card-media-overly"></div>
         <nuxt-link :to="`/Products/${service_details.servicePackId}`">
-          <img :src="`https://BanooClubapi.simagar.com/media/gallery/Profile/${service_details.userInfo.selfieFileData}`" :alt="service_details.title">
+          <img :src="`https://pplusapi.simagar.com/media/gallery/Profile/${service_details.userInfo.selfieFileData}`" :alt="service_details.title">
         </nuxt-link>
         <span class="tw-absolute tw-bg-white tw-px-2 tw-py-1 tw-text-sm tw-rounded-md tw-m-2"> Label</span>
         <button class="tw-bg-red-100 tw-absolute tw-right-2 tw-top-2 p-1 tw-rounded-full tw-text-red-500 tw-flex tw-items-center tw-justify-center">

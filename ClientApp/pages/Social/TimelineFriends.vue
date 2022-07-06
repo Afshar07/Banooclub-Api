@@ -42,7 +42,7 @@ import MultipleTabs from "../../components/Friends/MultipleTabs.vue";
 import FollowCard from "../../components/Friends/FollowCard.vue";
 export default {
   name: "TimelineFriends",
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   components: {
     MultipleTabs,
     FollowCard,

@@ -45,7 +45,7 @@ import FirstTabContent from "../../components/Products/FirstTabContent";
 import AllServicesTabContent from "../../components/Products/AllServicesTabContent";
 export default {
   name: "index",
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   components:{
     AllServicesTabContent,
     FirstTabContent,

@@ -10,32 +10,44 @@
             </button>
           </div>
           <div class="modal-body tw-overflow-y-scroll">
-            <div class="row">
-              <div @click.stop v-if="select_image" class="col-12 my-3" >
+            <div class="row h-100">
+              <div @click.stop v-if="!select_media" class="col-12 my-3" >
                 <div class="row">
                   <div class="col-4 my-3 d-flex justify-content-center" v-for="item in galleries" :key="item">
-                    <img   @click.stop="selectImage" :src="`https://BanooClubapi.simagar.com/${item}`" style="object-fit: cover;object-position: center; width: 200px;height: 250px" class="rounded " alt=""/>
+                    <img @click.stop="selectImage(item)" :src="`https://pplusapi.simagar.com/${item}`"
+                         style="object-fit: cover;object-position: center; width: 200px;height: 250px" class="rounded " alt="post_image"/>
                   </div>
                 </div>
-
-
               </div>
 
-              <div v-else-if="!select_image" class="col-12 py-3">
-                <label>توضیحات</label>
+              <div v-else-if="select_media" class="col-12 d-flex flex-column py-3">
+                <div class="d-flex justify-content-center align-items-center">
+                  <img style="object-fit: cover;object-position: center; width: 200px;height: 250px"
+                       :src="`https://pplusapi.simagar.com/${selected_media}`" class="rounded " alt="post_image"/>
+                </div>
                 <textarea
                   row="100"
+                  v-model="description"
                   style="color: #808080;"
-                  class="form-control border rounded w-100 with-border"
+                  class="form-control border rounded w-100 with-border h-75 mt-3"
                   placeholder="توضیحات"
                   id="description"
                 ></textarea>
-              </div>
-              <div class="col-12 text-start my-3">
-                <button type="button" class="btn submitFormButton" @click="submitNewPost">ارسال</button>
+                <div class="row mt-auto pt-3">
+                  <div class="col-md-6 col-12">
+                    <button type="button" class="button w-100" @click="select_media = false">
+                      بازگشت
+                    </button>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <button type="button" class="button w-100"  @click="submitNewPost">
+                      ثبت
+                    </button>
+                  </div>
+                </div>
+
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -54,7 +66,7 @@
                 <img
                   v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
                   class="img-fluid headerPicture custom_header_size tw-w-10 tw-h-10 mx-2 tw-rounded-full"
-                  :src="`https://BanooClubapi.simagar.com/${$auth.user.baseData.selfie}`"
+                  :src="`https://pplusapi.simagar.com/${$auth.user.baseData.selfie}`"
                   alt=""
                 />
                 <img
@@ -68,17 +80,17 @@
 
           </div>
         </div>
-        <social-post
-          class="my-4"
-          v-if="postData"
-          :post-data="postData"
-          @updateData="updateData"
-        ></social-post>
-        <div class="row" v-if="!$fetchState.pending && postData.length === 0">
-          <div class="col-12 text-warning fw-bold text-center">
-            هیچ محتوای برای نمایش وجود ندارد
-          </div>
-        </div>
+<!--        <social-post-->
+<!--          class="my-4"-->
+<!--          v-if="postData"-->
+<!--          :post-data="postData"-->
+<!--          @updateData="updateData"-->
+<!--        ></social-post>-->
+<!--        <div class="row" v-if="!$fetchState.pending && postData.length === 0">-->
+<!--          <div class="col-12 text-warning fw-bold text-center">-->
+<!--            هیچ محتوای برای نمایش وجود ندارد-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
       <div class=" col-lg-4">
         <SideBar @SideNavPictureVideo="SideNavPictureVideoToggle($event)"/></div>
@@ -117,7 +129,7 @@ export default {
   },
   async fetch() {
     try {
-      const posts = await this.$repositories.getFollowingPosts.getFollowingPosts();
+      const posts = await this.$repositories.getFollowingPosts.getFollowingPosts({pageNumber:0, count:0});
       this.postData = posts.data;
     }catch (error) {
       console.log(error);
@@ -131,31 +143,42 @@ export default {
   },
   data() {
     return {
+      description:'',
       is_show_post_modal:false,
       is_show_add_post:false,
       galleries:null,
-      select_image:true,
-
+      select_media:false,
       userDefault: require("~/assets/images/defaultUser.png"),
-
       showCreatePost: false,
-
       postData: null,
+      selected_media:'',
+      btoa_selected_media:'',
+      post_media:{
+        base64:'',
+        priority:0
+      }
     };
   },
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   methods: {
-    selectImage(){
-      this.select_image = false
+    selectImage(item) {
+      this.select_media = true
+      this.selected_media = item
+      this.btoa_selected_media = btoa(this.selected_media)
+      this.post_media.base64 = this.btoa_selected_media
+      this.post_media.priority = 1
     },
     submitNewPost() {
       this.$axios
         .post(
           `Post/Create`,
           {
+            postId:0,
             userId: 0,
-            postId: 0,
-            content: this.postContentValue,
+            title:'عنوان پست',
+            description:this.description,
+            fileData:this.post_media,
+            createDate:new Date(Date.now())
           },
           {}
         )

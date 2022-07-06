@@ -17,6 +17,7 @@ import createServiceTagsRepository from "../api/service_tag"
 import createForumCommentRepository from "../api/forum_comment";
 import createRateRepository from "../api/rating"
 import createWishListRepository from "../api/wish_list";
+import createBirthdateRepository from "../api/birthdate_list"
 
 export default (context, inject) => {
   const repositories = {
@@ -58,9 +59,13 @@ export default (context, inject) => {
     // Roommate repositories end
 
     // Post repositories start
-    getFollowingPosts: createPostRepository(context, "Post/GetFollowingPosts"),
+    getFollowingPosts: createPostRepository(context, "Post/GetAll"),
     getPostsByUserId: createPostRepository(context, "Post/GetByUserId"),
     getMyPosts: createPostRepository(context, "Post/GetMyPost"),
+
+    // Birthdate repositories start
+    getBirthdateList: createBirthdateRepository(context, "Account/BirthDateList"),
+
 
     // Post repositories end
 
@@ -184,6 +189,7 @@ export default (context, inject) => {
     // Forum Property repository end
 
     createWishList:createWishListRepository(context,"WishList/Create"),
+    deleteWishList:createWishListRepository(context,"WishList/Delete"),
     // Wish list repository end
 
 

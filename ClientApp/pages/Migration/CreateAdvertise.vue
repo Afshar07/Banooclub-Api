@@ -246,7 +246,7 @@
 <script>
 export default {
   name: "CreateAdvertise",
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   fetchOnServer() {
     return true;
   },

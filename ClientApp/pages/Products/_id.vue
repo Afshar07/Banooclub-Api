@@ -20,7 +20,7 @@ import BaseModal from "../../components/utilities/BaseModal";
 
 export default {
   name: "_id",
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   components:{
     ProductDetail,
     SideBar,

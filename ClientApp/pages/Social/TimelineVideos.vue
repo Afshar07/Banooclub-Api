@@ -49,7 +49,7 @@ export default {
       MyVideos:''
     }
   },
-  layout: 'BanooClubLayout',
+  layout: 'PoshtebamPlusLayout',
   methods: {
     showSidePanel(videoId) {
       this.$parent.$emit('SideNavPictureVideo', 'video', videoId)
