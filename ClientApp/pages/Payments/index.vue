@@ -40,7 +40,8 @@
     </div>
     <div class="tw-overflow-x-auto">
       <div class="tw-overflow-x-auto">
-        <table class="tw-table tw-w-full tw-table-zebra" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
+        <table class="tw-table tw-w-full tw-table-zebra"
+               style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
           <!-- head -->
           <thead>
           <tr>
@@ -178,5 +179,10 @@ export default {
     margin-right: auto;
   }
 }
-
+.tw-table :where(thead, tfoot) :where(th, td) {
+  background-color: white !important;
+}
+.tw-table :where(tbody th, tbody td) {
+   background-color: rgb(249 250 251) !important;
+}
 </style>

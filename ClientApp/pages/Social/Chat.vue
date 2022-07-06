@@ -92,8 +92,7 @@
                 </button>
               </div>
               <div class="col-12 row my-3 mx-auto">
-                <div class="col-12 row d-flex flex-lg-row flex-md-column flex-sm-column flex-column justify-content-between mx-auto"
-                style="padding-right: 25px;padding-left: 0">
+                <div class="col-12 row d-flex flex-lg-row flex-md-column flex-sm-column flex-column justify-content-between mx-auto" style="padding-right: 25px;padding-left: 0">
                   <div class="ChatSearchBox col-12 w-100 d-flex border py-2 border-1 rounded-3">
                     <input
                       v-model="SearchConversation"

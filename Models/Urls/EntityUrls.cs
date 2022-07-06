@@ -18,5 +18,6 @@
         public static string Newspaper { get; set; } = MediaBaseUrl + "Newspaper";
         public static string Service { get; set; } = MediaBaseUrl + "Service";
         public static string ServiceCategory { get; set; } = MediaBaseUrl + "ServiceCategory";
+        public static string PostMediaUrl { get; set; } = MediaBaseUrl + "Post";
     }
 }

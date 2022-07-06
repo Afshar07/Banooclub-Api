@@ -16,6 +16,7 @@
         Newspaper,
         LawyerCertificate,
         Service,
-        ServiceCategory
+        ServiceCategory,
+        Post
     }
 }

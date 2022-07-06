@@ -39,7 +39,7 @@
 
 <script>
 export default {
-  emits: ["OtpSent", "getNumber", "getMail","setCounter"],
+  emits: ["OtpSent", "getNumber", "getMail","setCounter","getCodeFields"],
   props: {
     registerType: {
       type: Number,
@@ -76,27 +76,32 @@ export default {
       if (this.registerType == 1) {
         this.mobile = event.target.value;
         this.mail = "string";
+        this.$emit("getCodeFields",this.mobile);
+
       } else {
         this.mail = event.target.value;
         this.mobile = "string";
+        this.$emit("getCodeFields",this.mail);
+
       }
+
     },
     async sendEmailOtpCode() {
       try {
         this.$nuxt.$loading.start();
 
-        if (!this.captcha) {
-          this.$toast.error("لطفا کپچا را تکمیل کنید");
+        if (!this.mail) {
+          this.$toast.error("لطفا ایمیل خود را وارد کنید");
         } else {
           const response =
             await this.$repositories.sendOtpToEmail.sendOtpToEmail(this.mail);
           if (response.data.message === "Confirmation code has not expired") {
-            // this.$toast.error("کد تایید منقضی نشده است");
+            this.$toast.error("کد تایید منقضی نشده است");
             this.$emit("setCounter",this.counter);
             this.$emit("OtpSent");
           } else if (response.data.hasUser === 1) {
             this.$toast.error("کاربری با این ایمیل قبلا ثبت نام کرده است");
-            this.$emit("OtpSent");
+            // this.$emit("OtpSent");
             this.$emit("setCounter",this.counter);
           } else {
             this.$emit("setCounter",this.counter);
@@ -116,18 +121,17 @@ export default {
     async sendMobileOtpCode() {
       try {
         this.$nuxt.$loading.start();
-
-        if (this.mobile.length < 11) {
+        if (!this.mobile) {
+          this.$toast.error("لطفا موبایل خود را وارد کنید");
+        } else if (this.mobile.length < 11) {
           this.$toast.error("شماره موبایل وارد شده معتبر نیست");
-        } else if (!this.captcha) {
-          this.$toast.error("لطفا کپچا را تکمیل کنید");
         } else {
           const response =
             await this.$repositories.sendOtpToMobile.sendOtpToMobile(
               this.mobile
             );
           if (response.data.message === "Confirmation code has not expired") {
-            // this.$toast.error("کد تایید منقضی نشده است");
+            this.$toast.error("کد تایید منقضی نشده است");
             this.$emit("OtpSent");
             this.$emit("setCounter",this.counter);
           } else if (response.data.hasUser === 1) {
@@ -135,7 +139,7 @@ export default {
             this.$toast.error(
               "کاربری با این شماره موبایل قبلا ثبت نام کرده است"
             );
-            this.$emit("OtpSent");
+            // this.$emit("OtpSent");
 
           } else {
             this.$emit("setCounter",this.counter);

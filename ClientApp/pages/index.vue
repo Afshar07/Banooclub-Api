@@ -6,8 +6,8 @@
 
         <div class="lg:tw-mb-12 tw-flex-1 lg:tw-text-left tw-text-center">
           <p class="tw-font-medium lg:tw-mx-0 md:tw-text-2xl tw-mt-6 tw-mx-auto sm:tw-w-3/4 tw-text-xl tw-text-right" style="color:rgb(102 102 102);">
-            بانو کلاب پلاس،
-            با دوستان و دنیای اطراف خود با بانو کلاب پلاس ارتباط برقرار کنید.
+            بانو کلاب،
+            با دوستان و دنیای اطراف خود با بانو کلاب ارتباط برقرار کنید.
           </p>
         </div>
         <div class="d-flex flex-column">
@@ -45,7 +45,7 @@
 <!--      <div class="log-reg-area position-absolute" dir="rtl">-->
 <!--        <h2 class="log-title">ورود</h2>-->
 <!--        <p class="log-title-text">-->
-<!--          هنوز از بانو کلاب پلاس استفاده نکرده اید؟-->
+<!--          هنوز از بانو کلاب استفاده نکرده اید؟-->
 <!--          <nuxt-link to="/" title="">قوانین را بخوانید</nuxt-link>-->
 <!--          یا-->
 <!--          <nuxt-link to="/register" title=""> به اینجا ملحق شوید </nuxt-link>-->

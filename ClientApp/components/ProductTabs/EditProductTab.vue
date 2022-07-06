@@ -41,7 +41,7 @@
         <div class="labelText">موقعیت روی نقشه</div>
         <div class="my-3" id="map-wrap" style="height: 50vh">
           <client-only>
-            <l-map :zoom="17" :center="center" @click="addMarker">
+            <l-map :zoom="17" :center="[serviceDetailProp.latitude,serviceDetailProp.longitude]" @click="addMarker">
               <l-tile-layer
                 url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
               ></l-tile-layer>

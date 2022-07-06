@@ -6,6 +6,7 @@ using BanooClub.Models.Enums;
 using BanooClub.Models.Urls;
 using BanooClub.Services.RatingServices;
 using BanooClub.Services.SocialMediaServices;
+using BanooClub.Services.WishListServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,22 +20,32 @@ namespace BanooClub.Services.ServicePackServices
         private readonly IBanooClubEFRepository<View> viewRepository;
         private readonly IBanooClubEFRepository<Rating> ratingRepository;
         private readonly IBanooClubEFRepository<SocialMedia> mediaRepository;
+        private readonly IBanooClubEFRepository<WishList> wishListRepository;
         private readonly IBanooClubEFRepository<Tag> tagRepository;
         private readonly IBanooClubEFRepository<User> userRrepository;
         private readonly IBanooClubEFRepository<ServiceProperty> propertyRepository;
         private readonly IBanooClubEFRepository<ServiceComment> commentRrepository;
         private readonly IRatingService ratingService;
         private readonly ISocialMediaService mediaService;
+        private readonly IWishListService wishListService;
         private readonly IHttpContextAccessor _accessor;
-        public ServicePackService(IBanooClubEFRepository<ServicePack> servicePackRepository, IBanooClubEFRepository<ServiceComment> commentRrepository, IRatingService ratingService, IBanooClubEFRepository<SocialMedia> mediaRepository, IBanooClubEFRepository<Rating> ratingRepository
-            , IHttpContextAccessor accessor, IBanooClubEFRepository<ServiceProperty> propertyRepository, IBanooClubEFRepository<View> viewRepository, IBanooClubEFRepository<User> userRrepository, ISocialMediaService mediaService, IBanooClubEFRepository<Tag> tagRepository)
+        public ServicePackService(IBanooClubEFRepository<ServicePack> servicePackRepository, IBanooClubEFRepository<ServiceComment> commentRrepository, IRatingService ratingService, 
+            IBanooClubEFRepository<SocialMedia> mediaRepository,
+            IBanooClubEFRepository<WishList> wishListRepository,
+            IBanooClubEFRepository<Rating> ratingRepository
+            , IHttpContextAccessor accessor, IBanooClubEFRepository<ServiceProperty> propertyRepository, IBanooClubEFRepository<View> viewRepository, IBanooClubEFRepository<User> userRrepository, 
+            ISocialMediaService mediaService,
+            IWishListService wishListService,
+            IBanooClubEFRepository<Tag> tagRepository)
         {
             this.servicePackRepository = servicePackRepository;
             this.viewRepository = viewRepository;
             this.ratingRepository = ratingRepository;
             this.mediaRepository = mediaRepository;
+            this.wishListRepository = wishListRepository;
             this.ratingService = ratingService;
             this.mediaService = mediaService;
+            this.wishListService = wishListService;
             this.tagRepository = tagRepository;
             this.commentRrepository = commentRrepository;
             this.userRrepository = userRrepository;
@@ -355,8 +366,72 @@ namespace BanooClub.Services.ServicePackServices
             }
             service.Properties = propertyRepository.GetQuery().Where(z=>z.ServiceId == id).ToList();
 
+
+            var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == userId && x.ServiceId == service.ServicePackId)
+                .FirstOrDefault();
+            if(dbWishList!=null)
+            {
+                service.IsFavourite = true;
+            }
+            else
+            {
+                service.IsFavourite = false;
+            }
+
             return service;
         }
-        
+
+        public async Task<object> GetUserServices(int pageNumber, int count, string searchCommand,long userId)
+        {
+           
+            if (searchCommand == null)
+            {
+                searchCommand = "";
+            }
+            List<ServicePack> servicePacks = new List<ServicePack>();
+            servicePacks = servicePackRepository.GetQuery().Where(z => z.UserId == userId && z.Title.Contains(searchCommand)).OrderByDescending(z => z.CreateDate).ToList();
+            var servicesCount = servicePacks.Count();
+
+            if (pageNumber != 0 && count != 0)
+            {
+                servicePacks = servicePacks.Skip((pageNumber - 1) * count).Take(count).ToList();
+            }
+            foreach (var servicePack in servicePacks)
+            {
+                var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.Type == MediaTypes.Service && z.ObjectId == servicePack.ServicePackId && z.Priority == 1);
+                if (dbMedia != null)
+                {
+                    servicePack.Medias = new List<FileData>();
+                    servicePack.Medias.Add(new FileData() { Priority = 1, Base64 = dbMedia.PictureUrl });
+                }
+                var dbRate = await ratingService.GetByObjectIdAndType(servicePack.ServicePackId, RatingType.Service);
+                servicePack.Rate = dbRate.Data.Average;
+
+                var dbViews = viewRepository.GetQuery().FirstOrDefault(z => z.ObjectId == servicePack.ServicePackId && z.Type == ViewType.Service);
+                if (dbViews != null)
+                {
+                    servicePack.ViewsCount = dbViews.Count;
+                }
+                else
+                {
+                    servicePack.ViewsCount = 0;
+                }
+                servicePack.UserInfo = userRrepository.GetQuery().FirstOrDefault(z => z.UserId == servicePack.UserId);
+                var dbUserMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == servicePack.UserId && z.Type == MediaTypes.Profile);
+                servicePack.UserInfo.Password = null;
+                if (dbUserMedia != null)
+                {
+                    servicePack.UserInfo.SelfieFileData = dbUserMedia.PictureUrl;
+                }
+            }
+            var obj = new
+            {
+                Services = servicePacks,
+                ServicesCount = servicesCount,
+            };
+
+            return obj;
+        }
+
     }
 }

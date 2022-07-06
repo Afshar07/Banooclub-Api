@@ -31,6 +31,8 @@ namespace BanooClub.Models
         [NotMapped]
         public long ViewsCount { get; set; }
         [NotMapped]
+        public object WeekViewsCount { get; set; }
+        [NotMapped]
         public double? Rate { get; set; }
         [NotMapped]
         public List<FileData> Medias { get; set; }
@@ -42,5 +44,7 @@ namespace BanooClub.Models
         public List<ServiceComment> Comments { get; set; }
         [NotMapped]
         public List<ServiceProperty> Properties { get; set; }
+        [NotMapped]
+        public bool IsFavourite { get; set; }
     }
 }

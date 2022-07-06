@@ -9838,3 +9838,27 @@ input[type="number"] {
 .vpd-input-group label {
    margin-bottom: 0 !important;
 }
+.vueperslides__arrows {
+  color: #2563eb !important;
+}
+.nav {
+  flex-wrap: nowrap !important;
+}
+li.nav-item{
+  white-space: nowrap !important;
+}
+.nav-link {
+  font-weight: 500;
+  color: #8c8d90 !important;
+  font-weight: 500;
+  padding: 5px 9px 15px;
+  border-bottom: 3px solid transparent !important;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  color: #0d6efd !important;
+  background-color: transparent !important;
+  font-weight: 500;
+  border-bottom: 3px solid #0d6efd !important;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}

@@ -12,7 +12,7 @@
         بازدید
         <span class="tw-text-black px-1">
           {{forumDetails.viewsCount}}
-      </span>
+        </span>
       </p>
     </div>
 

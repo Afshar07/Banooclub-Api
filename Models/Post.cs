@@ -8,7 +8,8 @@ namespace BanooClub.Models
     {
         public long PostId { get; set; }
         public long UserId { get; set; }
-        public string Content { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
         public int Status { get; set; }
@@ -24,6 +25,8 @@ namespace BanooClub.Models
         public int LikesCount { get; set; }
         [NotMapped]
         public int CommentsCount { get; set; }
+        [NotMapped]
+        public FileData FileData { get; set; }
     }
 
     public class PostDTO
@@ -46,5 +49,7 @@ namespace BanooClub.Models
         public bool IsLikedByMe { get; set; }
         [NotMapped]
         public bool IsReportedByMe { get; set; }
+        [NotMapped]
+        public FileData FileData { get; set; }
     }
 }

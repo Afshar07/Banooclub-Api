@@ -15,7 +15,7 @@
 <!--              <span class="time-wrapper"><span class="time">-->
 <!--               <i class="fas fa-comment-medical"></i>-->
 <!--              </span></span>-->
-<!--              <span class="flag">آگاهی و مشاوره قبل بانو کلاب پلاس</span>-->
+<!--              <span class="flag">آگاهی و مشاوره قبل بانو کلاب</span>-->
 
 <!--            </div>-->
 <!--&lt;!&ndash;            <div class="desc">Lorem ipsum Nisi labore aute do aute culpa magna nulla voluptate exercitation deserunt proident.</div>&ndash;&gt;-->
@@ -30,7 +30,7 @@
 <!--              <span class="time-wrapper"><span class="time">-->
 <!--            <i class="fab fa-usps"></i>-->
 <!--              </span></span>-->
-<!--              <span class="flag">خدمات و آگهی بانو کلاب پلاس</span>-->
+<!--              <span class="flag">خدمات و آگهی بانو کلاب</span>-->
 
 <!--            </div>-->
 
@@ -46,7 +46,7 @@
 <!--          <i class="fas fa-restroom"></i>-->
 <!--              </span></span>-->
 <!--              <span class="flag">-->
-<!--هم خانه در بانو کلاب پلاس</span>-->
+<!--هم خانه در بانو کلاب</span>-->
 
 <!--            </div>-->
 
@@ -59,7 +59,7 @@
 <!--              <span class="time-wrapper"><span class="time">-->
 <!--         <i class="fas fa-user-check"></i>-->
 <!--              </span></span>-->
-<!--              <span class="flag">آگاهی و مشاوره بعد از بانو کلاب پلاس</span>-->
+<!--              <span class="flag">آگاهی و مشاوره بعد از بانو کلاب</span>-->
 
 <!--            </div>-->
 
@@ -71,11 +71,11 @@
 
 
 <!--    <div class="col-md-12 d-flex flex-wrap ">-->
-<!--<h4 class="text-white" >آگاهی و مشاوره قبل بانو کلاب پلاس</h4><h4 class="text-white">/</h4><h4 class="text-white">خدمات و آگهی بانو کلاب پلاس</h4><h4 class="text-white">/</h4><h4 class="text-white">هم خانه در بانو کلاب پلاس</h4>-->
+<!--<h4 class="text-white" >آگاهی و مشاوره قبل بانو کلاب</h4><h4 class="text-white">/</h4><h4 class="text-white">خدمات و آگهی بانو کلاب</h4><h4 class="text-white">/</h4><h4 class="text-white">هم خانه در بانو کلاب</h4>-->
 
 <!--    </div>-->
 <!--    <div class="col-md-12">-->
-<!--      <h4 class="text-white">آگاهی و مشاوره بعد از بانو کلاب پلاس</h4>-->
+<!--      <h4 class="text-white">آگاهی و مشاوره بعد از بانو کلاب</h4>-->
 <!--    </div>-->
   </div>
 </div>

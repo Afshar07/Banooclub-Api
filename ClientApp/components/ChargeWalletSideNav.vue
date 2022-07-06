@@ -5,7 +5,7 @@
       <div v-if="show" class="charge-wallet-sidenav">
         <div class="d-flex flex-column">
           <h3>شارژ کیف پول</h3>
-          <div class="col-12 pt-3 px-0" style="height: 88vh;">
+          <div class="col-12 pt-3 px-0" style="height: 100%;">
             <label>مبلغ</label>
             <div class="d-flex justify-content-center align-items-center">
               <input type="text" class="with-border" placeholder="مبلغ">

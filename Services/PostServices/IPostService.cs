@@ -12,7 +12,7 @@ namespace BanooClub.Services.PostServices
         Task Delete(long id);
         object GetAll(int pageNumber, int count);
         Task<Post> Get(long id);
-        Task<long> UpdateByCmd(string content, long postId);
+        Task<long> UpdateByCmd(string title, string description, long postId, int status);
         object GetMyPost(int pageNumber, int count);
         IServiceResult<object> GetByUserId(long userId);
         Task<List<PostDTO>> GetFollowingPosts();

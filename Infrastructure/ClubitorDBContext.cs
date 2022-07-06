@@ -151,6 +151,7 @@ namespace Infrastructure
             modelbuilder.Entity<View>().ToTable("Views", "Common").HasKey(z => z.ViewId);
             modelbuilder.Entity<Tag>().ToTable("Tags", "Common").HasKey(z => z.TagId);
             modelbuilder.Entity<Wallet>().ToTable("Wallets", "Common").HasKey(z => z.WalletId);
+            modelbuilder.Entity<CommentLike>().ToTable("CommentLike", "Common").HasKey(z => z.CommentLikeId);
 
 
             modelbuilder.Entity<Post>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
@@ -169,7 +170,9 @@ namespace Infrastructure
             modelbuilder.Entity<Group>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
             modelbuilder.Entity<Message>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
             modelbuilder.Entity<Ticket>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
+            modelbuilder.Entity<CommentLike>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
             modelbuilder.Entity<SocialMedia>().Property(b => b.UpdateDate).HasDefaultValueSql("getdate()");
+            
         }
     }
 }

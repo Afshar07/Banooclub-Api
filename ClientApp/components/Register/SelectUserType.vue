@@ -15,7 +15,7 @@
 <!--    <div class="d-flex align-items-center gap-2">-->
 <!--      <input @change="emitUserRole" type="radio" id="3" name="type" value="3" />-->
 <!--      <label for="3" class="text-muted">-->
-<!--        خدمات حقوقی و بانو کلاب پلاس ارائه میدهم-->
+<!--        خدمات حقوقی و بانو کلاب ارائه میدهم-->
 <!--      </label>-->
 <!--    </div>-->
   </div>

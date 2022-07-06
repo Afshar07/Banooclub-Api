@@ -11,7 +11,7 @@
                        value="" type="text" class="form-control"
                        placeholder="افزودن پست ...">
                 <img
-                  v-if="$auth.user.baseData.selfie"
+                  v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
                   class="img-fluid headerPicture custom_header_size tw-w-10 tw-h-10 mx-2 tw-rounded-full"
                   :src="`https://BanooClubapi.simagar.com/${$auth.user.baseData.selfie}`"
                   alt=""
@@ -50,7 +50,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 style="font-family: iranSans !important;" class="modal-title mx-auto" id="exampleModalLongTitle">افزودن پست</h5>
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <button ref="modalCloseButton" type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -130,6 +130,7 @@ export default {
         )
         .then((response) => {
           if (response.status === 200) {
+            this.$refs.modalCloseButton.click();
             this.$fetch();
           }
         })

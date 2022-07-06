@@ -1,5 +1,6 @@
 <template>
-  <div class="container mcontainer tw-overflow-x-hidden" v-if="!$fetchState.pending" >
+  <div class="container mcontainer tw-overflow-x-hidden" v-if="!$fetchState.pending">
+
     <div class="row">
       <div class="col-md-12 col-lg-8 add_post px-0 custom_padding_for_posts">
         <ProductDetail :service_details="ServiceDetails"/>
@@ -8,7 +9,6 @@
         <SideBar class="tw-mt-5" @SideNavPictureVideo="SideNavPictureVideoToggle($event)"/>
       </div>
     </div>
-
   </div>
 
 </template>
@@ -16,16 +16,35 @@
 <script>
 import SideBar from "../../layouts/SideBar";
 import ProductDetail from "../../components/Products/PDetails";
+import BaseModal from "../../components/utilities/BaseModal";
+
 export default {
   name: "_id",
   layout: "BanooClubLayout",
   components:{
     ProductDetail,
     SideBar,
+    BaseModal,
+  },
+  head(){
+    return{
+      title: 'بانو کلاب - ' + this.headTitle
+    }
+  },
+  computed:{
+    headTitle(){
+      if (this.ServiceDetails && this.ServiceDetails.title){
+        return this.ServiceDetails.title
+      }else {
+        return  ''
+      }
+    },
   },
   data(){
     return{
-      ServiceDetails: null
+      ServiceDetails: null,
+      is_show_delete_modal:false,
+
     }
   },
   async fetch(){
@@ -36,7 +55,6 @@ export default {
         }
       )
       this.ServiceDetails = service_details.data
-      console.log('this.ServiceDetails',this.ServiceDetails)
 
     }
     catch (error){

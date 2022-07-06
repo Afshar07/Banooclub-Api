@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BanooClub.Services.SocialMediaServices;
+using BanooClub.Models.Urls;
 
 namespace BanooClub.Services.PostServices
 {
@@ -23,9 +25,11 @@ namespace BanooClub.Services.PostServices
         private readonly IBanooClubEFRepository<PostComment> postCommentRepository;
         private readonly IBanooClubEFRepository<PostLike> postLikeRepository;
         private readonly IBanooClubEFRepository<PostNK> postNKRepository;
+        private readonly IBanooClubEFRepository<SocialMedia> mediaRepository;
         private readonly IBanooClubEFRepository<PostReport> postReportRepository;
         private readonly IBanooClubEFRepository<UserSetting> userSettingRepository;
         private readonly IBanooClubEFRepository<ViewHistory> viewHistoryRepository;
+        private readonly ISocialMediaService mediaService;
         private readonly IHttpContextAccessor _accessor;
         private readonly IUserService userService;
         private readonly IDistributedCache distributedCache;
@@ -38,7 +42,9 @@ namespace BanooClub.Services.PostServices
             IDistributedCache distributedCache,
             IBanooClubEFRepository<ViewHistory> viewHistoryRepository,
             IBanooClubEFRepository<PostReport> postReportRepository,
-            IBanooClubEFRepository<PostNK> postNKRepository)
+            IBanooClubEFRepository<PostNK> postNKRepository,
+            ISocialMediaService mediaService,
+            IBanooClubEFRepository<SocialMedia> mediaRepository)
         {
             this.userRepository = userRepository;
             this.postRepository = postRepository;
@@ -47,10 +53,12 @@ namespace BanooClub.Services.PostServices
             this.postLikeRepository = postLikeRepository;
             this.userService = userService;
             this.postNKRepository = postNKRepository;
+            this.mediaService = mediaService;
             this.postReportRepository = postReportRepository;
             this.distributedCache = distributedCache;
             this.userSettingRepository = userSettingRepository;
             this.viewHistoryRepository = viewHistoryRepository;
+            this.mediaRepository = mediaRepository;
 
             _accessor = accessor;
         }
@@ -86,16 +94,63 @@ namespace BanooClub.Services.PostServices
             inputDto.Status=(int)PostStatus.Published;
             inputDto.UpdateDate = DateTime.Now;
             var NKs = postNKRepository.GetAll().Result.Select(z => z.Name).ToList();
-            if (NKs.Any(z => (inputDto.Content.Contains(z))))
+            if (NKs.Any(z => (inputDto.Description.Contains(z))))
             {
                 inputDto.Status = (int)PostStatus.NotConfirmed;
             }
-            postRepository.Insert(inputDto);
+            var creation = postRepository.Insert(inputDto);
+
+            if (!string.IsNullOrEmpty(inputDto.FileData.Base64))
+            {
+                var outPut = mediaService.SaveImageNew(inputDto.FileData.Base64, EntityUrls.PostMediaUrl,inputDto.FileData.Priority);
+                SocialMedia dbMedia = new SocialMedia()
+                {
+                    IsDeleted = false,
+                    ObjectId = creation.PostId,
+                    PictureUrl = outPut.ImageName,
+                    Type = MediaTypes.Post,
+                    MediaId = 0,
+                    Priority= inputDto.FileData.Priority
+                };
+                await mediaRepository.InsertAsync(dbMedia);
+            }
         }
 
         public async Task<Post> Update(Post item)
         {
             await postRepository.Update(item);
+
+
+            var dbLastMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == item.PostId && z.Type == MediaTypes.Post);
+            if (item.FileData.Base64.ToUpper() == "DELETE")
+            {
+                dbLastMedia.PictureUrl = "";
+                await mediaRepository.Update(dbLastMedia);
+                await mediaRepository.Delete(dbLastMedia);
+            }
+            else if (!string.IsNullOrEmpty(item.FileData.Base64))
+            {
+                var outPut = mediaService.SaveImageNew(item.FileData.Base64, EntityUrls.PostMediaUrl,item.FileData.Priority);
+                if (dbLastMedia != null)
+                {
+                    dbLastMedia.PictureUrl = outPut.ImageName;
+                    await mediaRepository.Update(dbLastMedia);
+                }
+                else
+                {
+                    SocialMedia dbMedia = new SocialMedia()
+                    {
+                        IsDeleted = false,
+                        ObjectId = item.PostId,
+                        PictureUrl = outPut.ImageName,
+                        Type = MediaTypes.Post,
+                        MediaId = 0,
+                        Priority= item.FileData.Priority
+                    };
+                    await mediaRepository.InsertAsync(dbMedia);
+                }
+            }
+
             return item;
         }
 
@@ -105,6 +160,17 @@ namespace BanooClub.Services.PostServices
             posts = postRepository.GetQuery().Where(z => z.Status == (int)PostStatus.Published).
                 OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
             var PostCount = postRepository.GetQuery().Where(z => z.Status == (int)PostStatus.Published).Count();
+
+            foreach (var post in posts)
+            {
+                var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == post.PostId && z.Type == MediaTypes.Post);
+               
+                if (dbMedia != null)
+                {
+                    post.FileData = new FileData() { Base64 = dbMedia.PictureUrl, Priority = (int)dbMedia.Priority };
+                }
+            }
+
             var obj = new
             {
                 Posts = posts,
@@ -123,12 +189,22 @@ namespace BanooClub.Services.PostServices
         public async Task<Post> Get(long id)
         {
             var post = postRepository.GetQuery().FirstOrDefault(z => z.PostId == id);
+
+            #region Media
+            var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == post.PostId && z.Type == MediaTypes.Post);
+
+                if (dbMedia != null)
+                {
+                    post.FileData = new FileData() { Base64 = dbMedia.PictureUrl, Priority = (int)dbMedia.Priority };
+                }
+            #endregion
+
             return post;
         }
-        public async Task<long> UpdateByCmd(string content, long postId)
+        public async Task<long> UpdateByCmd(string title,string description, long postId,int status)
         {
             var updateDate = DateTime.Now;
-            string UpdateCmd = $"Update social.posts Set Content = '{content}' , UpdateDate = '{updateDate}' Where PostId={postId}";
+            string UpdateCmd = $"Update social.posts Set Title='{title}', Description = '{description}',Status='{status}' , UpdateDate = '{updateDate}' Where PostId={postId}";
             try
             {
                 var result = await postRepository.DapperSqlQuery(UpdateCmd);
@@ -162,7 +238,21 @@ namespace BanooClub.Services.PostServices
                 post.IsReportedByMe = postReport == null ? false : true;
                 post.CommentsCount = postCommentRepository.GetQuery().Where(z => z.PostId == post.PostId).Count();
                 post.LikesCount = postLikeRepository.GetQuery().Where(z => z.PostId == post.PostId).Count();
+
+                #region Media
+                var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == post.PostId && z.Type == MediaTypes.Post);
+
+                if (dbMedia != null)
+                {
+                    post.FileData = new FileData() { Base64 = dbMedia.PictureUrl, Priority = (int)dbMedia.Priority };
+                }
+                #endregion
             }
+
+
+
+
+
             var obj = new
             {
                 Posts = dbPosts,
@@ -201,6 +291,19 @@ namespace BanooClub.Services.PostServices
                     post.CommentsCount = postCommentRepository.GetQuery().Where(z => z.PostId == post.PostId).Count();
                     post.LikesCount = postLikeRepository.GetQuery().Where(z => z.PostId == post.PostId).Count();
 
+                    #region Media
+                    var dbMedia = mediaRepository.GetQuery().Where(z => z.Type == MediaTypes.Post && z.ObjectId == post.PostId).FirstOrDefault();
+                    if (dbMedia != null)
+                    {
+                        post.FileData = new FileData()
+                        {
+                            Base64 = dbMedia.PictureUrl,
+                            Priority = (int)dbMedia.Priority
+                        };
+                    }
+                   
+                    #endregion
+
                 }
                 var obj = new
                 {
@@ -233,6 +336,15 @@ namespace BanooClub.Services.PostServices
                                 post.IsLikedByMe = postLike == null ? false : true;
                                 post.IsReportedByMe = postReport == null ? false : true;
                             }
+
+                            #region Media
+                            var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == post.PostId && z.Type == MediaTypes.Post);
+
+                            if (dbMedia != null)
+                            {
+                                post.FileData = new FileData() { Base64 = dbMedia.PictureUrl, Priority = (int)dbMedia.Priority };
+                            }
+                            #endregion
 
                         }
                         var obj1 = new
@@ -369,16 +481,38 @@ namespace BanooClub.Services.PostServices
                 var postReport = postReportRepository.GetQuery().FirstOrDefault(z => z.ReporterUserId == userId && z.PostId == item.PostId);
                 item.IsLikedByMe = postLike == null ? false : true;
                 item.IsReportedByMe = postReport == null ? false : true;
+
+                #region Media
+                var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == item.PostId && z.Type == MediaTypes.Post);
+
+                if (dbMedia != null)
+                {
+                    item.FileData = new FileData() { Base64 = dbMedia.PictureUrl, Priority = (int)dbMedia.Priority };
+                }
+                #endregion
             }
             return result;
         }
         public object GetNotConfirmed(int pageNumber, int count, string search)
         {
             List<Post> posts = new List<Post>();
-            posts = postRepository.GetQuery().Where(z => z.Status == (int)PostStatus.NotConfirmed && z.Content.Contains(search)).
+            posts = postRepository.GetQuery().Where(z => z.Status == (int)PostStatus.NotConfirmed && z.Description.Contains(search)).
                 OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
-            var PostCount = postRepository.GetQuery().Where(z => z.Status == (int)PostStatus.NotConfirmed && z.Content.Contains(search)).Count();
+            var PostCount = postRepository.GetQuery().Where(z => z.Status == (int)PostStatus.NotConfirmed && z.Description.Contains(search)).Count();
             posts.ForEach(z=>z.UserInfo= userService.Get(z.UserId));
+
+            #region Media
+            foreach (var item in posts)
+            {
+                var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == item.PostId && z.Type == MediaTypes.Post);
+
+                if (dbMedia != null)
+                {
+                    item.FileData = new FileData() { Base64 = dbMedia.PictureUrl, Priority = (int)dbMedia.Priority };
+                }
+            }
+            #endregion
+
             var obj = new
             {
                 Posts=posts,
@@ -393,6 +527,19 @@ namespace BanooClub.Services.PostServices
                 OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
             posts.ForEach(z => z.UserInfo= userService.Get(z.UserId));
             var PostCount = postRepository.GetQuery().Where(z => z.Status == (int)PostStatus.Report).Count();
+
+            #region Media
+            foreach (var item in posts)
+            {
+                var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == item.PostId && z.Type == MediaTypes.Post);
+
+                if (dbMedia != null)
+                {
+                    item.FileData = new FileData() { Base64 = dbMedia.PictureUrl, Priority = (int)dbMedia.Priority };
+                }
+            }
+            #endregion
+
             var obj = new
             {
                 Posts = posts,
@@ -406,12 +553,12 @@ namespace BanooClub.Services.PostServices
             if (item.Status == (int)PostStatus.Published)
             {
                 dbPost.Status = (int)PostStatus.Published;
-                dbPost.Content = item.Content == null ? dbPost.Content : item.Content;
+                dbPost.Description = item.Description == null ? dbPost.Description : item.Description;
             }
             else if (item.Status == (int)PostStatus.Report)
             {
                 dbPost.Status = (int)PostStatus.Report;
-                dbPost.Content = item.Content == null ? dbPost.Content : item.Content;
+                dbPost.Description = item.Description == null ? dbPost.Description : item.Description;
 
                 var adminId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
@@ -430,6 +577,19 @@ namespace BanooClub.Services.PostServices
                 postReportRepository.Insert(dbPostReportCreation);
             }
             await postRepository.Update(dbPost);
+
+
+            #region Media
+            
+                var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == item.PostId && z.Type == MediaTypes.Post);
+
+                if (dbMedia != null)
+                {
+                    dbPost.FileData = new FileData() { Base64 = dbMedia.PictureUrl, Priority = (int)dbMedia.Priority };
+                }
+          
+            #endregion
+
             return dbPost;
         }
     }

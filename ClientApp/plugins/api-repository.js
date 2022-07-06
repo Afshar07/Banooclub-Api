@@ -16,6 +16,7 @@ import createServiceCommentRepository from "../api/service_comment";
 import createServiceTagsRepository from "../api/service_tag"
 import createForumCommentRepository from "../api/forum_comment";
 import createRateRepository from "../api/rating"
+import createWishListRepository from "../api/wish_list";
 
 export default (context, inject) => {
   const repositories = {
@@ -181,6 +182,9 @@ export default (context, inject) => {
 
     createForumComment:createForumCommentRepository(context,"ForumComment/Create"),
     // Forum Property repository end
+
+    createWishList:createWishListRepository(context,"WishList/Create"),
+    // Wish list repository end
 
 
     createRate:createRateRepository(context,"Rating/Create"),

@@ -12,8 +12,7 @@
           :style="InlineBg"
         >
           <div class="row col-12 m-0 p-0">
-            <div
-              class="col-lg-3 col-12 d-flex mb-md-3 align-items-center justify-content-center justify-content-md-start align-items-md-end">
+            <div class="col-lg-3 my-3 col-12 d-flex mb-md-3 align-items-center justify-content-center justify-content-md-start align-items-md-end">
               <div class="d-flex flex-wrap gap-3 change_pic_div">
                 <button
                   v-if="!this.$route.params.id"
@@ -53,11 +52,8 @@
                 </button>
               </div>
             </div>
-            <div class="col-lg-6 col-12 justify-content-lg-start justify-content-end"
-                 :class="{ TopGap: this.$route.query.userId }">
-              <div
-                class="row col-12 h-100 d-flex flex-column justify-content-lg-center justify-content-end align-items-center position-relative"
-                style="top: 130px;">
+            <div class="col-lg-6 m-0 col-12 justify-content-lg-start justify-content-end" :class="{ TopGap: this.$route.query.userId }">
+              <div class="row m-0 col-12 h-100 d-flex flex-column justify-content-lg-center justify-content-end align-items-center position-relative profile_section">
                 <div class="d-flex align-items-center justify-content-center">
                   <img
                     :src="userAvatar"
@@ -67,19 +63,18 @@
                   />
                 </div>
                 <div class="d-flex flex-column align-items-center justify-content-center">
-                  <h1 v-if="!$route.params.id">
-                    {{
-                      $auth.user.baseData.name + " " + $auth.user.baseData.familyName
-                    }}
+                  <h1 class="text-center" style="white-space: nowrap" v-if="!$route.params.id">
+                    {{$auth.user.baseData.name + " " + $auth.user.baseData.familyName }}
                   </h1>
-                  <h1 v-else-if="$route.params.id && getUserDetails && getUserDetails.baseData">
-                    {{
-                      getUserDetails.baseData.name + " " + getUserDetails.baseData.familyName
-                    }}
+                  <h1 class="text-center" style="white-space: nowrap" v-else-if="$route.params.id && getUserDetails && getUserDetails.baseData">
+                    {{getUserDetails.baseData.name + " " + getUserDetails.baseData.familyName }}
                   </h1>
-                  <p style="color: #9c9c9c;">
-                    خانواده , غذا , فشن , برای همیشه
-                    <nuxt-link class="px-2 text-decoration-none" to="#">ویرایش</nuxt-link>
+                  <p v-if="!$route.params.id" style="color: #9c9c9c;">
+                    {{$auth.user.userInfo.userSetting.bio }}
+<!--                    <nuxt-link class="px-2 text-decoration-none" to="/social/accountsetting/editprofilebasic">ویرایش</nuxt-link>-->
+                  </p>
+                  <p  v-else-if="$route.params.id && getUserDetails && getUserDetails.baseData">
+                    {{getUserDetails.userInfo.userSetting.bio }}
                   </p>
 
                 </div>
@@ -87,36 +82,69 @@
             </div>
             <div class="col-lg-3 col-12 mb-3 d-flex align-items-end justify-content-center gap-2 text-white row">
               <div class="add-btn">
-                <a
-                  style="cursor: pointer"
-                  v-if="$auth.user.followButton"
+                <buttton
                   @click="Follow"
+                  class="p-1 tw-rounded-lg"
+                  style="cursor: pointer;background-color: #2563eb;"
+                  v-if="$route.params.id && getUserDetails && getUserDetails.followButton"
                 >
                   دنبال کردن
-                </a>
+                </buttton>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <ul class="nav nav-pills align-items-end profile_tabs" id="pills-tab" role="tablist">
+      <ul class="nav nav-pills align-items-end profile_tabs tw-overflow-x-auto" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-          <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
-                  type="button" role="tab" aria-controls="pills-home" aria-selected="true">پست ها
+          <button class="nav-link active" id="services-tab" data-bs-toggle="pill" data-bs-target="#services"
+                  type="button" role="tab" aria-controls="services" aria-selected="true">
+            <span v-if="!$route.params.id">خدمات من</span>
+            <span v-else-if="$route.params.id && getUserDetails && getUserDetails.baseData">خدمات</span>
+
+
+          </button>
+        </li>
+        <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
+          <button class="nav-link" id="posts-home-tab" data-bs-toggle="pill" data-bs-target="#posts-home"
+                  type="button" role="tab" aria-controls="posts-home" aria-selected="true">
+            <span v-if="!$route.params.id">پست های من</span>
+            <span v-else-if="$route.params.id && getUserDetails && getUserDetails.baseData">پست ها</span>
+
           </button>
         </li>
         <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
           <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
                   type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
-            دوستان
-            <span class="follower_count">
-                    {{ $auth.user.baseData.followersCount }}
-                  </span>
+            <span v-if="!$route.params.id">
+               دوستان من
+                <span class="follower_count">
+              {{ $auth.user.baseData.followersCount }}
+                </span>
+            </span>
+            <span v-else-if="$route.params.id && getUserDetails && getUserDetails.baseData">
+               دوستان
+              <span class="follower_count">
+                {{getUserDetails.baseData.followersCount }}
+              </span>
+            </span>
           </button>
         </li>
         <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
           <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact"
-                  type="button" role="tab" aria-controls="pills-contact" aria-selected="false">تصاویر
+                  type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
+            <span v-if="!$route.params.id">
+              گالری من
+            </span>
+            <span v-else>
+              گالری
+            </span>
+          </button>
+        </li>
+        <li v-if="!$route.params.id" class="nav-item" role="presentation m-0" style="margin: 0 !important;">
+          <button class="nav-link" id="pills-edit-info-tab" data-bs-toggle="pill" data-bs-target="#pills-edit-info"
+                  type="button" role="tab" aria-controls="pills-edit-info" aria-selected="false">
+            ویرایش اطلاعات
           </button>
         </li>
       </ul>
@@ -139,23 +167,6 @@ export default {
       default: false,
     },
   },
-  async Follow() {
-    try {
-      const response =
-        await this.$repositories.createAFollowRequest.createAFollowRequest(
-          this.$route.params.id
-        );
-      if (response.data) {
-        this.$toast.success("درخواست دوستی شما ارسال شد");
-      } else {
-        this.$toast.error("عملیات قابل اجرا نیست");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  },
-
-
   computed: {
     InlineBg() {
       // const base = this.BaseUrl;
@@ -199,8 +210,6 @@ export default {
       return process.env.pic;
     },
     ...mapGetters("userDetails", ["getUserDetails"])
-
-
   },
   methods: {
     callInputMethod() {
@@ -269,6 +278,22 @@ export default {
         }
       }, 1000);
     },
+    async Follow() {
+      try {
+        const response =
+          await this.$repositories.createAFollowRequest.createAFollowRequest(
+            this.$route.params.id
+          );
+        if (response.data) {
+          this.$toast.success("درخواست دوستی شما ارسال شد");
+        } else {
+          this.$toast.error("عملیات قابل اجرا نیست");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
 
 
   }
@@ -277,22 +302,22 @@ export default {
 </script>
 
 <style scoped>
-.nav-link {
-  font-weight: 500;
-  color: #8c8d90 !important;
-  font-weight: 500;
-  padding: 5px 9px 15px;
-  border-bottom: 3px solid transparent;
+@media (max-width: 375px) {
+  .profile_section{
+    top: 80px;
+  }
+}
+@media (min-width: 376px) and (max-width: 768px) {
+  .profile_section{
+    top: 125px;
+  }
+}
+@media (min-width: 769px) {
+  .profile_section{
+    top: 135px;
+  }
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #0d6efd;
-  background-color: transparent;
-  font-weight: 500;
-  border-bottom: 3px solid #0d6efd;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
 
 .header_in_add_post {
   border-radius: 0 !important;
