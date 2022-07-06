@@ -44,6 +44,19 @@ namespace BanooClub.Controllers
 
         }
 
+        [HttpPost("BirthDateList")]
+        public async Task<IActionResult> BirthDateList()
+        {
+           
+            var result = await _accountManagerService.BirthDateList();
+
+            if (result.IsSuccess)
+                return Ok(result.Data);
+
+            return BadRequest(result.ErrorMessage);
+
+        }
+
         [HttpPost("SignIn")]
         public async Task<IActionResult> SignIn(UserSignDTO model)
         {

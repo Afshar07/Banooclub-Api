@@ -60,5 +60,13 @@ namespace BanooClub.Controllers
         {
             return await servicePackService.GetMyServices(pageNumber, count, searchCommand);
         }
+
+        [HttpPost]
+        [Route("[action]"), AllowAnonymous]
+        public async Task<object> GetUserServices(int pageNumber, int count, string searchCommand,long userId)
+        {
+            return await servicePackService.GetUserServices(pageNumber, count, searchCommand,userId);
+        }
+
     }
 }

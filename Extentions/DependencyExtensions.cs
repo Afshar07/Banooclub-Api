@@ -72,6 +72,7 @@ using BanooClub.Services.RatingServices;
 using BanooClub.Services.ViewServices;
 using BanooClub.Services.TagServices;
 using BanooClub.Services.WalletServices;
+using BanooClub.Services.CommentLikeServices;
 
 namespace BanooClub.Extensions
 {
@@ -149,6 +150,8 @@ namespace BanooClub.Extensions
             services.AddScoped<IBanooClubEFRepository<View>,BanooClubEfRepository<View>>();
             services.AddScoped<IBanooClubEFRepository<Tag>,BanooClubEfRepository<Tag>>();
             services.AddScoped<IBanooClubEFRepository<Wallet>,BanooClubEfRepository<Wallet>>();
+            services.AddScoped<IBanooClubEFRepository<CommentLike>, BanooClubEfRepository<CommentLike>>();
+            
 
         }
 
@@ -221,6 +224,7 @@ namespace BanooClub.Extensions
             services.AddTransient<IViewService, ViewService>();
             services.AddTransient<ITagService, TagService>();
             services.AddTransient<IWalletService, WalletService>();
+            services.AddTransient<ICommentLikeService, CommentLikeService>();
 
 
             services.AddTransient(typeof(IGenerateJwtService), typeof(GenerateJwtService));

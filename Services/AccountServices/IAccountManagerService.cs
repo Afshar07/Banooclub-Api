@@ -22,5 +22,6 @@ namespace BanooClub.Services.AccountServices
         Task<bool> CheckUserName(string userName);
         Task<IServiceResult> RemoveUser(long userId);
         Task<IServiceResult<object>> ForgotPassword(AuthTypes type, string PhoneOrEmail);
+        Task<IServiceResult<object>> BirthDateList();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace BanooClub.Models
@@ -18,6 +19,7 @@ namespace BanooClub.Models
         public long? ServiceCategoryId { get; set; }
         public string UserCode { get; set; }
         public string IntroducerCode { get; set; }
+        public DateTime? BirthDate { get; set; }
 
         [NotMapped]
         public int FollowersCount { get; set; }
@@ -49,6 +51,8 @@ namespace BanooClub.Models
         public long UserRole { get; set; }
         public long? ServiceCategoryId { get; set; }
         public string IntroducerCode { get; set; }
+        public DateTime? BirthDate { get; set; }
+
     }
     public class UserAndUserSetting
     {

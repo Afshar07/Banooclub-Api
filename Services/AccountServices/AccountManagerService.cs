@@ -249,7 +249,7 @@ namespace BanooClub.Services.AccountServices
         #endregion
 
         #region SignUp
-        public async Task<IServiceResult<object>> SignUpWithMobileAndMail(string firstname, string lastName, string mobile, string email, string code, long signUpType, string password,string userName,long UserRole,long? ServiceCategoryId,string IntroducerCode)
+        public async Task<IServiceResult<object>> SignUpWithMobileAndMail(System.DateTime? BirthDate, string firstname, string lastName, string mobile, string email, string code, long signUpType, string password,string userName,long UserRole,long? ServiceCategoryId,string IntroducerCode)
         {
             if (UserRole ==2)
             {
@@ -346,8 +346,8 @@ namespace BanooClub.Services.AccountServices
                         var cmd = "BEGIN TRANSACTION [Tran1]" +
                             "BEGIN TRY" +
                             " declare @LASTID bigint" +
-                            " INSERT INTO[User].Users(Mobile, Name, Type, FamilyName, Email, IsDeleted, Password, Status,FormalId,UserName,ServiceCategoryId,UserCode,IntroducerCode)" +
-                            $" VALUES('{mobile}', N'{firstname}', {UserRole}, N'{lastName}', '{email}', 0, '{password}', 1,0,N'{userName}',{ServiceCatId},N'{UserCode}',N'{IntroducerCode}')" +
+                            " INSERT INTO[User].Users(Mobile, Name, Type, FamilyName, Email, IsDeleted, Password, Status,FormalId,UserName,ServiceCategoryId,UserCode,IntroducerCode,BirthDate)" +
+                            $" VALUES('{mobile}', N'{firstname}', {UserRole}, N'{lastName}', '{email}', 0, '{password}', 1,0,N'{userName}',{ServiceCatId},N'{UserCode}',N'{IntroducerCode}','{BirthDate}')" +
                             " SET @LASTID = SCOPE_IDENTITY()" +
                             " INSERT INTO[User].UserSettings(ActiveRoomate,IsPrivateActivity, VideoIdentityStatus, IsPrivateRoomate, IsPrivateAds, IsPrivateSocial, Flag, Bio, Gender, IsDeleted, BirthDate, UserTag, UserId ,LawyerCertificateStatus,NewspaperStatus )" +
                             "  VALUES(0,0,1, 0, 0, 0, '', '', 0, 0, GETDATE(), '', @LASTID , 4 , 4)" +
@@ -456,10 +456,10 @@ namespace BanooClub.Services.AccountServices
                 switch (model.Type)
                 {
                     case (int)AuthTypes.Mobile:
-                        var mobileResult = await SignUpWithMobileAndMail(model.FirstName, model.LastName, model.Mobile, model.Mail, model.VerifyCode, model.Type, model.Password, model.UserName,model.UserRole,model.ServiceCategoryId,model.IntroducerCode);
+                        var mobileResult = await SignUpWithMobileAndMail(model.BirthDate, model.FirstName, model.LastName, model.Mobile, model.Mail, model.VerifyCode, model.Type, model.Password, model.UserName,model.UserRole,model.ServiceCategoryId,model.IntroducerCode);
                         return new ServiceResult<object>().Ok(mobileResult.Data);
                     case (int)AuthTypes.Email:
-                        var mailResult = await SignUpWithMobileAndMail(model.FirstName, model.LastName, model.Mobile, model.Mail, model.VerifyCode, model.Type, model.Password, model.UserName,model.UserRole, model.ServiceCategoryId, model.IntroducerCode);
+                        var mailResult = await SignUpWithMobileAndMail(model.BirthDate, model.FirstName, model.LastName, model.Mobile, model.Mail, model.VerifyCode, model.Type, model.Password, model.UserName,model.UserRole, model.ServiceCategoryId, model.IntroducerCode);
                         return new ServiceResult<object>().Ok(mailResult.Data);
                     case (int)AuthTypes.WithoutPassword:
                         var result = await SignUpWithoutCode(model.FirstName, model.LastName, model.EncryptedMail);
@@ -476,7 +476,7 @@ namespace BanooClub.Services.AccountServices
 
         public async Task<bool> CheckUserName(string userName)
         {
-            var cacheKey = "UserNames";
+            var cacheKey = "BanooClubUserName";
             string serializedCustomerList;
             var userNames = new List<string>();
             var UserNameList = await distributedCache.GetAsync(cacheKey);
@@ -576,6 +576,7 @@ namespace BanooClub.Services.AccountServices
                 return new ServiceResult().Failure("something went wrong !!!");
             }
             
+
         }
         public async Task<IServiceResult<object>> SendConfirmationCode(string phoneNumber)
         {
@@ -616,7 +617,7 @@ namespace BanooClub.Services.AccountServices
         }
         public async Task<IServiceResult<object>> SendConfirmationCodeToEmail(string Email)
         {
-            var hasUser = (await _userRepository.GetQuery().Where(u => u.Mobile.Equals(Email)).AnyAsync()) ? 1 : 0;
+            var hasUser = (await _userRepository.GetQuery().Where(u => u.Email.ToUpper().Equals(Email.ToUpper())).AnyAsync()) ? 1 : 0;
             if (await _cache.GetAsync(Email) is null)
             {
                 try
@@ -748,5 +749,18 @@ namespace BanooClub.Services.AccountServices
                 return randomStr;
             }
         }
+
+        public async Task<IServiceResult<object>> BirthDateList()
+        {
+            var result = _userRepository.GetQuery().Where(x => x.BirthDate.Value.Day == System.DateTime.Now.Day && x.BirthDate.Value.Month==System.DateTime.Now.Month).ToList();
+            var Obj = new
+            {
+                Data = result
+            };
+            return new ServiceResult<object>().Ok(Obj);
+
+        }
+
+        
     }
 }

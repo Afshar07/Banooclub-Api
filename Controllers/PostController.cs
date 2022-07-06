@@ -10,7 +10,7 @@ namespace BanooClub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class PostController : ControllerBase
     {
         private readonly BanooClubDBContext context;
@@ -30,10 +30,12 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<long> Update(string content, long postId)
+        public async Task<long> Update([FromBody] Post inputDto)
         {
-            var result = await this.postService.UpdateByCmd(content, postId);
+            var result = await this.postService.UpdateByCmd(inputDto.Title,inputDto.Description, inputDto.PostId,inputDto.Status);
             return result;
+
+           
         }
 
         [HttpPost]
@@ -68,12 +70,12 @@ namespace BanooClub.Controllers
         //    await postService.Delete(id);
         //}
 
-        [HttpPost]
-        [Route("[action]")]
-        public async Task<List<PostDTO>> GetFollowingPosts()
-        {
-            return await postService.GetFollowingPosts();
-        }
+        //[HttpPost]
+        //[Route("[action]")]
+        //public async Task<List<PostDTO>> GetFollowingPosts()
+        //{
+        //    return await postService.GetFollowingPosts();
+        //}
 
         [HttpPost]
         [Route("[action]"), Authorize(Roles = "Admin")]

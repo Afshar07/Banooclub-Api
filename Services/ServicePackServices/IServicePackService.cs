@@ -11,5 +11,6 @@ namespace BanooClub.Services.ServicePackServices
         Task<object> GetMyServices(int pageNumber, int count, string searchCommand);
         Task<bool> Delete(long id);
         Task<ServicePack> Get(long id);
+        Task<object> GetUserServices(int pageNumber, int count, string searchCommand, long userId);
     }
 }
