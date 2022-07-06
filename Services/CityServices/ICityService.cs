@@ -6,8 +6,7 @@ namespace BanooClub.Services.CityServices
 {
     public interface ICityService
     {
-        Task<List<City>> GetCitiesWithRedis();
         object GetCities(int pageNumber, int count);
-        object GetCitiesByCountryId(int pageNumber, int count, long countryId);
+        object GetCitiesByStateId(int pageNumber, int count, long stateId);
     }
 }

@@ -19,13 +19,6 @@ namespace BanooClub.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public Task<List<City>> GetCitiesWithRedis()
-        {
-            return cityService.GetCitiesWithRedis();
-        }
-
-        [HttpGet]
-        [Route("[action]")]
         public object GetCities(int pageNumber, int count)
         {
             return cityService.GetCities(pageNumber, count);
@@ -33,9 +26,9 @@ namespace BanooClub.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public object GetCitiesByCountryId(int pageNumber, int count,long countryId)
+        public object GetCitiesByStateId(int pageNumber, int count, long stateId)
         {
-            return cityService.GetCitiesByCountryId(pageNumber, count,countryId);
+            return cityService.GetCitiesByStateId(pageNumber, count, stateId);
         }
     }
 }

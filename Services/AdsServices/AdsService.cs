@@ -24,8 +24,9 @@ namespace BanooClub.Services.AdsServices
         private readonly IBanooClubEFRepository<UserSetting> userSettingRepository;
         private readonly IBanooClubEFRepository<Following> followingRepository;
         private readonly IBanooClubEFRepository<Activity> _activityRepository;
+        private readonly IBanooClubEFRepository<State> _stateRepository;
+        private readonly IBanooClubEFRepository<City> _cityRepository;
         private readonly ICityService cityService;
-        private readonly ICNTRYService CNTRYService;
         private readonly ISocialMediaService _mediaService;
         private readonly IHttpContextAccessor _accessor;
         private readonly IUserService userService;
@@ -35,9 +36,11 @@ namespace BanooClub.Services.AdsServices
             , IBanooClubEFRepository<Activity> activityRepoository
             , ISocialMediaService mediaService
             , IBanooClubEFRepository<SocialMedia> mediaRepository
+            , IBanooClubEFRepository<City> cityRepository
             , IBanooClubEFRepository<UserSetting> userSettingRepository
             , IBanooClubEFRepository<Following> followingRepository
             , ICountryService countryService
+            , IBanooClubEFRepository<State> stateRepository
             , IBanooClubEFRepository<AdsCategory> adsCategoryRepository
             , IHttpContextAccessor accessor
             , ICityService cityService
@@ -55,7 +58,8 @@ namespace BanooClub.Services.AdsServices
             this.adsCategoryRepository=adsCategoryRepository;
             this.countryService=countryService;
             this.cityService=cityService;
-            this.CNTRYService =CNTRYService;
+            _stateRepository =stateRepository;
+            _cityRepository = cityRepository;
         }
         public async Task Create(Ads inputDto)
         {
@@ -165,7 +169,6 @@ namespace BanooClub.Services.AdsServices
         }
         public async Task<object> GetAll(int pageNumber, int count, string search)
         {
-            var dbCountries = await CNTRYService.GetCNTRIESWithRedis();
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && (z.Title.Contains(search) || z.Description.Contains(search))).
                 OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
@@ -187,8 +190,10 @@ namespace BanooClub.Services.AdsServices
                 }
                 ad.UserInfo=userService.Get(ad.UserId);
                 ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
-
-                ad.Country = dbCountries.FirstOrDefault(z => z.CountryId==ad.CountryId) == null ? null : dbCountries.FirstOrDefault(z => z.CountryId==ad.CountryId).Name;
+                var dbState = _stateRepository.GetQuery().FirstOrDefault(z => z.StateId == ad.StateId);
+                ad.State = dbState == null ? "" : dbState.Name;
+                var dbCity = _cityRepository.GetQuery().FirstOrDefault(z => z.CityId == ad.CityId);
+                ad.City = dbCity == null ? "" : dbCity.Name;
             }
             var obj = new
             {
@@ -215,7 +220,6 @@ namespace BanooClub.Services.AdsServices
         }
         public async Task<Ads> Get(long id)
         {
-            var dbCountries = await CNTRYService.GetCNTRIESWithRedis();
             var ad = adsRepository.GetQuery().FirstOrDefault(z => z.AdsId == id);
             ad.Photos = new List<FileData>();
             var dbPhotos = _mediaRepository.GetQuery().Where(z => z.ObjectId == ad.AdsId && z.Type == MediaTypes.AdsPhoto).ToList();
@@ -233,14 +237,16 @@ namespace BanooClub.Services.AdsServices
                     }
                 }
             }
-            ad.Country= dbCountries.FirstOrDefault(z => z.CountryId==ad.CountryId) == null ? null : dbCountries.FirstOrDefault(z => z.CountryId==ad.CountryId).Name;
+            var dbState = _stateRepository.GetQuery().FirstOrDefault(z=>z.StateId == ad.StateId);
+            ad.State = dbState == null ? "" : dbState.Name;
+            var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
+            ad.City = dbCity == null ? "" : dbCity.Name;
             ad.UserInfo = userService.Get(ad.UserId);
             ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
             return ad;
         }
         public async Task<object> GetMyAds(int pageNumber, int count)
         {
-            var dbCountries = await CNTRYService.GetCNTRIESWithRedis();
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
@@ -266,7 +272,10 @@ namespace BanooClub.Services.AdsServices
                     }
                 }
 
-                ad.Country= dbCountries.FirstOrDefault(z => z.CountryId==ad.CountryId) == null ? null: dbCountries.FirstOrDefault(z => z.CountryId==ad.CountryId).Name;
+                var dbState = _stateRepository.GetQuery().FirstOrDefault(z => z.StateId == ad.StateId);
+                ad.State = dbState == null ? "" : dbState.Name;
+                var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
+                ad.City = dbCity == null ? "" : dbCity.Name;
             }
             var obj = new
             {
@@ -277,7 +286,6 @@ namespace BanooClub.Services.AdsServices
         }
         public async Task<object> GetByUserId(long userId, int pageNumber, int count)
         {
-            var dbCountries = await CNTRYService.GetCNTRIESWithRedis();
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.UserId == userId && z.Status == (int)AdsStatus.Published).
                 OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
@@ -300,7 +308,10 @@ namespace BanooClub.Services.AdsServices
                 }
                 ad.UserInfo = userService.Get(userId);
                 ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
-                ad.Country=dbCountries.FirstOrDefault(z => z.CountryId==ad.CountryId) == null ? null : dbCountries.FirstOrDefault(z => z.CountryId==ad.CountryId).Name;
+                var dbState = _stateRepository.GetQuery().FirstOrDefault(z => z.StateId == ad.StateId);
+                ad.State = dbState == null ? "" : dbState.Name;
+                var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
+                ad.City = dbCity == null ? "" : dbCity.Name;
             }
 
             var MYselfId = _accessor.HttpContext.User.Identity.IsAuthenticated
@@ -368,7 +379,6 @@ namespace BanooClub.Services.AdsServices
         }
         public async Task<object> GetNotConfirmed(int pageNumber, int count, string search)
         {
-            var dbCountries = await CNTRYService.GetCNTRIESWithRedis();
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.NotConfirmed && (z.Title.Contains(search) || z.Description.Contains(search))).
                 OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
@@ -390,7 +400,11 @@ namespace BanooClub.Services.AdsServices
                     }
                 }
                 ad.UserInfo = userService.Get(ad.UserId);
-                ad.Country = dbCountries.FirstOrDefault(z => z.CountryId==ad.CountryId) == null ? null : dbCountries.FirstOrDefault(z => z.CountryId==ad.CountryId).Name;
+                var dbState = _stateRepository.GetQuery().FirstOrDefault(z => z.StateId == ad.StateId);
+                ad.State = dbState == null ? "" : dbState.Name;
+                var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
+                ad.City = dbCity == null ? "" : dbCity.Name;
+
             }
             var obj = new
             {
@@ -401,7 +415,6 @@ namespace BanooClub.Services.AdsServices
         }
         public async Task<object> GetRejected(int pageNumber, int count, string search)
         {
-            var dbCountries = await CNTRYService.GetCNTRIESWithRedis();
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Rejected && (z.Title.Contains(search) || z.Description.Contains(search))).
                 OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
@@ -423,7 +436,11 @@ namespace BanooClub.Services.AdsServices
                     }
                 }
                 ad.UserInfo = userService.Get(ad.UserId);
-                ad.Country = dbCountries.FirstOrDefault(z => z.CountryId==ad.CountryId) == null ? null : dbCountries.FirstOrDefault(z => z.CountryId==ad.CountryId).Name;
+                ad.UserInfo = userService.Get(ad.UserId);
+                var dbState = _stateRepository.GetQuery().FirstOrDefault(z => z.StateId == ad.StateId);
+                ad.State = dbState == null ? "" : dbState.Name;
+                var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
+                ad.City = dbCity == null ? "" : dbCity.Name;
             }
             var obj = new
             {
@@ -464,7 +481,6 @@ namespace BanooClub.Services.AdsServices
         }
         public async Task<object> GetAdsByCategory(long categoryId, long firstSearchadsId, int count)
         {
-            var dbCountries = await CNTRYService.GetCNTRIESWithRedis();
             List<Ads> dbAds =new List<Ads>();
             int AdsCount = 0;
             if(categoryId == 0)
@@ -514,7 +530,10 @@ namespace BanooClub.Services.AdsServices
                     }
                 }
                 ad.UserInfo = userService.Get(ad.UserId);
-                ad.Country = dbCountries.FirstOrDefault(z => z.CountryId==ad.CountryId) == null ? null : dbCountries.FirstOrDefault(z => z.CountryId==ad.CountryId).Name;
+                var dbState = _stateRepository.GetQuery().FirstOrDefault(z => z.StateId == ad.StateId);
+                ad.State = dbState == null ? "" : dbState.Name;
+                var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
+                ad.City = dbCity == null ? "" : dbCity.Name;
             }
             var obj = new
             {
@@ -524,13 +543,12 @@ namespace BanooClub.Services.AdsServices
             return obj;
         }
 
-        public async Task<object> GetAdsByFilter(long? priceFrom,long? priceTo,string title, string tag,long? city,long? country,long firstSearchadsId, int count,long? categoryId)
+        public async Task<object> GetAdsByFilter(long? priceFrom,long? priceTo,string title, string tag,long? city,long? state,long firstSearchadsId, int count,long? categoryId)
         {
             tag = tag ==null ? string.Empty : tag;
             title = title ==null ? string.Empty : title;
-            country = country ==null ? 0 : country;
+            state = state ==null ? 0 : state;
             city = city ==null ? 0 : city;
-            var dbCountries = await CNTRYService.GetCNTRIESWithRedis();
             IOrderedQueryable<Ads> dbAds;
             int AdsCount = 0;
             
@@ -546,9 +564,9 @@ namespace BanooClub.Services.AdsServices
             }
             
             var result = dbAds.Where(z => z.Tag.Contains(tag) && z.Title.Contains(title));
-            if (country !=0)
+            if (state !=0)
             {
-                result=result.Where(z=>z.CountryId==country);
+                result=result.Where(z=>z.StateId==state);
             }
             if(city !=0)
             {
@@ -589,7 +607,10 @@ namespace BanooClub.Services.AdsServices
                     }
                 }
                 ad.UserInfo = userService.Get(ad.UserId);
-                ad.Country = dbCountries.FirstOrDefault(z => z.CountryId==ad.CountryId) == null ? null : dbCountries.FirstOrDefault(z => z.CountryId==ad.CountryId).Name;
+                var dbState = _stateRepository.GetQuery().FirstOrDefault(z => z.StateId == ad.StateId);
+                ad.State = dbState == null ? "" : dbState.Name;
+                var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
+                ad.City = dbCity == null ? "" : dbCity.Name;
             }
             var obj = new
             {

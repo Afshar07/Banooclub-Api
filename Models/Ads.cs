@@ -21,11 +21,11 @@ namespace BanooClub.Models
         public string Tag { get; set; }
         public int Condition { get; set; }
         public long CityId { get; set; }
-        public long CountryId { get; set; }
+        public long StateId { get; set; }
         [NotMapped]
         public string City { get; set; }
         [NotMapped]
-        public string Country { get; set; }
+        public string State { get; set; }
 
         [NotMapped]
         public List<FileData> Photos { get; set; }

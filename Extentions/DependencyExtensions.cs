@@ -73,6 +73,7 @@ using BanooClub.Services.ViewServices;
 using BanooClub.Services.TagServices;
 using BanooClub.Services.WalletServices;
 using BanooClub.Services.CommentLikeServices;
+using BanooClub.Services.StateServices;
 
 namespace BanooClub.Extensions
 {
@@ -138,6 +139,7 @@ namespace BanooClub.Extensions
             services.AddScoped<IBanooClubEFRepository<City>, BanooClubEfRepository<City>>();
             services.AddScoped<IBanooClubEFRepository<CNTRY>, BanooClubEfRepository<CNTRY>>();
             services.AddTransient<IBanooClubEFRepository<Ticket>, BanooClubEfRepository<Ticket>>();
+            services.AddTransient<IBanooClubEFRepository<State>, BanooClubEfRepository<State>>();
 
             services.AddScoped<IBanooClubEFRepository<ServicePack>,BanooClubEfRepository<ServicePack>>();
             services.AddScoped<IBanooClubEFRepository<ServiceComment>,BanooClubEfRepository<ServiceComment>>();
@@ -212,6 +214,7 @@ namespace BanooClub.Extensions
             services.AddTransient<ICommonService, CommonService>();
             services.AddTransient<ICityService, CityService>();
             services.AddTransient<ICNTRYService, CNTRYService>();
+            services.AddTransient<IStateService, StateService>();
 
             services.AddTransient<IServicePackService, ServicePackService>();
             services.AddTransient<IServiceCommentService, ServiceCommentService>();

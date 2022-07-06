@@ -63,6 +63,7 @@ namespace Infrastructure
         public DbSet<MessageRecipient> MessageRecipients { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<State> States { get; set; }
         public DbSet<CNTRY> CNTRIES { get; set; }
 
         public DbSet<ServicePack> ServicePacks { get; set; }
@@ -136,6 +137,7 @@ namespace Infrastructure
             modelbuilder.Entity<Message>().ToTable("Messages", "Social").HasKey(z => z.MessageId);
             modelbuilder.Entity<MessageRecipient>().ToTable("MessageRecipients", "Social").HasKey(z => z.MessageRecipientId);
             modelbuilder.Entity<City>().ToTable("Cities", "dbo").HasKey(z => z.CityId);
+            modelbuilder.Entity<State>().ToTable("States", "dbo").HasKey(z => z.StateId);
             modelbuilder.Entity<CNTRY>().ToTable("CNTRIES", "dbo").HasKey(z => z.CountryId);
             modelbuilder.Entity<Object>().HasNoKey();
             modelbuilder.Entity<PostDTO>().HasNoKey();
