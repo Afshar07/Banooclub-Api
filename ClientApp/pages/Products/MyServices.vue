@@ -3,7 +3,7 @@
     <h1 class="tw-text-2xl tw-font-semibold">خدمات من</h1>
     <div class="row py-3">
       <div class="d-flex flex-row flex-wrap">
-        <ProductItem class="mx-1 my-3" v-for="service in my_services" :service_details="service" :category_details="categories"/>
+        <ProductItem class="mx-1 my-3" v-for="service in my_services" :service_details="service" :show_buttons="true"/>
       </div>
     </div>
   </div>
@@ -17,7 +17,7 @@ import ProductItem from "../../components/Products/ProductItem";
 
 export default {
   name: "MyServices",
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   components: {
     ProductItem,
   },

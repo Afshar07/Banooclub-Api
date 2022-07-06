@@ -159,6 +159,19 @@
 <!--            </nuxt-link>-->
           </div>
         </div>
+
+        <div class="col-md-12 d-flex align-items-start gap-1 ">
+
+          <button
+            @click="sendOtpCode"
+            type="button"
+            class="mb-3 tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full"
+          >
+            ارسال مجدد کد
+          </button>
+
+        </div>
+
 <!--        <div class="col-md-12 d-flex align-items-center gap-2">-->
 <!--          <client-only>-->
 <!--            <div v-if="!CodeSent" >-->
@@ -192,7 +205,9 @@
             @click="sendSignUpRequest"
             :disabled="isButtonDisabled"
             type="button"
-            class="tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full"
+            class="tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md
+            tw-text-center tw-text-white tw-w-full"
+            :class="[isButtonDisabled?'disable_button':'']"
           >
             ثبت نام
           </button>
@@ -242,7 +257,7 @@
 import SelectUserType from "./SelectUserType.vue";
 export default {
   emits: ["getUserRole", "getSignUpPayload","close_register_modal"],
-  props:['counterNumber'],
+  props:['counterNumber','set_reg_type','code_field'],
   components: {
     SelectUserType,
   },
@@ -289,7 +304,7 @@ export default {
   methods: {
     sendOtpCode() {
       // Handle both otp codes here
-      if (this.registerType == 1) {
+      if (this.set_reg_type == 1) {
         this.sendMobileOtpCode();
       } else {
         this.sendEmailOtpCode();
@@ -299,11 +314,11 @@ export default {
       try {
         this.$nuxt.$loading.start();
 
-        if (!this.captcha) {
-          this.$toast.error("لطفا کپچا را تکمیل کنید");
-        } else {
+        // if (!this.captcha) {
+        //   this.$toast.error("لطفا کپچا را تکمیل کنید");
+        // } else {
           const response =
-            await this.$repositories.sendOtpToEmail.sendOtpToEmail(this.mail);
+            await this.$repositories.sendOtpToEmail.sendOtpToEmail(this.code_field);
           if (response.data.message === "Confirmation code has not expired") {
             this.$toast.error("کد تایید منقضی نشده است");
           } else if (response.data.hasUser === 1) {
@@ -311,10 +326,9 @@ export default {
           } else {
             this.$toast.success("کد تایید برای شما ارسال شد");
             this.$emit("OtpSent");
-            this.$emit("getMail", this.mail);
+            this.$emit("getMail", this.code_field);
             // this.Time = new Date().getTime() + 250000;
           }
-        }
       } catch (error) {
         console.log(error);
       } finally {
@@ -325,14 +339,12 @@ export default {
       try {
         this.$nuxt.$loading.start();
 
-        if (this.mobile.length < 11) {
-          this.$toast.error("شماره موبایل وارد شده معتبر نیست");
-        } else if (!this.captcha) {
-          this.$toast.error("لطفا کپچا را تکمیل کنید");
-        } else {
+        // if (this.mobile.length < 11) {
+        //   this.$toast.error("شماره موبایل وارد شده معتبر نیست");
+        // }  else {
           const response =
             await this.$repositories.sendOtpToMobile.sendOtpToMobile(
-              this.mobile
+              this.code_field
             );
           if (response.data.message === "Confirmation code has not expired") {
             this.$toast.error("کد تایید منقضی نشده است");
@@ -343,11 +355,11 @@ export default {
           } else {
             this.$toast.success("کد تایید برای شما ارسال شد");
             this.$emit("OtpSent");
-            this.$emit("getNumber", this.mobile);
+            this.$emit("getNumber", this.code_field);
 
             // this.Time = new Date().getTime() + 250000;
           }
-        }
+        // }
       } catch (error) {
         console.log(error);
       } finally {
@@ -435,6 +447,9 @@ export default {
 </script>
 
 <style scoped>
+.disable_button{
+  background-color: #0000ff4d;
+}
 .SignupForm {
   height: 0px;
   overflow-y: scroll;

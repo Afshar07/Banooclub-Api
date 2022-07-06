@@ -42,7 +42,7 @@ import ForumMainItem from "../../components/Forums/ForumMainItem";
 
 export default {
   name: "MyForums",
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   components: {ForumMainItem},
 
   head(){

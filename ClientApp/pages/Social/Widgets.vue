@@ -24,7 +24,7 @@ import RecentVideos from "../../components/RecentVideos";
 export default {
   name: "Widgets",
   components: {RecentVideos, EditInformation, Friends, LastActivity, ShortProfile},
-  layout: 'BanooClubLayout',
+  layout: 'PoshtebamPlusLayout',
   methods: {
     showSidePanel(videoId) {
       this.$parent.$emit('SideNavPictureVideo', 'video', videoId)

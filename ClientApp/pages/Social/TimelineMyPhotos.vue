@@ -66,7 +66,7 @@
             <div class="position-relative">
               <a href="#offcanvasExampleeee" data-bs-toggle="offcanvas">
                 <img
-                  :src="`https://BanooClubapi.simagar.com/${item}`"
+                  :src="`https://pplusapi.simagar.com/${item}`"
                   style="object-fit: cover;object-position: center; width: 200px;height: 250px"
                   class="rounded "
                   alt=""
@@ -150,7 +150,7 @@ export default {
       },
     };
   },
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
 
   computed: {
     BaseUrl() {

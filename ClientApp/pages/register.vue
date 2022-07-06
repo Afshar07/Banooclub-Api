@@ -8,7 +8,7 @@
           ثبت نام
         </h2>
         <p class="log-title-text" :class="{ TextWhite: userType !== 0 }">
-          از بانو کلاب پلاس استفاده میکنید ؟
+          از بانو کلاب استفاده میکنید ؟
           <nuxt-link
             to="/register"
             href="#"

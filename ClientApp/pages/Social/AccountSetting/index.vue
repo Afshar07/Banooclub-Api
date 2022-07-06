@@ -139,7 +139,7 @@
 <script>
 export default {
   name: "index",
-  layout: 'BanooClubLayout',
+  layout: 'PoshtebamPlusLayout',
   mounted() {
     this.$nextTick(() => {
       this.$nuxt.$loading.finish();

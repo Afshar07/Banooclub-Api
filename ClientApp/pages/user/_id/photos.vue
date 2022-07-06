@@ -136,7 +136,7 @@ export default {
       },
     };
   },
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   mounted() {
     this.GetMyPhotos();
   },

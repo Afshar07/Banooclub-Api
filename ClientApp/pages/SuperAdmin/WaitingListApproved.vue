@@ -15,7 +15,7 @@
                   <div>تصویر کارت ملی :</div>
                   <div class="w-100">
                     <img class="img-fluid"
-                         :src="`https://BanooClubapi.simagar.com/${approvedPost.kartMelliImage}`"/>
+                         :src="`https://pplusapi.simagar.com/${approvedPost.kartMelliImage}`"/>
                   </div>
                 </div>
               </div>
@@ -24,7 +24,7 @@
                   <div>تصویر پاسپورت :</div>
                   <div class="w-100">
                     <img class="img-fluid"
-                         :src="`https://BanooClubapi.simagar.com/${approvedPost.passportImage}`"/>
+                         :src="`https://pplusapi.simagar.com/${approvedPost.passportImage}`"/>
                   </div>
                 </div>
               </div>
@@ -124,9 +124,9 @@
               <tr v-for="row in NotConfirmed">
                 <td>
                   <img v-if="row.kartMelliImage!==null" class="mx-1 smallPicture"
-                       :src="`https://BanooClubapi.simagar.com/${row.kartMelliImage}`"/>
+                       :src="`https://pplusapi.simagar.com/${row.kartMelliImage}`"/>
                   <img v-if="row.passportImage!==null" class="mx-1 smallPicture"
-                       :src="`https://BanooClubapi.simagar.com/${row.passportImage}`"/>
+                       :src="`https://pplusapi.simagar.com/${row.passportImage}`"/>
                 </td>
                 <!--                <td>{{ row.roomateDocId }}</td>-->
                 <td>{{ row.userInfo.name + '' + row.userInfo.familyName }}</td>
@@ -183,7 +183,7 @@
                           <div>تصویر کارت ملی :</div>
                           <div class="w-100">
                             <img class="img-fluid"
-                                 :src="`https://BanooClubapi.simagar.com/${approvedPost.kartMelliImage}`"/>
+                                 :src="`https://pplusapi.simagar.com/${approvedPost.kartMelliImage}`"/>
                           </div>
                         </div>
                       </div>
@@ -192,7 +192,7 @@
                           <div>تصویر پاسپورت :</div>
                           <div class="w-100">
                             <img class="img-fluid"
-                                 :src="`https://BanooClubapi.simagar.com/${approvedPost.passportImage}`"/>
+                                 :src="`https://pplusapi.simagar.com/${approvedPost.passportImage}`"/>
                           </div>
                         </div>
                       </div>
@@ -229,7 +229,7 @@
                           <div>تصویر کارت ملی :</div>
                           <div class="w-100">
                             <img class="img-fluid"
-                                 :src="`https://BanooClubapi.simagar.com/${approvedPost.kartMelliImage}`"/>
+                                 :src="`https://pplusapi.simagar.com/${approvedPost.kartMelliImage}`"/>
                           </div>
                         </div>
                       </div>
@@ -238,7 +238,7 @@
                           <div>تصویر پاسپورت :</div>
                           <div class="w-100">
                             <img class="img-fluid"
-                                 :src="`https://BanooClubapi.simagar.com/${approvedPost.passportImage}`"/>
+                                 :src="`https://pplusapi.simagar.com/${approvedPost.passportImage}`"/>
                           </div>
                         </div>
                       </div>
@@ -372,9 +372,9 @@
             <tr v-for="row in rejectedList">
               <td>
                 <img v-if="row.kartMelliImage!==null" class="mx-1" style="width: 20px;height: 20px"
-                     :src="`https://BanooClubapi.simagar.com/${row.kartMelliImage}`"/>
+                     :src="`https://pplusapi.simagar.com/${row.kartMelliImage}`"/>
                 <img v-if="row.passportImage!==null" class="mx-1" style="width: 20px;height: 20px"
-                     :src="`https://BanooClubapi.simagar.com/${row.passportImage}`"/>
+                     :src="`https://pplusapi.simagar.com/${row.passportImage}`"/>
               </td>
               <td>{{ row.userInfo.name + '' + row.userInfo.familyName }}</td>
               <td>{{ row.updatedDate | moment("jYYYY/jM/jD HH:mm") }}</td>
@@ -470,9 +470,9 @@
             <tr v-for="row in NotAprrovedList.filter(m => m.status === 1)">
               <td>
                 <img v-if="row.kartMelliImage!==null" class="mx-1" style="width: 20px;height: 20px"
-                     :src="`https://BanooClubapi.simagar.com/${row.kartMelliImage}`"/>
+                     :src="`https://pplusapi.simagar.com/${row.kartMelliImage}`"/>
                 <img v-if="row.passportImage!==null" class="mx-1" style="width: 20px;height: 20px"
-                     :src="`https://BanooClubapi.simagar.com/${row.passportImage}`"/>
+                     :src="`https://pplusapi.simagar.com/${row.passportImage}`"/>
               </td>
               <td>{{ row.userInfo.name + '' + row.userInfo.familyName }}</td>
               <td>{{ row.updatedDate | moment("jYYYY/jM/jD HH:mm") }}</td>

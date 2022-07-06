@@ -121,7 +121,7 @@
 <script>
 export default {
   name: "Contacts",
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   data() {
     return {
       searchKey: null,

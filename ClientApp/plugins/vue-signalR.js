@@ -2,7 +2,7 @@ import { HubConnectionBuilder, LogLevel } from "@aspnet/signalr";
 
 export default ({ app, store }, inject) => {
   const hub = new HubConnectionBuilder()
-    .withUrl("https://BanooClubapi.simagar.com/chatHub", {
+    .withUrl("https://pplusapi.simagar.com/chatHub", {
       accessTokenFactory: function () {
         console.log("Getting token for hub");
       },

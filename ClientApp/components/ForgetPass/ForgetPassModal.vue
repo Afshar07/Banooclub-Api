@@ -86,13 +86,33 @@ export default {
       else {
         try {
           this.$nuxt.$loading.start();
-          await this.$repositories.forgetPassword.forgetPassword({
+          const response = await this.$repositories.forgetPassword.forgetPassword({
             type:this.forget_type,
             PhoneOrEmail:this.PhoneOrEmail
           })
-          this.$toast.success("رمز عبور با موفقیت ارسال شد");
-          this.$emit('close_modal')
-          this.PhoneOrEmail=''
+          if (response.data.data.status === 3) {
+            this.$toast.error("نام کاربری یا رمز عبور اشتباه است.");
+          } else if (response.data.data.status === 4) {
+            this.$toast.error(
+              "کد ارسال شده منتقضی شده است،لطفا دوباره امتحان کنید."
+            );
+          } else if (response.data.data.status === 5) {
+            this.$toast.error("کد وارد شده اشتباه است.");
+          } else if (response.data.data.status === 6) {
+            this.$toast.error("کاربری با این نام کاربری وجود ندارد.");
+          } else if (response.data.data.status === 7) {
+            this.$toast.success("رمز عبور با موفقیت ارسال شد");
+            this.$emit('close_modal')
+            this.PhoneOrEmail=''
+          } else if (response.data.data.status === 8) {
+            this.$toast.error("قبلا کاربری با این نام کاربری ثبت نام کرده است.");
+          } else if (response.data.data.status === 9) {
+            this.$toast.error("پسورد شما ایمن نیست.");
+          } else if (response.data.data.status === 10) {
+            this.$toast.error("نام کاربری قبلا ثبت نام کرده است.");
+          } else if (response.data.data.status === 11) {
+            this.$toast.error("اکانت شما غیرفعال شده است.");
+          }
         } catch (error) {
           console.error(error);
         } finally {

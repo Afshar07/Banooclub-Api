@@ -60,7 +60,7 @@ import LeftSideBar from "./LeftSideBar";
 import SideNavPictureVideo from "../components/SideNavPictureVideo";
 
 export default {
-  name: "BanooClubLayout",
+  name: "PoshtebamPlusLayout",
 
   components: {
     SideNavPictureVideo,

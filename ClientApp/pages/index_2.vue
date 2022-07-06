@@ -6,7 +6,7 @@
       <div class="log-reg-area position-absolute" dir="rtl">
         <h2 class="log-title">ورود</h2>
         <p class="log-title-text">
-          هنوز از بانو کلاب پلاس استفاده نکرده اید؟
+          هنوز از بانو کلاب استفاده نکرده اید؟
           <nuxt-link to="/" title="">قوانین را بخوانید</nuxt-link>
           یا
           <nuxt-link to="/register" title=""> به اینجا ملحق شوید </nuxt-link>

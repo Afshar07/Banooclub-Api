@@ -243,7 +243,7 @@ import PlusIcon from "../../components/Icons/PlusIcon";
 export default {
   name: "AddProduct",
   components: {PlusIcon, UploadFileIcon},
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   fetchOnServer: false,
   head() {
     return {

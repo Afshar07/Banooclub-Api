@@ -49,7 +49,7 @@
 <script>
 export default {
   name: "EditInterest",
-  layout: 'BanooClubLayout',
+  layout: 'PoshtebamPlusLayout',
   data() {
     return {
       sources: ['دوچرخه', 'سفر', 'عکاسی', 'خرید', 'غذا', 'هتل', 'دوچرخه'],

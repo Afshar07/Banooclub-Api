@@ -19,7 +19,7 @@ import SideBar from "../../layouts/SideBar";
 import ProductDetail from "../../components/Products/PDetails";
 export default {
   name: "PDetails",
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   components:{
     ProductDetail,
     SideBar,

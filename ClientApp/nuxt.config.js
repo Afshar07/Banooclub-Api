@@ -2,18 +2,18 @@ var webpack = require("webpack");
 module.exports = {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: "بانو کلاب ",
+    title: "بانو کلاب",
     htmlAttrs: {
       lang: "fa",
     },
     meta: [
       {charset: "utf-8"},
       {name: "viewport", content: "width=device-width, initial-scale=1"},
-      {hid: "description", name: "description", content: "بانو کلاب "},
+      {hid: "description", name: "description", content: "بانو کلاب"},
       {name: "format-detection", content: "telephone=no"},
     ],
     link: [
-      {rel: "icon", type: "image.png", href: "/fav.png"},
+      {rel: "icon", type: "image.png", href: "/favicon.ico"},
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Oxygen&display=swap",
@@ -208,10 +208,10 @@ module.exports = {
   axios: {
     plugins: ["~/plugins/auth.js"],
     credentials: true,
-    baseURL: "https://BanooClubapi.simagar.com/api/",
+    baseURL: "https://pplusapi.simagar.com/api/",
     // baseURL: 'https://localhost:44330/',
   },
   env: {
-    pic: "https://BanooClubapi.simagar.com/",
+    pic: "https://pplusapi.simagar.com/",
   },
 };

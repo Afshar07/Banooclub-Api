@@ -84,7 +84,7 @@
 <script>
 export default {
   name: "EditWorkEducation",
-  layout: 'BanooClubLayout',
+  layout: 'PoshtebamPlusLayout',
   data() {
     return {
       education: '',

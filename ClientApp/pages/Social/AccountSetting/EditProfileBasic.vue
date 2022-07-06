@@ -267,68 +267,68 @@
               <div v-if="nationalCart !== null && !cart">
                 <img
                   class="img-fluid"
-                  :src="`https://BanooClubapi.simagar.com/${nationalCart}`"
+                  :src="`https://pplusapi.simagar.com/${nationalCart}`"
                 />
               </div>
             </div>
           </div>
-          <div class="row my-3">
-            <div class="col-lg-3 col-md-12">
-              <div class="labelText">ارسال عکس پاسپورت :</div>
-            </div>
-            <div class="col-lg-2 col-md-12">
-              <div
-                class="border rounded text-center justify-content-center align-items-center InputUiBox"
-                @click="callInputMethod2"
-              >
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple="multiple"
-                  class="form-control-file my-file2 d-none"
-                  id="my-file2"
-                  @change="onFileChange2"
-                />
-                <font-awesome-icon icon="plus-square" size="lg" />
-              </div>
-            </div>
-            <div class="col-lg-7 col-md-12">
-              <div id="preview2" v-if="pass">
-                <img class="img-fluid" :src="pass" v-if="passport" />
-              </div>
-              <div v-if="passport !== null && !pass">
-                <img
-                  class="img-fluid"
-                  :src="`https://BanooClubapi.simagar.com/${passport}`"
-                />
-              </div>
-            </div>
-          </div>
+<!--          <div class="row my-3">-->
+<!--            <div class="col-lg-3 col-md-12">-->
+<!--              <div class="labelText">ارسال عکس پاسپورت :</div>-->
+<!--            </div>-->
+<!--            <div class="col-lg-2 col-md-12">-->
+<!--              <div-->
+<!--                class="border rounded text-center justify-content-center align-items-center InputUiBox"-->
+<!--                @click="callInputMethod2"-->
+<!--              >-->
+<!--                <input-->
+<!--                  type="file"-->
+<!--                  accept="image/*"-->
+<!--                  multiple="multiple"-->
+<!--                  class="form-control-file my-file2 d-none"-->
+<!--                  id="my-file2"-->
+<!--                  @change="onFileChange2"-->
+<!--                />-->
+<!--                <font-awesome-icon icon="plus-square" size="lg" />-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="col-lg-7 col-md-12">-->
+<!--              <div id="preview2" v-if="pass">-->
+<!--                <img class="img-fluid" :src="pass" v-if="passport" />-->
+<!--              </div>-->
+<!--              <div v-if="passport !== null && !pass">-->
+<!--                <img-->
+<!--                  class="img-fluid"-->
+<!--                  :src="`https://pplusapi.simagar.com/${passport}`"-->
+<!--                />-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
 
-        <div class="col-12 mt-3">
-          <div class="d-flex gap-2 align-items-center">
-            <small class="text-muted">کشور:</small>
-            <v-select
-              :options="country"
-              label="name"
-              dir="rtl"
-              class="selectWidth w-50"
-              placeholder="کشور"
-              v-model="countryName"
-              :reduce="(name) => name.iso3"
-              :value="countryName"
-            ></v-select>
-            <div class="pt-3 d-flex flex-column align-items-center">
-              <country-flag
-                size="big"
-                style="border-radius: 50px"
-                :country="countryName"
-              />
-              <small>{{ countryName }}</small>
-            </div>
-          </div>
-        </div>
+<!--        <div class="col-12 mt-3">-->
+<!--          <div class="d-flex gap-2 align-items-center">-->
+<!--            <small class="text-muted">کشور:</small>-->
+<!--            <v-select-->
+<!--              :options="country"-->
+<!--              label="name"-->
+<!--              dir="rtl"-->
+<!--              class="selectWidth w-50"-->
+<!--              placeholder="کشور"-->
+<!--              v-model="countryName"-->
+<!--              :reduce="(name) => name.iso3"-->
+<!--              :value="countryName"-->
+<!--            ></v-select>-->
+<!--            <div class="pt-3 d-flex flex-column align-items-center">-->
+<!--              <country-flag-->
+<!--                size="big"-->
+<!--                style="border-radius: 50px"-->
+<!--                :country="countryName"-->
+<!--              />-->
+<!--              <small>{{ countryName }}</small>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
         <div class="col-12 mt-3">
           <button type="button" class="btn btn-sm ButtonAccountSetting">
             لغو
@@ -349,7 +349,7 @@
 <script>
 export default {
   name: "EditProfileBasic",
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   data() {
     return {
       AllTickets: "",

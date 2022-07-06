@@ -963,7 +963,7 @@ import QuillExampleNuxt from "../../../components/editor";
 export default {
   name: "RoommateCondition",
   components: { QuillExampleNuxt },
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   data() {
     return {
       url: [],

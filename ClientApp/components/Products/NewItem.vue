@@ -2,12 +2,12 @@
   <div class="card d-flex flex-row p-2">
     <div class="tw-w-20 tw-h-24 tw-overflow-hidden tw-rounded-lg">
       <div class="card-media tw-h-24">
-        <img :src="`https://BanooClubapi.simagar.com/media/gallery/Profile/${service_details.userInfo.selfieFileData}`" :alt="service_details.title">
+        <img :src="`https://pplusapi.simagar.com/media/gallery/Profile/${service_details.userInfo.selfieFileData}`" :alt="service_details.title">
       </div>
     </div>
     <div class="d-flex flex-column tw-w-full mx-3">
       <div class="d-flex justify-content-between align-items-center">
-        <div class="tw-text-xs tw-font-semibold tw-uppercase tw-text-yellow-500">دسته بندی</div>
+        <div class="tw-text-xs tw-font-semibold tw-uppercase tw-text-yellow-500">{{ service_details.catName }}</div>
         <div class="tw-bg-gray-100 tw-font-semibold tw-px-2.5 tw-py-1 tw-rounded-full tw-text tw-text-blude-500 tw-text-sm">
           {{Intl.NumberFormat('fa-IR').format(service_details.totalPrice)}}
           تومان

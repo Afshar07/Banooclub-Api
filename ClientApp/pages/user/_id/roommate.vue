@@ -439,7 +439,7 @@
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
 export default {
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   name: "RoomMateInfo",
   components: {
     Swiper,

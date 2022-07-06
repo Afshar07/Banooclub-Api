@@ -4,12 +4,12 @@
       <div class="row mb-3 p-4 mx-auto col-12">
         <div class="col-12">
           <div class="col-md-12 my-5 mt-2">
-            <h4><strong>تیکت ها </strong></h4>
+            <h1 class="tw-text-2xl tw-font-semibold">تیکت ها</h1>
           </div>
 
           <div class="col-12" style="overflow-y: scroll">
-            <h2>لیست تیکت ها</h2>
-            <hr />
+<!--            <h2>لیست تیکت ها</h2>-->
+<!--            <hr />-->
             <div
               class="d-flex flex-column flex-md-row align-content-center gap-1 gap-md-3"
             >
@@ -172,7 +172,7 @@
 
 <script>
 export default {
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   name: "tickets",
 
   fetchOnServer() {

@@ -96,7 +96,7 @@
 <script>
 export default {
   name: "AllRoomate",
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   fetchOnServer() {
     return true;
   },

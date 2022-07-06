@@ -51,7 +51,7 @@
 <script>
 export default {
   name: "Statistics",
-  layout: 'BanooClubLayout',
+  layout: 'PoshtebamPlusLayout',
   data() {
     return {
       chartdataDay: {

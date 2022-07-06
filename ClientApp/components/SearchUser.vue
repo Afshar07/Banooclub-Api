@@ -19,7 +19,7 @@
           <div class="">
             <img
               class="img-fluid myPicture"
-              :src="`https://BanooClubapi.simagar.com/${item.selfieFileData}`"
+              :src="`https://pplusapi.simagar.com/${item.selfieFileData}`"
               alt=""
             />
           </div>
@@ -43,7 +43,7 @@
 <script>
 export default {
   name: "SearchUser",
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   data() {
     return {
       userSearch: "",

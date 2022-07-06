@@ -4,7 +4,7 @@
       <div class="log-reg-area position-absolute" dir="rtl">
         <h2 class="log-title">فراموشی رمز عبور</h2>
         <!--<p class="log-title-text">
-          هنوز از بانو کلاب پلاس استفاده نکرده اید؟
+          هنوز از بانو کلاب استفاده نکرده اید؟
           <nuxt-link to="/" href="#" title="">قوانین را بخوانید</nuxt-link>
           یا
           <nuxt-link to="/Register" href="#" title=""> به

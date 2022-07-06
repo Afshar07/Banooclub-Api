@@ -203,7 +203,7 @@ export default {
       },
     };
   },
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
 
   computed: {
     BaseUrl() {

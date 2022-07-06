@@ -88,7 +88,7 @@
 
 <script>
 export default {
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   name: "Advertises",
   fetchOnServer() {
     return true;

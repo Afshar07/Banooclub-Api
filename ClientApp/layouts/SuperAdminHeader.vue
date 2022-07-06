@@ -4,8 +4,8 @@
     <!--      <h5 class="text-primary fw-bold">پنل ادمین</h5>-->
     <!--    </div>-->
     <div class="">
-      BanooClub
-<!--      <img src="~/assets/images/BanooClubLogo.png" class="img-fluid" />-->
+      PoshtebamPlus
+<!--      <img src="~/assets/images/PoshtebamPlusLogo.png" class="img-fluid" />-->
     </div>
     <!--    <div class="">-->
     <!--      <h6>-->

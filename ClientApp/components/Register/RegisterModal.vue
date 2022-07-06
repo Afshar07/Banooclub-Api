@@ -17,7 +17,7 @@
             <div class="lg:tw-mt-0 lg:tw-w-96  tw-mt-10 tw-w-full custom_navs tw-bg-white tw-shadow-lg tw-rounded-lg">
               <div class="d-flex flex-column justify-content-between">
 <!--                <p class="log-title-text" :class="{ TextWhite: userType !== 0 }">-->
-<!--                  از بانو کلاب پلاس استفاده میکنید ؟-->
+<!--                  از بانو کلاب استفاده میکنید ؟-->
 <!--                  <nuxt-link-->
 <!--                    to="/register"-->
 <!--                    href="#"-->
@@ -59,10 +59,13 @@
                     @getNumber="setNumber"
                     @setCounter="setCounter($event)"
                     :registerType="registerType"
+                    @getCodeFields="getCodeField($event)"
                   ></get-otp>
                   <register-form
                     v-if="isOtpSent"
                     :counterNumber="local_counter"
+                    :code_field="code_field"
+                    :set_reg_type="registerType"
                     @getUserRole="setUserType"
                     @getSignUpPayload="setSignUpPayload"
                     @close_register_modal="closeRegisterModal"
@@ -92,7 +95,7 @@
 <!--          >-->
 <!--            <div class="log-reg-area position-absolute" :class="GetBgClass" dir="rtl">-->
 <!--              <p class="log-title-text" :class="{ TextWhite: userType !== 0 }">-->
-<!--                از بانو کلاب پلاس استفاده میکنید ؟-->
+<!--                از بانو کلاب استفاده میکنید ؟-->
 <!--                <nuxt-link-->
 <!--                  to="/register"-->
 <!--                  href="#"-->
@@ -194,9 +197,9 @@ export default {
   components: {RegisterForm, GetOtp},
   data(){
     return{
+      code_field:null,
       loginType: 1,
       local_counter:0,
-
       categories:[],
       service_category: null,
       isOtpSent: false,
@@ -263,6 +266,9 @@ export default {
       console.log('this.local_counter',this.local_counter)
 
     },
+    getCodeField(code_field){
+      this.code_field = code_field
+    },
     setLoginMethod(type) {
       this.loginType = type;
     },
@@ -297,7 +303,7 @@ export default {
         }else{
           this.$emit("close_register_modal");
           this.$auth.strategy.token.set(response.data.token)
-          this.$auth.setUser(response.data.token.user)
+          this.$auth.setUser(response.data.user)
           this.$router.push('/social')
         }
         // this.$store.dispatch("login", {

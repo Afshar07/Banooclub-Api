@@ -14,7 +14,7 @@
     </div>
     <div class="LoadingText d-flex">
 
-      <p class="text-white mb-0 align-self-center">BanooClub.com</p>
+      <p class="text-white mb-0 align-self-center">PoshtebamPlus.com</p>
     </div>
 
 

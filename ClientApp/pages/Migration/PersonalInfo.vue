@@ -213,7 +213,7 @@
 
 <script>
 export default {
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   name: "PersonalInfo",
   fetchOnServer() {
     return true;

@@ -102,7 +102,7 @@
 <script>
 export default {
   name: "Faq",
-  layout: 'BanooClubLayout'
+  layout: 'PoshtebamPlusLayout'
 }
 </script>
 

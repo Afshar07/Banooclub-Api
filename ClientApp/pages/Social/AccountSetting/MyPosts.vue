@@ -4,7 +4,10 @@
       <div class="col-xl-10 col-md-12 col-lg-12 add_post px-0 mx-auto">
         <CustomHeader/>
         <div class="tab-content" id="pills-tabContent">
-          <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+          <div class="tab-pane fade show active" id="services" role="tabpanel" aria-labelledby="services-tab">
+            <MyServicesTabContents/>
+          </div>
+          <div class="tab-pane fade" id="posts-home" role="tabpanel" aria-labelledby="posts-home-tab">
             <MyPostsTabContents/>
           </div>
           <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
@@ -12,6 +15,9 @@
           </div>
           <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
             <MyPhotosTabContent/>
+          </div>
+          <div class="tab-pane fade" id="pills-edit-info" role="tabpanel" aria-labelledby="pills-edit-info-tab">
+            <EditInfoContent/>
           </div>
         </div>
 
@@ -98,14 +104,18 @@ import MyPhotosTabContent from "../../../components/MyTabsContent/MyPhotosTabCon
 import MyFriendTabContent from "../../../components/MyTabsContent/MyFriendTabContent";
 import MyPostsTabContents from "../../../components/MyTabsContent/MyPostsTabContents";
 import CustomHeader from "../../../components/CustomHeader";
+import MyServicesTabContents from "../../../components/Products/MyServicesTabContents";
+import EditInfoContent from "../../../components/MyTabsContent/EditInfoContent";
 
 export default {
   name: "MyPosts",
   components: {
+    EditInfoContent,
+    MyServicesTabContents,
     CustomHeader,
     MyPostsTabContents, MyFriendTabContent, MyPhotosTabContent
   },
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   computed: {
     VuexHeaderData() {
       return this.$store.state.HeaderData;
@@ -142,6 +152,7 @@ export default {
         )
         .then((response) => {
           if (response.status === 200) {
+            this.$refs.modalCloseButton.click();
             this.$fetch();
           }
         })
@@ -208,12 +219,12 @@ export default {
     },
     imgUserAvatar() {
       if (this.userinfo.selfieFileData !== null) {
-        this.userImageApi = `https://BanooClubapi.simagar.com/${this.userinfo.selfieFileData}`;
+        this.userImageApi = `https://pplusapi.simagar.com/${this.userinfo.selfieFileData}`;
       }
     },
     imageBackground() {
       if (this.userinfo.bannerFileData !== null) {
-        this.BackgroundApi = `https://BanooClubapi.simagar.com/${this.userinfo.bannerFileData}`;
+        this.BackgroundApi = `https://pplusapi.simagar.com/${this.userinfo.bannerFileData}`;
       }
     },
 

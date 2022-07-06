@@ -211,7 +211,7 @@ import "nouislider/distribute/nouislider.min.css";
 export default {
   name: "AllAdvertise",
   components: { AdvertiseCard, veeno },
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   data() {
     return {
       priceFrom: 0,

@@ -5,7 +5,7 @@
     <div class="tw-grid tw-grid-cols-3 tw-gap-3 tw-text-gray-600 tw-font-semibold">
       <nuxt-link class="text-decoration-none" v-for="friend in followingList" to="#">
         <div class="d-flex flex-column justify-content-center align-items-center">
-          <img style="width: 89px; height: 96px;" :src="`https://BanooClubapi.simagar.com/${friend.userInfo.selfieFileData}`" alt=""
+          <img style="width: 89px; height: 96px;" :src="`https://pplusapi.simagar.com/${friend.userInfo.selfieFileData}`" alt=""
                class="tw-w-full tw-h-full tw-object-cover tw-rounded-md">
           <div style="color: #4b5563" class="tw-text-sm tw-truncate mt-2"> {{ friend.userInfo.name + ' ' + friend.userInfo.familyName }}</div>
         </div>
