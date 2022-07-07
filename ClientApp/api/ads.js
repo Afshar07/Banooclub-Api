@@ -12,20 +12,23 @@ export default (context, resources) => ({
       console.log(error);
     }
   },
-  async getAllCountries() {
+  async GetAllStates() {
     try {
-      const response = await context.$axios.get(resources);
+      const response = await context.$axios.get(resources,null,{
+        params:{
+          pageNumber:1,
+          count:100
+        }
+      });
       return response;
     } catch (error) {
       console.log(error);
     }
   },
-  async getCitiesByCountry(countryId) {
+  async GetAllCities(params) {
     try {
       const response = await context.$axios.get(resources, {
-        params: {
-          countryId,
-        },
+       params
       });
       return response;
     } catch (error) {

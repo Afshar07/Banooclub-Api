@@ -131,11 +131,8 @@ export default (context, inject) => {
 
     // Ads repository start
     getAllAdsCategory: createAdsRepository(context, "AdsCategory/GetAll"),
-    getAllCountries: createAdsRepository(context, "CNTRY/GetCNTRIESWithRedis"),
-    getCitiesByCountry: createAdsRepository(
-      context,
-      "City/GetCitiesByCountryId"
-    ),
+    GetAllStates: createAdsRepository(context, "State/GetStates"),
+    GetAllCities: createAdsRepository(context, "City/GetCitiesByStateId"  ),
     createAnAd: createAdsRepository(context, "Ads/Create"),
     getAdsByUserId: createAdsRepository(context, "Ads/GetByUserId"),
     getAnAd: createAdsRepository(context, "Ads/Get"),

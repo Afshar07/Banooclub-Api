@@ -351,52 +351,52 @@
               </nuxt-link>
             </div>
 
-<!--            <div :class="[decrease_width ? '' : 'tw-collapse ']" class="py-1">-->
-<!--              <input v-if="!decrease_width" type="checkbox"/>-->
-<!--              <div v-if="!decrease_width" :class="[decrease_width ? '' : 'tw-collapse-title ']" class=" SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">-->
-<!--                <AdsIcon class="svg_icons_size"/>-->
-<!--                <span class="header_font_sidebar_size">آگهی ها </span>-->
-<!--                <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>-->
-<!--              </div>-->
-<!--              <div :class="[decrease_width ? '' : 'tw-collapse-content']">-->
-<!--                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--                  <nuxt-link-->
-<!--                    exact-active-class="SingleShortCutActive"-->
-<!--                    to="/migration/alladvertise"-->
-<!--                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                    :class="[decrease_width ? 'p-3' : 'px-3']"-->
-<!--                  >-->
-<!--                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>-->
-<!--                    <AdsIcon v-if="decrease_width" class="svg_icons_size"/>-->
-<!--                    <span v-if="!decrease_width" class="font_sidebar_size">همه آگهی ها </span>-->
-<!--                  </nuxt-link>-->
-<!--                </div>-->
-<!--                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--                  <nuxt-link-->
-<!--                    exact-active-class="SingleShortCutActive"-->
-<!--                    to="/migration/myadvertise"-->
-<!--                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                    :class="[decrease_width ? 'p-3' : 'px-3']"-->
-<!--                  >-->
-<!--                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>-->
-<!--                    <AdsIcon v-if="decrease_width" class="svg_icons_size"/>-->
-<!--                    <span v-if="!decrease_width" class="font_sidebar_size">آگهی های من </span>-->
-<!--                  </nuxt-link>-->
-<!--                </div>-->
-<!--                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--                  <nuxt-link-->
-<!--                    exact-active-class="SingleShortCutActive"-->
-<!--                    to="/migration/createadvertise"-->
-<!--                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                    :class="[decrease_width ? 'p-3' : 'px-3']"-->
-<!--                  >-->
-<!--                    <PlusIcon class="svg_icons_size" v-if="decrease_width" fill="rgb(245 158 11)"/>-->
-<!--                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>-->
-<!--                    <span v-if="!decrease_width" class="font_sidebar_size">افزودن آگهی</span>-->
-<!--                  </nuxt-link>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
+            <div :class="[decrease_width ? '' : 'tw-collapse ']" class="py-1">
+              <input v-if="!decrease_width" type="checkbox"/>
+              <div v-if="!decrease_width" :class="[decrease_width ? '' : 'tw-collapse-title ']" class=" SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+                <AdsIcon class="svg_icons_size"/>
+                <span class="header_font_sidebar_size">آگهی ها </span>
+                <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
+              </div>
+              <div :class="[decrease_width ? '' : 'tw-collapse-content']">
+                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    exact-active-class="SingleShortCutActive"
+                    to="/migration/alladvertise"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                  >
+                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
+                    <AdsIcon v-if="decrease_width" class="svg_icons_size"/>
+                    <span v-if="!decrease_width" class="font_sidebar_size">همه آگهی ها </span>
+                  </nuxt-link>
+                </div>
+                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    exact-active-class="SingleShortCutActive"
+                    to="/migration/myadvertise"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                  >
+                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
+                    <AdsIcon v-if="decrease_width" class="svg_icons_size"/>
+                    <span v-if="!decrease_width" class="font_sidebar_size">آگهی های من </span>
+                  </nuxt-link>
+                </div>
+                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    exact-active-class="SingleShortCutActive"
+                    to="/migration/createadvertise"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                  >
+                    <PlusIcon class="svg_icons_size" v-if="decrease_width" fill="rgb(245 158 11)"/>
+                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
+                    <span v-if="!decrease_width" class="font_sidebar_size">افزودن آگهی</span>
+                  </nuxt-link>
+                </div>
+              </div>
+            </div>
 
             <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
@@ -605,7 +605,7 @@
             <!--            <i class="fas fa-stream"></i>-->
           </button>
           <a href="/social">
-            PoshtebamPlus
+            Banoo Club
 <!--            <img-->
 <!--              src="../assets/images/PoshtebamPlusLogo.png"-->
 <!--              width="100px"-->
@@ -950,7 +950,7 @@
           </div>
           <div>
             <a href="/social">
-              PoshtebamPlus
+              Banoo Club
 <!--              <img-->
 <!--                data-not-lazy-->
 <!--                class="headerMobileIcon"-->
