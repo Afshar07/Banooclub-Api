@@ -470,52 +470,52 @@
             </div>
 
 
-<!--            <div :class="[decrease_width ? '' : 'tw-collapse ']" class="py-1">-->
-<!--              <input v-if="!decrease_width" type="checkbox"/>-->
-<!--              <div v-if="!decrease_width" :class="[decrease_width ? '' : 'tw-collapse-title ']" class="tw-collapse-title SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">-->
-<!--                <ForumIcon class="svg_icons_size"/>-->
-<!--                <span v-if="!decrease_width" class="header_font_sidebar_size">انجمن ها </span>-->
-<!--                <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>-->
-<!--              </div>-->
-<!--              <div :class="[decrease_width ? '' : 'tw-collapse-content']">-->
-<!--                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--                  <nuxt-link-->
-<!--                    exact-active-class="SingleShortCutActive"-->
-<!--                    to="/Forums/"-->
-<!--                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                    :class="[decrease_width ? 'p-3' : 'px-3']"-->
-<!--                  >-->
-<!--                    <ForumIcon class="svg_icons_size" v-if="decrease_width"/>-->
-<!--                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>-->
-<!--                    <span v-if="!decrease_width" class="font_sidebar_size">همه انجمن ها</span>-->
-<!--                  </nuxt-link>-->
-<!--                </div>-->
-<!--                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--                  <nuxt-link-->
-<!--                    exact-active-class="SingleShortCutActive"-->
-<!--                    to="/Forums/MyForums/"-->
-<!--                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                    :class="[decrease_width ? 'p-3' : 'px-3']"-->
-<!--                  >-->
-<!--                    <PlusIcon class="svg_icons_size" v-if="decrease_width" fill="rgb(245 158 11)"/>-->
-<!--                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>-->
-<!--                    <span v-if="!decrease_width" class="font_sidebar_size">انجمن های من</span>-->
-<!--                  </nuxt-link>-->
-<!--                </div>-->
-<!--                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--                  <nuxt-link-->
-<!--                    exact-active-class="SingleShortCutActive"-->
-<!--                    to="/Forums/AddForum/"-->
-<!--                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                    :class="[decrease_width ? 'p-3' : 'px-3']"-->
-<!--                  >-->
-<!--                    <PlusIcon class="svg_icons_size" v-if="decrease_width" fill="rgb(245 158 11)"/>-->
-<!--                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>-->
-<!--                    <span v-if="!decrease_width" class="font_sidebar_size">افزودن انجمن</span>-->
-<!--                  </nuxt-link>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
+            <div :class="[decrease_width ? '' : 'tw-collapse ']" class="py-1">
+              <input v-if="!decrease_width" type="checkbox"/>
+              <div v-if="!decrease_width" :class="[decrease_width ? '' : 'tw-collapse-title ']" class="tw-collapse-title SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+                <ForumIcon class="svg_icons_size"/>
+                <span v-if="!decrease_width" class="header_font_sidebar_size">انجمن ها </span>
+                <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
+              </div>
+              <div :class="[decrease_width ? '' : 'tw-collapse-content']">
+                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    exact-active-class="SingleShortCutActive"
+                    to="/Forums/"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                  >
+                    <ForumIcon class="svg_icons_size" v-if="decrease_width"/>
+                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
+                    <span v-if="!decrease_width" class="font_sidebar_size">همه انجمن ها</span>
+                  </nuxt-link>
+                </div>
+                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    exact-active-class="SingleShortCutActive"
+                    to="/Forums/MyForums/"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                  >
+                    <PlusIcon class="svg_icons_size" v-if="decrease_width" fill="rgb(245 158 11)"/>
+                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
+                    <span v-if="!decrease_width" class="font_sidebar_size">انجمن های من</span>
+                  </nuxt-link>
+                </div>
+                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    exact-active-class="SingleShortCutActive"
+                    to="/Forums/AddForum/"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                  >
+                    <PlusIcon class="svg_icons_size" v-if="decrease_width" fill="rgb(245 158 11)"/>
+                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
+                    <span v-if="!decrease_width" class="font_sidebar_size">افزودن انجمن</span>
+                  </nuxt-link>
+                </div>
+              </div>
+            </div>
 
             <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
