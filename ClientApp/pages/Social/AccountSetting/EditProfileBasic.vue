@@ -68,8 +68,8 @@
           <!--            <input type="radio" id="male" name="featured" checked><label for="male">مرد</label>-->
           <!--            <input type="radio" id="female" name="featured"><label for="female">زن</label>-->
           <!--          </div>-->
-          <div>
-            <div class="form-check form-check-inline">
+          <div class="d-flex align-items-center gap-2">
+            <div class="form-check  form-check-inline">
               <input
                 class="form-check-input"
                 type="radio"

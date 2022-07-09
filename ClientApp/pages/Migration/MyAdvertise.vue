@@ -143,8 +143,8 @@
                 <nuxt-link
                   class="text-dark text-decoration-none"
                   :to="{
-                    path: '/Migration/AdvertiseDetail',
-                    query: { id: item.adsId },
+                    path: `/Migration/AdvertiseDetail/${item.adsId}`,
+
                   }"
                 >
                   <span>{{ item.title }}</span></nuxt-link
@@ -177,7 +177,7 @@
               <div class="col-md-6 d-flex align-items-center justify-content-center justify-content-md-start">
                 <img
                   v-if="item.photos.length > 0"
-                  :src="BaseUrl + item.photos[0].base64"
+                  :src="'https://banooclubapi.simagar.com/'+ item.photos[0].base64"
                   class="img-fluid rounded image-custom-height"
                   alt=""
                 />
@@ -286,8 +286,7 @@ export default {
     },
     ChangeRoute(id) {
       this.$router.push({
-        path: "/Migration/AdvertiseDetail",
-        query: { id: id },
+        path: `/Migration/AdvertiseDetail/${id}`,
       });
     },
   },

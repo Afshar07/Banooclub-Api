@@ -16,28 +16,32 @@
                    <div class="accordion tw-mt-[2.3rem]" id="accordionPanelsStayOpenExample">
                      <div class="accordion-item">
                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                         <button class="accordion-button w-100 d-flex align-items-center justify-content-between"  type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                           <small>قیمت</small>
+                         <button class="accordion-button p-2 w-100 d-flex align-items-center justify-content-between"  type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
 
+<small> قیمت</small>
                          </button>
                        </h2>
                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                          <div class="accordion-body">
-                           <input type="tel" v-model="PriceFrom" placeholder="مثلا از 100000 تومان" class="form-control my-1 form-control-sm">
-                           <input type="tel" v-model="PriceTo" placeholder="مثلا تا 200000 تومان" class="form-control my-1 form-control-sm">
+                           <div class="d-flex align-items-center gap-2">
+                             <input type="tel" v-model="PriceFrom" placeholder="مثلا از 100000 تومان" class=" my-1 p-1 Form-Control border ">
+                             <small>-</small>
+                             <input type="tel" v-model="PriceTo" placeholder="مثلا تا 200000 تومان" class=" my-1 p-1 Form-Control border ">
+                           </div>
+
                          </div>
                        </div>
                      </div>
                      <div class="accordion-item">
                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                           <small>   دسته بندی</small>
+                         <button class="accordion-button p-2" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
 
+              <small> دسته بندی</small>
                          </button>
                        </h2>
                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                          <div class="accordion-body">
-                           <select  v-model="SelectedCategoryId" class="form-control">
+                           <select  v-model="SelectedCategoryId" class=" Form-Control border">
                              <option  :value="0" selected>
                              <small>همه دسته بندی ها </small>
                              </option>
@@ -50,36 +54,36 @@
                      </div>
                      <div class="accordion-item">
                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                           <small>  شهر و استان</small>
-
+                         <button class="accordion-button p-2" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                          <small> شهر و استان</small>
                          </button>
                        </h2>
                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                          <div class="accordion-body">
-                           <v-select
-                             @input="GetCity"
-                             :options="AllStates"
-                             label="name"
-                             dir="rtl"
-                             class="selectWidth w-100"
-                             placeholder="استان"
-                             v-model="SelectedStateId"
-                             :reduce="(name) => name.stateId"
 
-                           ></v-select>
-                           <br>
-                           <v-select
-                             @input="GetCity"
-                             :options="AllCities"
-                             label="name"
-                             dir="rtl"
-                             class="selectWidth w-100"
-                             placeholder="استان"
-                             v-model="SelectedCityId"
-                             :reduce="(name) => name.cityId"
+                             <v-select
+                               @input="GetCity"
+                               :options="AllStates"
+                               label="name"
+                               dir="rtl"
 
-                           ></v-select>
+                               placeholder="استان"
+                               v-model="SelectedStateId"
+                               :reduce="(name) => name.stateId"
+
+                             ></v-select>
+
+                             <v-select
+                               @input="GetCity"
+                               :options="AllCities"
+                               label="name"
+                               dir="rtl"
+                              class="my-2"
+                               placeholder="شهر"
+                               v-model="SelectedCityId"
+                               :reduce="(name) => name.cityId"
+
+                             ></v-select>
                          </div>
                        </div>
                      </div>
@@ -158,8 +162,8 @@
                 AllAds:null,
                 categories:[],
               SelectedCategoryId:0,
-              PriceFrom:0,
-              PriceTo:0,
+              PriceFrom:null,
+              PriceTo:null,
               CityId:0,
               SelectedStateId:null,
               SelectedCityId:null,
@@ -350,4 +354,10 @@
     background-color: #3b82f6;
     box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
   }
+.Form-Control{
+  height: 30px!important;
+  font-size: 12px!important;
+}
+
+
 </style>

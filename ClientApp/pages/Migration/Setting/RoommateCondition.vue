@@ -352,7 +352,7 @@
                       <client-only>
                         <l-map :zoom="17" :center="center" @click="addMarker">
                           <l-tile-layer
-                            url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                           ></l-tile-layer>
                           <l-marker :lat-lng="latlng"></l-marker>
                         </l-map>
@@ -595,7 +595,7 @@
                       <client-only>
                         <l-map :zoom="17" :center="center" @click="addMarker">
                           <l-tile-layer
-                            url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                           ></l-tile-layer>
                           <l-marker :lat-lng="latlng"></l-marker>
                         </l-map>

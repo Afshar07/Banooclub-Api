@@ -2,26 +2,33 @@
   <div class="container mcontainer">
     <h1 class="tw-text-2xl tw-font-semibold"> انجمن  </h1>
     <div class="row">
+
       <div class="col-lg-8 tw-flex-shirink-0">
+        <div class="col-md-12">
+          <input type="text" class="form-control" v-model="Search" placeholder="جستجوی انجمن ها">
+        </div>
         <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
-          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-            <button class="nav-link active" id="forum-active-tab" data-bs-toggle="pill"
+          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" >
+            <button   :value="1" class="nav-link active" id="forum-active-tab" data-bs-toggle="pill" @click="GetAllForums(1)"
                     data-bs-target="#products-pills-home" type="button" role="tab" aria-controls="products-pills-home" aria-selected="true">
               پر بازدید ها
             </button>
           </li>
-          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-            <button class="nav-link" id="forum-second-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
-              ویژه ها
+          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" >
+            <button  :value="2" class="nav-link" id="forum-second-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false"
+            @click="GetAllForums(2)">
+              برترین ها
             </button>
           </li>
-          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-            <button class="nav-link" id="forum-third-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
-              اخیر
+          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" >
+            <button  :value="3" class="nav-link" id="forum-third-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"
+            @click="GetAllForums(3)">
+              بیشترین پاسخ
             </button>
           </li>
-          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-          <button class="nav-link" id="forum-fourth-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
+          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" >
+          <button  :value="4" class="nav-link" id="forum-fourth-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"
+          @click="GetAllForums(4)">
             بی پاسخ
           </button>
         </li>
@@ -37,12 +44,25 @@
 
             </div>
           </div>
-          <div class="tab-pane fade" id="forum-second-tab-content" role="tabpanel" aria-labelledby="forum-second-tab">
-          </div>
-          <div class="tab-pane fade" id="forum-third-tab-content" role="tabpanel" aria-labelledby="forum-third-tab">
-          </div>
-          <div class="tab-pane fade" id="forum-fourth-tab-content" role="tabpanel" aria-labelledby="forum-fourth-tab">
-          </div>
+
+        </div>
+        <div class="col-md-12  d-flex justify-content-center my-5 border-top pt-2">
+          <nav aria-label="Page navigation example">
+            <ul  class="pagination px-0">
+              <li class="page-item" @click="DecrementSelectedPageId">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li @click="SetSelectedPageId(i)" class="page-item" v-for="i in totalPages" :key="i"><a class="page-link" :class="GetClassName(i)" href="#">{{ i }}</a></li>
+
+              <li class="page-item" @click="IncrementSelectedPageId">
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
         <TopCommenters></TopCommenters>
@@ -61,7 +81,10 @@ export default {
   layout: "PoshtebamPlusLayout",
   data(){
     return{
-      AllForums: null
+      AllForums: null,
+      Search:'',
+      SelectedPageId:1,
+      totalPages:[]
     }
   },
   head(){
@@ -69,14 +92,96 @@ export default {
       title:'انجمن'
     }
   },
+  watch:{
+    Search:function (val,oldVal){
+      this.GetAllForums(0)
+    }
+  },
+  methods:{
+    GetClassName(id) {
+      if (id === this.SelectedPageId) {
+        return 'ActivePage'
+      } else {
+        return ''
+      }
+    },
+    SetSelectedPageId(id) {
+      this.SelectedPageId = id
+      this.GetAllForums();
+    },
+    IncrementSelectedPageId() {
+      this.SelectedPageId++
+      this.GetAllForums();
+    },
+    DecrementSelectedPageId() {
+      this.SelectedPageId--
+      this.GetAllForums();
+    },
+
+    async GetAllForums(id){
+      try{
+        this.$nextTick(()=>{
+          this.$nuxt.$loading.start()
+        })
+        if (this.SelectedPageId > this.totalPages.length) {
+
+          this.SelectedPageId = 1
+        }
+        if (this.SelectedPageId < 1) {
+
+          this.SelectedPageId = 1
+        }
+        const forums = await this.$repositories.getAllForums.getAllForums({
+            pageNumber:this.SelectedPageId,
+            count:10,
+            searchCommand:this.Search,
+            noComments:id === 4,
+            mostRated:id === 2,
+            mostComments:id === 3,
+          }
+        )
+        this.totalPages = []
+        const result = Math.ceil(forums.data.forumsCount / 10)
+        for (let i = 1; i <= result; i++) {
+          this.totalPages.push(i);
+        }
+
+        this.AllForums = forums.data.forums
+        this.$nuxt.$loading.finish()
+        this.$nuxt.loading = false;
+      }
+      catch (error){
+        console.log(error)
+      }finally {
+        this.$nuxt.$loading.finish()
+        this.$nuxt.loading = false;
+      }
+    }
+  },
   async fetch(){
     try{
+      if (this.SelectedPageId > this.totalPages.length) {
+
+        this.SelectedPageId = 1
+      }
+      if (this.SelectedPageId < 1) {
+
+        this.SelectedPageId = 1
+      }
       const forums = await this.$repositories.getAllForums.getAllForums({
-          pageNumber:0,
-          count:0,
-          searchCommand:null
+          pageNumber:1,
+          count:10,
+          searchCommand:this.Search,
+        noComments:this.NoComments,
+        mostRated:this.MostRated,
+        mostComments:this.MostComments,
         }
       )
+      this.totalPages = []
+      const result = Math.ceil(forums.data.forumsCount / 10)
+      for (let i = 1; i <= result; i++) {
+        this.totalPages.push(i);
+      }
       this.AllForums = forums.data.forums
     }
     catch (error){
@@ -119,6 +224,11 @@ export default {
   border-bottom: 3px solid #0d6efd;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.ActivePage {
+  color: white;
+  background-color: #00adef;
 }
 
 </style>

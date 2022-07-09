@@ -14,7 +14,7 @@
         </div>
       </div>
       <nuxt-link :to="`/Products/${service_details.servicePackId}`" class="text-decoration-none">
-        <h2 class="tw-text-lg tw-font-medium tw-mt-1 tw-t tw-truncate tw-text-slate-500 product_name tw-text-right">{{service_details.title}}</h2>
+        <h2 class="tw-text-lg tw-font-medium tw-mt-1 tw-t tw-truncate tw-text-slate-500 product_name tw-text-right my-2">{{service_details.title}}</h2>
       </nuxt-link>
       <div class="tw-flex tw-items-center tw-text-sm tw-text-gray-400 tw-capitalize">
         <div> 15 لایک </div>

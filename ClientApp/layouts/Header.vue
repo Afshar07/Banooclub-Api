@@ -147,7 +147,7 @@
 <!--                  <span class="font_sidebar_size">جزیئات خدمت</span>-->
 <!--                </nuxt-link>-->
 <!--              </div>-->
-              <div v-if="$auth.user.userInfo.role!=='Subscriber'" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+              <div v-if=" $auth.user&& $auth.user.userInfo  && $auth.user.userInfo.role!=='Subscriber'" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
                   to="/Products/MyServices/"
@@ -158,7 +158,7 @@
                   <span class="font_sidebar_size">خدمات من</span>
                 </nuxt-link>
               </div>
-              <div v-if="$auth.user.userInfo.role!=='Subscriber'" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+              <div v-if="$auth.user&& $auth.user.userInfo&& $auth.user.userInfo.role!=='Subscriber'" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
                   to="/Products/AddProduct/"
@@ -452,7 +452,7 @@
                     <span v-if="!decrease_width" class="font_sidebar_size">همه خدمات</span>
                   </nuxt-link>
                 </div>
-                <div v-if="$auth.user.userInfo.role!=='Subscriber'" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <div v-if=" $auth.user&& $auth.user.userInfo && $auth.user.userInfo.role!=='Subscriber'" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
                     to="/Products/MyServices/"
@@ -464,7 +464,7 @@
                     <span v-if="!decrease_width" class="font_sidebar_size">خدمات من</span>
                   </nuxt-link>
                 </div>
-                <div v-if="!$auth.user.userInfo.role!=='Subscriber'" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <div v-if=" $auth.user&& $auth.user.userInfo && $auth.user.userInfo.role!=='Subscriber'" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
                     to="/Products/AddProduct/"

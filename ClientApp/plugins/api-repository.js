@@ -143,7 +143,7 @@ export default (context, inject) => {
     getAllRejectedAds: createAdsRepository(context, "Ads/GetRejected"),
     getAllPendingAds: createAdsRepository(context, "Ads/GetNotConfirmed"),
     GetAllAds:createAdsRepository(context,'Ads/GetAdsByFilter'),
-
+    CreateLike:createForumPackRepository(context,'Like/Create'),
     // Ads repository end
 
     // Ticket repository start

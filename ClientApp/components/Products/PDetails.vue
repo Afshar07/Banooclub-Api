@@ -196,7 +196,7 @@
           <client-only>
             <l-map :zoom="17" :center="[service_details.latitude,service_details.longitude]" @click="addMarker">
               <l-tile-layer
-                url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               ></l-tile-layer>
               <l-marker :lat-lng="[service_details.latitude,service_details.longitude]"></l-marker>
             </l-map>
@@ -660,8 +660,10 @@ export default {
     async createWishList(id){
       try {
         await this.$repositories.createWishList.createWishList({
-          serviceId:id,
-          userId: 0
+          objectId: id,
+          type: 1,
+          userId: this.$auth.user.userInfo.userId,
+          createDate: new Date(Date.now())
         })
         this.$toast.success("خدمت به علاقمندی ها افزوده شد.");
         this.$nuxt.refresh();
@@ -676,7 +678,10 @@ export default {
     async deleteWishList(id){
       try {
         await this.$repositories.deleteWishList.deleteWishList({
-          id:id,
+          objectId: id,
+          type: 1,
+          userId: this.$auth.user.userInfo.userId,
+          createDate: new Date(Date.now())
         })
         this.$toast.success("خدمت از علاقمندی ها حذف شد");
         this.$nuxt.refresh();

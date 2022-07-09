@@ -33,8 +33,8 @@
             </div>
 
           <div class="col-md-12 my-2">
-            <div class="labelText">عکس های آگهی</div>
-            <div class="row">
+            <div class="labelText">عکس های فعلی آگهی</div>
+            <div v-if="AdDetail.photos.length>0" class="row">
               <div
                 class="py-3 col-lg-1 col-md-3 px-1 tw-h-40 d-flex photos position-relative"
                 v-for="(image,index) in AdDetail.photos"
@@ -46,6 +46,9 @@
                 <font-awesome-icon icon="trash" color="#ff4d4d" size="sm"/>
               </span>
               </div>
+            </div>
+            <div v-else class="row my-2">
+              <span>این آگهی عکس ندارد</span>
             </div>
           </div>
             <div class="col-md-6">
@@ -169,7 +172,7 @@
                 <client-only>
                   <l-map :zoom="17" :center="center" @click="addMarker">
                     <l-tile-layer
-                      url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     ></l-tile-layer>
                     <l-marker :lat-lng="latlng"></l-marker>
                   </l-map>

@@ -37,5 +37,9 @@ export default (context, resources) => ({
       params
     })
     return response
+  },
+  async CreateLike(payload){
+    const response = await context.$axios.post(resources,payload)
+    return response
   }
 })

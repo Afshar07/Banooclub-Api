@@ -110,20 +110,7 @@ module.exports = {
     "@nuxtjs/recaptcha",
     "@nuxtjs/auth-next",
     "nuxt-lazy-load",
-
-
-    [
-      "nuxt-compress",
-      {
-        gzip: {
-          threshold: 8192,
-        },
-        brotli: {
-          threshold: 8192,
-        },
-      },
-    ],
-
+'nuxt-compress',
     [
       "nuxt-fontawesome",
       {
@@ -144,6 +131,14 @@ module.exports = {
     "vue2-editor/nuxt",
     "nuxt-leaflet",
   ],
+  'nuxt-compress': {
+    gzip: {
+      threshold: 8192,
+    },
+    brotli: {
+      threshold: 8192,
+    },
+  },
   recaptcha: {
     // Recaptcha language (v2)
     siteKey: "6LdvcL0eAAAAADYvJ9mJ4AHh2GFCuFCOaurYguqL",
@@ -212,6 +207,6 @@ module.exports = {
     // baseURL: 'https://localhost:44330/',
   },
   env: {
-    pic: "https://banooclubapi.simagar.com/api/",
+    pic: "https://banooclubapi.simagar.com/",
   },
 };

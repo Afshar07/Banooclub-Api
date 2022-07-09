@@ -1,13 +1,16 @@
 <template>
   <div class="container mcontainer" v-if="forumDetails">
     <h1 class="tw-text-2xl tw-font-semibold"> {{ forumDetails.title }} </h1>
-    <div class="d-flex">
-      <p class="tw-text-sm tw-text-gray-400 tw-my-2 ">
-        پرسیده شده
+    <div class="d-flex align-items-center gap-2">
+      <p class="tw-text-sm d-flex align-items-center tw-text-gray-400 tw-my-2">
+        پست شده توسط:
+
+        <span data-href="%40tag-dev.html"> {{ forumDetails.userInfo.userName }} </span>
+      </p>
         <span class="tw-text-black px-1">
           {{time_ago(forumDetails.createDate) }}
         </span>
-      </p>
+
       <p class="tw-text-sm tw-text-gray-400 tw-my-2 px-3">
         بازدید
         <span class="tw-text-black px-1">
@@ -22,13 +25,13 @@
           <div class="d-flex flex-column">
             <div class="d-flex align-items-center row">
               <div class="d-flex flex-column justify-content-center align-items-center col-1">
-                <button @click="likeQuestion">
+                <button @click="ForumLike(1)">
                   <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
                   </svg>
                 </button>
                 <div style="color:hsl(210,8%,45%);">{{likes}}</div>
-                <button @click="dislikeQuestion">
+                <button @click="ForumLike(2)">
                   <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
                   </svg>
@@ -54,9 +57,7 @@
                       <InstagramIcon style="width: 20px; height: 20px;"/>
                     </nuxt-link>
                   </div>
-                  <button type="button" class="button p-2" style="font-size: 12px; height: 28px">
-                    دنبال کردن
-                  </button>
+
                   <div class=" d-flex tw-mr-auto justify-content-center align-items-center" :class="[]">
                     <div v-if="!show_comment_input" class="tw-text-gray-400" style="font-size: 15px; font-style: italic;" @click="show_comment_input = !show_comment_input"> افزودن نظر ...</div>
                     <input v-on:keyup.enter="addComment()" v-if="show_comment_input" v-model="forum_comment"
@@ -77,13 +78,13 @@
               <div class="d-flex align-items-center row">
                 <div class="d-flex flex-column mt-3 justify-content-center align-items-center col-1">
                   <div class="d-flex flex-column justify-content-center align-items-center ">
-                    <button @click="likeQuestion">
+                    <button @click="ForumCommentLike(1,comment.forumCommentId)">
                       <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
                       </svg>
                     </button>
                     <div style="color:hsl(210,8%,45%);">{{likes}}</div>
-                    <button @click="dislikeQuestion">
+                    <button @click="ForumCommentLike(2,comment.forumCommentId)">
                       <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
                       </svg>
@@ -166,6 +167,46 @@ export default {
     }
   },
   methods:{
+    async ForumCommentLike(status,id){
+      try {
+        const res = await this.$repositories.CreateLike.CreateLike({
+          objectId:id,
+          type: 5,
+          status: status,
+          userId: this.$auth.user.userInfo.userId
+        })
+        if(status===1){
+          this.$toast.success('انجمن لایک شد')
+        }else{
+          this.$toast.success('انجمن دیسلایک شد')
+        }
+        this.$nuxt.refresh();
+      }catch (e) {
+        console.log(e)
+      }
+
+    },
+
+    async ForumLike(status){
+      try {
+        const res = await this.$repositories.CreateLike.CreateLike({
+          objectId: this.forumDetails.forumId,
+          type: 2,
+          status: status,
+          userId: this.$auth.user.userInfo.userId
+        })
+        if(status===1){
+          this.$toast.success('انجمن لایک شد')
+        }else{
+          this.$toast.success('انجمن دیسلایک شد')
+        }
+        this.$nuxt.refresh();
+      }catch (e) {
+        console.log(e)
+      }
+
+
+    },
     async addComment(){
       if(this.forum_comment == ''){
         this.$toast.error("لطفا متن نظر را وارد کنید");
