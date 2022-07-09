@@ -19,7 +19,7 @@
           <div class="">
             <img
               class="img-fluid myPicture"
-              :src="`https://pplusapi.simagar.com/${item.selfieFileData}`"
+              :src="`https://banooclubapi.simagar.com/${item.selfieFileData}`"
               alt=""
             />
           </div>

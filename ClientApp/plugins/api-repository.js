@@ -17,7 +17,9 @@ import createServiceTagsRepository from "../api/service_tag"
 import createForumCommentRepository from "../api/forum_comment";
 import createRateRepository from "../api/rating"
 import createWishListRepository from "../api/wish_list";
-import createBirthdateRepository from "../api/birthdate_list"
+import createBirthdateRepository from "../api/birthdate_list";
+import CreateTagsRepository from "../api/Tags";
+
 
 export default (context, inject) => {
   const repositories = {
@@ -134,11 +136,13 @@ export default (context, inject) => {
     GetAllStates: createAdsRepository(context, "State/GetStates"),
     GetAllCities: createAdsRepository(context, "City/GetCitiesByStateId"  ),
     createAnAd: createAdsRepository(context, "Ads/Create"),
+    UpdateAd:createAdsRepository(context,'Ads/Update'),
     getAdsByUserId: createAdsRepository(context, "Ads/GetByUserId"),
     getAnAd: createAdsRepository(context, "Ads/Get"),
     changeAnAdStatus: createAdsRepository(context, "Ads/ChangeStatus"),
     getAllRejectedAds: createAdsRepository(context, "Ads/GetRejected"),
     getAllPendingAds: createAdsRepository(context, "Ads/GetNotConfirmed"),
+    GetAllAds:createAdsRepository(context,'Ads/GetAdsByFilter'),
 
     // Ads repository end
 
@@ -180,8 +184,13 @@ export default (context, inject) => {
     getAllForums:createForumPackRepository(context,'Forum/GetAll'),
     getMyForums:createForumPackRepository(context,"Forum/GetMyForums"),
     getAForum:createForumPackRepository(context,'Forum/Get'),
+    DeleteForum:createForumPackRepository(context,'Forum/Delete'),
+    UpdateForum:createForumPackRepository(context,'Forum/Update'),
     // Forum repository end
 
+    // Tags Repository
+    AddTag:CreateTagsRepository(context,'Tag/Create'),
+    DeleteTag:CreateTagsRepository(context,'Tag/Delete'),
     createForumComment:createForumCommentRepository(context,"ForumComment/Create"),
     // Forum Property repository end
 

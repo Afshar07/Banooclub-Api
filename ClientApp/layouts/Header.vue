@@ -147,7 +147,7 @@
 <!--                  <span class="font_sidebar_size">جزیئات خدمت</span>-->
 <!--                </nuxt-link>-->
 <!--              </div>-->
-              <div class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+              <div v-if="$auth.user.userInfo.role!=='Subscriber'" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
                   to="/Products/MyServices/"
@@ -158,7 +158,7 @@
                   <span class="font_sidebar_size">خدمات من</span>
                 </nuxt-link>
               </div>
-              <div class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+              <div v-if="$auth.user.userInfo.role!=='Subscriber'" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
                   to="/Products/AddProduct/"
@@ -171,46 +171,46 @@
               </div>
             </div>
           </div>
-<!--          <div class="py-1 tw-collapse">-->
-<!--            <input type="checkbox"/>-->
-<!--            <div class="tw-collapse-title SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">-->
-<!--              <ForumIcon class="svg_icons_size"/>-->
-<!--              <span class="header_font_sidebar_size">انجمن ها</span>-->
-<!--              <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>-->
-<!--            </div>-->
-<!--            <div class="tw-collapse-content">-->
-<!--              <div class="d-flex align-items-center" data-bs-dismiss="offcanvas">-->
-<!--                <nuxt-link-->
-<!--                  exact-active-class="SingleShortCutActive"-->
-<!--                  to="/Forums/"-->
-<!--                  class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                >-->
-<!--                  <CircleIcon style="width: 10px; height: 10px;"/>-->
-<!--                  <span class="font_sidebar_size">همه انجمن ها </span>-->
-<!--                </nuxt-link>-->
-<!--              </div>-->
-<!--              <div class="d-flex align-items-center" data-bs-dismiss="offcanvas">-->
-<!--                <nuxt-link-->
-<!--                  exact-active-class="SingleShortCutActive"-->
-<!--                  to="/Forums/MyForums/"-->
-<!--                  class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                >-->
-<!--                  <CircleIcon style="width: 10px; height: 10px;"/>-->
-<!--                  <span class="font_sidebar_size">انجمن های من</span>-->
-<!--                </nuxt-link>-->
-<!--              </div>-->
-<!--              <div class="d-flex align-items-center" data-bs-dismiss="offcanvas">-->
-<!--                <nuxt-link-->
-<!--                  exact-active-class="SingleShortCutActive"-->
-<!--                  to="/Forums/AddForum/"-->
-<!--                  class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                >-->
-<!--                  <CircleIcon style="width: 10px; height: 10px;"/>-->
-<!--                  <span class="font_sidebar_size">افزودن انجمن</span>-->
-<!--                </nuxt-link>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
+          <div class="py-1 tw-collapse">
+            <input type="checkbox"/>
+            <div class="tw-collapse-title SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <ForumIcon class="svg_icons_size"/>
+              <span class="header_font_sidebar_size">انجمن ها</span>
+              <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
+            </div>
+            <div class="tw-collapse-content">
+              <div class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+                <nuxt-link
+                  exact-active-class="SingleShortCutActive"
+                  to="/Forums/"
+                  class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+                >
+                  <CircleIcon style="width: 10px; height: 10px;"/>
+                  <span class="font_sidebar_size">همه انجمن ها </span>
+                </nuxt-link>
+              </div>
+              <div class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+                <nuxt-link
+                  exact-active-class="SingleShortCutActive"
+                  to="/Forums/MyForums/"
+                  class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+                >
+                  <CircleIcon style="width: 10px; height: 10px;"/>
+                  <span class="font_sidebar_size">انجمن های من</span>
+                </nuxt-link>
+              </div>
+              <div class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+                <nuxt-link
+                  exact-active-class="SingleShortCutActive"
+                  to="/Forums/AddForum/"
+                  class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+                >
+                  <CircleIcon style="width: 10px; height: 10px;"/>
+                  <span class="font_sidebar_size">افزودن انجمن</span>
+                </nuxt-link>
+              </div>
+            </div>
+          </div>
           <div class="d-flex align-items-center" data-bs-dismiss="offcanvas">
             <nuxt-link
               exact-active-class="SingleShortCutActive"
@@ -289,7 +289,7 @@
         @mouseleave="MouseLeaveRightMenu"
         @mouseenter="MouseOverRightMenu"
       >
-        <div class="offcanvas-body px-2">
+        <div class="offcanvas-body px-2" style="height: 900px;overflow-y: scroll">
           <div class="d-flex flex-column" style="padding-right: 15px">
             <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
@@ -421,7 +421,17 @@
                 <span v-if="!decrease_width" class="header_font_sidebar_size">دوستان من</span>
               </nuxt-link>
             </div>
-
+            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+              <nuxt-link
+                exact-active-class="SingleShortCutActive"
+                to="/social/MyWishlist"
+                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+              >
+                <HeartIcon :fill="'rgb(255,0,0)'" class="svg_icons_size "/>
+                <!--                <i class="fas fa-users" style="font-size: 18px"></i>-->
+                <span v-if="!decrease_width" class="header_font_sidebar_size">علاقه مندیهای من</span>
+              </nuxt-link>
+            </div>
             <div :class="[decrease_width ? '' : 'tw-collapse ']" class="py-1">
               <input v-if="!decrease_width" type="checkbox"/>
               <div v-if="!decrease_width" :class="[decrease_width ? '' : 'tw-collapse-title ']" class="tw-collapse-title SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
@@ -442,7 +452,7 @@
                     <span v-if="!decrease_width" class="font_sidebar_size">همه خدمات</span>
                   </nuxt-link>
                 </div>
-                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <div v-if="$auth.user.userInfo.role!=='Subscriber'" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
                     to="/Products/MyServices/"
@@ -454,7 +464,7 @@
                     <span v-if="!decrease_width" class="font_sidebar_size">خدمات من</span>
                   </nuxt-link>
                 </div>
-                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <div v-if="!$auth.user.userInfo.role!=='Subscriber'" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
                     to="/Products/AddProduct/"
@@ -470,6 +480,16 @@
             </div>
 
 
+            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+              <nuxt-link
+                exact-active-class="SingleShortCutActive"
+                to="/Payments/"
+                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+              >
+                <MoneyIcon fill="#ef4444" class="svg_icons_size"/>
+                <span v-if="!decrease_width" class="header_font_sidebar_size">پرداخت ها</span>
+              </nuxt-link>
+            </div>
             <div :class="[decrease_width ? '' : 'tw-collapse ']" class="py-1">
               <input v-if="!decrease_width" type="checkbox"/>
               <div v-if="!decrease_width" :class="[decrease_width ? '' : 'tw-collapse-title ']" class="tw-collapse-title SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
@@ -517,16 +537,7 @@
               </div>
             </div>
 
-            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
-              <nuxt-link
-                exact-active-class="SingleShortCutActive"
-                to="/Payments/"
-                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
-              >
-                <MoneyIcon fill="#ef4444" class="svg_icons_size"/>
-                <span v-if="!decrease_width" class="header_font_sidebar_size">پرداخت ها</span>
-              </nuxt-link>
-            </div>
+
 
 <!--            <div :class="[decrease_width ? '' : 'tw-collapse ']" class="tw-collapse py-1">-->
 <!--              <input v-if="!decrease_width" type="checkbox"/>-->
@@ -631,7 +642,7 @@
                 <img
                   v-if="item.selfieFileData !== null"
                   class="img-fluid myPicture rounded-circle tw-pl-0"
-                  :src="`https://pplusapi.simagar.com/${item.selfieFileData}`"
+                  :src="`https://banooclubapi.simagar.com/${item.selfieFileData}`"
                   alt=""
                   style="width: 35px; height: 35px;"
                 />
@@ -770,7 +781,7 @@
                 <img
                   v-if="$auth.user && $auth.user.baseData &&  $auth.user.baseData.selfie"
                   class="img-fluid headerPicture"
-                  :src="`https://pplusapi.simagar.com/${$auth.user.baseData.selfie}`"
+                  :src="`https://banooclubapi.simagar.com/${$auth.user.baseData.selfie}`"
                   alt=""
                   @click="profileHeader"
                 />
@@ -846,7 +857,7 @@
                             v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
                             class="img-fluid rounded-circle"
                             style="width: 45px; height: 45px;"
-                            :src="`https://pplusapi.simagar.com/${$auth.user.baseData.selfie}`"
+                            :src="`https://banooclubapi.simagar.com/${$auth.user.baseData.selfie}`"
                             alt=""
                             @click="profileHeader"
                           />
@@ -996,7 +1007,7 @@
                   v-if="item.selfieFileData !== null"
                   style="width: 35px;height: 35px;"
                   class="myPicture rounded-circle align-self-center"
-                  :src="`https://pplusapi.simagar.com/${item.selfieFileData}`"
+                  :src="`https://banooclubapi.simagar.com/${item.selfieFileData}`"
                   alt=""
                 />
                 <img
@@ -1176,7 +1187,7 @@
 
                 v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
                 class="img-fluid headerPicture"
-                :src="`https://pplusapi.simagar.com/${$auth.user.baseData.selfie}`"
+                :src="`https://banooclubapi.simagar.com/${$auth.user.baseData.selfie}`"
                 alt=""
                 @click="profileHeader"
               />
@@ -1252,7 +1263,7 @@
                           v-if="loggedInfoData.selfie"
                           class="img-fluid rounded-circle"
                           style="width: 45px; height: 45px;"
-                          :src="`https://pplusapi.simagar.com/${loggedInfoData.selfie}`"
+                          :src="`https://banooclubapi.simagar.com/${loggedInfoData.selfie}`"
                           alt=""
                           @click="profileHeader"
                         />
@@ -1431,10 +1442,12 @@ import ForumIcon from "../components/Icons/ForumIcon";
 import CircleIcon from "../components/Icons/CircleIcon";
 import CheveronIcon from "../components/Icons/CheveronIcon";
 import ChargeWalletSideNav from "../components/ChargeWalletSideNav";
+import HeartIcon from "@/components/Icons/HeartIcon";
 
 export default {
   name: "Header",
   components: {
+    HeartIcon,
     ChargeWalletSideNav,
     CheveronIcon,
     CircleIcon,
@@ -1514,7 +1527,7 @@ export default {
       let tmpLabel = "";
 
       if (
-        val === this.$auth.user.userId &&
+        val === this.$auth.user.userInfo.userId &&
         !this.$route.path.includes("chat")
       ) {
         tmpLabel = "شما یک پیام جدید دارید";
@@ -2011,12 +2024,12 @@ export default {
     },
     imgUserAvatar() {
       if (this.userinfo.selfieFileData !== null) {
-        this.userImageApi = `https://pplusapi.simagar.com/${this.userinfo.selfieFileData}`;
+        this.userImageApi = `https://banooclubapi.simagar.com/${this.userinfo.selfieFileData}`;
       }
     },
     imageBackground() {
       if (this.userinfo.bannerFileData !== null) {
-        this.BackgroundApi = `https://pplusapi.simagar.com/${this.userinfo.bannerFileData}`;
+        this.BackgroundApi = `https://banooclubapi.simagar.com/${this.userinfo.bannerFileData}`;
       }
     },
     async getUserInfo() {

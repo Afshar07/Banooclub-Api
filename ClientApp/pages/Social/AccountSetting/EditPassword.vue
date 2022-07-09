@@ -76,7 +76,7 @@ export default {
         this.$axios.post(`Users/Update`, {
           currentPassword: this.currentPassword,
           password: this.newPassword,
-          userId: this.$auth.user.userId,
+          userId: this.$auth.user.userInfo.userId,
         }, {
 
         }).then((response) => {
@@ -90,7 +90,7 @@ export default {
     },
     userInfoId(userId) {
       this.$axios.post(`Users/Get`, null, {
-      
+
         params: {id: userId}
       }).then((response) => {
         if (response.status === 200) {
@@ -102,7 +102,7 @@ export default {
     },
   },
   mounted() {
-    this.userInfoId(this.$auth.user.userId);
+    this.userInfoId(this.$auth.user.userInfo.userId);
     this.$nextTick(() => {
       this.$nuxt.$loading.finish();
     })

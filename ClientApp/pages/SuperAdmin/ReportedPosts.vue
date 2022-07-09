@@ -271,7 +271,7 @@ export default {
   watch:{
     searchKey:function (val,oldVal){
       this.$axios.post(`PostReport/GetAll`, null, {
-       
+
         params: {
           pageNumber: 1,
           count: 10,
@@ -312,7 +312,7 @@ export default {
     },
     getAllReportPost(pageNumber, count,search) {
       this.$axios.post(`PostReport/GetAll`, null, {
-       
+
         params: {
           pageNumber: pageNumber,
           count: count,
@@ -352,7 +352,7 @@ export default {
     dataModal(data) {
       this.SingleReported = ''
       this.$axios.post(`PostReport/Get?postReportId=${data.PostReportId}`, null, {
-       
+
       }).then((res) => {
         this.SingleReported = res.data
       })
@@ -367,7 +367,7 @@ export default {
         updateDate: this.editedPost.updateDate
 
       }, {
-        
+
       }).then((response) => {
         if (response.status === 200) {
           document.querySelector('.btn-close').click();
@@ -384,9 +384,9 @@ export default {
         postId: this.editedPost.postId,
         userId: this.editedPost.userId,
         reason: this.reportTextReason,
-        reporterUserId: this.$auth.user.userId,
+        reporterUserId: this.$auth.user.userInfo.userId,
       }, {
-        
+
       }).then((response) => {
         if (response.status === 200) {
           document.querySelector('.closeReportAdmin').click();

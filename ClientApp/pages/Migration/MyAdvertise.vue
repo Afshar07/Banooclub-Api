@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container mcontainer">
     <!-- Modal -->
     <div
       class="modal fade"
@@ -169,7 +169,8 @@
                     style="font-size: 10px"
                   ></i>
                   <small class="text-muted" style="font-size: 10px">{{
-                    item.createDate | moment("jYYYY-jMM-jDD HH:MM")
+                      new Date(item.createDate).toLocaleDateString('fa-IR')
+
                   }}</small>
                 </div>
               </div>

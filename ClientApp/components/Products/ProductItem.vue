@@ -3,10 +3,10 @@
       <div class="card-media tw-h-40">
         <div class="card-media-overly"></div>
         <nuxt-link :to="`/Products/${service_details.servicePackId}`">
-          <img :src="`https://pplusapi.simagar.com/media/gallery/Profile/${service_details.userInfo.selfieFileData}`" :alt="service_details.title">
+          <img :src="`https://banooclubapi.simagar.com/media/gallery/Profile/${service_details.userInfo.selfieFileData}`" :alt="service_details.title">
         </nuxt-link>
         <span class="tw-absolute tw-bg-white tw-px-2 tw-py-1 tw-text-sm tw-rounded-md tw-m-2"> Label</span>
-        <button class="tw-bg-red-100 tw-absolute tw-right-2 tw-top-2 p-1 tw-rounded-full tw-text-red-500 tw-flex tw-items-center tw-justify-center">
+        <button @click.prevent="createWishList" class="tw-bg-red-100 tw-absolute tw-right-2 tw-top-2 p-1 tw-rounded-full tw-text-red-500 tw-flex tw-items-center tw-justify-center">
           <!--        <HeartIcon fill="red"/>-->
           <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -60,6 +60,25 @@ export default {
       type: Boolean,
       required: true
     }
+  },
+
+  methods:{
+    async createWishList(){
+      try {
+        await this.$repositories.createWishList.createWishList({
+          serviceId:this.service_details.servicePackId,
+          userId: 0
+        })
+        this.$toast.success("خدمت به علاقمندی ها افزوده شد.");
+        this.$nuxt.refresh();
+
+
+      }
+      catch (error){
+        console.log(error)
+      }
+
+    },
   }
 }
 </script>

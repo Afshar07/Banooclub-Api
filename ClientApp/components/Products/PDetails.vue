@@ -28,7 +28,7 @@
       <div class="tw-flex tw-justify-between tw-items-center lg:tw-p-4 tw-p-2.5">
         <div class="tw-flex tw-items-center">
           <nuxt-link :to="`/user/${service_details.userInfo.userId}/posts`" class="text-decoration-none">
-            <img :src="`https://pplusapi.simagar.com/media/gallery/Profile/${service_details.userInfo.selfieFileData}`" alt="profile_image"
+            <img :src="`https://banooclubapi.simagar.com/media/gallery/Profile/${service_details.userInfo.selfieFileData}`" alt="profile_image"
                  class="tw-bg-gray-200 tw-border tw-border-white tw-rounded-full tw-w-10 tw-h-10">
           </nuxt-link>
           <div class="d-flex flex-column tw-font-semibold tw-capitalize tw-mr-4">
@@ -134,13 +134,13 @@
           :key="i"
         >
           <template #content>
-            <img v-if="slide.priority == 1 || slide.priority == 2" class="tw-w-full tw-h-full" :src="`https://pplusapi.simagar.com/media/gallery/Service/${slide.base64}`" :alt="service_details.title"
+            <img v-if="slide.priority == 1 || slide.priority == 2" class="tw-w-full tw-h-full" :src="`https://banooclubapi.simagar.com/media/gallery/Service/${slide.base64}`" :alt="service_details.title"
                  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
             <video
               v-else-if="slide.priority == 3"
               class="w-100 tw-h-full"
               controls
-              :src="`https://pplusapi.simagar.com/media/gallery/Service/${slide.base64}`"
+              :src="`https://banooclubapi.simagar.com/media/gallery/Service/${slide.base64}`"
             ></video>
           </template>
         </vueper-slide>
@@ -163,7 +163,7 @@
           :key="i"
           @click.native="$refs.vueperslides2 && $refs.vueperslides2.goToSlide(i)">
           <template #content>
-            <img v-if="slide.priority == 1 || slide.priority == 2" class=" tw-w-full" :src="`https://pplusapi.simagar.com/media/gallery/Service/${slide.base64}`" :alt="service_details.title" style="object-fit: cover;object-position: center !important; height: 100px;">
+            <img v-if="slide.priority == 1 || slide.priority == 2" class=" tw-w-full" :src="`https://banooclubapi.simagar.com/media/gallery/Service/${slide.base64}`" :alt="service_details.title" style="object-fit: cover;object-position: center !important; height: 100px;">
             <img v-else-if="slide.priority == 3" class=" tw-w-full"
                  src="/video_player.jpg"
                  :alt="service_details.title" style="object-fit: contain;object-position: center !important; height: 100px;">
@@ -313,7 +313,7 @@
             <div class="d-flex flex-column tw-py-3" v-for="comment in service_details.comments.filter(e=> e.baseId === 0)">
               <div class="tw-flex tw-py-3">
                 <div class="tw-w-10 tw-h-10 tw-rounded-full tw-relative tw-flex-shrink-0">
-                  <img :src="`https://pplusapi.simagar.com/media/gallery/Profile/${comment.userInfo.selfieFileData}`" alt="" class="tw-absolute tw-h-full tw-rounded-full tw-w-full">
+                  <img :src="`https://banooclubapi.simagar.com/media/gallery/Profile/${comment.userInfo.selfieFileData}`" alt="" class="tw-absolute tw-h-full tw-rounded-full tw-w-full">
                 </div>
                 <div>
                   <div class="tw-text-gray-700 tw-py-2 tw-px-3 tw-rounded-md tw-bg-gray-100 tw-relative lg:tw-mr-5 tw-mr-2 lg:tw-ml-12">
@@ -336,7 +336,7 @@
               </div>
               <div class="tw-flex tw-py-3 tw-pr-5" v-for="el in service_details.comments.filter(e => e.baseId === comment.serviceCommentId )" >
                 <div class="tw-w-10 tw-h-10 tw-rounded-full tw-relative tw-flex-shrink-0">
-                  <img :src="`https://pplusapi.simagar.com/media/gallery/Profile/${el.userInfo.selfieFileData}`" alt="" class="tw-absolute tw-h-full tw-rounded-full tw-w-full">
+                  <img :src="`https://banooclubapi.simagar.com/media/gallery/Profile/${el.userInfo.selfieFileData}`" alt="" class="tw-absolute tw-h-full tw-rounded-full tw-w-full">
                 </div>
                 <div>
                   <div class="tw-text-gray-700 tw-py-2 tw-px-3 tw-rounded-md tw-bg-gray-100 tw-relative lg:tw-mr-5 tw-mr-2 lg:tw-ml-12">

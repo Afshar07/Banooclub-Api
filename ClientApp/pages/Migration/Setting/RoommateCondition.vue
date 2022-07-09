@@ -1136,7 +1136,7 @@ export default {
             ownerAge: parseInt(this.OwnerAge),
             ownerLangs: this.StringOwnerLangs,
             description: this.OwnerDescription,
-            userId: this.$auth.user.userId,
+            userId: this.$auth.user.userInfo.userId,
             paymentId: null,
             photos: this.photos,
           },

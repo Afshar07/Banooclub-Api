@@ -458,7 +458,7 @@ export default {
           this.totalPrice = result
             const res = await this.$repositories.createAService.createAService({
               title: this.service_title,
-              userId:0,
+              userId:this.$auth.user.userInfo.userId,
               serviceCategoryId: this.service_category,
               description: this.service_desc,
               seoTitle: '',

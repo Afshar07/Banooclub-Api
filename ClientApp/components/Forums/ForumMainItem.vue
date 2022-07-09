@@ -1,6 +1,39 @@
 <template>
   <div class="tw-flex tw-items-start tw-p-7">
-    <img src="~/assets/images/products/product_image.jpg" alt="" class="tw-w-12 tw-h-12 tw-rounded-full">
+    <!-- Modal -->
+    <div class="modal fade" id="DeleteForum" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">حذف انجمن</h5>
+
+          </div>
+          <div class="modal-body">
+           <span>آیا از حذف این انجمن اظمینان دارید ؟ </span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">خیر</button>
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" @click="DeleteForum">بله</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tw-flex tw-flex-col tw-items-center ">
+      <img src="~/assets/images/products/product_image.jpg" alt="" class="tw-w-12 tw-h-12 tw-rounded-full">
+      <br>
+
+      <div v-if="forum_details.userId === $auth.user.userInfo.userId && $route.path.toLowerCase() === '/forums/myforums/'" class="tw-flex tw-justify-center tw-items-center tw-gap-2">
+        <a  href="#DeleteForum" data-bs-toggle="modal">
+          <i class="fas fa-trash tw-text-red-600 hover:tw-text-red-900 hover:tw-transition  tw-cursor-pointer "></i>
+        </a>
+        <nuxt-link :to="`/Forums/EditForum/${forum_details.forumId}`">
+          <i class="fas fa-edit tw-text-blue-600 hover:tw-text-blue-900 hover:tw-transition  tw-cursor-pointer "></i>
+        </nuxt-link>
+
+      </div>
+
+    </div>
+
     <div class="tw-flex-1 tw-mr-4">
       <nuxt-link style="color:#666666;" :to="`/Forums/${forum_details.forumId}/`" class="tw-mb-1 text-decoration-none">
         <h2 class="tw-text-lg tw-font-semibold tw-line-clamp-1">
@@ -37,7 +70,24 @@ export default {
       required: true
     }
   },
+  data(){
+    return{
+      SelectedForum:null
+    }
+  },
   methods:{
+   async DeleteForum(){
+     try {
+       const res = await this.$repositories.DeleteForum.DeleteForum({
+         id:this.forum_details.forumId
+       })
+       this.$toast.success('انجمن با موفقیت حذف شد')
+       this.$nuxt.refresh();
+     }catch (e){
+       console.log(e)
+     }
+
+    },
     time_ago(time) {
       switch (typeof time) {
         case 'number':

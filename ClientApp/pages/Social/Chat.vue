@@ -857,7 +857,7 @@ export default {
     SocketId: {
       immediate: true,
       async handler(val) {
-        if (val != this.$auth.user.userId) {
+        if (val != this.$auth.user.userInfo.userId) {
           await this.GetParentConversations();
           if (this.SelectedParentId) {
             await this.GetConversations(0, 0);
@@ -1095,7 +1095,7 @@ export default {
           CreateDate: new Date(),
           userId: 0,
           sent: false,
-          CreatorUserId: this.$auth.user.userId,
+          CreatorUserId: this.$auth.user.userInfo.userId,
         };
 
         this.Messages.push(localMessage);

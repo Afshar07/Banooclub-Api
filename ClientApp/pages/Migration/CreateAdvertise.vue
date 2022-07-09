@@ -395,7 +395,7 @@ export default {
             condition: this.Status,
             cityId: this.SelectedCityId,
             stateId: this.SelectedStateId,
-            userId: this.$auth.user.userId,
+            userId: this.$auth.user.userInfo.userId,
             description: this.description,
             latitude: this.latlng.lat,
             longitude: this.latlng.lng,

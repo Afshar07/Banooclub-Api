@@ -103,6 +103,7 @@ export default {
           })
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
+          this.$toast.success('انجمن با موفقیت ساخته شد')
           this.$router.push({
             path: '/Forums/'
           })

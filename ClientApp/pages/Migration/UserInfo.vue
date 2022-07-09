@@ -54,7 +54,7 @@
                     <swiper-slide class="slide-1" v-for="item in roomateData.roomate.photos" :key="item.adsId">
                       <img class="img-fluid"
                            v-if="roomateData.roomate.photos !== undefined && roomateData.roomate.photos.length > 0"
-                           :src="`https://pplusapi.simagar.com/${ item.base64}`"
+                           :src="`https://banooclubapi.simagar.com/${ item.base64}`"
                       />
                     </swiper-slide>
                   </swiper>
@@ -412,7 +412,7 @@
                          :key="index">
                       <div class="d-flex flex-row">
                         <div class="">
-                          <!--                          <img :src="`https://pplusapi.simagar.com/${Follower.userInfo.selfieFileData}`"-->
+                          <!--                          <img :src="`https://banooclubapi.simagar.com/${Follower.userInfo.selfieFileData}`"-->
                           <!--                               class="pictureFriend img-fluid"/>-->
                         </div>
                         <div class="">
@@ -432,7 +432,7 @@
                          :key="index">
                       <div class="d-flex flex-row">
                         <div class="">
-                          <!--                          <img :src="`https://pplusapi.simagar.com/${Follower.userInfo.selfieFileData}`"-->
+                          <!--                          <img :src="`https://banooclubapi.simagar.com/${Follower.userInfo.selfieFileData}`"-->
                           <!--                               class="pictureFriend img-fluid"/>-->
                         </div>
                         <div class="">
@@ -459,7 +459,7 @@
         <div class="row p-0 text-center">
           <div class="col-12">{{ userInfoData.name + ' ' + userInfoData.familyName }}</div>
           <div class="col-12 my-3">
-            <img class="img-fluid infoPicture" :src="`https://pplusapi.simagar.com/${userInfoData.selfieFileData}`">
+            <img class="img-fluid infoPicture" :src="`https://banooclubapi.simagar.com/${userInfoData.selfieFileData}`">
           </div>
           <div class="col-12">
             <div class="d-flex justify-content-center gap-4 my-2">
@@ -541,7 +541,7 @@ export default {
         this.$nuxt.$loading.start();
       })
       this.$axios.post(`AdsCategory/GetAll`, null, {
-       
+
       }).then((response) => {
         if (response.status === 200) {
           this.categories = response.data
@@ -583,7 +583,7 @@ export default {
         this.$nuxt.$loading.start();
       })
       this.$axios.post(`Users/Get`, null, {
-        
+
         params: {id: userId}
       }).then((response) => {
         if (response.status === 200) {
@@ -607,7 +607,7 @@ export default {
         this.$nuxt.$loading.start();
       })
       this.$axios.post(`Following/GetByUserId`, null, {
-        
+
       }).then((response) => {
         if (response.status === 200) {
           this.Following = response.data;
@@ -623,7 +623,7 @@ export default {
         this.$nuxt.$loading.start();
       })
       this.$axios.post(`Follower/GetByUserId`, null, {
-      
+
       }).then((response) => {
         if (response.status === 200) {
           this.Follower = response.data;
@@ -642,7 +642,7 @@ export default {
         viewUserId: this.$auth.userId ? this.$auth.userId : null,
         url: this.$nuxt.$route.fullPath
       }, {
-       
+
       }).then().catch((error) => {
         console.log(error)
       })
@@ -656,7 +656,7 @@ export default {
         userId: this.$auth.userId,
         followingUserId: following
       }, {
-      
+
       }).then((response) => {
         if (response.status === 200) {
           this.isFollowing = response.data
@@ -690,7 +690,7 @@ export default {
         this.$nuxt.$loading.start();
       })
       this.$axios.post(`Roomate/GetByUserId`, null, {
-       
+
         params: {
           userId: parseInt(this.$nuxt.$route.query.userId)
         }
@@ -706,7 +706,7 @@ export default {
     },
     sendFollowingRequest() {
       this.$axios.post('FollowRequest/Create', null, {
-       
+
         params: {
           followingUserId: parseInt(this.$nuxt.$route.query.userId)
         }
@@ -726,7 +726,7 @@ export default {
         params: {
           userId: userId
         },
-      
+
       }).then((response) => {
         if (response.status === 200) {
           this.userAds = response.data

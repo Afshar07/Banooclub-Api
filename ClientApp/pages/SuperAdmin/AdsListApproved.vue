@@ -70,7 +70,7 @@
                             approvedAds.photos !== undefined &&
                             approvedAds.photos.length > 0
                           "
-                          :src="`https://pplusapi.simagar.com/${item.base64}`"
+                          :src="`https://banooclubapi.simagar.com/${item.base64}`"
                         />
                       </swiper-slide>
                       <div
@@ -285,7 +285,7 @@
                       v-for="(item, index) in row.photos"
                       :key="index"
                       style="width: 20px; height: 20px"
-                      :src="`https://pplusapi.simagar.com/${item.base64}`"
+                      :src="`https://banooclubapi.simagar.com/${item.base64}`"
                     />
                   </td>
                   <td>
@@ -398,7 +398,7 @@
                                     approvedAds.photos !== undefined &&
                                     approvedAds.photos.length > 0
                                   "
-                                  :src="`https://pplusapi.simagar.com/${item.base64}`"
+                                  :src="`https://banooclubapi.simagar.com/${item.base64}`"
                                 />
                               </swiper-slide>
                               <div
@@ -429,7 +429,7 @@
                                     approvedAds.photos !== undefined &&
                                     approvedAds.photos.length > 0
                                   "
-                                  :src="`https://pplusapi.simagar.com/${item.base64}`"
+                                  :src="`https://banooclubapi.simagar.com/${item.base64}`"
                                 />
                               </swiper-slide>
                             </swiper>
@@ -599,7 +599,7 @@
                                     approvedAds.photos !== undefined &&
                                     approvedAds.photos.length > 0
                                   "
-                                  :src="`https://pplusapi.simagar.com/${item.base64}`"
+                                  :src="`https://banooclubapi.simagar.com/${item.base64}`"
                                 />
                               </swiper-slide>
                               <div
@@ -630,7 +630,7 @@
                                     approvedAds.photos !== undefined &&
                                     approvedAds.photos.length > 0
                                   "
-                                  :src="`https://pplusapi.simagar.com/${item.base64}`"
+                                  :src="`https://banooclubapi.simagar.com/${item.base64}`"
                                 />
                               </swiper-slide>
                             </swiper>
@@ -865,7 +865,7 @@
                     v-for="(item, index) in row.photos"
                     :key="index"
                     style="width: 20px; height: 20px"
-                    :src="`https://pplusapi.simagar.com/${item.base64}`"
+                    :src="`https://banooclubapi.simagar.com/${item.base64}`"
                   />
                 </td>
                 <td>{{ row.userInfo.name + " " + row.userInfo.familyName }}</td>
@@ -1047,7 +1047,7 @@
                     v-for="(item, index) in row.photos"
                     :key="index"
                     style="width: 20px; height: 20px"
-                    :src="`https://pplusapi.simagar.com/${item.base64}`"
+                    :src="`https://banooclubapi.simagar.com/${item.base64}`"
                   />
                 </td>
                 <td v-if="row.userInfo !== null">

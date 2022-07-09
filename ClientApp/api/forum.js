@@ -9,6 +9,16 @@ export default (context, resources) => ({
     const response = await context.$axios.post(resources,payload)
     return response
   },
+  async DeleteForum(params){
+    const response = await context.$axios.post(resources,null,{
+      params
+    })
+    return response
+  },
+  async UpdateForum(payload){
+    const response = await context.$axios.post(resources,payload)
+    return response
+  },
   async getAllForums(params){
     const response = await context.$axios.post(resources,null,{
       params

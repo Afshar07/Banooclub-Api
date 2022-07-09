@@ -52,7 +52,7 @@
                     advertiseDetail.photos !== undefined &&
                     advertiseDetail.photos.length > 0
                   "
-                  :src="`https://pplusapi.simagar.com/${item.base64}`"
+                  :src="`https://banooclubapi.simagar.com/${item.base64}`"
                 />
               </swiper-slide>
               <div

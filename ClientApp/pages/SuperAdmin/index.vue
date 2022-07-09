@@ -50,7 +50,7 @@
             <div class="col-5 text-center position-relative">
               <img
                 v-if="item.selfieFileData"
-                :src="`https://pplusapi.simagar.com/${item.selfieFileData}`"
+                :src="`https://banooclubapi.simagar.com/${item.selfieFileData}`"
                 class="img-fluid user-avatar"
                 alt="user-avatar"
               />
@@ -214,7 +214,7 @@ export default {
   },
   methods: {
     goToUserProfile(userId) {
-      if (userId === this.$auth.user.userId) {
+      if (userId === this.$auth.user.userInfo.userId) {
         this.$router.push("/Social");
       } else {
         this.$router.push({

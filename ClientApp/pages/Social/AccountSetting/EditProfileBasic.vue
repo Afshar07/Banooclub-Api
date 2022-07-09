@@ -267,7 +267,7 @@
               <div v-if="nationalCart !== null && !cart">
                 <img
                   class="img-fluid"
-                  :src="`https://pplusapi.simagar.com/${nationalCart}`"
+                  :src="`https://banooclubapi.simagar.com/${nationalCart}`"
                 />
               </div>
             </div>
@@ -299,7 +299,7 @@
 <!--              <div v-if="passport !== null && !pass">-->
 <!--                <img-->
 <!--                  class="img-fluid"-->
-<!--                  :src="`https://pplusapi.simagar.com/${passport}`"-->
+<!--                  :src="`https://banooclubapi.simagar.com/${passport}`"-->
 <!--                />-->
 <!--              </div>-->
 <!--            </div>-->
@@ -414,7 +414,7 @@ export default {
           .post(
             `UserSetting/Update`,
             {
-              userId: this.$auth.user.userId,
+              userId: this.$auth.user.userInfo.userId,
               isPrivate: this.$auth.isPrivate,
               isPrivateRoomate: this.$auth.isPrivateRoomate,
               isPrivateAds: this.$auth.isPrivateAds,
