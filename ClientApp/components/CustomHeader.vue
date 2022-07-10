@@ -142,7 +142,7 @@
           </button>
         </li>
         <li v-if="!$route.params.id" class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-          <button class="nav-link" id="pills-edit-info-tab" data-bs-toggle="pill" data-bs-target="#pills-edit-info"
+          <button @click="$router.push('/social/accountsetting/editprofilebasic')" class="nav-link" id="pills-edit-info-tab" data-bs-toggle="pill" data-bs-target="#pills-edit-info"
                   type="button" role="tab" aria-controls="pills-edit-info" aria-selected="false">
             ویرایش اطلاعات
           </button>
