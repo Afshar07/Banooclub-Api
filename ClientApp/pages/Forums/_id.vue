@@ -187,6 +187,7 @@ export default {
 
     },
 
+
     async ForumLike(status){
       try {
         const res = await this.$repositories.CreateLike.CreateLike({

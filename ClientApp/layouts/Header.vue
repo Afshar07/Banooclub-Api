@@ -233,48 +233,48 @@
               <span class="header_font_sidebar_size">پست های من</span>
             </nuxt-link>
           </div>
-<!--          <div class="py-1 tw-collapse">-->
-<!--            <input type="checkbox"/>-->
-<!--            <div class="tw-collapse-title SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">-->
-<!--              <BedIcon class="svg_icons_size"/>-->
-<!--              <span class="header_font_sidebar_size">هم خانه </span>-->
-<!--              <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>-->
-<!--            </div>-->
-<!--            <div class="tw-collapse-content">-->
-<!--              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--                <nuxt-link-->
-<!--                  exact-active-class="SingleShortCutActive"-->
-<!--                  to="/migration/allroomate"-->
-<!--                  class="SingleShortCut py-2 p-3 w-100 d-flex align-items-center gap-4"-->
-<!--                >-->
-<!--                  <CircleIcon style="width: 10px; height: 10px;"/>-->
-<!--                  <span  class="font_sidebar_size"> همه آگهی های هم خانه</span>-->
-<!--                </nuxt-link>-->
-<!--              </div>-->
-<!--              <div class="d-flex align-items-center" data-bs-dismiss="offcanvas">-->
-<!--                <nuxt-link-->
-<!--                  exact-active-class="SingleShortCutActive"-->
-<!--                  to="/migration/myroomateinfo"-->
-<!--                  class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                >-->
-<!--                  &lt;!&ndash;              <i class="fas fa-bed" style="font-size: 18px"></i>&ndash;&gt;-->
-<!--                  <CircleIcon style="width: 10px; height: 10px;"/>-->
-<!--                  <span class="font_sidebar_size">اطلاعات هم خانه</span>-->
-<!--                </nuxt-link>-->
-<!--              </div>-->
-<!--              <div class="d-flex align-items-center" data-bs-dismiss="offcanvas">-->
-<!--                <nuxt-link-->
-<!--                  exact-active-class="SingleShortCutActive"-->
-<!--                  to="/migration/setting/roommatecondition"-->
-<!--                  class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                >-->
-<!--                  &lt;!&ndash;              <i class="fas fa-bed" style="font-size: 18px"></i>&ndash;&gt;-->
-<!--                  <CircleIcon style="width: 10px; height: 10px;"/>-->
-<!--                  <span class="font_sidebar_size">افزودن هم خانه</span>-->
-<!--                </nuxt-link>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
+          <div class="py-1 tw-collapse">
+            <input type="checkbox"/>
+            <div class="tw-collapse-title SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <BedIcon class="svg_icons_size"/>
+              <span class="header_font_sidebar_size">هم خانه </span>
+              <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
+            </div>
+            <div class="tw-collapse-content">
+              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <nuxt-link
+                  exact-active-class="SingleShortCutActive"
+                  to="/migration/allroomate"
+                  class="SingleShortCut py-2 p-3 w-100 d-flex align-items-center gap-4"
+                >
+                  <CircleIcon style="width: 10px; height: 10px;"/>
+                  <span  class="font_sidebar_size"> همه آگهی های هم خانه</span>
+                </nuxt-link>
+              </div>
+              <div class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+                <nuxt-link
+                  exact-active-class="SingleShortCutActive"
+                  to="/migration/myroomateinfo"
+                  class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+                >
+                  <!--              <i class="fas fa-bed" style="font-size: 18px"></i>-->
+                  <CircleIcon style="width: 10px; height: 10px;"/>
+                  <span class="font_sidebar_size">اطلاعات هم خانه</span>
+                </nuxt-link>
+              </div>
+              <div class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+                <nuxt-link
+                  exact-active-class="SingleShortCutActive"
+                  to="/migration/setting/roommatecondition"
+                  class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+                >
+                  <!--              <i class="fas fa-bed" style="font-size: 18px"></i>-->
+                  <CircleIcon style="width: 10px; height: 10px;"/>
+                  <span class="font_sidebar_size">افزودن هم خانه</span>
+                </nuxt-link>
+              </div>
+            </div>
+          </div>
 
         </div>
       </div>
@@ -539,55 +539,55 @@
 
 
 
-<!--            <div :class="[decrease_width ? '' : 'tw-collapse ']" class="tw-collapse py-1">-->
-<!--              <input v-if="!decrease_width" type="checkbox"/>-->
-<!--              <div v-if="!decrease_width" :class="[decrease_width ? '' : 'tw-collapse-title ']" class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">-->
-<!--                <BedIcon class="svg_icons_size"/>-->
-<!--                <span v-if="!decrease_width" class="header_font_sidebar_size">هم خانه</span>-->
-<!--                <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>-->
-<!--              </div>-->
-<!--              <div :class="[decrease_width ? '' : 'tw-collapse-content']">-->
-<!--                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--                  <nuxt-link-->
-<!--                    exact-active-class="SingleShortCutActive"-->
-<!--                    to="/migration/allroomate"-->
-<!--                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                    :class="[decrease_width ? 'p-3' : 'px-3']"-->
-<!--                  >-->
-<!--                    <BedIcon class="svg_icons_size" v-if="decrease_width"/>-->
-<!--                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>-->
-<!--                    <span v-if="!decrease_width" class="font_sidebar_size"> همه آگهی های هم خانه</span>-->
-<!--                  </nuxt-link>-->
-<!--                </div>-->
+            <div :class="[decrease_width ? '' : 'tw-collapse ']" class="tw-collapse py-1">
+              <input v-if="!decrease_width" type="checkbox"/>
+              <div v-if="!decrease_width" :class="[decrease_width ? '' : 'tw-collapse-title ']" class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+                <BedIcon class="svg_icons_size"/>
+                <span v-if="!decrease_width" class="header_font_sidebar_size">هم خانه</span>
+                <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
+              </div>
+              <div :class="[decrease_width ? '' : 'tw-collapse-content']">
+                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    exact-active-class="SingleShortCutActive"
+                    to="/migration/allroomate"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                  >
+                    <BedIcon class="svg_icons_size" v-if="decrease_width"/>
+                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
+                    <span v-if="!decrease_width" class="font_sidebar_size"> همه آگهی های هم خانه</span>
+                  </nuxt-link>
+                </div>
 
-<!--                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--                  <nuxt-link-->
-<!--                    exact-active-class="SingleShortCutActive"-->
-<!--                    to="/migration/myroomateinfo"-->
-<!--                    class="SingleShortCut  py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                    :class="[decrease_width ? 'p-3' : 'px-3']"-->
-<!--                  >-->
-<!--                    <BedIcon class="svg_icons_size" v-if="decrease_width"/>-->
-<!--                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>-->
+                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    exact-active-class="SingleShortCutActive"
+                    to="/migration/myroomateinfo"
+                    class="SingleShortCut  py-2 w-100 d-flex align-items-center gap-4"
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                  >
+                    <BedIcon class="svg_icons_size" v-if="decrease_width"/>
+                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
 
-<!--                    <span v-if="!decrease_width" class="font_sidebar_size">اطلاعات هم خانه</span>-->
-<!--                  </nuxt-link>-->
-<!--                </div>-->
-<!--                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--                  <nuxt-link-->
-<!--                    exact-active-class="SingleShortCutActive"-->
-<!--                    to="/migration/setting/roommatecondition"-->
-<!--                    class="SingleShortCut  py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                    :class="[decrease_width ? 'p-3' : 'px-3']"-->
-<!--                  >-->
-<!--                    <BedIcon class="svg_icons_size"  v-if="decrease_width"/>-->
-<!--                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>-->
+                    <span v-if="!decrease_width" class="font_sidebar_size">اطلاعات هم خانه</span>
+                  </nuxt-link>
+                </div>
+                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    exact-active-class="SingleShortCutActive"
+                    to="/migration/setting/roommatecondition"
+                    class="SingleShortCut  py-2 w-100 d-flex align-items-center gap-4"
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                  >
+                    <BedIcon class="svg_icons_size"  v-if="decrease_width"/>
+                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
 
-<!--                    <span v-if="!decrease_width" class="font_sidebar_size">افزودن هم خانه</span>-->
-<!--                  </nuxt-link>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
+                    <span v-if="!decrease_width" class="font_sidebar_size">افزودن هم خانه</span>
+                  </nuxt-link>
+                </div>
+              </div>
+            </div>
 
           </div>
         </div>
