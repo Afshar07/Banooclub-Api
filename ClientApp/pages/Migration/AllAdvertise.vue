@@ -73,6 +73,8 @@
 
                              ></v-select>
 
+
+
                              <v-select
                                @input="GetCity"
                                :options="AllCities"
@@ -122,7 +124,7 @@
         </div>
       </div>
       <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-<!--        <FirstTabContent :services="all_services" :categories="categories"/>-->
+        <FirstTabContentAds :Ads="AllAds" :categories="categories"/>
       </div>
     </div>
 
@@ -138,14 +140,14 @@
     import ChevronLeftIcon from "../../components/Icons/LeftChevronIcon";
     import RightChevronIcon from "../../components/Icons/RightChevronIcon";
     import LeftChevronIcon from "../../components/Icons/LeftChevronIcon";
-    import FirstTabContent from "../../components/Products/FirstTabContent";
+    import FirstTabContentAds from "../../components/Ads/FirstTabContentAds";
     import AllAdsTabContent from "../../components/Ads/AllAdsTabContent";
     export default {
         name: "index",
         layout: "PoshtebamPlusLayout",
         components:{
           AllAdsTabContent,
-            FirstTabContent,
+          FirstTabContentAds,
             LeftChevronIcon,
             RightChevronIcon,
             ChevronLeftIcon,
@@ -359,5 +361,10 @@
   font-size: 12px!important;
 }
 
+.vs__search{
+  height: 20px!important;
+  font-size: 12px!important;
+  color: grey!important;
 
+}
 </style>

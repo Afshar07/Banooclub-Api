@@ -175,7 +175,7 @@
 <!--            <a class="text-decoration-none px-1 tw-text-gray-600" :href="`tel:${AdsDetail.phoneNumber2}`">{{AdsDetail.phoneNumber2}}</a>-->
 <!--          </div>-->
 <!--        </div>-->
-        <div class="tw-text-gray-600 d-flex flex-column tw-text-sm md:tw-pt-3">
+        <div v-if="AdsDetail.tag!==null" class="tw-text-gray-600 d-flex flex-column tw-text-sm md:tw-pt-3">
           <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2 mb-0">هشتگ ها</h2>
                   <div class="d-flex align-items-center gap-2">
                     <span class="text-secondary"  v-for="item in ArrangedTags(AdsDetail.tag)"> #{{ item}} </span>

@@ -427,7 +427,7 @@
                 to="/social/MyWishlist"
                 class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
               >
-                <HeartIcon :fill="'rgb(255,0,0)'" class="svg_icons_size "/>
+                <HeartIcon :fill="'rgb(255,0,0)'" class="svg_icons_size  text-danger"/>
                 <!--                <i class="fas fa-users" style="font-size: 18px"></i>-->
                 <span v-if="!decrease_width" class="header_font_sidebar_size">علاقه مندیهای من</span>
               </nuxt-link>

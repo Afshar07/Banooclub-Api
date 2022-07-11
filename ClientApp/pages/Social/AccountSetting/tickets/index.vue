@@ -143,8 +143,8 @@
                 </div>
                 <div class="col-md-12">
                   <div class="row">
-                    <div class="col-md-2 d-flex justify-content-start my-3">
-                      <button class="btn btn-primary" @click="openFileUpload">
+                    <div class="col-md-2  d-flex justify-content-start my-3">
+                      <button class="tw-h-10 tw-bg-[#ef4444] hover:tw-bg-white hover:tw-text-[#ef4444] tw-border-solid border-1 tw-border-[#ef4444] tw-rounded w-100 tw-transition tw-text-white  tw-p-2" @click="openFileUpload">
                         آپلود عکس
                       </button>
                       <input
@@ -161,7 +161,7 @@
                   </div>
                 </div>
                 <div class="col-md-12">
-                  <button class="btn btn-primary w-100" @click="CreateTicket">
+                  <button class=" tw-bg-[#ef4444] hover:tw-bg-white hover:tw-text-[#ef4444] tw-border-solid border-1 tw-border-[#ef4444] tw-rounded w-100 tw-transition tw-text-white  tw-p-2" @click="CreateTicket">
                     ثبت
                   </button>
                 </div>
@@ -215,10 +215,10 @@ export default {
       this.$refs.file.click();
     },
     ticketRouteGenerator(ticket) {
-      window.open(
-        `/social/accountsetting/tickets/${ticket.ticketId}`,
-        "_blank"
-      );
+      this.$router.push({
+        path:`/social/accountsetting/tickets/${ticket.ticketId}`
+      })
+
     },
 
     CancelUpload() {

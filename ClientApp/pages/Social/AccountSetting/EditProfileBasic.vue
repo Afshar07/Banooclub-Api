@@ -316,10 +316,17 @@
               </div>
             </div>
             <div class="col-lg-7 col-md-12">
-              <div v-if="nationalCart !== null">
+              <div v-if="cart !== ''">
                 <img
                   class="img-fluid"
-                  :src="`https://banooclubapi.simagar.com/${nationalCart}`"
+                  :src="cart"
+                />
+              </div>
+              <div v-else>
+
+                <img
+                  class="img-fluid"
+                  :src=" BaseUrl + nationalCart"
                 />
               </div>
             </div>
@@ -506,7 +513,6 @@ export default {
         return function () {
           const binaryData = reader.result;
           that.nationalCart = window.btoa(binaryData);
-          console.log(that.nationalCart);
         };
       })(file);
       reader.readAsBinaryString(file);
