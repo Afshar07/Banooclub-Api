@@ -17,6 +17,9 @@
           {{forumDetails.viewsCount}}
         </span>
       </p>
+      <p class="tw-text-sm tw-text-gray-400 tw-my-2 px-3">
+        گزارش انجمن
+      </p>
     </div>
 
     <div class="row py-3">
@@ -30,7 +33,7 @@
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
                   </svg>
                 </button>
-                <div style="color:hsl(210,8%,45%);">{{likes}}</div>
+                <div style="color:hsl(210,8%,45%);">{{forumDetails.vote}}</div>
                 <button @click="ForumLike(2)">
                   <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
@@ -83,7 +86,7 @@
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
                       </svg>
                     </button>
-                    <div style="color:hsl(210,8%,45%);">{{likes}}</div>
+                    <div style="color:hsl(210,8%,45%);">{{comment.vote}}</div>
                     <button @click="ForumCommentLike(2,comment.forumCommentId)">
                       <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
@@ -107,9 +110,9 @@
                         <InstagramIcon style="width: 20px; height: 20px;"/>
                       </nuxt-link>
                     </div>
-                    <button type="button" class="button p-2" style="font-size: 12px; height: 28px">
-                      دنبال کردن
-                    </button>
+<!--                    <button type="button" class="button p-2" style="font-size: 12px; height: 28px">-->
+<!--                      دنبال کردن-->
+<!--                    </button>-->
 
                   </div>
                 </div>
@@ -175,10 +178,10 @@ export default {
           status: status,
           userId: this.$auth.user.userInfo.userId
         })
-        if(status===1){
-          this.$toast.success('انجمن لایک شد')
-        }else{
-          this.$toast.success('انجمن دیسلایک شد')
+        if(res.data ===3){
+          this.$toast.success('نمره شما ثبت شد')
+        }else if(res.data ===1 ||res.data===2 ){
+          this.$toast.success('شما به این انجمن نمره داده اید')
         }
         this.$nuxt.refresh();
       }catch (e) {
@@ -196,11 +199,13 @@ export default {
           status: status,
           userId: this.$auth.user.userInfo.userId
         })
-        if(status===1){
-          this.$toast.success('انجمن لایک شد')
-        }else{
-          this.$toast.success('انجمن دیسلایک شد')
+
+        if(res.data ===3){
+          this.$toast.success('نمره شما ثبت شد')
+        }else if(res.data ===1 ||res.data===2 ){
+          this.$toast.success('شما به این انجمن نمره داده اید')
         }
+
         this.$nuxt.refresh();
       }catch (e) {
         console.log(e)
@@ -233,12 +238,6 @@ export default {
 
     },
 
-    likeQuestion(){
-      this.likes++
-    },
-    dislikeQuestion(){
-      this.likes--
-    },
     time_ago(time) {
       switch (typeof time) {
         case 'number':

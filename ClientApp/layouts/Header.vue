@@ -31,6 +31,17 @@
               <span class="header_font_sidebar_size">مکالمات</span>
             </nuxt-link>
           </div>
+          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+            <nuxt-link
+              exact-active-class="SingleShortCutActive"
+              to="/Blog/AllBlogs"
+              class="SingleShortCut  p-3 py-2 w-100 d-flex align-items-center gap-4"
+            >
+              <BlogIcon fill="rgb(245 158 11)" class="svg_icons_size"/>
+              <!--                <i class="fas fa-comment" style="font-size: 18px"></i>-->
+              <span v-if="!decrease_width" class="header_font_sidebar_size">مقالات</span>
+            </nuxt-link>
+          </div>
           <div class="d-flex align-items-center" data-bs-dismiss="offcanvas">
             <nuxt-link
               exact-active-class="SingleShortCutActive"
@@ -147,7 +158,7 @@
 <!--                  <span class="font_sidebar_size">جزیئات خدمت</span>-->
 <!--                </nuxt-link>-->
 <!--              </div>-->
-              <div v-if=" $auth.user&& $auth.user.userInfo  && $auth.user.userInfo.role!=='Subscriber'" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+              <div v-if=" $auth.user&& $auth.user && $auth.user.baseData.userType===3" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
                   to="/Products/MyServices/"
@@ -158,7 +169,7 @@
                   <span class="font_sidebar_size">خدمات من</span>
                 </nuxt-link>
               </div>
-              <div v-if="$auth.user&& $auth.user.userInfo&& $auth.user.userInfo.role!=='Subscriber'" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+              <div v-if=" $auth.user&& $auth.user && $auth.user.baseData.userType===3" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
                   to="/Products/AddProduct/"
@@ -282,6 +293,7 @@
 
     <!--lg sidebar-->
     <div class="offCanvasWrapper" :class="{ OffCanvasWrapperActive: true }">
+
       <div
         class="OffCanvas d-none d-xl-block "
         style="z-index: 999999 !important; overflow-x: hidden; border-left: 1px solid #eeeeee"
@@ -324,6 +336,18 @@
                 <MessageIcon fill="rgb(245 158 11)" class="svg_icons_size"/>
                 <!--                <i class="fas fa-comment" style="font-size: 18px"></i>-->
                 <span v-if="!decrease_width" class="header_font_sidebar_size">مکالمات</span>
+              </nuxt-link>
+            </div>
+
+            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+              <nuxt-link
+                exact-active-class="SingleShortCutActive"
+                to="/Blog/AllBlogs"
+                class="SingleShortCut  p-3 py-2 w-100 d-flex align-items-center gap-4"
+              >
+                <BlogIcon fill="rgb(245 158 11)" class="svg_icons_size"/>
+                <!--                <i class="fas fa-comment" style="font-size: 18px"></i>-->
+                <span v-if="!decrease_width" class="header_font_sidebar_size">مقالات</span>
               </nuxt-link>
             </div>
 
@@ -452,7 +476,7 @@
                     <span v-if="!decrease_width" class="font_sidebar_size">همه خدمات</span>
                   </nuxt-link>
                 </div>
-                <div v-if=" $auth.user&& $auth.user.userInfo && $auth.user.userInfo.role!=='Subscriber'" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <div v-if=" $auth.user&& $auth.user && $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
                     to="/Products/MyServices/"
@@ -464,7 +488,7 @@
                     <span v-if="!decrease_width" class="font_sidebar_size">خدمات من</span>
                   </nuxt-link>
                 </div>
-                <div v-if=" $auth.user&& $auth.user.userInfo && $auth.user.userInfo.role!=='Subscriber'" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <div v-if=" $auth.user&& $auth.user && $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
                     to="/Products/AddProduct/"
@@ -730,6 +754,50 @@
                           </nuxt-link>
                         </small>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="position-relative custom_header_size custom_header_icon rounded-circle d-flex justify-content-center align-items-center mx-1">
+                <font-awesome-icon
+                  icon="shopping-bag"
+                  color="#999999"
+                  @click="ShoppingCartList"
+                ></font-awesome-icon>
+                <span class="headerNumberNotification position-absolute rounded-circle d-flex justify-content-center align-items-center">
+                  <strong>
+                    {{ChatNotifs.length }}
+                  </strong>
+                </span>
+                <div
+                  class="ShoppingCart position-absolute"
+                  v-if="showShoppingCart"
+                >
+                  <div class="col-12 d-flex align-items-center gap-2 p-1 justify-content-between numberMessageText">
+                    <h5 class="tw-font-bold tw-text-stone-500 m-0">سبد خرید</h5>
+                    <small>تسویه</small>
+                  </div>
+                  <div class="col-12" v-for="item in ChatNotifs" :key="item">
+                    <div
+                      class="d-flex flex-column text-end position-relative p-2"
+                    >
+                      <div class="senderName">
+                        <small class="text-muted"
+                        ><i class="fas fa-comment"></i
+                        ></small>
+                        <small>مکالمات من</small>
+                      </div>
+
+                      <h4 class="messageTextt">
+                        <small>{{ item }}</small
+                        >
+                        <nuxt-link
+                          tag="small text-primary mx-2"
+                          to="/social/chat"
+                        >اینجا کلیک کنید
+                        </nuxt-link
+                        >
+                      </h4>
                     </div>
                   </div>
                 </div>
@@ -1443,10 +1511,12 @@ import CircleIcon from "../components/Icons/CircleIcon";
 import CheveronIcon from "../components/Icons/CheveronIcon";
 import ChargeWalletSideNav from "../components/ChargeWalletSideNav";
 import HeartIcon from "@/components/Icons/HeartIcon";
+import BlogIcon from "@/components/Icons/BlogIcon";
 
 export default {
   name: "Header",
   components: {
+    BlogIcon,
     HeartIcon,
     ChargeWalletSideNav,
     CheveronIcon,
@@ -1458,7 +1528,7 @@ export default {
     SettingIcon,
     PlusIcon,
     AdsIcon,
-    FriendsIcon, BedIcon, PictureIcon, MenuIcon, AllUsersIcon, TicketIcon, MessageIcon, HomeIcon, SearchIcon},
+    FriendsIcon, BedIcon, PictureIcon, MenuIcon, AllUsersIcon, TicketIcon, MessageIcon, HomeIcon, SearchIcon,},
   head() {
     return {
       bodyAttrs: {
@@ -1488,6 +1558,7 @@ export default {
       bannerImage: "",
       userImage: "",
       userImageApi: "",
+      showShoppingCart:false,
       BackgroundApi: "",
       userinfo: {},
       ScrollPosition: 0,
@@ -1773,6 +1844,13 @@ export default {
     // },
   },
   methods: {
+    ShoppingCartList(){
+      this.showSearch = false;
+      this.showMessageList = false;
+      this.showNotificationList = false;
+      this.showProfileHeader = false;
+      this.showShoppingCart =! this.showShoppingCart
+    },
     openChargeWalletSideNav(){
       this.displayChargeSideNav = true
       this.showProfileHeader = false
@@ -2063,6 +2141,7 @@ export default {
     },
   },
   async mounted() {
+
     window.addEventListener("scroll", this.updateScroll);
     if (!this.$route.query.id) {
       try {
@@ -2724,6 +2803,20 @@ export default {
   overflow: auto;
   padding-left: 0;
   right: -50px;
+  text-align: right;
+  top: 60px;
+  width: 285px;
+  transition: all 0.3s linear 0s;
+}
+
+.ShoppingCart{
+  background: #fff none repeat scroll 0 0;
+  border: 1px solid #e1e8ed;
+  list-style: outside none none;
+  max-height: 294px;
+  overflow: auto;
+  padding-left: 0;
+  right: -215px;
   text-align: right;
   top: 60px;
   width: 285px;

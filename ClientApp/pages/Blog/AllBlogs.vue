@@ -1,0 +1,243 @@
+<template>
+  <div class="container mcontainer">
+    <h1 class="tw-text-2xl tw-font-semibold"> مقالات  </h1>
+    <div class="row">
+
+      <div class="col-lg-8 tw-flex-shirink-0">
+        <div class="col-md-12">
+          <input type="text" class="form-control" v-model="Search" placeholder="جستجوی مقالات">
+        </div>
+        <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
+          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" >
+            <button   :value="1" class="nav-link active" id="forum-active-tab" data-bs-toggle="pill" @click="GetAllForums(1)"
+                      data-bs-target="#products-pills-home" type="button" role="tab" aria-controls="products-pills-home" aria-selected="true">
+              پر بازدید ها
+            </button>
+          </li>
+          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" >
+            <button  :value="2" class="nav-link" id="forum-second-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false"
+                     @click="GetAllForums(2)">
+              برترین ها
+            </button>
+          </li>
+
+        </ul>
+        <div class="tab-content" id="pills-tabContent" v-if="!$fetchState.pending">
+          <div class="tab-pane fade show active" id="forum-active-content" role="tabpanel" aria-labelledby="forum-active-tab">
+            <div class="row boxMainContent mx-auto">
+              <ul class="custom_card tw-divide-y tw-divide-gray-100 sm:tw-m-0 tw--mx-5">
+                <li v-for="Forum in AllForums">
+                  <div class="tw-card lg:tw-card-side bg-base-100 shadow-xl">
+                    <div class="tw-card-body">
+                      <h2 class="tw-card-title tw-text-stone-500">New album is released!</h2>
+                      <p class="tw-card-text tw-text-stone-400">Click the button to listen on Spotiwhy app.</p>
+                      <div class="tw-flex tw-gap-2 tw-justify-end">
+                        <div class="tw-flex tw-items-center tw-gap-1">
+                          <small class=" tw-text-stone-400">11</small>
+                          <i class="fas fa-comments tw-text-stone-400"></i>
+                        </div>
+                        <div class="tw-flex tw-items-center tw-gap-1">
+                          <small class=" tw-text-stone-400">11</small>
+                          <i class="far fa-heart tw-text-stone-400"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tw-relative">
+                      <div class="tw-badge tw-absolute tw-badge-primary tw-m-3 tw-p-2 tw-left-0">primary</div>
+                      <img src="https://placeimg.com/400/400/arch" alt="Album" class="tw-rounded tw-m-2 tw-object-cover tw-object-center" width="300px" style="height: 170px!important;">
+                    </div>
+
+                  </div>
+                </li>
+              </ul>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-12  d-flex justify-content-center my-5 border-top pt-2">
+          <nav aria-label="Page navigation example">
+            <ul  class="pagination px-0">
+              <li class="page-item" @click="DecrementSelectedPageId">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li @click="SetSelectedPageId(i)" class="page-item" v-for="i in totalPages" :key="i"><a class="page-link" :class="GetClassName(i)" href="#">{{ i }}</a></li>
+
+              <li class="page-item" @click="IncrementSelectedPageId">
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <TopCommenters></TopCommenters>
+    </div>
+
+  </div>
+
+</template>
+
+<script>
+import ForumMainItem from "../../components/Forums/ForumMainItem";
+import TopCommenters from '../../components/Forums/TopCommenters';
+export default {
+  name: "index",
+  components: {ForumMainItem,TopCommenters},
+  layout: "PoshtebamPlusLayout",
+  data(){
+    return{
+      AllForums: null,
+      Search:'',
+      SelectedPageId:1,
+      totalPages:[]
+    }
+  },
+  head(){
+    return{
+      title:'انجمن'
+    }
+  },
+  watch:{
+    Search:function (val,oldVal){
+      this.GetAllForums(0)
+    }
+  },
+  methods:{
+    GetClassName(id) {
+      if (id === this.SelectedPageId) {
+        return 'ActivePage'
+      } else {
+        return ''
+      }
+    },
+    SetSelectedPageId(id) {
+      this.SelectedPageId = id
+      this.GetAllForums();
+    },
+    IncrementSelectedPageId() {
+      this.SelectedPageId++
+      this.GetAllForums();
+    },
+    DecrementSelectedPageId() {
+      this.SelectedPageId--
+      this.GetAllForums();
+    },
+
+    async GetAllForums(id){
+      try{
+        this.$nextTick(()=>{
+          this.$nuxt.$loading.start()
+        })
+        if (this.SelectedPageId > this.totalPages.length) {
+
+          this.SelectedPageId = 1
+        }
+        if (this.SelectedPageId < 1) {
+
+          this.SelectedPageId = 1
+        }
+        const forums = await this.$repositories.getAllForums.getAllForums({
+            pageNumber:this.SelectedPageId,
+            count:10,
+            searchCommand:this.Search,
+            noComments:id === 4,
+            mostRated:id === 2,
+            mostComments:id === 3,
+          }
+        )
+        this.totalPages = []
+        const result = Math.ceil(forums.data.forumsCount / 10)
+        for (let i = 1; i <= result; i++) {
+          this.totalPages.push(i);
+        }
+
+        this.AllForums = forums.data.forums
+        this.$nuxt.$loading.finish()
+        this.$nuxt.loading = false;
+      }
+      catch (error){
+        console.log(error)
+      }finally {
+        this.$nuxt.$loading.finish()
+        this.$nuxt.loading = false;
+      }
+    }
+  },
+  async fetch(){
+    try{
+      if (this.SelectedPageId > this.totalPages.length) {
+
+        this.SelectedPageId = 1
+      }
+      if (this.SelectedPageId < 1) {
+
+        this.SelectedPageId = 1
+      }
+      const forums = await this.$repositories.getAllForums.getAllForums({
+          pageNumber:1,
+          count:10,
+          searchCommand:this.Search,
+          noComments:this.NoComments,
+          mostRated:this.MostRated,
+          mostComments:this.MostComments,
+        }
+      )
+      this.totalPages = []
+      const result = Math.ceil(forums.data.forumsCount / 10)
+      for (let i = 1; i <= result; i++) {
+        this.totalPages.push(i);
+      }
+      this.AllForums = forums.data.forums
+    }
+    catch (error){
+      console.log(error)
+    }
+  },
+
+
+}
+</script>
+
+<style scoped>
+@media (min-width: 1024px) {
+  .mcontainer {
+    max-width: 1000px;
+    padding: 30px 0px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+@media (max-width: 1024px) {
+  .mcontainer {
+    max-width: 1000px;
+    padding: 25px 0px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+.nav-link {
+  font-weight: 500;
+  color: #8c8d90 !important;
+  font-weight: 500;
+  padding: 5px 9px 15px;
+  border-bottom: 3px solid transparent;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  color: #0d6efd !important;
+  background-color: transparent;
+  font-weight: 500;
+  border-bottom: 3px solid #0d6efd;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.ActivePage {
+  color: white;
+  background-color: #00adef;
+}
+
+</style>

@@ -7,7 +7,9 @@
           <button class="nav-link active" id="products-pills-home-tab" data-bs-toggle="pill"
                   data-bs-target="#products-pills-home" type="button" role="tab" aria-controls="products-pills-home" aria-selected="true">
             خدمات مورد علاقه
+
           </button>
+
         </li>
         <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
           <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
@@ -20,12 +22,21 @@
       <div class="tab-pane fade show active" id="products-pills-home" role="tabpanel" aria-labelledby="products-pills-home-tab">
         <div class="row boxMainContent mx-auto">
           <div class="col-12 text-center px-0">
-            <AllServicesTabContent :services="all_services" :categories="categories"/>
+            <div class="row">
+              <div class="d-flex flex-row ">
+                <AllServicesTabContentWish :services="ServicesWishList" :categories="categories"/>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
       <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-        <FirstTabContent :services="all_services" :categories="categories"/>
+        <div class="row">
+          <div class="d-flex flex-row flex-wrap">
+            <AllAdsTabContentWish :Ads="AdsWishList" :categories="categories"/>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -42,12 +53,15 @@ import ChevronLeftIcon from "../../components/Icons/LeftChevronIcon";
 import RightChevronIcon from "../../components/Icons/RightChevronIcon";
 import LeftChevronIcon from "../../components/Icons/LeftChevronIcon";
 import FirstTabContent from "../../components/Products/FirstTabContent";
-import AllServicesTabContent from "../../components/Products/AllServicesTabContent";
+import AllServicesTabContentWish from "../../components/Products/AllServicesTabContentWish";
+import AllAdsTabContentWish from "../../components/Ads/AllAdsTabContentWish";
+
 export default {
   name: "index",
   layout: "PoshtebamPlusLayout",
   components:{
-    AllServicesTabContent,
+    AllServicesTabContentWish,
+    AllAdsTabContentWish,
     FirstTabContent,
     LeftChevronIcon,
     RightChevronIcon,
@@ -57,22 +71,25 @@ export default {
   },
   head(){
     return{
-      title: 'خدمات'
+      title: 'علاقه مندی ها'
     }
   },
   data(){
     return{
-      all_services:null,
+      ServicesWishList:null,
+      AdsWishList:null,
       categories:[]
     }
   },
   async fetch(){
     try {
-      const services = await this.$repositories.getAllServices.getAllServices({pageNumber:0, count:0, searchCommand:null})
-      const allCategories = await this.$repositories.getAllServicesCategory.getAllServicesCategory();
-      this.all_services = services.data.services
-      this.categories = allCategories.data.serviceCategories;
-
+   const res =  await this.$repositories.GetWishlist.GetWishlist({
+      userId:this.$auth.user.userInfo.userId
+    })
+      this.ServicesWishList = res.data.serviceWishes
+      this.AdsWishList = res.data.adsWishes
+      console.log(this.ServicesWishList)
+      console.log(this.AdsWishList)
     }
     catch (error){
       console.log(error)

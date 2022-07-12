@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid px-0 mcontainer">
+  <div class="container px-0 mcontainer">
     <div class="row">
       <form class="col-12 px-4 accordianStyle">
         <div class="col-md-12 my-4">
@@ -104,12 +104,12 @@
                     </div>
                   </div>
                   <div class="row my-2">
-                    <div class="col-md-6 col-lg-6 col-12">
+                    <div class=" col-12">
                       <div class="d-flex flex-column">
                         <div class="">
-                          <div class="d-flex flex-row gap-3">
+                          <div class="d-flex flex-row align-items-center gap-3">
                             <div class="labelText">تعداد اتاق خواب</div>
-                            <div class="me-auto">
+                            <div class="me-auto d-flex flex-row align-items-center">
                               <div
                                 class="d-inline-flex"
                                 @click="BedroomCount++"
@@ -137,7 +137,7 @@
                         <div class="my-2">
                           <div class="d-flex flex-row gap-3">
                             <div class="labelText">تعداد سرویس بهداشتی</div>
-                            <div class="me-auto">
+                            <div class="me-auto d-flex flex-row align-items-center">
                               <div
                                 class="d-inline-flex"
                                 @click="BathroomCount++"
@@ -164,12 +164,12 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-6 col-lg-6 col-12">
+                    <div class=" col-12 my-2">
                       <div class="d-flex flex-column">
                         <div class="">
-                          <div class="d-flex flex-row gap-3">
+                          <div class="d-flex flex-row align-items-center gap-3">
                             <div class="labelText">نوع اتاق خواب</div>
-                            <div class="me-auto">
+                            <div class="me-auto align-items-center">
                               <div
                                 class="d-flex flex-row justify-content-between"
                               >
@@ -403,6 +403,7 @@
                     >
                       <input
                         type="file"
+                        ref="RoomateFile"
                         accept="image/*"
                         multiple="multiple"
                         class="form-control-file my-file d-none"
@@ -412,10 +413,11 @@
                       <font-awesome-icon icon="plus-square" size="lg" />
                     </div>
 
-                    <div id="preview" v-if="url">
+                    <div  class="d-flex align-items-center gap-2" id="preview " v-if="BaseImgUrls.length>0">
                       <img
-                        class="img-fluid"
-                        v-for="item in url"
+                        width="70px"
+                        height="70px"
+                        v-for="(item,idx) in BaseImgUrls"
                         :src="item"
                         :key="item"
                       />
@@ -966,8 +968,6 @@ export default {
   layout: "PoshtebamPlusLayout",
   data() {
     return {
-      url: [],
-      homeOptions: [],
       optionsHome: [
         { title: "آسانسور", code: 1 },
         { title: "دوربین مدار بسته", code: 2 },
@@ -986,6 +986,9 @@ export default {
         { title: "خیر", code: 2 },
         { title: "فرقی نمی کند", code: 3 },
       ],
+
+      url: [],
+      homeOptions: [],
       imagesUrl: [],
       countryText: "",
       cityText: "",
@@ -1047,6 +1050,8 @@ export default {
       photos: [],
       homeImage: "",
       ownerLanguages: [],
+      BaseImgUrls:[],
+      images:[]
     };
   },
   methods: {
@@ -1060,7 +1065,8 @@ export default {
       this.RoomateAgeRangeTo = value.positions[1];
     },
     callInputMethod() {
-      document.querySelector(".my-file").click();
+      this.$refs.RoomateFile.click();
+
     },
     BedroomCountDecrise() {
       if (this.BedroomCount > 0) {
@@ -1076,25 +1082,37 @@ export default {
       this.OwnerDescription = value;
     },
     onFileChange(e) {
-      const file = e.target.files[0];
-      this.url.push(URL.createObjectURL(file));
+
       const that = this;
-      const reader = new FileReader();
-      reader.onload = (function (theFile) {
-        return function () {
-          const binaryData = reader.result;
-          that.homeImage = window.btoa(binaryData);
-          // console.log(that.subImage)
-          that.photos.push({
-            base64: that.homeImage,
-            priority: 1,
-          });
-        };
-      })(file);
-      reader.readAsBinaryString(file);
+      const f = [];
+      Array.prototype.forEach.call(this.$refs.RoomateFile.files, (element) => {
+        f.push(element);
+      });
+      f.forEach((element) => {
+        this.BaseImgUrls.push(URL.createObjectURL(element));
+        const reader = new FileReader();
+        reader.onload = (function (theFile) {
+          return function () {
+            const binaryData = reader.result;
+            that.images.push(window.btoa(binaryData));
+          };
+        })(f);
+        reader.readAsBinaryString(element);
+      });
     },
 
     saveRoommateInformation() {
+      let tmpPhotos = []
+      let tmpPhoto = {
+        base64:'',
+        priority:2
+      }
+      this.images.forEach((el)=>{
+        tmpPhoto.base64 = el
+        const clone = {...tmpPhoto}
+        tmpPhotos.push(clone)
+        tmpPhoto.base64 = ''
+      })
       this.$nextTick(() => {
         this.$nuxt.$loading.start();
       });
@@ -1138,7 +1156,7 @@ export default {
             description: this.OwnerDescription,
             userId: this.$auth.user.userInfo.userId,
             paymentId: null,
-            photos: this.photos,
+            photos: tmpPhotos,
           },
           {}
         )
