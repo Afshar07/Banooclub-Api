@@ -1,12 +1,6 @@
 <template>
   <div class="container-fluid px-0 mcontainer">
-    <div
-      v-if="
-        this.$store.state.HeaderData.status === 1 ||
-        this.$store.state.HeaderData.status === 4 ||
-        this.$store.state.HeaderData.status === 0
-      "
-    >
+    <div>
       <div class="col-12">
         <div class="col-md-12">
           <div class="row p-4">
@@ -52,12 +46,7 @@
                     class="SingleRoomMateInfo d-flex gap-2 align-items-center"
                   >
                     <small>نوع اتاق خواب :</small>
-                    <small class="text-muted">{{
-                        roomateData.roomType === 2
-                          ? "خصوصی"
-                          : roomateData.roomType === 3
-                            ? "عمومی"
-                            : ""
+                    <small class="text-muted">{{roomateData.bedroomType === 1 ? "خصوصی" : "مشترک"
                       }}</small>
                   </div>
                 </div>
@@ -77,7 +66,7 @@
                   >
                     <small>نوع سرویس بهداشتی :</small>
                     <small class="text-muted">{{
-                        roomateData.bathroomType === 0 ? "خصوصی" : "عمومی"
+                        roomateData.bathroomType === 1 ? "خصوصی" : "مشترک"
                       }}</small>
                   </div>
                 </div>
@@ -223,21 +212,11 @@
                 class="SingleRoomMateInfo d-flex flex-column flex-md-row gap-2 align-items-md-center justify-content-start"
               >
                 <small>امکاناتی که با اجاره محاسبه شده اند :</small>
-                <small class="badge bg-success text-white"
-                >{{ roomateData.withElectricity === 1 ? "برق" : "" }}
-                </small>
-                <small class="badge bg-success text-white">{{
-                    roomateData.withGarbage === 1 ? "جمع آوری زباله" : ""
-                  }}</small>
-                <small class="badge bg-success text-white">{{
-                    roomateData.withGaz === 1 ? "گاز" : ""
-                  }}</small>
-                <small class="badge bg-success text-white">{{
-                    roomateData.withInternet === 1 ? "اینترنت" : ""
-                  }}</small>
-                <small class="badge bg-success text-white">{{
-                    roomateData.withWater === 1 ? "آب" : ""
-                  }}</small>
+                <small class="badge bg-success text-white" v-if="roomateData.withElectricity === 1">برق</small>
+                <small class="badge bg-success text-white" v-if=" roomateData.withGarbage === 1">جمع آوری زباله</small>
+                <small class="badge bg-success text-white" v-if=" roomateData.withGaz === 1">گاز</small>
+                <small class="badge bg-success text-white" v-if="roomateData.withInternet === 1">اینترنت</small>
+                <small class="badge bg-success text-white" v-if="roomateData.withWater === 1">آب</small>
               </div>
             </div>
             <br />
@@ -345,7 +324,7 @@
             <br />
             <div class="col-md-12 my-3">
               <div
-                class="SingleRoomMateInfo d-flex flex-column gap-2 justify-content-center"
+                class="SingleRoomMateInfo d-flex  align-items-center gap-2 "
               >
                 <small>درباره من :</small>
                 <small class="text-muted">{{ roomateData.description }}</small>
@@ -353,7 +332,7 @@
             </div>
             <div class="col-md-12 my-3">
               <div
-                class="SingleRoomMateInfo d-flex flex-column gap-2 justify-content-center"
+                class="SingleRoomMateInfo d-flex  gap-2 align-items-center"
               >
                 <small>جنسیت من :</small>
                 <small class="badge bg-primary text-white">{{
@@ -368,7 +347,7 @@
             <div class="col-md-12 my-3">
               <div
                 v-if="roomateData.ownerLangs !== null"
-                class="SingleRoomMateInfo d-flex flex-column gap-2 justify-content-center"
+                class="SingleRoomMateInfo d-flex  gap-2 align-items-center"
               >
                 <small>زبان های مکالمه من :</small>
                 <small
@@ -409,22 +388,7 @@
         </div>
       </div>
     </div>
-    <div
-      v-else-if="this.$store.state.HeaderData.status === 2"
-      class="row boxMainContent text-warning position-relative bg-white p-3"
-    >
-      <p class="text-center">
-        صفحه این کاربر خصوصی است برای مشاهده آن درخواست دوستی ارسال کنید
-      </p>
-    </div>
-    <div
-      v-else-if="this.$store.state.HeaderData.status === 3"
-      class="row boxMainContent text-warning position-relative bg-white p-3"
-    >
-      <p class="text-center">
-        برای مشاهده صفحه این کاربر ابتدا وارد اکانت خود شوید
-      </p>
-    </div>
+
 
   </div>
 

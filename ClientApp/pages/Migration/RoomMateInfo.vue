@@ -1,18 +1,8 @@
 <template>
-  <div
-    class="container-fluid bg-white px-0"
-    v-if="!$fetchState.pending && roomateData"
-  >
-    <div
-      class="container-fluid"
-      v-if="
-        this.$store.state.HeaderData.status === 1 ||
-        this.$store.state.HeaderData.status === 4 ||
-        this.$store.state.HeaderData.status === 0
-      "
-    >
-      <div class="row col-12" v-if="roomateData !== null">
-        <div class="col-md-12 bg-white">
+  <div class="container px-0 mcontainer">
+    <div v-if="roomateData">
+      <div class="col-12">
+        <div class="col-md-12">
           <div class="row p-4">
             <div class="d-flex align-items-center gap-2 my-2">
               <i class="far fa-building text-muted"></i>
@@ -28,16 +18,16 @@
                   >
                     <small>نوع مکان زندگی :</small>
                     <small class="text-muted">{{
-                      roomateData.roomType === 1
-                        ? "آپارتمان"
-                        : roomateData.roomType === 2
-                        ? "خانه"
-                        : roomateData.roomType === 3
-                        ? "سوییت"
-                        : roomateData.roomType === 4
-                        ? "غیره"
-                        : ""
-                    }}</small>
+                        roomateData.roomType === 1
+                          ? "آپارتمان"
+                          : roomateData.roomType === 2
+                            ? "خانه"
+                            : roomateData.roomType === 3
+                              ? "سوییت"
+                              : roomateData.roomType === 4
+                                ? "غیره"
+                                : ""
+                      }}</small>
                   </div>
                 </div>
 
@@ -47,8 +37,8 @@
                   >
                     <small>تعداد اتاق خواب :</small>
                     <small class="text-muted">{{
-                      roomateData.bedroomCount
-                    }}</small>
+                        roomateData.bedroomCount
+                      }}</small>
                   </div>
                 </div>
                 <div class="col-md-12 my-3">
@@ -56,13 +46,8 @@
                     class="SingleRoomMateInfo d-flex gap-2 align-items-center"
                   >
                     <small>نوع اتاق خواب :</small>
-                    <small class="text-muted">{{
-                      roomateData.roomType === 2
-                        ? "خصوصی"
-                        : roomateData.roomType === 3
-                        ? "عمومی"
-                        : ""
-                    }}</small>
+                    <small class="text-muted">{{roomateData.bedroomType === 1 ? "خصوصی" : "مشترک"
+                      }}</small>
                   </div>
                 </div>
                 <div class="col-md-12 my-3">
@@ -71,8 +56,8 @@
                   >
                     <small>تعداد سرویس بهداشتی :</small>
                     <small class="text-muted">{{
-                      roomateData.bathroomCount
-                    }}</small>
+                        roomateData.bathroomCount
+                      }}</small>
                   </div>
                 </div>
                 <div class="col-md-12 my-3">
@@ -81,8 +66,8 @@
                   >
                     <small>نوع سرویس بهداشتی :</small>
                     <small class="text-muted">{{
-                      roomateData.bathroomType === 0 ? "خصوصی" : "عمومی"
-                    }}</small>
+                        roomateData.bathroomType === 1 ? "خصوصی" : "مشترک"
+                      }}</small>
                   </div>
                 </div>
                 <div class="col-md-12 my-3">
@@ -91,10 +76,10 @@
                   >
                     <small>نوع مالکیت زندگی :</small>
                     <small class="text-muted">{{
-                      roomateData.ownerType === 1
-                        ? "من نیز اجاره کرده ام "
-                        : "مالک هستم"
-                    }}</small>
+                        roomateData.ownerType === 1
+                          ? "من نیز اجاره کرده ام "
+                          : "مالک هستم"
+                      }}</small>
                   </div>
                 </div>
                 <div class="col-md-12 my-3">
@@ -107,7 +92,6 @@
                 </div>
               </div>
             </div>
-
             <div class="col-md-12">
               <client-only>
                 <swiper
@@ -143,38 +127,39 @@
                 <small
                   v-if="roomateData.haveElevator === 1"
                   class="badge bg-primary text-white"
-                  >آسانسور</small
+                >آسانسور</small
                 >
                 <small
                   v-if="roomateData.haveParking === 1"
                   class="badge bg-primary text-white"
-                  >پارکینگ</small
+                >پارکینگ</small
                 >
                 <small
                   v-if="roomateData.haveCCTV === 1"
                   class="badge bg-primary text-white"
-                  >دوربین مدار بسته</small
+                >دوربین مدار بسته</small
                 >
                 <small
                   v-if="roomateData.haveFurniture === 1"
                   class="badge bg-primary text-white"
-                  >فرنیش</small
+                >فرنیش</small
                 >
                 <small
                   v-if="roomateData.haveLobbyMan === 1"
                   class="badge bg-primary text-white"
-                  >سرایدار</small
+                >سرایدار</small
                 >
               </div>
             </div>
-            <!--          <div class="col-md-12 my-3">-->
-            <!--            <div class="SingleRoomMateInfo d-flex gap-2 align-items-center">-->
-            <!--              <small >امکانات محله  :</small>-->
-            <!--              <small v-if="roomateData.roomate.nearPark === 1" class=" badge bg-success text-white">نزدیک به پارک </small>-->
-            <!--              <small v-if="roomateData.roomate.nearSubway === 1 " class=" badge bg-success text-white">نزدیک به مترو</small>-->
-            <!--              <small v-if="roomateData.roomate.nearPublicTransport === 1" class=" badge bg-success text-white">نزدیک به ایستگاه اتوبوس</small>-->
+            <!--            <div class="col-md-12 my-3">-->
+
+            <!--                            <div class="SingleRoomMateInfo d-flex gap-2 align-items-center">-->
+            <!--                              <small >امکانات محله  :</small>-->
+            <!--                              <small v-if="roomateData.nearPark === 1" class=" badge bg-success text-white">نزدیک به پارک </small>-->
+            <!--                              <small v-if="roomateData.nearSubway === 1 " class=" badge bg-success text-white">نزدیک به مترو</small>-->
+            <!--                              <small v-if="roomateData.nearPublicTransport === 1" class=" badge bg-success text-white">نزدیک به ایستگاه اتوبوس</small>-->
+            <!--                            </div>-->
             <!--            </div>-->
-            <!--          </div>-->
 
             <div class="col-md-12 my-3">
               <div class="SingleRoomMateInfo d-flex gap-2 align-items-center">
@@ -195,7 +180,7 @@
               >
                 <small>اجاره ماهیانه :</small>
                 <small class="text-muted"
-                  >{{
+                >{{
                     new Intl.NumberFormat().format(roomateData.dailyRent)
                   }}
                   تومان</small
@@ -206,19 +191,20 @@
               <div class="SingleRoomMateInfo d-flex gap-2 align-items-center">
                 <small>رهن :</small>
                 <small class="text-muted"
-                  >{{
+                >{{
                     new Intl.NumberFormat().format(roomateData.mortgage)
                   }}
                   تومان</small
                 >
               </div>
             </div>
+
             <div class="col-md-12 my-3">
               <div class="SingleRoomMateInfo d-flex gap-2 align-items-center">
                 <small>تاریخ پذیرش هم خانه :</small>
                 <small class="text-muted">{{
-                  roomateData.receptionDate | moment("jYYYY-jMM-jDD")
-                }}</small>
+                    roomateData.receptionDate | moment("jYYYY-jMM-jDD")
+                  }}</small>
               </div>
             </div>
             <div class="col-md-12 my-3">
@@ -226,21 +212,11 @@
                 class="SingleRoomMateInfo d-flex flex-column flex-md-row gap-2 align-items-md-center justify-content-start"
               >
                 <small>امکاناتی که با اجاره محاسبه شده اند :</small>
-                <small class="badge bg-success text-white"
-                  >{{ roomateData.withElectricity === 1 ? "برق" : "" }}
-                </small>
-                <small class="badge bg-success text-white">{{
-                  roomateData.withGarbage === 1 ? "جمع آوری زباله" : ""
-                }}</small>
-                <small class="badge bg-success text-white">{{
-                  roomateData.withGaz === 1 ? "گاز" : ""
-                }}</small>
-                <small class="badge bg-success text-white">{{
-                  roomateData.withInternet === 1 ? "اینترنت" : ""
-                }}</small>
-                <small class="badge bg-success text-white">{{
-                  roomateData.withWater === 1 ? "آب" : ""
-                }}</small>
+                <small class="badge bg-success text-white" v-if="roomateData.withElectricity === 1">برق</small>
+                <small class="badge bg-success text-white" v-if=" roomateData.withGarbage === 1">جمع آوری زباله</small>
+                <small class="badge bg-success text-white" v-if=" roomateData.withGaz === 1">گاز</small>
+                <small class="badge bg-success text-white" v-if="roomateData.withInternet === 1">اینترنت</small>
+                <small class="badge bg-success text-white" v-if="roomateData.withWater === 1">آب</small>
               </div>
             </div>
             <br />
@@ -262,7 +238,7 @@
                     roomateData.roomateGender &&
                     roomateData.roomateGender.includes('1')
                   "
-                  >فرقی نمی کند</small
+                >فرقی نمی کند</small
                 >
                 <small
                   class="badge bg-primary"
@@ -270,7 +246,7 @@
                     roomateData.roomateGender &&
                     roomateData.roomateGender.includes('2')
                   "
-                  >مرد</small
+                >مرد</small
                 >
                 <small
                   class="badge bg-primary"
@@ -278,7 +254,7 @@
                     roomateData.roomateGender &&
                     roomateData.roomateGender.includes('3')
                   "
-                  >زن</small
+                >زن</small
                 >
                 <small
                   class="badge bg-primary"
@@ -286,7 +262,7 @@
                     roomateData.roomateGender &&
                     roomateData.roomateGender.includes('4')
                   "
-                  >سایر</small
+                >سایر</small
                 >
               </div>
             </div>
@@ -295,7 +271,7 @@
               <div class="SingleRoomMateInfo d-flex gap-2 align-items-center">
                 <small>محدوده سنی هم خانه :</small>
                 <small class="text-muted"
-                  >از {{ roomateData.roomateAgeRangeFrom }} تا
+                >از {{ roomateData.roomateAgeRangeFrom }} تا
                   {{ roomateData.roomateAgeRangeTo }}</small
                 >
               </div>
@@ -304,8 +280,8 @@
               <div class="SingleRoomMateInfo d-flex gap-2 align-items-center">
                 <small>تعداد ساکنین :</small>
                 <small class="text-muted">{{
-                  roomateData.residenceNumber
-                }}</small>
+                    roomateData.residenceNumber
+                  }}</small>
               </div>
             </div>
 
@@ -313,12 +289,12 @@
               <div class="SingleRoomMateInfo d-flex gap-2 align-items-center">
                 <small>سیگار کشیدن :</small>
                 <small class="text-muted"
-                  >{{
+                >{{
                     roomateData.roomateSmoke === 1
                       ? "بله"
                       : roomateData.roomateSmoke === 2
-                      ? "خیر"
-                      : "فرقی نمیکند"
+                        ? "خیر"
+                        : "فرقی نمیکند"
                   }}
                 </small>
               </div>
@@ -328,12 +304,12 @@
               <div class="SingleRoomMateInfo d-flex gap-2 align-items-center">
                 <small>فرزند :</small>
                 <small class="text-muted"
-                  >{{
+                >{{
                     roomateData.roomateChild === 1
                       ? "بله"
                       : roomateData.roomateSmoke === 2
-                      ? "خیر"
-                      : "فرقی نمیکند"
+                        ? "خیر"
+                        : "فرقی نمیکند"
                   }}
                 </small>
               </div>
@@ -348,7 +324,7 @@
             <br />
             <div class="col-md-12 my-3">
               <div
-                class="SingleRoomMateInfo d-flex flex-column gap-2 justify-content-center"
+                class="SingleRoomMateInfo d-flex  align-items-center gap-2 "
               >
                 <small>درباره من :</small>
                 <small class="text-muted">{{ roomateData.description }}</small>
@@ -356,22 +332,22 @@
             </div>
             <div class="col-md-12 my-3">
               <div
-                class="SingleRoomMateInfo d-flex flex-column gap-2 justify-content-center"
+                class="SingleRoomMateInfo d-flex  gap-2 align-items-center"
               >
                 <small>جنسیت من :</small>
                 <small class="badge bg-primary text-white">{{
-                  roomateData.ownerGender === 2
-                    ? "مرد"
-                    : roomateData.ownerGender === 3
-                    ? "زن"
-                    : ""
-                }}</small>
+                    roomateData.ownerGender === 2
+                      ? "مرد"
+                      : roomateData.ownerGender === 3
+                        ? "زن"
+                        : ""
+                  }}</small>
               </div>
             </div>
             <div class="col-md-12 my-3">
               <div
                 v-if="roomateData.ownerLangs !== null"
-                class="SingleRoomMateInfo d-flex flex-column gap-2 justify-content-center"
+                class="SingleRoomMateInfo d-flex  gap-2 align-items-center"
               >
                 <small>زبان های مکالمه من :</small>
                 <small
@@ -380,7 +356,7 @@
                     roomateData.ownerLangs &&
                     roomateData.ownerLangs.indexOf('1') > -1
                   "
-                  >انگلیسی</small
+                >انگلیسی</small
                 >
                 <small
                   class="text-muted"
@@ -388,7 +364,7 @@
                     roomateData.ownerLangs &&
                     roomateData.ownerLangs.indexOf('2') > -1
                   "
-                  >فرانسوی</small
+                >فرانسوی</small
                 >
                 <small
                   class="text-muted"
@@ -396,7 +372,7 @@
                     roomateData.ownerLangs &&
                     roomateData.ownerLangs.indexOf('3') > -1
                   "
-                  >عربی</small
+                >عربی</small
                 >
                 <small
                   class="text-muted"
@@ -404,35 +380,18 @@
                     roomateData.ownerLangs &&
                     roomateData.ownerLangs.indexOf('4') > -1
                   "
-                  >فارسی</small
+                >فارسی</small
                 >
               </div>
             </div>
           </div>
         </div>
       </div>
-      <p v-else>در حال حاضر این کاربر اطلاعات هم خانه ثبت نکرده است</p>
     </div>
-    <div
-      v-else-if="this.$store.state.HeaderData.status === 2"
-      class="row boxMainContent text-warning position-relative bg-white p-3"
-    >
-      <p class="text-center">
-        صفحه این کاربر خصوصی است برای مشاهده آن درخواست دوستی ارسال کنید
-      </p>
-    </div>
-    <div
-      v-else-if="this.$store.state.HeaderData.status === 3"
-      class="row boxMainContent text-warning position-relative bg-white p-3"
-    >
-      <p class="text-center">
-        برای مشاهده صفحه این کاربر ابتدا وارد اکانت خود شوید
-      </p>
-    </div>
+
+
   </div>
-  <div v-else-if="!$fetchState.pending && !roomateData" class="container-fluid">
-    <p>این کاربر اطلاعاتی برای هم خانه وارد نکرده است.</p>
-  </div>
+
 </template>
 
 <script>

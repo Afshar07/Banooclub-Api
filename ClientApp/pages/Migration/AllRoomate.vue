@@ -18,9 +18,10 @@
           filteredRoommateAds &&
           filteredRoommateAds.length > 0
         "
+        class="row"
       >
         <div
-          class="col-md-6 h-100"
+          class="col-md-6 "
           style="min-height: max-content"
           v-for="item in filteredRoommateAds"
           :key="item.roomateId"
