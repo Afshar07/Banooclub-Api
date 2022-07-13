@@ -9,14 +9,13 @@
         </div>
         <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
           <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" >
-            <button   :value="1" class="nav-link active" id="forum-active-tab" data-bs-toggle="pill" @click="GetAllForums(1)"
+            <button   :value="1" class="nav-link active" id="forum-active-tab" data-bs-toggle="pill"
                       data-bs-target="#products-pills-home" type="button" role="tab" aria-controls="products-pills-home" aria-selected="true">
               پر بازدید ها
             </button>
           </li>
           <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" >
-            <button  :value="2" class="nav-link" id="forum-second-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false"
-                     @click="GetAllForums(2)">
+            <button  :value="2" class="nav-link" id="forum-second-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
               برترین ها
             </button>
           </li>
@@ -26,28 +25,37 @@
           <div class="tab-pane fade show active" id="forum-active-content" role="tabpanel" aria-labelledby="forum-active-tab">
             <div class="row boxMainContent mx-auto">
               <ul class="custom_card tw-divide-y tw-divide-gray-100 sm:tw-m-0 tw--mx-5">
-                <li v-for="Forum in AllForums">
-                  <div class="tw-card lg:tw-card-side bg-base-100 shadow-xl">
-                    <div class="tw-card-body">
-                      <h2 class="tw-card-title tw-text-stone-500">New album is released!</h2>
-                      <p class="tw-card-text tw-text-stone-400">Click the button to listen on Spotiwhy app.</p>
-                      <div class="tw-flex tw-gap-2 tw-justify-end">
-                        <div class="tw-flex tw-items-center tw-gap-1">
-                          <small class=" tw-text-stone-400">11</small>
-                          <i class="fas fa-comments tw-text-stone-400"></i>
-                        </div>
-                        <div class="tw-flex tw-items-center tw-gap-1">
-                          <small class=" tw-text-stone-400">11</small>
-                          <i class="far fa-heart tw-text-stone-400"></i>
+                <li v-for="item in AllBlogs">
+                  <nuxt-link class="text-decoration-none" :to="`/Blog/BlogDetail/${item.blogId}`">
+                    <div class="tw-card lg:tw-card-side bg-base-100 shadow-xl">
+
+                      <div class="tw-card-body">
+                        <h2 class="tw-card-title tw-text-stone-500">{{ item.title }}</h2>
+                        <p class="tw-card-text tw-text-stone-400">{{ item.summary }}</p>
+                        <div class="tw-flex tw-gap-2 tw-justify-end">
+                          <div class="tw-flex tw-items-center tw-gap-1">
+                            <small class=" tw-text-stone-400">{{ new Date(item.createDate).toLocaleDateString('fa-IR') }}</small>
+                            <i class="far fa-clock tw-text-stone-400"></i>
+                          </div>
+                          <div class="tw-flex tw-items-center tw-gap-1">
+                            <small class=" tw-text-stone-400">{{ item.commentsCount }}</small>
+                            <i class="fas fa-comments tw-text-stone-400"></i>
+                          </div>
+                          <div class="tw-flex tw-items-center tw-gap-1">
+                            <small class=" tw-text-stone-400">{{ item.vote }}</small>
+                            <i class="far fa-heart tw-text-stone-400"></i>
+                          </div>
+
                         </div>
                       </div>
-                    </div>
-                    <div class="tw-relative">
-                      <div class="tw-badge tw-absolute tw-badge-primary tw-m-3 tw-p-2 tw-left-0">primary</div>
-                      <img src="https://placeimg.com/400/400/arch" alt="Album" class="tw-rounded tw-m-2 tw-object-cover tw-object-center" width="300px" style="height: 170px!important;">
-                    </div>
+                      <div class="tw-relative">
+                        <div v-if="item.tags.length>0" class="tw-badge tw-absolute tw-badge-primary tw-m-3 tw-p-2 tw-left-0">{{ item.tags[0].title }}</div>
+                        <img :src="`https://banooclubapi.simagar.com/${item.fileData}`" alt="Album" class="tw-rounded tw-m-2 tw-object-cover tw-object-center" width="300px" style="height: 170px!important;">
+                      </div>
 
-                  </div>
+                    </div>
+                  </nuxt-link>
+
                 </li>
               </ul>
 
@@ -55,26 +63,9 @@
           </div>
 
         </div>
-        <div class="col-md-12  d-flex justify-content-center my-5 border-top pt-2">
-          <nav aria-label="Page navigation example">
-            <ul  class="pagination px-0">
-              <li class="page-item" @click="DecrementSelectedPageId">
-                <a class="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              <li @click="SetSelectedPageId(i)" class="page-item" v-for="i in totalPages" :key="i"><a class="page-link" :class="GetClassName(i)" href="#">{{ i }}</a></li>
-
-              <li class="page-item" @click="IncrementSelectedPageId">
-                <a class="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        <Pagination :pages="totalPages" @PageChanged="GetAllBlog($event)"></Pagination>
       </div>
-      <TopCommenters></TopCommenters>
+      <RecentBlogs></RecentBlogs>
     </div>
 
   </div>
@@ -83,14 +74,15 @@
 
 <script>
 import ForumMainItem from "../../components/Forums/ForumMainItem";
-import TopCommenters from '../../components/Forums/TopCommenters';
+import RecentBlogs from '../../components/Blog/RecentBlogs';
+import Pagination from '../../components/Pagination';
 export default {
   name: "index",
-  components: {ForumMainItem,TopCommenters},
+  components: {ForumMainItem,RecentBlogs,Pagination},
   layout: "PoshtebamPlusLayout",
   data(){
     return{
-      AllForums: null,
+      AllBlogs: null,
       Search:'',
       SelectedPageId:1,
       totalPages:[]
@@ -98,104 +90,60 @@ export default {
   },
   head(){
     return{
-      title:'انجمن'
+      title:'مقالات'
     }
   },
   watch:{
     Search:function (val,oldVal){
-      this.GetAllForums(0)
+      this.GetAllBlog(1)
     }
   },
   methods:{
-    GetClassName(id) {
-      if (id === this.SelectedPageId) {
-        return 'ActivePage'
-      } else {
-        return ''
-      }
-    },
-    SetSelectedPageId(id) {
-      this.SelectedPageId = id
-      this.GetAllForums();
-    },
-    IncrementSelectedPageId() {
-      this.SelectedPageId++
-      this.GetAllForums();
-    },
-    DecrementSelectedPageId() {
-      this.SelectedPageId--
-      this.GetAllForums();
-    },
 
-    async GetAllForums(id){
-      try{
+    async GetAllBlog(id){
+      try {
         this.$nextTick(()=>{
           this.$nuxt.$loading.start()
         })
-        if (this.SelectedPageId > this.totalPages.length) {
-
-          this.SelectedPageId = 1
-        }
-        if (this.SelectedPageId < 1) {
-
-          this.SelectedPageId = 1
-        }
-        const forums = await this.$repositories.getAllForums.getAllForums({
-            pageNumber:this.SelectedPageId,
-            count:10,
-            searchCommand:this.Search,
-            noComments:id === 4,
-            mostRated:id === 2,
-            mostComments:id === 3,
-          }
-        )
+        const res = await this.$repositories.GetAllBlog.GetAllBlog({
+          searchByTitle:this.Search,
+          pageNumber:id,
+          count:10,
+          tagId:0,
+        })
+        this.AllBlogs = res.data.blogs
         this.totalPages = []
-        const result = Math.ceil(forums.data.forumsCount / 10)
+        const result = Math.ceil(res.data.blogsCount / 10)
         for (let i = 1; i <= result; i++) {
           this.totalPages.push(i);
         }
-
-        this.AllForums = forums.data.forums
-        this.$nuxt.$loading.finish()
+        this.$nuxt.$loading.finish();
         this.$nuxt.loading = false;
-      }
-      catch (error){
-        console.log(error)
+      }catch (e) {
+        console.log(e)
       }finally {
-        this.$nuxt.$loading.finish()
+        this.$nuxt.$loading.finish();
         this.$nuxt.loading = false;
       }
     }
   },
   async fetch(){
-    try{
-      if (this.SelectedPageId > this.totalPages.length) {
-
-        this.SelectedPageId = 1
-      }
-      if (this.SelectedPageId < 1) {
-
-        this.SelectedPageId = 1
-      }
-      const forums = await this.$repositories.getAllForums.getAllForums({
-          pageNumber:1,
-          count:10,
-          searchCommand:this.Search,
-          noComments:this.NoComments,
-          mostRated:this.MostRated,
-          mostComments:this.MostComments,
+      try {
+          const res = await this.$repositories.GetAllBlog.GetAllBlog({
+            searchByTitle:this.Search,
+            pageNumber:this.SelectedPageId,
+            count:10,
+            tagId:0,
+          })
+        this.AllBlogs = res.data.blogs
+        this.totalPages = []
+        const result = Math.ceil(res.data.blogsCount / 10)
+        for (let i = 1; i <= result; i++) {
+          this.totalPages.push(i);
         }
-      )
-      this.totalPages = []
-      const result = Math.ceil(forums.data.forumsCount / 10)
-      for (let i = 1; i <= result; i++) {
-        this.totalPages.push(i);
+      }catch (e) {
+        console.log(e)
       }
-      this.AllForums = forums.data.forums
-    }
-    catch (error){
-      console.log(error)
-    }
   },
 
 

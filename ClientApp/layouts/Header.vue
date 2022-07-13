@@ -158,7 +158,7 @@
 <!--                  <span class="font_sidebar_size">جزیئات خدمت</span>-->
 <!--                </nuxt-link>-->
 <!--              </div>-->
-              <div v-if=" $auth.user&& $auth.user && $auth.user.baseData.userType===3" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+              <div v-if=" $auth.user && $auth.user.baseData.userType===3" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
                   to="/Products/MyServices/"

@@ -19,6 +19,7 @@ import createRateRepository from "../api/rating"
 import createWishListRepository from "../api/wish_list";
 import createBirthdateRepository from "../api/birthdate_list";
 import CreateTagsRepository from "../api/Tags";
+import  CreateBlogRepository from '../api/Blog'
 
 
 export default (context, inject) => {
@@ -207,6 +208,9 @@ export default (context, inject) => {
     deleteAServiceTag:createServiceTagsRepository(context,"Tag/Delete"),
     createAServiceTag:createServiceTagsRepository(context,"Tag/Create"),
     // Service Tags repository end
+
+    //Blog Repo
+    GetAllBlog:CreateBlogRepository(context,'Blog/GetAll')
 
 
   };

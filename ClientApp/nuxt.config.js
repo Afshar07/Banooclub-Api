@@ -84,6 +84,7 @@ module.exports = {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules:
     [
+      'nuxt-webpack-optimisations',
       "nuxt-compress",
       "@nuxtjs/fontawesome",
       "nuxt-gsap-module",
