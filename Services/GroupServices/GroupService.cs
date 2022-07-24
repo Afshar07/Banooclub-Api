@@ -28,12 +28,14 @@ namespace BanooClub.Services.GroupServices
         }
         public async Task Create(Group inputDto)
         {
-            var dbGroup=groupRepository.Insert(inputDto);
-            foreach(var userId in inputDto.Members)
+            inputDto.IsDeleted = false;
+            var dbGroup = groupRepository.Insert(inputDto);
+            foreach (var userId in inputDto.Members)
             {
                 UserGroup userGroup = new UserGroup()
                 {
                     CreateDate=DateTime.Now,
+                    IsActive=true,
                     IsDeleted=false,
                     GroupId=dbGroup.GroupId,
                     UserGroupId=0,
@@ -108,6 +110,11 @@ namespace BanooClub.Services.GroupServices
             groups = groupRepository.GetQuery().ToList();
             groups.ForEach(z => z.FileData= _mediaRepository.GetQuery().FirstOrDefault(x => x.ObjectId == z.GroupId && x.Type == MediaTypes.Group) == null ?
              "" : "media/gallery/Group/" + _mediaRepository.GetQuery().FirstOrDefault(x => x.ObjectId == z.GroupId && x.Type == MediaTypes.Group).PictureUrl);
+
+            foreach (var group in groups)
+            {
+                group.Members = userGroupRepository.GetQuery().Where(z => z.GroupId == group.GroupId).Select(x => x.UserId).ToList();
+            }
             return groups;
         }
 
@@ -123,6 +130,13 @@ namespace BanooClub.Services.GroupServices
             group.FileData = _mediaRepository.GetQuery().FirstOrDefault(x => x.ObjectId == group.GroupId && x.Type == MediaTypes.Group) == null ?
              "" : "media/gallery/Group/" + _mediaRepository.GetQuery().FirstOrDefault(x => x.ObjectId == group.GroupId && x.Type == MediaTypes.Group).PictureUrl;
             return group;
+        }
+        public async Task<bool> ChangeGroupStatus(long groupId)
+        {
+            var group = groupRepository.GetQuery().FirstOrDefault(z => z.GroupId == groupId);
+            group.IsActive = group.IsActive == true ? false : true;
+            await groupRepository.Update(group);
+            return group.IsActive;
         }
     }
 }

@@ -8,5 +8,6 @@ namespace BanooClub.Models
         public long UserId { get; set; }
         public long GroupId { get; set; }
         public DateTime CreateDate { get; set; }
+        public bool IsActive { get; set; }
     }
 }

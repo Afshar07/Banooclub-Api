@@ -68,6 +68,7 @@
 		<Folder Include="wwwroot\Media\Gallery\KartMelliDocs\" />
 		<Folder Include="wwwroot\Media\Gallery\Group\" />
 		<Folder Include="wwwroot\Media\Gallery\LawyerCertificate\" />
+		<Folder Include="wwwroot\Media\Gallery\Blog\" />
 		<Folder Include="wwwroot\Media\Gallery\ServiceCategory\" />
 		<Folder Include="wwwroot\Media\Gallery\Service\" />
 		<Folder Include="wwwroot\Media\Gallery\Newspaper\" />

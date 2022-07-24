@@ -1,4 +1,5 @@
 ﻿using BanooClub.Models;
+using BanooClub.Models.Enums;
 using BanooClub.Services.WishListServices;
 using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
@@ -31,7 +32,7 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public List<WishList> GetByUserId(long userId)
+        public object GetByUserId(long userId)
         {
             return wishListService.GetByUserId(userId);
         }
@@ -45,9 +46,9 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task Delete(long id)
+        public async Task Delete(long objectId,WishListType type)
         {
-            await wishListService.Delete(id);
+            await wishListService.Delete(objectId,type);
         }
     }
 }

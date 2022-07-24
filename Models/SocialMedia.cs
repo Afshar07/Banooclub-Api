@@ -20,6 +20,7 @@ namespace BanooClub.Models
     public class FileData
     {
         public string Base64 { get; set; }
-        public int Priority { get; set; }
+        public int? Priority { get; set; }
+        public int UploadType { get; set; }
     }
 }

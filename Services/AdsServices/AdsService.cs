@@ -26,6 +26,7 @@ namespace BanooClub.Services.AdsServices
         private readonly IBanooClubEFRepository<Activity> _activityRepository;
         private readonly IBanooClubEFRepository<State> _stateRepository;
         private readonly IBanooClubEFRepository<City> _cityRepository;
+        private readonly IBanooClubEFRepository<WishList> wishListRepository;
         private readonly ICityService cityService;
         private readonly ISocialMediaService _mediaService;
         private readonly IHttpContextAccessor _accessor;
@@ -35,6 +36,7 @@ namespace BanooClub.Services.AdsServices
         public AdsService(IBanooClubEFRepository<Ads> adsRepository
             , IBanooClubEFRepository<Activity> activityRepoository
             , ISocialMediaService mediaService
+            , IBanooClubEFRepository<WishList> wishListRepository
             , IBanooClubEFRepository<SocialMedia> mediaRepository
             , IBanooClubEFRepository<City> cityRepository
             , IBanooClubEFRepository<UserSetting> userSettingRepository
@@ -60,6 +62,7 @@ namespace BanooClub.Services.AdsServices
             this.cityService=cityService;
             _stateRepository =stateRepository;
             _cityRepository = cityRepository;
+            this.wishListRepository = wishListRepository;
         }
         public async Task Create(Ads inputDto)
         {
@@ -68,7 +71,7 @@ namespace BanooClub.Services.AdsServices
                     : 0;
             inputDto.UserId = userId;
             inputDto.IsDeleted = false;
-            inputDto.Status = (int)AdsStatus.NotConfirmed;
+            inputDto.Status = (int)AdsStatus.Published;
             if (inputDto.AdsId > 0 && inputDto !=null)
             {
                 await Update(inputDto);
@@ -78,6 +81,7 @@ namespace BanooClub.Services.AdsServices
                 inputDto.UpdateDate = DateTime.Now;
                 inputDto.CreateDate = DateTime.Now;
                 var dbAd = adsRepository.Insert(inputDto);
+
                 foreach (var item in inputDto.Photos)
                 {
                     if (!string.IsNullOrEmpty(item.Base64))
@@ -123,30 +127,89 @@ namespace BanooClub.Services.AdsServices
                 return false;
             }
         }
-            public async Task<Ads> Update(Ads item)
+        public async Task<Ads> Update(Ads item)
         {
-            var dbPhotos = _mediaRepository.GetQuery().Where(z => z.ObjectId == item.AdsId && z.Type == MediaTypes.AdsPhoto).ToList();
-            foreach (var photo in dbPhotos)
-            {
-                await _mediaRepository.Delete(photo);
-            }
             foreach (var element in item.Photos)
             {
-                if (!string.IsNullOrEmpty(element.Base64))
+                if (element.Priority ==0)
                 {
-                    var outPut = _mediaService.SaveImage(element.Base64, EntityUrls.AdsPhoto);
-                    SocialMedia dbMedia = new SocialMedia()
+                    var photo = _mediaRepository.GetQuery().FirstOrDefault(z => z.PictureUrl == element.Base64);
+                    await _mediaRepository.Delete(photo);
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(element.Base64))
                     {
-                        IsDeleted = false,
-                        ObjectId = item.AdsId,
-                        PictureUrl = outPut.ImageName,
-                        Type = MediaTypes.AdsPhoto,
-                        Priority = element.Priority,
-                        MediaId = 0
-                    };
-                    await _mediaRepository.InsertAsync(dbMedia);
+                        if (element.Priority == 1)
+                        {
+                            var LastMainMedia = _mediaRepository.GetQuery().
+                                FirstOrDefault(z => z.ObjectId == item.AdsId && z.Type == MediaTypes.AdsPhoto && z.Priority == 1);
+                            if (LastMainMedia != null)
+                            {
+                                var outPutMain = _mediaService.SaveImageNew(element.Base64, EntityUrls.AdsPhoto, element.Priority);
+                                LastMainMedia.PictureUrl = outPutMain.ImageName;
+                                LastMainMedia.UpdateDate = DateTime.Now;
+                                await _mediaRepository.Update(LastMainMedia);
+                            }
+                            else
+                            {
+                                var outPut = _mediaService.SaveImageNew(element.Base64, EntityUrls.AdsPhoto, element.Priority);
+                                SocialMedia dbMedia = new SocialMedia()
+                                {
+                                    IsDeleted = false,
+                                    ObjectId = item.AdsId,
+                                    PictureUrl = outPut.ImageName,
+                                    Type = MediaTypes.AdsPhoto,
+                                    Priority = element.Priority,
+                                    MediaId = 0,
+                                    UpdateDate =DateTime.Now
+                                };
+                                await _mediaRepository.InsertAsync(dbMedia);
+                            }
+                        }
+                        else
+                        {
+                            var outPut = _mediaService.SaveImageNew(element.Base64, EntityUrls.AdsPhoto, element.Priority);
+                            SocialMedia dbMedia = new SocialMedia()
+                            {
+                                IsDeleted = false,
+                                ObjectId = item.AdsId,
+                                PictureUrl = outPut.ImageName,
+                                Type = MediaTypes.AdsPhoto,
+                                Priority = element.Priority,
+                                MediaId = 0,
+                                UpdateDate =DateTime.Now
+                            };
+                            await _mediaRepository.InsertAsync(dbMedia);
+                        }
+
+                    }
                 }
             }
+
+
+            //var dbPhotos = _mediaRepository.GetQuery().Where(z => z.ObjectId == item.AdsId && z.Type == MediaTypes.AdsPhoto).ToList();
+            //foreach (var photo in dbPhotos)
+            //{
+            //    await _mediaRepository.Delete(photo);
+            //}
+            //foreach (var element in item.Photos)
+            //{
+            //    if (!string.IsNullOrEmpty(element.Base64))
+            //    {
+            //        var outPut = _mediaService.SaveImage(element.Base64, EntityUrls.AdsPhoto);
+            //        SocialMedia dbMedia = new SocialMedia()
+            //        {
+            //            IsDeleted = false,
+            //            ObjectId = item.AdsId,
+            //            PictureUrl = outPut.ImageName,
+            //            Type = MediaTypes.AdsPhoto,
+            //            Priority = element.Priority,
+            //            MediaId = 0
+            //        };
+            //        await _mediaRepository.InsertAsync(dbMedia);
+            //    }
+            //}
 
 
 
@@ -169,6 +232,9 @@ namespace BanooClub.Services.AdsServices
         }
         public async Task<object> GetAll(int pageNumber, int count, string search)
         {
+            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                    ? _accessor.HttpContext.User.Identity.GetUserId()
+                    : 0;
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && (z.Title.Contains(search) || z.Description.Contains(search))).
                 OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
@@ -194,6 +260,16 @@ namespace BanooClub.Services.AdsServices
                 ad.State = dbState == null ? "" : dbState.Name;
                 var dbCity = _cityRepository.GetQuery().FirstOrDefault(z => z.CityId == ad.CityId);
                 ad.City = dbCity == null ? "" : dbCity.Name;
+                var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == userId && x.ObjectId == ad.AdsId && x.Type == WishListType.Ads)
+                .FirstOrDefault();
+                if (dbWishList!=null)
+                {
+                    ad.IsFavourite = true;
+                }
+                else
+                {
+                    ad.IsFavourite = false;
+                }
             }
             var obj = new
             {
@@ -220,6 +296,9 @@ namespace BanooClub.Services.AdsServices
         }
         public async Task<Ads> Get(long id)
         {
+            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                    ? _accessor.HttpContext.User.Identity.GetUserId()
+                    : 0;
             var ad = adsRepository.GetQuery().FirstOrDefault(z => z.AdsId == id);
             ad.Photos = new List<FileData>();
             var dbPhotos = _mediaRepository.GetQuery().Where(z => z.ObjectId == ad.AdsId && z.Type == MediaTypes.AdsPhoto).ToList();
@@ -242,6 +321,18 @@ namespace BanooClub.Services.AdsServices
             var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
             ad.City = dbCity == null ? "" : dbCity.Name;
             ad.UserInfo = userService.Get(ad.UserId);
+
+            var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == userId && x.ObjectId == ad.AdsId && x.Type == WishListType.Ads)
+                .FirstOrDefault();
+            if (dbWishList!=null)
+            {
+                ad.IsFavourite = true;
+            }
+            else
+            {
+                ad.IsFavourite = false;
+            }
+
             ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
             return ad;
         }
@@ -286,6 +377,9 @@ namespace BanooClub.Services.AdsServices
         }
         public async Task<object> GetByUserId(long userId, int pageNumber, int count)
         {
+            var MYselfId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                    ? _accessor.HttpContext.User.Identity.GetUserId()
+                    : 0;
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.UserId == userId && z.Status == (int)AdsStatus.Published).
                 OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
@@ -312,11 +406,20 @@ namespace BanooClub.Services.AdsServices
                 ad.State = dbState == null ? "" : dbState.Name;
                 var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
                 ad.City = dbCity == null ? "" : dbCity.Name;
+
+                var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == MYselfId && x.ObjectId == ad.AdsId && x.Type == WishListType.Ads)
+                .FirstOrDefault();
+                if (dbWishList!=null)
+                {
+                    ad.IsFavourite = true;
+                }
+                else
+                {
+                    ad.IsFavourite = false;
+                }
             }
 
-            var MYselfId = _accessor.HttpContext.User.Identity.IsAuthenticated
-                    ? _accessor.HttpContext.User.Identity.GetUserId()
-                    : 0;
+            
             var IsPrivate = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == userId).IsPrivateAds;
             var Followed = false;
             if (IsPrivate == false)
@@ -453,7 +556,7 @@ namespace BanooClub.Services.AdsServices
         {
             var dbAdsCat=adsCategoryRepository.GetQuery().First(z=>z.AdsCategoryId == adsCategoryId);
             CatName = CatName=="" ? dbAdsCat.Name :CatName+ " > " +dbAdsCat.Name;
-            if(dbAdsCat.ParentId != null)
+            if(dbAdsCat.ParentId != null && dbAdsCat.ParentId != 0)
             {
                 return GetAdsParents(dbAdsCat.ParentId, CatName);
             }
@@ -481,6 +584,9 @@ namespace BanooClub.Services.AdsServices
         }
         public async Task<object> GetAdsByCategory(long categoryId, long firstSearchadsId, int count)
         {
+            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                    ? _accessor.HttpContext.User.Identity.GetUserId()
+                    : 0;
             List<Ads> dbAds =new List<Ads>();
             int AdsCount = 0;
             if(categoryId == 0)
@@ -534,6 +640,16 @@ namespace BanooClub.Services.AdsServices
                 ad.State = dbState == null ? "" : dbState.Name;
                 var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
                 ad.City = dbCity == null ? "" : dbCity.Name;
+                var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == userId && x.ObjectId == ad.AdsId && x.Type == WishListType.Ads)
+                .FirstOrDefault();
+                if (dbWishList!=null)
+                {
+                    ad.IsFavourite = true;
+                }
+                else
+                {
+                    ad.IsFavourite = false;
+                }
             }
             var obj = new
             {
@@ -545,6 +661,9 @@ namespace BanooClub.Services.AdsServices
 
         public async Task<object> GetAdsByFilter(long? priceFrom,long? priceTo,string title, string tag,long? city,long? state,long firstSearchadsId, int count,long? categoryId)
         {
+            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                    ? _accessor.HttpContext.User.Identity.GetUserId()
+                    : 0;
             tag = tag ==null ? string.Empty : tag;
             title = title ==null ? string.Empty : title;
             state = state ==null ? 0 : state;
@@ -611,6 +730,17 @@ namespace BanooClub.Services.AdsServices
                 ad.State = dbState == null ? "" : dbState.Name;
                 var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
                 ad.City = dbCity == null ? "" : dbCity.Name;
+
+                var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == userId && x.ObjectId == ad.AdsId && x.Type == WishListType.Ads)
+                .FirstOrDefault();
+                if (dbWishList!=null)
+                {
+                    ad.IsFavourite = true;
+                }
+                else
+                {
+                    ad.IsFavourite = false;
+                }
             }
             var obj = new
             {

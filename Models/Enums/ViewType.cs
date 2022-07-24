@@ -3,6 +3,8 @@
     public enum ViewType
     {
         Service = 1,
-        Forum
+        Forum,
+        Ads,
+        Blog
     }
 }

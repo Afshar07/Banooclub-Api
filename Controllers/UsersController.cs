@@ -41,6 +41,17 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost]
+        [Route("[action]")]
+        public IActionResult GetMediaGalleryByUserName(string userName)
+        {
+            var result = userService.GetMediaGalleryByUserName(userName);
+            if (result.IsSuccess)
+                return Ok(result.Data);
+
+            return BadRequest(result.ErrorMessage);
+        }
+
+        [HttpPost]
         [Route("[action]"), Authorize]
         public async Task<bool> UploadPhotoGallery([FromBody] FileData fileData)
         {

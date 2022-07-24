@@ -11,5 +11,6 @@ namespace BanooClub.Services.GroupServices
         Task Delete(long id);
         Task<List<Group>> GetAll();
         Task<Group> Get(long id);
+        Task<bool> ChangeGroupStatus(long groupId);
     }
 }

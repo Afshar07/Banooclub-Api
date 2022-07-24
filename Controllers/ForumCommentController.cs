@@ -52,5 +52,12 @@ namespace BanooClub.Controllers
         {
             return forumCommentService.GetAll(pageNumber, count, searchCommand);
         }
+
+        [HttpPost]
+        [Route("[action]"), AllowAnonymous]
+        public object TopCommenters(int count)
+        {
+            return forumCommentService.TopCommenters(count).Result;
+        }
     }
 }
