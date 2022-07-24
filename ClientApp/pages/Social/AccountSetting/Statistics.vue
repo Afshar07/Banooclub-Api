@@ -131,9 +131,9 @@ export default {
     getUserLogProfile() {
       this.$axios.post(`Log/GetByUserId`, null, {
         params: {
-          userId: this.$auth.user.userId
+          userId: this.$auth.user.userInfo.userId
         },
-       
+
       }).then((response) => {
         if (response.status === 200) {
           this.logView = response.data
@@ -292,9 +292,9 @@ export default {
   mounted() {
     this.$axios.post(`Log/GetByUserId`, null, {
       params: {
-        userId: this.$auth.user.userId
+        userId: this.$auth.user.userInfo.userId
       },
-      
+
     }).then((response) => {
       if (response.status === 200) {
 

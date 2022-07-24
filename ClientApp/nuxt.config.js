@@ -84,6 +84,7 @@ module.exports = {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules:
     [
+      'nuxt-webpack-optimisations',
       "nuxt-compress",
       "@nuxtjs/fontawesome",
       "nuxt-gsap-module",
@@ -110,20 +111,7 @@ module.exports = {
     "@nuxtjs/recaptcha",
     "@nuxtjs/auth-next",
     "nuxt-lazy-load",
-
-
-    [
-      "nuxt-compress",
-      {
-        gzip: {
-          threshold: 8192,
-        },
-        brotli: {
-          threshold: 8192,
-        },
-      },
-    ],
-
+'nuxt-compress',
     [
       "nuxt-fontawesome",
       {
@@ -144,6 +132,14 @@ module.exports = {
     "vue2-editor/nuxt",
     "nuxt-leaflet",
   ],
+  'nuxt-compress': {
+    gzip: {
+      threshold: 8192,
+    },
+    brotli: {
+      threshold: 8192,
+    },
+  },
   recaptcha: {
     // Recaptcha language (v2)
     siteKey: "6LdvcL0eAAAAADYvJ9mJ4AHh2GFCuFCOaurYguqL",
@@ -208,10 +204,10 @@ module.exports = {
   axios: {
     plugins: ["~/plugins/auth.js"],
     credentials: true,
-    baseURL: "https://pplusapi.simagar.com/api/",
+    baseURL: "https://banooclubapi.simagar.com/api/",
     // baseURL: 'https://localhost:44330/',
   },
   env: {
-    pic: "https://pplusapi.simagar.com/",
+    pic: "https://banooclubapi.simagar.com/",
   },
 };

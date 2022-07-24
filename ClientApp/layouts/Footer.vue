@@ -108,7 +108,7 @@
     <div class="row position-relative">
       <div class="col-12 bottomBar row mx-auto">
         <div class="d-flex justify-content-around">
-          <div class="">حق کپی رایت برای PoshtebamPlus محفوظ است</div>
+          <div class="">حق کپی رایت برای بانو کلاب محفوظ است</div>
           <!--          <div class=""><img src="~/static/credit-cards.png" alt="" class="img-fluid"/></div>-->
         </div>
       </div>

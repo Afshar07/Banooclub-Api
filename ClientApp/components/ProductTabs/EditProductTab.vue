@@ -43,7 +43,7 @@
           <client-only>
             <l-map :zoom="17" :center="[serviceDetailProp.latitude,serviceDetailProp.longitude]" @click="addMarker">
               <l-tile-layer
-                url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               ></l-tile-layer>
               <l-marker :lat-lng="[serviceDetailProp.latitude,serviceDetailProp.longitude]"></l-marker>
             </l-map>
@@ -128,7 +128,7 @@
             v-for="(image,index) in images_preview"
             :key="index"
           >
-            <img class="tw-rounded-lg tw-h-32" width="100%" :src="`https://pplusapi.simagar.com/media/gallery/Service/${image.base64}`" :alt="serviceDetailProp.title"
+            <img class="tw-rounded-lg tw-h-32" width="100%" :src="`https://banooclubapi.simagar.com/media/gallery/Service/${image.base64}`" :alt="serviceDetailProp.title"
                  style="object-fit: contain" :class="{BorderGreen:index===0}"/>
             <span class="position-absolute deleteIcon m-3" style="top: 15px" @click="deleteImage(image,index)">
                 <font-awesome-icon icon="trash" color="#ff4d4d" size="sm"/>
@@ -402,12 +402,14 @@ export default {
       console.log('this.serviceDetailProp.medias',this.serviceDetailProp.medias)
     },
     deleteImage(item,index) {
+      console.log(item)
       this.serviceDetailProp.medias.push(
         {
           base64:item.base64,
           priority:0
         }
       )
+      console.log( this.serviceDetailProp)
       if(this.images_preview[index].priority === 1){
         this.is_first_image = true
       }

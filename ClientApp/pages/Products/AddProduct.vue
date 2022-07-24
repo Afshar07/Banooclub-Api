@@ -46,7 +46,7 @@
             <client-only>
               <l-map :zoom="17" :center="center" @click="addMarker">
                 <l-tile-layer
-                  url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 ></l-tile-layer>
                 <l-marker :lat-lng="latlng"></l-marker>
               </l-map>
@@ -458,7 +458,7 @@ export default {
           this.totalPrice = result
             const res = await this.$repositories.createAService.createAService({
               title: this.service_title,
-              userId:0,
+              userId:this.$auth.user.userInfo.userId,
               serviceCategoryId: this.service_category,
               description: this.service_desc,
               seoTitle: '',

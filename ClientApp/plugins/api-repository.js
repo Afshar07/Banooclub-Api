@@ -17,7 +17,10 @@ import createServiceTagsRepository from "../api/service_tag"
 import createForumCommentRepository from "../api/forum_comment";
 import createRateRepository from "../api/rating"
 import createWishListRepository from "../api/wish_list";
-import createBirthdateRepository from "../api/birthdate_list"
+import createBirthdateRepository from "../api/birthdate_list";
+import CreateTagsRepository from "../api/Tags";
+import  CreateBlogRepository from '../api/Blog'
+
 
 export default (context, inject) => {
   const repositories = {
@@ -131,18 +134,17 @@ export default (context, inject) => {
 
     // Ads repository start
     getAllAdsCategory: createAdsRepository(context, "AdsCategory/GetAll"),
-    getAllCountries: createAdsRepository(context, "CNTRY/GetCNTRIESWithRedis"),
-    getCitiesByCountry: createAdsRepository(
-      context,
-      "City/GetCitiesByCountryId"
-    ),
+    GetAllStates: createAdsRepository(context, "State/GetStates"),
+    GetAllCities: createAdsRepository(context, "City/GetCitiesByStateId"  ),
     createAnAd: createAdsRepository(context, "Ads/Create"),
+    UpdateAd:createAdsRepository(context,'Ads/Update'),
     getAdsByUserId: createAdsRepository(context, "Ads/GetByUserId"),
     getAnAd: createAdsRepository(context, "Ads/Get"),
     changeAnAdStatus: createAdsRepository(context, "Ads/ChangeStatus"),
     getAllRejectedAds: createAdsRepository(context, "Ads/GetRejected"),
     getAllPendingAds: createAdsRepository(context, "Ads/GetNotConfirmed"),
-
+    GetAllAds:createAdsRepository(context,'Ads/GetAdsByFilter'),
+    CreateLike:createForumPackRepository(context,'Like/Create'),
     // Ads repository end
 
     // Ticket repository start
@@ -183,13 +185,19 @@ export default (context, inject) => {
     getAllForums:createForumPackRepository(context,'Forum/GetAll'),
     getMyForums:createForumPackRepository(context,"Forum/GetMyForums"),
     getAForum:createForumPackRepository(context,'Forum/Get'),
+    DeleteForum:createForumPackRepository(context,'Forum/Delete'),
+    UpdateForum:createForumPackRepository(context,'Forum/Update'),
     // Forum repository end
 
+    // Tags Repository
+    AddTag:CreateTagsRepository(context,'Tag/Create'),
+    DeleteTag:CreateTagsRepository(context,'Tag/Delete'),
     createForumComment:createForumCommentRepository(context,"ForumComment/Create"),
     // Forum Property repository end
 
     createWishList:createWishListRepository(context,"WishList/Create"),
     deleteWishList:createWishListRepository(context,"WishList/Delete"),
+    GetWishlist:createWishListRepository(context,'WishList/GetByUserId'),
     // Wish list repository end
 
 
@@ -200,6 +208,9 @@ export default (context, inject) => {
     deleteAServiceTag:createServiceTagsRepository(context,"Tag/Delete"),
     createAServiceTag:createServiceTagsRepository(context,"Tag/Create"),
     // Service Tags repository end
+
+    //Blog Repo
+    GetAllBlog:CreateBlogRepository(context,'Blog/GetAll')
 
 
   };

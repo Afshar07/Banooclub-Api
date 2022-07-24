@@ -32,7 +32,7 @@
     <!--                >-->
     <!--                  <img-->
     <!--                    class="img-fluid myPicture"-->
-    <!--                    :src="`https://pplusapi.simagar.com/${comItem.userInfo.selfieFileData}`"-->
+    <!--                    :src="`https://banooclubapi.simagar.com/${comItem.userInfo.selfieFileData}`"-->
     <!--                    alt=""-->
     <!--                  />-->
     <!--                </div>-->
@@ -94,7 +94,7 @@
     <!--                <div class="d-flex align-items-center gap-3">-->
     <!--                  <img-->
     <!--                    class="img-fluid myPicture m-0"-->
-    <!--                    :src="`https://pplusapi.simagar.com/${$store.state.HeaderData.selfie}`"-->
+    <!--                    :src="`https://banooclubapi.simagar.com/${$store.state.HeaderData.selfie}`"-->
     <!--                    alt=""-->
     <!--                  />-->
     <!--                  <input-->
@@ -137,7 +137,7 @@
                 <img
                   v-if="item.userInfo.selfieFileData"
                   class="IMG-FLUID myPicture"
-                  :src="`https://pplusapi.simagar.com/${item.userInfo.selfieFileData}`"
+                  :src="`https://banooclubapi.simagar.com/${item.userInfo.selfieFileData}`"
                   alt=""
                 />
                 <img
@@ -675,7 +675,7 @@ export default {
       }
     },
     goToUserProfile(userId) {
-      if (userId === this.$auth.user.userId) {
+      if (userId === this.$auth.user.userInfo.userId) {
         this.$router.push("/social");
       } else {
         this.$router.push({

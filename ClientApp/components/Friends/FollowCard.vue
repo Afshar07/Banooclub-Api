@@ -98,14 +98,14 @@ export default {
     },
     userAvatar(user) {
       if (user.userInfo.selfieFileData) {
-        return `https://pplusapi.simagar.com/${user.userInfo.selfieFileData}`;
+        return `https://banooclubapi.simagar.com/${user.userInfo.selfieFileData}`;
       } else {
         return "/defaultUser.png";
       }
     },
     requestUserAvatar(user) {
       if (user.followerInfo.selfieFileData) {
-        return `https://pplusapi.simagar.com/${user.followerInfo.selfieFileData}`;
+        return `https://banooclubapi.simagar.com/${user.followerInfo.selfieFileData}`;
       } else {
         return "/defaultUser.png";
       }

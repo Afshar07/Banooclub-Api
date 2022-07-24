@@ -10,67 +10,72 @@
         </div>
         <div class="col-md-12">
           <div class="row p-3">
-            <div class="col-md-6">
-              <div class="labelText">دسته بندی</div>
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="labelText">دسته بندی</div>
 
-              <div class="col-md-12">
-                <div class="my-3">
-                  <select class="form-control" v-model="categoryId">
-                    <option
-                      v-for="(item, index) in categories.filter(
+                  <div class="col-md-12 px-0">
+                    <div class="my-3">
+                      <select class="form-control" v-model="categoryId">
+                        <option
+                          v-for="(item, index) in categories.filter(
                       (e) => e.ParentId === null
                     )"
-                      :value="item.MainAdsCategoryId"
-                      :key="index"
-                    >
-                      {{ item.MainName }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div
-                v-if="
+                          :value="item.MainAdsCategoryId"
+                          :key="index"
+                        >
+                          {{ item.MainName }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div
+                    v-if="
                 categoryId !== null &&
                 categories.findIndex((e) => e.ParentId === categoryId) > -1
               "
-                class="col-md-4"
-              >
-                <div class="my-3">
-                  <select class="form-control" v-model="categoryId2">
-                    <option
-                      v-for="(item, index) in categories.filter(
+                    class="col-md-4"
+                  >
+                    <div class="my-3">
+                      <select class="form-control" v-model="categoryId2">
+                        <option
+                          v-for="(item, index) in categories.filter(
                       (e) => e.ParentId === categoryId
                     )"
-                      :value="item.MainAdsCategoryId"
-                      :key="index"
-                    >
-                      {{ item.MainName }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div
-                v-if="
+                          :value="item.MainAdsCategoryId"
+                          :key="index"
+                        >
+                          {{ item.MainName }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div
+                    v-if="
                 categoryId2 !== null &&
                 categories.findIndex((e) => e.ParentId === categoryId2) > -1
               "
-                class="col-md-4"
-              >
-                <div class="my-3">
-                  <select class="form-control" v-model="categoryId3">
-                    <option
-                      v-for="(item, index) in categories.filter(
+                    class="col-md-4"
+                  >
+                    <div class="my-3">
+                      <select class="form-control" v-model="categoryId3">
+                        <option
+                          v-for="(item, index) in categories.filter(
                       (e) => e.ParentId === categoryId2
                     )"
-                      :value="item.MainAdsCategoryId"
-                      :key="index"
-                    >
-                      {{ item.MainName }}
-                    </option>
-                  </select>
+                          :value="item.MainAdsCategoryId"
+                          :key="index"
+                        >
+                          {{ item.MainName }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+
             <div class="col-md-6">
               <div class="labelText">عنوان آگهی</div>
               <div class="my-3">
@@ -87,22 +92,12 @@
               <div class="labelText">وضعیت کالا</div>
               <div class="my-3">
                 <select v-model="Status" class="form-control w-100">
-                  <option value="1">نو</option>
-                  <option value="2">دست دوم</option>
+                  <option :value="1">نو</option>
+                  <option :value="2">دست دوم</option>
                 </select>
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="labelText">توضیحات آگهی</div>
-              <div class="my-3">
-              <textarea
-                class="border rounded form-control"
-                rows="1"
-                placeholder="توضیحات آگهی"
-                v-model.trim="description"
-              ></textarea>
-              </div>
-            </div>
+
 
             <div class="col-md-6">
               <div class="labelText">عکس اصلی آگهی</div>
@@ -162,26 +157,26 @@
             <div class="col-md-6 my-3">
               <v-select
                 @input="GetCity"
-                :options="Countries"
+                :options="AllStates"
                 label="name"
                 dir="rtl"
                 class="selectWidth w-100"
-                placeholder="کشور"
-                v-model="countryName"
-                :reduce="(name) => name.countryId"
-                :value="countryName"
+                placeholder="استان"
+                v-model="SelectedStateId"
+                :reduce="(name) => name.stateId"
+
               ></v-select>
             </div>
             <div class="col-md-6 my-3">
               <v-select
-                :options="Cities"
+                :options="AllCities"
                 label="name"
                 dir="rtl"
                 class="selectWidth w-100"
                 placeholder="شهر"
-                v-model="City"
+                v-model="SelectedCityId"
                 :reduce="(name) => name.cityId"
-                :value="City"
+
               ></v-select>
             </div>
             <div class="col-md-6">
@@ -206,6 +201,17 @@
                 />
               </div>
             </div>
+            <div class="col-md-12">
+              <div class="labelText">توضیحات آگهی</div>
+              <div class="my-3">
+              <textarea
+                class="border rounded form-control"
+                rows="1"
+                placeholder="توضیحات آگهی"
+                v-model.trim="description"
+              ></textarea>
+              </div>
+            </div>
 
             <div class="col-md-12">
               <div class="labelText">موقعیت روی نقشه</div>
@@ -213,7 +219,7 @@
                 <client-only>
                   <l-map :zoom="17" :center="center" @click="addMarker">
                     <l-tile-layer
-                      url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     ></l-tile-layer>
                     <l-marker :lat-lng="latlng"></l-marker>
                   </l-map>
@@ -256,14 +262,13 @@ export default {
       await this.$repositories.getAllAdsCategory.getAllAdsCategory();
     this.categories = allCategories.data.adsCategories;
 
-    // Get countries
-    const countries =
-      await this.$repositories.getAllCountries.getAllCountries();
-    this.Countries = countries.data;
+    const res = await  this.$repositories.GetAllStates.GetAllStates()
+      this.AllStates = res.data.states
+
   },
   data() {
     return {
-      countryName: "",
+
       categories: [],
       title: "",
       description: "",
@@ -271,7 +276,7 @@ export default {
       subUrl: [],
       price: 0,
       phone: null,
-      expirationDate: "",
+
       center: [35.757539, 51.409968],
       latlng: [35, 51],
       mainImage: "",
@@ -282,24 +287,36 @@ export default {
       categoryId3: null,
       Status: 0,
       Tags: "",
-      City: "",
-      Country: "",
-      Cities: [],
-      Countries: [],
+        AllCities: [],
+        SelectedCityId: 0,
+        SelectedStateId: 0,
+        AllStates: [],
     };
   },
   methods: {
-    async GetCity() {
-      try {
-        const response =
-          await this.$repositories.getCitiesByCountry.getCitiesByCountry(
-            this.countryName
-          );
-        this.Cities = response.data.cities;
-      } catch (error) {
-        console.log(error);
-      }
-    },
+
+      async GetCity(){
+        this.$nextTick(()=>{
+            this.$nuxt.$loading.start()
+        })
+          try {
+              const res = await this.$repositories.GetAllCities.GetAllCities({
+                  pageNumber:1,
+                  count:500,
+                  stateId:this.SelectedStateId
+
+              })
+              this.AllCities = res.data.cities
+              this.$nuxt.$loading.finish()
+              this.$nuxt.loading = false;
+          }catch (e) {
+              console.log(e)
+          }finally {
+              this.$nuxt.$loading.finish()
+              this.$nuxt.loading = false;
+          }
+      },
+
 
     addMarker(event) {
       this.latlng = event.latlng;
@@ -362,9 +379,7 @@ export default {
         this.$toast.error("لطفا قیمت را مشخص کنید");
       } else if (this.photos === null) {
         this.$toast.error("لطفا تصاویر را بارگذاری کنید");
-      } else if (this.expirationDate === null) {
-        this.$toast.error("لطفا تاریخ انقضای آگهی را مشخص کنید");
-      } else if (!this.latlng.lat) {
+      }  else if (!this.latlng.lat) {
         this.$toast.error("لطفا موقعیت مکانی آگهی را مشخص کنید");
       } else {
         this.$nuxt.$loading.start();
@@ -372,16 +387,15 @@ export default {
           await this.$repositories.createAnAd.createAnAd({
             title: this.title,
             categoryId: CategoryId,
-            price: this.price,
-            expirationDate: this.expirationDate,
-            adsId: 0,
+            price: parseInt(this.price) ,
+            expirationDate: new Date(Date.now()),
             status: 2,
-            updateDate: "",
+            updateDate: new Date(Date.now()),
             tag: this.Tags,
-            condition: parseInt(this.Status),
-            cityId: 2,
-            countryId: this.countryName,
-            userId: this.$auth.user.userId,
+            condition: this.Status,
+            cityId: this.SelectedCityId,
+            stateId: this.SelectedStateId,
+            userId: this.$auth.user.userInfo.userId,
             description: this.description,
             latitude: this.latlng.lat,
             longitude: this.latlng.lng,

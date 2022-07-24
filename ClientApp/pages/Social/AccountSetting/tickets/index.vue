@@ -129,9 +129,9 @@
                     class="form-control"
                     placeholder="Select Issue"
                   >
-                    <option value="1">احراز هویت</option>
-                    <option value="2" selected>پشتیبانی</option>
-                    <option value="3">سایر</option>
+                    <option :value="1">احراز هویت</option>
+                    <option :value="2" selected>پشتیبانی</option>
+                    <option :value="3">سایر</option>
                   </select>
                 </div>
                 <div class="col-12 my-4">
@@ -143,8 +143,8 @@
                 </div>
                 <div class="col-md-12">
                   <div class="row">
-                    <div class="col-md-12 d-flex justify-content-start my-3">
-                      <button class="btn btn-primary" @click="openFileUpload">
+                    <div class="col-md-2  d-flex justify-content-start my-3">
+                      <button class="tw-h-10 tw-bg-[#ef4444] hover:tw-bg-white hover:tw-text-[#ef4444] tw-border-solid border-1 tw-border-[#ef4444] tw-rounded w-100 tw-transition tw-text-white  tw-p-2" @click="openFileUpload">
                         آپلود عکس
                       </button>
                       <input
@@ -154,10 +154,14 @@
                         @change="UploadFile"
                       />
                     </div>
+                    <div v-if="BaseImgUrl!==''" class="col-md-2 my-4 tw-relative">
+                      <i class="fas fa-trash tw-absolute tw-p-2 text-danger tw-cursor-pointer" @click="RemovePic"></i>
+                      <img :src="BaseImgUrl" width="100px" height="100px" class="rounded border" alt="">
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-12">
-                  <button class="btn btn-primary w-100" @click="CreateTicket">
+                  <button class=" tw-bg-[#ef4444] hover:tw-bg-white hover:tw-text-[#ef4444] tw-border-solid border-1 tw-border-[#ef4444] tw-rounded w-100 tw-transition tw-text-white  tw-p-2" @click="CreateTicket">
                     ثبت
                   </button>
                 </div>
@@ -193,7 +197,7 @@ export default {
       SingleTicket: [],
       AllTickets: "",
       TicketTitle: "",
-      TicketType: "2",
+      TicketType: 0,
       TicketDescription: "",
       image: "",
       BaseImgUrl: "",
@@ -211,10 +215,10 @@ export default {
       this.$refs.file.click();
     },
     ticketRouteGenerator(ticket) {
-      window.open(
-        `/social/accountsetting/tickets/${ticket.ticketId}`,
-        "_blank"
-      );
+      this.$router.push({
+        path:`/social/accountsetting/tickets/${ticket.ticketId}`
+      })
+
     },
 
     CancelUpload() {
@@ -234,31 +238,49 @@ export default {
         return function () {
           const binaryData = reader.result;
           that.image = window.btoa(binaryData);
+          console.log(that.image)
         };
       })(f);
       reader.readAsBinaryString(f);
     },
-
+    RemovePic(){
+      this.BaseImgUrl = ''
+      this.image = ''
+    },
     async CreateTicket() {
-      this.$nuxt.$loading.start();
-      try {
-        await this.$repositories.createATicket.createATicket({
-          parentId: 0,
-          content: this.TicketDescription,
-          type: parseInt(this.TicketType),
-          title: this.TicketTitle,
-          fileData: this.image,
-        });
-        this.$toast.success("تیکت با موفقیت ثبت شد");
-        this.$fetch();
-        this.TicketDescription = "";
-        this.TicketTitle = "";
-      } catch (error) {
-        console.log(error);
-      } finally {
-        this.$nuxt.$loading.finish();
-        this.$nuxt.loading = false;
+      if(this.TicketTitle===''){
+        this.$toast.error('لطفا عنوان تیکت را وارد کنید')
+      }else if(this.TicketType===0){
+        this.$toast.error('لطفا واحد مورد نظر خود را انتخاب کنید')
+      }else if(this.TicketDescription===''){
+        this.$toast.error('لطفا متن تیکت را وارد کنید')
+      }else{
+        this.$nuxt.$loading.start();
+        try {
+
+          await this.$repositories.createATicket.createATicket({
+            parentId: 0,
+            content: this.TicketDescription,
+            type: parseInt(this.TicketType),
+            title: this.TicketTitle,
+            createDate:new Date(Date.now()),
+            fileData: this.image,
+          });
+          this.$nuxt.$loading.finish();
+          this.$nuxt.loading = false;
+          this.$toast.success("تیکت با موفقیت ثبت شد");
+          this.$fetch();
+          this.TicketDescription = "";
+          this.TicketTitle = "";
+          this.TicketType = 0
+        } catch (error) {
+          console.log(error);
+        } finally {
+          this.$nuxt.$loading.finish();
+          this.$nuxt.loading = false;
+        }
       }
+
     },
   },
 };

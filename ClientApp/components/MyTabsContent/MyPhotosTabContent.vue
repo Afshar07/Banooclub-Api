@@ -66,7 +66,7 @@
           <div class="position-relative">
             <a href="#offcanvasExampleeee" data-bs-toggle="offcanvas">
               <img
-                :src="`https://pplusapi.simagar.com/${item}`"
+                :src="`https://banooclubapi.simagar.com/${item}`"
                 style="object-fit: cover;object-position: center; width: 300px;height: 250px"
                 class="rounded"
                 alt=""

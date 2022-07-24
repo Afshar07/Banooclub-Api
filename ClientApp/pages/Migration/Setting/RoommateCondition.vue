@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid px-0 mcontainer">
+  <div class="container px-0 mcontainer">
     <div class="row">
       <form class="col-12 px-4 accordianStyle">
         <div class="col-md-12 my-4">
@@ -13,18 +13,30 @@
             >
             <span v-else class="badge bg-danger text-white">غیر فعال</span>
           </div>
-          <div class="d-flex align-items-center gap-2 my-2">
-            <span>تغییر وضعیت به :</span>
-            <select v-model="IsActive" class="form-control w-25">
-              <option value="Active">فعال</option>
-              <option value="DeActive">غیر فعال</option>
-            </select>
-            <button
-              class="btn btn-primary"
-              @click.prevent="ChangeRoomateStatus"
-            >
-              ثبت
-            </button>
+          <div class="d-flex align-items-center justify-content-between gap-2 my-2">
+            <div class="d-flex align-items-center gap-2 ">
+              <span>تغییر وضعیت به :</span>
+              <select v-model="IsActive" class="form-control w-25">
+                <option value="Active">فعال</option>
+                <option value="DeActive">غیر فعال</option>
+              </select>
+              <button
+                class="btn btn-primary"
+                @click.prevent="ChangeRoomateStatus"
+              >
+                ثبت
+              </button>
+            </div>
+
+
+              <button
+                type="button"
+                class="btn btn-sm AddReplyBtn"
+                @click="saveRoommateInformation"
+              >
+                ذخیره اطلاعات هم خانه
+              </button>
+
           </div>
         </div>
         <div class="accordion" dir="rtl" id="accordionPanelsStayOpenExample">
@@ -56,8 +68,8 @@
                         type="radio"
                         name="inlineRadioOptions"
                         id="inlineRadio1"
-                        value="1"
-                        v-model="RoomType"
+                        :value="1"
+                        v-model="RoomMateInfo.roomType"
                       />
                       <label class="form-check-label" for="inlineRadio1"
                       >آپارتمان</label
@@ -69,8 +81,8 @@
                         type="radio"
                         name="inlineRadioOptions"
                         id="inlineRadio2"
-                        value="2"
-                        v-model="RoomType"
+                        :value="2"
+                        v-model="RoomMateInfo.roomType"
                       />
                       <label class="form-check-label" for="inlineRadio2"
                       >خانه</label
@@ -82,8 +94,8 @@
                         type="radio"
                         name="inlineRadioOptions"
                         id="inlineRadio3"
-                        value="3"
-                        v-model="RoomType"
+                        :value="3"
+                        v-model="RoomMateInfo.roomType"
                       />
                       <label class="form-check-label" for="inlineRadio3"
                       >سوییت</label
@@ -95,8 +107,8 @@
                         type="radio"
                         name="inlineRadioOptions"
                         id="inlineRadio4"
-                        value="4"
-                        v-model="RoomType"
+                        :value="4"
+                        v-model="RoomMateInfo.roomType"
                       />
                       <label class="form-check-label" for="inlineRadio4"
                       >غیره</label
@@ -104,15 +116,15 @@
                     </div>
                   </div>
                   <div class="row my-2">
-                    <div class="col-md-6 col-lg-6 col-12">
+                    <div class=" col-12">
                       <div class="d-flex flex-column">
                         <div class="">
-                          <div class="d-flex flex-row gap-3">
+                          <div class="d-flex flex-row align-items-center gap-3">
                             <div class="labelText">تعداد اتاق خواب</div>
-                            <div class="me-auto">
+                            <div class="me-auto d-flex flex-row align-items-center">
                               <div
                                 class="d-inline-flex"
-                                @click="BedroomCount++"
+                                @click="RoomMateInfo.bedroomCount++"
                               >
                                 <font-awesome-icon
                                   icon="plus-square"
@@ -120,11 +132,11 @@
                                 />
                               </div>
                               <div class="d-inline-flex px-3">
-                                {{ BedroomCount }}
+                                {{ RoomMateInfo.bedroomCount }}
                               </div>
                               <div
                                 class="d-inline-flex"
-                                @click="BedroomCountDecrise"
+                                @click="RoomMateInfo.bedroomCount--"
                               >
                                 <font-awesome-icon
                                   icon="minus-square"
@@ -137,10 +149,10 @@
                         <div class="my-2">
                           <div class="d-flex flex-row gap-3">
                             <div class="labelText">تعداد سرویس بهداشتی</div>
-                            <div class="me-auto">
+                            <div class="me-auto d-flex flex-row align-items-center">
                               <div
                                 class="d-inline-flex"
-                                @click="BathroomCount++"
+                                @click="RoomMateInfo.bathroomCount++"
                               >
                                 <font-awesome-icon
                                   icon="plus-square"
@@ -148,11 +160,11 @@
                                 />
                               </div>
                               <div class="d-inline-flex px-3">
-                                {{ BathroomCount }}
+                                {{ RoomMateInfo.bathroomCount }}
                               </div>
                               <div
                                 class="d-inline-flex"
-                                @click="BathroomCountDecrise"
+                                @click="RoomMateInfo.bathroomCount--"
                               >
                                 <font-awesome-icon
                                   icon="minus-square"
@@ -164,12 +176,12 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-6 col-lg-6 col-12">
+                    <div class=" col-12 my-2">
                       <div class="d-flex flex-column">
                         <div class="">
-                          <div class="d-flex flex-row gap-3">
+                          <div class="d-flex flex-row align-items-center gap-3">
                             <div class="labelText">نوع اتاق خواب</div>
-                            <div class="me-auto">
+                            <div class="me-auto align-items-center">
                               <div
                                 class="d-flex flex-row justify-content-between"
                               >
@@ -178,7 +190,7 @@
                                     <input
                                       type="checkbox"
                                       id="togBtn1"
-                                      v-model="BedroomTypeValue"
+                                      v-model="RoomMateInfo.bedroomType"
                                       @input="BedroomTypeCheck"
                                     />
                                     <div class="slider round">
@@ -203,7 +215,7 @@
                                     <input
                                       type="checkbox"
                                       id="togBtn2"
-                                      v-model="BathroomTypeValue"
+                                      v-model="RoomMateInfo.bathroomType"
                                       @input="BathroomTypeCheck"
                                     />
                                     <div class="slider round">
@@ -227,8 +239,8 @@
                         type="radio"
                         name="inlineRadioOptions99"
                         id="inlineRadio5"
-                        value="1"
-                        v-model="OwnerType"
+                        :value="1"
+                        v-model="RoomMateInfo.ownerType"
                       />
                       <label class="form-check-label" for="inlineRadio5">
                         مالک هستم
@@ -240,8 +252,8 @@
                         type="radio"
                         name="inlineRadioOptions99"
                         id="inlineRadio6"
-                        value="2"
-                        v-model="OwnerType"
+                        :value="2"
+                        v-model="RoomMateInfo.ownerType"
                       />
                       <label class="form-check-label" for="inlineRadio6">
                         من نیز این مکان را اجاره کرده ام
@@ -252,36 +264,11 @@
                     <div class="col-lg-3 col-12 w-auto mb-2 mb-md-0">
                       آدرس :
                     </div>
-                    <div class="col-lg-3 col-12 w-auto">
-                      <input
-                        type="text"
-                        placeholder="کشور"
-                        v-model="countryText"
-                      />
-                    </div>
-                    <div class="col-lg-3 col-12 w-auto my-md-0 my-3">
-                      <input type="text" placeholder="شهر" v-model="cityText" />
-                    </div>
-                    <div class="col-lg-3 col-12 w-auto">
-                      <input
-                        type="text"
-                        placeholder="آدرس"
-                        v-model="addressText"
-                      />
+                    <div class=" col-12 w-auto">
+                      <textarea class="form-control" v-model="RoomMateInfo.address"></textarea>
                     </div>
                   </div>
-                  <!--                  <div class="d-flex flex-row gap-3">-->
-                  <!--                    <div class="labelText">امکانات خانه :</div>-->
-                  <!--                    <div class="w-50">-->
-                  <!--                      <v-select-->
-                  <!--                        :options="optionsHome"-->
-                  <!--                        label="title" dir="rtl"-->
-                  <!--                        multiple-->
-                  <!--                        v-model="homeOptions"-->
-                  <!--                        @input="homeOptionsValue"-->
-                  <!--                      ></v-select>-->
-                  <!--                    </div>-->
-                  <!--                  </div>-->
+
                   <div>
                     <div class="d-flex flex-column flex-md-row gap-3">
                       <div class="labelText">امکانات خانه :</div>
@@ -291,8 +278,8 @@
                             class="form-check-input"
                             type="checkbox"
                             id="inlineCheckbox20"
-                            value="1"
-                            v-model="HaveCCTV"
+                            :value="1"
+                            v-model="RoomMateInfo.haveCCTV"
                           />
                           <label class="form-check-label" for="inlineCheckbox20"
                           >دوربین مدار بسته</label
@@ -303,8 +290,8 @@
                             class="form-check-input"
                             type="checkbox"
                             id="inlineCheckbox21"
-                            value="1"
-                            v-model="HaveElevator"
+                            :value="1"
+                            v-model="RoomMateInfo.haveElevator"
                           />
                           <label class="form-check-label" for="inlineCheckbox21"
                           >آسانسور</label
@@ -315,8 +302,8 @@
                             class="form-check-input"
                             type="checkbox"
                             id="inlineCheckbox22"
-                            value="1"
-                            v-model="HaveParking"
+                            :value="1"
+                            v-model="RoomMateInfo.haveParking"
                           />
                           <label class="form-check-label" for="inlineCheckbox22"
                           >پارکینگ</label
@@ -327,8 +314,8 @@
                             class="form-check-input"
                             type="checkbox"
                             id="inlineCheckbox223"
-                            value="1"
-                            v-model="HavelobbyMan"
+                            :value="1"
+                            v-model="RoomMateInfo.haveLobbyMan"
                           />
                           <label class="form-check-label" for="inlineCheckbox22"
                           >سرایدار</label
@@ -339,8 +326,8 @@
                             class="form-check-input"
                             type="checkbox"
                             id="inlineCheckbox2232"
-                            value="1"
-                            v-model="HaveFurniture"
+                            :value="1"
+                            v-model="RoomMateInfo.haveFurniture"
                           />
                           <label class="form-check-label" for="inlineCheckbox22"
                           >فرنیش</label
@@ -348,51 +335,8 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-12">
-                      <client-only>
-                        <l-map :zoom="17" :center="center" @click="addMarker">
-                          <l-tile-layer
-                            url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-                          ></l-tile-layer>
-                          <l-marker :lat-lng="latlng"></l-marker>
-                        </l-map>
-                      </client-only>
-                    </div>
+
                   </div>
-                  <!--                  <div class="my-3">-->
-                  <!--                    <div class="d-flex flex-row gap-3">-->
-                  <!--                      <div class="labelText">امکانات محله :</div>-->
-                  <!--                      <div class="">-->
-                  <!--                        <div class="form-check form-check-inline">-->
-                  <!--                          <input class="form-check-input" type="checkbox" id="inlineCheckbox23" value="1"-->
-                  <!--                                 v-model="NearPublicTransport">-->
-                  <!--                          <label class="form-check-label" for="inlineCheckbox23">نزدیک به ایستگاه اتوبوس</label>-->
-                  <!--                        </div>-->
-                  <!--                        <div class="form-check form-check-inline">-->
-                  <!--                          <input class="form-check-input" type="checkbox" id="inlineCheckbox24" value="1"-->
-                  <!--                                 v-model="NearSubway">-->
-                  <!--                          <label class="form-check-label" for="inlineCheckbox24">نزدیک به ایستگاه قطار</label>-->
-                  <!--                        </div>-->
-                  <!--                        <div class="form-check form-check-inline">-->
-                  <!--                          <input class="form-check-input" type="checkbox" id="inlineCheckbox25" value="1"-->
-                  <!--                                 v-model="NearPark">-->
-                  <!--                          <label class="form-check-label" for="inlineCheckbox25">نزدیک به پارک</label>-->
-                  <!--                        </div>-->
-                  <!--                      </div>-->
-                  <!--                    </div>-->
-                  <!--                  </div>-->
-                  <!--                  <div class="d-flex flex-row gap-3 my-3">-->
-                  <!--                    <div class="labelText">امکانات محله :</div>-->
-                  <!--                    <div class="w-50">-->
-                  <!--                      <v-select-->
-                  <!--                        :options="optionsNeighbourhood"-->
-                  <!--                        label="title" dir="rtl"-->
-                  <!--                        multiple-->
-                  <!--                        v-model="Neighbourhood"-->
-                  <!--                        @input="NeighbourhoodValue"-->
-                  <!--                      ></v-select>-->
-                  <!--                    </div>-->
-                  <!--                  </div>-->
 
                   <div class="d-flex flex-column flex-md-row gap-3 my-3">
                     <div class="labelText">ارسال عکس :</div>
@@ -403,6 +347,7 @@
                     >
                       <input
                         type="file"
+                        ref="RoomateFile"
                         accept="image/*"
                         multiple="multiple"
                         class="form-control-file my-file d-none"
@@ -412,13 +357,18 @@
                       <font-awesome-icon icon="plus-square" size="lg" />
                     </div>
 
-                    <div id="preview" v-if="url">
-                      <img
-                        class="img-fluid"
-                        v-for="item in url"
-                        :src="item"
-                        :key="item"
-                      />
+                    <div  class="d-flex  align-items-center gap-2" id="preview " v-if="BaseImgUrls.length>0">
+                      <div     v-for="(item,idx) in BaseImgUrls" class="position-relative">
+                        <i class="fas fa-trash text-danger position-absolute" @click="RemovePic(idx)"></i>
+                        <img
+                          width="70px"
+                          height="70px"
+
+                          :src="item"
+                          :key="item"
+                        />
+                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -444,15 +394,15 @@
               aria-labelledby="panelsStayOpen-headingTwo"
             >
               <div class="accordion-body">
-                <div class="d-flex flex-column">
+                <div class="d-flex flex-column ">
                   <div>
-                    <div class="d-flex flex-column flex-md-row gap-3">
+                    <div class="d-flex flex-column align-items-center flex-md-row gap-3">
                       <div class="labelText">اجاره روزانه :</div>
                       <div class="d-flex align-items-center gap-2">
                         <input
                           type="text"
                           class="form-control"
-                          v-model.trim="DailyRent"
+                          v-model.trim="RoomMateInfo.dailyRent"
                         />
                         <div class="labelText text-nowrap small">
                           هزار تومان
@@ -461,12 +411,12 @@
                     </div>
                   </div>
                   <div class="my-3">
-                    <div class="d-flex flex-column flex-md-row gap-3">
+                    <div class="d-flex flex-column align-items-center flex-md-row gap-3">
                       <div class="labelText">مبلغ رهن :</div>
                       <div class="d-flex align-items-center gap-2">
                         <input
                           type="number"
-                          v-model.trim="Mortgage"
+                          v-model.trim="RoomMateInfo.mortgage"
                           class="form-control"
                         />
                         <div class="labelText text-nowrap">هزار تومان</div>
@@ -474,36 +424,6 @@
                     </div>
                   </div>
                   <div>
-                    <!--                    <div class="d-flex flex-row">-->
-                    <!--                      <div class="labelText">زمان دریافت اجاره :</div>-->
-                    <!--                      <div class="">-->
-                    <!--                        <div class="form-check form-check-inline">-->
-                    <!--                          <input class="form-check-input" type="radio" name="inlineRadioOptions83" id="inlineRadio7"-->
-                    <!--                                 value="1" v-model="RentPeriod">-->
-                    <!--                          <label class="form-check-label" for="inlineRadio7">ماهانه</label>-->
-                    <!--                        </div>-->
-                    <!--                        <div class="form-check form-check-inline">-->
-                    <!--                          <input class="form-check-input" type="radio" name="inlineRadioOptions83" id="inlineRadio8"-->
-                    <!--                                 value="3" v-model="RentPeriod">-->
-                    <!--                          <label class="form-check-label" for="inlineRadio8">3 ماه</label>-->
-                    <!--                        </div>-->
-                    <!--                        <div class="form-check form-check-inline">-->
-                    <!--                          <input class="form-check-input" type="radio" name="inlineRadioOptions83" id="inlineRadio9"-->
-                    <!--                                 value="6" v-model="RentPeriod">-->
-                    <!--                          <label class="form-check-label" for="inlineRadio9">6 ماه</label>-->
-                    <!--                        </div>-->
-                    <!--                        <div class="form-check form-check-inline">-->
-                    <!--                          <input class="form-check-input" type="radio" name="inlineRadioOptions83" id="inlineRadio10"-->
-                    <!--                                 value="9" v-model="RentPeriod">-->
-                    <!--                          <label class="form-check-label" for="inlineRadio10">9 ماه</label>-->
-                    <!--                        </div>-->
-                    <!--                        <div class="form-check form-check-inline">-->
-                    <!--                          <input class="form-check-input" type="radio" name="inlineRadioOptions83" id="inlineRadio11"-->
-                    <!--                                 value="12" v-model="RentPeriod">-->
-                    <!--                          <label class="form-check-label" for="inlineRadio11">سالانه</label>-->
-                    <!--                        </div>-->
-                    <!--                      </div>-->
-                    <!--                    </div>-->
                   </div>
                   <div class="my-3">
                     <div
@@ -514,7 +434,7 @@
                         <date-picker
                           format="YYYY-MM-DD"
                           display-format="jYYYY-jMM-jDD"
-                          v-model="ReceptionDate"
+                          v-model="RoomMateInfo.receptionDate"
                           type="date"
                         />
                       </client-only>
@@ -531,8 +451,8 @@
                             class="form-check-input"
                             type="checkbox"
                             id="inlineCheckbox1"
-                            value="1"
-                            v-model="WithWater"
+                            :value="1"
+                            v-model="RoomMateInfo.withWater"
                           />
                           <label class="form-check-label" for="inlineCheckbox1"
                           >آب</label
@@ -543,8 +463,8 @@
                             class="form-check-input"
                             type="checkbox"
                             id="inlineCheckbox2"
-                            value="1"
-                            v-model="WithElectricity"
+                            :value="1"
+                            v-model="RoomMateInfo.withElectricity"
                           />
                           <label class="form-check-label" for="inlineCheckbox2"
                           >برق</label
@@ -555,8 +475,8 @@
                             class="form-check-input"
                             type="checkbox"
                             id="inlineCheckbox3"
-                            value="1"
-                            v-model="WithGaz"
+                            :value="1"
+                            v-model="RoomMateInfo.withGaz"
                           />
                           <label class="form-check-label" for="inlineCheckbox3"
                           >گاز</label
@@ -567,8 +487,8 @@
                             class="form-check-input"
                             type="checkbox"
                             id="inlineCheckbox4"
-                            value="1"
-                            v-model="WithInternet"
+                            :value="1"
+                            v-model="RoomMateInfo.withInternet"
                           />
                           <label class="form-check-label" for="inlineCheckbox4"
                           >اینترنت</label
@@ -579,8 +499,8 @@
                             class="form-check-input"
                             type="checkbox"
                             id="inlineCheckbox5"
-                            value="1"
-                            v-model="WithGarbage"
+                            :value="1"
+                            v-model="RoomMateInfo.withGarbage"
                           />
                           <label class="form-check-label" for="inlineCheckbox5"
                           >جمع آوری زباله</label
@@ -595,9 +515,9 @@
                       <client-only>
                         <l-map :zoom="17" :center="center" @click="addMarker">
                           <l-tile-layer
-                            url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                           ></l-tile-layer>
-                          <l-marker :lat-lng="latlng"></l-marker>
+                          <l-marker :lat-lng="center"></l-marker>
                         </l-map>
                       </client-only>
                     </div>
@@ -633,10 +553,10 @@
                         <div class="form-check form-check-inline">
                           <input
                             class="form-check-input"
-                            type="checkbox"
+                            type="radio"
                             id="inlineCheckbox6"
-                            value="1"
-                            v-model="RoomateGenderNot"
+                            :value="1"
+                            v-model="RoomMateInfo.roomateGender"
                           />
                           <label class="form-check-label" for="inlineCheckbox6"
                           >فرقی نمی کند</label
@@ -645,10 +565,10 @@
                         <div class="form-check form-check-inline">
                           <input
                             class="form-check-input"
-                            type="checkbox"
+                            type="radio"
                             id="inlineCheckbox7"
-                            value="2"
-                            v-model="RoomateGenderMale"
+                            :value="2"
+                            v-model="RoomMateInfo.roomateGender"
                           />
                           <label class="form-check-label" for="inlineCheckbox7"
                           >مرد</label
@@ -657,10 +577,10 @@
                         <div class="form-check form-check-inline">
                           <input
                             class="form-check-input"
-                            type="checkbox"
+                            type="radio"
                             id="inlineCheckbox8"
-                            value="3"
-                            v-model="RoomateGenderFemale"
+                            :value="3"
+                            v-model="RoomMateInfo.roomateGender"
                           />
                           <label class="form-check-label" for="inlineCheckbox8"
                           >زن</label
@@ -669,10 +589,10 @@
                         <div class="form-check form-check-inline">
                           <input
                             class="form-check-input"
-                            type="checkbox"
+                            type="radio"
                             id="inlineCheckbox9"
-                            value="4"
-                            v-model="RoomateGenderOther"
+                            :value="4"
+                            v-model="RoomMateInfo.roomateGender"
                           />
                           <label class="form-check-label" for="inlineCheckbox9"
                           >سایر</label
@@ -685,13 +605,14 @@
                   </div>
                   <div>
                     <div class="col-md-12 my-3">
-                      <div
-                        class="d-flex flex-column flex-md-row flex-wrap gap-3"
-                      >
-                        <small>محدوده سنی هم خانه</small>
-                        <input type="number" v-model="RoomateAgeRangeFrom" />
-                        <small>تا</small>
-                        <input type="number" v-model="RoomateAgeRangeTo" />
+                      <small>محدوده سنی هم خانه</small>
+                      <div class="d-flex my-2 align-items-center gap-1">
+                          <input type="number" class="form-control-sm form-control" v-model="RoomMateInfo.roomateAgeRangeFrom" />
+                          <small>تا</small>
+                          <input type="number" class="form-control-sm form-control" v-model="RoomMateInfo.roomateAgeRangeTo" />
+
+
+
                       </div>
                     </div>
                   </div>
@@ -705,7 +626,7 @@
                           label="title"
                           placeholder="سیگار"
                           class="selectWidth"
-                          v-model="RoomateSmoke"
+                          v-model="RoomMateInfo.roomateSmoke"
                           :reduce="(title) => title.code"
                         ></v-select>
                       </div>
@@ -717,21 +638,10 @@
                           label="title"
                           placeholder="فرزند"
                           class="selectWidth"
-                          v-model="RoomateChild"
+                          v-model="RoomMateInfo.roomateChild"
                           :reduce="(title) => title.code"
                         ></v-select>
                       </div>
-                      <!--                      <div class="col-md-4 col-lg-4 col-12 my-md-0 my-2">-->
-                      <!--                        <v-select-->
-                      <!--                          :options="options"-->
-                      <!--                          dir="rtl"-->
-                      <!--                          label="title"-->
-                      <!--                          placeholder="حیوان خانگی"-->
-                      <!--                          class="selectWidth"-->
-                      <!--                          v-model="RoomatePet"-->
-                      <!--                          :reduce="title => title.code"-->
-                      <!--                        ></v-select>-->
-                      <!--                      </div>-->
                     </div>
                   </div>
                 </div>
@@ -769,8 +679,8 @@
                               type="radio"
                               name="inlineRadioOptions50"
                               id="inlineRadio12"
-                              value="1"
-                              v-model="ResidenceNumber"
+                              :value="1"
+                              v-model="RoomMateInfo.residenceNumber"
                             />
                             <label class="form-check-label" for="inlineRadio12"
                             >فقط من</label
@@ -782,8 +692,8 @@
                               type="radio"
                               name="inlineRadioOptions50"
                               id="inlineRadio13"
-                              value="2"
-                              v-model="ResidenceNumber"
+                              :value="2"
+                              v-model="RoomMateInfo.residenceNumber"
                             />
                             <label class="form-check-label" for="inlineRadio13"
                             >با خودم 2 نفر
@@ -795,8 +705,8 @@
                               type="radio"
                               name="inlineRadioOptions50"
                               id="inlineRadio14"
-                              value="3"
-                              v-model="ResidenceNumber"
+                              :value="3"
+                              v-model="RoomMateInfo.residenceNumber"
                             />
                             <label class="form-check-label" for="inlineRadio14"
                             >بیش از 2 نفر</label
@@ -807,25 +717,20 @@
                     </div>
                   </div>
                   <!--                if not completed in profile -->
-                  <!--                if not completed in profile -->
-                  <!--                if not completed in profile -->
-                  <div v-if="true">
+
+                  <div >
                     <div class="d-flex flex-column flex-md-row">
                       <div class="labelText">جنسیت من :</div>
                       <div class="d-flex flex-column flex-md-row gap-2">
-                        <!--                        <div class="form-check form-check-inline">-->
-                        <!--                          <input class="form-check-input" type="radio" name="inlineRadioOptions20" id="inlineRadio18"-->
-                        <!--                                 value="1" v-model="OwnerGender">-->
-                        <!--                          <label class="form-check-label" for="inlineRadio18">فرقی نمی کند</label>-->
-                        <!--                        </div>-->
+
                         <div class="form-check form-check-inline">
                           <input
                             class="form-check-input"
                             type="radio"
                             name="inlineRadioOptions20"
                             id="inlineRadio19"
-                            value="2"
-                            v-model="OwnerGender"
+                            :value="2"
+                            v-model="RoomMateInfo.ownerGender"
                           />
                           <label class="form-check-label" for="inlineRadio19"
                           >مرد</label
@@ -837,8 +742,8 @@
                             type="radio"
                             name="inlineRadioOptions20"
                             id="inlineRadio20"
-                            value="3"
-                            v-model="OwnerGender"
+                            :value="3"
+                            v-model="RoomMateInfo.ownerGender"
                           />
                           <label class="form-check-label" for="inlineRadio20"
                           >زن</label
@@ -850,8 +755,8 @@
                             type="radio"
                             name="inlineRadioOptions20"
                             id="inlineRadio21"
-                            value="4"
-                            v-model="OwnerGender"
+                            :value="4"
+                            v-model="RoomMateInfo.ownerGender"
                           />
                           <label class="form-check-label" for="inlineRadio21"
                           >سایر</label
@@ -864,7 +769,7 @@
                       <div>
                         <input
                           type="number"
-                          v-model.trim="OwnerAge"
+                          v-model.trim="RoomMateInfo.ownerAge"
                           value="18"
                         />
                       </div>
@@ -878,24 +783,18 @@
                           dir="rtl"
                           class="selectWidth"
                           multiple
-                          v-model="ownerLanguages"
+                          v-model="RoomMateInfo.ownerLangs"
                           :reduce="(title) => title.code"
                         ></v-select>
                       </div>
                     </div>
-                    <!--                    <div class="d-flex flex-row gap-3 my-3">-->
-                    <!--                      <div class="labelText">شغل :</div>-->
-                    <!--                      <div>-->
-                    <!--                        <input class="border p-1 rounded" maxlength="50" v-model="OwnerJob" type="text"-->
-                    <!--                               placeholder="شغل ..."/>-->
-                    <!--                      </div>-->
-                    <!--                    </div>-->
+
                   </div>
                   <div class="labelText my-4">توضیحات :</div>
                   <div class="row">
                     <textarea
                       placeholder="توضیحات درباره من یا هم خانه مورد نظر یا مکان زندگی"
-                      v-model="OwnerDescription"
+                      v-model="RoomMateInfo.description"
                     />
                   </div>
                 </div>
@@ -903,53 +802,8 @@
             </div>
           </div>
 
-          <!--          <div class="accordion-item">-->
-          <!--            <h2 class="accordion-header" id="panelsStayOpen-headingFive">-->
-          <!--              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"-->
-          <!--                      data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false"-->
-          <!--                      aria-controls="panelsStayOpen-collapseFive">-->
-          <!--                ثبت آگهی و پرداخت-->
-          <!--              </button>-->
-          <!--            </h2>-->
-          <!--            <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse"-->
-          <!--                 aria-labelledby="panelsStayOpen-headingFive">-->
-          <!--              <div class="accordion-body">-->
-          <!--                <div class="d-flex flex-column">-->
-          <!--                  <div class="">-->
-          <!--                    <div class="d-flex flex-row gap-3">-->
-          <!--                      <div class="labelText">مبلغ</div>-->
-          <!--                      <div>200000</div>-->
-          <!--                      <div class="labelText">تومان</div>-->
-          <!--                    </div>-->
-          <!--                  </div>-->
-          <!--                  <div class="my-3">-->
-          <!--                    <div class="d-flex flex-row gap-5">-->
-          <!--                      <div>-->
-          <!--                        <button class="btn btn-sm btn-info">-->
-          <!--                          پرداخت توسط کیف پول-->
-          <!--                        </button>-->
-          <!--                      </div>-->
-          <!--                      <div>-->
-          <!--                        <button class="btn btn-sm btn-success">-->
-          <!--                          پرداخت توسط درگاه بانکی-->
-          <!--                        </button>-->
-          <!--                      </div>-->
-          <!--                    </div>-->
-          <!--                  </div>-->
-          <!--                </div>-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </div>-->
         </div>
-        <div class="col-12 my-md-5 my-2 text-center">
-          <button
-            type="button"
-            class="btn btn-sm AddReplyBtn"
-            @click="saveRoommateInformation"
-          >
-            ذخیره اطلاعات هم خانه
-          </button>
-        </div>
+
       </form>
     </div>
   </div>
@@ -966,101 +820,88 @@ export default {
   layout: "PoshtebamPlusLayout",
   data() {
     return {
-      url: [],
-      homeOptions: [],
       optionsHome: [
         { title: "آسانسور", code: 1 },
         { title: "دوربین مدار بسته", code: 2 },
         { title: "پارکینگ", code: 3 },
       ],
       optionsOwnerLangs: [
-        { title: "انگلیسی", code: 1 },
-        { title: "فرانسوی", code: 2 },
-        { title: "عربی", code: 3 },
-        { title: "فارسی", code: 4 },
-        { title: "آلمانی", code: 5 },
-        { title: "ترکی", code: 6 },
+        { title: "انگلیسی", code: '1' },
+        { title: "فرانسوی", code: '2'},
+        { title: "عربی", code: '3' },
+        { title: "فارسی", code: '4' },
+        { title: "آلمانی", code: '5' },
+        { title: "ترکی", code: '6' },
       ],
       options: [
         { title: "بله", code: 1 },
         { title: "خیر", code: 2 },
         { title: "فرقی نمی کند", code: 3 },
       ],
-      imagesUrl: [],
-      countryText: "",
-      cityText: "",
-      addressText: "",
-      RoommateId: null,
-      RoomType: null,
-      BedroomCount: 2,
-      BedroomType: null,
-      BedroomTypeValue: null,
-      BathroomCount: 2,
-      BathroomType: null,
-      BathroomTypeValue: null,
-      OwnerType: null,
-      Address: "",
-      Longtitude: null,
-      Latitude: null,
-      HavelobbyMan: null,
-      HaveCCTV: null,
-      HaveElevator: null,
-      HaveFurniture: null,
-      HaveParking: null,
-      DailyRent: 0,
-      IsActive: false,
-      Mortgage: null,
-      RentPeriod: null,
-      ReceptionDate: "",
-      WithElectricity: null,
-      WithWater: null,
-      WithGaz: null,
-      WithInternet: null,
-      WithGarbage: null,
-      RoomateGender: "",
-      RoomateAgeRangeFrom: null,
-      RoomateAgeRangeTo: null,
-      RoomateSmoke: null,
-      RoomateChild: null,
-      RoomatePet: null,
-      ResidenceNumber: null,
-      OwnerGender: null,
-      OwnerAge: null,
-      OwnerLangs: "",
-      OwnerJob: "",
-      OwnerDescription: "",
-      UserId: null,
-      PaymentId: null,
-      center: [35.757539, 51.409968],
-      latlng: [35.757539, 51.409968],
-      RoomateGenderNot: false,
-      RoomateGenderMale: false,
-      RoomateGenderFemale: false,
-      RoomateGenderOther: false,
-      RoomateGenderOther1: false,
-      RoomateGenderOther2: false,
-      RoomateGenderOther3: false,
-      RoomateGenderOther4: false,
-      RoomateGenderOther5: false,
-      roomateData: {},
-      myRoommateData: {},
-      photos: [],
-      homeImage: "",
-      ownerLanguages: [],
+      RoomMateInfo:{
+        roomateId:0,
+        roomType:0,
+        bedroomCount:0,
+        bedroomType:0 ,
+        bathroomCount:0,
+        bathroomType:0,
+        ownerType:0,
+        address:'',
+        longtitude:null,
+        latitude:null,
+        haveLobbyMan:0,
+        haveFurniture:0,
+        haveCCTV:0,
+        haveElevator:0,
+        dailyRent:0,
+        mortgage:0,
+        receptionDate:'',
+        withElectricity:0,
+        withWater:0,
+        withGaz:0,
+        withInternet:0,
+        withGarbage:0,
+        roomateGender:'',
+        roomateAgeRangeFrom:0,
+        roomateAgeRangeTo:0,
+        roomateSmoke:0,
+        roomateChild:0,
+        residenceNumber:0,
+        ownerGender:0,
+        ownerAge:0,
+        ownerLangs:'',
+        description:'',
+        userId:0,
+        paymentId:null,
+        haveParking:0,
+        photos:[],
+        isPrivate:false
+      },
+      IsActive:false,
+      BaseImgUrls:[],
+      center:[30,50],
+      images:[],
+      latLang:[]
     };
   },
   methods: {
     addMarker(event) {
-      this.latlng = event.latlng;
-      this.Latitude = event.latlng[0];
-      this.Longtitude = event.latlng[1];
+
+      this.RoomMateInfo.latitude = event.latlng.lat
+      this.RoomMateInfo.longtitude = event.latlng.lng
+
+    },
+    RemovePic(idx){
+      this.BaseImgUrls.splice(idx,1)
+      this.images.splice(idx,1)
     },
     getSliderValue(value) {
       this.RoomateAgeRangeFrom = value.positions[0];
       this.RoomateAgeRangeTo = value.positions[1];
     },
     callInputMethod() {
-      document.querySelector(".my-file").click();
+      this.$refs.RoomateFile.click();
+
     },
     BedroomCountDecrise() {
       if (this.BedroomCount > 0) {
@@ -1076,25 +917,45 @@ export default {
       this.OwnerDescription = value;
     },
     onFileChange(e) {
-      const file = e.target.files[0];
-      this.url.push(URL.createObjectURL(file));
-      const that = this;
-      const reader = new FileReader();
-      reader.onload = (function (theFile) {
-        return function () {
-          const binaryData = reader.result;
-          that.homeImage = window.btoa(binaryData);
-          // console.log(that.subImage)
-          that.photos.push({
-            base64: that.homeImage,
-            priority: 1,
-          });
-        };
-      })(file);
-      reader.readAsBinaryString(file);
-    },
 
+      const that = this;
+      const f = [];
+      Array.prototype.forEach.call(this.$refs.RoomateFile.files, (element) => {
+        f.push(element);
+      });
+      f.forEach((element) => {
+        this.BaseImgUrls.push(URL.createObjectURL(element));
+        const reader = new FileReader();
+        reader.onload = (function (theFile) {
+          return function () {
+            const binaryData = reader.result;
+            that.images.push(window.btoa(binaryData));
+          };
+        })(f);
+        reader.readAsBinaryString(element);
+      });
+    },
     saveRoommateInformation() {
+      console.log(this.RoomMateInfo)
+      let tmpPhotos = []
+      let tmpPhoto = {
+        base64:'',
+        priority:1
+      }
+      this.images.forEach((el)=>{
+        tmpPhoto.base64 = el
+        const clone = {...tmpPhoto}
+        tmpPhotos.push(clone)
+        tmpPhoto.base64 = ''
+      })
+      let bedType =0
+      let bathType = 0
+      if(this.RoomMateInfo.bedroomType){
+        bedType = 1
+      }
+      if(this.RoomMateInfo.bathroomType){
+        bathType = 1
+      }
       this.$nextTick(() => {
         this.$nuxt.$loading.start();
       });
@@ -1102,43 +963,43 @@ export default {
         .post(
           `Roomate/Update`,
           {
-            roomateId: this.myRoommateData.roomateId,
-            roomType: parseInt(this.RoomType),
-            bedroomCount: this.BedroomCount,
-            bedroomType: this.BedroomType === null ? 0 : 1,
-            bathroomCount: this.BathroomCount,
-            bathroomType: this.BathroomType === null ? 0 : 1,
-            ownerType: parseInt(this.OwnerType),
-            address: this.addressConcat,
-            longtitude: this.Longtitude,
-            latitude: this.Latitude,
-            haveLobbyMan: this.HavelobbyMan ? 1 : 0,
-            haveParking: this.HaveParking ? 1 : 0,
-            haveFurniture: this.HaveFurniture ? 1 : 0,
-            haveCCTV: this.HaveCCTV ? 1 : 0,
-            haveElevator: this.HaveElevator ? 1 : 0,
-            dailyRent: parseInt(this.DailyRent),
-            mortgage: parseInt(this.Mortgage),
-            receptionDate: this.ReceptionDate,
-            rentPeriod: this.RentPeriod === null ? 1 : this.RentPeriod,
-            withElectricity: parseInt(this.WithElectricity ? "1" : "0"),
-            withWater: parseInt(this.WithWater ? "1" : "0"),
-            withGaz: parseInt(this.WithGaz ? "1" : "0"),
-            withInternet: parseInt(this.WithInternet ? "1" : "0"),
-            withGarbage: parseInt(this.WithGarbage ? "1" : "0"),
-            roomateGender: this.roomateGenderString,
-            roomateAgeRangeFrom: Math.round(this.RoomateAgeRangeFrom),
-            roomateAgeRangeTo: Math.round(this.RoomateAgeRangeTo),
-            roomateSmoke: this.RoomateSmoke === null ? 3 : this.RoomateSmoke,
-            roomateChild: this.RoomateChild === null ? 3 : this.RoomateChild,
-            residenceNumber: parseInt(this.ResidenceNumber),
-            ownerGender: parseInt(this.OwnerGender),
-            ownerAge: parseInt(this.OwnerAge),
-            ownerLangs: this.StringOwnerLangs,
-            description: this.OwnerDescription,
-            userId: this.$auth.user.userId,
-            paymentId: null,
-            photos: this.photos,
+            roomateId: this.RoomMateInfo.roomateId,
+            roomType: this.RoomMateInfo.roomType,
+            bedroomCount: this.RoomMateInfo.bedroomCount,
+            bedroomType: bedType ,
+            bathroomCount: this.RoomMateInfo.bathroomCount,
+            bathroomType: bathType ,
+            ownerType: this.RoomMateInfo.ownerType,
+            address: this.RoomMateInfo.address,
+            longtitude: this.RoomMateInfo.longtitude,
+            latitude: this.RoomMateInfo.latitude,
+            haveLobbyMan: this.RoomMateInfo.haveLobbyMan?1:0 ,
+            haveParking: this.RoomMateInfo.haveParking?1:0 ,
+            haveFurniture: this.RoomMateInfo.haveFurniture?1:0,
+            haveCCTV: this.RoomMateInfo.haveCCTV?1:0,
+            haveElevator: this.RoomMateInfo.haveElevator?1:0,
+            dailyRent: this.RoomMateInfo.dailyRent,
+            mortgage: this.RoomMateInfo.mortgage,
+            receptionDate: this.RoomMateInfo.receptionDate,
+            rentPeriod: this.RoomMateInfo.rentPeriod,
+            withElectricity: this.RoomMateInfo.withElectricity?1:0,
+            withWater: this.RoomMateInfo.withWater?1:0,
+            withGaz: this.RoomMateInfo.withGaz?1:0,
+            withInternet: this.RoomMateInfo.withInternet?1:0,
+            withGarbage:this.RoomMateInfo.withGarbage?1:0,
+            roomateGender: this.RoomMateInfo.roomateGender,
+            roomateAgeRangeFrom:this.RoomMateInfo.roomateAgeRangeFrom,
+            roomateAgeRangeTo: this.RoomMateInfo.roomateAgeRangeTo,
+            roomateSmoke:this.RoomMateInfo.roomateSmoke,
+            roomateChild: this.RoomMateInfo.roomateChild,
+            residenceNumber: this.RoomMateInfo.residenceNumber,
+            ownerGender: this.RoomMateInfo.ownerGender,
+            ownerAge:this.RoomMateInfo.ownerAge,
+            ownerLangs: this.RoomMateInfo.ownerLangs.toString(),
+            description:  this.RoomMateInfo.description,
+            userId: this.RoomMateInfo.userId,
+            paymentId: this.RoomMateInfo.paymentId,
+            photos: tmpPhotos,
           },
           {}
         )
@@ -1194,46 +1055,46 @@ export default {
         .post(`Roomate/GetMyRoomate`, null, {})
         .then((response) => {
           if (response.data.status !== 2) {
-            this.roomateData = response.data;
-            this.myRoommateData = response.data.roomate;
-            this.RoomType = this.myRoommateData.roomType;
-            this.BedroomCount = this.myRoommateData.bedroomCount;
-            this.BathroomCount = this.myRoommateData.bathroomCount;
-            this.BedroomType = this.myRoommateData.bedroomType;
-            this.BathroomTypeValue = this.myRoommateData.bathroomType;
-            this.OwnerType = this.myRoommateData.ownerType;
-            this.HaveParking = this.myRoommateData.haveParking;
-            this.HaveElevator = this.myRoommateData.haveElevator;
-            this.HaveFurniture = this.myRoommateData.haveFurniture;
-            this.HaveCCTV = this.myRoommateData.haveCCTV;
-            this.HavelobbyMan = this.myRoommateData.haveLobbyMan;
-            this.DailyRent = this.myRoommateData.dailyRent;
-            this.Mortgage = this.myRoommateData.mortgage;
-            this.RentPeriod = this.myRoommateData.rentPeriod;
-            this.ReceptionDate = this.myRoommateData.receptionDate;
-            this.WithGarbage = this.myRoommateData.withGarbage;
-            this.WithInternet = this.myRoommateData.withInternet;
-            this.WithGaz = this.myRoommateData.withGaz;
-            this.WithWater = this.myRoommateData.withWater;
-            this.WithElectricity = this.myRoommateData.withElectricity;
-            this.RoomateGenderNot =
-              this.myRoommateData.roomateGender.includes("1");
-            this.RoomateGenderMale =
-              this.myRoommateData.roomateGender.includes("2");
-            this.RoomateGenderFemale =
-              this.myRoommateData.roomateGender.includes("3");
-            this.RoomateGenderOther =
-              this.myRoommateData.roomateGender.includes("4");
-            this.minAge = this.myRoommateData.roomateAgeRangeFrom;
-            this.maxAge = this.myRoommateData.roomateAgeRangeTo;
-            this.RoomateSmoke = this.myRoommateData.roomateSmoke;
-            this.RoomateChild = this.myRoommateData.roomateChild;
-            this.ResidenceNumber = this.myRoommateData.residenceNumber;
-            this.OwnerGender = this.myRoommateData.ownerGender;
-            this.OwnerAge = this.myRoommateData.ownerAge;
-            this.ownerLanguages = this.deStructLanuage(
-              this.myRoommateData.ownerLangs
-            );
+            this.RoomMateInfo.roomateId = response.data.roomate.roomateId,
+              this.RoomMateInfo.roomType = response.data.roomate.roomType
+              this.RoomMateInfo.bedroomCount = response.data.roomate.bedroomCount
+              this.RoomMateInfo.bedroomType = response.data.roomate.bedroomType
+              this.RoomMateInfo.bathroomCount = response.data.roomate.bathroomCount
+              this.RoomMateInfo.bathroomType = response.data.roomate.bathroomType
+              this.RoomMateInfo.ownerType= response.data.roomate.ownerType
+              this.RoomMateInfo.address = response.data.roomate.address
+              this.RoomMateInfo.longtitude = response.data.roomate.longtitude
+              this.RoomMateInfo.latitude = response.data.roomate.latitude
+            this.latLang = [this.RoomMateInfo.latitude,this.RoomMateInfo.longtitude]
+
+              this.RoomMateInfo.haveLobbyMan = response.data.roomate.haveLobbyMan
+              this.RoomMateInfo.haveFurniture =  response.data.roomate.haveFurniture
+              this.RoomMateInfo.haveCCTV =  response.data.roomate.haveCCTV
+              this.RoomMateInfo.haveElevator =  response.data.roomate.haveElevator
+              this.RoomMateInfo.dailyRent = response.data.roomate.dailyRent
+              this.RoomMateInfo.mortgage = response.data.roomate.mortgage
+              this.RoomMateInfo.receptionDate = response.data.roomate.receptionDate
+              this.RoomMateInfo.withElectricity = response.data.roomate.withElectricity
+              this.RoomMateInfo.withWater = response.data.roomate.withWater
+              this.RoomMateInfo.withGaz = response.data.roomate.withGaz
+              this.RoomMateInfo.withInternet = response.data.roomate.withInternet
+              this.RoomMateInfo.withGarbage = response.data.roomate.withGarbage
+              this.RoomMateInfo.roomateGender = response.data.roomate.roomateGender
+              this.RoomMateInfo.roomateAgeRangeFrom = response.data.roomate.roomateAgeRangeFrom
+              this.RoomMateInfo.roomateAgeRangeTo  = response.data.roomate.roomateAgeRangeTo
+              this.RoomMateInfo.roomateSmoke  = response.data.roomate.roomateSmoke
+              this.RoomMateInfo.roomateChild  = response.data.roomate.roomateChild
+              this.RoomMateInfo.residenceNumber = response.data.roomate.residenceNumber
+              this.RoomMateInfo.ownerGender = response.data.roomate.ownerGender
+              this.RoomMateInfo.ownerAge = response.data.roomate.ownerAge
+              this.RoomMateInfo.ownerLangs = response.data.roomate.ownerLangs
+              this.RoomMateInfo.description = response.data.roomate.description
+              this.RoomMateInfo.userId = response.data.roomate.userId
+              this.RoomMateInfo.paymentId = response.data.roomate.paymentId
+              this.RoomMateInfo.haveParking  = response.data.roomate.haveParking
+              this.RoomMateInfo.photos  = response.data.roomate.photos
+              this.RoomMateInfo.isPrivate = response.data.roomate.isPrivate
+            console.log(this.RoomMateInfo)
           }
         })
         .catch((error) => {
@@ -1241,17 +1102,17 @@ export default {
         });
     },
 
-    deStructLanuage(data) {
-      const unrepeated = (str) => [...new Set(str)].join("");
-      data = unrepeated(data);
-      var words = data.split(" ");
-      var arr = [];
-
-      for (var i = 0; i < words.length; i++) {
-        arr.push(words[i]);
-      }
-      return arr;
-    },
+    // deStructLanuage(data) {
+    //   const unrepeated = (str) => [...new Set(str)].join("");
+    //   data = unrepeated(data);
+    //   var words = data.split(" ");
+    //   var arr = [];
+    //
+    //   for (var i = 0; i < words.length; i++) {
+    //     arr.push(words[i]);
+    //   }
+    //   return arr;
+    // },
   },
   mounted() {
     this.getRoomateInfo();

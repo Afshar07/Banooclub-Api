@@ -10,7 +10,7 @@
             <img
               v-if="item.userInfo.selfieFileData"
               class="friendPicture"
-              :src="`https://pplusapi.simagar.com/${item.userInfo.selfieFileData}`"
+              :src="`https://banooclubapi.simagar.com/${item.userInfo.selfieFileData}`"
               style="width: 35px;height: 35px;"
 
               alt=""
@@ -62,7 +62,7 @@ export default {
         });
     },
     goToUserProfile(userId) {
-      if (userId === this.$auth.user.userId) {
+      if (userId === this.$auth.user.userInfo.userId) {
         this.$router.push("/social");
       } else {
         this.$router.push({

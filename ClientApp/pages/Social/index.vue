@@ -14,7 +14,7 @@
               <div @click.stop v-if="!select_media" class="col-12 my-3" >
                 <div class="row">
                   <div class="col-4 my-3 d-flex justify-content-center" v-for="item in galleries" :key="item">
-                    <img @click.stop="selectImage(item)" :src="`https://pplusapi.simagar.com/${item}`"
+                    <img @click.stop="selectImage(item)" :src="`https://banooclubapi.simagar.com/${item}`"
                          style="object-fit: cover;object-position: center; width: 200px;height: 250px" class="rounded " alt="post_image"/>
                   </div>
                 </div>
@@ -23,7 +23,7 @@
               <div v-else-if="select_media" class="col-12 d-flex flex-column py-3">
                 <div class="d-flex justify-content-center align-items-center">
                   <img style="object-fit: cover;object-position: center; width: 200px;height: 250px"
-                       :src="`https://pplusapi.simagar.com/${selected_media}`" class="rounded " alt="post_image"/>
+                       :src="`https://banooclubapi.simagar.com/${selected_media}`" class="rounded " alt="post_image"/>
                 </div>
                 <textarea
                   row="100"
@@ -66,7 +66,7 @@
                 <img
                   v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
                   class="img-fluid headerPicture custom_header_size tw-w-10 tw-h-10 mx-2 tw-rounded-full"
-                  :src="`https://pplusapi.simagar.com/${$auth.user.baseData.selfie}`"
+                  :src="`https://banooclubapi.simagar.com/${$auth.user.baseData.selfie}`"
                   alt=""
                 />
                 <img

@@ -29,7 +29,7 @@
           <div class="row" :class="{'d-flex flex-row-reverse':item.userType ===2}">
             <div class="col-md-1">
               <img class=" myPicture "
-                   :src="`https://pplusapi.simagar.com/${item.userInfo.selfieFileData}`" alt=""/>
+                   :src="`https://banooclubapi.simagar.com/${item.userInfo.selfieFileData}`" alt=""/>
             </div>
             <div class="col-md-11  bg-white px-3 py-1 MyMessage d-flex flex-column " :class="{' align-items-end':item.userType ===2}" >
               <span class="titleColor">  {{ item.userInfo.name + ' ' + item.userInfo.familyName }}</span>
@@ -88,7 +88,7 @@
 <!--              <div class="d-flex" :class="item.userType===2 ?'flex-row-reverse ps-5':'flex-row pe-5'">-->
 <!--                <div class="justify-content-center align-items-center position-relative">-->
 <!--                  <img class=" myPicture "-->
-<!--                       :src="`https://pplusapi.simagar.com/${item.userInfo.selfieFileData}`" alt=""/>-->
+<!--                       :src="`https://banooclubapi.simagar.com/${item.userInfo.selfieFileData}`" alt=""/>-->
 <!--                </div>-->
 <!--                <div class="">-->
 <!--                  <div class="d-flex flex-column text-end px-3">-->
@@ -106,7 +106,7 @@
 <!--              </div>-->
 <!--              <div>{{ item.content }}</div>-->
 <!--              <div v-if="item.fileData !== ''">-->
-<!--                <img class="contentImage" :src="`https://pplusapi.simagar.com/${item.fileData}`" alt=""/>-->
+<!--                <img class="contentImage" :src="`https://banooclubapi.simagar.com/${item.fileData}`" alt=""/>-->
 <!--              </div>-->
 <!--            </div>-->
 <!--          </div>-->
@@ -205,7 +205,7 @@ export default {
 
     getTicketData(parentId) {
       this.$axios.post(`Ticket/GetAllByParentId`, null, {
-      
+
         params: {
           parentId: parentId
         }
@@ -237,7 +237,7 @@ export default {
           title: this.ticketTitle,
           fileData: this.mainImage,
         }, {
-        
+
         }).then((response) => {
           if (response.status === 200) {
             this.ticketTitle = ''

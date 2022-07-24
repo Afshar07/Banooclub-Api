@@ -247,7 +247,7 @@ export default {
   watch:{
     searchKey:function (val,oldVal){
       this.$axios.post(`Post/GetNotConfirmed`, null, {
-      
+
         params: {
           pageNumber: 1,
           count: 10,
@@ -312,7 +312,7 @@ export default {
     },
     getAllNotConfirmed(pageNumber, count,search) {
       this.$axios.post(`Post/GetNotConfirmed`, null, {
-      
+
         params: {
           pageNumber: pageNumber,
           count: count,
@@ -338,7 +338,7 @@ export default {
         createDate: this.notConfirmedPost.createDate,
         status: 1
       }, {
-       
+
       }).then((response) => {
         if (response.status === 200) {
           document.querySelector('.closeReportAdmin').click();
@@ -355,9 +355,9 @@ export default {
         postId: this.notConfirmedPost.postId,
         userId: this.notConfirmedPost.userId,
         reason: this.reportTextReason,
-        reporterUserId: this.$auth.user.userId,
+        reporterUserId: this.$auth.user.userInfo.userId,
       }, {
-       
+
       }).then((response) => {
         if (response.status === 200) {
           document.querySelector('.closeReportAdmin').click();

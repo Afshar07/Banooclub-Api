@@ -13,7 +13,7 @@
                 <img
                   v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
                   class="img-fluid headerPicture custom_header_size tw-w-10 tw-h-10 mx-2 tw-rounded-full"
-                  :src="`https://pplusapi.simagar.com/${$auth.user.baseData.selfie}`"
+                  :src="`https://banooclubapi.simagar.com/${$auth.user.baseData.selfie}`"
                   alt=""
                 />
                 <img

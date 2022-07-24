@@ -82,14 +82,14 @@
             </div>
             <div class="col-lg-3 col-12 mb-3 d-flex align-items-end justify-content-center gap-2 text-white row">
               <div class="add-btn">
-                <buttton
+                <button
                   @click="Follow"
                   class="p-1 tw-rounded-lg"
                   style="cursor: pointer;background-color: #2563eb;"
                   v-if="$route.params.id && getUserDetails && getUserDetails.followButton"
                 >
                   دنبال کردن
-                </buttton>
+                </button>
               </div>
             </div>
           </div>
@@ -142,7 +142,7 @@
           </button>
         </li>
         <li v-if="!$route.params.id" class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-          <button class="nav-link" id="pills-edit-info-tab" data-bs-toggle="pill" data-bs-target="#pills-edit-info"
+          <button @click="$router.push('/social/accountsetting/editprofilebasic')" class="nav-link" id="pills-edit-info-tab" data-bs-toggle="pill" data-bs-target="#pills-edit-info"
                   type="button" role="tab" aria-controls="pills-edit-info" aria-selected="false">
             ویرایش اطلاعات
           </button>

@@ -1,6 +1,6 @@
 <template>
-  <div class="container-fluid main-container bg-white mb-4" v-if="ticketData">
-    <h1 class="p-4">موضوع تیکت: {{ ticketData[0].content }}</h1>
+  <div class="container mcontainer bg-white mb-4" v-if="ticketData">
+    <h1 class="p-4  h3">موضوع تیکت: {{ ticketData[0].content }}</h1>
     <div class="col-12">
       <div
         v-for="item in ticketData"
@@ -17,7 +17,7 @@
           <div>
             <div class="card-body">
               <div
-                class="col-12 d-flex"
+                class="col-12 d-flex p-0"
                 :class="
                   item.userType == 1
                     ? 'justify-content-start ms-auto text-end'
@@ -45,16 +45,14 @@
                     </span>
                   </strong>
                   <p class="card-text gap-2 d-flex align-items-center">
-                    <small> <i class="fas text-muted fa-clock"></i></small>
-                    <small class="text-muted">{{
-                      item.createDate | moment("jYYYY/jM/jD HH:mm")
-                    }}</small>
+                    <small> <i class="fas  fa-clock"></i></small>
+                    <small class="">{{new Date(item.createDate).toLocaleDateString('fa-IR')}}</small>
                   </p>
                 </div>
               </div>
 
               <p
-                class="card-text text-secondary"
+                class="card-text "
                 :class="item.userType == 1 ? 'text-end' : 'text-start'"
               >
                 {{ item.content }}
@@ -72,16 +70,7 @@
       <h4>ثبت پاسخ</h4>
       <hr />
       <div class="row">
-        <div class="col-md-6">
-          <input
-            v-model="ticketTitle"
-            type="text"
-            class="form-control"
-            placeholder="عنوان تیکت"
-          />
-        </div>
-
-        <div class="col-md-6">
+        <div class="col-md-10">
           <textarea
             v-model="ticketDescription"
             type="text"
@@ -90,10 +79,15 @@
             placeholder="متن تیکت"
           ></textarea>
         </div>
+        <div class="col-md-2">
+          <button class="tw-bg-[#2A41E8] hover:tw-bg-white hover:tw-text-[#2A41E8] tw-border-solid border-1 tw-border-[#2A41E8] tw-rounded w-100 tw-transition tw-text-white  tw-p-2" @click="SubmitReply">
+            ارسال
+          </button>
+        </div>
         <div class="col-md-12">
           <div class="row">
-            <div class="col-md-12 d-flex justify-content-start my-3">
-              <button class="btn btn-primary" @click="openFileUpload">
+            <div class="col-md-2 d-flex justify-content-start my-3">
+              <button class="tw-bg-[#2A41E8] tw-h-10 hover:tw-bg-white hover:tw-text-[#2A41E8] tw-border-solid border-1 tw-border-[#2A41E8] tw-rounded w-100 tw-transition tw-text-white  tw-p-2" @click="openFileUpload">
                 آپلود عکس
               </button>
               <input
@@ -103,13 +97,13 @@
                 @change="UploadFile"
               />
             </div>
+            <div v-if="BaseImgUrl!==''" class="col-md-2 my-4 tw-relative">
+              <i class="fas fa-trash tw-absolute tw-p-2 text-danger tw-cursor-pointer" @click="RemovePic"></i>
+              <img :src="BaseImgUrl" width="100px" height="100px" class="rounded border" alt="">
+            </div>
           </div>
         </div>
-        <div class="col-md-12 mb-5">
-          <button class="btn btn-primary w-100" @click="SubmitReply">
-            ثبت
-          </button>
-        </div>
+
       </div>
     </div>
   </div>
@@ -135,12 +129,22 @@ export default {
   data() {
     return {
       ticketData: null,
-      ticketTitle: null,
+      ticketTitle: '',
       ticketDescription: null,
       image: null,
+      BaseImgUrl:''
     };
   },
+  computed:{
+    BaseUrl(){
+      return process.env.pic
+    }
+  },
   methods: {
+    RemovePic(){
+      this.BaseImgUrl = ''
+      this.image = ''
+    },
     async SubmitReply() {
       this.$nuxt.$loading.start();
       try {
@@ -149,6 +153,7 @@ export default {
           content: this.ticketDescription,
           type: 0,
           title: this.ticketTitle,
+          createDate:new Date(Date.now()),
           fileData: this.image,
         });
         this.ticketTitle = null;
@@ -208,29 +213,33 @@ export default {
   height: auto;
 }
 .my-ticket {
-  border: 1px solid #198754;
+  border: 1px solid #2A41E8;
+  background-color: #2A41E8;
+  color: white!important;
 }
 .my-ticket:after {
   content: "";
   position: absolute;
   top: 30%;
   left: 100%;
-  border-left: 20px solid #198754;
-  border-left-color: #198754;
+  background-color: #2A41E8;
+  color: white;
   border-top: 20px solid transparent;
   border-bottom: 20px solid transparent;
   border-right: 20px solid transparent;
 }
 .your-ticket {
-  border: 1px solid #0d6efd;
+  border: 1px solid #F4F4F4;
+  background-color: #F4F4F4;
+  color: #b9b9b9;
 }
 .your-ticket:after {
   content: "";
   position: absolute;
   top: 30%;
   right: 100%;
-  border-right: 20px solid #0d6efd;
-  border-right-color: #0d6efd;
+  background-color: #F4F4F4;
+  color: #b9b9b9;
   border-top: 20px solid transparent;
   border-bottom: 20px solid transparent;
   border-left: 20px solid transparent;

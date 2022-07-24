@@ -1,18 +1,24 @@
 <template>
   <div class="container mcontainer" v-if="forumDetails">
     <h1 class="tw-text-2xl tw-font-semibold"> {{ forumDetails.title }} </h1>
-    <div class="d-flex">
-      <p class="tw-text-sm tw-text-gray-400 tw-my-2 ">
-        پرسیده شده
+    <div class="d-flex align-items-center gap-2">
+      <p class="tw-text-sm d-flex align-items-center tw-text-gray-400 tw-my-2">
+        پست شده توسط:
+
+        <span data-href="%40tag-dev.html"> {{ forumDetails.userInfo.userName }} </span>
+      </p>
         <span class="tw-text-black px-1">
           {{time_ago(forumDetails.createDate) }}
         </span>
-      </p>
+
       <p class="tw-text-sm tw-text-gray-400 tw-my-2 px-3">
         بازدید
         <span class="tw-text-black px-1">
           {{forumDetails.viewsCount}}
         </span>
+      </p>
+      <p class="tw-text-sm tw-text-gray-400 tw-my-2 px-3">
+        گزارش انجمن
       </p>
     </div>
 
@@ -22,13 +28,13 @@
           <div class="d-flex flex-column">
             <div class="d-flex align-items-center row">
               <div class="d-flex flex-column justify-content-center align-items-center col-1">
-                <button @click="likeQuestion">
+                <button @click="ForumLike(1)">
                   <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
                   </svg>
                 </button>
-                <div style="color:hsl(210,8%,45%);">{{likes}}</div>
-                <button @click="dislikeQuestion">
+                <div style="color:hsl(210,8%,45%);">{{forumDetails.vote}}</div>
+                <button @click="ForumLike(2)">
                   <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
                   </svg>
@@ -54,9 +60,7 @@
                       <InstagramIcon style="width: 20px; height: 20px;"/>
                     </nuxt-link>
                   </div>
-                  <button type="button" class="button p-2" style="font-size: 12px; height: 28px">
-                    دنبال کردن
-                  </button>
+
                   <div class=" d-flex tw-mr-auto justify-content-center align-items-center" :class="[]">
                     <div v-if="!show_comment_input" class="tw-text-gray-400" style="font-size: 15px; font-style: italic;" @click="show_comment_input = !show_comment_input"> افزودن نظر ...</div>
                     <input v-on:keyup.enter="addComment()" v-if="show_comment_input" v-model="forum_comment"
@@ -77,13 +81,13 @@
               <div class="d-flex align-items-center row">
                 <div class="d-flex flex-column mt-3 justify-content-center align-items-center col-1">
                   <div class="d-flex flex-column justify-content-center align-items-center ">
-                    <button @click="likeQuestion">
+                    <button @click="ForumCommentLike(1,comment.forumCommentId)">
                       <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
                       </svg>
                     </button>
-                    <div style="color:hsl(210,8%,45%);">{{likes}}</div>
-                    <button @click="dislikeQuestion">
+                    <div style="color:hsl(210,8%,45%);">{{comment.vote}}</div>
+                    <button @click="ForumCommentLike(2,comment.forumCommentId)">
                       <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
                       </svg>
@@ -106,9 +110,9 @@
                         <InstagramIcon style="width: 20px; height: 20px;"/>
                       </nuxt-link>
                     </div>
-                    <button type="button" class="button p-2" style="font-size: 12px; height: 28px">
-                      دنبال کردن
-                    </button>
+<!--                    <button type="button" class="button p-2" style="font-size: 12px; height: 28px">-->
+<!--                      دنبال کردن-->
+<!--                    </button>-->
 
                   </div>
                 </div>
@@ -118,28 +122,7 @@
           </ul>
         </div>
       </div>
-      <div class="col-lg-4 tw-pt-5">
-        <div>
-          <h2 class="tw-text-xl tw-font-semibold tw-mb-2"> مشارکت کنندگان برتر </h2>
-          <p> افرادی که بیشترین بحث را در گفتگوها شروع کردند. </p>
-          <br>
-          <ul class="tw-space-y-3">
-            <li v-for="i in 5">
-              <div class="tw-flex tw-items-center my-2">
-                <img src="~/assets/images/products/product_image.jpg" alt="" class="tw-w-8 tw-h-8 tw-rounded-full">
-                <nuxt-link to="#" class="tw-font-semibold tw-px-2 text-decoration-none tw-text-gray-700"> علی حسینی </nuxt-link>
-                <div class="tw-flex tw-items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-lg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
-                  <span class="px-2"> 137 </span>
-                </div>
-              </div>
-            </li>
-          </ul>
-
-        </div>
-      </div>
+      <TopCommenters></TopCommenters>
 
     </div>
   </div>
@@ -152,9 +135,10 @@
 import TelegramIcon from "../../components/Icons/TelegramIcon";
 import WhatsappIcon from "../../components/Icons/WhatsappIcon";
 import InstagramIcon from "../../components/Icons/InstagramIcon";
+import TopCommenters from '../../components/Forums/TopCommenters';
 export default {
   name: "_slug",
-  components: {InstagramIcon, WhatsappIcon, TelegramIcon},
+  components: {InstagramIcon, WhatsappIcon, TelegramIcon,TopCommenters},
   layout: "PoshtebamPlusLayout",
   head(){
     return{
@@ -186,6 +170,49 @@ export default {
     }
   },
   methods:{
+    async ForumCommentLike(status,id){
+      try {
+        const res = await this.$repositories.CreateLike.CreateLike({
+          objectId:id,
+          type: 5,
+          status: status,
+          userId: this.$auth.user.userInfo.userId
+        })
+        if(res.data ===3){
+          this.$toast.success('نمره شما ثبت شد')
+        }else if(res.data ===1 ||res.data===2 ){
+          this.$toast.success('شما به این انجمن نمره داده اید')
+        }
+        this.$nuxt.refresh();
+      }catch (e) {
+        console.log(e)
+      }
+
+    },
+
+
+    async ForumLike(status){
+      try {
+        const res = await this.$repositories.CreateLike.CreateLike({
+          objectId: this.forumDetails.forumId,
+          type: 2,
+          status: status,
+          userId: this.$auth.user.userInfo.userId
+        })
+
+        if(res.data ===3){
+          this.$toast.success('نمره شما ثبت شد')
+        }else if(res.data ===1 ||res.data===2 ){
+          this.$toast.success('شما به این انجمن نمره داده اید')
+        }
+
+        this.$nuxt.refresh();
+      }catch (e) {
+        console.log(e)
+      }
+
+
+    },
     async addComment(){
       if(this.forum_comment == ''){
         this.$toast.error("لطفا متن نظر را وارد کنید");
@@ -211,12 +238,6 @@ export default {
 
     },
 
-    likeQuestion(){
-      this.likes++
-    },
-    dislikeQuestion(){
-      this.likes--
-    },
     time_ago(time) {
       switch (typeof time) {
         case 'number':

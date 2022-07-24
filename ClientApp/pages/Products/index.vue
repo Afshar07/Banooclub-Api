@@ -19,8 +19,14 @@
     <div class="tab-content" id="pills-tabContent" v-if="!$fetchState.pending">
       <div class="tab-pane fade show active" id="products-pills-home" role="tabpanel" aria-labelledby="products-pills-home-tab">
         <div class="row boxMainContent mx-auto">
+          <div class="col-md-12 my-3">
+            <input type="text" class="form-control" v-model="Search" placeholder="جستجو در میان خدمات">
+          </div>
           <div class="col-12 text-center px-0">
             <AllServicesTabContent :services="all_services" :categories="categories"/>
+          </div>
+          <div class="col-md-12">
+            <Pagination :pages="totalPages" @PageChanged="GetAllService($event)"></Pagination>
           </div>
         </div>
       </div>
@@ -42,6 +48,7 @@ import ChevronLeftIcon from "../../components/Icons/LeftChevronIcon";
 import RightChevronIcon from "../../components/Icons/RightChevronIcon";
 import LeftChevronIcon from "../../components/Icons/LeftChevronIcon";
 import FirstTabContent from "../../components/Products/FirstTabContent";
+import Pagination from "../../components/Pagination";
 import AllServicesTabContent from "../../components/Products/AllServicesTabContent";
 export default {
   name: "index",
@@ -50,6 +57,7 @@ export default {
     AllServicesTabContent,
     FirstTabContent,
     LeftChevronIcon,
+      Pagination,
     RightChevronIcon,
     ChevronLeftIcon,
     ChevronRightIcon,
@@ -63,12 +71,54 @@ export default {
   data(){
     return{
       all_services:null,
-      categories:[]
+      categories:[],
+        Search:'',
+        totalPages:[]
+
     }
   },
+    watch:{
+      Search:function () {
+          this.GetAllService();
+      }
+    },
+    mounted(){
+      this.GetAllService(0)
+    },
+    methods:{
+
+      async GetAllService(id){
+          try {
+              if(this.Search===''){
+                  this.$nextTick(()=>{
+                      this.$nuxt.$loading.start()
+                  })
+              }
+
+              const services = await this.$repositories.getAllServices.getAllServices({
+                  pageNumber:id!==0?id:1,
+                  count:5,
+                  searchCommand:this.Search
+              })
+              this.totalPages = []
+              const result = Math.ceil(services.data.servicesCount / 5)
+              for (let i = 1; i <= result; i++) {
+                  this.totalPages.push(i);
+              }
+              this.all_services = services.data.services
+              this.$nuxt.$loading.finish()
+              this.$nuxt.loading = false
+          }catch (e) {
+              console.log(e)
+          }finally {
+              this.$nuxt.$loading.finish()
+              this.$nuxt.loading = false
+          }
+      }
+    },
   async fetch(){
     try {
-      const services = await this.$repositories.getAllServices.getAllServices({pageNumber:0, count:0, searchCommand:null})
+
       const allCategories = await this.$repositories.getAllServicesCategory.getAllServicesCategory();
       this.all_services = services.data.services
       this.categories = allCategories.data.serviceCategories;

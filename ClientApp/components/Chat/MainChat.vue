@@ -310,7 +310,7 @@ export default {
       // Check if last message was from the same user, and don't render profile picture if it is
       if (index > 1) {
         if (
-          message.CreatorUserId == this.$auth.user.userId &&
+          message.CreatorUserId == this.$auth.user.userInfo.userId &&
           this.Messages[index - 1].CreatorUserId != message.CreatorUserId
         ) {
           return true;
@@ -325,7 +325,7 @@ export default {
       // Check if last message was from the same user, and don't render profile picture if it is
       if (index > 1) {
         if (
-          message.CreatorUserId != this.$auth.user.userId &&
+          message.CreatorUserId != this.$auth.user.userInfo.userId &&
           this.Messages[index - 1].CreatorUserId != message.CreatorUserId
         ) {
           return true;

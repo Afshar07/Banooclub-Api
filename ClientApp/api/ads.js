@@ -12,20 +12,23 @@ export default (context, resources) => ({
       console.log(error);
     }
   },
-  async getAllCountries() {
+  async GetAllStates() {
     try {
-      const response = await context.$axios.get(resources);
+      const response = await context.$axios.get(resources,null,{
+        params:{
+          pageNumber:1,
+          count:100
+        }
+      });
       return response;
     } catch (error) {
       console.log(error);
     }
   },
-  async getCitiesByCountry(countryId) {
+  async GetAllCities(params) {
     try {
       const response = await context.$axios.get(resources, {
-        params: {
-          countryId,
-        },
+       params
       });
       return response;
     } catch (error) {
@@ -54,12 +57,10 @@ export default (context, resources) => ({
       console.log(error);
     }
   },
-  async getAnAd(id) {
+  async getAnAd(params) {
     try {
       const response = await context.$axios.post(resources, null, {
-        params: {
-          id,
-        },
+      params
       });
       return response;
     } catch (error) {
@@ -88,6 +89,14 @@ export default (context, resources) => ({
       console.log(error);
     }
   },
+  async UpdateAd(payload) {
+    try {
+      const response = await context.$axios.post(resources, payload);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  },
   async getAllPendingAds(pageNumber, count, search) {
     try {
       const response = await context.$axios.post(resources, null, {
@@ -102,4 +111,14 @@ export default (context, resources) => ({
       console.log(error);
     }
   },
+  async GetAllAds(params){
+    try {
+      const response = await context.$axios.post(resources, null, {
+        params
+      });
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 });
