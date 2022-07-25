@@ -10,7 +10,7 @@
             <div class="row" style="overflow-y: scroll;">
               <!--              style="overflow-y: scroll; height: 410px;"-->
               <div class="col-xl-4 col-md-6 col-12 my-3 d-flex justify-content-center" v-for="(item,index) in galleries" :key="index">
-                <img  v-if="item.priority === 2" @click.stop="selectImage(item)" :src="`https://pplusapi.simagar.com/media/gallery/galleryimages/${item.base64}`" class="rounded posts_media_size" alt="post_image"/>
+                <img  v-if="item.priority === 2" @click.stop="selectImage(item)" :src="`https://banooclubapi.simagar.com/media/gallery/galleryimages/${item.base64}`" class="rounded posts_media_size" alt="post_image"/>
                 <video
                   @click.stop="selectImage(item)"
                   v-else-if="item.priority === 3"
@@ -18,7 +18,7 @@
                   style="object-fit: cover;object-position: center;height: 250px"
                   controls
                   :autoplay="false"
-                  :src="`https://pplusapi.simagar.com/media/gallery/galleryvideos/${item.base64}`"
+                  :src="`https://banooclubapi.simagar.com/media/gallery/galleryvideos/${item.base64}`"
                 ></video>
                 <span :class="GetSelectedImageClass(item)"  class="position-absolute d-none deleteIcon m-2" style="left: 15px;">
                   <font-awesome-icon icon="check" color="green" size="lg"/>
@@ -72,14 +72,14 @@
           <div v-else-if="select_media" class="col-12 d-flex flex-column">
             <div class="row" style="overflow-y: scroll;">
               <div class="col-xl-4 col-md-6 col-12 my-3 d-flex justify-content-center" v-for="(media,idx) in selected_media" :key="idx">
-                <img v-if="media.blob === '' && media.priority===2" :src="`https://pplusapi.simagar.com/media/gallery/galleryimages/${media.base64}`" class="rounded posts_media_size" alt="post_image"/>
+                <img v-if="media.blob === '' && media.priority===2" :src="`https://banooclubapi.simagar.com/media/gallery/galleryimages/${media.base64}`" class="rounded posts_media_size" alt="post_image"/>
                 <video
                   v-else-if="media.blob === '' && media.priority===3"
                   class="rounded w-100"
                   style="object-fit: cover;object-position: center;height: 250px"
                   controls
                   :autoplay="false"
-                  :src="`https://pplusapi.simagar.com/media/gallery/galleryvideos/${media.base64}`"
+                  :src="`https://banooclubapi.simagar.com/media/gallery/galleryvideos/${media.base64}`"
                 ></video>
                 <img v-else-if="media.blob !== '' && media.priority===2" :src="`${media.blob}`" class="rounded posts_media_size" alt="post_image"/>
                 <video

@@ -540,13 +540,12 @@
               </div>
             </div>
             <div :class="[decrease_width ? '' : ' ']" class=" py-1">
-
               <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <BedIcon class="svg_icons_size"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">هم خانه</span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div :class="[decrease_width ? '' : '']">
+              <div class="px-4" :class="[decrease_width ? '' : '']">
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"

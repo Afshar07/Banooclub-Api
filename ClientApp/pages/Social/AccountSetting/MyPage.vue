@@ -147,12 +147,12 @@ export default {
     },
     imgUserAvatar() {
       if (this.userinfo.selfieFileData !== null) {
-        this.userImageApi = `https://pplusapi.simagar.com/${this.userinfo.selfieFileData}`;
+        this.userImageApi = `https://banooclubapi.simagar.com/${this.userinfo.selfieFileData}`;
       }
     },
     imageBackground() {
       if (this.userinfo.bannerFileData !== null) {
-        this.BackgroundApi = `https://pplusapi.simagar.com/${this.userinfo.bannerFileData}`;
+        this.BackgroundApi = `https://banooclubapi.simagar.com/${this.userinfo.bannerFileData}`;
       }
     },
 

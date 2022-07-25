@@ -83,7 +83,7 @@
                     <div class="position-relative">
                       <img
                         v-if="item.priority === 2"
-                        :src="`https://pplusapi.simagar.com/${item.base64}`"
+                        :src="`https://banooclubapi.simagar.com/${item.base64}`"
                         style="object-fit: cover;object-position: center; width: 300px;height: 250px"
                         class="rounded"
                         alt=""
@@ -93,7 +93,7 @@
                         class="rounded w-100"
                         style="object-fit: cover;object-position: center;height: 250px"
                         controls
-                        :src="`https://pplusapi.simagar.com/${item.base64}`"
+                        :src="`https://banooclubapi.simagar.com/${item.base64}`"
                       ></video>
                       <!--            </a>-->
                     </div>
