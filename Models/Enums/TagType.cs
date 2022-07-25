@@ -3,6 +3,8 @@
     public enum TagType
     {
         Service = 1,
-        Forum
+        Forum,
+        Ads,
+        Blog
     }
 }

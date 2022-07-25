@@ -3,6 +3,7 @@
     public enum RatingType
     {
         Service = 1,
-        Forum
+        Forum,
+        Ads
     }
 }

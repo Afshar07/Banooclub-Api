@@ -44,5 +44,11 @@ namespace BanooClub.Controllers
         {
             return await groupService.GetAll();
         }
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<bool> ChangeGroupStatus(long groupId)
+        {
+            return await groupService.ChangeGroupStatus(groupId);
+        }
     }
 }

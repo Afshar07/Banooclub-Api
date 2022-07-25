@@ -84,7 +84,7 @@ namespace BanooClub.Services.SocialMediaServices
 
             return Task.FromResult(new ServiceResult().Ok());
         }
-        public OutPutSaveImage SaveImageNew(string base64, string path, int priority)
+        public OutPutSaveImage SaveImageNew(string base64, string path, int? priority)
         {
             OutPutSaveImage outPutSave = new OutPutSaveImage();
             try

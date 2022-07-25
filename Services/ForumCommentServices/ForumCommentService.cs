@@ -12,10 +12,12 @@ namespace BanooClub.Services.ForumCommentServices
     public class ForumCommentService : IForumCommentService
     {
         private readonly IBanooClubEFRepository<ForumComment> forumCommentRepository;
+        private readonly IBanooClubEFRepository<User> userRepository;
         private readonly IHttpContextAccessor _accessor;
-        public ForumCommentService(IBanooClubEFRepository<ForumComment> forumCommentRepository , IHttpContextAccessor accessor)
+        public ForumCommentService(IBanooClubEFRepository<ForumComment> forumCommentRepository, IBanooClubEFRepository<User> userRepository, IHttpContextAccessor accessor)
         {
             this.forumCommentRepository = forumCommentRepository;
+            this.userRepository = userRepository;
             _accessor = accessor;
         }
         public async Task<long> Create(ForumComment inputDto)
@@ -75,6 +77,29 @@ namespace BanooClub.Services.ForumCommentServices
         {
             var forumComment = forumCommentRepository.GetQuery().FirstOrDefault(z => z.ForumCommentId == id);
             return forumComment;
+        }
+        public async Task<object> TopCommenters(int count)
+        {
+            var dbComments = forumCommentRepository.GetQuery().ToList();
+            var commentSort = from p in dbComments
+                              group p by p.UserId into g
+                              where g.Count() > 0
+                              orderby g.Count() descending
+                              select new { g.Key, myCount = g.Count() };
+
+            var NewList = commentSort.Take(count).ToList();
+            List<object> result = new List<object>();
+            foreach(var comment in NewList)
+            {
+                var dbUser = userRepository.GetQuery().FirstOrDefault(z => z.UserId == comment.Key);
+                var obj = new
+                {
+                    UserInfo = dbUser,
+                    CommentsCount = comment.myCount
+                };
+                result.Add(obj);
+            }
+            return result;
         }
     }
 }

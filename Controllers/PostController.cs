@@ -1,4 +1,5 @@
 ﻿using BanooClub.Models;
+using BanooClub.Models.Enums;
 using BanooClub.Services.PostServices;
 using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
@@ -13,11 +14,9 @@ namespace BanooClub.Controllers
     //[Authorize]
     public class PostController : ControllerBase
     {
-        private readonly BanooClubDBContext context;
         private readonly IPostService postService;
-        public PostController(BanooClubDBContext context, IPostService postService)
+        public PostController( IPostService postService)
         {
-            this.context = context;
             this.postService = postService;
         }
 
@@ -32,24 +31,40 @@ namespace BanooClub.Controllers
         [Route("[action]")]
         public async Task<long> Update([FromBody] Post inputDto)
         {
-            var result = await this.postService.UpdateByCmd(inputDto.Title,inputDto.Description, inputDto.PostId,inputDto.Status);
+            var result = await this.postService.UpdateByCmd(inputDto.Title, inputDto.Description, inputDto.PostId, inputDto.Status);
             return result;
+        }
 
-           
+        //[HttpPost]
+        //[Route("[action]"), AllowAnonymous]
+        //public object GetMyPost(int pageNumber, int count)
+        //{
+        //    return postService.GetMyPost(pageNumber,count);
+        //}
+
+        [HttpPost]
+        [Route("[action]"), AllowAnonymous]
+        public object GetMyPost(long lastId, int count)
+        {
+            return postService.GetMyPost(lastId, count);
         }
 
         [HttpPost]
         [Route("[action]"), AllowAnonymous]
-        public object GetMyPost(int pageNumber, int count)
+        public IActionResult GetByUserId(long userId, long lastId, int count)
         {
-            return postService.GetMyPost(pageNumber,count);
+            var result = postService.GetByUserId(userId, lastId, count);
+            if (result.IsSuccess)
+                return Ok(result.Data);
+
+            return BadRequest(result.ErrorMessage);
         }
 
         [HttpPost]
         [Route("[action]"), AllowAnonymous]
-        public IActionResult GetByUserId(long userId)
+        public IActionResult GetByUserName(string userName, long lastId, int count)
         {
-            var result = postService.GetByUserId(userId);
+            var result = postService.GetByUserName(userName, lastId, count);
             if (result.IsSuccess)
                 return Ok(result.Data);
 
@@ -63,47 +78,75 @@ namespace BanooClub.Controllers
             return postService.Get(postId);
         }
 
-        //[HttpPost]
-        //[Route("[action]")]
-        //public async Task Delete(long id)
-        //{
-        //    await postService.Delete(id);
-        //}
+        [HttpPost]
+        [Route("[action]"), Authorize]
+        public async Task<bool> Delete(long id)
+        {
+            return await postService.Delete(id);
+        }
 
-        //[HttpPost]
-        //[Route("[action]")]
-        //public async Task<List<PostDTO>> GetFollowingPosts()
-        //{
-        //    return await postService.GetFollowingPosts();
-        //}
+
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<object> GetFollowingPosts(long lastId, int count)
+        {
+
+            return await postService.GetFollowingPosts(lastId, count);
+        }
 
         [HttpPost]
         [Route("[action]"), Authorize(Roles = "Admin")]
         public object GetAll(int pageNumber, int count)
         {
-            return postService.GetAll(pageNumber,count);
+            return postService.GetAll(pageNumber, count);
         }
 
         [HttpPost]
+        [Route("[action]")]
+        public object GetAllByInfiniteScroll(long lastId, int count, string search = "")
+        {
+            search = search == null ? "" : search;
+            return postService.GetAllByInfiniteScroll(lastId, count, search);
+        }
+
+        //[HttpPost]
+        //[Route("[action]"), Authorize]
+        //public object GetAllUserforUser(long userId, int count, string search)
+        //{
+        //    search = search == null ? "" : search;
+        //    return userService.GetAllUserforUser(userId, count, search);
+        //}
+
+
+
+        [HttpPost]
         [Route("[action]"), Authorize(Roles = "Admin")]
-        public object GetNotConfirmed(int pageNumber, int count,string search)
+        public object GetNotConfirmed(int pageNumber, int count, string search)
         {
             search = search ==null ? "" : search;
-            return postService.GetNotConfirmed(pageNumber,count,search);
+            return postService.GetNotConfirmed(pageNumber, count, search);
         }
 
         [HttpPost]
         [Route("[action]"), Authorize(Roles = "Admin")]
         public object GetReported(int pageNumber, int count)
         {
-            return postService.GetReported(pageNumber,count);
+            return postService.GetReported(pageNumber, count);
         }
 
         [HttpPost]
         [Route("[action]"), Authorize(Roles = "Admin")]
-        public async Task ChangePostStatus([FromBody] Post inputDto)
+        public async Task<bool> ChangePostStatusForAdmin(long postId, PostStatus status)
         {
-            await this.postService.ChangePostStatus(inputDto);
+            return await this.postService.ChangePostStatusForAdmin(postId, status);
+        }
+
+        [HttpPost]
+        [Route("[action]"), Authorize(Roles = "Admin")]
+        public async Task<Post> ChangePostStatus([FromBody] Post inputDto)
+        {
+            return await this.postService.ChangePostStatus(inputDto);
         }
     }
 }

@@ -4,6 +4,7 @@ using BanooClub.Models;
 using BanooClub.Services.ServicePackServices;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BanooClub.Models.Enums;
 
 namespace BanooClub.Controllers
 {
@@ -20,7 +21,7 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost]
-        [Route("[action]"),Authorize(Roles ="Admin,Vendor")]
+        [Route("[action]"), Authorize(Roles = "Admin,Vendor")]
         public async Task<long> Create([FromBody] ServicePack inputDto)
         {
             return await this.servicePackService.Create(inputDto);
@@ -34,7 +35,7 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost]
-        [Route("[action]") , AllowAnonymous]
+        [Route("[action]"), AllowAnonymous]
         public async Task<ServicePack> Get(long servicePackId)
         {
             return await servicePackService.Get(servicePackId);
@@ -48,10 +49,24 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost]
-        [Route("[action]") , AllowAnonymous]
-        public async Task<object> GetAll(int pageNumber, int count , string searchCommand)
+        [Route("[action]"), Authorize(Roles = "Admin,Vendor")]
+        public async Task<object> GetDeactiveServices()
         {
-            return await servicePackService.GetAll(pageNumber, count , searchCommand);
+            return await servicePackService.GetDeactiveServices();
+        }
+
+        [HttpPost]
+        [Route("[action]"), Authorize(Roles = "Admin,Vendor")]
+        public async Task<bool> ChangeServiceStatus(long servicePackId, ServicePackStatus status)
+        {
+            return await servicePackService.ChangeServiceStatus(servicePackId, status);
+        }
+
+        [HttpPost]
+        [Route("[action]"), AllowAnonymous]
+        public async Task<object> GetAll(ServicePackStatus? status, int pageNumber, int count, string searchCommand, ServiceFilter serviceFilter = ServiceFilter.All)
+        {
+            return await servicePackService.GetAll(pageNumber, count, searchCommand, serviceFilter, status);
         }
 
         [HttpPost]
@@ -63,9 +78,23 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]"), AllowAnonymous]
-        public async Task<object> GetUserServices(int pageNumber, int count, string searchCommand,long userId)
+        public async Task<object> GetUserServices(long lastId, int count, string searchCommand, long userId)
         {
-            return await servicePackService.GetUserServices(pageNumber, count, searchCommand,userId);
+            return await servicePackService.GetUserServices(lastId, count, searchCommand, userId);
+        }
+
+        [HttpPost]
+        [Route("[action]"), AllowAnonymous]
+        public async Task<object> GetUserServicesByUserName(long lastId, int count, string searchCommand, string userName)
+        {
+            return await servicePackService.GetUserServicesByUserName(lastId, count, searchCommand, userName);
+        }
+
+        [HttpPost]
+        [Route("[action]"), Authorize(Roles = "Admin,Vendor")]
+        public async Task<ServicePack> GetwithView(long servicePackId)
+        {
+            return await servicePackService.GetwithView(servicePackId);
         }
 
     }

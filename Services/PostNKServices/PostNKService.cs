@@ -22,7 +22,7 @@ namespace BanooClub.Services.PostNKServices
         {
             postNKRepository.Insert(inputDto);
             var Nks = await postNKRepository.GetAll();
-            var cacheKey = "PostNK";
+            var cacheKey = "BanooClubLastNK";
             var serializedCustomerList = JsonConvert.SerializeObject(Nks);
             var PostNksList = Encoding.UTF8.GetBytes(serializedCustomerList);
             //var options = new DistributedCacheEntryOptions()
@@ -35,7 +35,7 @@ namespace BanooClub.Services.PostNKServices
         {
             await postNKRepository.Update(item);
             var Nks = await postNKRepository.GetAll();
-            var cacheKey = "PostNK";
+            var cacheKey = "BanooClubLastNK";
             var serializedCustomerList = JsonConvert.SerializeObject(Nks);
             var PostNksList = Encoding.UTF8.GetBytes(serializedCustomerList);
             //var options = new DistributedCacheEntryOptions()
@@ -52,7 +52,7 @@ namespace BanooClub.Services.PostNKServices
 
         public async Task<object> GetAll(int pageNumber, int count, string search)
         {
-            var cacheKey = "PostNK";
+            var cacheKey = "BanooClubLastNK";
             string serializedCountryList;
             var Cntry = new List<PostNK>();
             var CntryList = await distributedCache.GetAsync(cacheKey);
@@ -83,7 +83,7 @@ namespace BanooClub.Services.PostNKServices
             var review = postNKRepository.GetQuery().FirstOrDefault(z => z.PostNkId == id);
             await postNKRepository.Delete(review);
             var Nks = await postNKRepository.GetAll();
-            var cacheKey = "PostNK";
+            var cacheKey = "BanooClubLastNK";
             var serializedCustomerList = JsonConvert.SerializeObject(Nks);
             var PostNksList = Encoding.UTF8.GetBytes(serializedCustomerList);
             //var options = new DistributedCacheEntryOptions()

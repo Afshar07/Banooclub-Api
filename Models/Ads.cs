@@ -35,6 +35,8 @@ namespace BanooClub.Models
         public User UserInfo { get; set; }
         [NotMapped]
         public string AdsCategoryParents { get; set; }
+        [NotMapped]
+        public bool? IsFavourite { get; set; }
     }
 
 }

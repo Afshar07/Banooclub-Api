@@ -10,5 +10,6 @@ namespace BanooClub.Services.ForumCommentServices
         object GetAll(int pageNumber, int count, string searchCommand);
         Task<bool> Delete(long id);
         Task<ForumComment> Get(long id);
+        Task<object> TopCommenters(int count);
     }
 }

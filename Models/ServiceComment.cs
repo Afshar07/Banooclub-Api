@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BanooClub.Models
@@ -14,6 +15,13 @@ namespace BanooClub.Models
         public long BaseId { get; set; }
         [NotMapped]
         public User UserInfo { get; set; }
-
+        [NotMapped]
+        public List<CommentLike> UserCommentLikes { get; set; }
+        [NotMapped]
+        public List<ServiceComment> Children { get; set; }
+        [NotMapped]
+        public long CommentsLikesCount { get; set; }
+        [NotMapped]
+        public bool IsLikedByMe { get; set; }
     }
 }

@@ -77,6 +77,14 @@ namespace Infrastructure
         public DbSet<View> Views { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Wallet> Wallets { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<BlogComment> BlogComments { get; set; }
+        public DbSet<BlogCategory> BlogCategories { get; set; }
+        public DbSet<ServicePlan> ServicePlans { get; set; }
+        public DbSet<Plan> Plans { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
 
         public BanooClubDBContext(DbContextOptions<BanooClubDBContext> options) : base(options)
@@ -139,6 +147,10 @@ namespace Infrastructure
             modelbuilder.Entity<City>().ToTable("Cities", "dbo").HasKey(z => z.CityId);
             modelbuilder.Entity<State>().ToTable("States", "dbo").HasKey(z => z.StateId);
             modelbuilder.Entity<CNTRY>().ToTable("CNTRIES", "dbo").HasKey(z => z.CountryId);
+            modelbuilder.Entity<Like>().ToTable("Likes", "dbo").HasKey(z => z.LikeId);
+            modelbuilder.Entity<Blog>().ToTable("Blogs", "dbo").HasKey(z => z.BlogId);
+            modelbuilder.Entity<BlogCategory>().ToTable("BlogCategories", "dbo").HasKey(z => z.BlogCategoryId);
+            modelbuilder.Entity<BlogComment>().ToTable("BlogComments", "dbo").HasKey(z => z.BlogCommentId);
             modelbuilder.Entity<Object>().HasNoKey();
             modelbuilder.Entity<PostDTO>().HasNoKey();
 
@@ -154,6 +166,10 @@ namespace Infrastructure
             modelbuilder.Entity<Tag>().ToTable("Tags", "Common").HasKey(z => z.TagId);
             modelbuilder.Entity<Wallet>().ToTable("Wallets", "Common").HasKey(z => z.WalletId);
             modelbuilder.Entity<CommentLike>().ToTable("CommentLike", "Common").HasKey(z => z.CommentLikeId);
+            modelbuilder.Entity<ServicePlan>().ToTable("ServicePlans", "dbo").HasKey(z => z.ServicePlanId);
+            modelbuilder.Entity<Plan>().ToTable("Plans", "dbo").HasKey(z => z.PlanId);
+            modelbuilder.Entity<Order>().ToTable("Orders", "Order").HasKey(z => z.OrderId);
+            modelbuilder.Entity<OrderItem>().ToTable("OrderItems", "Order").HasKey(z => z.OrderItemId);
 
 
             modelbuilder.Entity<Post>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
@@ -174,6 +190,9 @@ namespace Infrastructure
             modelbuilder.Entity<Ticket>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
             modelbuilder.Entity<CommentLike>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
             modelbuilder.Entity<SocialMedia>().Property(b => b.UpdateDate).HasDefaultValueSql("getdate()");
+            modelbuilder.Entity<Like>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
+            modelbuilder.Entity<Blog>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
+            modelbuilder.Entity<BlogComment>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
             
         }
     }

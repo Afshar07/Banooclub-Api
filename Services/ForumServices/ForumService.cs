@@ -8,6 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MoreLinq;
+using Microsoft.Extensions.Caching.Distributed;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace BanooClub.Services.ForumServices
 {
@@ -20,9 +24,12 @@ namespace BanooClub.Services.ForumServices
         private readonly IBanooClubEFRepository<ForumComment> commentRepository;
         private readonly IBanooClubEFRepository<User> userRepository;
         private readonly IBanooClubEFRepository<SocialMedia> mediaRepository;
+        private readonly IBanooClubEFRepository<Like> likeRepository;
+        private readonly IBanooClubEFRepository<PostNK> postNKRepository;
         private readonly IRatingService ratingService;
         private readonly IHttpContextAccessor _accessor;
-        public ForumService(IBanooClubEFRepository<Forum> forumRepository, IBanooClubEFRepository<ForumComment> commentRepository, IBanooClubEFRepository<User> userRepository, IBanooClubEFRepository<Rating> ratingRepository, IBanooClubEFRepository<Tag> tagRepository
+        private readonly IDistributedCache distributedCache;
+        public ForumService(IBanooClubEFRepository<Forum> forumRepository, IBanooClubEFRepository<PostNK> postNKRepository, IDistributedCache distributedCache, IBanooClubEFRepository<Like> likeRepository, IBanooClubEFRepository<ForumComment> commentRepository, IBanooClubEFRepository<User> userRepository, IBanooClubEFRepository<Rating> ratingRepository, IBanooClubEFRepository<Tag> tagRepository
             , IHttpContextAccessor accessor, IBanooClubEFRepository<SocialMedia> mediaRepository, IBanooClubEFRepository<View> viewRepository , IRatingService ratingService)
         {
             this.forumRepository = forumRepository;
@@ -33,6 +40,9 @@ namespace BanooClub.Services.ForumServices
             this.userRepository = userRepository;
             this.commentRepository = commentRepository;
             this.mediaRepository = mediaRepository;
+            this.likeRepository = likeRepository;
+            this.distributedCache = distributedCache;
+            this.postNKRepository = postNKRepository;
             _accessor = accessor;
         }
         public async Task<long> Create(Forum inputDto)
@@ -40,12 +50,33 @@ namespace BanooClub.Services.ForumServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+            var cacheKey = "BanooClubLastNK";
+            string serializedCustomerList;
+            var Nks = new List<PostNK>();
+            var PostNksType = distributedCache.GetType();
+            var PostNkList = await distributedCache.GetAsync(cacheKey);
+            if (PostNkList != null)
+            {
+                serializedCustomerList = Encoding.UTF8.GetString(PostNkList);
+                Nks = JsonConvert.DeserializeObject<List<PostNK>>(serializedCustomerList);
+            }
+            else
+            {
+                Nks = await postNKRepository.GetAll();
+                serializedCustomerList = JsonConvert.SerializeObject(Nks);
+                PostNkList = Encoding.UTF8.GetBytes(serializedCustomerList);
+                await distributedCache.SetAsync(cacheKey, PostNkList);
+            }
             inputDto.UserId = userId;
             inputDto.IsDeleted = false;
             inputDto.CreateDate = DateTime.Now;
+            inputDto.Status = ForumStatus.Active;
+            var NKs = postNKRepository.GetAll().Result.Select(z => z.Name).ToList();
+            if (NKs.Any(z => (inputDto.Description.Contains(z))))
+            {
+                inputDto.Status = ForumStatus.ReportedByRobot;
+            }
             var creation = forumRepository.Insert(inputDto);
-
-
             foreach(var tag in inputDto.Tags)
             {
                 tagRepository.Insert(new Tag()
@@ -60,14 +91,51 @@ namespace BanooClub.Services.ForumServices
             }
             return creation.ForumId;
         }
+        public async Task<Forum> ReportForum(long forumId)
+        {
+            var dbForum = forumRepository.GetQuery().FirstOrDefault(z => z.ForumId == forumId);
+            dbForum.Status = ForumStatus.ReportedByPerson;
+            var dbUpdate =await forumRepository.Update(dbForum);
+            return dbUpdate;
+        }
+        public async Task<Forum> ChangeForumStatus(long forumId, ForumStatus status)
+        {
+            var dbForum = forumRepository.GetQuery().FirstOrDefault(z => z.ForumId == forumId);
+            dbForum.Status = status;
+            var dbUpdate = await forumRepository.Update(dbForum);
+            return dbUpdate;
+        }
 
         public async Task<Forum> Update(Forum item)
         {
+            var cacheKey = "BanooClubLastNK";
+            string serializedCustomerList;
+            var Nks = new List<PostNK>();
+            var PostNksType = distributedCache.GetType();
+            var PostNkList = await distributedCache.GetAsync(cacheKey);
+            if (PostNkList != null)
+            {
+                serializedCustomerList = Encoding.UTF8.GetString(PostNkList);
+                Nks = JsonConvert.DeserializeObject<List<PostNK>>(serializedCustomerList);
+            }
+            else
+            {
+                Nks = await postNKRepository.GetAll();
+                serializedCustomerList = JsonConvert.SerializeObject(Nks);
+                PostNkList = Encoding.UTF8.GetBytes(serializedCustomerList);
+                await distributedCache.SetAsync(cacheKey, PostNkList);
+            }
+
+            item.Status = ForumStatus.Active;
+            var NKs = postNKRepository.GetAll().Result.Select(z => z.Name).ToList();
+            if (NKs.Any(z => (item.Description.Contains(z))))
+            {
+                item.Status = ForumStatus.ReportedByRobot;
+            }
             await forumRepository.Update(item);
             return item;
         }
-
-        public async Task<object> GetAll(int pageNumber, int count, string searchCommand)
+        public async Task<object> GetAllForAdmin(int pageNumber, int count, string searchCommand, bool? noComments, bool? mostRated, bool? mostComments, ForumStatus? status)
         {
             if (searchCommand == null)
             {
@@ -75,6 +143,106 @@ namespace BanooClub.Services.ForumServices
             }
             List<Forum> forums = new List<Forum>();
             forums = forumRepository.GetQuery().Where(z => z.Title.Contains(searchCommand)).OrderByDescending(z => z.CreateDate).ToList();
+            if(status != null)
+            {
+                forums = forums.Where(z => z.Status == status).ToList();
+            }
+            if (noComments != null)
+            {
+                var dbForumIds = commentRepository.GetQuery().DistinctBy(z => z.ForumId).Select(x => x.ForumId).ToList();
+                if (noComments == true)
+                {
+                    forums = forums.Where(z => !dbForumIds.Contains(z.ForumId)).ToList();
+                }
+                else
+                {
+                    forums = forums.Where(z => dbForumIds.Contains(z.ForumId)).ToList();
+                }
+            }
+
+            if (mostRated != null && mostRated == true)
+            {
+                var dbRatingIds = ratingRepository.GetQuery().Where(z => z.Type == RatingType.Forum).OrderByDescending(x => x.Rate).Select(x => x.ObjectId).ToList();
+                forums =  forums.OrderBy(d => dbRatingIds.IndexOf(d.ForumId)).ToList();
+            }
+            if (mostComments != null && mostComments == true)
+            {
+                var dbComments = commentRepository.GetQuery().ToList();
+                var commentSort = from p in dbComments
+                                  group p by p.ForumId into g
+                                  where g.Count() > 0
+                                  orderby g.Count()
+                                  select new { g.Key }.Key;
+                forums =  forums.OrderBy(d => commentSort.ToList().IndexOf(d.ForumId)).ToList();
+            }
+
+            var forumsCount = forums.Count();
+            if (pageNumber != 0 && count != 0)
+            {
+                forums = forums.Skip((pageNumber - 1) * count).Take(count).ToList();
+            }
+
+            foreach (var item in forums)
+            {
+                var dbRate = await ratingService.GetByObjectIdAndType(item.ForumId, RatingType.Forum);
+                item.Rate = dbRate.Data.Average;
+                var dbView = viewRepository.GetQuery().FirstOrDefault(z => z.ObjectId == item.ForumId && z.Type == ViewType.Forum);
+                item.ViewsCount = dbView == null ? 0 : dbView.Count;
+                item.UserInfo = userRepository.GetQuery().FirstOrDefault(z => z.UserId == item.UserId);
+                var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == item.UserId && z.Type == MediaTypes.Profile);
+                item.UserInfo.SelfieFileData = dbMedia != null ? dbMedia.PictureUrl : "";
+
+                item.Tags = tagRepository.GetQuery().Where(z => z.ObjectId == item.ForumId && z.Type == TagType.Forum).ToList();
+
+                var dbLikes = likeRepository.GetQuery().Where(z => z.Type == LikeType.Forum && z.ObjectId == item.ForumId && z.Status == LikeStatus.Like).Count();
+                var dbDisLikes = likeRepository.GetQuery().Where(z => z.Type == LikeType.Forum && z.ObjectId == item.ForumId && z.Status == LikeStatus.DisLike).Count();
+                item.Vote = dbLikes - dbDisLikes;
+            }
+
+            var obj = new
+            {
+                Forums = forums,
+                ForumsCount = forumsCount,
+            };
+            return obj;
+        }
+        public async Task<object> GetAll(int pageNumber, int count, string searchCommand , bool? noComments , bool? mostRated,bool? mostComments)
+        {
+            if (searchCommand == null)
+            {
+                searchCommand = "";
+            }
+            List<Forum> forums = new List<Forum>();
+            forums = forumRepository.GetQuery().Where(z => z.Title.Contains(searchCommand)).OrderByDescending(z => z.CreateDate).ToList();
+            if(noComments != null)
+            {
+                var dbForumIds = commentRepository.GetQuery().DistinctBy(z => z.ForumId).Select(x => x.ForumId).ToList();
+                if (noComments == true)
+                {
+                    forums = forums.Where(z => !dbForumIds.Contains(z.ForumId)).ToList();
+                }
+                else
+                {
+                    forums = forums.Where(z => dbForumIds.Contains(z.ForumId)).ToList();
+                }
+            }
+
+            if(mostRated != null && mostRated == true)
+            {
+                var dbRatingIds = ratingRepository.GetQuery().Where(z => z.Type == RatingType.Forum).OrderByDescending(x => x.Rate).Select(x=>x.ObjectId).ToList();
+                forums =  forums.OrderBy(d => dbRatingIds.IndexOf(d.ForumId)).ToList();
+            }
+            if(mostComments != null && mostComments == true)
+            {
+                var dbComments = commentRepository.GetQuery().ToList();
+                var commentSort = from p in dbComments
+                                group p by p.ForumId into g
+                                where g.Count() > 0
+                                orderby g.Count()
+                                select new { g.Key}.Key;
+                forums =  forums.OrderBy(d => commentSort.ToList().IndexOf(d.ForumId)).ToList();
+            }
+
             var forumsCount = forums.Count();
             if (pageNumber != 0 && count != 0)
             {
@@ -87,7 +255,15 @@ namespace BanooClub.Services.ForumServices
                 item.Rate = dbRate.Data.Average;
                 var dbView = viewRepository.GetQuery().FirstOrDefault(z => z.ObjectId == item.ForumId && z.Type == ViewType.Forum);
                 item.ViewsCount = dbView == null ? 0 : dbView.Count;
+                item.UserInfo = userRepository.GetQuery().FirstOrDefault(z => z.UserId == item.UserId);
+                var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == item.UserId && z.Type == MediaTypes.Profile);
+                item.UserInfo.SelfieFileData = dbMedia != null ? dbMedia.PictureUrl : "";
 
+                item.Tags = tagRepository.GetQuery().Where(z => z.ObjectId == item.ForumId && z.Type == TagType.Forum).ToList();
+
+                var dbLikes = likeRepository.GetQuery().Where(z=>z.Type == LikeType.Forum && z.ObjectId == item.ForumId && z.Status == LikeStatus.Like).Count();
+                var dbDisLikes = likeRepository.GetQuery().Where(z=>z.Type == LikeType.Forum && z.ObjectId == item.ForumId && z.Status == LikeStatus.DisLike).Count();
+                item.Vote = dbLikes - dbDisLikes;
             }
 
             var obj = new
@@ -121,7 +297,10 @@ namespace BanooClub.Services.ForumServices
                 item.Rate = dbRate.Data.Average;
                 var dbView = viewRepository.GetQuery().FirstOrDefault(z => z.ObjectId == item.ForumId && z.Type == ViewType.Forum);
                 item.ViewsCount = dbView == null ? 0 : dbView.Count;
-
+                item.Tags = tagRepository.GetQuery().Where(z => z.ObjectId == item.ForumId && z.Type == TagType.Forum).ToList();
+                var dbCommentLikes = likeRepository.GetQuery().Where(z => z.Type == LikeType.Forum && z.ObjectId == item.ForumId && z.Status == LikeStatus.Like).Count();
+                var dbCommentDisLikes = likeRepository.GetQuery().Where(z => z.Type == LikeType.Forum && z.ObjectId == item.ForumId && z.Status == LikeStatus.DisLike).Count();
+                item.Vote = dbCommentLikes - dbCommentDisLikes;
             }
 
             var obj = new
@@ -160,6 +339,11 @@ namespace BanooClub.Services.ForumServices
                     : 0;
 
             var forum = forumRepository.GetQuery().FirstOrDefault(z => z.ForumId == id);
+
+            var dbLikes = likeRepository.GetQuery().Where(z => z.Type == LikeType.Forum && z.ObjectId == id && z.Status == LikeStatus.Like).Count();
+            var dbDisLikes = likeRepository.GetQuery().Where(z => z.Type == LikeType.Forum && z.ObjectId == id && z.Status == LikeStatus.DisLike).Count();
+            forum.Vote = dbLikes - dbDisLikes;
+
             var dbView = viewRepository.GetQuery().FirstOrDefault(z => z.Type == ViewType.Forum && z.ObjectId ==id);
             if (dbView == null)
             {
@@ -187,6 +371,10 @@ namespace BanooClub.Services.ForumServices
                 var dbProductRate = ratingRepository.GetQuery().FirstOrDefault(z => z.UserId == userId && z.ObjectId==id && z.Type == RatingType.Forum);
                 forum.Rate = dbProductRate == null ? null : (int?)dbProductRate.Rate;
             }
+            forum.UserInfo = userRepository.GetQuery().FirstOrDefault(z => z.UserId == forum.UserId);
+            var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == forum.UserId && z.Type == MediaTypes.Profile);
+            forum.UserInfo.SelfieFileData = dbMedia != null ? dbMedia.PictureUrl : "";
+
             forum.Tags = tagRepository.GetQuery().Where(z=>z.Type == TagType.Forum && z.ObjectId == id).ToList();
 
             forum.Comments = commentRepository.GetQuery().Where(z => z.ForumId == id).ToList();
@@ -200,6 +388,10 @@ namespace BanooClub.Services.ForumServices
                     dbUser.SelfieFileData = dbUserMedia.PictureUrl;
                 }
                 comment.UserInfo = dbUser;
+
+                var dbCommentLikes = likeRepository.GetQuery().Where(z => z.Type == LikeType.ForumComment && z.ObjectId == comment.ForumCommentId && z.Status == LikeStatus.Like).Count();
+                var dbCommentDisLikes = likeRepository.GetQuery().Where(z => z.Type == LikeType.ForumComment && z.ObjectId == comment.ForumCommentId && z.Status == LikeStatus.DisLike).Count();
+                comment.Vote = dbCommentLikes - dbCommentDisLikes;
             }
 
             return forum;

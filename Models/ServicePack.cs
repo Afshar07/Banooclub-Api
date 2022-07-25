@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BanooClub.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -28,10 +29,11 @@ namespace BanooClub.Models
         public DateTime? SpecifiedExpireDateTime { get; set; }
         public long TotalPrice { get; set; }
         public DateTime? ExpireDate { get; set; }
+        public ServicePackStatus Status { get; set; }
         [NotMapped]
         public long ViewsCount { get; set; }
         [NotMapped]
-        public object WeekViewsCount { get; set; }
+        public object WeekViews { get; set; }
         [NotMapped]
         public double? Rate { get; set; }
         [NotMapped]
@@ -46,5 +48,9 @@ namespace BanooClub.Models
         public List<ServiceProperty> Properties { get; set; }
         [NotMapped]
         public bool IsFavourite { get; set; }
+        [NotMapped]
+        public string CatName { get; set; }
+        [NotMapped]
+        public List<long> PlanIds { get; set; }
     }
 }

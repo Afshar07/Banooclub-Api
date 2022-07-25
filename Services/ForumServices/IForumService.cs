@@ -1,4 +1,5 @@
 ﻿using BanooClub.Models;
+using BanooClub.Models.Enums;
 using System.Threading.Tasks;
 
 namespace BanooClub.Services.ForumServices
@@ -7,7 +8,10 @@ namespace BanooClub.Services.ForumServices
     {
         Task<long> Create(Forum inputDto);
         Task<Forum> Update(Forum item);
-        Task<object> GetAll(int pageNumber, int count, string searchCommand);
+        Task<Forum> ReportForum(long forumId);
+        Task<Forum> ChangeForumStatus(long forumId, ForumStatus status);
+        Task<object> GetAll(int pageNumber, int count, string searchCommand, bool? noComments, bool? mostRated,bool? mostComments);
+        Task<object> GetAllForAdmin(int pageNumber, int count, string searchCommand, bool? noComments, bool? mostRated, bool? mostComments, ForumStatus? status);
         Task<object> GetMyForums(int pageNumber, int count, string searchCommand);
         Task<bool> Delete(long id);
         Task<Forum> Get(long id);

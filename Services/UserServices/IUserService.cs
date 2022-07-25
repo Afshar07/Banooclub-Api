@@ -25,5 +25,6 @@ namespace BanooClub.Services.UserServices
         User GetByToken();
         object GetAllUserforUser(long userId, int count, string search);
         User GetByUserName(string userName);
+        IServiceResult<object> GetMediaGalleryByUserName(string userName);
     }
 }

@@ -74,6 +74,14 @@ using BanooClub.Services.TagServices;
 using BanooClub.Services.WalletServices;
 using BanooClub.Services.CommentLikeServices;
 using BanooClub.Services.StateServices;
+using BanooClub.Services.LikeServices;
+using BanooClub.Services.BlogServices;
+using BanooClub.Services.BlogCategoryServices;
+using BanooClub.Services.BlogCommentServices;
+using BanooClub.Services.ServicePlanServices;
+using BanooClub.Services.PlanServices;
+using BanooClub.Services.OrderServices;
+using BanooClub.Services.OrderItemServices;
 
 namespace BanooClub.Extensions
 {
@@ -140,6 +148,10 @@ namespace BanooClub.Extensions
             services.AddScoped<IBanooClubEFRepository<CNTRY>, BanooClubEfRepository<CNTRY>>();
             services.AddTransient<IBanooClubEFRepository<Ticket>, BanooClubEfRepository<Ticket>>();
             services.AddTransient<IBanooClubEFRepository<State>, BanooClubEfRepository<State>>();
+            services.AddScoped<IBanooClubEFRepository<ServicePlan>, BanooClubEfRepository<ServicePlan>>();
+            services.AddScoped<IBanooClubEFRepository<Plan>, BanooClubEfRepository<Plan>>();
+            services.AddScoped<IBanooClubEFRepository<Order>, BanooClubEfRepository<Order>>();
+            services.AddScoped<IBanooClubEFRepository<OrderItem>, BanooClubEfRepository<OrderItem>>();
 
             services.AddScoped<IBanooClubEFRepository<ServicePack>,BanooClubEfRepository<ServicePack>>();
             services.AddScoped<IBanooClubEFRepository<ServiceComment>,BanooClubEfRepository<ServiceComment>>();
@@ -153,6 +165,11 @@ namespace BanooClub.Extensions
             services.AddScoped<IBanooClubEFRepository<Tag>,BanooClubEfRepository<Tag>>();
             services.AddScoped<IBanooClubEFRepository<Wallet>,BanooClubEfRepository<Wallet>>();
             services.AddScoped<IBanooClubEFRepository<CommentLike>, BanooClubEfRepository<CommentLike>>();
+            services.AddScoped<IBanooClubEFRepository<Like>, BanooClubEfRepository<Like>>();
+
+            services.AddScoped<IBanooClubEFRepository<Blog>, BanooClubEfRepository<Blog>>();
+            services.AddScoped<IBanooClubEFRepository<BlogCategory>, BanooClubEfRepository<BlogCategory>>();
+            services.AddScoped<IBanooClubEFRepository<BlogComment>, BanooClubEfRepository<BlogComment>>();
             
 
         }
@@ -228,6 +245,14 @@ namespace BanooClub.Extensions
             services.AddTransient<ITagService, TagService>();
             services.AddTransient<IWalletService, WalletService>();
             services.AddTransient<ICommentLikeService, CommentLikeService>();
+            services.AddTransient<ILikeService, LikeService>();
+            services.AddTransient<IBlogService, BlogService>();
+            services.AddTransient<IBlogCategoryService, BlogCategoryService>();
+            services.AddTransient<IBlogCommentService, BlogCommentService>();
+            services.AddTransient<IServicePlanService, ServicePlanService>();
+            services.AddTransient<IPlanService, PlanService>();
+            services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IOrderItemService, OrderItemService>();
 
 
             services.AddTransient(typeof(IGenerateJwtService), typeof(GenerateJwtService));

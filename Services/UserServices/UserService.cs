@@ -598,6 +598,85 @@ namespace BanooClub.Services.UserServices
                 await userRepository.Delete(dbUser);
             }
         }
+        public IServiceResult<object> GetMediaGalleryByUserName(string userName)
+        {
+            var userId = userRepository.GetQuery().FirstOrDefault(z => z.UserName == userName).UserId;
+            var IsPrivate = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == userId).IsPrivateGalleryFriend;
+            var MYselfId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                    ? _accessor.HttpContext.User.Identity.GetUserId()
+                    : 0;
+
+            if (IsPrivate == false)
+            {
+                var medias = _mediaRepository.GetQuery().Where(z => (z.Type == MediaTypes.GalleryImages || z.Type== MediaTypes.GalleryVideos) && z.ObjectId == userId).ToList();
+                List<FileData> result = new List<FileData>();
+                foreach (var media in medias)
+                {
+                    var url = "media/gallery/GalleryImages/";
+                    if (media.Priority == 3)
+                    {
+                        url = "media/gallery/GalleryVideos/";
+                    }
+                    var NEWMedia = url + media.PictureUrl;
+                    var obj1 = new FileData() { Base64 = NEWMedia, Priority = media.Priority, UploadType = 1 };
+                    result.Add(obj1);
+                }
+                var obj = new
+                {
+                    Status = (int)PostVisibility.Visible,
+                    Medias = result
+                };
+                return new ServiceResult<object>().Ok(obj);
+            }
+            else
+            {
+                if (MYselfId > 0)
+                {
+                    //آیا کاربر وارد شده یوزر آی دی ذکر شده رو فالو دارد؟
+                    var dbFollowing = followingRepository.GetQuery().FirstOrDefault(z => z.UserId == MYselfId & z.FollowingUserId == userId);
+                    //اگر فالو دارد
+                    if (dbFollowing != null)
+                    {
+                        var medias = _mediaRepository.GetQuery().Where(z => z.Type == MediaTypes.GalleryImages && z.ObjectId == userId).ToList();
+                        List<FileData> result = new List<FileData>();
+                        foreach (var media in medias)
+                        {
+                            var url = "media/gallery/GalleryImages/";
+                            if (media.Priority == 3)
+                            {
+                                url = "media/gallery/GalleryVideos/";
+                            }
+                            var NEWMedia = url + media.PictureUrl;
+                            var obj2 = new FileData() { Base64 = NEWMedia, Priority = media.Priority, UploadType = 1 };
+                            result.Add(obj2);
+                        }
+                        var obj = new
+                        {
+                            Status = (int)PostVisibility.Visible,
+                            Medias = result
+                        };
+                        return new ServiceResult<object>().Ok(obj);
+                    }
+                    //اگر فالو ندارد
+                    else
+                    {
+                        var obj2 = new
+                        {
+                            Status = (int)PostVisibility.PrivateAndNotFollowing,
+                            Medias = ""
+                        };
+                        return new ServiceResult<object>().Ok(obj2);
+                    }
+                }
+
+                var obj3 = new
+                {
+                    Status = (int)PostVisibility.PrivateAndNotLogged,
+                    Medias = ""
+                };
+                return new ServiceResult<object>().Ok(obj3);
+            }
+        }
         public User GetByUserName(string userName)
         {
             var dbUser = userRepository.GetQuery().FirstOrDefault(z => z.UserName == userName);

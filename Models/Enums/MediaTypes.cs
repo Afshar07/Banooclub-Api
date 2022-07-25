@@ -17,6 +17,7 @@
         LawyerCertificate,
         Service,
         ServiceCategory,
-        Post
+        Post,
+        Blog
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BanooClub.Models.Enums;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -20,6 +21,9 @@ namespace BanooClub.Models
         public string UserCode { get; set; }
         public string IntroducerCode { get; set; }
         public DateTime? BirthDate { get; set; }
+        public long? StateId { get; set; }
+        public long? CityId { get; set; }
+        public RelationStatus? RelationState { get; set; }
 
         [NotMapped]
         public int FollowersCount { get; set; }
@@ -35,7 +39,10 @@ namespace BanooClub.Models
         public UserSetting UserSetting { get; set; }
         [NotMapped]
         public  bool? IsFollowing { get; set; }
-
+        [NotMapped]
+        public string CityName { get; set; }
+        [NotMapped]
+        public string StateName { get; set; }
     }
     public class UserSignDTO
     {
@@ -52,6 +59,9 @@ namespace BanooClub.Models
         public long? ServiceCategoryId { get; set; }
         public string IntroducerCode { get; set; }
         public DateTime? BirthDate { get; set; }
+        public long? StateId { get; set; }
+        public long? CityId { get; set; }
+        public RelationStatus? RelationState { get; set; }
 
     }
     public class UserAndUserSetting

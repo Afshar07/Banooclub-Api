@@ -1,4 +1,5 @@
 ﻿using BanooClub.Models;
+using BanooClub.Models.Enums;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,9 +9,9 @@ namespace BanooClub.Services.WishListServices
     {
         Task Create(WishList inputDto);
         Task<WishList> Update(WishList item);
-        Task Delete(long id);
+        Task Delete(long objectId, WishListType type);
         Task<List<WishList>> GetAll();
         Task<WishList> Get(long id);
-        List<WishList> GetByUserId(long userId);
+        object GetByUserId(long userId);
     }
 }

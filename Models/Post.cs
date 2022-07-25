@@ -25,8 +25,11 @@ namespace BanooClub.Models
         public int LikesCount { get; set; }
         [NotMapped]
         public int CommentsCount { get; set; }
+        //[NotMapped]
+        //public FileData FileData { get; set; }
+
         [NotMapped]
-        public FileData FileData { get; set; }
+        public List<FileData> Medias { get; set; }
     }
 
     public class PostDTO
@@ -49,7 +52,9 @@ namespace BanooClub.Models
         public bool IsLikedByMe { get; set; }
         [NotMapped]
         public bool IsReportedByMe { get; set; }
+        //[NotMapped]
+        //public FileData FileData { get; set; }
         [NotMapped]
-        public FileData FileData { get; set; }
+        public List<FileData> Medias { get; set; }
     }
 }

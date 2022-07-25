@@ -13,5 +13,7 @@ namespace BanooClub.Models
         public long ParentId { get; set; }
         [NotMapped]
         public User UserInfo { get; set; }
+        [NotMapped]
+        public long Vote { get; set; }
     }
 }

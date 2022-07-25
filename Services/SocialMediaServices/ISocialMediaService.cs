@@ -15,7 +15,7 @@ namespace BanooClub.Services.SocialMediaServices
         IServiceResult DeleteByMediaId(int mediaId);
         Task<IServiceResult> DeleteByObjectId(int objectId, MediaTypes type);
         OutPutSaveImage SaveImage(string base64, string path );
-        OutPutSaveImage SaveImageNew(string base64, string path ,int priority);
+        OutPutSaveImage SaveImageNew(string base64, string path ,int? priority);
 
     }
 }

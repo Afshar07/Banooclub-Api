@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using BanooClub.Models;
 using BanooClub.Services.ForumServices;
 using System.Threading.Tasks;
+using BanooClub.Models.Enums;
 
 namespace BanooClub.Controllers
 {
@@ -33,6 +34,20 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost]
+        [Route("[action]"),Authorize]
+        public async Task<Forum> ReportForum(long forumId)
+        {
+            return await this.forumService.ReportForum(forumId);
+        }
+
+        [HttpPost]
+        [Route("[action]"),Authorize(Roles ="Admin")]
+        public async Task<Forum> ChangeForumStatus(long forumId,ForumStatus status)
+        {
+            return await this.forumService.ChangeForumStatus(forumId,status);
+        }
+
+        [HttpPost]
         [Route("[action]"), AllowAnonymous]
         public async Task<Forum> Get(long forumId)
         {
@@ -48,9 +63,9 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]"), AllowAnonymous]
-        public async Task<object> GetAll(int pageNumber, int count, string searchCommand)
+        public async Task<object> GetAll(int pageNumber, int count, string searchCommand, bool? noComments, bool? mostRated , bool? mostComments)
         {
-            return await forumService.GetAll(pageNumber, count, searchCommand);
+            return await forumService.GetAll(pageNumber, count, searchCommand,noComments,mostRated , mostComments);
         }
 
         [HttpPost]
@@ -58,6 +73,12 @@ namespace BanooClub.Controllers
         public async Task<object> GetMyForums(int pageNumber, int count, string searchCommand)
         {
             return await forumService.GetMyForums(pageNumber, count, searchCommand);
+        }
+        [HttpPost]
+        [Route("[action]"), Authorize(Roles = "Admin")]
+        public async Task<object> GetAllForAdmin(int pageNumber, int count, string searchCommand, bool? noComments, bool? mostRated, bool? mostComments , ForumStatus? status)
+        {
+            return await forumService.GetAllForAdmin(pageNumber, count, searchCommand, noComments, mostRated, mostComments,status);
         }
     }
 }

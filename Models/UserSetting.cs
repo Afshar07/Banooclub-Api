@@ -12,6 +12,8 @@ namespace BanooClub.Models
         public bool? IsPrivateRoomate { get; set; }
         public bool? IsPrivateAds { get; set; }
         public bool? IsPrivateSocial { get; set; }
+        public bool? IsPrivatePost { get; set; }
+        public bool? IsPrivateGalleryFriend { get; set; }
         public string UserTag { get; set; }
         public string Flag { get; set; }
         public VideoIdentity VideoIdentityStatus { get; set; }
@@ -23,7 +25,7 @@ namespace BanooClub.Models
         public DateTime? BirthDate { get; set; }
         public DocStatus LawyerCertificateStatus { get; set; }
         public DocStatus NewspaperStatus { get; set; }
-        public bool ActiveRoomate { get;set; }
+        public bool ActiveRoomate { get; set; }
         [NotMapped]
         public string KartMelliDoc { get; set; }
         [NotMapped]
