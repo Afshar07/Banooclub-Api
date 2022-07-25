@@ -19,7 +19,25 @@ export default (context, resources) => ({
     })
     return response
   },
+  async GetwithView(params){
+    const response = await context.$axios.post(resources,null,{
+      params
+    })
+    return response
+  },
   async getAService(params){
+    const response = await context.$axios.post(resources,null,{
+      params
+    })
+    return response
+  },
+  async getUserServices(params){
+    const response = await context.$axios.post(resources,null,{
+      params
+    })
+    return response
+  },
+  async getUserServicesByUserName(params){
     const response = await context.$axios.post(resources,null,{
       params
     })

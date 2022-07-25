@@ -55,7 +55,7 @@
         <div class="col-12 mt-3">
           <select v-model="payload.serviceCategoryId" class="form-select" aria-label="Default select example">
             <option :value="0">دسته بندی خدمت</option>
-            <option v-for="service_category in categories" :value="service_category.serviceCategoryId">
+            <option v-for="(service_category,idx) in categories" :key="idx" :value="service_category.serviceCategoryId">
               {{ service_category.title }}
             </option>
           </select>
@@ -163,14 +163,25 @@
         <div class="col-md-12 d-flex align-items-start gap-1 ">
 
           <button
-            @click="sendOtpCode"
+            @click="returnToRegister"
             type="button"
             class="mb-3 tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full"
           >
-            ارسال مجدد کد
+            تغییر روش ثبت نام
           </button>
 
         </div>
+<!--        <div class="col-md-12 d-flex align-items-start gap-1 ">-->
+
+<!--          <button-->
+<!--            @click="sendOtpCode"-->
+<!--            type="button"-->
+<!--            class="mb-3 tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full"-->
+<!--          >-->
+<!--            ارسال مجدد کد-->
+<!--          </button>-->
+
+<!--        </div>-->
 
 <!--        <div class="col-md-12 d-flex align-items-center gap-2">-->
 <!--          <client-only>-->
@@ -256,13 +267,13 @@
 <script>
 import SelectUserType from "./SelectUserType.vue";
 export default {
-  emits: ["getUserRole", "getSignUpPayload","close_register_modal"],
-  props:['counterNumber','set_reg_type','code_field'],
+  emits: ["getUserRole", "getSignUpPayload","close_register_modal","returnToRegister"],
+  props:['counterNumber','code_field'],
   components: {
     SelectUserType,
   },
   async fetch() {
-    console.log(this.counterNumber)
+
     if(this.counterNumber){
      this.localCounter = this.counterNumber
     }
@@ -302,6 +313,10 @@ export default {
     };
   },
   methods: {
+    returnToRegister(){
+      this.$emit("returnToRegister");
+    },
+
     sendOtpCode() {
       // Handle both otp codes here
       if (this.set_reg_type == 1) {

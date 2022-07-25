@@ -1,6 +1,5 @@
 <template>
   <div class="container mcontainer tw-overflow-x-hidden" v-if="!$fetchState.pending">
-
     <div class="row">
       <div class="col-md-12 col-lg-8 add_post px-0 custom_padding_for_posts">
         <AdsDetail :AdsDetail="AdsDetail"/>
@@ -14,7 +13,7 @@
 </template>
 
 <script>
-import SideBar from "../../../layouts/SideBar";
+
 import AdsDetail from "../../../components/Ads/AdsDetail";
 import BaseModal from "../../../components/utilities/BaseModal";
 
@@ -23,7 +22,7 @@ export default {
   layout: "PoshtebamPlusLayout",
   components:{
     AdsDetail,
-    SideBar,
+
     BaseModal,
   },
 

@@ -155,7 +155,7 @@
             <label class="form-check-label" for="inlineCheckbox9">سایر</label>
           </div>
         </div>
-          <div class="col-md-12 my-3">
+        <div class="col-md-12 my-3">
           <div class="row">
             <div class="col-md-6">
               <v-select
@@ -176,7 +176,7 @@
               ></v-select>
             </div>
           </div>
-          </div>
+        </div>
         <div class="col-12 ">
           <div class="form-floating">
             <textarea
@@ -195,7 +195,7 @@
             <textarea
               class="form-control border-0 px-0"
               resize="none"
-              placeholder="درباره من"
+              placeholder="هشتگ های من"
               id="about2"
               v-model.trim="userTag"
               style="height: 150px"
@@ -204,97 +204,97 @@
           </div>
         </div>
         <div class="col-12 mt-3">
-<!--          <div-->
-<!--            v-if="$store.state.HeaderData.type === 4"-->
-<!--            class="d-flex flex-row gap-3 my-3"-->
-<!--          >-->
-<!--            <div class="labelText">ارسال ویدیو احراز هویت :</div>-->
-<!--            <div-->
-<!--              class="border rounded text-center justify-content-center align-items-center InputUiBox"-->
-<!--              @click="callInputMethod3"-->
-<!--            >-->
-<!--              <input-->
-<!--                type="file"-->
-<!--                ref="Video"-->
-<!--                accept="video/*"-->
-<!--                class="form-control-file my-file3 d-none"-->
-<!--                id="my-Video"-->
-<!--                @change="onFileChangeVideo"-->
-<!--              />-->
-<!--              <font-awesome-icon icon="plus-square" size="lg" />-->
-<!--            </div>-->
+          <!--          <div-->
+          <!--            v-if="$store.state.HeaderData.type === 4"-->
+          <!--            class="d-flex flex-row gap-3 my-3"-->
+          <!--          >-->
+          <!--            <div class="labelText">ارسال ویدیو احراز هویت :</div>-->
+          <!--            <div-->
+          <!--              class="border rounded text-center justify-content-center align-items-center InputUiBox"-->
+          <!--              @click="callInputMethod3"-->
+          <!--            >-->
+          <!--              <input-->
+          <!--                type="file"-->
+          <!--                ref="Video"-->
+          <!--                accept="video/*"-->
+          <!--                class="form-control-file my-file3 d-none"-->
+          <!--                id="my-Video"-->
+          <!--                @change="onFileChangeVideo"-->
+          <!--              />-->
+          <!--              <font-awesome-icon icon="plus-square" size="lg" />-->
+          <!--            </div>-->
 
-<!--            <video-->
-<!--              :src="BaseUrl + Video"-->
-<!--              v-if="Video && Video.includes('.mp4')"-->
-<!--              width="225"-->
-<!--              height="240"-->
-<!--              controls-->
-<!--            >-->
-<!--              &lt;!&ndash;              <source  type="video/*">&ndash;&gt;-->
-<!--            </video>-->
-<!--            <video v-else :src="BaseVideoUrl" width="225" height="240" controls>-->
-<!--              &lt;!&ndash;              <source  type="video/*">&ndash;&gt;-->
-<!--            </video>-->
-<!--          </div>-->
-<!--          <div class="row" v-if="$store.state.HeaderData.type === 3">-->
-<!--            <div class="col-lg-3 col-md-12">-->
-<!--              <div class="labelText">ارسال عکس پروانه کسب :</div>-->
-<!--            </div>-->
-<!--            <div class="col-lg-2 col-md-12">-->
-<!--              <div-->
-<!--                class="border rounded text-center justify-content-center align-items-center InputUiBox"-->
-<!--                @click="callInputMethod4"-->
-<!--              >-->
-<!--                <input-->
-<!--                  type="file"-->
-<!--                  accept="image/*"-->
-<!--                  multiple="multiple"-->
-<!--                  class="form-control-file my-file d-none"-->
-<!--                  id="my-file6"-->
-<!--                  @change="onFileChange4"-->
-<!--                />-->
-<!--                <font-awesome-icon icon="plus-square" size="lg" />-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="col-lg-7 col-md-12">-->
-<!--              <div v-if="Certificate && Certificate.includes('.')">-->
-<!--                <img class="img-fluid" :src="BaseUrl + Certificate" />-->
-<!--              </div>-->
-<!--              <div v-else>-->
-<!--                <img class="img-fluid" :src="Certificate" />-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="row my-3" v-if="$store.state.HeaderData.type === 3">-->
-<!--            <div class="col-lg-3 col-md-12">-->
-<!--              <div class="labelText">ارسال عکس روزنامه رسمی :</div>-->
-<!--            </div>-->
-<!--            <div class="col-lg-2 col-md-12">-->
-<!--              <div-->
-<!--                class="border rounded text-center justify-content-center align-items-center InputUiBox"-->
-<!--                @click="callInputMethod5"-->
-<!--              >-->
-<!--                <input-->
-<!--                  type="file"-->
-<!--                  accept="image/*"-->
-<!--                  multiple="multiple"-->
-<!--                  class="form-control-file my-file d-none"-->
-<!--                  id="my-file7"-->
-<!--                  @change="onFileChange5"-->
-<!--                />-->
-<!--                <font-awesome-icon icon="plus-square" size="lg" />-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="col-lg-7 col-md-12">-->
-<!--              <div v-if="NewsPaper && NewsPaper.includes('.')">-->
-<!--                <img class="img-fluid" :src="BaseUrl + NewsPaper" />-->
-<!--              </div>-->
-<!--              <div v-else>-->
-<!--                <img class="img-fluid" :src="NewsPaper" />-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
+          <!--            <video-->
+          <!--              :src="BaseUrl + Video"-->
+          <!--              v-if="Video && Video.includes('.mp4')"-->
+          <!--              width="225"-->
+          <!--              height="240"-->
+          <!--              controls-->
+          <!--            >-->
+          <!--              &lt;!&ndash;              <source  type="video/*">&ndash;&gt;-->
+          <!--            </video>-->
+          <!--            <video v-else :src="BaseVideoUrl" width="225" height="240" controls>-->
+          <!--              &lt;!&ndash;              <source  type="video/*">&ndash;&gt;-->
+          <!--            </video>-->
+          <!--          </div>-->
+          <!--          <div class="row" v-if="$store.state.HeaderData.type === 3">-->
+          <!--            <div class="col-lg-3 col-md-12">-->
+          <!--              <div class="labelText">ارسال عکس پروانه کسب :</div>-->
+          <!--            </div>-->
+          <!--            <div class="col-lg-2 col-md-12">-->
+          <!--              <div-->
+          <!--                class="border rounded text-center justify-content-center align-items-center InputUiBox"-->
+          <!--                @click="callInputMethod4"-->
+          <!--              >-->
+          <!--                <input-->
+          <!--                  type="file"-->
+          <!--                  accept="image/*"-->
+          <!--                  multiple="multiple"-->
+          <!--                  class="form-control-file my-file d-none"-->
+          <!--                  id="my-file6"-->
+          <!--                  @change="onFileChange4"-->
+          <!--                />-->
+          <!--                <font-awesome-icon icon="plus-square" size="lg" />-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            <div class="col-lg-7 col-md-12">-->
+          <!--              <div v-if="Certificate && Certificate.includes('.')">-->
+          <!--                <img class="img-fluid" :src="BaseUrl + Certificate" />-->
+          <!--              </div>-->
+          <!--              <div v-else>-->
+          <!--                <img class="img-fluid" :src="Certificate" />-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <!--          <div class="row my-3" v-if="$store.state.HeaderData.type === 3">-->
+          <!--            <div class="col-lg-3 col-md-12">-->
+          <!--              <div class="labelText">ارسال عکس روزنامه رسمی :</div>-->
+          <!--            </div>-->
+          <!--            <div class="col-lg-2 col-md-12">-->
+          <!--              <div-->
+          <!--                class="border rounded text-center justify-content-center align-items-center InputUiBox"-->
+          <!--                @click="callInputMethod5"-->
+          <!--              >-->
+          <!--                <input-->
+          <!--                  type="file"-->
+          <!--                  accept="image/*"-->
+          <!--                  multiple="multiple"-->
+          <!--                  class="form-control-file my-file d-none"-->
+          <!--                  id="my-file7"-->
+          <!--                  @change="onFileChange5"-->
+          <!--                />-->
+          <!--                <font-awesome-icon icon="plus-square" size="lg" />-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            <div class="col-lg-7 col-md-12">-->
+          <!--              <div v-if="NewsPaper && NewsPaper.includes('.')">-->
+          <!--                <img class="img-fluid" :src="BaseUrl + NewsPaper" />-->
+          <!--              </div>-->
+          <!--              <div v-else>-->
+          <!--                <img class="img-fluid" :src="NewsPaper" />-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </div>-->
           <div class="row">
             <div class="col-lg-3 col-md-12">
               <div class="labelText">ارسال عکس کارت ملی :</div>
@@ -370,58 +370,64 @@ export default {
       birthDate: "",
       userInfoData: {},
       gender: null,
-        Relation:0,
+      Relation:0,
       userTag: "",
       pass: null,
       nationalCart: "",
-        cart:'',
+      cart:'',
       userSettingId: null,
-        AllStates:[],
-        AllCities:[],
-        SelectedStateId:null,
-        SelectedCityId:null
+      AllStates:[],
+      AllCities:[],
+      SelectedStateId:null,
+      SelectedCityId:null
 
     };
   },
-    watch:{
-      SelectedStateId:function (val,oldVal) {
-          this.GetCity()
-      }
-    },
-    async fetch(){
-        const res = await  this.$repositories.GetAllStates.GetAllStates()
-        this.AllStates = res.data.states
+  watch:{
+    SelectedStateId:function (val,oldVal) {
 
-    },
+      this.GetCity()
+    }
+  },
+  async fetch(){
+    const res = await  this.$repositories.GetAllStates.GetAllStates({
+      pageNumber:0,
+      count:0
+    })
+    this.AllStates = res.data.states
+
+  },
   computed: {
     BaseUrl() {
       return process.env.pic
     },
   },
   methods: {
-      async GetCity(){
-          this.$nextTick(()=>{
-              this.$nuxt.$loading.start()
-          })
-          try {
-              const res = await this.$repositories.GetAllCities.GetAllCities({
-                  pageNumber:1,
-                  count:500,
-                  stateId:this.SelectedStateId
+    async GetCity(){
 
-              })
-              this.AllCities = res.data.cities
-              this.$nuxt.$loading.finish()
-              this.$nuxt.loading = false;
-          }catch (e) {
-              console.log(e)
-          }finally {
-              this.$nuxt.$loading.finish()
-              this.$nuxt.loading = false;
-          }
-      },
+      this.$nextTick(()=>{
+        this.$nuxt.$loading.start()
+      })
+      try {
 
-      submitEditProfileBasic() {
+        const res = await this.$repositories.GetAllCities.GetAllCities({
+          pageNumber:1,
+          count:500,
+          stateId:this.SelectedStateId
+        })
+        console.log(this.AllCities)
+        this.AllCities = res.data.cities
+        this.$nuxt.$loading.finish()
+        this.$nuxt.loading = false;
+      }catch (e) {
+        console.log(e)
+      }finally {
+        this.$nuxt.$loading.finish()
+        this.$nuxt.loading = false;
+      }
+    },
+
+    submitEditProfileBasic() {
       if (this.mobile !== "" && this.mobile.length !== 11) {
         this.$toast.error("فرمت شماره موبایل وارد شده درست نیست");
       } else {
@@ -446,23 +452,25 @@ export default {
               birthDate: this.birthDate,
               kartMelliDoc: this.nationalCart,
               userSettingId: this.userSettingId,
-                relationState:this.Relation
+              relationState:this.Relation,
+              stateId:this.SelectedStateId,
+              cityId:this.SelectedCityId
             },
             {}
           )
           .then((response) => {
             if (response.status === 200) {
-                console.log(this.Relation)
+              console.log(this.Relation)
               this.$axios.post("Users/Update", {
                   name: this.firstName,
-                      familyName: this.lastName,
-                      relationState:1,
+                  familyName: this.lastName,
+                  relationState:1,
                   userId:this.$auth.user.userInfo.userId,
-                      stateId:this.SelectedStateId,
+                  stateId:this.SelectedStateId,
                   cityId:this.SelectedCityId
-              }
+                }
 
-                )
+              )
                 .then((res) => {
                   if (res.status === 200) {
                     this.GetMyData();
@@ -611,26 +619,26 @@ textarea {
   padding: 7px 30px;
   cursor: pointer;
   -webkit-transition: background-color 0.28s ease, color 0.28s ease,
-    -webkit-box-shadow 0.28s ease;
+  -webkit-box-shadow 0.28s ease;
   transition: background-color 0.28s ease, color 0.28s ease,
-    -webkit-box-shadow 0.28s ease;
+  -webkit-box-shadow 0.28s ease;
   transition: background-color 0.28s ease, color 0.28s ease,
-    box-shadow 0.28s ease;
+  box-shadow 0.28s ease;
   transition: background-color 0.28s ease, color 0.28s ease,
-    box-shadow 0.28s ease, -webkit-box-shadow 0.28s ease;
+  box-shadow 0.28s ease, -webkit-box-shadow 0.28s ease;
   overflow: hidden;
   -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
 .ButtonAccountSetting:hover {
   background-color: #088dcd;
   -webkit-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14),
-    0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
+  0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12),
-    0 3px 5px -1px rgba(0, 0, 0, 0.2);
+  0 3px 5px -1px rgba(0, 0, 0, 0.2);
 }
 
 .ButtonAccountSetting:active::before,
@@ -639,7 +647,7 @@ textarea {
   transition: opacity 0.28s ease 364ms, -webkit-transform 1.12s ease;
   transition: transform 1.12s ease, opacity 0.28s ease 364ms;
   transition: transform 1.12s ease, opacity 0.28s ease 364ms,
-    -webkit-transform 1.12s ease;
+  -webkit-transform 1.12s ease;
   -webkit-transform: translate(-50%, -50%) scale(1);
   transform: translate(-50%, -50%) scale(1);
   opacity: 0;

@@ -47,7 +47,7 @@ import PreviewProductTab from "../../../components/ProductTabs/PreviewProductTab
 export default {
   name: "UpgradeProduct",
   components: {PreviewProductTab, UpgradeProductTab, EditProductTab},
-  layout: "BanooClubLayout",
+  layout: "PoshtebamPlusLayout",
   data(){
     return{
       ServiceDetails:null

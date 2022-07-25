@@ -1,14 +1,16 @@
 <template>
-  <div class="container mcontainer">
+  <div class=" mcontainer px-2">
     <h1 class="tw-text-2xl tw-font-semibold">خدمات من</h1>
-    <div class="row py-3">
-      <div v-if=" my_services && my_services.length>0" class="d-flex flex-row flex-wrap">
-        <ProductItem class="mx-1 my-3" v-for="service in my_services" :service_details="service" :show_buttons="true"/>
-      </div>
-      <div v-else class="d-flex flex-row flex-wrap">
-       <span class="text-secondary">شما خدماتی ندارید</span>
+    <div class="row">
+      <div class="col-md-4 col-lg-3" v-for="(service,idx) in my_services" :key="idx">
+        <ProductItem @updateServiceDetails="updateServiceDetails" class="my-3" :service_details="service" :show_buttons="true"/>
       </div>
     </div>
+<!--    <div class="row py-3">-->
+<!--      <div class="d-flex flex-row flex-wrap">-->
+<!--        <ProductItem class="mx-1 my-3" v-for="service in my_services" :service_details="service" :show_buttons="true"/>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 
 
@@ -24,9 +26,16 @@ export default {
   components: {
     ProductItem,
   },
-  head(){
-    return{
-      title: 'خدمات من'
+  head() {
+    return {
+      title: 'خدمات من',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: 'خدمات من',
+        },
+      ],
     }
   },
   data(){
@@ -41,6 +50,11 @@ export default {
     }
     catch (error){
       console.log(error)
+    }
+  },
+  methods:{
+    updateServiceDetails(){
+      this.$fetch();
     }
   }
 }

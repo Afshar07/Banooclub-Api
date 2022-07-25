@@ -1,0 +1,306 @@
+<template>
+  <div   class="col-md-5">
+    <div class="row">
+      <div class="col-md-12 tw-border-b tw-shadow p-3 bg-white">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center gap-2">
+            <img v-if="ActiveUser.userPhoto!==null" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://banooclubapi.simagar.com/${ActiveUser.userPhoto}`"/>
+            <img v-else style="width: 50px; height: 50px;" class="rounded-circle" src="~/assets/images/defaultUser.png"/>
+            <small class="cursor-pointer" @click="goToUserProfile(ActiveUser)">{{ ActiveUser.userName }}</small>
+          </div>
+          <button @click="GoBack" class="btn"><i class="fas fa-chevron-left"></i></button>
+        </div>
+
+      </div>
+      <div class="col-md-12  p-0 tw-p-0" >
+        <div class="row  m-0  "  style="width: 100%">
+
+          <div class="col-md-12 p-0 ChatContainer" @scroll="handleScroll" ref="ChatContainer">
+            <div v-if="!lastMessage && isLoading" class="col-md-12 d-flex align-items-center justify-content-center">
+              <Spinner></Spinner>
+            </div>
+            <MyMessageItem v-for="(item,idx) in ChatData" :key="idx" :Message="item" />
+          </div>
+          <div class="col-md-12 p-0 px-0 bg-white p-1  SendMessageContainer" >
+            <div class="d-flex align-items-center justify-content-between  flex-wrap">
+              <button type="button" class="  tw-bg-[#0870a0] hover:tw-bg-blue-500 tw-transition   rounded p-1"  @click="sendMessage">
+                <span class="text-white">ارسال</span>
+              </button>
+              <textarea v-model="MessageBody" class="form-control" placeholder="پیام خود را وارد کنید..." style="resize: none!important;" rows="1" @keydown.enter="sendMessage"  ></textarea>
+            </div>
+
+
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import ContactMessageItem from "@/components/Chat/ContactMessageItem";
+import MyMessageItem from "@/components/Chat/MyMessageItem";
+import ProfileItem from "@/components/Chat/ProfileItem";
+import EditIcon from "@/components/Icons/EditIcon";
+
+export default {
+
+  components: {ContactMessageItem, MyMessageItem, ProfileItem, EditIcon },
+  name: "MainChatData",
+  props:['ActiveUser'],
+  data(){
+    return{
+      MessageBody:'',
+      FirstId:0,
+      SearchConversation: "",
+      AllChats:[],
+
+      ChatData:[],
+      lastMessage:false,
+      isLoading:false,
+      Search:''
+    }
+  },
+  created() {
+   this.GetConversationWithScroll()
+  },
+
+  watch:{
+    SocketId: {
+      immediate: true,
+      async handler(val) {
+        if(val){
+          await this.ReadMessage();
+          await this.DeliverMessage();
+          await this.GetMenu();
+          await this.GetConversationWithScroll();
+
+          this.$store.commit("SetDefaultSocketId");
+
+        }
+
+      },
+    },
+
+  },
+  methods:{
+    async ReadMessage(){
+      try {
+        const res = this.$repositories.ReadMessage.ReadMessage({
+          userId:this.ActiveUser.userId
+        })
+      }catch (e){
+        console.log(e)
+      }
+    },
+    async GetConversationWithOutScroll(){
+
+      try {
+        this.isLoading = true
+        // this.ActiveUser = id
+        if(!this.lastMessage){
+          const res = await this.$repositories.GetConversation.GetConversation({
+            userId:this.ActiveUser.userId,
+            count:20,
+            messageId:this.FirstId
+          })
+          if(res.data.length>0){
+            res.data.forEach((item)=>{
+              if(this.ChatData.findIndex(e=> e.MessageId === item.MessageId)>-1){
+                return
+              }else{
+                this.ChatData.push(item)
+              }
+            })
+
+            this.ChatData =  this.ChatData.sort(function (a, b) {
+              const key1 = a.CreateDate;
+              const key2 = b.CreateDate;
+
+              if (key1 < key2) {
+                return -1;
+              } else if (key1 === key2) {
+                return 0;
+              } else {
+                return 1;
+              }
+            });
+
+
+            await this.ReadMessage()
+            this.lastMessage = false
+
+          }else{
+            this.lastMessage = true
+          }
+
+        }else{
+
+        }
+
+      }catch (e){
+
+      }finally {
+        this.$router.push(this.$route.path)
+        this.isLoading = false
+      }
+
+    },
+    async GetConversationWithScroll(){
+
+      try {
+        this.isLoading = true
+        // this.ActiveUser = id
+        if(!this.lastMessage){
+
+          this.$nextTick(()=>{
+            this.$nuxt.$loading.start();
+          })
+          const res = await this.$repositories.GetConversation.GetConversation({
+            userId:this.ActiveUser.userId,
+            count:20,
+            messageId:this.FirstId
+          })
+          if(res.data.length>0){
+            res.data.forEach((item)=>{
+              if(this.ChatData.findIndex(e=> e.MessageId === item.MessageId)>-1){
+                return
+              }else{
+                this.ChatData.push(item)
+              }
+            })
+
+            this.ChatData =  this.ChatData.sort(function (a, b) {
+              const key1 = a.CreateDate;
+              const key2 = b.CreateDate;
+
+              if (key1 < key2) {
+                return -1;
+              } else if (key1 === key2) {
+                return 0;
+              } else {
+                return 1;
+              }
+            });
+
+
+            await this.ReadMessage()
+            this.lastMessage = false
+
+          }else{
+            this.lastMessage = true
+          }
+          this.$nuxt.$loading.finish();
+          this.$nuxt.loading = false;
+        }else{
+          this.$nuxt.$loading.finish();
+          this.$nuxt.loading = false;
+        }
+
+      }catch (e){
+        console.log(e)
+        this.$nuxt.$loading.finish();
+        this.$nuxt.loading = false;
+      }finally {
+        this.$nextTick(()=>{
+          this.scrollToBottom()
+        })
+
+        // this.$router.push(this.$route.path)
+        this.isLoading = false
+        this.$nuxt.$loading.finish();
+        this.$nuxt.loading = false;
+      }
+
+    },
+    handleScroll: function ({target: { scrollTop, clientHeight, scrollHeight },})
+    {
+
+      if(scrollTop===0){
+        if(this.ChatData.length>0)
+          this.FirstId = this.ChatData[0].MessageId
+           this.GetConversationWithOutScroll()
+
+      }
+
+    },
+    GoBack(){
+      this.$emit('GoBack')
+    },
+    scrollToBottom(){
+      console.log(this.$refs.ChatContainer.scrollTop)
+      console.log(this.$refs.ChatContainer.clientHeight)
+      console.log(this.$refs.ChatContainer)
+      if(this.ChatData.length>0 && this.$refs.ChatContainer){
+
+        this.$refs.ChatContainer.scrollTop = this.$refs.ChatContainer.scrollHeight
+      }
+    },
+    async sendMessage(){
+      try {
+        const res = await this.$repositories.SendMessage.SendMessage({
+          messageId: 0,
+          subject: this.MessageBody.length > 20 ? this.MessageBody.substr(0, 20) : this.MessageBody,
+          messageBody: this.MessageBody,
+          recipientUserId: !this.$route.query.userId? this.ActiveUser.userId :this.$route.query.userId ,
+        })
+        this.MessageBody = ''
+        this.FirstId = 0
+        this.$router.push(this.$route.path)
+        // await this.GetConversation();
+      }catch (e) {
+        console.log(e)
+      }finally {
+        this.GetConversationWithOutScroll()
+        this.scrollToBottom()
+      }
+    },
+    async goToUserProfile(user){
+      try {
+        this.$router.push({path: `/user/${user.userName}/posts`});
+      }catch (e){
+        console.log(e)
+      }
+    },
+  }
+}
+</script>
+
+<style scoped>
+.ActiveChatClass{
+  background-color: #cbcbcb !important;
+  transition: .2s ease !important;
+  border-radius: 10px;
+}
+.profile_item:hover{
+  background-color: #f3f3f3 !important;
+  transition: .2s ease !important;
+  border-radius: 10px;
+}
+.BoxShadow {
+  box-shadow: 0 5px 20px rgb(0 0 0 / 12%);
+}
+
+.ChatContainer{
+  height: 600px;
+  max-height: 600px;
+  min-height: 600px;
+  overflow-y: scroll;
+  background: url("/chat-bg.jpg") no-repeat;
+  background-size: cover;
+  padding: 0!important;
+  position: relative;
+}
+
+.SendMessageContainer{
+  position: sticky;
+  bottom: 0;
+  box-shadow: 0 5px 20px rgb(0 0 0 / 12%);
+  width: 100%;
+  z-index: 9999999999999999999999999999!important;
+}
+
+</style>

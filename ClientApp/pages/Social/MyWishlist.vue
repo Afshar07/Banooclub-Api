@@ -23,9 +23,10 @@
         <div class="row boxMainContent mx-auto">
           <div class="col-12 text-center px-0">
             <div class="row">
-              <div class="d-flex flex-row ">
+              <div v-if="ServicesWishList.length>0" class="d-flex flex-row ">
                 <AllServicesTabContentWish :services="ServicesWishList" :categories="categories"/>
               </div>
+              <span v-else>شما خدمت مورد علاقه ندارید</span>
             </div>
 
           </div>
@@ -33,9 +34,11 @@
       </div>
       <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
         <div class="row">
-          <div class="d-flex flex-row flex-wrap">
+          <div v-if="AdsWishList.length>0" class="d-flex flex-row flex-wrap">
             <AllAdsTabContentWish :Ads="AdsWishList" :categories="categories"/>
+
           </div>
+          <span v-else>شما آگهی مورد علاقه ندارید</span>
         </div>
       </div>
     </div>
@@ -57,6 +60,7 @@ import AllServicesTabContentWish from "../../components/Products/AllServicesTabC
 import AllAdsTabContentWish from "../../components/Ads/AllAdsTabContentWish";
 
 export default {
+
   name: "index",
   layout: "PoshtebamPlusLayout",
   components:{
@@ -69,9 +73,16 @@ export default {
     ChevronRightIcon,
     ProductItem,
   },
-  head(){
-    return{
-      title: 'علاقه مندی ها'
+  head() {
+    return {
+      title: 'علاقه مندی ها',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: 'علاقه مندی ها',
+        },
+      ],
     }
   },
   data(){

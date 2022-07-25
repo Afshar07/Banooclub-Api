@@ -20,7 +20,15 @@ import createWishListRepository from "../api/wish_list";
 import createBirthdateRepository from "../api/birthdate_list";
 import CreateTagsRepository from "../api/Tags";
 import  CreateBlogRepository from '../api/Blog'
-
+import createPlanRepository from "../api/plan";
+import CreateChatrepository from "../api/Chat";
+import CreateOrderRepository from "../api/order";
+import CreatePaymentRepository from "../api/payment";
+import CreateStateRepository from  "../api/states";
+import CreateCityRepository from "../api/city";
+import CreateFollowerRepository from "../api/follower"
+import CreateFollowingRepository from "../api/following"
+import CreateGroupsRepository from "../api/Groups"
 
 export default (context, inject) => {
   const repositories = {
@@ -44,10 +52,11 @@ export default (context, inject) => {
     uploadVideo: createMediaRepository(context, "Users/UploadVideoGallery"),
     getAUserVideos: createMediaRepository(context, "Users/GetMyVideos"),
     getMyPhotos: createMediaRepository(context, "Users/GetMyPhotos"),
-    uploadToPhotoGallery: createMediaRepository(
-      context,
-      "Users/UploadPhotoGallery"
-    ),
+    uploadToPhotoGallery: createMediaRepository(context, "Users/UploadPhotoGallery"),
+    uploadMediaGallery: createMediaRepository(context, "Users/UploadMediaGallery"),
+    getUserMedias: createMediaRepository(context, "Users/GetMediaGalleryByUserId"),
+    getUserMediasByUserName:createMediaRepository(context,'Users/GetMediaGalleryByUserName'),
+    getUserServicesByUserName:createServicePackRepository(context,'ServicePack/GetUserServicesByUserName'),
 
     // Media repositories end
 
@@ -62,42 +71,28 @@ export default (context, inject) => {
     // Roommate repositories end
 
     // Post repositories start
-    getFollowingPosts: createPostRepository(context, "Post/GetAll"),
+    getFollowingPosts: createPostRepository(context, "Post/GetFollowingPosts"),
     getPostsByUserId: createPostRepository(context, "Post/GetByUserId"),
+    getPost: createPostRepository(context, "Post/Get"),
     getMyPosts: createPostRepository(context, "Post/GetMyPost"),
+    deleteAPost: createPostRepository(context, "Post/Delete"),
 
     // Birthdate repositories start
     getBirthdateList: createBirthdateRepository(context, "Account/BirthDateList"),
-
-
     // Post repositories end
+    // Plans repositories start
+    getAllPlans: createPlanRepository(context, "Plan/GetAll"),
+    // Plans repositories end
+
 
     // Social repositories start (Followers/Following, etc)
     getMyFollowers: createSocialRepository(context, "Follower/GetMyFollowers"),
-    getMyFollowings: createSocialRepository(
-      context,
-      "Following/GetMyFollowings"
-    ),
-    getMyFollowRequests: createSocialRepository(
-      context,
-      "FollowRequest/GetByUserId"
-    ),
-    followRequestRespond: createSocialRepository(
-      context,
-      "FollowRequest/QuestRespond"
-    ),
-    deleteASingleFollower: createSocialRepository(
-      context,
-      "Follower/DeleteByFollowerUserId"
-    ),
-    deleteASingleFollowing: createSocialRepository(
-      context,
-      "Following/DeleteByFollowingUserId"
-    ),
-    createAFollowRequest: createSocialRepository(
-      context,
-      "FollowRequest/Create"
-    ),
+    getMyFollowings: createSocialRepository(context, "Following/GetMyFollowings"),
+    getMyFollowRequests: createSocialRepository(context, "FollowRequest/GetByUserId"),
+    followRequestRespond: createSocialRepository(context, "FollowRequest/QuestRespond"),
+    deleteASingleFollower: createSocialRepository(context, "Follower/DeleteByFollowerUserId"),
+    deleteASingleFollowing: createSocialRepository(context, "Following/DeleteByFollowingUserId"),
+    createAFollowRequest: createSocialRepository(context, "FollowRequest/Create"),
 
     // Social repositories end
 
@@ -106,31 +101,44 @@ export default (context, inject) => {
     deliverMessage: createMessageRepository(context, "Message/DeliverMessage"),
     isMessageReaded: createMessageRepository(context, "Message/ReadMessage"),
     sendMessage: createMessageRepository(context, "Message/SendMessage"),
-    getConversation: createMessageRepository(
-      context,
-      "Message/GetConversation"
-    ),
+    getConversation: createMessageRepository(context, "Message/GetConversation"),
 
     // Message repositories end
 
     // User repositories start
-    getAllUsersForUser: createUserRepository(
-      context,
-      "Users/GetAllUserforUser"
-    ),
+    getAllUsersForUser: createUserRepository(context, "Users/GetAllUserforUser" ),
     getAUserById: createUserRepository(context, "Users/Get"),
     searchUserByName: createUserRepository(context, "Users/SearchByName"),
     getAllUsers: createUserRepository(context, "Users/GetAll"),
     updateUserDetails: createUserRepository(context, "Users/Update"),
     deleteMedia: createUserRepository(context, "Users/DeleteMedia"),
-
+    getMyMediaGallery:createMediaRepository(context,'Users/GetMyMediaGallery'),
+    GetUserByUserName:createUserRepository(context,'Common/GetUserIndexByUserName'),
+    getPostsByUserName:createPostRepository(context,'Post/GetByUserName'),
     // User repositories end
+
+
+    // User repositories start
+    createAOrder: CreateOrderRepository(context, "Order/Create"),
+    getAOrder: CreateOrderRepository(context, "Order/Get"),
+    OrderGetByUserId:CreateOrderRepository(context,'Order/GetByUserId'),
+    PayByWallet:CreatePaymentRepository(context,'Payment/PayByWallet'),
+
+
 
     // Common repositories start
     getUserIndex: createCommonRepository(context, "Common/GetUserIndex"),
     getUserByToken: createCommonRepository(context, "Common/GetIndexData"),
+    FollowerGetByUserId: CreateFollowerRepository(context, "Follower/GetByUserId"),
+    FollowingGetByUserId: CreateFollowingRepository(context, "Following/GetByUserId"),
 
     // Common repositories end
+    // Payment repositories start
+    createAPayment: CreatePaymentRepository(context, "Payment/Create"),
+    ChangePaymentStatus:CreatePaymentRepository(context,'Payment/ChangePaymentStatus'),
+    GetMyPayments:CreatePaymentRepository(context,'Payment/GetMyPayments'),
+    GetCredit:CreatePaymentRepository(context,'Wallet/GetCredit'),
+
 
     // Ads repository start
     getAllAdsCategory: createAdsRepository(context, "AdsCategory/GetAll"),
@@ -145,15 +153,13 @@ export default (context, inject) => {
     getAllPendingAds: createAdsRepository(context, "Ads/GetNotConfirmed"),
     GetAllAds:createAdsRepository(context,'Ads/GetAdsByFilter'),
     CreateLike:createForumPackRepository(context,'Like/Create'),
+
     // Ads repository end
 
     // Ticket repository start
     getAllTickets: createTicketRepository(context, "Ticket/GetAllForCustomer"),
     createATicket: createTicketRepository(context, "Ticket/CreateTicket"),
-    getAllTicketsByParentId: createTicketRepository(
-      context,
-      "Ticket/GetAllByParentId"
-    ),
+    getAllTicketsByParentId: createTicketRepository(context, "Ticket/GetAllByParentId"),
 
     // Ticket repository end
 
@@ -161,6 +167,8 @@ export default (context, inject) => {
     getMyServices:createServicePackRepository(context,"ServicePack/GetMyServices"),
     createAService: createServicePackRepository(context, "ServicePack/Create"),
     getAService: createServicePackRepository(context,"ServicePack/Get"),
+    GetwithView: createServicePackRepository(context,"ServicePack/GetwithView"),
+    getUserServices: createServicePackRepository(context,"ServicePack/GetUserServices"),
     updateAService: createServicePackRepository(context,"ServicePack/Update"),
     deleteAService: createServicePackRepository(context,"ServicePack/Delete"),
 
@@ -187,6 +195,8 @@ export default (context, inject) => {
     getAForum:createForumPackRepository(context,'Forum/Get'),
     DeleteForum:createForumPackRepository(context,'Forum/Delete'),
     UpdateForum:createForumPackRepository(context,'Forum/Update'),
+    ReportForum:createForumPackRepository(context,'Forum/ReportForum'),
+    GetTopCommenters:createForumPackRepository(context,'ForumComment/TopCommenters'),
     // Forum repository end
 
     // Tags Repository
@@ -200,7 +210,7 @@ export default (context, inject) => {
     GetWishlist:createWishListRepository(context,'WishList/GetByUserId'),
     // Wish list repository end
 
-
+    createCommentLike:createServiceCommentRepository(context,'CommentLike/Create'),
     createRate:createRateRepository(context,"Rating/Create"),
     getARate:createRateRepository(context,"Rating/Get"),
     // Forum Property repository end
@@ -210,8 +220,20 @@ export default (context, inject) => {
     // Service Tags repository end
 
     //Blog Repo
-    GetAllBlog:CreateBlogRepository(context,'Blog/GetAll')
+    GetAllBlog:CreateBlogRepository(context,'Blog/GetAll'),
+    GetBlog:CreateBlogRepository(context,'Blog/GetById'),
+    GetMostPopular:CreateBlogRepository(context,'Blog/GetMostPopular'),
+    CreateBlogComment:CreateBlogRepository(context,'BlogComment/CreateBlogComment'),
+    BlogCommentGetById:CreateBlogRepository(context,'BlogComment/GetAllByBlogId'),
+    CreateBlogLike:CreateBlogRepository(context,'Like/Create'),
 
+    GetMenu: CreateChatrepository(context,'Message/GetMenu'),
+    GetConversation:CreateChatrepository(context,'Message/GetConversation'),
+    DeliverMessage:CreateChatrepository(context,'Message/DeliverMessage'),
+    ReadMessage:CreateChatrepository(context,'Message/ReadMessage'),
+    SendMessage:CreateChatrepository(context,'Message/SendMessage'),
+    GetMyWishList:createUserRepository(context,'WishList/GetByWishList'),
+    GetAllGroups:CreateGroupsRepository(context,'MessageGroup/GetAll')
 
   };
   inject("repositories", repositories);

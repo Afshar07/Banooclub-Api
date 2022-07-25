@@ -1,37 +1,66 @@
 <template>
-  <div class="tw-flex-column">
-    <div class="tw-flex-column tw-relative">
-      <button
-        class="tw-absolute tw-bg-white tw-bottom-1/2 tw-flex tw-items-center tw-justify-center tw-p-2 tw--right-4 tw-rounded-full tw-shadow-md tw-text-xl tw-w-9 tw-z-10"
-        @click="$refs.product_carousel.next()">
-        <RightChevronIcon/>
-      </button>
-      <button
-        class="tw-absolute tw-bg-white tw-bottom-1/2 tw-flex tw-items-center tw-justify-center tw-p-2 tw--left-4 tw-rounded-full tw-shadow-md tw-text-xltw-w-9 tw-z-10"
-        @click="$refs.product_carousel.previous()">
-        <LeftChevronIcon/>
-      </button>
-      <vueper-slides
-        fixed-height="250px"
-        ref="product_carousel"
-        class="no-shadow"
-        :visible-slides="5"
-        slide-multiple
-        :rtl="true"
-        :gap="1"
-        :bullets="false"
-        :touchable="false"
-        :arrows="false"
-        :infinite="false"
-        :breakpoints="{ 426: { visibleSlides: 2,  slideMultiple: 2 } , 769: { visibleSlides: 3,  slideMultiple: 2,  gap:0 }}"
-      >
-        <vueper-slide v-for="service in services">
-          <template #content>
-            <ProductItem :service_details="service" :category_details="categories"/>
-          </template>
-        </vueper-slide>
-      </vueper-slides>
+  <div class="tw-flex-column px-2">
+    <div class="tw-flex-column">
+      <div class="tw-flex tw-justify-between tw-items-center tw-my-6">
+        <h2 class="tw-text-2xl tw-font-semibold">پیشنهادات</h2>
+        <nuxt-link :to="`/Products/Category/2`" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
+      </div>
+      <div class="tw-relative">
+        <button
+          class="tw-absolute tw-bg-white tw-bottom-1/2 tw-flex tw-items-center tw-justify-center tw-p-2 tw--right-4 tw-rounded-full tw-shadow-md tw-text-xl tw-w-9 tw-z-10"
+          @click="$refs.product_carousel.next()">
+          <RightChevronIcon/>
+        </button>
+        <button
+          class="tw-absolute tw-bg-white tw-bottom-1/2 tw-flex tw-items-center tw-justify-center tw-p-2 tw--left-4 tw-rounded-full tw-shadow-md tw-text-xltw-w-9 tw-z-10"
+          @click="$refs.product_carousel.previous()">
+          <LeftChevronIcon/>
+        </button>
+        <vueper-slides
+          v-if="suggestion.length>0"
+          fixed-height="270px"
+          ref="product_carousel"
+          class="no-shadow"
+          :visible-slides="5"
+          slide-multiple
+          :rtl="true"
+          :gap="1"
+          :bullets="false"
+          :touchable="false"
+          :arrows="false"
+          :infinite="false"
+          :breakpoints="{ 425:{visibleSlides: 1,  slideMultiple: 1}, 426: { visibleSlides: 2,  slideMultiple: 2 } , 769: { visibleSlides: 3,  slideMultiple: 2,  gap:0 }}"
+        >
+          <vueper-slide v-for="(item,idx) in suggestion" :key="idx">
+            <template #content>
+              <ProductItem :service_details="item" :show_buttons="false"/>
+            </template>
+          </vueper-slide>
+        </vueper-slides>
+        <vueper-slides
+          v-else-if="Services !== null && Services.length>0 && suggestion.length===0"
+          fixed-height="270px"
+          ref="product_carousel"
+          class="no-shadow"
+          :visible-slides="5"
+          slide-multiple
+          :rtl="true"
+          :gap="1"
+          :bullets="false"
+          :touchable="false"
+          :arrows="false"
+          :infinite="false"
+          :breakpoints="{ 425:{visibleSlides: 1,  slideMultiple: 1}, 426: { visibleSlides: 2,  slideMultiple: 2 } , 769: { visibleSlides: 3,  slideMultiple: 2,  gap:0 }}"
+        >
+          <vueper-slide v-for="(item,idx) in Services" :key="idx">
+            <template #content>
+              <ProductItem :service_details="item" :show_buttons="false"/>
+            </template>
+          </vueper-slide>
+        </vueper-slides>
+      </div>
     </div>
+
 
     <div class="tw-flex-column">
       <div class="tw-flex tw-justify-between tw-items-center tw-my-6">
@@ -41,7 +70,7 @@
             بر اساس دسته بندی ها محصول خود را پیدا کنید
           </p>
         </div>
-        <nuxt-link to="#" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
+        <nuxt-link :to="`/Products/Category`" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
       </div>
       <div class="tw-relative">
         <button
@@ -55,6 +84,7 @@
           <LeftChevronIcon/>
         </button>
         <vueper-slides
+          v-if="categories !== null && categories.length>0"
           fixed-height="170px"
           ref="category_carousel"
           class="no-shadow tw-relative"
@@ -68,7 +98,7 @@
           :infinite="false"
           :breakpoints="{ 426: { visibleSlides: 2,  slideMultiple: 2 } , 590: { visibleSlides: 3,  slideMultiple: 2,  gap:0 }}"
         >
-          <vueper-slide v-for="category in categories">
+          <vueper-slide v-for="(category,idx) in categories" :key="idx">
             <template #content>
               <CategoryItem :category_details="category"/>
             </template>
@@ -81,7 +111,7 @@
     <div class="tw-flex-column">
       <div class="tw-flex tw-justify-between tw-items-center tw-my-6">
         <h2 class="tw-text-2xl tw-font-semibold">جدیدترین ها</h2>
-        <nuxt-link to="#" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
+        <nuxt-link :to="`/Products/Category/4`" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
       </div>
       <div class="tw-relative">
         <button
@@ -95,6 +125,7 @@
           <LeftChevronIcon/>
         </button>
         <vueper-slides
+          v-if="newest.length>0"
           fixed-height="120px"
           ref="new_carousel"
           class="no-shadow"
@@ -106,11 +137,32 @@
           :touchable="false"
           :arrows="false"
           :infinite="true"
-          :breakpoints="{ 426: { visibleSlides: 1,  slideMultiple: 2 } , 769: { visibleSlides: 2,  slideMultiple: 2,  gap:0 }}"
+          :breakpoints="{ 425:{visibleSlides: 1,  slideMultiple: 1}, 426: { visibleSlides: 1,  slideMultiple: 2 } , 769: { visibleSlides: 2,  slideMultiple: 2,  gap:0 }}"
         >
-          <vueper-slide v-for="service in services">
+          <vueper-slide v-for="(item,idx) in newest" :key="idx">
             <template #content>
-              <NewItem :service_details="service" :category_details="categories"/>
+              <NewItem :service_details="item" :category_details="categories"/>
+            </template>
+          </vueper-slide>
+        </vueper-slides>
+        <vueper-slides
+          v-else-if="Services !== null && Services.length>0 && newest.length===0"
+          fixed-height="120px"
+          ref="new_carousel"
+          class="no-shadow"
+          :visible-slides="3"
+          :gap="1"
+          slide-multiple
+          :rtl="true"
+          :bullets="false"
+          :touchable="false"
+          :arrows="false"
+          :infinite="true"
+          :breakpoints="{ 425:{visibleSlides: 1,  slideMultiple: 1}, 426: { visibleSlides: 1,  slideMultiple: 2 } , 769: { visibleSlides: 2,  slideMultiple: 2,  gap:0 }}"
+        >
+          <vueper-slide v-for="(item,idx) in Services" :key="idx">
+            <template #content>
+              <NewItem :service_details="item" :category_details="categories"/>
             </template>
           </vueper-slide>
         </vueper-slides>
@@ -121,7 +173,7 @@
     <div class="tw-flex-column">
       <div class="tw-flex tw-justify-between tw-items-center tw-my-6 tw-border-b pb-2 my-4">
         <h2 class="tw-text-2xl tw-font-semibold">خدمات برتر</h2>
-        <nuxt-link to="#" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
+        <nuxt-link :to="`/Products/Category/5`" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
       </div>
       <div class="tw-flex-column tw-relative">
         <button
@@ -135,7 +187,8 @@
           <LeftChevronIcon/>
         </button>
         <vueper-slides
-          fixed-height="250px"
+          v-if="best"
+          fixed-height="270px"
           ref="brands_carousel"
           class="no-shadow"
           :visible-slides="5"
@@ -146,11 +199,32 @@
           :bullets="false"
           :arrows="false"
           :infinite="true"
-          :breakpoints="{ 426: { visibleSlides: 2,  slideMultiple: 2 } , 769: { visibleSlides: 3,  slideMultiple: 2,  gap:0 }}"
+          :breakpoints="{ 425:{visibleSlides: 1,  slideMultiple: 1}, 426: { visibleSlides: 2,  slideMultiple: 2 } , 769: { visibleSlides: 3,  slideMultiple: 2,  gap:0 }}"
         >
-          <vueper-slide v-for="service in services">
+          <vueper-slide v-for="(item,idx) in best" :key="idx">
             <template #content>
-              <ProductItem :service_details="service" :category_details="categories"/>
+              <ProductItem :service_details="item" :show_buttons="false"/>
+            </template>
+          </vueper-slide>
+        </vueper-slides>
+        <vueper-slides
+          v-else-if="Services !== null && Services.length>0 && best.length===0"
+          fixed-height="270px"
+          ref="brands_carousel"
+          class="no-shadow"
+          :visible-slides="5"
+          slide-multiple
+          :rtl="true"
+          :gap="1"
+          :touchable="false"
+          :bullets="false"
+          :arrows="false"
+          :infinite="true"
+          :breakpoints="{ 425:{visibleSlides: 1,  slideMultiple: 1}, 426: { visibleSlides: 2,  slideMultiple: 2 } , 769: { visibleSlides: 3,  slideMultiple: 2,  gap:0 }}"
+        >
+          <vueper-slide v-for="(item,idx) in Services" :key="idx">
+            <template #content>
+              <ProductItem :service_details="item" :show_buttons="false"/>
             </template>
           </vueper-slide>
         </vueper-slides>
@@ -183,12 +257,24 @@ export default {
     CategoryItem
   },
   props:{
-    services:{
-      type:Object,
+    Services:{
+      type:Array,
       required: true
     },
     categories:{
       type: Array,
+      required: true
+    },
+    best:{
+      type: Array,
+      required: true
+    },
+    newest:{
+      type: Array,
+      required: true
+    },
+    suggestion:{
+      type:Array,
       required: true
     }
   }

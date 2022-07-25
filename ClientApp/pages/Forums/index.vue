@@ -37,7 +37,7 @@
           <div class="tab-pane fade show active" id="forum-active-content" role="tabpanel" aria-labelledby="forum-active-tab">
             <div class="row boxMainContent mx-auto">
               <ul class="custom_card tw-divide-y tw-divide-gray-100 sm:tw-m-0 tw--mx-5">
-                <li v-for="Forum in AllForums">
+                <li v-for="Forum in AllForums.filter(e=> e.status===1)">
                   <ForumMainItem :forum_details="Forum" />
                 </li>
               </ul>

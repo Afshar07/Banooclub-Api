@@ -1,12 +1,8 @@
 export default (context, resources) => ({
-  async getAllUsersForUser(userId, search, count = 10) {
+  async getAllUsersForUser(params) {
     try {
       const response = await context.$axios.post(resources, null, {
-        params: {
-          userId,
-          search,
-          count,
-        },
+        params
       });
       return response;
     } catch (error) {
@@ -25,6 +21,16 @@ export default (context, resources) => ({
       console.log(error);
     }
   },
+  async GetUserByUserName(params) {
+    try {
+      const response = await context.$axios.post(resources, null, {
+        params
+      });
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  },
   async searchUserByName(name) {
     try {
       const response = await context.$axios.post(resources, null, {
@@ -37,13 +43,10 @@ export default (context, resources) => ({
       console.log(error);
     }
   },
-  async getAllUsers(pageNumber = 1, count = 10) {
+  async getAllUsers(params) {
     try {
       const response = await context.$axios.post(resources, null, {
-        params: {
-          pageNumber,
-          count,
-        },
+        params
       });
       return response;
     } catch (error) {
@@ -65,6 +68,14 @@ export default (context, resources) => ({
           mediaName,
         },
       });
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async GetMyWishList() {
+    try {
+      const response = await context.$axios.post(resources);
       return response;
     } catch (error) {
       console.log(error);

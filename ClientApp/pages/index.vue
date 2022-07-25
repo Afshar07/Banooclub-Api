@@ -85,7 +85,11 @@ export default {
   name: "Login",
   loading: false,
   auth: "guest",
-
+  head(){
+    return{
+      title:'ثبت نام'
+    }
+  },
   components: {RegisterModal, LoginBanner, LoginForm },
   data() {
     return {

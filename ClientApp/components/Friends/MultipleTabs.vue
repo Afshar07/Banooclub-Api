@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <div class="">
+    <div class="" v-if="in_my_profile">
       <div class="d-flex flex-row align-items-center titleTab small" :class="activeTabClass('friendReqs')"  @click="toggleTab('friendReqs')">
           پیشنهادات دوستی
         <div class=" follower_count d-flex align-items-center justify-content-center">
@@ -36,6 +36,11 @@ export default {
     };
   },
   props: {
+    in_my_profile:{
+      type:Boolean,
+      required: false,
+      default: 0,
+    },
     followerCount: {
       type: [Number, String],
       required: false,

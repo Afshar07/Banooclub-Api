@@ -53,7 +53,6 @@
                 </div>
                 <form>
                   <get-otp
-                    v-if="!isOtpSent"
                     @OtpSent="setOtpSentStatus"
                     @getMail="setMail"
                     @getNumber="setNumber"
@@ -62,10 +61,9 @@
                     @getCodeFields="getCodeField($event)"
                   ></get-otp>
                   <register-form
-                    v-if="isOtpSent"
+                    @returnToRegister="returnToRegister"
                     :counterNumber="local_counter"
                     :code_field="code_field"
-                    :set_reg_type="registerType"
                     @getUserRole="setUserType"
                     @getSignUpPayload="setSignUpPayload"
                     @close_register_modal="closeRegisterModal"
@@ -261,9 +259,12 @@ export default {
   },
   emits:['close_modal'],
   methods:{
+    returnToRegister(){
+      this.isOtpSent = false
+    },
     setCounter(counter){
       this.local_counter = counter
-      console.log('this.local_counter',this.local_counter)
+
 
     },
     getCodeField(code_field){

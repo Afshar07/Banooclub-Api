@@ -20,7 +20,7 @@
     </div>
     <div class="tw-flex tw-flex-col tw-items-center ">
       <img v-if=" forum_details.userInfo &&  forum_details.userInfo.selfieFileData===''" src="~/assets/images/products/product_image.jpg" alt="" class="tw-w-12 tw-h-12 tw-rounded-full">
-      <img v-else-if="forum_details.userInfo " :src="`https://banooclubapi.simagar.com/media/gallery/Profile/${forum_details.userInfo.selfieFileData}`" alt="" class="tw-w-12 tw-h-12 tw-rounded-full">
+      <img v-else-if="forum_details.userInfo " :src="`https://banooclubapi.simagar.com/media/gallery/profile/${forum_details.userInfo.selfieFileData}`" alt="" class="tw-w-12 tw-h-12 tw-rounded-full">
       <br>
 
       <div v-if="forum_details.userId === $auth.user.userInfo.userId && $route.path.toLowerCase() === '/forums/myforums/'" class="tw-flex tw-justify-center tw-items-center tw-gap-2">
@@ -41,7 +41,7 @@
           {{forum_details.title}}
         </h2>
       </nuxt-link>
-      <p class="tw-text-sm d-flex align-items-center tw-text-gray-400 tw-my-2">
+      <p v-if="$route.path!=='/Forums/MyForums/'" class="tw-text-sm d-flex align-items-center tw-text-gray-400 tw-my-2">
         پست شده توسط:
         <span v-if="forum_details.userInfo" data-href="%40tag-dev.html"> {{ forum_details.userInfo.userName }} </span>
 
@@ -56,6 +56,18 @@
 
       <p class="tw-leading-6 tw-line-clamp-2 tw-mt-3">
         {{forum_details.description}}
+      </p>
+      <p v-if=" $route.path!=='/Forums/' && forum_details.status ===4" class="tw-leading-6 tw-text-red-600 tw-line-clamp-2 tw-mt-3">
+        انجمن شما به دلیل وجود کلمات نا مناسب توسط ربات سایت گزارش داده شده و در دست بررسی میباشد.
+      </p>
+      <p v-if=" $route.path!=='/Forums/' && forum_details.status ===3" class="tw-leading-6 tw-text-red-600 tw-line-clamp-2 tw-mt-3">
+        انجمن شما به دلیل وجود کلمات نا مناسب توسط کاربران سایت گزارش داده شده و در دست بررسی میباشد.
+      </p>
+      <p v-if=" $route.path!=='/Forums/' && forum_details.status ===1" class="tw-leading-6 tw-text-green-500 tw-line-clamp-2 tw-mt-3">
+      انجمن شما فعال است
+      </p>
+      <p v-if=" $route.path!=='/Forums/' && forum_details.status ===2" class="tw-leading-6 tw-text-red-600 tw-line-clamp-2 tw-mt-3">
+        انجمن شما غیر فعال است
       </p>
     </div>
     <div class="sm:tw-flex tw-items-center">

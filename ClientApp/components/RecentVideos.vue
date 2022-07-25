@@ -5,7 +5,7 @@
         <span class="titleSection">اخرین ویدیوها</span>
       </div>
       <div class="row px-4">
-        <div class="col-3 px-0 my-2" v-for="(item,index) in 8" :key="item"
+        <div class="col-3 px-0 my-2" v-for="(item,index) in 8" :key="index"
              @click="$emit('subSideNavPictureVideo', 'video', index)">
           <img src="~/static/recent-8.jpg" alt="" class="img-fluid"/>
         </div>

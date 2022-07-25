@@ -1,173 +1,256 @@
 <template>
-  <div class="container mcontainer">
+  <div class="container mcontainer containerBox my-5">
+    <div
+      class="offcanvas offcanvas-start sidebar-bg"
+      tabindex="-1"
+      id="offcanvasExample"
+      aria-labelledby="offcanvasExample"
+      style="z-index: 9999999;"
+      @click.stop
+    >
+      <div class="offcanvas-header pb-0 pt-3" >
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">تیکت جدید</h5>
+        <button ref="closeTicketModal" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+      </div>
+
+      <div class="offcanvas-body d-flex flex-column">
+        <div uk-form-custom class="w-full">
+          <div class="row mx-auto">
+            <div class="col-12 my-3 p-0">
+              <input
+                v-model="TicketTitle"
+                type="text"
+                class="form-control with-border"
+                placeholder="عنوان تیکت"
+              />
+            </div>
+            <div class="col-12 my-3 p-0" @click.stop>
+              <select
+                id="categoryType"
+                v-model="TicketType"
+                class="form-select"
+                placeholder="Select Issue"
+                @click.stop
+              >
+                <option  @click.stop :value="0">دسته بندی تیکت</option>
+                <option  @click.stop :value="1">احراز هویت</option>
+                <option  @click.stop :value="2">پشتیبانی</option>
+                <option  @click.stop :value="3">سایر</option>
+              </select>
+            </div>
+            <div class="col-12 my-4 p-0">
+              <textarea
+                v-model="TicketDescription"
+                class="form-control"
+                placeholder="متن تیکت"
+              ></textarea>
+            </div>
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12  d-flex justify-content-start my-3 p-0">
+                  <button type="button" class="button tw-w-full mt-auto" @click="openFileUpload">
+                    آپلود عکس
+                  </button>
+                  <input
+                    ref="file"
+                    type="file"
+                    class="File d-none"
+                    @change="UploadFile"
+                  />
+                </div>
+                <div v-if="BaseImgUrl!==''" class="col-md-12 mb-3 tw-relative p-0">
+                  <i class="fas fa-trash tw-absolute tw-p-2 text-danger tw-cursor-pointer" @click="RemovePic"></i>
+                  <img :src="BaseImgUrl" style="object-fit: contain;width: 100px; height: 100px;" class="rounded border" alt="">
+                </div>
+              </div>
+            </div>
+<!--            <div class="col-md-12">-->
+<!--              <button class=" tw-bg-[#ef4444] hover:tw-bg-white hover:tw-text-[#ef4444] tw-border-solid border-1 tw-border-[#ef4444] tw-rounded w-100 tw-transition tw-text-white  tw-p-2" @click="CreateTicket">-->
+<!--                ثبت-->
+<!--              </button>-->
+<!--            </div>-->
+          </div>
+
+        </div>
+        <div class="loadmore">
+          <button type="button" class="button tw-w-full mt-auto" @click="CreateTicket">
+            ثبت
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div class="row">
       <div class="row mb-3 p-4 mx-auto col-12">
         <div class="col-12">
-          <div class="col-md-12 my-5 mt-2">
+          <div class="col-md-12 my-3 mt-2 d-flex flex-row justify-content-between align-items-center ">
             <h1 class="tw-text-2xl tw-font-semibold">تیکت ها</h1>
+            <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" class="btn AddReplyBtn text-white">
+              <PlusIcon fill="#2563eb" style="width: 30px; height: 30px;"/>
+            </button>
           </div>
-
-          <div class="col-12" style="overflow-y: scroll">
-<!--            <h2>لیست تیکت ها</h2>-->
-<!--            <hr />-->
-            <div
-              class="d-flex flex-column flex-md-row align-content-center gap-1 gap-md-3"
-            >
-              <table class="table">
+          <input
+            class="searchFriend mb-3"
+            type="text"
+            placeholder="جست‌وجو تیکت"
+            v-model="searchKey"
+          />
+          <div class="tw-overflow-x-auto">
+            <div class="tw-overflow-x-auto">
+              <table class="tw-table tw-w-full tw-table-zebra" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
+                <!-- head -->
                 <thead>
                 <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">نام</th>
-                  <th scope="col">موضوع</th>
-                  <th scope="col">تاریخ</th>
+                  <th>شناسه</th>
+                  <th>نام</th>
+                  <th>موضوع</th>
+                  <th>تاریخ</th>
+                  <th>وضعیت</th>
+                  <th>مشاهده</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr
-                  class="table-row"
-                  v-for="(item, index) in AllTickets"
-                  :key="item.ticketId"
-                  @click="ticketRouteGenerator(item)"
-                >
-                  <th scope="row">
-                    {{ index + 1 }}
-                  </th>
-                  <td>{{ item.title.substr(0, 7) }}</td>
-                  <td>
+                <!-- rows -->
+                <tr class="tw-hover" v-for="(item, index) in FilteredTickets" :key="index" style="cursor: default">
+                  <th class="fw-normal"> {{ item.ticketId }}</th>
+                  <th class="fw-normal">{{ item.title.substr(0, 7) }}</th>
+                  <th class="fw-normal">
                     <span v-if="item.type === 0">احراز هویت</span>
                     <span v-if="item.type === 1">پشتیبانی</span>
                     <span v-if="item.type === 2">سایر</span>
-                  </td>
-                  <td>
-                    {{ item.createDate | moment("jYYYY/jM/jD HH:mm") }}
-                  </td>
+                  </th>
+                  <th class="fw-normal"> {{ item.createDate | moment("jYYYY/jM/jD HH:mm") }}</th>
+                  <th class="fw-normal">
+                    <div class="tw-bg-red-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-if="item.isClosed == false && item.isRead == false">
+                      <span class="text-white tw-text-xs">منتظر پاسخ</span>
+                    </div>
+                    <div class="tw-bg-green-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="item.isClosed == false && item.isRead == true">
+                      <span class="text-white tw-text-xs">پاسخ داده شده</span>
+                    </div>
+                    <div class="tw-bg-gray-400 tw-rounded d-inline-flex justify-content-center align-items-center p-1" style="border: 1px solid black" v-else-if="item.isClosed == true">
+                      <span class="tw-text-xs" style="color:#36454F;">بسته شده</span>
+                    </div>
+                  </th>
+                  <th class="fw-normal">
+                    <svg @click="ticketRouteGenerator(item)" style="cursor: pointer" xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="none" viewBox="0 0 24 24" stroke="green" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  </th>
                 </tr>
                 </tbody>
               </table>
+              <CustomPagination v-if="totalPages.length>1 && searchKey === ''" :pages="totalPages" @PageChanged="changePage($event)"/>
+
             </div>
           </div>
-          <div class="col-md-12">
-            <!--- Main  Ticket Tab --->
-            <div
-              id="v-pills-home"
-              class="tab-pane fade show active"
-              role="tabpanel"
-              aria-labelledby="v-pills-home-tab"
-            >
-              <div
-                v-for="item in SingleTicket"
-                :key="item.ticketId"
-                class="card SingleTicketCard Stu my-5"
-              >
-                <div class="row g-0">
-                  <div class="col-12 col-sm-10">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-12 d-flex justify-content-between">
-                          <div>
-                            <strong class="card-text">
-                              <span
-                                v-if="item.userType === 1"
-                                class="badge pill bg-success mb-2"
-                                style="line-height: 1.5rem"
-                              >من</span
-                              >
-                              <span
-                                v-else
-                                class="badge pill bg-primary mb-2"
-                                style="line-height: 1.5rem"
-                              >اپراتور</span
-                              >
-                            </strong>
-                            <p
-                              class="card-text gap-2 d-flex align-items-center"
-                            >
-                              <small>
-                                <i class="fas text-muted fa-clock"></i
-                                ></small>
-                              <small class="text-muted">{{
-                                  item.createDate | moment("jYYYY/jM/jD HH:mm")
-                                }}</small>
-                            </p>
-                          </div>
-                        </div>
-                        <div
-                          class="col-md-6 d-flex justify-content-end my-3"
-                        ></div>
-                      </div>
 
-                      <p class="card-text text-secondary">
-                        {{ item.content }}
-                      </p>
-                      <img
-                        v-if="item.fileData"
-                        :src="BaseUrl + item.fileData"
-                        class="img-fluid rounded-start"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div></div>
-              </div>
 
-              <!--- Create Ticket --->
-              <div class="row mx-auto mt-4">
-                <h2>تیکت جدید</h2>
-                <hr />
-                <div class="col-6 my-3">
-                  <input
-                    v-model="TicketTitle"
-                    type="text"
-                    class="form-control"
-                    placeholder="عنوان تیکت"
-                  />
-                </div>
-                <div class="col-6 my-3">
-                  <select
-                    id="categoryType"
-                    v-model="TicketType"
-                    class="form-control"
-                    placeholder="Select Issue"
-                  >
-                    <option :value="1">احراز هویت</option>
-                    <option :value="2" selected>پشتیبانی</option>
-                    <option :value="3">سایر</option>
-                  </select>
-                </div>
-                <div class="col-12 my-4">
-                  <textarea
-                    v-model="TicketDescription"
-                    class="form-control"
-                    placeholder="متن تیکت"
-                  ></textarea>
-                </div>
-                <div class="col-md-12">
-                  <div class="row">
-                    <div class="col-md-2  d-flex justify-content-start my-3">
-                      <button class="tw-h-10 tw-bg-[#ef4444] hover:tw-bg-white hover:tw-text-[#ef4444] tw-border-solid border-1 tw-border-[#ef4444] tw-rounded w-100 tw-transition tw-text-white  tw-p-2" @click="openFileUpload">
-                        آپلود عکس
-                      </button>
-                      <input
-                        ref="file"
-                        type="file"
-                        class="File d-none"
-                        @change="UploadFile"
-                      />
-                    </div>
-                    <div v-if="BaseImgUrl!==''" class="col-md-2 my-4 tw-relative">
-                      <i class="fas fa-trash tw-absolute tw-p-2 text-danger tw-cursor-pointer" @click="RemovePic"></i>
-                      <img :src="BaseImgUrl" width="100px" height="100px" class="rounded border" alt="">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <button class=" tw-bg-[#ef4444] hover:tw-bg-white hover:tw-text-[#ef4444] tw-border-solid border-1 tw-border-[#ef4444] tw-rounded w-100 tw-transition tw-text-white  tw-p-2" @click="CreateTicket">
-                    ثبت
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+<!--          <div class="col-12" style="overflow-y: scroll">-->
+<!--&lt;!&ndash;            <h2>لیست تیکت ها</h2>&ndash;&gt;-->
+<!--&lt;!&ndash;            <hr />&ndash;&gt;-->
+<!--            <div-->
+<!--              class="d-flex flex-column flex-md-row align-content-center gap-1 gap-md-3"-->
+<!--            >-->
+<!--              <table class="table">-->
+<!--                <thead>-->
+<!--                <tr>-->
+<!--                  <th scope="col">#</th>-->
+<!--                  <th scope="col">نام</th>-->
+<!--                  <th scope="col">موضوع</th>-->
+<!--                  <th scope="col">تاریخ</th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                <tr-->
+<!--                  class="table-row"-->
+<!--                  v-for="(item, index) in AllTickets"-->
+<!--                  :key="item.index"-->
+<!--                  @click="ticketRouteGenerator(item)"-->
+<!--                >-->
+<!--                  <th scope="row">-->
+<!--                    {{ index + 1 }}-->
+<!--                  </th>-->
+<!--                  <td>{{ item.title.substr(0, 7) }}</td>-->
+<!--                  <td>-->
+<!--                    <span v-if="item.type === 0">احراز هویت</span>-->
+<!--                    <span v-if="item.type === 1">پشتیبانی</span>-->
+<!--                    <span v-if="item.type === 2">سایر</span>-->
+<!--                  </td>-->
+<!--                  <td>-->
+<!--                    {{ item.createDate | moment("jYYYY/jM/jD HH:mm") }}-->
+<!--                  </td>-->
+<!--                </tr>-->
+<!--                </tbody>-->
+<!--              </table>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-md-12">-->
+<!--            &lt;!&ndash;- Main  Ticket Tab -&ndash;&gt;-->
+<!--            <div-->
+<!--              id="v-pills-home"-->
+<!--              class="tab-pane fade show active"-->
+<!--              role="tabpanel"-->
+<!--              aria-labelledby="v-pills-home-tab"-->
+<!--            >-->
+<!--              <div-->
+<!--                v-for="item in SingleTicket"-->
+<!--                :key="item.ticketId"-->
+<!--                class="card SingleTicketCard Stu my-5"-->
+<!--              >-->
+<!--                <div class="row g-0">-->
+<!--                  <div class="col-12 col-sm-10">-->
+<!--                    <div class="card-body">-->
+<!--                      <div class="row">-->
+<!--                        <div class="col-12 d-flex justify-content-between">-->
+<!--                          <div>-->
+<!--                            <strong class="card-text">-->
+<!--                              <span-->
+<!--                                v-if="item.userType === 1"-->
+<!--                                class="badge pill bg-success mb-2"-->
+<!--                                style="line-height: 1.5rem"-->
+<!--                              >من</span-->
+<!--                              >-->
+<!--                              <span-->
+<!--                                v-else-->
+<!--                                class="badge pill bg-primary mb-2"-->
+<!--                                style="line-height: 1.5rem"-->
+<!--                              >اپراتور</span-->
+<!--                              >-->
+<!--                            </strong>-->
+<!--                            <p-->
+<!--                              class="card-text gap-2 d-flex align-items-center"-->
+<!--                            >-->
+<!--                              <small>-->
+<!--                                <i class="fas text-muted fa-clock"></i-->
+<!--                                ></small>-->
+<!--                              <small class="text-muted">{{-->
+<!--                                  item.createDate | moment("jYYYY/jM/jD HH:mm")-->
+<!--                                }}</small>-->
+<!--                            </p>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                        <div-->
+<!--                          class="col-md-6 d-flex justify-content-end my-3"-->
+<!--                        ></div>-->
+<!--                      </div>-->
+
+<!--                      <p class="card-text text-secondary">-->
+<!--                        {{ item.content }}-->
+<!--                      </p>-->
+<!--                      <img-->
+<!--                        v-if="item.fileData"-->
+<!--                        :src="BaseUrl + item.fileData"-->
+<!--                        class="img-fluid rounded-start"-->
+<!--                      />-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div></div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
       </div>
     </div>
@@ -175,24 +258,31 @@
 </template>
 
 <script>
+import PlusIcon from "../../../../components/Icons/PlusIcon"
+import CustomPagination from  "../../../../components/utilities/CustomPagination"
+
 export default {
   layout: "PoshtebamPlusLayout",
   name: "tickets",
-
-  fetchOnServer() {
-    return true;
+  components:{
+    PlusIcon,
+    CustomPagination
   },
-  async fetch() {
-    try {
-      const response = await this.$repositories.getAllTickets.getAllTickets();
-      this.AllTickets = response.data.tickets;
-    } catch (error) {
-      console.log(error);
+  head() {
+    return {
+      title: 'تیکت ها',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: 'تیکت ها',
+        },
+      ],
     }
   },
-
   data() {
     return {
+      searchKey:'',
       SelectedTicketId: 0,
       SingleTicket: [],
       AllTickets: "",
@@ -202,15 +292,54 @@ export default {
       image: "",
       BaseImgUrl: "",
       Uploaded: false,
+      pageNumber:1,
+      totalPages:[]
     };
   },
+
+
+  fetchOnServer() {
+    return true;
+  },
+  async fetch() {
+    try {
+      const response = await this.$repositories.getAllTickets.getAllTickets({
+        pageNumber:this.pageNumber,
+        count:10,
+      });
+      this.totalPages = []
+      const result = Math.ceil(response.data.ticketsCount / 10)
+      for (let i = 1; i <= result; i++) {
+        this.totalPages.push(i);
+      }
+      this.AllTickets = response.data.tickets;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+
   computed: {
     BaseUrl() {
       return process.env.pic;
     },
+    FilteredTickets(){
+      const data = this.AllTickets
+      if(this.searchKey===''){
+        return data
+      } else{
+        return data.filter((element)=>{
+          return element.title.match(this.searchKey) || element.ticketId === parseInt(this.searchKey)
+        })
+      }
+    }
   },
 
   methods: {
+    changePage(id){
+      this.pageNumber = id
+      this.$fetch()
+    },
     openFileUpload() {
       this.$refs.file.click();
     },
@@ -272,7 +401,11 @@ export default {
           this.$fetch();
           this.TicketDescription = "";
           this.TicketTitle = "";
-          this.TicketType = 0
+          this.TicketType = 0;
+          this.BaseImgUrl =''
+
+          this.$refs.closeTicketModal.click();
+
         } catch (error) {
           console.log(error);
         } finally {
@@ -303,7 +436,17 @@ export default {
     margin-right: auto;
   }
 }
-
+.searchFriend {
+  border: 1px solid #eaeaea;
+  color: #575757;
+  font-size: 14px;
+  padding: 5px 10px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.form-select {
+  color: #6c757d;
+}
 .table-row {
   cursor: pointer;
 }

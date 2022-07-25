@@ -17,6 +17,9 @@ html {
   scroll-behavior: smooth !important;
 }
 
+input[type="checkbox"]{
+  min-height: 1rem!important;
+}
 body {
   font-variant-numeric: inherit;
   font-family: iranSans !important;

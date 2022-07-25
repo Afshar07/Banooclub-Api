@@ -1,9 +1,9 @@
 <template>
-  <div class="container mcontainer tw-overflow-x-hidden" v-if="!$fetchState.pending">
+  <div class=" mcontainer tw-overflow-x-hidden " v-if="!$fetchState.pending">
 
     <div class="row">
       <div class="col-md-12 col-lg-8 add_post px-0 custom_padding_for_posts">
-        <ProductDetail :service_details="ServiceDetails"/>
+        <PDetails @updateServiceDetails="updateServiceDetails" :service_details="ServiceDetails"/>
       </div>
       <div class=" col-lg-4">
         <SideBar class="tw-mt-5" @SideNavPictureVideo="SideNavPictureVideoToggle($event)"/>
@@ -15,26 +15,40 @@
 
 <script>
 import SideBar from "../../layouts/SideBar";
-import ProductDetail from "../../components/Products/PDetails";
+import PDetails from "../../components/Products/PDetails";
 import BaseModal from "../../components/utilities/BaseModal";
 
 export default {
-  name: "_id",
+  name: "PDetail",
   layout: "PoshtebamPlusLayout",
   components:{
-    ProductDetail,
+    PDetails,
     SideBar,
     BaseModal,
   },
   head(){
     return{
-      title: 'بانو کلاب - ' + this.headTitle
+      title: 'بانو کلاب - ' + this.headTitle,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.serviceDescription,
+        }
+      ]
     }
   },
   computed:{
     headTitle(){
       if (this.ServiceDetails && this.ServiceDetails.title){
         return this.ServiceDetails.title
+      }else {
+        return  ''
+      }
+    },
+    serviceDescription(){
+      if (this.ServiceDetails && this.ServiceDetails.description){
+        return this.ServiceDetails.description
       }else {
         return  ''
       }
@@ -62,6 +76,9 @@ export default {
     }
   },
   methods:{
+    updateServiceDetails(){
+      this.$fetch()
+    },
     SideNavPictureVideoToggle(data) {
       this.displaySideNav = false;
       this.displayRightSideNav = false;

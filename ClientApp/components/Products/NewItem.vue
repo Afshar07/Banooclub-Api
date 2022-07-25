@@ -2,7 +2,10 @@
   <div class="card d-flex flex-row p-2">
     <div class="tw-w-20 tw-h-24 tw-overflow-hidden tw-rounded-lg">
       <div class="card-media tw-h-24">
-        <img :src="`https://banooclubapi.simagar.com/media/gallery/Profile/${service_details.userInfo.selfieFileData}`" :alt="service_details.title">
+        <nuxt-link :to="`/Products/${service_details.servicePackId}`">
+          <img :src="`https://banooclubapi.simagar.com/media/gallery/Service/${headerImage}`" :alt="service_details.title"/>
+        </nuxt-link>
+<!--        <img :src="`https://banooclubapi.simagar.com/media/gallery/Profile/${service_details.userInfo.selfieFileData}`" :alt="service_details.title">-->
       </div>
     </div>
     <div class="d-flex flex-column tw-w-full mx-3">
@@ -14,11 +17,9 @@
         </div>
       </div>
       <nuxt-link :to="`/Products/${service_details.servicePackId}`" class="text-decoration-none">
-        <h2 class="tw-text-lg tw-font-medium tw-mt-1 tw-t tw-truncate tw-text-slate-500 product_name tw-text-right my-2">{{service_details.title}}</h2>
+        <h2 class="tw-text-lg tw-font-medium tw-mt-1 tw-t tw-truncate tw-text-slate-500 product_name tw-text-right">{{service_details.title}}</h2>
       </nuxt-link>
       <div class="tw-flex tw-items-center tw-text-sm tw-text-gray-400 tw-capitalize">
-        <div> 15 لایک </div>
-        <div class="mr-2">·</div>
         <div> {{ service_details.viewsCount }} بازدید </div>
       </div>
 
@@ -34,28 +35,33 @@ export default {
   name: "NewItem",
   props:{
     service_details: {
-      type: Array,
+      type: Object,
       required: true
     }
   },
   data(){
     return{
-      service_category:[]
+      headerImage:'',
+      service_category:[],
     }
   },
-  mounted() {
-    this.getServiceCategory()
-    console.log('this.service_details',this.service_details)
+  mounted(){
+    this.filterHeaderImage(1)
   },
   methods:{
-    async getServiceCategory(){
-      const serviceCategoryId = this.service_details.serviceCategoryId;
-      const category =  await this.$repositories.getAServiceCategory.getAServiceCategory({
-        serviceCategoryId
-      })
-      console.log(category)
+    filterHeaderImage(priority){
+      if(this.service_details && this.service_details.medias){
+        this.service_details.medias.filter(item=>{
+          if(item.priority == priority){
+            this.headerImage = item.base64
+          }
+        })
+      }
+
     }
+
   }
+
 
 }
 </script>

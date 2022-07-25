@@ -130,7 +130,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$auth.loggedIn);
+
   },
   emits:['open_register_modal','close_register_modal'],
   methods: {

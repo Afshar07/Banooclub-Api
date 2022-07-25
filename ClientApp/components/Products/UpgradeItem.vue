@@ -1,8 +1,11 @@
 <template>
-  <div class="custom_card d-flex justify-content-between align-items-center p-5" @click="toggleCheckbox">
-    <div>نردبان</div>
-    <div>30000 تومان</div>
-    <input style="width: 50px;height: 15px;" type="checkbox" :checked="checked">
+  <div class="custom_card d-flex justify-content-between align-items-center p-4" @click="toggleCheckbox">
+    <div>{{ upgradeItem.title }}</div>
+    <div>
+      {{Intl.NumberFormat('fa-IR').format(upgradeItem.price)}}
+      تومان
+    </div>
+    <input  style="width: 50px;height: 15px;" type="checkbox" :checked="checked">
   </div>
 
 </template>
@@ -13,6 +16,23 @@ export default {
   data(){
     return{
       checked:false
+    }
+  },
+  watch:{
+    checked(val){
+      if(val){
+        this.$emit('addOrder',this.upgradeItem)
+      }
+      else{
+        this.$emit('deleteOrder',(this.upgradeItem))
+      }
+
+    }
+  },
+  props:{
+    upgradeItem:{
+      type: Object,
+      required: true
     }
   },
   methods:{

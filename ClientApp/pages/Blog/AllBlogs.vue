@@ -42,8 +42,9 @@
                             <i class="fas fa-comments tw-text-stone-400"></i>
                           </div>
                           <div class="tw-flex tw-items-center tw-gap-1">
-                            <small class=" tw-text-stone-400">{{ item.vote }}</small>
-                            <i class="far fa-heart tw-text-stone-400"></i>
+                            <small class=" tw-text-stone-400">{{ item.likeCount }}</small>
+                            <i v-if="!item.isFavourite"  class="far fa-heart tw-text-stone-400"></i>
+                            <i v-else  class="fas fa-heart tw-text-red-600"></i>
                           </div>
 
                         </div>

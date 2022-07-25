@@ -13,38 +13,27 @@
       :decrease_width="decrease_width"
     />
     <TheSideNav :show="displaySideNav" @close="displaySideNav = false" />
-    <TheRightSideNav
-      :show="displayRightSideNav"
-      @close="displayRightSideNav = false"
-    />
+
     <SideNavPictureVideo
       :show="displaySideNavPictureVideo"
       :type-data="dataType"
       @close="displaySideNavPictureVideo = false"
     />
     <div
-      class="row gaping position-relative col-12 mx-auto tw-overflow-x-hidden"
+      class="row gaping position-relative col-12 mx-auto tw-overflow-x-hidden bg-white px-0"
       @click="closingHeader = true"
     >
 
-      <div :class="[change_cols_width ? 'col-xl-1' : 'col-xl-2']" class="col-12 row mx-auto m-0 p-0">
-<!--        <LeftSideBar @SideNavPictureVideo="SideNavPictureVideoToggle" />-->
+      <div  class=" col-xl-3  m-0 p-0">
+
       </div>
-      <div :class="[change_cols_width ? 'col-xl-11' : 'col-xl-10']" class=" row mx-auto mx-md-0 custom-padding">
+      <div  class="col-xl-9 m-0 p-0">
         <Nuxt
           @GetFullName="SetFullName($event)"
           @SideNavPictureVideo="SideNavPictureVideoToggle($event)"
         />
       </div>
-<!--      <div class="col-md-12 col-12 row mx-auto mx-md-0 custom-padding">-->
-<!--        <Nuxt-->
-<!--          @GetFullName="SetFullName($event)"-->
-<!--          @SideNavPictureVideo="SideNavPictureVideoToggle($event)"-->
-<!--        />-->
-<!--      </div>-->
-<!--      <div class="col-md-3 col-12 row mx-auto m-0 p-0">-->
-<!--        <SideBar @SideNavPictureVideo="SideNavPictureVideoToggle($event)" />-->
-<!--      </div>-->
+
       <div
         class="scrollTopButton"
         v-if="showScrollTopIcon"
@@ -61,10 +50,9 @@
 <script>
 import Header from "./Header";
 import Footer from "./Footer";
-import SideBar from "./SideBar";
 import TheSideNav from "./TheSideNav";
-import TheRightSideNav from "./TheRightSideMobile";
-import LeftSideBar from "./LeftSideBar";
+
+
 import SideNavPictureVideo from "../components/SideNavPictureVideo";
 
 export default {
@@ -72,12 +60,9 @@ export default {
 
   components: {
     SideNavPictureVideo,
-    TheRightSideNav,
     TheSideNav,
-    SideBar,
     Footer,
     Header,
-    LeftSideBar,
   },
   data() {
     return {

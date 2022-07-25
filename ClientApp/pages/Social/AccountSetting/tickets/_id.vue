@@ -1,11 +1,11 @@
 <template>
   <div class="container mcontainer bg-white mb-4" v-if="ticketData">
-    <h1 class="p-4  h3">موضوع تیکت: {{ ticketData[0].content }}</h1>
+    <h1 class="p-1 h3">موضوع تیکت: {{ ticketData[0].content }}</h1>
     <div class="col-12">
       <div
-        v-for="item in ticketData"
-        :key="item.ticketId"
-        class="card w-75 my-5 parent"
+        v-for="(item,idx) in ticketData"
+        :key="idx"
+        class="card w-75 my-3 parent"
         :class="
           item.userType == 1
             ? 'justify-content-start ms-auto text-end my-ticket'
@@ -79,7 +79,7 @@
             placeholder="متن تیکت"
           ></textarea>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 mt-3 mt-md-0">
           <button class="tw-bg-[#2A41E8] hover:tw-bg-white hover:tw-text-[#2A41E8] tw-border-solid border-1 tw-border-[#2A41E8] tw-rounded w-100 tw-transition tw-text-white  tw-p-2" @click="SubmitReply">
             ارسال
           </button>
@@ -112,6 +112,30 @@
 <script>
 export default {
   layout: "PoshtebamPlusLayout",
+  head() {
+    return {
+      title: 'تیکت ها',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: 'تیکت ها',
+        },
+      ],
+    }
+  },
+
+  // computed:{
+  //   headTitle(){
+  //     if (this.ticketData && this.ticketData[0] && this.ticketData[0].content){
+  //       return this.ticketData[0].content
+  //     }else {
+  //       return  ''
+  //     }
+  //   },
+  // },
+
+
   fetchOnServer() {
     return true;
   },
@@ -122,6 +146,8 @@ export default {
           this.$route.params.id
         );
       this.ticketData = response.data;
+      console.log(this.ticketData[0].content)
+      console.log('this.ticketData',this.ticketData)
     } catch (error) {
       console.log(error);
     }
@@ -152,7 +178,7 @@ export default {
           parentId: this.$route.params.id,
           content: this.ticketDescription,
           type: 0,
-          title: this.ticketTitle,
+          title: this.ticketData[0].title,
           createDate:new Date(Date.now()),
           fileData: this.image,
         });
@@ -194,6 +220,22 @@ export default {
 };
 </script>
 <style scoped>
+@media (min-width: 1024px) {
+  .mcontainer {
+    max-width: 1000px;
+    padding: 30px 0px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+@media (max-width: 1024px) {
+  .mcontainer {
+    max-width: 1000px;
+    padding: 25px 0px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 .main-container {
   border-radius: 5px;
 }
