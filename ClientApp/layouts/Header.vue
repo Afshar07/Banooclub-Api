@@ -76,7 +76,7 @@
             </nuxt-link>
           </div>
           <div :class="[decrease_width ? '' : ' ']" class="py-1">
-            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
               <AdsIcon class="svg_icons_size"/>
               <span class="header_font_sidebar_size">آگهی ها </span>
               <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
@@ -133,7 +133,7 @@
           </div>
           <div :class="[decrease_width ? '' : '']" class="py-1">
 
-            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
               <ProductsIcon class="svg_icons_size tw-text-red-500"/>
               <span v-if="!decrease_width" class="header_font_sidebar_size">خدمات </span>
               <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
@@ -244,7 +244,7 @@
           </div>
           <div :class="[decrease_width ? '' : ' ']" class=" py-1">
 
-            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
               <BedIcon class="svg_icons_size"/>
               <span v-if="!decrease_width" class="header_font_sidebar_size">هم خانه</span>
               <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
@@ -373,7 +373,7 @@
               </nuxt-link>
             </div>
             <div :class="[decrease_width ? '' : ' ']" class="py-1">
-              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <AdsIcon class="svg_icons_size"/>
                 <span class="header_font_sidebar_size">آگهی ها </span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
@@ -430,7 +430,7 @@
             </div>
             <div :class="[decrease_width ? '' : '']" class="py-1">
 
-              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <ProductsIcon class="svg_icons_size tw-text-red-500"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">خدمات </span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
@@ -495,7 +495,7 @@
               </nuxt-link>
             </div>
             <div :class="[decrease_width ? '' : '']" class="py-1">
-              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <ForumIcon class="svg_icons_size"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">انجمن ها </span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
@@ -540,7 +540,7 @@
               </div>
             </div>
             <div :class="[decrease_width ? '' : ' ']" class=" py-1">
-              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <BedIcon class="svg_icons_size"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">هم خانه</span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
