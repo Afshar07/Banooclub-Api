@@ -3,7 +3,7 @@ import { ToastPlugin, ModalPlugin } from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
 import Helper from "@/libs/Helper";
-import vueSignalR from "@/libs/vue-signalR";
+// import vueSignalR from "@/libs/vue-signalR";
 import titleMixin from './mixins/titleMixin'
 Vue.mixin(titleMixin)
 

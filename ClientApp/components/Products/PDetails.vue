@@ -234,6 +234,13 @@
         <a :href="service_details.webAddress" target="_blank" class="tw-text-gray-600">
           {{service_details.webAddress}}
         </a>
+        <div class="tw-flex tw-items-center tw-gap-2">
+          <h2 class="tw-text-base tw-font-bold tw-text-gray-600 tw-pt-2 mb-1">ظرفیت باقی مانده :</h2>
+          <span   class="tw-text-gray-600">
+          {{service_details.maintain}}
+        </span>
+
+        </div>
 
         <h2 v-if="service_details.mobile || service_details.phoneNumber1 || service_details.phone_number2" class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2">اطلاعات تماس</h2>
         <div class="d-flex justify-content-between align-items-center row mt-1">
@@ -269,9 +276,9 @@
           <button class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
             چت
           </button>
-<!--          <button class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">-->
-<!--            افزودن به سبد خرید-->
-<!--          </button>-->
+          <button class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
+            افزودن به سبد خرید
+          </button>
         </div>
         <div>
           <client-only>

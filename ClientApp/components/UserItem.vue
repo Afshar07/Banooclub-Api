@@ -26,8 +26,8 @@
     <div class="d-flex mt-4 mt-md-0 justify-content-center align-items-center mx-2">
       <div class="d-flex flex-column flex-md-row  align-items-center tw-ml-3" >
         <div class="d-flex">
-          <FollowerIcon style="fill: #0d6efd;width: 24px;height: 24px;" />
           <div class="px-2">{{userDetails.FollowersCount}}</div>
+          <FollowerIcon style="fill: #0d6efd;width: 24px;height: 24px;" />
         </div>
        <div class="d-flex">
          <div class="px-2">{{userDetails.FollowingsCount}}</div>

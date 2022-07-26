@@ -58,7 +58,7 @@
             </b-form-group>
             <div class="position-relative" v-if="SelectedCategory.fileData!==''">
 
-              <img v-if="BaseImgUrl===''" :src="`https://banooclubapi.simagar.com/media/gallery/serviceCategory/${SelectedCategory.fileData}`" width="100px" height="100px" alt="">
+              <img v-if="BaseImgUrl===''" :src="`https://pplusapi.simagar.com/media/gallery/serviceCategory/${SelectedCategory.fileData}`" width="100px" height="100px" alt="">
               <img v-else :src="BaseImgUrl" width="100px" height="100px" alt="">
             </div>
 
@@ -180,7 +180,7 @@
           </template>
           <template #cell(fileData)="data">
 
-            <img :src="`https://banooclubapi.simagar.com/media/gallery/serviceCategory/${data.item.fileData}`" width="50px" height="50px" alt="">
+            <img :src="`https://pplusapi.simagar.com/media/gallery/serviceCategory/${data.item.fileData}`" width="50px" height="50px" alt="">
 
           </template>
 

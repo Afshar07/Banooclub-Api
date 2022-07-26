@@ -2,7 +2,7 @@
   <transition name="modal">
     <div v-if="is_modal_open" class="tw-modal tw-modal-open tw-bg-transparent" @click="closeRegisterModal">
       <div class="tw-container tw-mx-auto tw-w-11/12 tw-z-[99999]">
-        <div class=" tw-bg-white tw-modal-box tw-max-w-max tw-p-0 tw-w-full tw-mx-auto tw-rounded-xl tw-shadow-2xl tw-p-0" @click.stop>
+        <div style="overflow-x: hidden!important;" class=" tw-bg-white tw-modal-box tw-max-w-max tw-p-0 tw-w-full tw-mx-auto tw-rounded-xl tw-shadow-2xl tw-p-0" @click.stop>
           <div class="modal_header tw-flex tw-items-center tw-justify-between tw-border-b">
             <div class="tw-px-7 tw-py-5">
               <h2 class="lg:tw-text-2xl tw-text-xl tw-font-semibold tw-mb-1 tw-text-gray-600">ثبت نام</h2>

@@ -51,7 +51,7 @@
           <b-form-file
               ref="File"
               @input="HandleFile"
-              placeholder="Choose a file or drop it here..."
+              placeholder="فایل خود را انتخاب کنید"
               drop-placeholder="Drop file here..."
           />
         </b-form-group>

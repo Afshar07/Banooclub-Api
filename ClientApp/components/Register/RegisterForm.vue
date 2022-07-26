@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 p-0 m-0">
+  <div class="col-12 p-0 m-0" style="overflow-x: hidden">
     <div class="col-12 mt-3">
       <div class="col-md-12 my-3">
         <select-user-type @getUserRole="setUserRole"></select-user-type>
