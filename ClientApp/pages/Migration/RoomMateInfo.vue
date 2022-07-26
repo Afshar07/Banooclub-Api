@@ -407,6 +407,20 @@ export default {
   fetchOnServer() {
     return true;
   },
+  head() {
+    return {
+
+      title: 'اطلاعات هم خانه',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content:'اطلاعات هم خانه',
+        },
+      ],
+    };
+  },
+
   async fetch() {
     try {
       const response =

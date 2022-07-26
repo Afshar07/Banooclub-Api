@@ -50,6 +50,18 @@ export default {
   layout: "PoshtebamPlusLayout",
 components:{ChargeWalletSideNav},
   name: "OrderComplete",
+  head() {
+    return {
+      title: 'فاکتور سفارش',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content:'فاکتور سفارش',
+        },
+      ],
+    }
+  },
   async fetch(){
     try {
       const response = await this.$repositories.getAOrder.getAOrder({

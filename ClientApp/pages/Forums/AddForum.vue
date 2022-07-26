@@ -82,6 +82,19 @@ export default {
       SelectedCategoryId:null
     }
   },
+  head() {
+    return {
+
+      title: 'افزودن انجمن',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content:'افزودن انجمن',
+        },
+      ],
+    };
+  },
   async fetch(){
     try {
       const res = await this.$repositories.getAllForumCategory.getAllForumCategory({

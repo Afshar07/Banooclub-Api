@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <MainChatData @GoBack="RemoveChatData" @MessageSent="MessageSent()" @GetConversationWithOutScroll="SetFirstId($event)"  v-if="ChatSelected" :ActiveUser="ActiveUser"  ></MainChatData>
+    <MainChatData @GoBack="RemoveChatData" @SocketListen="SocketListen"  v-if="ChatSelected" :ActiveUser="ActiveUser"  ></MainChatData>
   </div>
 
 </template>
@@ -28,18 +28,6 @@ import MainChatData from "../../components/MainChatData";
 
 
 export default {
-  head() {
-    return {
-      title: 'مکالمات من',
-      meta: [
-        {
-          hid: "description",
-          name: "description",
-          content: 'مکالمات من',
-        },
-      ],
-    }
-  },
   name: "chat",
   layout: "PoshtebamPlusLayout",
   components: {ContactMessageItem, MyMessageItem, ProfileItem, EditIcon,MainChatData },
@@ -59,23 +47,6 @@ export default {
 
     }
   },
-  watch:{
-    SocketId: {
-      immediate: true,
-      async handler(val) {
-        if(val){
-          await this.GetMenu();
-          // await this.GetConversationWithOutScroll();
-          // await this.ReadMessage();
-          // await this.DeliverMessage();
-          this.$store.commit("SetDefaultSocketId");
-
-        }
-
-      },
-    },
-
-  },
 
   computed:{
     FilteredChats()
@@ -84,22 +55,50 @@ export default {
       if(this.Search===''){
         return data
       }else{
-      return   this.AllChats.filter((element)=>{
+        return   this.AllChats.filter((element)=>{
           return element.userName.match(this.Search)
         })
       }
     } ,
     ...mapGetters(["SocketId"]),
   },
+  watch:{
+    SocketId: {
+      immediate: true,
+      async handler(val) {
+        if(val){
+          await this.DeliverMessage();
+          await this.GetMenu();
+        }
 
-  methods:{
-    MessageSent(){
-      this.GetConversationWithScroll()
-      this.GetMenu()
+      },
     },
-    SetFirstId(id){
-      this.FirstId = id
-      this.GetConversationWithOutScroll()
+
+  },
+  methods:{
+    // Main Methods
+    async GetMenu(){
+
+      try {
+        const res = await this.$repositories.GetMenu.GetMenu()
+        this.AllChats = res.data
+        this.lastMessage = false
+      }catch (e) {
+        console.log(e)
+      }finally {
+
+      }
+    },
+    async DeliverMessage(){
+      try {
+        const res = await this.$repositories.DeliverMessage.DeliverMessage()
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    // Component methods
+    async  SocketListen(){
+      await this.GetMenu();
     },
     RemoveChatData(){
       this.ChatSelected = false
@@ -116,30 +115,15 @@ export default {
         return 'ActiveChatClass'
       }
     },
-    async GetMenu(){
-      try {
-        const res = await this.$repositories.GetMenu.GetMenu()
-        this.AllChats = res.data
-        this.lastMessage = false
-      }catch (e) {
-        console.log(e)
-      }
-    },
-    async DeliverMessage(){
-      try {
-        const res = await this.$repositories.DeliverMessage.DeliverMessage()
-      }catch (e) {
-        console.log(e)
-      }
-    },
+
   },
 
 
   async fetch ( ){
-    // Get Menu
-    await this.GetMenu()
-    // Deliver Message
-    await this.DeliverMessage()
+    await this.DeliverMessage();
+    await this.GetMenu();
+
+
 
   },
 }

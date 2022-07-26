@@ -5,10 +5,25 @@
 
     </div>
     <div class="tab-content" id="pills-tabContent" v-if="!$fetchState.pending">
-      <div class="tab-pane fade show active" id="products-pills-home" role="tabpanel" aria-labelledby="products-pills-home-tab">
+
         <div class="row boxMainContent mx-auto">
           <div class="col-12  px-0">
             <div class="row">
+              <div class="col-md-12">
+                <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
+                  <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
+                    <button class="nav-link active" id="products-pills-home-tab" data-bs-toggle="pill"
+                            data-bs-target="#products-pills-home" type="button" role="tab" aria-controls="products-pills-home" aria-selected="true">
+                      همه آگهی ها
+                    </button>
+                  </li>
+                  <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
+                    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+                      پیشنهادات
+                    </button>
+                  </li>
+                </ul>
+              </div>
               <div class="col-md-3 mt-3">
                <div class="row">
                  <div class="col-md-12">
@@ -43,10 +58,10 @@
                          <div class="accordion-body">
                            <select  v-model="SelectedCategoryId" class=" Form-Control border">
                              <option  :value="0" selected>
-                             <small>همه دسته بندی ها </small>
+                             همه دسته بندی ها
                              </option>
                              <option v-for="item in categories" :value="item.MainAdsCategoryId">
-                               <small>    {{item.MainName}}</small>
+                                   {{item.MainName}}
                            </option>
                            </select>
                          </div>
@@ -95,37 +110,28 @@
                </div>
               </div>
               <div class="col-md-9">
-                <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
-                  <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-                    <button class="nav-link active" id="products-pills-home-tab" data-bs-toggle="pill"
-                            data-bs-target="#products-pills-home" type="button" role="tab" aria-controls="products-pills-home" aria-selected="true">
-                      همه آگهی ها
-                    </button>
-                  </li>
-                  <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-                    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
-                      پیشنهادات
-                    </button>
-                  </li>
-                </ul>
                 <div class="row">
+                  <div class="col-md-12 mt-3">
+                    <input type="search" v-model="Search" class="form-control"  placeholder="جستجو در میان آگهی ها">
+                  </div>
                   <div class="col-md-12">
-                    <input type="search" v-model="Search"  placeholder="جستجو در میان آگهی ها">
+                    <div class="tab-pane fade show active" id="products-pills-home" role="tabpanel" aria-labelledby="products-pills-home-tab">
+                      <AllAdsTabContent :Ads="AllAds" :categories="categories"/>
+                    </div>
                   </div>
                 </div>
-                <div class="row my-2">
-                  <AllAdsTabContent :Ads="AllAds" :categories="categories"/>
-                </div>
 
+                <div class="row my-2">
+                  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <FirstTabContentAds :Ads="AllAds" :categories="categories"/>
+                  </div>
               </div>
             </div>
 
           </div>
         </div>
       </div>
-      <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-        <FirstTabContentAds :Ads="AllAds" :categories="categories"/>
-      </div>
+
     </div>
 
 
@@ -143,6 +149,7 @@
     import FirstTabContentAds from "../../components/Ads/FirstTabContentAds";
     import AllAdsTabContent from "../../components/Ads/AllAdsTabContent";
     export default {
+
         name: "index",
         layout: "PoshtebamPlusLayout",
         components:{
@@ -154,11 +161,19 @@
             ChevronRightIcon,
             ProductItem,
         },
-        head(){
-            return{
-                title: 'آگهی ها'
-            }
-        },
+      head() {
+        return {
+
+          title: 'همه آگهی ها',
+          meta: [
+            {
+              hid: "description",
+              name: "description",
+              content:'همه آگهی ها',
+            },
+          ],
+        };
+      },
         data(){
             return{
                 AllAds:null,

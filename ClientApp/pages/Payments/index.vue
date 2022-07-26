@@ -104,6 +104,14 @@ export default {
       bodyAttrs: {
         class: this.displayChargeSideNav ? "fixed-body" : "",
       },
+      title: 'پرداخت ها',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content:'پرداخت ها',
+        },
+      ],
     };
   },
 

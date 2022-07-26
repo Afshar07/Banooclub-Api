@@ -21,7 +21,7 @@
           <img :src="`https://banooclubapi.simagar.com/media/gallery/Service/${headerImage}`" :alt="service_details.title"
                style="object-fit: contain;object-position: center; height: 160px !important"/>
         </nuxt-link>
-        <button @click="toggleWishList(service_details.servicePackId)" class="tw-bg-red-100 tw-absolute tw-right-2 tw-top-2 p-1 tw-rounded-full tw-text-red-500 tw-flex tw-items-center tw-justify-center">
+        <button @click="toggleWishList(service_details)" class="tw-bg-red-100 tw-absolute tw-right-2 tw-top-2 p-1 tw-rounded-full tw-text-red-500 tw-flex tw-items-center tw-justify-center">
           <svg v-if="service_details && service_details.isFavourite" xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="red" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
@@ -128,10 +128,11 @@ export default {
         this.$router.push({ path: `/user/${userId}/posts` });
       }
     },
-    async toggleWishList(ServiceId){
+    async toggleWishList(item){
       try {
         await this.$repositories.toggleWishList.toggleWishList({
-          ServiceId
+          objectId:item.servicePackId,
+          type:1
         })
         if(this.service_details.isFavourite){
           this.$toast.success("خدمت از علاقمندی ها حذف شد");
@@ -140,6 +141,7 @@ export default {
           this.$toast.success("خدمت به علاقمندی ها اضافه شد");
         }
         this.$nuxt.refresh()
+        this.$fetch()
       }
       catch (error){
         console.log(error)

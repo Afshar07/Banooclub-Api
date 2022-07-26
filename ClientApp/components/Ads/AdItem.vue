@@ -41,10 +41,7 @@ export default {
       type: Object,
       required: true
     },
-    show_buttons:{
-      type: Boolean,
-      required: true
-    }
+
   },
 
   methods:{

@@ -355,6 +355,18 @@
 export default {
   name: "EditProfileBasic",
   layout: "PoshtebamPlusLayout",
+  head() {
+    return {
+      title: 'ویرایش حساب کاربری',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content:'ویرایش حساب کاربری',
+        },
+      ],
+    }
+  },
   data() {
     return {
       image: "",

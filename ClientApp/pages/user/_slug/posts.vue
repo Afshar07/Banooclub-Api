@@ -70,7 +70,7 @@
                 </li>
                 <li class="tw-flex tw-items-center my-2" v-if="userinfo">
                   <AllUsersIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;" class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
-                  دنبال شده توسط  <strong v-if="userinfo" class="px-1">{{ userinfo.followingsCount }}</strong> نفر
+                  دنبال شده توسط  <strong v-if="userinfo" class="px-1">{{ userinfo.followersCount }}</strong> نفر
                 </li>
               </ul>
               <div class="tw-gap-3 grid tw-grid-cols-2 tw-mt-4">

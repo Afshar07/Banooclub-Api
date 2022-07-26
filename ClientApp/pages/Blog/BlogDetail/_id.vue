@@ -42,7 +42,7 @@
                   </div>
 
                   <div class="tw-flex tw-justify-start tw-items-center tw-gap-2">
-                    <img v-if="BlogData.userInfo.selfieFileData!==''" :src="`https://banooclubapi.simagar.com/${BlogData.userInfo.selfieFileData}`" width="80px" height="80px" class="rounded-circle" alt="">
+                    <img v-if="BlogData.userInfo.selfieFileData!==null" :src="`https://banooclubapi.simagar.com/media/gallery/profile/${BlogData.userInfo.selfieFileData}`" width="80px" height="80px" class="rounded-circle" alt="">
                     <img v-else src="/nopicture.jpg" width="80px" height="80px" class="rounded-circle" alt="">
                     <div  v-if="BlogData.userInfo"  class="tw-flex tw-flex-col tw-my-3">
                      <span class="tw-font-bold">{{ BlogData.userInfo.name + ' ' + BlogData.userInfo.familyName  }}</span>
@@ -90,7 +90,7 @@
                     <div class="tw-flex tw-flex-col tw-items-start tw-justify-between p-2 tw-border-b">
                       <div class="tw-flex tw-justify-between tw-items-center tw-gap-2 tw-w-full ">
                         <div v-if="item.userInfo" class="tw-flex tw-justify-between tw-items-center tw-gap-2">
-                          <img v-if="item.userInfo.selfieFileData!==''" :src="`https://banooclubapi.simagar.com/${item.userInfo.selfieFileData}`" width="80px" height="80px" class="rounded-circle" alt="">
+                          <img v-if="item.userInfo.selfieFileData!==null" :src="`https://banooclubapi.simagar.com/media/gallery/profile/${item.userInfo.selfieFileData}`" width="80px" height="80px" class="rounded-circle" alt="">
                           <img v-else src="/nopicture.jpg" width="80px" height="80px" class="rounded-circle" alt="">
                           <div class="tw-flex tw-flex-col tw-my-3">
                             <span class="tw-font-bold">{{ item.userInfo.name + ' ' + item.userInfo.familyName  }}</span>
@@ -106,7 +106,7 @@
                       <div class="tw-flex tw-flex-col tw-items-start tw-justify-between p-2 ">
                         <div class="tw-flex tw-justify-between tw-items-center tw-gap-2 tw-w-full">
                           <div v-if="el.userInfo" class="tw-flex tw-justify-between tw-items-center tw-gap-2">
-                            <img v-if="el.userInfo.selfieFileData!==''" :src="`https://banooclubapi.simagar.com/${el.userInfo.selfieFileData}`" width="80px" height="80px" class="rounded-circle" alt="">
+                            <img v-if="el.userInfo.selfieFileData!==null" :src="`https://banooclubapi.simagar.com/media/gallery/profile/${el.userInfo.selfieFileData}`" width="80px" height="80px" class="rounded-circle" alt="">
                             <img v-else src="/nopicture.jpg" width="80px" height="80px" class="rounded-circle" alt="">
                             <div class="tw-flex tw-flex-col tw-my-3">
                               <span class="tw-font-bold">{{ el.userInfo.name + ' ' + el.userInfo.familyName  }}</span>
@@ -153,13 +153,22 @@ export default {
       Message:'',
       BlogComments:[],
       SelectedComment:null,
-      AllBlogs:[]
+      AllBlogs:[],
+      seoTitle:'',
+      SeoDescription:''
 
     }
   },
-  head(){
-    return{
-      title:'انجمن'
+  head() {
+    return {
+      title: this.seoTitle,
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: this.SeoDescription,
+        },
+      ],
     }
   },
   watch:{
@@ -184,7 +193,18 @@ const res = this.$repositories.CreateBlogLike.CreateBlogLike({
 
 })
         this.$toast.success('مقاله لایک شد')
-        this.$fetch()
+        this.GetBlog()
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    async GetBlog(){
+      try {
+        const res = await this.$repositories.GetBlog.GetBlog({
+          id:this.$route.params.id
+        })
+        this.BlogData = res.data
+        console.log(this.BlogData)
       }catch (e) {
         console.log(e)
       }
@@ -218,7 +238,7 @@ this.SelectedComment = item
     this.GetAllBlogComment();
   }catch (e) {
     console.log(e)
-    this.$toast.success('خظایی رخ داده است')
+    this.$toast.success('خطایی رخ داده است')
   }
     },
   },
@@ -231,6 +251,8 @@ this.SelectedComment = item
       id:this.$route.params.id
     })
     this.BlogData = res.data
+      this.seoTitle = res.data.seoTitle
+    this.SeoDescription = res.data.seoDescription
     console.log(this.BlogData)
   }catch (e) {
     console.log(e)

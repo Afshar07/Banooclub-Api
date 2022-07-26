@@ -118,7 +118,7 @@
                 </button>
               </li>
               <li>
-                <button @click="toggleWishList(service_details.servicePackId)" class="tw-w-full tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
+                <button @click="toggleWishList(service_details)" class="tw-w-full tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
                   <span v-if="service_details.isFavourite" class="d-flex">
                     <SolidSter/>
                     حذف از علاقمندی ها
@@ -540,10 +540,11 @@ export default {
     //   this.want_to_reply = true
     //   console.log(this.place_holder)
     // },
-    async toggleWishList(ServiceId){
+    async toggleWishList(item){
       try {
         await this.$repositories.toggleWishList.toggleWishList({
-          ServiceId
+          objectId:item.servicePackId,
+          type:1
         })
         if(this.service_details.isFavourite){
           this.$toast.success("خدمت از علاقمندی ها حذف شد");

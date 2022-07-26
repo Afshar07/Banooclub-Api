@@ -266,6 +266,19 @@ export default {
       this.AllStates = res.data.states
 
   },
+  head() {
+    return {
+
+      title: '  افزودن آگهی',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content:' افزودن آگهی',
+        },
+      ],
+    };
+  },
   data() {
     return {
 

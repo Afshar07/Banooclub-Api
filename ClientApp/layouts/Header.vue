@@ -81,7 +81,7 @@
               <span class="header_font_sidebar_size">آگهی ها </span>
               <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
             </div>
-            <div :class="[decrease_width ? '' : '']">
+            <div class="px-3"  :class="[decrease_width ? '' : '']">
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
@@ -138,7 +138,7 @@
               <span v-if="!decrease_width" class="header_font_sidebar_size">خدمات </span>
               <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
             </div>
-            <div :class="[decrease_width ? '' : '']">
+            <div class="px-3"  :class="[decrease_width ? '' : '']">
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
@@ -203,7 +203,7 @@
               <span v-if="!decrease_width" class="header_font_sidebar_size">انجمن ها </span>
               <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
             </div>
-            <div :class="[decrease_width ? '' : '']">
+            <div class="px-3"  :class="[decrease_width ? '' : '']">
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
@@ -249,7 +249,7 @@
               <span v-if="!decrease_width" class="header_font_sidebar_size">هم خانه</span>
               <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
             </div>
-            <div :class="[decrease_width ? '' : '']">
+            <div class="px-3"  :class="[decrease_width ? '' : '']">
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
@@ -378,7 +378,7 @@
                 <span class="header_font_sidebar_size">آگهی ها </span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div :class="[decrease_width ? '' : '']">
+              <div class="px-3"  :class="[decrease_width ? '' : '']">
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
@@ -435,7 +435,7 @@
                 <span v-if="!decrease_width" class="header_font_sidebar_size">خدمات </span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div :class="[decrease_width ? '' : '']">
+              <div class="px-3"  :class="[decrease_width ? '' : '']">
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
@@ -500,7 +500,7 @@
                 <span v-if="!decrease_width" class="header_font_sidebar_size">انجمن ها </span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div :class="[decrease_width ? '' : '']">
+              <div class="px-3"  :class="[decrease_width ? '' : '']">
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
@@ -545,7 +545,7 @@
                 <span v-if="!decrease_width" class="header_font_sidebar_size">هم خانه</span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div class="px-4" :class="[decrease_width ? '' : '']">
+              <div class="px-3" :class="[decrease_width ? '' : '']">
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
@@ -615,7 +615,7 @@
             <!--            <i class="fas fa-stream"></i>-->
           </button>
           <nuxt-link to="/social">
-            PoshtebamPlus
+            بانوکلاب
 <!--            <img-->
 <!--              src="../assets/images/PoshtebamPlusLogo.png"-->
 <!--              width="100px"-->
@@ -959,7 +959,7 @@
           </div>
           <div>
             <a href="/social">
-              PoshtebamPlus
+              بانوکلاب
 <!--              <img-->
 <!--                data-not-lazy-->
 <!--                class="headerMobileIcon"-->

@@ -408,6 +408,19 @@ export default {
   fetchOnServer() {
     return true;
   },
+  head() {
+    return {
+
+      title: 'اطلاعات هم خانه من',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content:'اطلاعات هم خانه من',
+        },
+      ],
+    };
+  },
   async fetch() {
     const response = await this.$repositories.getMyRoommate.getMyRoommate();
     this.roomateData = response.data.roomate;

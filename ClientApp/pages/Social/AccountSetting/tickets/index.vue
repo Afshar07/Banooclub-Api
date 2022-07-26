@@ -65,11 +65,11 @@
                 </div>
               </div>
             </div>
-<!--            <div class="col-md-12">-->
-<!--              <button class=" tw-bg-[#ef4444] hover:tw-bg-white hover:tw-text-[#ef4444] tw-border-solid border-1 tw-border-[#ef4444] tw-rounded w-100 tw-transition tw-text-white  tw-p-2" @click="CreateTicket">-->
-<!--                ثبت-->
-<!--              </button>-->
-<!--            </div>-->
+            <!--            <div class="col-md-12">-->
+            <!--              <button class=" tw-bg-[#ef4444] hover:tw-bg-white hover:tw-text-[#ef4444] tw-border-solid border-1 tw-border-[#ef4444] tw-rounded w-100 tw-transition tw-text-white  tw-p-2" @click="CreateTicket">-->
+            <!--                ثبت-->
+            <!--              </button>-->
+            <!--            </div>-->
           </div>
 
         </div>
@@ -96,9 +96,9 @@
             placeholder="جست‌وجو تیکت"
             v-model="searchKey"
           />
-          <div class="tw-overflow-x-auto">
-            <div class="tw-overflow-x-auto">
-              <table class="tw-table tw-w-full tw-table-zebra" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
+          <div class="tw-overflow-x-scroll" v-if="FilteredTickets.length>0">
+            <div class="tw-overflow-x-scroll">
+              <table class="tw-table tw-w-full tw-table-zebra table-compact" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
                 <!-- head -->
                 <thead>
                 <tr>
@@ -145,112 +145,12 @@
 
             </div>
           </div>
+          <div class="row mb-3" v-else>
+            <div class="col-12 text-warning fw-bold text-center">
+              هیچ تیکتی برای نمایش وجود ندارد
+            </div>
+          </div>
 
-
-<!--          <div class="col-12" style="overflow-y: scroll">-->
-<!--&lt;!&ndash;            <h2>لیست تیکت ها</h2>&ndash;&gt;-->
-<!--&lt;!&ndash;            <hr />&ndash;&gt;-->
-<!--            <div-->
-<!--              class="d-flex flex-column flex-md-row align-content-center gap-1 gap-md-3"-->
-<!--            >-->
-<!--              <table class="table">-->
-<!--                <thead>-->
-<!--                <tr>-->
-<!--                  <th scope="col">#</th>-->
-<!--                  <th scope="col">نام</th>-->
-<!--                  <th scope="col">موضوع</th>-->
-<!--                  <th scope="col">تاریخ</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                <tr-->
-<!--                  class="table-row"-->
-<!--                  v-for="(item, index) in AllTickets"-->
-<!--                  :key="item.index"-->
-<!--                  @click="ticketRouteGenerator(item)"-->
-<!--                >-->
-<!--                  <th scope="row">-->
-<!--                    {{ index + 1 }}-->
-<!--                  </th>-->
-<!--                  <td>{{ item.title.substr(0, 7) }}</td>-->
-<!--                  <td>-->
-<!--                    <span v-if="item.type === 0">احراز هویت</span>-->
-<!--                    <span v-if="item.type === 1">پشتیبانی</span>-->
-<!--                    <span v-if="item.type === 2">سایر</span>-->
-<!--                  </td>-->
-<!--                  <td>-->
-<!--                    {{ item.createDate | moment("jYYYY/jM/jD HH:mm") }}-->
-<!--                  </td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--              </table>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="col-md-12">-->
-<!--            &lt;!&ndash;- Main  Ticket Tab -&ndash;&gt;-->
-<!--            <div-->
-<!--              id="v-pills-home"-->
-<!--              class="tab-pane fade show active"-->
-<!--              role="tabpanel"-->
-<!--              aria-labelledby="v-pills-home-tab"-->
-<!--            >-->
-<!--              <div-->
-<!--                v-for="item in SingleTicket"-->
-<!--                :key="item.ticketId"-->
-<!--                class="card SingleTicketCard Stu my-5"-->
-<!--              >-->
-<!--                <div class="row g-0">-->
-<!--                  <div class="col-12 col-sm-10">-->
-<!--                    <div class="card-body">-->
-<!--                      <div class="row">-->
-<!--                        <div class="col-12 d-flex justify-content-between">-->
-<!--                          <div>-->
-<!--                            <strong class="card-text">-->
-<!--                              <span-->
-<!--                                v-if="item.userType === 1"-->
-<!--                                class="badge pill bg-success mb-2"-->
-<!--                                style="line-height: 1.5rem"-->
-<!--                              >من</span-->
-<!--                              >-->
-<!--                              <span-->
-<!--                                v-else-->
-<!--                                class="badge pill bg-primary mb-2"-->
-<!--                                style="line-height: 1.5rem"-->
-<!--                              >اپراتور</span-->
-<!--                              >-->
-<!--                            </strong>-->
-<!--                            <p-->
-<!--                              class="card-text gap-2 d-flex align-items-center"-->
-<!--                            >-->
-<!--                              <small>-->
-<!--                                <i class="fas text-muted fa-clock"></i-->
-<!--                                ></small>-->
-<!--                              <small class="text-muted">{{-->
-<!--                                  item.createDate | moment("jYYYY/jM/jD HH:mm")-->
-<!--                                }}</small>-->
-<!--                            </p>-->
-<!--                          </div>-->
-<!--                        </div>-->
-<!--                        <div-->
-<!--                          class="col-md-6 d-flex justify-content-end my-3"-->
-<!--                        ></div>-->
-<!--                      </div>-->
-
-<!--                      <p class="card-text text-secondary">-->
-<!--                        {{ item.content }}-->
-<!--                      </p>-->
-<!--                      <img-->
-<!--                        v-if="item.fileData"-->
-<!--                        :src="BaseUrl + item.fileData"-->
-<!--                        class="img-fluid rounded-start"-->
-<!--                      />-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--                <div></div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
         </div>
       </div>
     </div>
@@ -268,16 +168,9 @@ export default {
     PlusIcon,
     CustomPagination
   },
-  head() {
-    return {
-      title: 'تیکت ها',
-      meta: [
-        {
-          hid: "description",
-          name: "description",
-          content: 'تیکت ها',
-        },
-      ],
+  head(){
+    return{
+      title: 'بانوکلاب - تیکت ها'
     }
   },
   data() {
@@ -317,7 +210,6 @@ export default {
       console.log(error);
     }
   },
-
 
   computed: {
     BaseUrl() {

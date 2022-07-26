@@ -64,7 +64,7 @@
           </div>
 
         </div>
-        <Pagination :pages="totalPages" @PageChanged="GetAllBlog($event)"></Pagination>
+        <Pagination v-if="totalPages.length>1" :pages="totalPages" @PageChanged="GetAllBlog($event)"></Pagination>
       </div>
       <RecentBlogs></RecentBlogs>
     </div>

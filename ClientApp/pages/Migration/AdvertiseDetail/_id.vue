@@ -18,7 +18,20 @@ import AdsDetail from "../../../components/Ads/AdsDetail";
 import BaseModal from "../../../components/utilities/BaseModal";
 
 export default {
-  name: "_id",
+  name: "AdvertiseDetail",
+  head() {
+    return {
+
+      title: 'جزئیات آگهی',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content:'جزئیات آگهی',
+        },
+      ],
+    };
+  },
   layout: "PoshtebamPlusLayout",
   components:{
     AdsDetail,

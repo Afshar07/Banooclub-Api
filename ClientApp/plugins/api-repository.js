@@ -208,6 +208,7 @@ export default (context, inject) => {
     createWishList:createWishListRepository(context,"WishList/Create"),
     deleteWishList:createWishListRepository(context,"WishList/Delete"),
     GetWishlist:createWishListRepository(context,'WishList/GetByUserId'),
+    toggleWishList:createWishListRepository(context,"WishList/Toggle"),
     // Wish list repository end
 
     createCommentLike:createServiceCommentRepository(context,'CommentLike/Create'),

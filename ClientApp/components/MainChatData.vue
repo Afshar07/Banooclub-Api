@@ -4,7 +4,7 @@
       <div class="col-md-12 tw-border-b tw-shadow p-3 bg-white">
         <div class="d-flex align-items-center justify-content-between">
           <div class="d-flex align-items-center gap-2">
-            <img v-if="ActiveUser.userPhoto!==null" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://banooclubapi.simagar.com/${ActiveUser.userPhoto}`"/>
+            <img v-if="ActiveUser.userPhoto!==null" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://pplusapi.simagar.com/media/gallery/profile/${ActiveUser.userPhoto}`"/>
             <img v-else style="width: 50px; height: 50px;" class="rounded-circle" src="~/assets/images/defaultUser.png"/>
             <small class="cursor-pointer" @click="goToUserProfile(ActiveUser)">{{ ActiveUser.userName }}</small>
           </div>
@@ -22,12 +22,17 @@
             <MyMessageItem v-for="(item,idx) in ChatData" :key="idx" :Message="item" />
           </div>
           <div class="col-md-12 p-0 px-0 bg-white p-1  SendMessageContainer" >
-            <div class="d-flex align-items-center justify-content-between  flex-wrap">
-              <button type="button" class="  tw-bg-[#0870a0] hover:tw-bg-blue-500 tw-transition   rounded p-1"  @click="sendMessage">
-                <span class="text-white">ارسال</span>
-              </button>
-              <textarea v-model="MessageBody" class="form-control" placeholder="پیام خود را وارد کنید..." style="resize: none!important;" rows="1" @keydown.enter="sendMessage"  ></textarea>
+            <div class="row">
+              <div class="col-1">
+                <button type="button" class="   tw-bg-[#0870a0] hover:tw-bg-blue-500 tw-transition   rounded p-1"  @click="sendMessage">
+                  <span class="text-white">ارسال</span>
+                </button>
+              </div>
+              <div class="col-11">
+                <textarea v-model="MessageBody" class="form-control " placeholder="پیام خود را وارد کنید..." style="resize: none!important;" rows="1"  ></textarea>
+              </div>
             </div>
+
 
 
 
@@ -45,6 +50,7 @@ import ContactMessageItem from "@/components/Chat/ContactMessageItem";
 import MyMessageItem from "@/components/Chat/MyMessageItem";
 import ProfileItem from "@/components/Chat/ProfileItem";
 import EditIcon from "@/components/Icons/EditIcon";
+import {mapGetters} from "vuex";
 
 export default {
 
@@ -64,20 +70,21 @@ export default {
       Search:''
     }
   },
-  created() {
-   this.GetConversationWithScroll()
-  },
 
+  async fetch(){
+    await this.ReadMessage()
+    await this.GetConversationWithScroll()
+  },
+  computed:{
+    ...mapGetters(["SocketId"]),
+  },
   watch:{
     SocketId: {
       immediate: true,
       async handler(val) {
         if(val){
-          await this.ReadMessage();
-          await this.DeliverMessage();
-          await this.GetMenu();
+          await this.ReadMessage()
           await this.GetConversationWithScroll();
-
           this.$store.commit("SetDefaultSocketId");
 
         }
@@ -87,6 +94,13 @@ export default {
 
   },
   methods:{
+    async DeliverMessage(){
+      try {
+        const res = await this.$repositories.DeliverMessage.DeliverMessage()
+      }catch (e) {
+        console.log(e)
+      }
+    },
     async ReadMessage(){
       try {
         const res = this.$repositories.ReadMessage.ReadMessage({
@@ -97,7 +111,6 @@ export default {
       }
     },
     async GetConversationWithOutScroll(){
-
       try {
         this.isLoading = true
         // this.ActiveUser = id
@@ -107,6 +120,7 @@ export default {
             count:20,
             messageId:this.FirstId
           })
+          await this.ReadMessage();
           if(res.data.length>0){
             res.data.forEach((item)=>{
               if(this.ChatData.findIndex(e=> e.MessageId === item.MessageId)>-1){
@@ -128,9 +142,6 @@ export default {
                 return 1;
               }
             });
-
-
-            await this.ReadMessage()
             this.lastMessage = false
 
           }else{
@@ -144,21 +155,15 @@ export default {
       }catch (e){
 
       }finally {
-        this.$router.push(this.$route.path)
         this.isLoading = false
       }
 
     },
     async GetConversationWithScroll(){
-
       try {
         this.isLoading = true
         // this.ActiveUser = id
         if(!this.lastMessage){
-
-          this.$nextTick(()=>{
-            this.$nuxt.$loading.start();
-          })
           const res = await this.$repositories.GetConversation.GetConversation({
             userId:this.ActiveUser.userId,
             count:20,
@@ -167,7 +172,8 @@ export default {
           if(res.data.length>0){
             res.data.forEach((item)=>{
               if(this.ChatData.findIndex(e=> e.MessageId === item.MessageId)>-1){
-                return
+                const idx = this.ChatData.findIndex(e=> e.MessageId === item.MessageId)
+                this.ChatData[idx] = item
               }else{
                 this.ChatData.push(item)
               }
@@ -185,31 +191,23 @@ export default {
                 return 1;
               }
             });
-
-
-            await this.ReadMessage()
             this.lastMessage = false
-
           }else{
             this.lastMessage = true
           }
-          this.$nuxt.$loading.finish();
-          this.$nuxt.loading = false;
         }else{
-          this.$nuxt.$loading.finish();
-          this.$nuxt.loading = false;
         }
 
       }catch (e){
         console.log(e)
         this.$nuxt.$loading.finish();
         this.$nuxt.loading = false;
-      }finally {
+      }  finally  {
+
         this.$nextTick(()=>{
           this.scrollToBottom()
         })
 
-        // this.$router.push(this.$route.path)
         this.isLoading = false
         this.$nuxt.$loading.finish();
         this.$nuxt.loading = false;
@@ -222,7 +220,7 @@ export default {
       if(scrollTop===0){
         if(this.ChatData.length>0)
           this.FirstId = this.ChatData[0].MessageId
-           this.GetConversationWithOutScroll()
+        this.GetConversationWithOutScroll()
 
       }
 
@@ -231,15 +229,14 @@ export default {
       this.$emit('GoBack')
     },
     scrollToBottom(){
-      console.log(this.$refs.ChatContainer.scrollTop)
-      console.log(this.$refs.ChatContainer.clientHeight)
-      console.log(this.$refs.ChatContainer)
+
       if(this.ChatData.length>0 && this.$refs.ChatContainer){
 
         this.$refs.ChatContainer.scrollTop = this.$refs.ChatContainer.scrollHeight
       }
     },
     async sendMessage(){
+      // await this.ReadMessage();
       try {
         const res = await this.$repositories.SendMessage.SendMessage({
           messageId: 0,
@@ -249,12 +246,12 @@ export default {
         })
         this.MessageBody = ''
         this.FirstId = 0
-        this.$router.push(this.$route.path)
+
         // await this.GetConversation();
       }catch (e) {
         console.log(e)
       }finally {
-        this.GetConversationWithOutScroll()
+        // await this.GetConversationWithScroll()
         this.scrollToBottom()
       }
     },

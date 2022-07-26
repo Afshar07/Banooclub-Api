@@ -111,6 +111,19 @@ export default {
       Allroomate: [],
     };
   },
+  head() {
+    return {
+
+      title: 'همه آگهی های هم خانه',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content:'همه آگهی های هم خانه',
+        },
+      ],
+    };
+  },
   computed: {
     BaseUrl() {
       return process.env.pic;

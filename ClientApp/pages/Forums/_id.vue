@@ -156,7 +156,8 @@ import WhatsappIcon from "../../components/Icons/WhatsappIcon";
 import InstagramIcon from "../../components/Icons/InstagramIcon";
 import TopCommenters from '../../components/Forums/TopCommenters';
 export default {
-  name: "_slug",
+  name: "ForumDetail",
+
   components: {InstagramIcon, WhatsappIcon, TelegramIcon,TopCommenters},
   layout: "PoshtebamPlusLayout",
   head(){

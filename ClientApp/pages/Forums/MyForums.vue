@@ -20,14 +20,23 @@
 import ForumMainItem from "../../components/Forums/ForumMainItem";
 import TopCommenters from '../../components/Forums/TopCommenters';
 export default {
+
   name: "MyForums",
   layout: "PoshtebamPlusLayout",
   components: {ForumMainItem,TopCommenters},
 
-  head(){
-    return{
-      title: 'خدمات من'
-    }
+  head() {
+    return {
+
+      title: 'انجمن های من',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content:'انجمن های من',
+        },
+      ],
+    };
   },
   data(){
     return{

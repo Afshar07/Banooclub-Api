@@ -71,15 +71,7 @@
         </div>
       </div>
     </div>
-
-    <div
-      class="row"
-      v-if="
-        this.$store.state.HeaderData.status === 1 ||
-        this.$store.state.HeaderData.status === 4 ||
-        !this.$store.state.HeaderData.status
-      "
-    >
+    <div class="row">
       <div class="col-md-12">
         <div class="row">
           <div
@@ -116,7 +108,7 @@
                 data-bs-toggle="modal"
                 ><small
                   ><i
-                    class="fas fa-bars text-warning"
+                    class="fas fa-upgrade text-warning"
                     v-tooltip="{
                       content:
                         'با استفاده از نردبان,آگهی شما به بالای لیست آگهی ها منتقل میشود',
@@ -198,22 +190,6 @@
       </div>
     </div>
 
-    <div
-      v-else-if="this.$store.state.HeaderData.status === 2"
-      class="row boxMainContent text-warning position-relative bg-white p-3"
-    >
-      <p class="text-center">
-        صفحه این کاربر خصوصی است برای مشاهده آن درخواست دوستی ارسال کنید
-      </p>
-    </div>
-    <div
-      v-else-if="this.$store.state.HeaderData.status === 3"
-      class="row boxMainContent text-warning position-relative bg-white p-3"
-    >
-      <p class="text-center">
-        برای مشاهده صفحه این کاربر ابتدا وارد اکانت خود شوید
-      </p>
-    </div>
   </div>
 </template>
 
@@ -244,7 +220,19 @@ export default {
       return process.env.pic;
     },
   },
+  head() {
+    return {
 
+      title: 'آگهی های من',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content:'آگهی های من',
+        },
+      ],
+    };
+  },
   methods: {
     EditAd(id) {
       this.$router.push({
