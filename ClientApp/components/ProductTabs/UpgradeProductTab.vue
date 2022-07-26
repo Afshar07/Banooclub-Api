@@ -55,7 +55,7 @@ export default {
       for (let i = 1; i <= result; i++) {
         this.totalPages.push(i);
       }
-      this.plans = response.data.plans
+      this.plans = response.data.plans.filter(e=> e.entityType===1)
     }
     catch (error){
       console.error(error)
@@ -100,6 +100,7 @@ export default {
           description: "ارتقا خدمت",
           sumPrice: this.sumPrice,
           serviceId:parseInt((this.$route.params.UpgradeProduct)),
+          adsId:0,
           userId: 0,
           createDate: new Date(Date.now()),
           status: 1,

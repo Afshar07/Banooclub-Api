@@ -4,9 +4,12 @@
       <div class="col-md-12 tw-border-b tw-shadow p-3 bg-white">
         <div class="d-flex align-items-center justify-content-between">
           <div class="d-flex align-items-center gap-2">
-            <img v-if="ActiveUser.userPhoto!==null" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://pplusapi.simagar.com/media/gallery/profile/${ActiveUser.userPhoto}`"/>
+            <img v-if="ActiveUser.userPhoto!==null && !$route.query.Photo" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://pplusapi.simagar.com/media/gallery/profile/${ActiveUser.userPhoto}`"/>
+            <img v-if="$route.query.Photo" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://pplusapi.simagar.com/media/gallery/profile/${$route.query.Photo}`"/>
+            <img v-else-if="ActiveUser.userPhoto!==null && ActiveUser.groupId!==0" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://pplusapi.simagar.com/media/gallery/group/${ActiveUser.userPhoto}`"/>
             <img v-else style="width: 50px; height: 50px;" class="rounded-circle" src="~/assets/images/defaultUser.png"/>
             <small class="cursor-pointer" @click="goToUserProfile(ActiveUser)">{{ ActiveUser.userName }}</small>
+
           </div>
           <button @click="GoBack" class="btn"><i class="fas fa-chevron-left"></i></button>
         </div>
@@ -116,7 +119,8 @@ export default {
         // this.ActiveUser = id
         if(!this.lastMessage){
           const res = await this.$repositories.GetConversation.GetConversation({
-            userId:this.ActiveUser.userId,
+            groupId:this.ActiveUser.groupId!==0?this.ActiveUser.groupId:null,
+            userId:this.ActiveUser.userId!==0?this.ActiveUser.userId:null,
             count:20,
             messageId:this.FirstId
           })
@@ -165,7 +169,8 @@ export default {
         // this.ActiveUser = id
         if(!this.lastMessage){
           const res = await this.$repositories.GetConversation.GetConversation({
-            userId:this.ActiveUser.userId,
+            groupId:this.ActiveUser.groupId!==0?this.ActiveUser.groupId:null,
+            userId:this.ActiveUser.userId!==0?this.ActiveUser.userId:null,
             count:20,
             messageId:this.FirstId
           })
@@ -237,21 +242,33 @@ export default {
     },
     async sendMessage(){
       // await this.ReadMessage();
+
+      let userId = null
+      if(this.$route.query.userId){
+        userId = this.$route.query.userId
+      }else if (this.ActiveUser.userId!==0){
+        userId = this.ActiveUser.userId
+      }else{
+        userId = null
+      }
       try {
         const res = await this.$repositories.SendMessage.SendMessage({
           messageId: 0,
           subject: this.MessageBody.length > 20 ? this.MessageBody.substr(0, 20) : this.MessageBody,
           messageBody: this.MessageBody,
-          recipientUserId: !this.$route.query.userId? this.ActiveUser.userId :this.$route.query.userId ,
+          recipientUserId: userId,
+          recipientGroupId:this.ActiveUser.groupId!==0?this.ActiveUser.groupId:null
+
         })
         this.MessageBody = ''
         this.FirstId = 0
-
+        this.GoBack()
         // await this.GetConversation();
       }catch (e) {
         console.log(e)
       }finally {
         // await this.GetConversationWithScroll()
+        this.GoBack()
         this.scrollToBottom()
       }
     },

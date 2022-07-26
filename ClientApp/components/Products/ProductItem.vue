@@ -33,19 +33,19 @@
       <div  class="card-body p-2">
         <div class="tw-flex tw-items-center  tw-relative tw-justify-end">
           <div v-if="$route.path === '/Products/MyServices/'"  class=" tw-stack  tw-right-0 tw-cursor-pointer tw-absolute hover:tw-flex hover:tw-flex-col hover:tw-gap-2 tw-transition ">
-            <div v-if="service_details.planIds.includes(2)"
+            <div v-if="service_details.planTypes.includes(2)"
                  class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
               پیشنهادات
             </div>
-            <div v-if="service_details.planIds.includes(1)"
+            <div v-if="service_details.planTypes.includes(1)"
                  class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
               نردبان
             </div>
-            <div v-if="service_details.planIds.includes(4)"
+            <div v-if="service_details.planTypes.includes(4)"
                  class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
               جدید ترین ها
             </div>
-            <div v-if="service_details.planIds.includes(5)"
+            <div v-if="service_details.planTypes.includes(5)"
                  class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
               برترین ها
             </div>

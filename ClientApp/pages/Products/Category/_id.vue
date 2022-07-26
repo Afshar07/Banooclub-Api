@@ -97,7 +97,7 @@ export default {
       )
       this.AllServices = res.data.services
       this.filterServices =  this.AllServices.filter((element)=>{
-        return element.planIds.includes(parseInt(this.$route.params.id))
+        return element.planTypes.includes(parseInt(this.$route.params.id))
       })
 
       this.totalPages = []

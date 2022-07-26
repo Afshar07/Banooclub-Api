@@ -95,7 +95,7 @@ components:{ChargeWalletSideNav},
             this.GetCredit()
 
           }else if (res.data===0){
-            this.$toast.success('وجودی کیف پول شما کافی نمیباشد')
+            this.$toast.success('موجودی کیف پول شما کافی نمیباشد')
           }
         }catch (e){
           console.log(e)

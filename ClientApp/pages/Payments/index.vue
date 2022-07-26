@@ -1,10 +1,10 @@
 <template>
-  <div class="container mcontainer">
+  <div class="container mcontainer px-2">
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="tw-text-2xl tw-font-semibold py-3">پرداخت ها</h2>
       <div class="d-flex justify-content-center align-items-center">
         <span style="color: rgb(103, 103, 103)">موجودی کیف پول:
-          {{Intl.NumberFormat('fa-IR').format(100000)}}
+          {{Intl.NumberFormat('fa-IR').format($store.state.WalletAmount)}}
           تومان</span>
         <button @click="displayChargeSideNav = true" class="btn AddReplyBtn text-white">
           <PlusIcon fill="#2563eb" style="width: 20px; height: 20px;"/>
@@ -40,8 +40,7 @@
     </div>
     <div class="tw-overflow-x-auto">
       <div class="tw-overflow-x-auto">
-        <table class="tw-table tw-w-full tw-table-zebra"
-               style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
+        <table class="tw-table tw-w-full tw-table-zebra" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
           <!-- head -->
           <thead>
           <tr>
@@ -56,25 +55,34 @@
           </thead>
           <tbody>
           <!-- rows -->
-          <tr class="tw-hover" v-for="(wallet,index) in walletInfo" >
-            <th class="fw-normal">{{ index + 1 }}</th>
-            <th class="fw-normal">{{wallet.payment_id}}</th>
-            <th class="fw-normal">{{wallet.code}}</th>
-            <td>{{ wallet.name }}</td>
-            <td>{{ wallet.date }}</td>
+          <tr class="tw-hover" v-for="(item,idx) in AllPayments" :key="idx" >
+            <th class="fw-normal">{{ item.paymentId }}</th>
+            <th class="fw-normal">{{item.transId}}</th>
+            <th class="fw-normal">{{item.refId}}</th>
+            <td v-if="item.userInfo" @click="goToUserProfile(item.userInfo)"> {{ item.userInfo.name + ' ' + item.userInfo.familyName   }}</td>
+            <td>{{ new Date(item.createDate).toLocaleTimeString('fa-IR') }}</td>
             <td>
-              <div class="tw-bg-red-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-if="wallet.status == 'failed'">
+              <div class="tw-bg-red-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-if="item.status === -2 || item.status ===-4">
                 <span class="text-white tw-text-xs">لغو شده</span>
               </div>
-              <div class="tw-bg-green-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="wallet.status == 'success'">
+              <div class="tw-bg-green-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="item.status === 0">
                 <span class="text-white tw-text-xs">پرداخت شده</span>
               </div>
-              <div class="tw-bg-gray-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else>
+              <div class="tw-bg-gray-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="item.status === -122">
                 <span class="text-white tw-text-xs">در انتظار پرداخت</span>
               </div>
+              <div class="tw-bg-yellow-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="item.status === -49">
+                <span class="text-white tw-text-xs">تراکنش تکراری</span>
+              </div>
+              <div class="tw-bg-blue-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="item.status === -3">
+                <span class="text-white tw-text-xs">در انتظار پاسخ</span>
+              </div>
+
+
+
             </td>
             <td>
-              {{Intl.NumberFormat('fa-IR').format(wallet.sum)}}
+              {{Intl.NumberFormat('fa-IR').format(item.amount)}}
               تومان
             </td>
           </tr>
@@ -104,66 +112,36 @@ export default {
       bodyAttrs: {
         class: this.displayChargeSideNav ? "fixed-body" : "",
       },
-      title: 'پرداخت ها',
-      meta: [
-        {
-          hid: "description",
-          name: "description",
-          content:'پرداخت ها',
-        },
-      ],
+      title: 'پشت بام پلاس - پرداخت ها'
     };
   },
 
   data() {
     return {
       displayChargeSideNav:false,
-      walletInfo: [
-        {
-          payment_id:'hsusyshwsj474dkmd484ijdkfkkgf865',
-          code:'123456',
-          sum: 50000,
-          status: 'success',
-          name: 'آرزو حسن نژاد',
-          date:'1401/03/1 - 14:13'
-        },
-        {
-          payment_id:'hsusyshwsj474dkmd484ijdkfkkgf865',
-          code:'456789',
-          sum: 30000,
-          status: 'failed',
-          name: 'علی حسینی',
-          date:'1401/03/1 - 14:13'
+      AllPayments:[],
+      SelectedPageNumber:1
 
-        },
-        {
-          payment_id:'hsusyshwsj474dkmd484ijdkfkkgf865',
-          code:'123456',
-          sum: 60000,
-          status: 'pending',
-          name: 'مریم مرادی',
-          date:'1401/03/1 - 14:13'
-
-        },
-        {
-          payment_id:'hsusyshwsj474dkmd484ijdkfkkgf865',
-          code:'456789',
-          sum: 30000,
-          status: 'failed',
-          name: 'سارا شادی',
-          date:'1401/03/1 - 14:13'
-
-        },
-        {
-          payment_id:'hsusyshwsj474dkmd484ijdkfkkgf865',
-          code:'456789',
-          sum: 40000,
-          status: 'pending',
-          name: 'احمد محمدی',
-          date:'1401/03/1 - 14:13'
-
-        },
-      ]
+    }
+  },
+  methods:{
+    async goToUserProfile(user){
+      try {
+        this.$router.push({path: `/user/${user.userName}/posts`});
+      }catch (e){
+        console.log(e)
+      }
+    },
+  },
+  async fetch(){
+    try {
+      const res = await this.$repositories.GetMyPayments.GetMyPayments({
+        pageNumber:this.SelectedPageNumber,
+        count:10
+      })
+      this.AllPayments = res.data.payments
+    }catch (e) {
+      console.log(e)
     }
   }
 
@@ -188,9 +166,14 @@ export default {
   }
 }
 .tw-table :where(thead, tfoot) :where(th, td) {
-  background-color: white !important;
+  background-color: #80808021 !important;
+
 }
-.tw-table :where(tbody th, tbody td) {
-   background-color: rgb(249 250 251) !important;
+th.fw-normal {
+  background-color: #80808021 !important;
 }
+td{
+  background-color: #80808021 !important;
+}
+
 </style>

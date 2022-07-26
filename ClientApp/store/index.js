@@ -44,6 +44,7 @@ export default {
         Private: false,
         IsPrivateActivity: false,
       },
+      WalletAmount:0,
       HeaderData: {
         Private: false,
         status: 0,
@@ -91,6 +92,9 @@ export default {
     },
     sendMessage(state, resultId) {
       state.SocketUserId = resultId;
+    },
+    SetWalletAmount(state,data){
+      state.WalletAmount = data
     },
 
     GetElement(eleee) {

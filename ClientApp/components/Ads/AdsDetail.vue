@@ -28,7 +28,7 @@
       <div class="tw-flex tw-justify-between tw-items-center lg:tw-p-4 tw-p-2.5">
         <div class="tw-flex tw-items-center">
           <nuxt-link :to="`/user/${AdsDetail.userInfo.userId}/posts`" class="text-decoration-none">
-            <img v-if="AdsDetail.userInfo.selfieFileData!==null" :src="`https://banooclubapi.simagar.com/${AdsDetail.userInfo.selfieFileData}`" alt="profile_image" class="tw-bg-gray-200 tw-border tw-border-white tw-rounded-full tw-w-10 tw-h-10">
+            <img v-if="AdsDetail.userInfo.selfieFileData!==null" :src="`https://banooclubapi.simagar.com/media/gallery/profile/${AdsDetail.userInfo.selfieFileData}`" alt="profile_image" class="tw-bg-gray-200 tw-border tw-border-white tw-rounded-full tw-w-10 tw-h-10">
             <img v-else :src="`/nopicture.jpg`" alt="profile_image" class="tw-bg-gray-200 tw-border tw-border-white tw-rounded-full tw-w-10 tw-h-10">
           </nuxt-link>
           <div class="d-flex flex-column tw-font-semibold tw-capitalize tw-mr-4">

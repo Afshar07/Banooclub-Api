@@ -88,17 +88,17 @@ export default {
       this.newest=[]
       this.suggestion=[]
         this.AllServices.forEach(el=>{
-          if(el.planIds.includes(5)){
+          if(el.planTypes.includes(5)){
             this.best.push(el)
           }
         })
         this.AllServices.forEach(el=>{
-          if(el.planIds.includes(4)){
+          if(el.planTypes.includes(4)){
             this.newest.push(el)
           }
         })
       this.AllServices.forEach(el=>{
-        if(el.planIds.includes(2)){
+        if(el.planTypes.includes(2)){
           this.suggestion.push(el)
         }
       })

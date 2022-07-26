@@ -37,9 +37,9 @@
               <div v-for="(el,idx) in item.subOrders" :key="idx" class="d-flex flex-column">
                 <small>{{el.title}}</small>
               </div>
-              </th>
+            </th>
             <th v-if="item.serviceInfo" class="fw-normal">
-            <small> برای خدمت {{item.serviceInfo.title}} </small>
+              <small> برای خدمت {{item.serviceInfo.title}} </small>
             </th>
             <td>{{ new Date(item.createDate).toLocaleTimeString('fa-IR') }}</td>
             <td>
@@ -97,7 +97,7 @@ export default {
       bodyAttrs: {
         class: this.displayChargeSideNav ? "fixed-body" : "",
       },
-      title: 'بانو کلاب - سفارشات'
+      title: 'پشت بام پلاس - سفارشات'
 
     };
   },
@@ -139,5 +139,14 @@ export default {
     margin-right: auto;
   }
 }
+.tw-table :where(thead, tfoot) :where(th, td) {
+  background-color: #80808021 !important;
 
+}
+th.fw-normal {
+  background-color: #80808021 !important;
+}
+td{
+  background-color: #80808021 !important;
+}
 </style>

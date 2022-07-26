@@ -102,6 +102,10 @@ export default {
     },
     RemoveChatData(){
       this.ChatSelected = false
+      this.ChatData = []
+      this.lastMessage = false
+      this.FirstId = 0
+      this.$router.push(this.$route.path)
     },
     SetActiveUser(item){
       this.ActiveUser = item
@@ -120,6 +124,9 @@ export default {
 
 
   async fetch ( ){
+    if(this.$route.query.userId){
+      this.ChatSelected = true
+    }
     await this.DeliverMessage();
     await this.GetMenu();
 
