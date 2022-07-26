@@ -41,5 +41,17 @@ export default (context, resources) => ({
   async CreateLike(payload){
     const response = await context.$axios.post(resources,payload)
     return response
+  },
+  async ReportForum(params){
+    const response = await context.$axios.post(resources,null,{
+      params
+    })
+    return response
+  },
+  async GetTopCommenters(params){
+    const response = await context.$axios.post(resources,null,{
+      params
+    })
+    return response
   }
 })

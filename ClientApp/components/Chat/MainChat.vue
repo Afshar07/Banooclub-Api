@@ -9,7 +9,6 @@
             v-if="SelectedUserData.selfieFileData"
             :src="
               BaseUrl +
-              'media/gallery/profile/' +
               SelectedUserData.selfieFileData
             "
             alt="User Avatar"
@@ -60,7 +59,7 @@
             class="p-lg-4 px-2 mx-1 my-1 user-message"
             :class="{ SingleMessage: item.MessageId === 0 }"
             v-for="(item, index) in Messages"
-            :key="item.MessageId"
+            :key="index"
           >
             <div
               class="row d-flex align-items-center mt-4"
@@ -90,7 +89,6 @@
                   v-else-if="isYourMessage(item, index)"
                   :src="
                     BaseUrl +
-                    'media/gallery/profile/' +
                     SelectedUserData.selfieFileData
                   "
                   width="30px "
@@ -310,7 +308,7 @@ export default {
       // Check if last message was from the same user, and don't render profile picture if it is
       if (index > 1) {
         if (
-          message.CreatorUserId == this.$auth.user.userInfo.userId &&
+          message.CreatorUserId == this.$auth.user.userId &&
           this.Messages[index - 1].CreatorUserId != message.CreatorUserId
         ) {
           return true;
@@ -325,7 +323,7 @@ export default {
       // Check if last message was from the same user, and don't render profile picture if it is
       if (index > 1) {
         if (
-          message.CreatorUserId != this.$auth.user.userInfo.userId &&
+          message.CreatorUserId != this.$auth.user.userId &&
           this.Messages[index - 1].CreatorUserId != message.CreatorUserId
         ) {
           return true;
@@ -402,12 +400,12 @@ export default {
   max-height: 3rem;
 } */
 .send-button-color {
-  background-color: #088dcd;
-  color: #fff;
+  background-color: #fff;
+  color: #0870a0;
 }
 .send-button-color:hover {
-  background-color: #0870a0;
-  color: #fff;
+  background-color: #fff;
+  color: #0870a0;
 }
 .custom-radius {
   border-radius: 20px !important;

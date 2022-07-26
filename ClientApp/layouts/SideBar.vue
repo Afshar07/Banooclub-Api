@@ -1,54 +1,68 @@
 <template>
-  <div class="mb-5">
-    <div class="tw-bg-white tw-mb-5 tw-px-4 tw-py-3 tw-rounded-md tw-shadow">
+  <div class="my-5">
+    <div class="tw-bg-white tw-mb-5 tw-px-4 tw-py-3 tw-rounded-md tw-shadow" v-if="birthdateList.length>0">
       <h4 class="tw-text-line-through tw-font-semibold tw-mb-1"> تولدها </h4>
-      <div class="tw--mx-2 tw-duration-300 tw-flex hover:tw-bg-gray-50 tw-px-2 tw-py-2 tw-rounded-md">
-        <img src="~/assets/images/products/product_image.jpg" class="tw-w-9 tw-h-9 tw-ml-3 tw-rounded-full" alt="">
-        <p class="tw-line-clamp-2 tw-leading-6"> <strong> علی </strong> و <strong> دو نفر دیگر </strong>
-          امروز تولد دارند.
-        </p>
+      <div class="contact-list tw-w-full" v-for="(item,idx) in birthdateList" :key="idx" @click="profileLinkGenerator(item)" style="cursor: pointer">
+        <div class="d-flex flex-row justify-content-start align-items-center tw-w-full" >
+          <div class="justify-content-center align-items-center position-relative tw-pr-2">
+            <img
+              v-if="item.selfieFileData"
+              style="width: 35px;height: 35px;"
+              class="friendPicture"
+              :src="`https://banooclubapi.simagar.com/media/gallery/profile/${item.selfieFileData}`"
+              alt=""
+            />
+            <img
+              v-else
+              class="friendPicture"
+              style="width: 35px;height: 35px;"
+              src="../assets/images/defaultUser.png"
+              alt=""
+            />
+          </div>
+          <div class="p-2">
+            <div class="d-flex flex-column text-end">
+              <div class="friendName">
+                {{ item.name + " " + item.familyName }}
+              </div>
+
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-12 p-0">
-      <input
-        class="searchFriend"
-        type="text"
-        placeholder="جستجو"
-        v-model.trim="friendNameFilter"
-      />
-    </div>
+<!--    <div class="col-12 p-0">-->
+<!--      <input-->
+<!--        class="searchFriend"-->
+<!--        type="text"-->
+<!--        placeholder="جست‌وجو"-->
+<!--        v-model.trim="friendNameFilter"-->
+<!--      />-->
+<!--    </div>-->
     <h3 class="tw-text-xl tw-font-semibold">مخاطبان</h3>
     <div>
       <ul class="nav nav-pills align-items-end profile_tabs" id="pills-tab" role="tablist" style="border-bottom: 1px solid #e5e7eb">
         <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
           <button class="nav-link active" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
-            دوستان
-            <span class="follower_count">{{ VuexHeaderData.followerCount }}</span>
+            دنبال کنندگان
+<!--            <span class="follower_count"  v-if="userinfo">{{ userinfo.followersCount }}</span>-->
           </button>
         </li>
         <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-          <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">گروه ها</button>
+          <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
+            دنبال شوندگان
+<!--            <span class="follower_count" v-if="userinfo">{{ userinfo.followingsCount }}</span>-->
+          </button>
         </li>
       </ul>
-
       <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div class="tab-pane show active fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
           <Friends/>
         </div>
         <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
           <Following/>
         </div>
       </div>
-<!--      <div class="row p-0" >-->
-<!--        <div class="col-12 custom-width">-->
-<!--          <YourPage />-->
-<!--          <Friends />-->
-<!--          <Following />-->
-<!--          <ShortProfile />-->
-<!--          <LastActivity />-->
-<!--        </div>-->
-<!--      </div>-->
-
     </div>
   </div>
 
@@ -56,35 +70,62 @@
 </template>
 
 <script>
-import LastActivity from "./LastActivity";
-import Following from "./Following";
-import SideBarMenu from "./SideBarMenu";
-import EditInformation from "./EditInformation";
-import Friends from "./Friends";
-import Socials from "./Socials";
-import ShortProfile from "./ShortProfile";
-import YourPage from "./YourPage";
-import RecentPhotos from "./RecentPhotos";
 
+
+import Friends from "./Friends";
+import Following from "./Following";
 export default {
   name: "SideBar",
   components: {
-    RecentPhotos,
     Friends,
-    YourPage,
-    ShortProfile,
-    Socials,
-    EditInformation,
-    SideBarMenu,
     Following,
-    LastActivity,
+  },
+  async fetch() {
+    try {
+      const birthdate_list = await this.$repositories.getBirthdateList.getBirthdateList();
+      this.birthdateList = birthdate_list.data.data;
+      console.log(this.birthdateList)
+    }catch (error) {
+      console.log(error);
+    }
   },
   data() {
     return {
       routePage: null,
       friendNameFilter: "",
+      birthdateList:[],
+      userinfo: {},
+
 
     };
+  },
+  methods:{
+    async getUserInfo() {
+      try {
+        const response = await this.$repositories.getUserByToken.getUserByToken();
+        this.userinfo = response.data.userInfo;
+        console.log('this.userinfo',this.userinfo)
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async goToUserProfile(user){
+      try {
+        this.$router.push({path: `/user/${user.userName}/posts`});
+      }catch (e){
+        console.log(e)
+      }
+    },
+    profileLinkGenerator(user) {
+      console.log('user',user)
+      if(user.userId === this.$auth.user.userInfo.userId){
+        this.$router.push("/social/AccountSetting/MyPage");
+      }
+      else {
+        this.$router.push({ path: `/user/${user.userId}/posts` });
+      }
+    },
+
   },
   computed:{
     VuexHeaderData() {
@@ -129,6 +170,15 @@ export default {
 </script>
 
 <style scoped>
+.contact-list :hover {
+  background: #f0f2f5;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.friendEmailStatus {
+  font-size: 11px;
+  color: #999;
+}
 .searchFriend {
   border: 1px solid #eaeaea;
   color: #575757;

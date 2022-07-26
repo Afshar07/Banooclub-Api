@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="row boxMainContent mx-auto" v-else>
-      <div class="col-lg-3" v-for="service in my_services">
+      <div class="col-lg-3" v-for="(service,idx) in my_services" :key="idx">
         <ProductItem style="width: 220px !important;" class="my-3" :service_details="service" :show_buttons="true"/>
       </div>
     </div>

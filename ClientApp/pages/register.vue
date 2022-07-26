@@ -79,6 +79,18 @@ import GetOtp from "../components/Register/GetOtp.vue";
 import RegisterForm from "../components/Register/RegisterForm.vue";
 
 export default {
+  head() {
+    return {
+      title: 'ثبت نام',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: 'ثبت نام',
+        },
+      ],
+    }
+  },
   name: "Register",
   components: { LoginBanner, GetOtp, RegisterForm },
   auth: "guest",

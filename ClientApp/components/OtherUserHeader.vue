@@ -266,7 +266,7 @@ export default {
     },
     userAvatar() {
       if (this.getUserDetails && this.getUserDetails.baseData && this.getUserDetails.baseData.selfie) {
-        return this.BaseUrl + this.getUserDetails.baseData.selfie;
+        return this.BaseUrl +'media/gallery/profile/'+ this.getUserDetails.baseData.selfie;
 
       } else {
         return "/defaultUser.png"

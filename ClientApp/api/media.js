@@ -15,7 +15,35 @@ export default (context, resources) => ({
       console.log(error);
     }
   },
+  async getUserMedias(params) {
+    try {
+      const response = await context.$axios.post(resources,null,{
+        params
+      });
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async getUserMediasByUserName(params) {
+    try {
+      const response = await context.$axios.post(resources,null,{
+        params
+      });
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  },
   async getMyPhotos() {
+    try {
+      const response = await context.$axios.post(resources, null);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async getMyMediaGallery() {
     try {
       const response = await context.$axios.post(resources, null);
       return response;
@@ -30,5 +58,9 @@ export default (context, resources) => ({
     } catch (error) {
       console.log(error);
     }
+  },
+  async uploadMediaGallery(payload) {
+    const response = await context.$axios.post(resources, payload);
+    return response;
   },
 });

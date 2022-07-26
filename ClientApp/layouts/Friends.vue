@@ -1,5 +1,5 @@
 <template>
-  <div class="row mb-4 d-none d-lg-block m-0 col-12 p-0">
+  <div class="row mb-4 d-lg-block m-0 col-12 p-0">
 <!--    <div class="col-12 text-end">-->
 <!--      <span class="titleSection">دنبال کنندگان</span>-->
 <!--    </div>-->
@@ -13,14 +13,14 @@
 <!--    </div>-->
     <div class="col-12 p-0" v-if="friendListFilter.length > 0">
       <transition-group name="list">
-        <div class="contact-list tw-w-full" @click="goToUserProfile(item.followerUserId)" v-for="item in friendListFilter" :key="item.followerUserId">
+        <div class="contact-list tw-w-full"  v-for="(item,idx) in friendListFilter" :key="idx">
           <div class="d-flex flex-row justify-content-start align-items-center tw-w-full">
             <div class="justify-content-center align-items-center position-relative tw-pr-2">
               <img
                 v-if="item.userInfo.selfieFileData"
                 style="width: 35px;height: 35px;"
                 class="friendPicture"
-                :src="`https://banooclubapi.simagar.com/${item.userInfo.selfieFileData}`"
+                :src="`https://banooclubapi.simagar.com/media/gallery/profile/${item.userInfo.selfieFileData}`"
                 alt=""
               />
               <img
@@ -33,16 +33,23 @@
             </div>
             <div class="p-2">
               <div class="d-flex flex-column text-end">
-                <div class="friendName">
+                <div class="friendName text-primary tw-cursor-pointer" @click="goToUserProfile(item.userInfo)">
                   {{ item.userInfo.name + " " + item.userInfo.familyName }}
                 </div>
-                <div class="friendEmailStatus">[ایمیل محافظت شده است]</div>
+<!--                <div class="friendLink" v-if="item.userInfo.bio !== undefined">-->
+<!--                  {{ item.userInfo.bio }}-->
+<!--                </div>-->
+
               </div>
             </div>
           </div>
         </div>
       </transition-group>
     </div>
+    <div class="col-12 text-warning fw-bold text-center mt-3" v-else>
+      هیچ دنبال کننده ای برای نمایش وجود ندارد
+    </div>
+
   </div>
 </template>
 
@@ -59,21 +66,11 @@ export default {
     this.getFollower();
   },
   methods: {
-    goToUserProfile(userId) {
-      if (userId === this.$auth.user.userInfo.userId) {
-        this.$router.push("/social");
-      } else {
-        this.$router.push({
-          path: "/social/accountsetting/posts",
-          query: { userId: userId },
-        });
-        this.$store.commit("SetSearchedUserId", userId);
-
-        this.$axios
-          .post(`Common/GetUserIndex?userId=${userId}`, null, {})
-          .then((res) => {
-            this.$store.commit("SetUserData", res.data);
-          });
+    async goToUserProfile(user){
+      try {
+        this.$router.push({path: `/user/${user.userName}/posts`});
+      }catch (e){
+        console.log(e)
       }
     },
     getFollower() {
@@ -107,7 +104,6 @@ export default {
   background: #f0f2f5;
   cursor: pointer;
   border-radius: 10px;
-
 }
 
 .contact-list {

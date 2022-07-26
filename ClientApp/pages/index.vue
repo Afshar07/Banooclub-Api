@@ -85,7 +85,11 @@ export default {
   name: "Login",
   loading: false,
   auth: "guest",
-
+  head(){
+    return{
+      title:'ثبت نام'
+    }
+  },
   components: {RegisterModal, LoginBanner, LoginForm },
   data() {
     return {
@@ -166,7 +170,7 @@ export default {
         //   user: response.data.data.user,
         // });
         if (response.data.data.user.role === "Admin") {
-          this.$router.push({ name: "SuperAdmin", path: "/SuperAdmin" });
+          this.$router.push({ path: "/social" });
         } else {
           this.$router.push({ path: "/social" });
         }

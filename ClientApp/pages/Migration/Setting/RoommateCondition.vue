@@ -818,6 +818,19 @@ export default {
   name: "RoommateCondition",
   components: { QuillExampleNuxt },
   layout: "PoshtebamPlusLayout",
+  head() {
+    return {
+
+      title: 'افزودن هم خانه',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content:'افزودن هم خانه',
+        },
+      ],
+    };
+  },
   data() {
     return {
       optionsHome: [

@@ -63,19 +63,7 @@
                   </label>
                 </div>
               </div>
-              <div class="my-5">
-                <veeno
-                  @end="getSliderValue"
-                  connect
-                  :tooltips="[true, true]"
-                  :handles="[250, 500]"
-                  :rtl="true"
-                  :range="{
-                'min': 250,
-                'max': 500
-                }"
-                />
-              </div>
+
               <div class="border-bottom my-3 pb-1">تاریخ پذیرش</div>
               <div>
                 <div class="d-flex flex-row mb-3">
@@ -235,12 +223,11 @@
 </template>
 
 <script>
-import veeno from 'veeno';
-import 'nouislider/distribute/nouislider.min.css';
+
+
 
 export default {
   name: "RoommateSidebar",
-  components: {veeno},
   data() {
     return {
       country: [

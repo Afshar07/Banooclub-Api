@@ -1,11 +1,8 @@
 export default (context, resources) => ({
-  async getAllTickets(pageNumber = 1, count = 50) {
+  async getAllTickets(params) {
     try {
       const response = await context.$axios.post(resources, null, {
-        params: {
-          pageNumber,
-          count,
-        },
+        params
       });
       return response;
     } catch (error) {

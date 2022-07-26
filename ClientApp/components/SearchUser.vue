@@ -6,15 +6,15 @@
           type="text"
           class="w-100 border rounded py-2 mb-5"
           v-model.trim="userSearch"
-          placeholder="جستجوی کاربران ..."
+          placeholder="جست‌وجوی کاربران ..."
         />
       </div>
       <div class="col-12" v-if="!(userData === null)">
         <div
           class="d-flex gap-5 styleCursor"
-          v-for="item in userData"
-          :key="item"
-          @click="goToUserProfile(item.userId)"
+          v-for="(item,idx) in userData"
+          :key="idx"
+          @click="goToUserProfile(item)"
         >
           <div class="">
             <img
@@ -59,12 +59,12 @@ export default {
       });
       this.$store.commit("SetSearchedUserId", userId);
     },
-    goToUserProfile(userId) {
-      this.$router.push({
-        path: "/social/accountsetting/posts",
-        query: { userId: userId },
-      });
-      this.$store.commit("SetSearchedUserId", userId);
+    async goToUserProfile(user){
+      try {
+        this.$router.push({path: `/user/${user.userName}/posts`});
+      }catch (e){
+        console.log(e)
+      }
     },
   },
   watch: {

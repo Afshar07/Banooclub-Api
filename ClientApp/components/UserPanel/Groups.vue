@@ -7,7 +7,7 @@
       <nuxt-link to="#" class="tw-text-blue-600 text-decoration-none"> دیدن همه</nuxt-link>
     </div>
     <div>
-      <GroupsItem v-for="i in 5"/>
+      <GroupsItem v-for="(item,idx) in Groups" :item="item" :key="idx"/>
     </div>
   </div>
 
@@ -18,7 +18,24 @@
 import GroupsItem from "./GroupsItem";
 export default {
   name: "Groups",
-  components: {GroupsItem}
+  components: {GroupsItem},
+  data(){
+    return{
+      Groups:[]
+    }
+  },
+  methods:{
+
+  },
+  // async fetch(){
+  //   try {
+  //     const res =await this.$repositories.GetAllGroups.GetAllGroups()
+  //         this.Groups = res.data
+  //     console.log(this.Groups)
+  //   }catch (e){
+  //     console.log(e)
+  //   }
+  // },
 }
 </script>
 

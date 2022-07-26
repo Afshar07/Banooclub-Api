@@ -24,7 +24,18 @@ export default {
     ProductDetail,
     SideBar,
   },
-
+  head() {
+    return {
+      title: 'جزئیات خدمت',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: 'جزئیات خدمت',
+        },
+      ],
+    }
+  },
   methods:{
     SideNavPictureVideoToggle(data) {
       this.displaySideNav = false;

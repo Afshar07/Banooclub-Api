@@ -27,7 +27,7 @@
       >
         <vueper-slide v-for="ad in Ads">
           <template #content>
-            <AdItem :AdDetail="ad" :category_details="categories"/>
+            <AdItem :AdsDetail="ad" :category_details="categories"/>
           </template>
         </vueper-slide>
       </vueper-slides>
@@ -110,7 +110,7 @@
         >
           <vueper-slide v-for="Ad in Ads">
             <template #content>
-              <AdItem :service_details="Ad" :category_details="categories"/>
+              <AdItem :AdsDetail="Ad" :category_details="categories"/>
             </template>
           </vueper-slide>
         </vueper-slides>
@@ -150,7 +150,7 @@
         >
           <vueper-slide v-for="Ad in Ads">
             <template #content>
-              <AdItem :service_details="Ad" :category_details="categories"/>
+              <AdItem :AdsDetail="Ad" :category_details="categories"/>
             </template>
           </vueper-slide>
         </vueper-slides>
@@ -184,7 +184,7 @@ export default {
   },
   props:{
     Ads:{
-      type:Object,
+      type:Array,
       required: true
     },
     categories:{

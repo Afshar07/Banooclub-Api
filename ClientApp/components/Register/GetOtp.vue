@@ -21,7 +21,7 @@
     <div class="col-12 mt-3 text-center">
       <button
         type="button"
-        class="tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full mt-3"
+        class="tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full"
         @click="sendOtpCode"
       >
         ارسال کد

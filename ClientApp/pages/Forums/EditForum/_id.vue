@@ -74,7 +74,19 @@ export default {
       ForumTitle:''
     }
   },
+  head() {
+    return {
 
+      title: 'ویرایش انجمن',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content:'ویرایش انجمن',
+        },
+      ],
+    };
+  },
   async fetch(){
     try {
 

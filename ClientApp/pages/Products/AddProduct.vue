@@ -1,24 +1,24 @@
 <template>
-  <div class="container mcontainer">
-    <div class="row">
+  <div class=" mcontainer px-2">
+    <div class="row" style="padding-left: 0">
       <h1 class="tw-text-2xl tw-font-semibold pb-3">افزودن خدمت</h1>
-      <div class="row">
-        <div class="col-md-6 col-sm-12 pt-3">
+      <div class="row" style="padding-left: 0">
+        <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
           <label>نام خدمت *</label>
           <input v-model="service_title" type="text" class="with-border" placeholder="نام خدمت"
                  :class="{BorderRed:service_title==='',BorderGreen:service_title!==''}">
         </div>
-        <div class="col-md-6 col-sm-12 pt-3">
+        <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
           <label>دسته بندی خدمت *</label>
           <select v-model="service_category" class="form-select" aria-label="Default select example"
                   :class="{BorderRed:service_category===null,BorderGreen:service_category!==null}">
             <option :value="null">دسته بندی خدمت</option>
-            <option v-for="service_category in categories" :value="service_category.serviceCategoryId">
+            <option v-for="(service_category,idx) in categories" :key="idx"  :value="service_category.serviceCategoryId">
               {{ service_category.title }}
             </option>
           </select>
         </div>
-        <div class="col-12 py-3">
+        <div class="col-12 py-3" style="padding-left: 0">
           <label>توضیحات</label>
           <textarea
             v-model="service_desc"
@@ -29,7 +29,7 @@
             id="description"
           ></textarea>
         </div>
-        <div class="col-12 py-3">
+        <div class="col-12 py-3" style="padding-left: 0">
           <label>آدرس</label>
           <textarea
             v-model="service_address"
@@ -40,37 +40,37 @@
             id="address"
           ></textarea>
         </div>
-        <div class="col-12 py-3">
+        <div class="col-12 py-3" style="padding-left: 0">
           <div class="labelText">موقعیت روی نقشه</div>
           <div class="my-3" id="map-wrap" style="height: 50vh">
             <client-only>
               <l-map :zoom="17" :center="center" @click="addMarker">
                 <l-tile-layer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
                 ></l-tile-layer>
                 <l-marker :lat-lng="latlng"></l-marker>
               </l-map>
             </client-only>
           </div>
         </div>
-        <div class="col-md-6 col-sm-12 pt-3">
+        <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
           <label>شماره تلفن 1</label>
           <input maxlength="11" v-model="phone_number1" type="number" class="with-border" placeholder="شماره تلفن">
         </div>
-        <div class="col-md-6 col-sm-12 pt-3">
+        <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
           <label>شماره تلفن 2</label>
           <input maxlength="11" v-model="phone_number2" type="number" class="with-border" placeholder="شماره تلفن">
         </div>
-        <div class="col-md-6 col-sm-12 pt-3">
-          <label>شماره همراه *</label>
+        <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
+          <label>شماره مستقیم تماس *</label>
           <input maxlength="11" v-model="mobile" type="number" class="with-border" placeholder="شماره همراه"
                  :class="{BorderRed:mobile===0,BorderGreen:mobile!==0}">
         </div>
-        <div class="col-md-6 col-sm-12 pt-3">
+        <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
           <label>ایمیل</label>
           <input v-model="email" type="email" class="with-border" placeholder="ایمیل">
         </div>
-        <div class="col-md-6 col-sm-12 pt-3">
+        <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
           <div class="labelText">
             آدرس وب سایت
           </div>
@@ -78,7 +78,7 @@
             <input type="text" v-model="web_address" class="with-border" placeholder="www.example.com">
           </div>
         </div>
-        <div class="col-md-6 col-sm-12 pt-3">
+        <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
           <label class="mb-3">تاریخ انقضاء خدمت</label>
           <client-only>
             <date-picker
@@ -90,7 +90,7 @@
           </client-only>
         </div>
 
-        <div class="col-12 pt-3">
+        <div class="col-12 pt-3" style="padding-left: 0">
           <div class="labelText">
             هشتگ های خدمت
           </div>
@@ -98,7 +98,7 @@
             <input v-on:keyup.enter="addTags" v-model="tag" type="text" class="with-border"
                    placeholder="ناخن،مو،رنگ...">
             <div class="d-flex">
-              <div class="back_tags p-1 m-1 d-flex" v-for="(tag,index) in tags">
+              <div class="back_tags p-1 m-1 d-flex" v-for="(tag,index) in tags" :key="index">
                 <button @click="removeTag(index)">
                   <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-3 tw-w-3 tw-pl-1" fill="none" viewBox="0 0 24 24"
                        stroke="currentColor" stroke-width="2">
@@ -110,7 +110,7 @@
             </div>
           </div>
         </div>
-        <div class="col-12 pt-3">
+        <div class="col-12 pt-3" style="padding-left: 0">
           <div class="labelText">
             انتخاب عکس نمونه کار (اولین عکس به عنوان عکس اصلی خدمت بارگذاری می شود - حداکثر 10 عکس می توانید بارگذاری
             کنید)
@@ -134,7 +134,7 @@
             <div
               class="py-3 col-lg-1 col-md-3 px-1 tw-h-40 d-flex photos position-relative"
               v-for="(item,index) in BaseImgUrls"
-              :key="item"
+              :key="index"
             >
               <img class="tw-rounded-lg tw-h-32" :alt="service_title?service_title:''" width="100%" :src="item"
                    style="object-fit: contain" :class="{BorderGreen:index===0}"/>
@@ -145,7 +145,7 @@
           </div>
 
         </div>
-        <div class="col-12 pt-3">
+        <div class="col-12 pt-3" style="padding-left: 0">
           <div class="labelText">
             بارگذاری فیلم (حداکثر زمان ویدئوها 2 دقیقه و حداکثر 3 ویدئو می توانید بارگذاری کنید)
           </div>
@@ -184,7 +184,7 @@
           </div>
 
         </div>
-        <div class="col-12 pt-3">
+        <div class="col-12 pt-3" style="padding-left: 0">
           <div class="d-flex justify-content-between align-items-center">
             <div class="labelText">
               افزودن ویژگی خدمت (بعد از تکمیل اطلاعات ویژگی ها را ذخیره کنید)
@@ -195,7 +195,7 @@
           </div>
 
           <div class="d-flex flex-column flex-md-row justify-content-between align-items-center px-lg-5"
-               v-for="(property,idx) in property_count">
+               v-for="(property,idx) in property_count" :key="idx">
             <span class="deleteIcon m-3 pt-3" style="top: 0" @click="decreasePropertyCount(idx)">
               <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-red-600" viewBox="0 0 20 20"
                    fill="currentColor">
@@ -214,14 +214,14 @@
           </div>
           <div class="row tw-text-left" v-if="property_count.length>0">
             <div class="col-12 pt-3">
-              <button @click="addProperty()" type="button" class="button mt-auto">
+              <button @click="addProperty()" type="button" class="button mt-auto px-2">
                 ذخیره ویژگی ها
               </button>
             </div>
           </div>
         </div>
         <div class="tw-text-left col-12 pt-5">
-          <button type="button" class="button mt-auto" @click="submitCreateService">
+          <button type="button" class="button mt-auto px-2" @click="submitCreateService">
             ثبت نهایی
           </button>
         </div>
@@ -247,7 +247,14 @@ export default {
   fetchOnServer: false,
   head() {
     return {
-      title: 'افزودن خدمت'
+      title: 'افزودن خدمت',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: 'افزودن خدمت',
+        },
+      ],
     }
   },
   async fetch() {
@@ -261,6 +268,7 @@ export default {
     // Get categories
 
   },
+
   data() {
     return {
       service_title: '',
@@ -404,7 +412,13 @@ export default {
       } else if (this.service_category === null) {
         this.$toast.error("لطفا دسته بندی خدمت را مشخص کنید");
       } else if (this.mobile === 0) {
-        this.$toast.error("لطفا شماره موبایل خود را وارد کنید");
+        this.$toast.error("لطفا شماره مستقیم تماس خود را وارد کنید");
+      } else if (this.mobile !== 0 && this.mobile.length>11) {
+        this.$toast.error("فرمت وارد شده برای شماره مستقیم تماس درست نیست");
+      } else if (this. phone_number1 !== 0 && this. phone_number1.length>11) {
+        this.$toast.error("فرمت وارد شده برای شماره تلفن اول درست نیست");
+      } else if (this. phone_number2 !== 0 && this. phone_number2.length>11) {
+        this.$toast.error("فرمت وارد شده برای شماره تلفن دوم درست نیست");
       } else if (this.email !== '' && !this.email.includes('@')) {
         this.$toast.error("ایمیل وارد شده معتبر نیست");
       } else if (this.photos.length === 0) {
@@ -458,7 +472,7 @@ export default {
           this.totalPrice = result
             const res = await this.$repositories.createAService.createAService({
               title: this.service_title,
-              userId:this.$auth.user.userInfo.userId,
+              userId:0,
               serviceCategoryId: this.service_category,
               description: this.service_desc,
               seoTitle: '',
@@ -484,7 +498,7 @@ export default {
             this.$nuxt.$loading.finish();
             this.$nuxt.loading = false;
             this.$toast.success("ثبت خدمت با موفقیت انجام شد.");
-            this.$router.push({path: `/Products/Upgrade/${res.data}`});
+            this.$router.push({path: `/Products/Upgrade/${res.data}`, query: { active_tab: 'preview' }});
         } catch (error) {
           console.log(error);
           this.$nuxt.$loading.finish();

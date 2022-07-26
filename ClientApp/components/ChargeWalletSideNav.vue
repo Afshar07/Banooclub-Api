@@ -8,13 +8,13 @@
           <div class="col-12 pt-3 px-0" style="height: 100%;">
             <label>مبلغ</label>
             <div class="d-flex justify-content-center align-items-center">
-              <input type="text" class="with-border" placeholder="مبلغ">
+              <input type="number" v-model="WalletAmount" class="with-border" placeholder="مبلغ">
               <span class="px-2">تومان</span>
             </div>
           </div>
-          <div class="loadmore mt-auto pt-3">
-            <button type="button" class="button tw-w-full mt-auto">
-              پرداخت
+          <div class=" mt-auto pt-3">
+            <button type="button" class="button tw-w-full mt-auto" @click="createOrder">
+              ثبت
             </button>
           </div>
         </div>
@@ -33,6 +33,71 @@ export default {
       default: false,
     },
   },
+
+  data(){
+    return{
+      WalletAmount:0
+    }
+  },
+
+  methods:{
+   async createOrder(){
+
+      try {
+        this.$nextTick(()=>{
+          this.$nuxt.$loading.start();
+        })
+
+        let tmpSubOrders = []
+        let tmpSubOrder = {
+          orderId: 0,
+          planId: 0,
+          count: 1,
+          vendorUserId: 0,
+          price: 0,
+          title:''
+        }
+          tmpSubOrder.planId = 0
+          tmpSubOrder.price = this.WalletAmount
+          tmpSubOrder.title = 'شارژ کیف پول'
+          tmpSubOrder.vendorUserId = 0
+          tmpSubOrder.orderId = 0
+          tmpSubOrder.count = 1
+          const clone = {...tmpSubOrder}
+          tmpSubOrders.push(clone)
+          tmpSubOrder.planId = 0
+          tmpSubOrder.orderId = 0
+          tmpSubOrder.count = 0
+          tmpSubOrder.vendorUserId = 0
+          tmpSubOrder.price = 0
+          tmpSubOrder.title = ''
+
+
+        const res = await this.$repositories.createAOrder.createAOrder({
+          isDeleted: false,
+          orderId: 0,
+          isPayed: false,
+          description: "شارژ کیف پول",
+          sumPrice: this.WalletAmount,
+          userId: 0,
+          createDate: new Date(Date.now()),
+          status: 1,
+          subOrders: tmpSubOrders
+        });
+        this.$nuxt.$loading.finish();
+        this.$nuxt.loading = false;
+        this.$toast.success("سفارش شما با موفقیت ثبت شد.");
+        this.$router.push({path: `/Products/Order/${res.data}`});
+
+      }
+      catch (error){
+        console.error(error)
+      }finally {
+        this.$nuxt.$loading.finish();
+        this.$nuxt.loading = false;
+      }
+    },
+  }
 
 }
 </script>

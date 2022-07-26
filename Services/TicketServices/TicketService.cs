@@ -125,7 +125,7 @@ namespace BanooClub.Services.TicketServices
                 ticket.FileData = dbMedia == null ? "" : "media/gallery/Ticket/" + dbMedia.PictureUrl;
                 var dbSelfie = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId==ticket.UserId && z.Type == MediaTypes.Profile);
                 ticket.UserInfo=_userRepository.GetQuery().FirstOrDefault(z=>z.UserId==ticket.UserId);
-                ticket.UserInfo.SelfieFileData= dbSelfie == null ? "" : "media/gallery/Profile/" + dbSelfie.PictureUrl;
+                ticket.UserInfo.SelfieFileData= dbSelfie == null ? "" :  dbSelfie.PictureUrl;
                 ticket.UserInfo.Password = null;
             }
             return new ServiceResult<object>().Ok(dbTickets);
@@ -226,7 +226,7 @@ namespace BanooClub.Services.TicketServices
                 ticket.FileData = dbMedia == null ? "" : "media/gallery/Ticket/" + dbMedia.PictureUrl;
                 var dbSelfie = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId==ticket.UserId && z.Type == MediaTypes.Profile);
                 ticket.UserInfo=_userRepository.GetQuery().FirstOrDefault(z => z.UserId==ticket.UserId);
-                ticket.UserInfo.SelfieFileData= dbSelfie == null ? "" : "media/gallery/Profile/" + dbSelfie.PictureUrl;
+                ticket.UserInfo.SelfieFileData= dbSelfie == null ? "" : dbSelfie.PictureUrl;
             }
             var ResultCount = dbTickets.Where(z => z.Content.Contains(search) || z.Title.Contains(search)).Count();
             var obj = new

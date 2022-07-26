@@ -3,10 +3,21 @@
     <div class="row">
       <h2 class="tw-text-2xl tw-font-semibold pb-3">افزودن انجمن</h2>
       <div class="row">
-        <div class="col-12 pt-3">
+        <div class="col-6 pt-3">
           <label>نام انجمن *</label>
           <input v-model="forum_title" type="text" class="with-border" placeholder="نام انجمن"
                  :class="{BorderRed:forum_title==='',BorderGreen:forum_title!==''}">
+        </div>
+
+        <div class="col-6 pt-3">
+          <label>دسته بندی انجمن *</label>
+          <v-select
+            :options="Categories"
+            v-model="SelectedCategoryId"
+            label="title"
+            placeholder="دسته بندی" dir="rtl"
+            :reduce="title => title.forumCategoryId"
+          ></v-select>
         </div>
         <div class="col-12 pt-3">
           <div class="labelText">
@@ -67,6 +78,33 @@ export default {
       forum_desc: '',
       tags: [],
       tag: '',
+      Categories:[],
+      SelectedCategoryId:null
+    }
+  },
+  head() {
+    return {
+
+      title: 'افزودن انجمن',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content:'افزودن انجمن',
+        },
+      ],
+    };
+  },
+  async fetch(){
+    try {
+      const res = await this.$repositories.getAllForumCategory.getAllForumCategory({
+        pageNumber:1,
+        count:100,
+        searchCommand:''
+      })
+      this.Categories = res.data.forumCategories
+    }catch (e) {
+      console.log(e)
     }
   },
   methods: {
@@ -75,7 +113,9 @@ export default {
         this.$toast.error('نام انجمن را وارد کنید')
       } else if (this.forum_desc === '') {
         this.$toast.error("لطفا توضیحات انجمن را مشخص کنید");
-      } else {
+      } else if(this.SelectedCategoryId===0){
+        this.$toast.error("لطفا دسته بندی انجمن را انتخاب کنید");
+      }else {
         let tmptags = []
         let tmptag = {
           type: 2,
@@ -99,7 +139,7 @@ export default {
             description: this.forum_desc,
             userId: 0,
             tags: tmptags,
-            forumCategoryId: 1,
+            forumCategoryId: this.SelectedCategoryId,
           })
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
@@ -120,6 +160,7 @@ export default {
     removeTag(index) {
       this.tags.splice(index, 1)
     },
+
     addTags() {
       if (this.tag === '') {
         this.$toast.error('هشتگ مورد نظر را وارد کنید')

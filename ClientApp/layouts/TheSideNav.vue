@@ -37,86 +37,120 @@
     <div v-if="show" class="sidenav-backdrop" @click="$emit('close')"></div>
     <transition name="slide-side">
       <div v-if="show" class="sidenav">
-        <div class="row mb-3">تنظیمات عمومی</div>
+        <div class="row mb-3">حریم خصوصی</div>
         {{ $store.state.loggedInfo.isPrivate }}
 
-        <div
-          class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2"
-        >
-          <div class="sidenavOptionText">نمایش پروفایل</div>
-          <div class="">
-            <label class="switch">
-              <input
-                type="checkbox"
-                id="togBtn5"
-                @input="isPrivateMethod"
-                v-model="isPrivate"
-              />
-              <div class="slider round">
-                <span class="on">عمومی</span>
-                <span class="off">خصوصی</span>
-              </div>
-            </label>
-          </div>
-        </div>
-        <div
-          class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2"
-        >
-          <div class="sidenavOptionText">نمایش شبکه اجتماعی</div>
+<!--        <div-->
+<!--          class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2"-->
+<!--        >-->
+<!--          <div class="sidenavOptionText">نمایش پروفایل</div>-->
+<!--          <div class="">-->
+<!--            <label class="switch">-->
+<!--              <input-->
+<!--                type="checkbox"-->
+<!--                id="togBtn5"-->
+<!--                @input="isPrivateMethod"-->
+<!--                v-model="isPrivate"-->
+<!--              />-->
+<!--              <div class="slider round">-->
+<!--                <span class="on">بله</span>-->
+<!--                <span class="off">خیر</span>-->
+<!--              </div>-->
+<!--            </label>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div-->
+<!--          class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2"-->
+<!--        >-->
+<!--          <div class="sidenavOptionText">نمایش شبکه اجتماعی</div>-->
+<!--          <div class="">-->
+<!--            <label class="switch">-->
+<!--              <input-->
+<!--                type="checkbox"-->
+<!--                id="togBtn12"-->
+<!--                @input="isPrivateSocialMethod"-->
+<!--                v-model="isPrivateSocial"-->
+<!--                :disabled="!isPrivate ? false : true"-->
+<!--              />-->
+<!--              <div class="slider round">-->
+<!--                <span class="on">بله</span>-->
+<!--                <span class="off">خیر</span>-->
+<!--              </div>-->
+<!--            </label>-->
+<!--          </div>-->
+<!--        </div>-->
+        <div class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2">
+          <div class="sidenavOptionText">نمایش گالری</div>
           <div class="">
             <label class="switch">
               <input
                 type="checkbox"
                 id="togBtn12"
-                @input="isPrivateSocialMethod"
-                v-model="isPrivateSocial"
-                :disabled="!isPrivate ? false : true"
+                @input="isPrivateGalleryFriendMethod"
+                :checked="PrivateGalleryFriendMethod"
               />
               <div class="slider round">
-                <span class="on">عمومی</span>
-                <span class="off">خصوصی</span>
+                <span class="on">بله</span>
+                <span class="off">خیر</span>
               </div>
             </label>
           </div>
         </div>
-        <div
-          class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2"
-        >
-          <div class="sidenavOptionText">نمایش هم خانه</div>
+        <div class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2">
+          <div class="sidenavOptionText">نمایش پست</div>
           <div class="">
             <label class="switch">
               <input
                 type="checkbox"
-                id="togBtn13"
-                @input="isPrivateRoomateMethod"
-                v-model="isPrivateRoomate"
+                id="togBtn12"
+                @input="isPrivatePostMethod"
+                :checked="PrivatePostMethod"
               />
               <div class="slider round">
-                <span class="on">خصوصی</span>
-                <span class="off">عمومی</span>
+                <span class="on">بله</span>
+                <span class="off">خیر</span>
               </div>
             </label>
           </div>
         </div>
-        <div
-          class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2"
-        >
-          <div class="sidenavOptionText">نمایش آگهی</div>
-          <div class="">
-            <label class="switch">
-              <input
-                type="checkbox"
-                id="togBtn14"
-                @input="isPrivateAdsMethod"
-                v-model="isPrivateAds"
-              />
-              <div class="slider round">
-                <span class="on">عمومی</span>
-                <span class="off">خصوصی</span>
-              </div>
-            </label>
-          </div>
-        </div>
+<!--        <div-->
+<!--          class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2"-->
+<!--        >-->
+<!--          <div class="sidenavOptionText">نمایش هم خانه</div>-->
+<!--          <div class="">-->
+<!--            <label class="switch">-->
+<!--              <input-->
+<!--                type="checkbox"-->
+<!--                id="togBtn13"-->
+<!--                @input="isPrivateRoomateMethod"-->
+<!--                v-model="isPrivateRoomate"-->
+<!--              />-->
+<!--              <div class="slider round">-->
+<!--                <span class="on">خصوصی</span>-->
+<!--                <span class="off">عمومی</span>-->
+<!--              </div>-->
+<!--            </label>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div-->
+<!--          class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2"-->
+<!--        >-->
+<!--          <div class="sidenavOptionText">نمایش آگهی</div>-->
+<!--          <div class="">-->
+<!--            <label class="switch">-->
+<!--              <input-->
+<!--                type="checkbox"-->
+<!--                id="togBtn14"-->
+<!--                @input="isPrivateAdsMethod"-->
+<!--                v-model="isPrivateAds"-->
+<!--              />-->
+<!--              <div class="slider round">-->
+<!--                <span class="on">عمومی</span>-->
+<!--                <span class="off">خصوصی</span>-->
+<!--              </div>-->
+<!--            </label>-->
+<!--          </div>-->
+<!--        </div>-->
         <!--        <div class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2">-->
         <!--          <div class="sidenavOptionText">از حالت شب استفاده کنید</div>-->
         <!--          <div class="">-->
@@ -259,6 +293,7 @@ export default {
       currentState: false,
       isPrivate: this.$store.state.loggedInfo?.IsPrivateActivity,
       isPrivateSocial: this.$store.state.isPrivateSocial,
+      isPrivateGalleryFriend: this.$store.state.isPrivateGalleryFriend,
       isPrivateRoomate: this.$store.state.isPrivateRoomate,
       isPrivateAds: this.$store.state.isPrivateAds,
     };
@@ -267,6 +302,14 @@ export default {
     Private() {
       return this.$store.state.loggedInfo.Private;
     },
+    PrivateGalleryFriendMethod(){
+      console.log(this.$auth.user.userInfo.userSetting.isPrivateGalleryFriend)
+      return this.$auth.user.userInfo.userSetting.isPrivateGalleryFriend
+    },
+    PrivatePostMethod(){
+      console.log(this.$auth.user.userInfo.userSetting.isPrivatePost)
+      return this.$auth.user.userInfo.userSetting.isPrivatePost
+    }
   },
   methods: {
     updateMap(e, val) {
@@ -287,6 +330,50 @@ export default {
           if (response.status === 200) {
             this.$toast.success(
               "تنظیمات نمایش شبکه اجتماعی با موفقیت به روز رسانی شد. "
+            );
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async isPrivateGalleryFriendMethod(e) {
+
+      this.$axios
+        .post(
+          "UserSetting/Update",
+          {
+            isPrivateGalleryFriend: !this.$auth.user.userInfo.userSetting.isPrivateGalleryFriend
+          },
+          {}
+        )
+        .then(async (response) => {
+          if (response.status === 200) {
+           await this.$auth.fetchUser()
+            this.$toast.success(
+              "تنظیمات نمایش گالری و دوستان با موفقیت به روز رسانی شد. "
+            );
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async isPrivatePostMethod(e) {
+
+      this.$axios
+        .post(
+          "UserSetting/Update",
+          {
+            isPrivatePost: !this.$auth.user.userInfo.userSetting.isPrivatePost
+          },
+          {}
+        )
+        .then(async (response) => {
+          if (response.status === 200) {
+           await this.$auth.fetchUser()
+            this.$toast.success(
+              "تنظیمات نمایش پست با موفقیت به روز رسانی شد. "
             );
           }
         })
@@ -411,7 +498,7 @@ export default {
   background-color: white;
   z-index: 10000;
   position: fixed;
-  top: 77px;
+  top: 0;
   left: 0;
   box-sizing: border-box;
   padding: 30px;

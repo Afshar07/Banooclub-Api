@@ -3,15 +3,17 @@
     <div>
       <h2 class="tw-text-xl tw-font-semibold tw-mb-2"> مقالات اخیر </h2>
       <ul class="tw-space-y-3">
-        <li v-for="i in 5">
+        <li v-for="item in RecentBlog">
           <div class="tw-flex tw-flex-col tw-items-start my-2">
-            <p class="m-0">Lorem ipsum dolor sit amet,um dignissimos eligendi illum in, ipsum nulla quae quia suscipit! Eius, rerum.</p>
+            <nuxt-link class="text-decoration-none tw-text-black hover:tw-text-blue-500 tw-transition" :to="`/Blog/BlogDetail/${item.blogId}`">
+              <p class="m-0">{{item.title}}</p>
+            </nuxt-link>
             <div class="tw-flex tw-items-center tw-justify-end tw-gap-2">
               <div class="tw-flex tw-items-center tw-gap-1">
-                <small class=" tw-text-stone-400">11</small>
+                <small class=" tw-text-stone-400">{{item.commentsCount}}</small>
                 <i class="fas fa-comments tw-text-stone-400"></i>
               </div>
-              <small class="text-secondary">{{new Date(Date.now()).toLocaleDateString('fa-IR')}}</small>
+              <small class="text-secondary">{{new Date(item.createDate).toLocaleDateString('fa-IR')}}</small>
             </div>
           </div>
         </li>
@@ -23,7 +25,24 @@
 
 <script>
 export default {
-  name: "TopCommenters"
+  name: "RecentBlogs",
+  data(){
+    return{
+      RecentBlog:[]
+    }
+  },
+
+  async fetch (){
+      try {
+        const res = await this.$repositories.GetMostPopular.GetMostPopular({
+          pageNumber:1,
+          count:5
+        })
+        this.RecentBlog = res.data.blogs
+      }catch (e){
+        console.log(e)
+      }
+  }
 }
 </script>
 

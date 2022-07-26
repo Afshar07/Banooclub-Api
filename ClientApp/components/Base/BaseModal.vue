@@ -3,14 +3,14 @@
 // buttons). Just pass a variable as isRenderingModal and handle open/close //
 using that
 <template>
-  <div class="modal-container position-relative" v-if="isRenderingModal">
+  <div class="modal-container position-relative" v-if="isRenderingModal" style="z-index: 9999;">
     <transition name="overlay">
       <div class="overlay" @click="closeModal" v-show="isModalDone"></div>
     </transition>
     <transition name="modal" appear mode="in-out">
       <div class="modal-body" v-show="isModalDone">
-        <header style="border-radius: 0.5rem;" class="d-flex justify-content-between align-items-center p-1 border-bottom pb-1">
-          <h4 style="font-family: iranSans !important;">
+        <header style="border-radius: 0.5rem;" class="d-flex justify-content-between align-items-center border-bottom p-2">
+          <h4 class="mb-0" style="font-family: iranSans !important;">
             <slot name="title"></slot>
           </h4>
           <svg
@@ -29,7 +29,7 @@ using that
             />
           </svg>
         </header>
-        <main class="my-4">
+        <main class="pt-5">
           <slot name="content"></slot>
         </main>
         <footer class="mt-4">
@@ -77,7 +77,7 @@ export default {
 <style scoped>
 @media only screen and (max-width: 768px) {
   .modal-body {
-    width: 100%;
+    width: 95%;
     height: auto;
     position: fixed;
     bottom: 0;
@@ -85,8 +85,9 @@ export default {
     transform: translate(-50%, 0%);
     background-color: #fff;
     border-radius: 0.5rem;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    bottom: 50%;
+    /*border-bottom-left-radius: 0;*/
+    /*border-bottom-right-radius: 0;*/
   }
   @keyframes modal-show {
     0% {

@@ -3,11 +3,11 @@
     <h4 class="tw-text-lg tw-font-semibold"> دوستان </h4>
     <p class="tw-text-sm">{{ $auth.user.baseData.followersCount }} نفر</p>
     <div class="tw-grid tw-grid-cols-3 tw-gap-3 tw-text-gray-600 tw-font-semibold">
-      <nuxt-link class="text-decoration-none" v-for="friend in followingList" to="#">
+      <nuxt-link class="text-decoration-none" v-for="(friend,idx) in followingList" :key="idx" to="#">
         <div class="d-flex flex-column justify-content-center align-items-center">
           <img style="width: 89px; height: 96px;" :src="`https://banooclubapi.simagar.com/${friend.userInfo.selfieFileData}`" alt=""
                class="tw-w-full tw-h-full tw-object-cover tw-rounded-md">
-          <div style="color: #4b5563" class="tw-text-sm tw-truncate mt-2"> {{ friend.userInfo.name + ' ' + friend.userInfo.familyName }}</div>
+          <div style="color: #4b5563" class="tw-text-sm tw-truncate mt-2 text-primary tw-cursor-pointer" @click="goToUserProfile(friend.userInfo)"> {{ friend.userInfo.name + ' ' + friend.userInfo.familyName }}</div>
         </div>
       </nuxt-link>
     </div>
@@ -30,6 +30,13 @@ export default {
     await this.getFriends()
   },
   methods:{
+    async goToUserProfile(user){
+      try {
+        this.$router.push({path: `/user/${user.userName}/posts`});
+      }catch (e){
+        console.log(e)
+      }
+    },
     async getFriends(){
       // Get followers
       const followers = await this.$repositories.getMyFollowers.getMyFollowers();
@@ -39,7 +46,7 @@ export default {
       const following =
         await this.$repositories.getMyFollowings.getMyFollowings();
       this.followingList = following.data;
-      console.log(this.followingList)
+
 
       // Get follow requests
       const followReqs =

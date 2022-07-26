@@ -10,7 +10,7 @@
         <label>دسته بندی خدمت</label>
         <select v-model="serviceDetailProp.serviceCategoryId" class="form-select" aria-label="Default select example">
           <option :value="null">دسته بندی خدمت</option>
-          <option v-for="service_category in categories" :value="service_category.serviceCategoryId">
+          <option v-for="(service_category,idx) in categories" :key="idx" :value="service_category.serviceCategoryId">
             {{ service_category.title }}
           </option>
         </select>
@@ -43,7 +43,7 @@
           <client-only>
             <l-map :zoom="17" :center="[serviceDetailProp.latitude,serviceDetailProp.longitude]" @click="addMarker">
               <l-tile-layer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
               ></l-tile-layer>
               <l-marker :lat-lng="[serviceDetailProp.latitude,serviceDetailProp.longitude]"></l-marker>
             </l-map>
@@ -73,7 +73,7 @@
         <div class="my-3">
           <input v-on:keyup.enter="createTag" v-model="tag" type="text" class="with-border" placeholder="ناخن،مو،رنگ...">
           <div class="d-flex">
-            <div class="back_tags p-1 m-1 d-flex" v-for="(tag,index) in serviceDetailProp.tags">
+            <div class="back_tags p-1 m-1 d-flex" v-for="(tag,index) in serviceDetailProp.tags" :key="index">
               <button @click="deleteServiceTag(tag.tagId)">
                 <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-3 tw-w-3 tw-pl-1" fill="none" viewBox="0 0 24 24"
                      stroke="currentColor" stroke-width="2">
@@ -188,7 +188,7 @@
         </div>
 
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-center px-lg-5"
-             v-for="(property,idx) in property_count">
+             v-for="(property,idx) in property_count" :key="idx">
             <span class="deleteIcon m-3 pt-3" style="top: 0" @click="decreasePropertyCount(idx)">
               <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-red-600" viewBox="0 0 20 20"
                    fill="currentColor">
@@ -219,7 +219,7 @@
         </div>
 
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-center px-md-5"
-             v-for="service_property in serviceDetailProp.properties" :key="service_property.servicePropertyId">
+             v-for="(service_property,idx) in serviceDetailProp.properties" :key="idx">
             <span class="deleteIcon m-3 pt-3" style="top: 0"
                   @click="deleteServiceProperty(service_property.servicePropertyId)">
               <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-red-600" viewBox="0 0 20 20"
@@ -237,15 +237,15 @@
             <input maxlength="11" v-model="service_property.price" type="number" class="with-border" placeholder="قیمت ویژگی">
           </div>
           <div class="pt-5">
-            <button type="button" class="button mt-auto tw-whitespace-nowrap">
+            <button type="button" class="button mt-auto tw-whitespace-nowrap px-2">
               ویرایش ویژگی
             </button>
           </div>
         </div>
       </div>
       <div class="col-12 pt-5 tw-text-left">
-        <button type="button" class="button mt-auto" @click="updateService">
-          ویرایش خدمت
+        <button type="button" class="button mt-auto px-2" @click="updateService">
+          به روز رسانی خدمت
         </button>
       </div>
     </div>
@@ -382,7 +382,7 @@ export default {
       this.BaseVideos.splice(idx, 1);
 
       this.Videos.splice(idx, 1);
-      console.log(this.BaseImgUrls);
+
     },
 
     filteredMedias() {
@@ -398,18 +398,15 @@ export default {
     deleteNewImage(index){
       this.new_image_preview.splice(index,1)
       this.serviceDetailProp.medias.splice(index,1)
-      console.log('this.new_image_preview',this.new_image_preview)
-      console.log('this.serviceDetailProp.medias',this.serviceDetailProp.medias)
+
     },
     deleteImage(item,index) {
-      console.log(item)
       this.serviceDetailProp.medias.push(
         {
           base64:item.base64,
           priority:0
         }
       )
-      console.log( this.serviceDetailProp)
       if(this.images_preview[index].priority === 1){
         this.is_first_image = true
       }
@@ -424,7 +421,7 @@ export default {
       this.$refs.picture_file.click();
     },
     onFileChange(e) {
-      console.log(this.$refs.picture_file.files);
+
       this.is_first_image = false
       const that = this;
       const f = [];
@@ -440,9 +437,9 @@ export default {
         }
       });
       f.forEach((element) => {
-        console.log('this.images_preview',this.images_preview)
+
         if(that.images_preview.length===0 && that.new_image_preview.length===0){
-          console.log('salam')
+
           this.is_first_image = true
           this.new_image_preview.push({
             base64:URL.createObjectURL(element),
@@ -450,13 +447,13 @@ export default {
           });
         }
         else{
-          console.log('salam,khobi')
+
           that.new_image_preview.push({
             base64:URL.createObjectURL(element),
             priority:2
           });
         }
-        console.log('that.new_image_preview',that.new_image_preview)
+
         const reader = new FileReader();
         reader.onload = (function (theFile) {
           return function () {
@@ -478,14 +475,14 @@ export default {
 
           };
         })(f);
-        console.log('that.serviceDetailProp.medias',that.serviceDetailProp.medias)
+
         reader.readAsBinaryString(element);
       });
     },
 
     async updateService() {
       if(this.serviceDetailProp.medias.length===0 && this.images_preview.length===0){
-        console.log('khaliiiii')
+
         this.$toast.error('حداقل یک عکس بارگذاری کنید')
       }
       else {
@@ -501,9 +498,10 @@ export default {
           const res = await this.$repositories.updateAService.updateAService(this.serviceDetailProp);
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
-          console.log('res', res)
+
           this.$toast.success("خدمت با موفقیت ویرایش شد");
-          this.$router.push({path: `/Products/${res.data.servicePackId}`});
+          this.$router.push({path: `/Products/Upgrade/${res.data.servicePackId}`, query: { active_tab: 'preview' }});
+
 
         } catch (error) {
           console.log(error);

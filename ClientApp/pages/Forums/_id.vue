@@ -1,5 +1,23 @@
 <template>
   <div class="container mcontainer" v-if="forumDetails">
+
+    <div class="modal fade" id="ReportForum" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">گزارش انجمن</h5>
+
+          </div>
+          <div class="modal-body">
+            <span>آیا از انجام این عملیات مطمئنید؟</span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">خیر</button>
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" @click="ReportForum">بله</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <h1 class="tw-text-2xl tw-font-semibold"> {{ forumDetails.title }} </h1>
     <div class="d-flex align-items-center gap-2">
       <p class="tw-text-sm d-flex align-items-center tw-text-gray-400 tw-my-2">
@@ -17,9 +35,10 @@
           {{forumDetails.viewsCount}}
         </span>
       </p>
-      <p class="tw-text-sm tw-text-gray-400 tw-my-2 px-3">
-        گزارش انجمن
-      </p>
+      <a data-bs-toggle="modal" href="#ReportForum" class=" tw-no-underline tw-text-sm  tw-cursor-pointer tw-my-2  px-3">
+        <span class="badge pill text-white bg-danger">      گزارش انجمن</span>
+
+      </a>
     </div>
 
     <div class="row py-3">
@@ -137,7 +156,8 @@ import WhatsappIcon from "../../components/Icons/WhatsappIcon";
 import InstagramIcon from "../../components/Icons/InstagramIcon";
 import TopCommenters from '../../components/Forums/TopCommenters';
 export default {
-  name: "_slug",
+  name: "ForumDetail",
+
   components: {InstagramIcon, WhatsappIcon, TelegramIcon,TopCommenters},
   layout: "PoshtebamPlusLayout",
   head(){
@@ -170,6 +190,26 @@ export default {
     }
   },
   methods:{
+    async ReportForum(){
+    try {
+      this.$nextTick(()=>{
+        this.$nuxt.$loading.start()
+      })
+    const res = await this.$repositories.ReportForum.ReportForum({
+      forumId: parseInt(this.$route.params.id)
+    })
+      this.$router.push('/Forums/')
+      this.$toast.success('گزارش شما ثبت و در دست بررسی توسط ادمین است')
+      this.$nuxt.$loading.finish()
+      this.$nuxt.loading = false
+    }catch (e){
+      this.$nuxt.$loading.finish()
+      this.$nuxt.loading = false
+    }finally {
+      this.$nuxt.$loading.finish()
+      this.$nuxt.loading = false
+    }
+    },
     async ForumCommentLike(status,id){
       try {
         const res = await this.$repositories.CreateLike.CreateLike({
@@ -181,7 +221,7 @@ export default {
         if(res.data ===3){
           this.$toast.success('نمره شما ثبت شد')
         }else if(res.data ===1 ||res.data===2 ){
-          this.$toast.success('شما به این انجمن نمره داده اید')
+          this.$toast.error('شما به این انجمن نمره داده اید')
         }
         this.$nuxt.refresh();
       }catch (e) {
@@ -203,7 +243,7 @@ export default {
         if(res.data ===3){
           this.$toast.success('نمره شما ثبت شد')
         }else if(res.data ===1 ||res.data===2 ){
-          this.$toast.success('شما به این انجمن نمره داده اید')
+          this.$toast.error('شما به این انجمن نمره داده اید')
         }
 
         this.$nuxt.refresh();

@@ -265,6 +265,19 @@ export default {
       DeleteImageList:[]
     };
   },
+  head() {
+    return {
+
+      title: 'ویرایش آگهی',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content:'ویرایش آگهی',
+        },
+      ],
+    };
+  },
   methods: {
     DeleteImage(image,Idx){
 

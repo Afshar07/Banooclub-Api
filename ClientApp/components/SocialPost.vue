@@ -1,5 +1,66 @@
 <template>
   <div class="container-fluid px-0" style="border-radius: 10px;">
+    <div
+      class="modal modal-dialog fade"
+      id="staticBackdrop"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header position-relative">
+            <h5
+              class="modal-title small text-muted border-0"
+              id="staticBackdropLabel"
+            >
+              گزارش تخلف
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="d-flex">
+                  <div class="w-100">
+                        <textarea
+                          row="100"
+                          class="form-control border rounded px-0 w-100"
+                          placeholder="علت گزارش را بنویسید "
+                          id="about"
+                          v-model.trim="reportText"
+                        ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-danger closingReport"
+              data-bs-dismiss="modal"
+            >
+              انصراف
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-success"
+              @click="reportPostSubmit(modalPostId, modalUserId)"
+            >
+              ثبت گزارش
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Modal -->
     <!--    <div-->
     <!--      class="modal fade"-->
@@ -116,10 +177,11 @@
     <!--        </div>-->
     <!--      </div>-->
     <!--    </div>-->
+
     <div
       class="row boxMainContent position-relative mx-auto mb-3 main-shadow my-4 p-3"
-      v-for="item in postData"
-      :key="item.postId"
+      v-for="(item,idx) in postData"
+      :key="idx"
       style="box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);"
     >
       <div class="col-12 p-0">
@@ -151,11 +213,11 @@
                 <div class="d-flex flex-column text-end justify-content-between tw-font-semibold tw-capitalize tw-text-black">
                   <div
                     class="authorName tw-text-black"
-                    v-if="$auth.user.userInfo.userId != item.userId"
+                    v-if="$auth.user.userInfo.userId !== item.userId"
                     style="font-size: 18px; font-weight: 600;"
-                    @click="goToUserProfile(item.userId)"
+                    @click="goToUserProfile(item)"
                   >
-                    <template v-if="item.userId == $auth.user.userInfo.userId">
+                    <template v-if="item.userId === $auth.user.userInfo.userId">
                       {{ $auth.user.baseData.name + " " + $auth.user.baseData.familyName }}
                     </template>
                     <template v-else>
@@ -173,71 +235,71 @@
                 </div>
               </div>
             </div>
-<!--            <div>-->
-<!--              <button class="tw-text-2xl hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw-transition tw&#45;&#45;mr-1 tw-relative"-->
-<!--                      @click="showMore(item.postId)">-->
-<!--                <MoreIcon/>-->
-<!--              </button>-->
-<!--              <div :ref="`ShowMore${item.postId}`"-->
-<!--                   class="tw-z-10 d-none tw-absolute tw-left-0 tw-bg-white tw-w-56 tw-shadow-md tw-mx-auto tw-p-2 tw-rounded-md tw-text-gray-500 tw-text-base tw-border tw-border-gray-100">-->
-<!--                <ul class="tw-pl-0 mb-0">-->
-<!--                  <li>-->
-<!--                    <nuxt-link to="#"-->
-<!--                               class="tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">-->
-<!--                      <ShareIcon class="tw-ml-1"/>-->
-<!--                      اشتراک گذاری-->
-<!--                    </nuxt-link>-->
-<!--                  </li>-->
-<!--                  <li>-->
-<!--                    <nuxt-link to="#"-->
-<!--                               class="tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">-->
-<!--                      <EditIcon style="width: 19px; height: 19px;" class="tw-ml-1"/>-->
-<!--                      ویرایش پست-->
-<!--                    </nuxt-link>-->
-<!--                  </li>-->
-<!--                  <li>-->
-<!--                    <nuxt-link to="#"-->
-<!--                               class="tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">-->
-<!--                      <MessageIcon fill="black" class="tw-ml-1"/>-->
-<!--                      غیر فعال کردن نظرات-->
+            <div>
+              <button class="tw-text-2xl hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw-transition tw--mr-1 tw-relative"
+                      @click="showMore(item.postId)">
+                <MoreIcon/>
+              </button>
+              <div :ref="`ShowMore${item.postId}`"
+                   class="tw-z-10 d-none tw-absolute tw-left-0 tw-bg-white tw-w-56 tw-shadow-md tw-mx-auto tw-p-2 tw-rounded-md tw-text-gray-500 tw-text-base tw-border tw-border-gray-100">
+                <ul class="tw-pl-0 mb-0">
+                  <li>
+                    <nuxt-link to="#"
+                               class="tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
+                      <ShareIcon class="tw-ml-1"/>
+                      اشتراک گذاری
+                    </nuxt-link>
+                  </li>
+                  <li>
+                    <nuxt-link to="#"
+                               class="tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
+                      <EditIcon style="width: 19px; height: 19px;" class="tw-ml-1"/>
+                      ویرایش پست
+                    </nuxt-link>
+                  </li>
+                  <li>
+                    <nuxt-link to="#"
+                               class="tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
+                      <MessageIcon fill="black" class="tw-ml-1"/>
+                      غیر فعال کردن نظرات
 
-<!--                    </nuxt-link>-->
-<!--                  </li>-->
-<!--                  <li>-->
-<!--                    <nuxt-link to="#"-->
-<!--                               class="tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">-->
-<!--                      <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-ml-1" fill="none"-->
-<!--                           viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
-<!--                        <path stroke-linecap="round" stroke-linejoin="round"-->
-<!--                              d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>-->
-<!--                      </svg>-->
-<!--                      افزودن به محبوب ها-->
-<!--                    </nuxt-link>-->
-<!--                  </li>-->
-<!--                  <li>-->
-<!--                    <hr class="-mx-2 my-2 dark:border-gray-800">-->
-<!--                  </li>-->
-<!--                  <li>-->
-<!--                    <nuxt-link to="#"-->
-<!--                               class="text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 tw-text-red-500 hover:tw-bg-red-100 hover:tw-text-red-500 tw-rounded-md">-->
-<!--                      <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-ml-1" fill="none"-->
-<!--                           viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
-<!--                        <path stroke-linecap="round" stroke-linejoin="round"-->
-<!--                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>-->
-<!--                      </svg>-->
-<!--                      حذف-->
-<!--                    </nuxt-link>-->
-<!--                  </li>-->
-<!--                </ul>-->
+                    </nuxt-link>
+                  </li>
+                  <li>
+                    <nuxt-link to="#"
+                               class="tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-ml-1" fill="none"
+                           viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                      </svg>
+                      افزودن به محبوب ها
+                    </nuxt-link>
+                  </li>
+                  <li>
+                    <hr class="-mx-2 my-2 dark:border-gray-800">
+                  </li>
+                  <li>
+                    <nuxt-link to="#"
+                               class="text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 tw-text-red-500 hover:tw-bg-red-100 hover:tw-text-red-500 tw-rounded-md">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-ml-1" fill="none"
+                           viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                      </svg>
+                      حذف
+                    </nuxt-link>
+                  </li>
+                </ul>
 
-<!--              </div>-->
-<!--            </div>-->
+              </div>
+            </div>
           </div>
 
 
         </div>
         <div style="text-align: center;min-width: 100%;width: 100%" dir="rtl"
-             class="ql-editor col-12 overflow-hidden main-inset-shadow  p-0" v-html="item.content"></div>
+             class="ql-editor col-12 overflow-hidden main-inset-shadow  p-0" v-html="item.description"></div>
         <div class="tw-flex mt-3  lg:tw-font-bold">
           <button @click="likePost(item.postId, item.userId)"
                   class="tw-flex tw-items-center tw-space-x-2 text-decoration-none text-dark">
@@ -248,27 +310,27 @@
               لایک
             </div>
           </button>
-          <!--          <button href="#Comments" data-bs-toggle="modal" @click="SetPostComments(item)" class="tw-flex tw-items-center tw-space-x-2 text-decoration-none text-dark">-->
-          <!--            <div class="tw-p-2 tw-rounded-full  tw-text-black lg:tw-bg-gray-100 dark:tw-bg-gray-600">-->
-          <!--              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">-->
-          <!--                <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />-->
-          <!--              </svg>-->
-          <!--            </div>-->
-          <!--            <div class="mx-1"> ارسال نظر</div>-->
-          <!--          </button>-->
+                    <button href="#Comments" data-bs-toggle="modal" @click="SetPostComments(item)" class="tw-flex tw-items-center tw-space-x-2 text-decoration-none text-dark">
+                      <div class="tw-p-2 tw-rounded-full  tw-text-black lg:tw-bg-gray-100 dark:tw-bg-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">
+                          <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
+                        </svg>
+                      </div>
+                      <div class="mx-1"> ارسال نظر</div>
+                    </button>
 
-<!--          <button data-bs-toggle="modal"-->
-<!--                  data-bs-target="#staticBackdrop"-->
-<!--                  @click="dataToModal(item.postId, item.userInfo.userId)" href="#"-->
-<!--                  class="tw-flex tw-items-center tw-flex-1 tw-justify-end text-decoration-none text-dark">-->
-<!--            <div class="tw-p-2 tw-rounded-full  tw-text-black lg:tw-bg-gray-100 dark:tw-bg-gray-600">-->
-<!--              <ForbiddenIcon style="width: 22px; height: 22px;"/>-->
-<!--              &lt;!&ndash;              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">&ndash;&gt;-->
-<!--              &lt;!&ndash;                <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />&ndash;&gt;-->
-<!--              &lt;!&ndash;              </svg>&ndash;&gt;-->
-<!--            </div>-->
-<!--            <div class="mx-2"> گزارش تخلف</div>-->
-<!--          </button>-->
+          <button data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop"
+                  @click="dataToModal(item.postId, item.userInfo.userId)" href="#"
+                  class="tw-flex tw-items-center tw-flex-1 tw-justify-end text-decoration-none text-dark">
+            <div class="tw-p-2 tw-rounded-full  tw-text-black lg:tw-bg-gray-100 dark:tw-bg-gray-600">
+              <ForbiddenIcon style="width: 22px; height: 22px;"/>
+              <!--              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="22" height="22" class="dark:text-gray-100">-->
+              <!--                <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />-->
+              <!--              </svg>-->
+            </div>
+            <div class="mx-2"> گزارش تخلف</div>
+          </button>
         </div>
         <div class="tw-flex tw-items-center py-3 tw-pt-2">
           <!--          <div class="tw-flex tw-items-center">-->
@@ -287,7 +349,7 @@
         >
           <div v-for="(comItem, index) in item.comments" :key="index" class="tw-flex">
             <div class="tw-w-10 tw-h-10 tw-rounded-full tw-relative tw-flex-shrink-0">
-              <img class="IMG-FLUID tw-rounded-full custom_header_size" :src="BaseUrl + '/' + comItem.userInfo.selfieFileData || '=../assets/images/defaultUser.png'" alt=""/>
+              <img class="IMG-FLUID tw-rounded-full custom_header_size" :src="BaseUrl + 'media/gallery/profile/' + comItem.userInfo.selfieFileData || '=../assets/images/defaultUser.png'" alt=""/>
             </div>
             <div>
               <div
@@ -297,66 +359,6 @@
                 </p>
                 <div
                   class="tw-absolute tw-w-3 tw-h-3 tw-top-3 tw--right-1 tw-bg-gray-100 tw-transform tw-rotate-45"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="modal modal-dialog fade"
-          id="staticBackdrop"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header position-relative">
-                <h5
-                  class="modal-title small text-muted border-0"
-                  id="staticBackdropLabel"
-                >
-                  گزارش تخلف
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="d-flex">
-                      <div class="w-100">
-                        <textarea
-                          row="100"
-                          class="form-control border rounded px-0 w-100"
-                          placeholder="علت گزارش را بنویسید "
-                          id="about"
-                          v-model.trim="reportText"
-                        ></textarea>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-outline-danger closingReport"
-                  data-bs-dismiss="modal"
-                >
-                  انصراف
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-success"
-                  @click="reportPostSubmit(modalPostId, modalUserId)"
-                >
-                  ثبت گزارش
-                </button>
               </div>
             </div>
           </div>
@@ -476,7 +478,7 @@ export default {
       replayText: "",
       comments: [],
       newCommentText: "",
-      reportText: "",
+      reportText: "شش",
       modalPostId: null,
       modalUserId: null,
       postUserId: null,
@@ -488,7 +490,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$store.state.HeaderData.selfie);
+
   },
   methods: {
     showMore(id) {
@@ -509,7 +511,7 @@ export default {
       } else {
         this.Atbottom = false;
       }
-      console.log(this.Atbottom);
+
     },
 
     SetPostComments(item) {
@@ -659,6 +661,7 @@ export default {
               postId: postId,
               userId: userId,
               reason: this.reportText,
+              createDate: new Date(Date.now())
             },
             {}
           )
@@ -674,21 +677,11 @@ export default {
           });
       }
     },
-    goToUserProfile(userId) {
-      if (userId === this.$auth.user.userInfo.userId) {
-        this.$router.push("/social");
-      } else {
-        this.$router.push({
-          path: "/social/accountsetting/posts",
-          query: {userId: userId},
-        });
-        this.$store.commit("SetSearchedUserId", userId);
-
-        this.$axios
-          .post(`Common/GetUserIndex?userId=${userId}`, null, {})
-          .then((res) => {
-            this.$store.commit("SetUserData", res.data);
-          });
+    async goToUserProfile(user){
+      try {
+        this.$router.push({path: `/user/${user.userName}/posts`});
+      }catch (e){
+        console.log(e)
       }
     },
     showAddCommentSection(postId) {

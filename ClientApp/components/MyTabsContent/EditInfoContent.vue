@@ -479,15 +479,7 @@ export default {
       });
     },
 
-    getCountryList() {
-      this.$axios
-        .get(`Country/GetCountriesWithRedis`, null, {})
-        .then((response) => {
-          if (response.status === 200) {
-            this.country = response.data;
-          }
-        });
-    },
+
 
     // National Card
     callInputMethod() {
@@ -587,7 +579,6 @@ export default {
     },
   },
   mounted() {
-    this.getCountryList();
     this.GetMyData();
   },
 }
