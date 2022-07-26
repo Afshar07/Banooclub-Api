@@ -13,5 +13,7 @@ namespace BanooClub.Services.WishListServices
         Task<List<WishList>> GetAll();
         Task<WishList> Get(long id);
         object GetByUserId(long userId);
+        Task Toggle(long objectId, WishListType type);
+        List<WishList> GetByWishList();
     }
 }

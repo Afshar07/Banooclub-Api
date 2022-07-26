@@ -27,6 +27,8 @@ namespace BanooClub.Services.AdsServices
         private readonly IBanooClubEFRepository<State> _stateRepository;
         private readonly IBanooClubEFRepository<City> _cityRepository;
         private readonly IBanooClubEFRepository<WishList> wishListRepository;
+        private readonly IBanooClubEFRepository<ServicePlan> servicePlanRepository;
+        private readonly IBanooClubEFRepository<Plan> PlanRepository;
         private readonly ICityService cityService;
         private readonly ISocialMediaService _mediaService;
         private readonly IHttpContextAccessor _accessor;
@@ -43,7 +45,9 @@ namespace BanooClub.Services.AdsServices
             , IBanooClubEFRepository<Following> followingRepository
             , ICountryService countryService
             , IBanooClubEFRepository<State> stateRepository
+            , IBanooClubEFRepository<ServicePlan> servicePlanRepository
             , IBanooClubEFRepository<AdsCategory> adsCategoryRepository
+            , IBanooClubEFRepository<Plan> PlanRepository
             , IHttpContextAccessor accessor
             , ICityService cityService
             , ICNTRYService CNTRYService
@@ -60,9 +64,11 @@ namespace BanooClub.Services.AdsServices
             this.adsCategoryRepository=adsCategoryRepository;
             this.countryService=countryService;
             this.cityService=cityService;
+            this.servicePlanRepository = servicePlanRepository;
             _stateRepository =stateRepository;
             _cityRepository = cityRepository;
             this.wishListRepository = wishListRepository;
+            this.PlanRepository = PlanRepository;
         }
         public async Task Create(Ads inputDto)
         {
@@ -71,7 +77,7 @@ namespace BanooClub.Services.AdsServices
                     : 0;
             inputDto.UserId = userId;
             inputDto.IsDeleted = false;
-            inputDto.Status = (int)AdsStatus.Published;
+            inputDto.Status = (int)AdsStatus.NotConfirmed;
             if (inputDto.AdsId > 0 && inputDto !=null)
             {
                 await Update(inputDto);
@@ -367,6 +373,8 @@ namespace BanooClub.Services.AdsServices
                 ad.State = dbState == null ? "" : dbState.Name;
                 var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
                 ad.City = dbCity == null ? "" : dbCity.Name;
+                var plans = servicePlanRepository.GetQuery().Where(z => z.ObjectId == ad.AdsId && z.Type == ServicePlanType.Ads).Select(x => x.PlanId).ToList();
+                ad.PlanTypes = PlanRepository.GetQuery().Where(z=>plans.Contains(z.PlanId)).Select(x=>x.Type).ToList();
             }
             var obj = new
             {
@@ -725,6 +733,8 @@ namespace BanooClub.Services.AdsServices
                         });
                     }
                 }
+                var plans = servicePlanRepository.GetQuery().Where(z => z.ObjectId == ad.AdsId && z.Type == ServicePlanType.Ads).Select(x => x.PlanId).ToList();
+                ad.PlanTypes = PlanRepository.GetQuery().Where(z => plans.Contains(z.PlanId)).Select(x => x.Type).ToList();
                 ad.UserInfo = userService.Get(ad.UserId);
                 var dbState = _stateRepository.GetQuery().FirstOrDefault(z => z.StateId == ad.StateId);
                 ad.State = dbState == null ? "" : dbState.Name;

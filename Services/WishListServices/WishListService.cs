@@ -60,6 +60,58 @@ namespace BanooClub.Services.WishListServices
             var wish = wishRepository.GetQuery().FirstOrDefault(z => z.WishListId == id);
             return wish;
         }
+        public List<WishList> GetByWishList()
+        {
+            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                    ? _accessor.HttpContext.User.Identity.GetUserId()
+                    : 0;
+            var dbWishLists = wishRepository.GetQuery().Where(z => z.UserId == userId).ToList();
+            foreach (var wish in dbWishLists)
+            {
+                if(wish.Type == WishListType.Service)
+                {
+                    wish.ServiceInfo = serviceRepository.GetQuery().FirstOrDefault(z => z.ServicePackId == wish.ObjectId);
+                    var dbMedias = mediaRepository.GetQuery().Where(Z => Z.ObjectId == wish.ObjectId && Z.Type == MediaTypes.Service).ToList();
+                    wish.ServiceInfo.Medias = new List<FileData>();
+                    foreach (var dbMedia in dbMedias)
+                    {
+                        wish.ServiceInfo.Medias.Add(new FileData() { Base64 = dbMedia.PictureUrl, Priority = dbMedia.Priority, UploadType = 1 });
+                    }
+                }
+                if(wish.Type == WishListType.Ads)
+                {
+                    wish.AdsInfo = adsRepository.GetQuery().FirstOrDefault(z => z.AdsId == wish.ObjectId);
+                    var dbMedias = mediaRepository.GetQuery().Where(Z => Z.ObjectId == wish.ObjectId && Z.Type == MediaTypes.AdsPhoto).ToList();
+                    wish.AdsInfo.Photos = new List<FileData>();
+                    foreach (var dbMedia in dbMedias)
+                    {
+                        wish.ServiceInfo.Medias.Add(new FileData() { Base64 = dbMedia.PictureUrl, Priority = dbMedia.Priority, UploadType = 1 });
+                    }
+                }
+                
+            }
+            return dbWishLists;
+        }
+        public async Task Toggle(long objectId,WishListType type)
+        {
+            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                    ? _accessor.HttpContext.User.Identity.GetUserId()
+                    : 0;
+            var wish = wishRepository.GetQuery().Where(z => z.UserId == userId && z.ObjectId==objectId && z.Type == type).FirstOrDefault();
+            if (wish != null)
+            {
+                wishRepository.Erase(wish);
+            }
+            else
+            {
+                WishList inputDto = new WishList();
+                inputDto.UserId = userId;
+                inputDto.ObjectId = objectId;
+                inputDto.Type = type;
+                inputDto.CreateDate = DateTime.Now;
+                wishRepository.Insert(inputDto);
+            }
+        }
         public object GetByUserId(long userId)
         {
             var dbAdses = wishRepository.GetQuery().Where(z=>z.Type  == WishListType.Ads).ToList();

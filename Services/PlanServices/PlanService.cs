@@ -17,7 +17,7 @@ namespace BanooClub.Services.PlanServices
         }
         public async Task Create(Plan inputDto)
         {
-            var pnl = PlanRepository.GetQuery().FirstOrDefault(x => x.Type == inputDto.Type);
+            var pnl = PlanRepository.GetQuery().FirstOrDefault(x => x.Type == inputDto.Type && x.EntityType == inputDto.EntityType);
             if (pnl == null)
             {
                 inputDto.UpdateDate = DateTime.UtcNow;
@@ -27,7 +27,7 @@ namespace BanooClub.Services.PlanServices
 
         public async Task<Plan> Update(Plan item)
         {
-            item.UpdateDate = DateTime.UtcNow;
+            item.UpdateDate = DateTime.Now;
             await PlanRepository.Update(item);
             return item;
         }
@@ -59,7 +59,7 @@ namespace BanooClub.Services.PlanServices
         public async Task Delete(long id)
         {
             var Plan = PlanRepository.GetQuery().FirstOrDefault(z => z.PlanId == id);
-            Plan.UpdateDate = DateTime.UtcNow;
+            Plan.UpdateDate = DateTime.Now;
             await PlanRepository.Delete(Plan);
         }
 

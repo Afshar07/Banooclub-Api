@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BanooClub.Models.Enums;
 
 namespace BanooClub.Controllers
 {
@@ -16,46 +17,46 @@ namespace BanooClub.Controllers
     public class CommentLikeController : ControllerBase
     {
         private readonly BanooClubDBContext context;
-        private readonly ICommentLikeService postLikeService;
+        private readonly ICommentLikeService commentLikeService;
 
-        public CommentLikeController(BanooClubDBContext context, ICommentLikeService postLikeService)
+        public CommentLikeController(BanooClubDBContext context, ICommentLikeService commentLikeService)
         {
             this.context = context;
-            this.postLikeService = postLikeService;
-        }
-
-        [HttpPost]
-        [Route("[action]"), Authorize]
-        public bool Create(long postId)
-        {
-            return this.postLikeService.Create(postId);
+            this.commentLikeService = commentLikeService;
         }
 
         [HttpPost]
         [Route("[action]")]
-        public List<CommentLike> GetByUserId(long userId)
+        public bool Create(long objectId, CommentType type)
         {
-            return postLikeService.GetByUserId(userId);
+            return commentLikeService.Create(objectId, type);
         }
 
         [HttpPost]
         [Route("[action]")]
-        public Task<CommentLike> Get(long postLikeId)
+        public List<CommentLike> GetByUserId(long userId, CommentType type)
         {
-            return postLikeService.Get(postLikeId);
+            return commentLikeService.GetByUserId(userId, type);
         }
 
         [HttpPost]
-        [Route("[action]"), Authorize(Roles = "Admin")]
+        [Route("[action]")]
+        public Task<CommentLike> Get(long commentLikeId)
+        {
+            return commentLikeService.Get(commentLikeId);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
         public async Task Delete(long id)
         {
-            await postLikeService.Delete(id);
+            await commentLikeService.Delete(id);
         }
         [HttpPost]
         [Route("[action]")]
-        public List<User> GetLikesByPostId(long postId)
+        public List<User> GetLikesByCommentId(long objectId, CommentType type)
         {
-            return postLikeService.GetLikesByCommentId(postId);
+            return commentLikeService.GetLikesByCommentId(objectId, type);
         }
     }
 }

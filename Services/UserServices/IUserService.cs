@@ -26,5 +26,7 @@ namespace BanooClub.Services.UserServices
         object GetAllUserforUser(long userId, int count, string search);
         User GetByUserName(string userName);
         IServiceResult<object> GetMediaGalleryByUserName(string userName);
+        Task<object> GetMyMediaGallery();
+        Task<bool> UploadMediaGallery(FileData fileData);
     }
 }

@@ -14,6 +14,7 @@ namespace BanooClub.Models
         public bool IsRead { get; set; }
         public long UserType { get; set; }
         public string Title { get; set; }
+        public bool IsClosed { get; set; }
         [NotMapped]
         public string FileData { get; set; }
         [NotMapped]

@@ -189,7 +189,20 @@ namespace BanooClub.Services.TicketServices
             }
             return new ServiceResult<bool>().Ok(true);
         }
+        public async Task<IServiceResult<bool>> CloseTicket(long parentId)
+        {
+            var dbParent = _ticketRepository.GetQuery().FirstOrDefault(z => z.TicketId == parentId);
+            dbParent.IsClosed = true;
+            await _ticketRepository.Update(dbParent);
 
+            var dbChildren = _ticketRepository.GetQuery().Where(z => z.ParentId == parentId).ToList();
+            foreach (var ticket in dbChildren)
+            {
+                ticket.IsClosed = true;
+                await _ticketRepository.Update(ticket);
+            }
+            return new ServiceResult<bool>().Ok(true);
+        }
 
         public IServiceResult<object> GetTicketsByFilter(long? UserType,int? Type,bool? isRead, int pageNumber, int count,string search)
         {

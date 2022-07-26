@@ -1,4 +1,7 @@
-﻿namespace BanooClub.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BanooClub.Models
 {
     public class Payment : BaseEntity
     {
@@ -7,5 +10,14 @@
         public int Status { get; set; }
         public long UserId { get; set; }
         public string Description { get; set; }
+        public DateTime CreateDate { get; set; }
+        public long OrderId { get; set; }
+        public string TransId { get; set; }
+        public string RefId { get; set; }
+        public bool? WalletCharge { get; set; }
+        [NotMapped]
+        public User UserInfo { get; set; }
+        [NotMapped]
+        public Order OrderInfo { get; set; }
     }
 }

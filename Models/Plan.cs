@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BanooClub.Models.Enums;
+using System;
 
 namespace BanooClub.Models
 {
@@ -10,5 +11,6 @@ namespace BanooClub.Models
         public int Type { get; set; }
         public string Title { get; set; }
         public DateTime UpdateDate { get; set; }
+        public PlanEntityType EntityType { get; set; }
     }
 }

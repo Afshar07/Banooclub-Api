@@ -15,10 +15,12 @@ namespace BanooClub.Models
         public DateTime CreateDate { get; set; }
         public OrderStatus Status { get; set; }
         public long? ServiceId { get; set; }
+        public long? AdsId { get; set; }
         [NotMapped]
         public List<OrderItem> SubOrders { get; set; }
         [NotMapped]
         public ServicePack ServiceInfo { get; set; }
-
+        [NotMapped]
+        public Ads AdsInfo { get; set; }
     }
 }

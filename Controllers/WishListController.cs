@@ -32,9 +32,22 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]")]
+        public async Task Toggle(long objectId,WishListType type)
+        {
+            await this.wishListService.Toggle(objectId,type);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
         public object GetByUserId(long userId)
         {
             return wishListService.GetByUserId(userId);
+        }
+        [HttpPost]
+        [Route("[action]")]
+        public List<WishList> GetByWishList()
+        {
+            return wishListService.GetByWishList();
         }
 
         [HttpPost]

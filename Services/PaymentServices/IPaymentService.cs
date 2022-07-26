@@ -6,10 +6,13 @@ namespace BanooClub.Services.PaymentServices
 {
     public interface IPaymentService
     {
-        Task Create(Payment inputDto);
+        Task<object> Create(Payment inputDto);
         Task<Payment> Update(Payment item);
+        Task<object> GetAll(int pageNumber, int count, string searchCommand);
         Task Delete(long id);
-        Task<List<Payment>> GetAll();
         Task<Payment> Get(long id);
+        Task<int> ChangePaymentStatus(string orderId, string transId);
+        Task<int> PayByWallet(long orderId);
+        Task<object> GetMyPayments(int pageNumber, int count);
     }
 }

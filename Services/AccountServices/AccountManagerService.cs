@@ -753,7 +753,25 @@ namespace BanooClub.Services.AccountServices
                 return randomStr;
             }
         }
+        public async Task<bool> ChangeRole(long userId, long UserTypeId)
+        {
+            try
+            {
+                var dbUser = _userRepository.GetQuery().FirstOrDefault(z => z.UserId == userId);
+                if (UserTypeId == 2)
+                {
+                    UserTypeId = 1;
+                }
+                dbUser.Type = UserTypeId;
+                await _userRepository.Update(dbUser);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
 
+        }
         public async Task<IServiceResult<object>> BirthDateList()
         {
             var result = _userRepository.GetQuery().Where(x => x.BirthDate.Value.Day == System.DateTime.Now.Day && x.BirthDate.Value.Month==System.DateTime.Now.Month).ToList();

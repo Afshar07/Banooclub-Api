@@ -23,5 +23,6 @@ namespace BanooClub.Services.AccountServices
         Task<IServiceResult> RemoveUser(long userId);
         Task<IServiceResult<object>> ForgotPassword(AuthTypes type, string PhoneOrEmail);
         Task<IServiceResult<object>> BirthDateList();
+        Task<bool> ChangeRole(long userId, long UserTypeId);
     }
 }
