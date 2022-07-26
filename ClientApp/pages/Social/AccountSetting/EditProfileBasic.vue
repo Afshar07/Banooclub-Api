@@ -516,6 +516,7 @@ export default {
         this.nationalCart = this.userInfoData.userSetting.kartMelliDoc;
         this.Relation = this.userInfoData.relationState
         this.Video = this.userInfoData.userSetting.videoIdentity;
+        this.SelectedStateId = this.userInfoData.stateId;
 
       });
     },

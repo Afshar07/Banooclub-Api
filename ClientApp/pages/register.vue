@@ -133,6 +133,8 @@ export default {
         } else if (response.data === 6) {
           this.$toast.error("کاربری با این نام کاربری وجود ندارد.");
         } else if (response.data === 7) {
+            this.$router.push("/social");
+            this.$auth.setUser(response.data.data.user);
           this.$toast.success("ثبت نام با موفقیت انجام شد.");
         } else if (response.data === 8) {
           this.$toast.error("قبلا کاربری با این نام کاربری ثبت نام کرده است.");
@@ -143,10 +145,8 @@ export default {
         } else if (response.data === 11) {
           this.$toast.error("اکانت شما غیرفعال شده است.");
         }
-        this.$store.dispatch("login", {
-          payload: response.data,
-        });
-        this.$router.push("/social");
+
+
       } catch (error) {
         console.log(error);
       } finally {

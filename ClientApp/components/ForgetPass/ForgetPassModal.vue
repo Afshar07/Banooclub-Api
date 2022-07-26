@@ -22,9 +22,9 @@
               </select>
             </div>
             <div class="col-12">
+              {{PhoneOrEmail}}
               <input
-                autocomplete="off"
-                type="text"
+                type="email"
                 class="with-border"
                 v-model="PhoneOrEmail"
                 :placeholder="inputPlaceholder"
@@ -80,7 +80,7 @@ export default {
       this.$emit('close_modal')
     },
     async submitForgetPass() {
-      if(this.PhoneOrEmail == ''){
+      if(this.PhoneOrEmail === ''){
         this.$toast.error("موبایل یا ایمیل را وارد کنید");
       }
       else {

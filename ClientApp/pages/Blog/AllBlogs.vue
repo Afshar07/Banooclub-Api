@@ -5,22 +5,22 @@
 
       <div class="col-lg-8 tw-flex-shirink-0">
         <div class="col-md-12">
-          <input type="text" class="form-control" v-model="Search" placeholder="جستجوی مقالات">
+          <input type="text" class="form-control " v-model="Search" placeholder="جستجوی مقالات">
         </div>
-        <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
-          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" >
-            <button   :value="1" class="nav-link active" id="forum-active-tab" data-bs-toggle="pill"
-                      data-bs-target="#products-pills-home" type="button" role="tab" aria-controls="products-pills-home" aria-selected="true">
-              پر بازدید ها
-            </button>
-          </li>
-          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" >
-            <button  :value="2" class="nav-link" id="forum-second-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
-              برترین ها
-            </button>
-          </li>
+<!--        <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">-->
+<!--          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" >-->
+<!--            <button   :value="1" class="nav-link active" id="forum-active-tab" data-bs-toggle="pill"-->
+<!--                      data-bs-target="#products-pills-home" type="button" role="tab" aria-controls="products-pills-home" aria-selected="true">-->
+<!--              پر بازدید ها-->
+<!--            </button>-->
+<!--          </li>-->
+<!--          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;"  >-->
+<!--            <button  :value="2" class="nav-link" id="forum-second-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">-->
+<!--              برترین ها-->
+<!--            </button>-->
+<!--          </li>-->
 
-        </ul>
+<!--        </ul>-->
         <div class="tab-content" id="pills-tabContent" v-if="!$fetchState.pending">
           <div class="tab-pane fade show active" id="forum-active-content" role="tabpanel" aria-labelledby="forum-active-tab">
             <div class="row boxMainContent mx-auto">

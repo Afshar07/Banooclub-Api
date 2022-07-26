@@ -207,17 +207,13 @@ export default {
 
       }catch (e){
         console.log(e)
-        this.$nuxt.$loading.finish();
-        this.$nuxt.loading = false;
-      }  finally  {
 
+      }  finally  {
         this.$nextTick(()=>{
           this.scrollToBottom()
         })
-
         this.isLoading = false
-        this.$nuxt.$loading.finish();
-        this.$nuxt.loading = false;
+
       }
 
     },
@@ -264,7 +260,7 @@ export default {
         })
         this.MessageBody = ''
         this.FirstId = 0
-        if(this.$route.params.userId){
+        if(this.$route.query.userId){
           this.GoBack()
         }
         // await this.GetConversation();

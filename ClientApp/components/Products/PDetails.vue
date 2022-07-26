@@ -277,7 +277,7 @@
             چت
           </button>
           <button class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
-            افزودن به سبد خرید
+            رزرو
           </button>
         </div>
         <div>

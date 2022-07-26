@@ -76,21 +76,7 @@
     <RegisterModal :is_modal_open="is_modal_open" @close_register_modal="closeRegisterModal"/>
     <ForgetPassModal :is_modal_open="is_forget_modal_open" @close_modal="closeForgetModal"/>
   </div>
-<!--  <form class="tw-p-6 tw-space-y-4 tw-relative" autocomplete="off">-->
-<!--    <input v-model="login_field" type="text" placeholder="ایمیل یا شماره موبایل" class="with-border" autocomplete="off">-->
-<!--    <input v-model="password" type="password" placeholder="رمز عبور" class="with-border" autocomplete="off">-->
-<!--    <button @click="setLoginMethod" type="button" class="tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full">-->
-<!--      ورود-->
-<!--    </button>-->
-<!--    <nuxt-link to="#" class="tw-text-blue-500 tw-text-center tw-block tw-no-underline"> رمز عبور خود را فراموش کرده اید؟ </nuxt-link>-->
-<!--    <hr class="tw-mb-3.5" style="border-top: 1px rgb(176 179 183) solid">-->
-<!--    <div class="tw-flex">-->
-<!--      <button class="tw-no-underline tw-bg-green-600 hover:tw-bg-green-500 hover:tw-text-white tw-font-semibold tw-py-3 tw-px-5 tw-rounded-md tw-text-center tw-text-white tw-mx-auto"-->
-<!--              type="button" @click="openModal">-->
-<!--        حساب جدید بسازید-->
-<!--      </button>-->
-<!--    </div>-->
-<!--  </form>-->
+
 
 </template>
 

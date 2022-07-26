@@ -31,48 +31,12 @@
             <LoginForm :login-type="loginType" @open_register_modal="openRegisterModal()" @close_register_modal="closeRegisterModal()"/>
 
           </div>
-<!--          <div class="tw-mt-8 tw-text-center tw-text-sm">-->
-<!--            <nuxt-link to="#" class="tw-font-semibold hover:tw-underline tw-no-underline">یک صفحه</nuxt-link> برای افراد مشهور، گروه موسیقی یا تجارت ایجاد کنید-->
-<!--          </div>-->
 
         </div>
 
       </div>
     </div>
   </div>
-<!--  <div class="row container-fluid px-0 mx-0">-->
-<!--    <div class="col-md-6 col-12 px-0 order-0 order-md-1 login-reg-bg position-relative">-->
-<!--      <div class="log-reg-area position-absolute" dir="rtl">-->
-<!--        <h2 class="log-title">ورود</h2>-->
-<!--        <p class="log-title-text">-->
-<!--          هنوز از بانو کلاب استفاده نکرده اید؟-->
-<!--          <nuxt-link to="/" title="">قوانین را بخوانید</nuxt-link>-->
-<!--          یا-->
-<!--          <nuxt-link to="/register" title=""> به اینجا ملحق شوید </nuxt-link>-->
-<!--        </p>-->
-<!--        <div class="row py-2">-->
-<!--          <div-->
-<!--            class="col-6 text-center"-->
-<!--            :class="loginType == 2 ? 'TabActive' : 'deActiveTab'"-->
-<!--            @click="setLoginMethod(2)"-->
-<!--          >-->
-<!--            ورود با ایمیل-->
-<!--          </div>-->
-<!--          <div-->
-<!--            class="col-6 border-end text-center"-->
-<!--            :class="loginType == 1 ? 'TabActive' : 'deActiveTab'"-->
-<!--            @click="setLoginMethod(1)"-->
-<!--          >-->
-<!--            ورود با شماره موبایل-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <login-form :loginType="loginType"></login-form>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="col-md-6 col-12 px-0 order-1 order-md-0">-->
-<!--      <LoginBanner />-->
-<!--    </div>-->
-<!--  </div>-->
 
 </template>
 

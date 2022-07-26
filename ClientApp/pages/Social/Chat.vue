@@ -109,7 +109,7 @@ head(){
       this.ChatData = []
       this.lastMessage = false
       this.FirstId = 0
-      if(this.$route.params.userId){
+      if(this.$route.query.userId){
         this.$router.push(this.$route.path)
       }
     },
