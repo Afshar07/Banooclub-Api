@@ -1,4 +1,5 @@
 ﻿using BanooClub.Models;
+using BanooClub.Models.Enums;
 using Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,9 +50,9 @@ namespace BanooClub.Services.ServicePlanServices
             var servicePlan = servicePlanRepository.GetQuery().FirstOrDefault(z => z.ServicePlanId == id);
             return servicePlan;
         }
-        public List<ServicePlan> GetByServiceId(long serviceId)
+        public List<ServicePlan> GetByObjectId(long objectId,ServicePlanType type)
         {
-            return servicePlanRepository.GetQuery().Where(z => z.ServiceId == serviceId).ToList();
+            return servicePlanRepository.GetQuery().Where(z => z.ObjectId == objectId && z.Type == type).ToList();
         }
     }
 }

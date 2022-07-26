@@ -15,15 +15,18 @@ namespace BanooClub.Services.OrderServices
         private readonly IBanooClubEFRepository<Order> orderRepository;
         private readonly IBanooClubEFRepository<OrderItem> orderItemRepository;
         private readonly IBanooClubEFRepository<ServicePack> servicePackRepository;
+        private readonly IBanooClubEFRepository<Ads> adsRepository;
         private readonly IHttpContextAccessor _accessor;
 
         public OrderService(IBanooClubEFRepository<Order> orderRepository, IHttpContextAccessor accessor,
             IBanooClubEFRepository<OrderItem> orderItemRepository,
+            IBanooClubEFRepository<Ads> adsRepository,
             IBanooClubEFRepository<ServicePack> servicePackRepository)
         {
             this.orderRepository = orderRepository;
             _accessor = accessor;
             this.orderItemRepository = orderItemRepository;
+            this.adsRepository = adsRepository;
             this.servicePackRepository = servicePackRepository;
         }
         public async Task<long> Create(Order inputDto)
@@ -90,7 +93,14 @@ namespace BanooClub.Services.OrderServices
             var dbOrders = orderRepository.GetQuery().Where(z => z.UserId == userId).ToList();
             foreach (var dbOrder in dbOrders)
             {
-                dbOrder.ServiceInfo = servicePackRepository.GetQuery().FirstOrDefault(x => x.ServicePackId == dbOrder.ServiceId);
+                if(dbOrder.ServiceId != null && dbOrder.ServiceId != 0)
+                {
+                    dbOrder.ServiceInfo = servicePackRepository.GetQuery().FirstOrDefault(x => x.ServicePackId == dbOrder.ServiceId);
+                }
+                if (dbOrder.AdsId != null && dbOrder.AdsId != 0)
+                {
+                    dbOrder.AdsInfo = adsRepository.GetQuery().FirstOrDefault(z=>z.AdsId == dbOrder.AdsId);
+                }
 
                 var SubOrders = orderItemRepository.GetQuery().Where(z => z.OrderId == dbOrder.OrderId).ToList();
                 dbOrder.SubOrders = SubOrders;

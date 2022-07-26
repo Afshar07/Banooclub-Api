@@ -65,7 +65,96 @@ namespace BanooClub.Services.UserServices
             userRepository.Insert(inputDto);
             await userRepository.Save();
         }
+        public async Task<bool> UploadMediaGallery(FileData fileData)
+        {
 
+            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                    ? _accessor.HttpContext.User.Identity.GetUserId()
+                    : 0;
+
+            var url = EntityUrls.GalleryImagesMediaUrl;
+            if (fileData.Priority == 3)
+            {
+                url = EntityUrls.GalleryVideosMediaUrl;
+            }
+            var outPut = new OutPutSaveImage
+            {
+                ImageName="",
+                IsSuccess = false
+            };
+
+            #region DELETE Media
+
+            var dbLastMedia = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == userId && z.Type == MediaTypes.Post);
+            if (fileData.Base64.ToUpper() == "DELETE")
+            {
+                dbLastMedia.PictureUrl = "";
+                await _mediaRepository.Update(dbLastMedia);
+                await _mediaRepository.Delete(dbLastMedia);
+            }
+            else if (!string.IsNullOrEmpty(fileData.Base64))
+            {
+                outPut= _mediaService.SaveImageNew(fileData.Base64, url, fileData.Priority);
+                if (dbLastMedia != null)
+                {
+                    dbLastMedia.PictureUrl = outPut.ImageName;
+                    await _mediaRepository.Update(dbLastMedia);
+                }
+                else
+                {
+                    SocialMedia dbMedia = new SocialMedia()
+                    {
+                        IsDeleted = false,
+                        ObjectId = userId,
+                        PictureUrl = outPut.ImageName,
+                        Type = MediaTypes.Post,
+                        MediaId = 0,
+                        Priority = fileData.Priority
+                    };
+                    await _mediaRepository.InsertAsync(dbMedia);
+                }
+            }
+
+            #endregion
+
+
+            if (outPut.IsSuccess)
+            {
+                SocialMedia dbMedia = new SocialMedia()
+                {
+                    IsDeleted = false,
+                    ObjectId = userId,
+                    PictureUrl = outPut.ImageName,
+                    Type = MediaTypes.GalleryImages,
+                    MediaId = 0,
+                    UpdateDate = DateTime.Now,
+                    Priority=fileData.Priority
+                };
+                await _mediaRepository.InsertAsync(dbMedia);
+                return true;
+            }
+            return false;
+
+        }
+        public async Task<object> GetMyMediaGallery()
+        {
+
+            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                   ? _accessor.HttpContext.User.Identity.GetUserId()
+                   : 0;
+            var dbMedia = _mediaRepository.GetQuery().Where(z => (z.Type == MediaTypes.GalleryImages || z.Type==MediaTypes.GalleryVideos) && z.ObjectId == userId).ToList();
+            List<FileData> result = new List<FileData>();
+            foreach (var media in dbMedia)
+            {
+                FileData mediaObj = new FileData()
+                {
+                    Base64 = media.PictureUrl,
+                    Priority = media.Priority
+                };
+                result.Add(mediaObj);
+            }
+            return result;
+        }
         public async Task<IServiceResult<User>> Update(User item)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
@@ -163,6 +252,10 @@ namespace BanooClub.Services.UserServices
             dbUser.Email = string.IsNullOrEmpty(item.Email) ? dbUser.Email : item.Email;
             dbUser.Mobile = string.IsNullOrEmpty(item.Mobile) ? dbUser.Mobile : item.Mobile;
             dbUser.FamilyName = string.IsNullOrEmpty(item.FamilyName) ? dbUser.FamilyName : item.FamilyName;
+            dbUser.CityId = item.CityId == null ? dbUser.CityId : item.CityId;
+            dbUser.StateId = item.StateId == null ? dbUser.StateId : item.StateId;
+            dbUser.RelationState =  item.RelationState == null ? dbUser.RelationState : item.RelationState;
+
             if (!string.IsNullOrEmpty(item.Password))
             {
                 var dbCurrentFromUser = _encryptService.Encrypt(item.CurrentPassword).Data;
@@ -257,7 +350,7 @@ namespace BanooClub.Services.UserServices
             List<string> result = new List<string>();
             foreach(var media in medias)
             {
-                var NEWMedia="media/gallery/GalleryImages/"+media;
+                var NEWMedia=media;
                 result.Add(NEWMedia);
             }
             return result;
@@ -272,7 +365,7 @@ namespace BanooClub.Services.UserServices
             List<string> result = new List<string>();
             foreach (var media in medias)
             {
-                var NEWMedia = "media/gallery/GalleryVideos/"+media;
+                var NEWMedia = media;
                 result.Add(NEWMedia);
             }
             return result;
@@ -291,7 +384,7 @@ namespace BanooClub.Services.UserServices
                 List<string> result = new List<string>();
                 foreach (var media in medias)
                 {
-                    var NEWMedia = "media/gallery/GalleryImages/"+media;
+                    var NEWMedia = media;
                     result.Add(NEWMedia);
                 }
                 var obj = new
@@ -312,7 +405,7 @@ namespace BanooClub.Services.UserServices
                         List<string> result = new List<string>();
                         foreach (var media in medias)
                         {
-                            var NEWMedia = "media/gallery/GalleryImages/"+media;
+                            var NEWMedia = media;
                             result.Add(NEWMedia);
                         }
                         var obj = new
@@ -356,7 +449,7 @@ namespace BanooClub.Services.UserServices
                 List<string> result = new List<string>();
                 foreach (var media in medias)
                 {
-                    var NEWMedia = "media/gallery/GalleryVideos/"+media;
+                    var NEWMedia = media;
                     result.Add(NEWMedia);
                 }
                 var obj = new
@@ -377,7 +470,7 @@ namespace BanooClub.Services.UserServices
                         List<string> result = new List<string>();
                         foreach (var media in medias)
                         {
-                            var NEWMedia = "media/gallery/GalleryVideos/"+media;
+                            var NEWMedia = media;
                             result.Add(NEWMedia);
                         }
                         var obj = new
@@ -523,6 +616,9 @@ namespace BanooClub.Services.UserServices
             dbUser.Email = string.IsNullOrEmpty(item.Email) ? dbUser.Email : item.Email;
             dbUser.Mobile = string.IsNullOrEmpty(item.Mobile) ? dbUser.Mobile : item.Mobile;
             dbUser.FamilyName = string.IsNullOrEmpty(item.FamilyName) ? dbUser.FamilyName : item.FamilyName;
+            dbUser.CityId = item.CityId == null ? dbUser.CityId : item.CityId;
+            dbUser.StateId = item.StateId == null ? dbUser.StateId : item.StateId;
+            dbUser.RelationState =  item.RelationState == null ? dbUser.RelationState : item.RelationState;
             if (!string.IsNullOrEmpty(item.Password))
             {
                 var dbCurrentFromUser = _encryptService.Encrypt(item.CurrentPassword).Data;
@@ -572,7 +668,7 @@ namespace BanooClub.Services.UserServices
             users.ForEach(z => z.UserSetting = userSettingRepository.GetQuery().AsNoTracking().FirstOrDefault(x => x.UserId == z.UserId));
             users.ForEach(z => z.SelfieFileData = _mediaRepository.GetQuery().
             FirstOrDefault(x => x.ObjectId == z.UserId && x.Type == MediaTypes.Profile) == null ? ""
-            : "media/gallery/Profile/" + _mediaRepository.GetQuery().
+            : _mediaRepository.GetQuery().
             FirstOrDefault(x => x.ObjectId == z.UserId && x.Type == MediaTypes.Profile).PictureUrl);
             var obj = new
             {
@@ -612,12 +708,12 @@ namespace BanooClub.Services.UserServices
                 List<FileData> result = new List<FileData>();
                 foreach (var media in medias)
                 {
-                    var url = "media/gallery/GalleryImages/";
-                    if (media.Priority == 3)
-                    {
-                        url = "media/gallery/GalleryVideos/";
-                    }
-                    var NEWMedia = url + media.PictureUrl;
+                    //var url = "media/gallery/GalleryImages/";
+                    //if (media.Priority == 3)
+                    //{
+                    //    url = "media/gallery/GalleryVideos/";
+                    //}
+                    var NEWMedia =  media.PictureUrl;
                     var obj1 = new FileData() { Base64 = NEWMedia, Priority = media.Priority, UploadType = 1 };
                     result.Add(obj1);
                 }
@@ -641,12 +737,12 @@ namespace BanooClub.Services.UserServices
                         List<FileData> result = new List<FileData>();
                         foreach (var media in medias)
                         {
-                            var url = "media/gallery/GalleryImages/";
-                            if (media.Priority == 3)
-                            {
-                                url = "media/gallery/GalleryVideos/";
-                            }
-                            var NEWMedia = url + media.PictureUrl;
+                            //var url = "media/gallery/GalleryImages/";
+                            //if (media.Priority == 3)
+                            //{
+                            //    url = "media/gallery/GalleryVideos/";
+                            //}
+                            var NEWMedia =  media.PictureUrl;
                             var obj2 = new FileData() { Base64 = NEWMedia, Priority = media.Priority, UploadType = 1 };
                             result.Add(obj2);
                         }
@@ -691,13 +787,13 @@ namespace BanooClub.Services.UserServices
                 var dbBanner = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Banner);
                 if (dbBanner != null)
                 {
-                    dbUser.BannerFileData = "media/gallery/Banner/" + dbBanner.PictureUrl;
+                    dbUser.BannerFileData =  dbBanner.PictureUrl;
                 }
 
                 var dbProfile = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Profile);
                 if (dbProfile != null)
                 {
-                    dbUser.SelfieFileData = "media/gallery/Profile/" + dbProfile.PictureUrl;
+                    dbUser.SelfieFileData =  dbProfile.PictureUrl;
                 }
                 dbUser.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == id);
 
@@ -705,13 +801,13 @@ namespace BanooClub.Services.UserServices
                     .FirstOrDefault(z => z.ObjectId == dbUser.UserSetting.UserSettingId
                     && z.Type == MediaTypes.KartMelliDoc);
 
-                dbUser.UserSetting.KartMelliDoc = KartMelliImage == null ? "" : "media/gallery/KartMelliDocs/" + KartMelliImage.PictureUrl;
+                dbUser.UserSetting.KartMelliDoc = KartMelliImage == null ? "" : KartMelliImage.PictureUrl;
 
                 var passportImage = _mediaRepository.GetQuery()
                     .FirstOrDefault(z => z.ObjectId == dbUser.UserSetting.UserSettingId
                     && z.Type == MediaTypes.PassportDoc);
 
-                dbUser.UserSetting.PassportDoc = passportImage == null ? "" : "media/gallery/PassportDocs/" + passportImage.PictureUrl;
+                dbUser.UserSetting.PassportDoc = passportImage == null ? "" : passportImage.PictureUrl;
 
                 dbUser.Password = null;
                 return dbUser;
@@ -730,13 +826,13 @@ namespace BanooClub.Services.UserServices
             var dbBanner = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Banner);
             if (dbBanner != null)
             {
-                dbUser.BannerFileData = "media/gallery/Banner/" + dbBanner.PictureUrl;
+                dbUser.BannerFileData =  dbBanner.PictureUrl;
             }
 
             var dbProfile = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Profile);
             if (dbProfile != null)
             {
-                dbUser.SelfieFileData = "media/gallery/Profile/" + dbProfile.PictureUrl;
+                dbUser.SelfieFileData = dbProfile.PictureUrl;
             }
             dbUser.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == id);
 
@@ -744,13 +840,13 @@ namespace BanooClub.Services.UserServices
                 .FirstOrDefault(z => z.ObjectId == dbUser.UserSetting.UserSettingId
                 && z.Type == MediaTypes.KartMelliDoc);
 
-            dbUser.UserSetting.KartMelliDoc = KartMelliImage == null ? "" : "media/gallery/KartMelliDocs/" + KartMelliImage.PictureUrl;
+            dbUser.UserSetting.KartMelliDoc = KartMelliImage == null ? "" : KartMelliImage.PictureUrl;
 
             var passportImage = _mediaRepository.GetQuery()
                 .FirstOrDefault(z => z.ObjectId == dbUser.UserSetting.UserSettingId
                 && z.Type == MediaTypes.PassportDoc);
 
-            dbUser.UserSetting.PassportDoc = passportImage == null ? "" : "media/gallery/PassportDocs/" + passportImage.PictureUrl;
+            dbUser.UserSetting.PassportDoc = passportImage == null ? "" :  passportImage.PictureUrl;
 
             dbUser.Password = null;
             return dbUser;
@@ -770,13 +866,13 @@ namespace BanooClub.Services.UserServices
             var dbBanner = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Banner);
             if (dbBanner != null)
             {
-                dbUser.BannerFileData = "media/gallery/Banner/" + dbBanner.PictureUrl;
+                dbUser.BannerFileData = dbBanner.PictureUrl;
             }
 
             var dbProfile = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Profile);
             if (dbProfile != null)
             {
-                dbUser.SelfieFileData = "media/gallery/Profile/" + dbProfile.PictureUrl;
+                dbUser.SelfieFileData = dbProfile.PictureUrl;
             }
             dbUser.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == id);
 
@@ -784,13 +880,13 @@ namespace BanooClub.Services.UserServices
                 .FirstOrDefault(z => z.ObjectId == dbUser.UserSetting.UserSettingId
                 && z.Type == MediaTypes.KartMelliDoc);
 
-            dbUser.UserSetting.KartMelliDoc = KartMelliImage == null ? "" : "media/gallery/KartMelliDocs/" + KartMelliImage.PictureUrl;
+            dbUser.UserSetting.KartMelliDoc = KartMelliImage == null ? "" :  KartMelliImage.PictureUrl;
 
             var passportImage = _mediaRepository.GetQuery()
                 .FirstOrDefault(z => z.ObjectId == dbUser.UserSetting.UserSettingId
                 && z.Type == MediaTypes.PassportDoc);
 
-            dbUser.UserSetting.PassportDoc = passportImage == null ? "" : "media/gallery/PassportDocs/" + passportImage.PictureUrl;
+            dbUser.UserSetting.PassportDoc = passportImage == null ? "" :passportImage.PictureUrl;
 
             dbUser.Password = null;
             return dbUser;
@@ -811,7 +907,7 @@ namespace BanooClub.Services.UserServices
             {
                 user.Password = null;
                 var selfie = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Profile);
-                user.SelfieFileData = selfie == null ? "" : "media/gallery/Profile/" + selfie.PictureUrl;
+                user.SelfieFileData = selfie == null ? "" :  selfie.PictureUrl;
                 user.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == user.UserId);
             }
             return dbUsers;

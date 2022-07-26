@@ -120,7 +120,11 @@ namespace BanooClub.Controllers
 
         //    return BadRequest();
         //}
-
+        [HttpPost("ChangeRole")]
+        public async Task<bool> ChangeRole(long userId, long UserTypeId)
+        {
+            return await _accountManagerService.ChangeRole(userId, UserTypeId);
+        }
         [HttpGet("GetConfirmationCode/{phoneNumber}")]
         public async Task<IActionResult> GetConfirmationCode([FromServices] IDistributedCache cache, string phoneNumber)
             => Ok(Encoding.UTF8.GetString(await cache.GetAsync(phoneNumber)));

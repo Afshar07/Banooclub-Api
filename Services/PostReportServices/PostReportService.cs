@@ -16,11 +16,13 @@ namespace BanooClub.Services.PostReportServices
         private readonly IBanooClubEFRepository<PostReport> postReportRepository;
         private readonly IBanooClubEFRepository<Post> postRepository;
         private readonly IBanooClubEFRepository<Activity> activityRepository;
+        private readonly IBanooClubEFRepository<User> userRepository;
         private readonly IHttpContextAccessor _accessor;
         private readonly IUserService userService;
         public PostReportService(IBanooClubEFRepository<PostReport> postReportRepository
             , IBanooClubEFRepository<Post> postRepository
             , IBanooClubEFRepository<Activity> activityRepository
+            , IBanooClubEFRepository<User> userRepository
             , IUserService userService
             , IHttpContextAccessor accessor)
         {
@@ -28,6 +30,7 @@ namespace BanooClub.Services.PostReportServices
             this.postRepository = postRepository;
             _accessor = accessor;
             this.activityRepository = activityRepository;
+            this.userRepository = userRepository;
             this.userService=userService;
         }
         public async Task Create(PostReport inputDto)
@@ -59,23 +62,29 @@ namespace BanooClub.Services.PostReportServices
 
         public object GetAll(int pageNumber, int count, string search)
         {
-            string cmd = "select PR.*,(U.Name + ' ' +U.FamilyName) as UserName" +
-                ",(Reporter.Name+' '+Reporter.FamilyName) as ReporterName from Common.PostReports PR " +
-                "left join Social.Posts P on PR.PostId = P.PostId " +
-                "join [User].Users Reporter on Reporter.UserId =PR.ReporterUserId " +
-                $"join [user].Users U on U.UserId = PR.UserId where PR.IsDeleted =0 and PR.Reason like N'%{search}%' " +
-                $"order by PR.PostReportId DESC OFFSET {(pageNumber-1)*count} Rows FETCH NEXT {count} ROWS ONLY ";
-            var reports= postReportRepository.DapperSqlQuery(cmd).Result;
+            if (string.IsNullOrEmpty(search))
+            {
+                search = "";
+            }
+            //string cmd = "select PR.*,(U.Name + ' ' +U.FamilyName) as UserName" +
+            //    ",(Reporter.Name+' '+Reporter.FamilyName) as ReporterName from Common.PostReports PR " +
+            //    "left join Social.Posts P on PR.PostId = P.PostId " +
+            //    "join [User].Users Reporter on Reporter.UserId =PR.ReporterUserId " +
+            //    $"join [user].Users U on U.UserId = PR.UserId where PR.IsDeleted =0 and PR.Reason like N'%{search}%' " +
+            //    $"order by PR.PostReportId DESC OFFSET {(pageNumber-1)*count} Rows FETCH NEXT {count} ROWS ONLY ";
+            //var reports= postReportRepository.DapperSqlQuery(cmd).Result;
 
             var reportsCount = postReportRepository.GetQuery().Where(z=>z.Reason.Contains(search)).Count();
-            //List<PostReport> reports = new List<PostReport>();
-            //reports = postReportRepository.GetQuery().OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
-            //foreach (var report in reports)
-            //{
-            //    report.Content = postRepository.GetQuery().FirstOrDefault(z => z.PostId == report.PostId).Content;
-            //    report.ReportedUserInfo=userService.Get(report.UserId);
-            //    report.ReporterUserInfo=userService.Get(report.ReporterUserId);
-            //}
+            List<PostReport> reports = new List<PostReport>();
+            reports = postReportRepository.GetQuery().Where(z=>z.Reason.Contains(search)).OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
+            foreach (var report in reports)
+            {
+                var dbPost = postRepository.GetQuery().FirstOrDefault(z => z.PostId == report.PostId);
+                report.Content = dbPost == null ? "" : dbPost.Description ;
+                report.ReportedUserInfo=userRepository.GetQuery().FirstOrDefault(z=>z.UserId == report.UserId);
+
+                report.ReporterUserInfo=userRepository.GetQuery().FirstOrDefault(z => z.UserId == report.ReporterUserId);
+            }
             var obj = new
             {
                 Reports = reports,

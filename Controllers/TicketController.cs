@@ -83,6 +83,16 @@ namespace BanooClub.Controllers
             return BadRequest(result.ErrorMessage);
         }
 
+        [HttpPost("CloseTicket"), Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CloseTicket(long parentId)
+        {
+            var result = await _ticketService.CloseTicket(parentId);
+
+            if (result.IsSuccess)
+                return Ok(result.Data);
+
+            return BadRequest(result.ErrorMessage);
+        }
 
         [HttpPost("GetTicketsByFilter"), Authorize(Roles ="Admin")]
         public IActionResult GetTicketsByFilter(long? userType,int? type,bool? isRead, int pageNumber, int count,string search)

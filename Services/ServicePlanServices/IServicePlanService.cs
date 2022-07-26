@@ -1,4 +1,5 @@
 ﻿using BanooClub.Models;
+using BanooClub.Models.Enums;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,6 +12,6 @@ namespace BanooClub.Services.ServicePlanServices
         object GetAll(int pageNumber, int count);
         Task Delete(long id);
         Task<ServicePlan> Get(long id);
-        List<ServicePlan> GetByServiceId(long serviceId);
+        List<ServicePlan> GetByObjectId(long objectId, ServicePlanType type);
     }
 }

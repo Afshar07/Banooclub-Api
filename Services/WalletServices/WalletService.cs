@@ -121,7 +121,11 @@ namespace BanooClub.Services.WalletServices
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
             var dbWallet = walletRepository.GetQuery().FirstOrDefault(z => z.UserId == userId);
-
+            if (dbWallet == null)
+            {
+                var newInstance = new Wallet() { Credit = 0, IsDeleted = false, UpdateDate = DateTime.Now, UserId = userId, WalletId  = 0 };
+                dbWallet =walletRepository.Insert(newInstance);
+            }
             return new ServiceResult<long>().Ok(dbWallet.Credit);
         }
     }

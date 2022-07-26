@@ -302,6 +302,8 @@ namespace BanooClub.Services.UserSettingServices
             dbUserSetting.LawyerCertificateStatus = string.IsNullOrEmpty(item.LawyerCertificateDoc) ? dbUserSetting.LawyerCertificateStatus : item.LawyerCertificateStatus;
             dbUserSetting.NewspaperStatus =string.IsNullOrEmpty(item.NewspaperDoc) ? dbUserSetting.NewspaperStatus : item.NewspaperStatus;
             dbUserSetting.VideoIdentityStatus = string.IsNullOrEmpty(item.VideoIdentity) ? dbUserSetting.VideoIdentityStatus : item.VideoIdentityStatus;
+            dbUserSetting.IsPrivatePost = item.IsPrivatePost == null ? dbUserSetting.IsPrivatePost : item.IsPrivatePost;
+            dbUserSetting.IsPrivateGalleryFriend = item.IsPrivateGalleryFriend == null ? dbUserSetting.IsPrivateGalleryFriend : item.IsPrivateGalleryFriend;
 
             await userSettingRepository.Update(dbUserSetting);
 

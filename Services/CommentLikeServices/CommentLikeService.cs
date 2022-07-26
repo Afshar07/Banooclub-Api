@@ -29,7 +29,7 @@ namespace BanooClub.Services.CommentLikeServices
             this.activityRepository = activityRepository;
             this.userRepository = userRepository;
         }
-        public bool Create(long commentId)
+        public bool Create(long commentId, CommentType type)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
@@ -44,6 +44,7 @@ namespace BanooClub.Services.CommentLikeServices
                     IsDeleted = false,
                     CreateDate = DateTime.Now,
                     ObjectId = commentId,
+                    Type=type,
                     CommentLikeId = 0
                 };
 
@@ -91,14 +92,15 @@ namespace BanooClub.Services.CommentLikeServices
             var commentLike = commentLikeRepository.GetQuery().FirstOrDefault(z => z.CommentLikeId == id);
             return commentLike;
         }
-        public List<CommentLike> GetByUserId(long userId)
+        public List<CommentLike> GetByUserId(long userId, CommentType type)
         {
-            return commentLikeRepository.GetQuery().Where(z => z.UserId == userId).ToList();
+            return commentLikeRepository.GetQuery().Where(z => z.UserId == userId && z.Type==type).ToList();
         }
-        public List<User> GetLikesByCommentId(long commentId)
+        public List<User> GetLikesByCommentId(long objectId, CommentType type)
         {
-            var commentLikes = commentLikeRepository.GetQuery().Where(z => z.ObjectId == commentId).ToList();
+            var commentLikes = commentLikeRepository.GetQuery().Where(z => z.ObjectId == objectId && z.Type==type).ToList();
             List<User> users = new List<User>();
+
             foreach (var pL in commentLikes)
             {
                 var dbUser = userService.Get(pL.UserId);
@@ -107,6 +109,6 @@ namespace BanooClub.Services.CommentLikeServices
             return users;
         }
 
-        
+
     }
 }

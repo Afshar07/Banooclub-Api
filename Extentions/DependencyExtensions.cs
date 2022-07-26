@@ -82,6 +82,8 @@ using BanooClub.Services.ServicePlanServices;
 using BanooClub.Services.PlanServices;
 using BanooClub.Services.OrderServices;
 using BanooClub.Services.OrderItemServices;
+using BanooClub.Services.ShippingServices;
+using BanooClub.Services.ShippingTypeServices;
 
 namespace BanooClub.Extensions
 {
@@ -170,6 +172,8 @@ namespace BanooClub.Extensions
             services.AddScoped<IBanooClubEFRepository<Blog>, BanooClubEfRepository<Blog>>();
             services.AddScoped<IBanooClubEFRepository<BlogCategory>, BanooClubEfRepository<BlogCategory>>();
             services.AddScoped<IBanooClubEFRepository<BlogComment>, BanooClubEfRepository<BlogComment>>();
+            services.AddScoped<IBanooClubEFRepository<Shipping>, BanooClubEfRepository<Shipping>>();
+            services.AddScoped<IBanooClubEFRepository<ShippingType>, BanooClubEfRepository<ShippingType>>();
             
 
         }
@@ -253,6 +257,8 @@ namespace BanooClub.Extensions
             services.AddTransient<IPlanService, PlanService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IOrderItemService, OrderItemService>();
+            services.AddTransient<IShippingService, ShippingService>();
+            services.AddTransient<IShippingTypeService, ShippingTypeService>();
 
 
             services.AddTransient(typeof(IGenerateJwtService), typeof(GenerateJwtService));

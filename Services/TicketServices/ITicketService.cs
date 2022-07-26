@@ -15,6 +15,7 @@ namespace BanooClub.Services.TicketServices
         Task<IServiceResult<long>> CreateTicket(Ticket model);
         IServiceResult<bool> ChangeTicketStatus(long ticketId);
         IServiceResult<Ticket> GetById(long id);
+        Task<IServiceResult<bool>> CloseTicket(long parentId);
         int UserUnreadTicketCounts();
         IServiceResult<object> GetTicketsByFilter(long? UserType, int? Type, bool? isRead, int pageNumber, int count,string search);
     }

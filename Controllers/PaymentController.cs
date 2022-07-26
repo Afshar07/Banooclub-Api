@@ -1,6 +1,7 @@
 ﻿using BanooClub.Models;
 using BanooClub.Services.PaymentServices;
 using Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,51 +12,60 @@ namespace BanooClub.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly BanooClubDBContext context;
         private readonly IPaymentService paymentService;
 
-        public PaymentController(BanooClubDBContext context, IPaymentService paymentService)
+        public PaymentController(IPaymentService paymentService)
         {
-            this.context = context;
             this.paymentService = paymentService;
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task Create([FromBody] Payment inputDto)
+        public async Task<object> Create([FromBody] Payment inputDto)
         {
-            await this.paymentService.Create(inputDto);
+            return await paymentService.Create(inputDto);
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<Payment> Update([FromBody] Payment inputDto)
+        public Task<Payment> Get(long paymentId)
         {
-            var result = await this.paymentService.Update(inputDto);
-            return result;
-        }
-
-
-
-        [HttpPost]
-        [Route("[action]")]
-        public Task<List<Payment>> GetAll()
-        {
-            return paymentService.GetAll();
+            return paymentService.Get(paymentId);
         }
 
         [HttpPost]
-        [Route("[action]")]
-        public Task<Payment> Get(long id)
+        [Route("[action]"), Authorize(Roles = "Admin,Accountent")]
+        public async Task<object> GetAll(int pageNumber, int count, string searchCommand)
         {
-            return paymentService.Get(id);
+            return await paymentService.GetAll(pageNumber, count, searchCommand);
         }
 
         [HttpPost]
-        [Route("[action]")]
+        [Route("[action]"), Authorize]
+        public async Task<object> GetMyPayments(int pageNumber, int count)
+        {
+            return await paymentService.GetMyPayments(pageNumber, count);
+        }
+
+        [HttpPost]
+        [Route("[action]"), Authorize(Roles = "Admin,Accountent")]
         public async Task Delete(long id)
         {
             await paymentService.Delete(id);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<int> ChangePaymentStatus(string orderId, string transId)
+        {
+            return await paymentService.ChangePaymentStatus(orderId, transId);
+        }
+
+        [HttpPost]
+        [Route("[action]"), Authorize]
+        public async Task<int> PayByWallet(long orderId)
+        {
+            return await paymentService.PayByWallet(orderId);
         }
     }
 }

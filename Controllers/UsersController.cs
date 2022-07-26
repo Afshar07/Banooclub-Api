@@ -39,6 +39,13 @@ namespace BanooClub.Controllers
 
             return BadRequest(result.ErrorMessage);
         }
+        [HttpPost]
+        [Route("[action]"), Authorize]
+        public async Task<bool> UploadMediaGallery([FromBody] FileData fileData)
+        {
+            var result = await userService.UploadMediaGallery(fileData);
+            return result;
+        }
 
         [HttpPost]
         [Route("[action]")]
@@ -49,6 +56,14 @@ namespace BanooClub.Controllers
                 return Ok(result.Data);
 
             return BadRequest(result.ErrorMessage);
+        }
+
+        [HttpPost]
+        [Route("[action]"), Authorize]
+        public async Task<object> GetMyMediaGallery()
+        {
+            var result = await userService.GetMyMediaGallery();
+            return result;
         }
 
         [HttpPost]

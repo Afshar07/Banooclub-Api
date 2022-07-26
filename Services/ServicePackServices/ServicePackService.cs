@@ -29,6 +29,7 @@ namespace BanooClub.Services.ServicePackServices
         private readonly IBanooClubEFRepository<ServiceCategory> categoryRepository;
         private readonly IBanooClubEFRepository<ServicePlan> servicePlanRepository;
         private readonly IBanooClubEFRepository<CommentLike> commentLikeRepository;
+        private readonly IBanooClubEFRepository<Plan> planRepository;
 
         private readonly IRatingService ratingService;
         private readonly ISocialMediaService mediaService;
@@ -40,6 +41,7 @@ namespace BanooClub.Services.ServicePackServices
             IBanooClubEFRepository<ServiceCategory> categoryRepository,
             IBanooClubEFRepository<ServicePlan> servicePlanRepository,
             IBanooClubEFRepository<CommentLike> commentLikeRepository,
+            IBanooClubEFRepository<Plan> planRepository,
             IBanooClubEFRepository<Rating> ratingRepository
             , IHttpContextAccessor accessor, IBanooClubEFRepository<ServiceProperty> propertyRepository, IBanooClubEFRepository<View> viewRepository, IBanooClubEFRepository<User> userRepository,
             ISocialMediaService mediaService,
@@ -62,6 +64,7 @@ namespace BanooClub.Services.ServicePackServices
             this.servicePackRepository = servicePackRepository;
             this.propertyRepository = propertyRepository;
             this.commentLikeRepository = commentLikeRepository;
+            this.planRepository = planRepository;
             _accessor = accessor;
         }
         public async Task<long> Create(ServicePack inputDto)
@@ -243,7 +246,8 @@ namespace BanooClub.Services.ServicePackServices
             var servicesCount = servicePacks.Count();
             foreach (var servicePack in servicePacks)
             {
-                servicePack.PlanIds = servicePlanRepository.GetQuery().Where(z => z.ServiceId == servicePack.ServicePackId).Select(x => x.PlanId).ToList();
+                var planIds = servicePlanRepository.GetQuery().Where(z => z.ObjectId == servicePack.ServicePackId && z.Type == ServicePlanType.Service).Select(x => x.PlanId).ToList();
+                servicePack.PlanTypes = planRepository.GetQuery().Where(z => planIds.Contains(z.PlanId)).Select(x => x.Type).ToList();
                 var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.Type == MediaTypes.Service && z.ObjectId == servicePack.ServicePackId && z.Priority == 1);
                 if (dbMedia != null)
                 {
@@ -315,7 +319,8 @@ namespace BanooClub.Services.ServicePackServices
             }
             foreach (var servicePack in servicePacks)
             {
-                servicePack.PlanIds = servicePlanRepository.GetQuery().Where(z => z.ServiceId == servicePack.ServicePackId).Select(x => x.PlanId).ToList();
+                var planIds = servicePlanRepository.GetQuery().Where(z => z.ObjectId == servicePack.ServicePackId && z.Type == ServicePlanType.Service).Select(x => x.PlanId).ToList();
+                servicePack.PlanTypes = planRepository.GetQuery().Where(z => planIds.Contains(z.PlanId)).Select(x => x.Type).ToList();
                 var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.Type == MediaTypes.Service && z.ObjectId == servicePack.ServicePackId && z.Priority == 1);
                 if (dbMedia != null)
                 {
@@ -475,8 +480,8 @@ namespace BanooClub.Services.ServicePackServices
             #endregion
             var dbServiceCat = categoryRepository.GetQuery().FirstOrDefault(Z => Z.ServiceCategoryId == service.ServiceCategoryId);
             service.CatName = dbServiceCat == null ? "" : dbServiceCat.Title;
-
-            service.PlanIds = servicePlanRepository.GetQuery().Where(z => z.ServiceId == id).Select(x => x.PlanId).ToList();
+            var planIds = servicePlanRepository.GetQuery().Where(z => z.ObjectId == id && z.Type == ServicePlanType.Service).Select(x => x.PlanId).ToList();
+            service.PlanTypes = planRepository.GetQuery().Where(z=>planIds.Contains(z.PlanId)).Select(x=>x.Type).ToList();
             return service;
         }
         public async Task<object> GetUserServicesByUserName(long lastId, int count, string searchCommand, string userName)
@@ -497,7 +502,8 @@ namespace BanooClub.Services.ServicePackServices
             }
             foreach (var servicePack in servicePacks)
             {
-                servicePack.PlanIds = servicePlanRepository.GetQuery().Where(z => z.ServiceId == servicePack.ServicePackId).Select(x => x.PlanId).ToList();
+                var planIds = servicePlanRepository.GetQuery().Where(z => z.ObjectId == servicePack.ServicePackId && z.Type == ServicePlanType.Service).Select(x => x.PlanId).ToList();
+                servicePack.PlanTypes = planRepository.GetQuery().Where(z => planIds.Contains(z.PlanId)).Select(x => x.Type).ToList();
                 var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.Type == MediaTypes.Service && z.ObjectId == servicePack.ServicePackId && z.Priority == 1);
                 if (dbMedia != null)
                 {
@@ -567,7 +573,8 @@ namespace BanooClub.Services.ServicePackServices
             }
             foreach (var servicePack in servicePacks)
             {
-                servicePack.PlanIds = servicePlanRepository.GetQuery().Where(z => z.ServiceId == servicePack.ServicePackId).Select(x => x.PlanId).ToList();
+                var planIds = servicePlanRepository.GetQuery().Where(z => z.ObjectId == servicePack.ServicePackId && z.Type == ServicePlanType.Service).Select(x => x.PlanId).ToList();
+                servicePack.PlanTypes = planRepository.GetQuery().Where(z => planIds.Contains(z.PlanId)).Select(x => x.Type).ToList();
                 var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.Type == MediaTypes.Service && z.ObjectId == servicePack.ServicePackId && z.Priority == 1);
                 if (dbMedia != null)
                 {
@@ -646,7 +653,8 @@ namespace BanooClub.Services.ServicePackServices
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
             var service = servicePackRepository.GetQuery().FirstOrDefault(z => z.ServicePackId == id);
-            service.PlanIds = servicePlanRepository.GetQuery().Where(z => z.ServiceId == id).Select(x => x.PlanId).ToList();
+            var planIds = servicePlanRepository.GetQuery().Where(z => z.ObjectId == id && z.Type == ServicePlanType.Service).Select(x => x.PlanId).ToList();
+            service.PlanTypes = planRepository.GetQuery().Where(z => planIds.Contains(z.PlanId)).Select(x => x.Type).ToList();
             var dbView = viewRepository.GetQuery().FirstOrDefault(z => z.Type == ViewType.Service && z.ObjectId == id
             && z.CreateDate.Date==DateTime.Now.Date);
             if (dbView == null)

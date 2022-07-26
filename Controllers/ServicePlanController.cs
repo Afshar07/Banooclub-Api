@@ -1,4 +1,5 @@
 ﻿using BanooClub.Models;
+using BanooClub.Models.Enums;
 using BanooClub.Services.ServicePlanServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -35,9 +36,9 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public List<ServicePlan> GetByServiceId(long serviceId)
+        public List<ServicePlan> GetByObjectId(long objectId, ServicePlanType type)
         {
-            return servicePlanService.GetByServiceId(serviceId);
+            return servicePlanService.GetByObjectId(objectId,type);
         }
 
         [HttpPost]

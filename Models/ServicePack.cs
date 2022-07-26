@@ -51,6 +51,6 @@ namespace BanooClub.Models
         [NotMapped]
         public string CatName { get; set; }
         [NotMapped]
-        public List<long> PlanIds { get; set; }
+        public List<int> PlanTypes { get; set; }
     }
 }

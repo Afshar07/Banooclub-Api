@@ -85,6 +85,8 @@ namespace Infrastructure
         public DbSet<Plan> Plans { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Shipping> Shippings { get; set; }
+        public DbSet<ShippingType> ShippingTypes { get; set; }
 
 
         public BanooClubDBContext(DbContextOptions<BanooClubDBContext> options) : base(options)
@@ -165,11 +167,13 @@ namespace Infrastructure
             modelbuilder.Entity<View>().ToTable("Views", "Common").HasKey(z => z.ViewId);
             modelbuilder.Entity<Tag>().ToTable("Tags", "Common").HasKey(z => z.TagId);
             modelbuilder.Entity<Wallet>().ToTable("Wallets", "Common").HasKey(z => z.WalletId);
-            modelbuilder.Entity<CommentLike>().ToTable("CommentLike", "Common").HasKey(z => z.CommentLikeId);
+            modelbuilder.Entity<CommentLike>().ToTable("CommentLikes", "Common").HasKey(z => z.CommentLikeId);
             modelbuilder.Entity<ServicePlan>().ToTable("ServicePlans", "dbo").HasKey(z => z.ServicePlanId);
             modelbuilder.Entity<Plan>().ToTable("Plans", "dbo").HasKey(z => z.PlanId);
             modelbuilder.Entity<Order>().ToTable("Orders", "Order").HasKey(z => z.OrderId);
             modelbuilder.Entity<OrderItem>().ToTable("OrderItems", "Order").HasKey(z => z.OrderItemId);
+            modelbuilder.Entity<Shipping>().ToTable("Shippings", "Common").HasKey(z => z.ShippingId);
+            modelbuilder.Entity<ShippingType>().ToTable("ShippingTypes", "Common").HasKey(z => z.ShippingTypeId);
 
 
             modelbuilder.Entity<Post>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
@@ -193,6 +197,8 @@ namespace Infrastructure
             modelbuilder.Entity<Like>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
             modelbuilder.Entity<Blog>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
             modelbuilder.Entity<BlogComment>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
+            modelbuilder.Entity<Shipping>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
+            modelbuilder.Entity<ShippingType>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
             
         }
     }
