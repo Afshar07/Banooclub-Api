@@ -71,6 +71,14 @@ export default {
     }
   },
   methods:{
+    async GetCredit(){
+      try {
+        const res = await this.$repositories.GetCredit.GetCredit()
+        this.$store.commit('SetWalletAmount',res.data.data)
+      }catch (e) {
+        console.log(e)
+      }
+    },
    async ChangePaymentStatus(){
 
       try {
@@ -87,6 +95,7 @@ export default {
           case 0:{
             this.Status = 1
             this.Message = 'سفارش شما ثبت و پرداخت شما با موفقیت انجام شد.سفارش شما در حال پردازش است.'
+            await this.GetCredit();
             break;
           }
           case -2 :{

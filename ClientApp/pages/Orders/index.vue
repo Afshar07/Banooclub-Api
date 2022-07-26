@@ -38,8 +38,11 @@
                 <small>{{el.title}}</small>
               </div>
             </th>
-            <th v-if="item.serviceInfo" class="fw-normal">
+            <th v-if="item.serviceInfo!==null" class="fw-normal">
               <small> برای خدمت {{item.serviceInfo.title}} </small>
+            </th>
+            <th v-if="item.adsInfo!==null" class="fw-normal">
+              <small> برای آگهی {{item.adsInfo.title}} </small>
             </th>
             <td>{{ new Date(item.createDate).toLocaleTimeString('fa-IR') }}</td>
             <td>

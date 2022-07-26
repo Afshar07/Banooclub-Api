@@ -80,42 +80,52 @@
             v-for="item in UserAds"
             :key="item.adsId"
           >
-            <div class="d-flex flex-wrap mb-2 gap-2 align-items-center">
-              <a @click.prevent="EditAd(item.adsId)">
-                <small
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex flex-wrap mb-2 gap-2 align-items-center">
+                <a @click.prevent="EditAd(item.adsId)">
+                  <small
                   ><i
                     class="fas fa-edit text-primary"
                     v-tooltip="{ content: 'ویرایش' }"
                   ></i
-                ></small>
-              </a>
-
-              <a
-                @click.prevent="SetAdId(item.adsId)"
-                href="#DeleteModal"
-                data-bs-toggle="modal"
-              >
-                <small>
-                  <i
-                    class="fas fa-trash text-danger"
-                    v-tooltip="{ content: 'حذف' }"
-                  ></i>
-                </small>
-              </a>
-              <a
-                @click.prevent="SetAdId(item.adsId)"
-                href="#LadderModal"
-                data-bs-toggle="modal"
-                ><small
-                  ><i
-                    class="fas fa-upgrade text-warning"
-                    v-tooltip="{
-                      content:
-                        'با استفاده از نردبان,آگهی شما به بالای لیست آگهی ها منتقل میشود',
-                    }"
-                  ></i></small
-              ></a>
+                  ></small>
+                </a>
+                <a
+                  @click.prevent="SetAdId(item.adsId)"
+                  href="#DeleteModal"
+                  data-bs-toggle="modal"
+                >
+                  <small>
+                    <i
+                      class="fas fa-trash text-danger"
+                      v-tooltip="{ content: 'حذف' }"
+                    ></i>
+                  </small>
+                </a>
+                <nuxt-link :to="`/Migration/UpgradeAd/${item.adsId}`">
+                  <small><i class="fas fa-arrow-up text-warning"></i></small>
+                </nuxt-link>
+              </div>
+              <div   class=" tw-stack  tw-right-0 tw-cursor-pointer  hover:tw-flex hover:tw-flex-col hover:tw-gap-2 tw-transition ">
+                <div v-if="item.planTypes.includes(2)"
+                     class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
+                  پیشنهادات
+                </div>
+                <div v-if="item.planTypes.includes(1)"
+                     class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
+                  نردبان
+                </div>
+                <div v-if="item.planTypes.includes(4)"
+                     class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
+                  جدید ترین ها
+                </div>
+                <div v-if="item.planTypes.includes(3)"
+                     class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
+                  برترین ها
+                </div>
+              </div>
             </div>
+
             <div class="row" @click="ChangeRoute(item.adsId)">
               <div class="col-md-6 pt-4">
                 <div class="d-flex align-items-center gap-2">
@@ -157,10 +167,10 @@
                 <br />
                 <div class="d-flex align-items-center gap-2">
                   <i
-                    class="fas fa-clock text-muted"
+                    class="fas fa-clock text-muted "
                     style="font-size: 10px"
                   ></i>
-                  <small class="text-muted" style="font-size: 10px">{{
+                  <small class="text-muted mt-1" style="font-size: 10px">{{
                       new Date(item.createDate).toLocaleDateString('fa-IR')
 
                   }}</small>

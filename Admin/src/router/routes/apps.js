@@ -1,5 +1,17 @@
 export default [
-
+  // *===============================================---*
+  // *--------- Groups ---- ---------------------------------------*
+  // *===============================================---*
+  {
+    path: '/apps/Groups/AddGroup',
+    name: 'apps-Groups-AddGroups',
+    component: () => import('@/views/apps/Groups/AddGroup.vue'),
+  },
+  {
+    path: '/apps/Groups/GroupsList',
+    name: 'apps-Groups-GroupsList',
+    component: () => import('@/views/apps/Groups/GroupsList.vue'),
+  },
   // *===============================================---*
   // *--------- Posts ---- ---------------------------------------*
   // *===============================================---*

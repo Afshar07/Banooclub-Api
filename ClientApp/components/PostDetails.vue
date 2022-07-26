@@ -242,7 +242,7 @@ export default {
       SelectedPostComments: [],
       SelectedPostId: 0,
       commentingStatus:false,
-      site_url: 'pplus.simagar.com',
+      site_url: 'banooclub.simagar.com',
       reportReason:'',
       reportedPostId:0,
       reportedPostUserId:0

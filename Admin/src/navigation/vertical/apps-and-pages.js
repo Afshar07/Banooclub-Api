@@ -2,7 +2,30 @@ export default [
   {
     header: 'دسترسی ها',
   },
-
+  {
+    title: 'چت گروهی',
+    icon: 'UsersIcon',
+    children: [
+      {
+        title: 'لیست گروه ها',
+        route: 'apps-Groups-GroupsList',
+        resource: 'ProductManager',
+        action: 'ProductManager',
+      },
+      {
+        title: 'افزودن گروه ',
+        route: 'apps-Groups-AddGroups',
+        resource: 'ProductManager',
+        action: 'ProductManager',
+      },
+      // {
+      //   title: 'ارتقا آگهی',
+      //   route: 'apps-Upgrade-UpgradeAd',
+      //   resource: 'ProductManager',
+      //   action: 'ProductManager',
+      // },
+    ],
+  },
   {
     title: 'پست ها',
     icon: 'GridIcon',

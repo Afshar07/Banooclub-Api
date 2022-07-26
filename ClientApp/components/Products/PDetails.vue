@@ -496,7 +496,7 @@ export default {
     return{
       userDefault: require("~/assets/images/defaultUser.png"),
       isRenderingDeleteConfirmation:false,
-      site_url: 'pplus.simagar.com',
+      site_url: 'banooclub.simagar.com',
       show_more: false,
       images_preview:[],
       serviceVideos:[],

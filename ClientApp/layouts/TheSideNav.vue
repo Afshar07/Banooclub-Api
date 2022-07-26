@@ -351,7 +351,7 @@ export default {
           if (response.status === 200) {
            await this.$auth.fetchUser()
             this.$toast.success(
-              "تنظیمات نمایش گالری و دوستان با موفقیت به روز رسانی شد. "
+              "تنظیمات نمایش گالری  با موفقیت به روز رسانی شد. "
             );
           }
         })

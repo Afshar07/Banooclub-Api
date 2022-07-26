@@ -45,7 +45,7 @@
                  class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
               جدید ترین ها
             </div>
-            <div v-if="service_details.planTypes.includes(5)"
+            <div v-if="service_details.planTypes.includes(3)"
                  class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
               برترین ها
             </div>

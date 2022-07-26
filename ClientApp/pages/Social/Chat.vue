@@ -8,7 +8,7 @@
         <div class="col-md-12 border-bottom pb-2 my-2">
           <input type="search" v-model="Search" class="form-control" placeholder="جستجو">
         </div>
-        <div v-for="(item,idx) in FilteredChats" :key="idx"  @click="SetActiveUser(item)" :class="GetActiveChatClass(item.userId)" class="col-md-12 profile_item">
+        <div v-for="(item,idx) in FilteredChats" :key="idx"  @click="SetActiveUser(item)" :class="GetActiveChatClass(item)" class="col-md-12 profile_item">
           <ProfileItem    :UserData="item"/>
         </div>
       </div>
@@ -47,7 +47,11 @@ export default {
 
     }
   },
-
+head(){
+    return{
+      title:'مکالمات من'
+    }
+},
   computed:{
     FilteredChats()
     {
@@ -105,7 +109,9 @@ export default {
       this.ChatData = []
       this.lastMessage = false
       this.FirstId = 0
-      this.$router.push(this.$route.path)
+      if(this.$route.params.userId){
+        this.$router.push(this.$route.path)
+      }
     },
     SetActiveUser(item){
       this.ActiveUser = item
@@ -114,10 +120,17 @@ export default {
       this.FirstId = 0
       this.ChatSelected = true
     },
-    GetActiveChatClass(id){
-      if(id === this.ActiveUser.userId){
-        return 'ActiveChatClass'
+    GetActiveChatClass(item){
+      if(item.userId!==0){
+        if(item.userId === this.ActiveUser.userId){
+          return 'ActiveChatClass'
+        }
+      }else if(item.groupId!==0){
+        if(item.groupId === this.ActiveUser.groupId){
+          return 'ActiveChatClass'
+        }
       }
+
     },
 
   },
