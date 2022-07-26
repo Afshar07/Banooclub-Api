@@ -1,0 +1,26 @@
+/*================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+@font-face {
+  font-family: IranSans;
+  font-style: normal;
+  font-weight: normal;
+  src: url("./fonts/IRANSans/eot/IRANSansWeb.eot");
+  src: url("./fonts/IRANSans/eot/IRANSansWeb.eot") format("embedded-opentype"),
+  url("./fonts/IRANSans/woff/IRANSansWeb.woff") format("woff"),
+  url("./fonts/IRANSans/woff2/IRANSansWeb.woff2") format("woff2"),
+  url("./fonts/IRANSans/ttf/IRANSansWeb.ttf") format("truetype");
+}
+*{
+  font-family: IranSans;
+}
+.product-badge{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+  //transform: rotate(-45deg);
+}
