@@ -2,17 +2,17 @@
   <div class="row" v-if="followList">
     <div class="col-md-6" v-for="(item, index) in followList" :key="index">
       <div class="friendBox">
-        <div @click="profileLinkGenerator(item)" style="cursor: pointer">
+        <div @click="goToUserProfile(item.userInfo)" style="cursor: pointer">
           <div class="d-flex justify-content-around align-items-center flex-column flex-md-row">
-            <div>
+            <div @click="goToUserProfile(item.userInfo)">
               <img
                 alt="User Avatar"
                 :src="isARequestCard ? requestUserAvatar(item) : userAvatar(item)"
                 class=" custom-image"
               />
             </div>
-            <div class="d-flex flex-column py-3 friendName">
-              <p style="font-weight: 600;color: #666666;font-size: 1rem; margin-bottom: 0 !important;" class="text-primary tw-cursor-pointer" @click="goToUserProfile(item.userInfo)">
+            <div @click="goToUserProfile(item.userInfo)" class="d-flex flex-column py-3 friendName">
+              <p style="font-weight: 600;color: #666666;font-size: 1rem; margin-bottom: 0 !important;" class="text-primary tw-cursor-pointer" >
                 {{
                   isARequestCard ? item.followerInfo.name : item.userInfo.name
                 }}
@@ -29,7 +29,7 @@
                 </p>
               </div>
             </div>
-            <div class="friendCaption" >
+            <div @click="goToUserProfile(item.userInfo)" class="friendCaption" >
               <p class="mb-0" v-if="!isARequestCard && item.userInfo.followingsCount" style="margin-bottom: 0 !important;">
                 {{ item.userInfo.followingsCount }}
                 دنبال کننده
@@ -128,18 +128,18 @@ export default {
         return "/defaultUser.png";
       }
     },
-    profileLinkGenerator(user) {
-
-      // TODO: Modify this to work with all cards
-      if(this.is_follower){
-        this.$router.push({ path: `/user/${user.followerUserId}/posts` });
-      }
-      else {
-        this.$router.push({ path: `/user/${user.userInfo.userId}/posts` });
-
-      }
-
-    },
+    // profileLinkGenerator(user) {
+    //
+    //   // TODO: Modify this to work with all cards
+    //   if(this.is_follower){
+    //     this.$router.push({ path: `/user/${user.followerUserId}/posts` });
+    //   }
+    //   else {
+    //     this.$router.push({ path: `/user/${user.userInfo.userId}/posts` });
+    //
+    //   }
+    //
+    // },
   },
 };
 </script>
