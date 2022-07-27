@@ -104,6 +104,16 @@ module.exports = {
   },
   router: {
     middleware: ["auth"],
+    extendRoutes(routes, resolve) {
+      routes.push(
+        {
+          path: "/Blog/BlogDetail/:blogId/:seourl",
+          components: {
+            default: resolve(__dirname, "pages/Blog/BlogDetail/_id"),
+          },
+        },
+      );
+    },
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules

@@ -26,7 +26,7 @@
             <div class="row boxMainContent mx-auto">
               <ul class="custom_card tw-divide-y tw-divide-gray-100 sm:tw-m-0 tw--mx-5">
                 <li v-for="item in AllBlogs">
-                  <nuxt-link class="text-decoration-none" :to="`/Blog/BlogDetail/${item.blogId}`">
+                  <nuxt-link class="text-decoration-none" :to="`/Blog/BlogDetail/${item.blogId}/${item.seourl}`">
                     <div class="tw-card lg:tw-card-side bg-base-100 shadow-xl">
 
                       <div class="tw-card-body">

@@ -75,7 +75,7 @@
         </b-form-group>
         <div class="d-flex align-items-center gap-1 my-2">
           <div v-for="(item,idx) in newTags"  :key="idx" class="d-flex align-items-center gap-1">
-           <span    class="badge d-flex align-items-center mx-1 px-1 py-1  cursor-pointer pill bg-primary text-white" >
+           <span    class="badge d-flex align-items-center mx-25 px-25 py-25  cursor-pointer pill bg-primary text-white" >
                <feather-icon icon="MinusIcon" size="20" class="text-white mr-1" @click.prevent="RemoveTag(item)"></feather-icon>
               <span> {{item.title}}</span>
 

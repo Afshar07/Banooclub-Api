@@ -30,7 +30,7 @@
               class="mb-2 my-3"
               type="text"
               placeholder="نام دسته بندی"
-              v-model="SelectedCategory.MainName"
+              v-model="SelectedCategory.name"
           />
 
         </b-form-group>
@@ -42,7 +42,7 @@
             drop-placeholder="Drop file here..."
         />
         </b-form-group>
-        <div class="position-relative" v-if="SelectedCategory.fileData!==''">
+        <div class="position-relative" v-if=" SelectedCategory!==null&&SelectedCategory.fileData!==null">
           <img v-if="BaseImgUrl===''" :src="`https://banooclubapi.simagar.com/media/gallery/adsCategory/${SelectedCategory.fileData}`" width="100px" height="100px" alt="">
           <img v-else :src="BaseImgUrl" width="100px" height="100px" alt="">
         </div>
@@ -65,7 +65,7 @@
         </b-form-group>
 
         <b-form-group
-            label="عکس مقاله"
+            label="عکس دسته بندی"
 
             label-for="mc-last-name"
         >
@@ -395,8 +395,9 @@ export default {
             text: `دسته بندی ساخته شد`,
           },
         })
-        this.images = ''
-        this.BaseImgUrl = ''
+        _this.images = ''
+        _this.BaseImgUrl = ''
+        _this.CategoryName = ''
         _this.GetAllAdsCategory();
       }, function (error) {
         console.log(error)
@@ -406,7 +407,7 @@ export default {
       let _this = this
       let deleteAdCategory = new DeleteAdCategory(_this)
       let data = {
-        id:this.SelectedCategory.MainAdsCategoryId
+        id:this.SelectedCategory.adsCategoryId
       }
       deleteAdCategory.setParams(data)
       await deleteAdCategory.fetch(function (content) {

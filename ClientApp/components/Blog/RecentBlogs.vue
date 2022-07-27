@@ -5,7 +5,7 @@
       <ul class="tw-space-y-3">
         <li v-for="item in RecentBlog">
           <div class="tw-flex tw-flex-col tw-items-start my-2">
-            <nuxt-link class="text-decoration-none tw-text-black hover:tw-text-blue-500 tw-transition" :to="`/Blog/BlogDetail/${item.blogId}`">
+            <nuxt-link class="text-decoration-none tw-text-black hover:tw-text-blue-500 tw-transition" :to="`/Blog/BlogDetail/${item.blogId}/${item.seourl}`">
               <p class="m-0">{{item.title}}</p>
             </nuxt-link>
             <div class="tw-flex tw-items-center tw-justify-end tw-gap-2">

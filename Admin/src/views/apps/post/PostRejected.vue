@@ -213,7 +213,7 @@ export default {
 
       let _this = this;
       let postGetRequest = new PostGetRequest(_this)
-      postGetRequest.setId(item.PostId);
+      postGetRequest.setId(item.postId);
       await postGetRequest.fetch(function (content){
        _this.SelectedPost = content
 

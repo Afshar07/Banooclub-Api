@@ -7,7 +7,7 @@
       id="test"
       aria-labelledby="test"
     >
-      <div  class="offcanvas-body px-2" style="height: 600px!important;overflow-y: scroll!important;">
+      <div  class="offcanvas-body px-2" style="height: 700px!important;overflow-y: scroll!important;">
         <div class="d-flex flex-column" style="padding-right: 15px">
           <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
@@ -304,7 +304,7 @@
         @mouseleave="MouseLeaveRightMenu"
         @mouseenter="MouseOverRightMenu"
       >
-        <div class="offcanvas-body px-2" style="height: 600px!important;overflow-y: scroll!important;">
+        <div class="offcanvas-body px-2" style="height: 700px!important;overflow-y: scroll!important;">
           <div class="d-flex flex-column" style="padding-right: 15px">
             <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link

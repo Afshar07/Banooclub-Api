@@ -7,9 +7,9 @@
       <ul class="tw-space-y-3">
         <li v-for="item in TopCommenters">
           <div class="tw-flex tw-items-center my-2">
-            <img v-if="item.userInfo" :src="`https://banooclubapi.simagar.com/${item.userInfo.selfieFileData}`" alt="" class="tw-w-8 tw-h-8 tw-rounded-full">
+            <img v-if="item.userInfo && item.userInfo.selfieFileData!==null" :src="`https://banooclubapi.simagar.com/media/gallery/profile/${item.userInfo.selfieFileData}`" alt="" class="tw-w-8 tw-h-8 tw-rounded-full">
             <img v-else src="/nopicture.jpg" class="tw-w-8 tw-h-8 tw-rounded-full" alt="">
-            <nuxt-link to="#" class="tw-font-semibold tw-px-2 text-decoration-none tw-text-gray-700">
+            <nuxt-link :to="`/user/${item.userInfo.userName}/posts`" class="tw-font-semibold tw-px-2 text-decoration-none tw-text-blue-500">
               {{item.userInfo.userName}}
             </nuxt-link>
             <div class="tw-flex tw-items-center">
@@ -38,10 +38,11 @@ export default {
   },
   async fetch() {
     try {
-  const res = this.$repositories.GetTopCommenters.GetTopCommenters({
+  const res = await this.$repositories.GetTopCommenters.GetTopCommenters({
     count:10
   })
-      // this.TopCommenters = res.data.result
+
+      this.TopCommenters = res.data
     console.log(this.TopCommenters)
     } catch (e) {
       console.log(e)

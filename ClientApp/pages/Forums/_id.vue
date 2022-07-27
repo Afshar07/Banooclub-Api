@@ -23,7 +23,12 @@
       <p class="tw-text-sm d-flex align-items-center tw-text-gray-400 tw-my-2">
         پست شده توسط:
 
-        <span data-href="%40tag-dev.html"> {{ forumDetails.userInfo.userName }} </span>
+        <span data-href="%40tag-dev.html">
+          <nuxt-link class="tw-font-semibold tw-px-2 text-decoration-none tw-text-blue-500" :to="`/user/${forumDetails.userInfo.userName}/posts`">
+             {{ forumDetails.userInfo.userName }}
+          </nuxt-link>
+
+        </span>
       </p>
         <span class="tw-text-black px-1">
           {{time_ago(forumDetails.createDate) }}
@@ -268,6 +273,7 @@ export default {
           })
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
+          this.forum_comment = ''
           this.$nuxt.refresh();
         } catch (error) {
           console.log(error);
