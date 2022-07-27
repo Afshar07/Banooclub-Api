@@ -92,7 +92,7 @@ components:{ChargeWalletSideNav},
           if(res.data===1){
             this.$toast.success('سفارش شما با موفقیت پرداخت شد')
             this.$router.push('/Orders')
-            this.GetCredit()
+          await  this.GetCredit()
 
           }else if (res.data===0){
             this.$toast.success('موجودی کیف پول شما کافی نمیباشد')
@@ -103,7 +103,7 @@ components:{ChargeWalletSideNav},
     },
     async GetCredit(){
       try {
-        const res = this.$repositories.GetCredit.GetCredit()
+        const res = await this.$repositories.GetCredit.GetCredit()
         this.$store.commit('SetWalletAmount',res.data.data)
       }catch (e) {
         console.log(e)

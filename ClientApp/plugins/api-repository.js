@@ -222,7 +222,7 @@ export default (context, inject) => {
 
     //Blog Repo
     GetAllBlog:CreateBlogRepository(context,'Blog/GetAll'),
-    GetBlog:CreateBlogRepository(context,'Blog/GetById'),
+    GetBlog:CreateBlogRepository(context,'Blog/GetByName'),
     GetMostPopular:CreateBlogRepository(context,'Blog/GetMostPopular'),
     CreateBlogComment:CreateBlogRepository(context,'BlogComment/CreateBlogComment'),
     BlogCommentGetById:CreateBlogRepository(context,'BlogComment/GetAllByBlogId'),

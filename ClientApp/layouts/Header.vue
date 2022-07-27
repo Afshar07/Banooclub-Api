@@ -7,7 +7,7 @@
       id="test"
       aria-labelledby="test"
     >
-      <div  class="offcanvas-body px-2" style="height: 800px!important;overflow-y: scroll!important;">
+      <div  class="offcanvas-body px-2" style="height: 700px!important;overflow-y: scroll!important;">
         <div class="d-flex flex-column" style="padding-right: 15px">
           <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
@@ -151,7 +151,7 @@
                   <span v-if="!decrease_width" class="font_sidebar_size">همه خدمات</span>
                 </nuxt-link>
               </div>
-              <div v-if=" $auth.user&& $auth.user && $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+              <div v-if=" $auth.user&& $auth.user && $auth.user.baseData&&$auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
                   to="/Products/MyServices/"
@@ -163,7 +163,7 @@
                   <span v-if="!decrease_width" class="font_sidebar_size">خدمات من</span>
                 </nuxt-link>
               </div>
-              <div v-if=" $auth.user&& $auth.user && $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+              <div v-if=" $auth.user&& $auth.user && $auth.user.baseData&& $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
                   to="/Products/AddProduct/"
@@ -177,7 +177,7 @@
               </div>
             </div>
           </div>
-          <div v-if="$auth.user && $auth.user.userInfo.type === 3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+          <div v-if="$auth.user && $auth.user.userInfo&&  $auth.user.userInfo.type  &&$auth.user.userInfo.type === 3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
               exact-active-class="SingleShortCutActive"
               to="/Payments/"
@@ -187,7 +187,7 @@
               <span v-if="!decrease_width" class="header_font_sidebar_size">پرداخت ها</span>
             </nuxt-link>
           </div>
-          <div v-if="$auth.user && $auth.user.userInfo.type === 3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+          <div v-if="$auth.user && $auth.user.userInfo&&  $auth.user.userInfo.type  && $auth.user.userInfo.type === 3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
               exact-active-class="SingleShortCutActive"
               to="/Orders/"
@@ -304,7 +304,7 @@
         @mouseleave="MouseLeaveRightMenu"
         @mouseenter="MouseOverRightMenu"
       >
-        <div class="offcanvas-body px-2" style="height: 800px!important;overflow-y: scroll!important;">
+        <div class="offcanvas-body px-2" style="height: 700px!important;overflow-y: scroll!important;">
           <div class="d-flex flex-column" style="padding-right: 15px">
             <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
@@ -448,7 +448,7 @@
                     <span v-if="!decrease_width" class="font_sidebar_size">همه خدمات</span>
                   </nuxt-link>
                 </div>
-                <div v-if=" $auth.user&& $auth.user && $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <div v-if=" $auth.user&& $auth.user && $auth.user.baseData&& $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
                     to="/Products/MyServices/"
@@ -460,7 +460,7 @@
                     <span v-if="!decrease_width" class="font_sidebar_size">خدمات من</span>
                   </nuxt-link>
                 </div>
-                <div v-if=" $auth.user&& $auth.user && $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
                     to="/Products/AddProduct/"
@@ -474,7 +474,7 @@
                 </div>
               </div>
             </div>
-            <div v-if="$auth.user && $auth.user.userInfo.type === 3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+            <div v-if="$auth.user && $auth.user.userInfo&&  $auth.user.userInfo.type  && $auth.user.userInfo.type === 3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
                 exact-active-class="SingleShortCutActive"
                 to="/Payments/"
@@ -484,7 +484,7 @@
                 <span v-if="!decrease_width" class="header_font_sidebar_size">پرداخت ها</span>
               </nuxt-link>
             </div>
-            <div v-if="$auth.user && $auth.user.userInfo.type === 3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+            <div v-if="$auth.user && $auth.user.userInfo&&  $auth.user.userInfo.type  && $auth.user.userInfo.type === 3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
                 exact-active-class="SingleShortCutActive"
                 to="/Orders/"
@@ -700,80 +700,80 @@
                 </div>
               </nuxt-link>
 
-              <div  @click="notificationList" class=" position-relative custom_header_size custom_header_icon rounded-circle d-flex justify-content-center align-items-center mx-1">
-                <font-awesome-icon
-                  icon="bell"
-                  color="#999999"
-                ></font-awesome-icon>
-                <span v-if="Notifications" class="headerNumberNotification position-absolute d-flex justify-content-center align-items-center rounded-circle">
-                  <strong>{{ Notifications.length }}</strong>
-                </span>
-                <div class="listNotification position-absolute" v-if="showNotificationList">
-                  <div v-if="Notifications" class="col-12 numberMessageText">
-                    {{ Notifications.length }} نوتیفکیشن جدید
-                  </div>
-                  <!---lawyer--->
-                  <div class="col-12" v-for="(item,idx) in Notifications" :key="idx">
-                    <div class="d-flex flex-row border-bottom w-100 h-100 overflow-hidden">
-                      <div class="d-flex flex-column text-end position-relative p-2">
-                        <div class="senderName">
-                          <small class="text-muted"><i class="fas fa-balance-scale"></i></small>
-                          <small>{{ item.title }}</small>
-                        </div>
-                        <br/>
-                        <small class="messageText"><small>{{ item.body }}</small>
-                          <nuxt-link
-                            v-if="item.link"
-                            to="/social/accountsetting/editprofilebasic">اینجا کلیک کنید
-                          </nuxt-link>
-                        </small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div  @click="messageList" class="position-relative custom_header_size custom_header_icon rounded-circle d-flex justify-content-center align-items-center mx-1">
-                <font-awesome-icon
-                  icon="comment-alt"
-                  color="#999999"
-                ></font-awesome-icon>
-                <span class="headerNumberNotification position-absolute rounded-circle d-flex justify-content-center align-items-center">
-                  <strong>
-                    {{ChatNotifs.length }}
-                  </strong>
-                </span>
-                <div
-                  class="listMessage position-absolute"
-                  v-if="showMessageList"
-                >
-                  <div class="col-12 numberMessageText">
-                    {{ ChatNotifs.length }} پیام جدید
-                  </div>
-                  <div class="col-12" v-for="(item,idx) in ChatNotifs" :key="idx">
-                    <div
-                      class="d-flex flex-column text-end position-relative p-2"
-                    >
-                      <div class="senderName">
-                        <small class="text-muted"
-                        ><i class="fas fa-comment"></i
-                        ></small>
-                        <small>مکالمات من</small>
-                      </div>
+<!--              <div  @click="notificationList" class=" position-relative custom_header_size custom_header_icon rounded-circle d-flex justify-content-center align-items-center mx-1">-->
+<!--                <font-awesome-icon-->
+<!--                  icon="bell"-->
+<!--                  color="#999999"-->
+<!--                ></font-awesome-icon>-->
+<!--                <span v-if="Notifications" class="headerNumberNotification position-absolute d-flex justify-content-center align-items-center rounded-circle">-->
+<!--                  <strong>{{ Notifications.length }}</strong>-->
+<!--                </span>-->
+<!--                <div class="listNotification position-absolute" v-if="showNotificationList">-->
+<!--                  <div v-if="Notifications" class="col-12 numberMessageText">-->
+<!--                    {{ Notifications.length }} نوتیفکیشن جدید-->
+<!--                  </div>-->
+<!--                  &lt;!&ndash;-lawyer-&ndash;&gt;-->
+<!--                  <div class="col-12" v-for="(item,idx) in Notifications" :key="idx">-->
+<!--                    <div class="d-flex flex-row border-bottom w-100 h-100 overflow-hidden">-->
+<!--                      <div class="d-flex flex-column text-end position-relative p-2">-->
+<!--                        <div class="senderName">-->
+<!--                          <small class="text-muted"><i class="fas fa-balance-scale"></i></small>-->
+<!--                          <small>{{ item.title }}</small>-->
+<!--                        </div>-->
+<!--                        <br/>-->
+<!--                        <small class="messageText"><small>{{ item.body }}</small>-->
+<!--                          <nuxt-link-->
+<!--                            v-if="item.link"-->
+<!--                            to="/social/accountsetting/editprofilebasic">اینجا کلیک کنید-->
+<!--                          </nuxt-link>-->
+<!--                        </small>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div  @click="messageList" class="position-relative custom_header_size custom_header_icon rounded-circle d-flex justify-content-center align-items-center mx-1">-->
+<!--                <font-awesome-icon-->
+<!--                  icon="comment-alt"-->
+<!--                  color="#999999"-->
+<!--                ></font-awesome-icon>-->
+<!--                <span class="headerNumberNotification position-absolute rounded-circle d-flex justify-content-center align-items-center">-->
+<!--                  <strong>-->
+<!--                    {{ChatNotifs.length }}-->
+<!--                  </strong>-->
+<!--                </span>-->
+<!--                <div-->
+<!--                  class="listMessage position-absolute"-->
+<!--                  v-if="showMessageList"-->
+<!--                >-->
+<!--                  <div class="col-12 numberMessageText">-->
+<!--                    {{ ChatNotifs.length }} پیام جدید-->
+<!--                  </div>-->
+<!--                  <div class="col-12" v-for="(item,idx) in ChatNotifs" :key="idx">-->
+<!--                    <div-->
+<!--                      class="d-flex flex-column text-end position-relative p-2"-->
+<!--                    >-->
+<!--                      <div class="senderName">-->
+<!--                        <small class="text-muted"-->
+<!--                        ><i class="fas fa-comment"></i-->
+<!--                        ></small>-->
+<!--                        <small>مکالمات من</small>-->
+<!--                      </div>-->
 
-                      <h4 class="messageTextt">
-                        <small>{{ item }}</small
-                        >
-                        <nuxt-link
-                          tag="small text-primary mx-2"
-                          to="/social/Chat"
-                        >اینجا کلیک کنید
-                        </nuxt-link
-                        >
-                      </h4>
-                    </div>
-                  </div>
-                </div>
-              </div>
+<!--                      <h4 class="messageTextt">-->
+<!--                        <small>{{ item }}</small-->
+<!--                        >-->
+<!--                        <nuxt-link-->
+<!--                          tag="small text-primary mx-2"-->
+<!--                          to="/social/Chat"-->
+<!--                        >اینجا کلیک کنید-->
+<!--                        </nuxt-link-->
+<!--                        >-->
+<!--                      </h4>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
               <div class="position-relative custom_header_size">
                 <img
                   v-if="$auth.user && $auth.user.baseData &&  $auth.user.baseData.selfie"
@@ -867,9 +867,9 @@
                             alt=""
                           />
                           <!--                        <i class="fas fa-user"></i>-->
-                          <div class="d-flex flex-column align-items-end px-2">
-                            <div class="profile_pic">{{$auth.user.baseData.name + ' ' + $auth.user.baseData.familyName}}</div>
-                            <div class="d-flex profile_username text-primary tw-cursor-pointer" @click="goToUserProfile($auth.user.baseData)">
+                          <div v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName " class="d-flex flex-column align-items-end px-2">
+                            <div v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "  class="profile_pic">{{$auth.user.baseData.name + ' ' + $auth.user.baseData.familyName}}</div>
+                            <div v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "  class="d-flex profile_username text-primary tw-cursor-pointer" @click="goToUserProfile($auth.user.baseData)">
                               {{ $auth.user.baseData.userName }}
                               @
                             </div>
@@ -1280,9 +1280,9 @@
                           alt=""
                         />
                         <!--                        <i class="fas fa-user"></i>-->
-                        <div class="d-flex flex-column align-items-end px-2">
-                          <div class="profile_pic">{{$auth.user.baseData.name + ' ' + $auth.user.baseData.familyName}}</div>
-                          <div class="d-flex profile_username text-primary tw-cursor-pointer" @click="goToUserProfile($auth.user.baseData)">
+                        <div v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName " class="d-flex flex-column align-items-end px-2">
+                          <div v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName " class="profile_pic">{{$auth.user.baseData.name + ' ' + $auth.user.baseData.familyName}}</div>
+                          <div v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName " class="d-flex profile_username text-primary tw-cursor-pointer" @click="goToUserProfile($auth.user.baseData)">
                             {{ $auth.user.baseData.userName }}
                             @
                           </div>

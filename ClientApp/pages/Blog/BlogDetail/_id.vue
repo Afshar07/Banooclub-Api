@@ -63,7 +63,7 @@
                   <div v-for="(item,idx) in AllBlogs" :key="idx" class="tw-card tw-card-compact w-96 lg:tw-col-span-1 tw-col-span-6  bg-base-100 tw-mx-3.5 shadow-xl">
                     <img v-if="item.fileData!==''"  style="border-radius: 1rem!important;" :src="`https://banooclubapi.simagar.com/${item.fileData}`" class="tw-w-full tw-h-full  tw-inset-0 tw-object-cover" alt="Shoes" />
                     <img v-else src="/nopicture.jpg"  style="border-radius: 1rem!important;" width="80px" height="80px" class="rounded-circle" alt="">
-                    <nuxt-link class="text-decoration-none tw-text-black hover:tw-text-blue-500 tw-transition" :to="`/Blog/BlogDetail/${item.blogId}`">
+                    <nuxt-link class="text-decoration-none tw-text-black hover:tw-text-blue-500 tw-transition" :to="`/Blog/BlogDetail/${item.blogId}/${item.seourl}`">
                       <p class="my-2">{{ item.title }}</p>
                     </nuxt-link>
                       <div class="tw-flex tw-items-center tw-gap-2">
@@ -185,7 +185,7 @@ export default {
           status = 1
         }
 const res = this.$repositories.CreateBlogLike.CreateBlogLike({
-          objectId: parseInt(this.$route.params.id),
+          objectId: parseInt(this.$route.params.blogId),
           type: 7,
           status: 2,
           createDate: new Date(Date.now()),
@@ -201,7 +201,7 @@ const res = this.$repositories.CreateBlogLike.CreateBlogLike({
     async GetBlog(){
       try {
         const res = await this.$repositories.GetBlog.GetBlog({
-          id:this.$route.params.id
+          blogName:this.$route.params.seourl
         })
         this.BlogData = res.data
         console.log(this.BlogData)
@@ -215,7 +215,7 @@ this.SelectedComment = item
     async GetAllBlogComment(){
     try {
       const res = await this.$repositories.BlogCommentGetById.BlogCommentGetById({
-        blogId:this.$route.params.id
+        blogId:this.$route.params.blogId
       })
       this.BlogComments = res.data
     }catch (e){
@@ -229,7 +229,7 @@ this.SelectedComment = item
        parentId = this.SelectedComment.blogCommentId
     }
       const res = await this.$repositories.CreateBlogComment.CreateBlogComment({
-        blogId: parseInt(this.$route.params.id) ,
+        blogId: parseInt(this.$route.params.blogId) ,
         message:this.Message,
         parentId:parentId
       })
@@ -248,12 +248,12 @@ this.SelectedComment = item
   async fetch(){
   try {
     const res = await this.$repositories.GetBlog.GetBlog({
-      id:this.$route.params.id
+      blogName:this.$route.params.seourl
     })
     this.BlogData = res.data
       this.seoTitle = res.data.seoTitle
     this.SeoDescription = res.data.seoDescription
-    console.log(this.BlogData)
+
   }catch (e) {
     console.log(e)
   }

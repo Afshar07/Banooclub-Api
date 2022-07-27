@@ -26,13 +26,7 @@
       >
         ارسال کد
       </button>
-<!--      <button-->
-<!--        type="button"-->
-<!--        class="btn p-2 btn-sm submitRegisterButton"-->
-<!--        @click="sendOtpCode"-->
-<!--      >-->
-<!--        ارسال کد-->
-<!--      </button>-->
+
     </div>
   </div>
 </template>

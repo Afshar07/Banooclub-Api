@@ -25,7 +25,7 @@
         :infinite="false"
         :breakpoints="{ 426: { visibleSlides: 2,  slideMultiple: 2 } , 769: { visibleSlides: 3,  slideMultiple: 2,  gap:0 }}"
       >
-        <vueper-slide v-for="ad in Ads">
+        <vueper-slide v-for="ad in Ads.filter(e=> e.planTypes.includes(2))">
           <template #content>
             <AdItem :AdsDetail="ad" :category_details="categories"/>
           </template>
@@ -37,11 +37,11 @@
       <div class="tw-flex tw-justify-between tw-items-center tw-my-6">
         <div class="d-flex flex-column align-items-start">
           <h2 class="tw-text-2xl tw-font-semibold">دسته بندی ها</h2>
-          <p class="tw-font-medium tw-text-gray-500 tw-leading-6">
-            بر اساس دسته بندی ها محصول خود را پیدا کنید
-          </p>
+<!--          <p class="tw-font-medium tw-text-gray-500 tw-leading-6">-->
+<!--            بر اساس دسته بندی ها محصول خود را پیدا کنید-->
+<!--          </p>-->
         </div>
-        <nuxt-link to="#" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
+<!--        <nuxt-link to="#" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>-->
       </div>
       <div class="tw-relative">
         <button
@@ -70,7 +70,8 @@
         >
           <vueper-slide v-for="category in categories">
             <template #content>
-              <CategoryItem :category_details="category"/>
+
+              <adsCategoryItem :category_details="category"/>
             </template>
           </vueper-slide>
         </vueper-slides>
@@ -81,7 +82,7 @@
     <div class="tw-flex-column">
       <div class="tw-flex tw-justify-between tw-items-center tw-my-6">
         <h2 class="tw-text-2xl tw-font-semibold">جدیدترین ها</h2>
-        <nuxt-link to="#" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
+<!--        <nuxt-link to="#" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>-->
       </div>
       <div class="tw-relative">
         <button
@@ -95,10 +96,10 @@
           <LeftChevronIcon/>
         </button>
         <vueper-slides
-          fixed-height="120px"
+          fixed-height="300px"
           ref="new_carousel"
           class="no-shadow"
-          :visible-slides="3"
+          :visible-slides="5"
           :gap="1"
           slide-multiple
           :rtl="true"
@@ -108,7 +109,7 @@
           :infinite="true"
           :breakpoints="{ 426: { visibleSlides: 1,  slideMultiple: 2 } , 769: { visibleSlides: 2,  slideMultiple: 2,  gap:0 }}"
         >
-          <vueper-slide v-for="Ad in Ads">
+          <vueper-slide v-for="Ad in Ads.filter(e=> e.planTypes.includes(3))">
             <template #content>
               <AdItem :AdsDetail="Ad" :category_details="categories"/>
             </template>
@@ -121,7 +122,7 @@
     <div class="tw-flex-column">
       <div class="tw-flex tw-justify-between tw-items-center tw-my-6 tw-border-b pb-2 my-4">
         <h2 class="tw-text-2xl tw-font-semibold">خدمات برتر</h2>
-        <nuxt-link to="#" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
+<!--        <nuxt-link to="#" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>-->
       </div>
       <div class="tw-flex-column tw-relative">
         <button
@@ -148,7 +149,7 @@
           :infinite="true"
           :breakpoints="{ 426: { visibleSlides: 2,  slideMultiple: 2 } , 769: { visibleSlides: 3,  slideMultiple: 2,  gap:0 }}"
         >
-          <vueper-slide v-for="Ad in Ads">
+          <vueper-slide v-for="Ad in Ads.filter( e=>e.planTypes.includes(4))">
             <template #content>
               <AdItem :AdsDetail="Ad" :category_details="categories"/>
             </template>
@@ -168,7 +169,7 @@ import {VueperSlides, VueperSlide} from 'vueperslides'
 import 'vueperslides/dist/vueperslides.css'
 import RightChevronIcon from "../Icons/RightChevronIcon";
 import LeftChevronIcon from "../Icons/LeftChevronIcon";
-import CategoryItem from "../Categories/CategoryItem";
+import adsCategoryItem from "../Categories/adsCategoryItem";
 import  AdItem from '../../components/Ads/AdItem'
 
 export default {
@@ -180,7 +181,7 @@ export default {
     VueperSlides,
     VueperSlide,
     AdItem,
-    CategoryItem
+    adsCategoryItem
   },
   props:{
     Ads:{

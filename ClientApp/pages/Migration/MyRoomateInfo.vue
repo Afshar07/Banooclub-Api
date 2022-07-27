@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid px-0 mcontainer">
     <div>
-      <div class="col-12">
+      <div v-if="roomateData!=='Not Set Yet'" class="col-12">
         <div class="col-md-12">
           <div class="row p-4">
             <div class="d-flex align-items-center gap-2 my-2">
@@ -386,6 +386,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div v-else class="col-md-12 d-flex justify-content-center">
+        <span class="text-warning">شما هنوز اطلاعات هم خانه ثبت نکرده اید</span>
       </div>
     </div>
 

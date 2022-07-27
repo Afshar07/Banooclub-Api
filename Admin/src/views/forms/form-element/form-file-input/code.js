@@ -5,7 +5,7 @@ export const codeBasic = `
     <!-- Styled -->
     <b-form-file
       v-model="file"
-      placeholder="Choose a file or drop it here..."
+      placeholder="فایل خود را انتخاب کنید"
       drop-placeholder="Drop file here..."
     />
 
@@ -56,7 +56,7 @@ export const codeDragDrop = `
   <div>
     <!-- Styled -->
     <b-form-file
-      placeholder="Choose a file or drop it here..."
+      placeholder="فایل خود را انتخاب کنید"
       drop-placeholder="Drop file here..."
       no-drop
     />
@@ -155,7 +155,7 @@ export const codeMultiple = `
 <template>
   <div>
     <b-form-file
-      placeholder="Choose a file or drop it here..."
+      placeholder="فایل خود را انتخاب کنید"
       drop-placeholder="Drop file here..."
       multiple
     />
@@ -229,7 +229,7 @@ export const codeContextualState = `
     <b-form-file
       v-model="file"
       :state="Boolean(file)"
-      placeholder="Choose a file or drop it here..."
+      placeholder="فایل خود را انتخاب کنید"
       drop-placeholder="Drop file here..."
     />
   </div>
@@ -304,7 +304,7 @@ export const codeDirectory = `
     <b-form-file
         v-model="file"
         directory
-        placeholder="Choose a file or drop it here..."
+        placeholder="فایل خود را انتخاب کنید"
         drop-placeholder="Drop file here..."
       />
     </b-card-code>

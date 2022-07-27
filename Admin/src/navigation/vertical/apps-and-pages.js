@@ -2,7 +2,30 @@ export default [
   {
     header: 'دسترسی ها',
   },
-
+  {
+    title: 'چت گروهی',
+    icon: 'UsersIcon',
+    children: [
+      {
+        title: 'لیست گروه ها',
+        route: 'apps-Groups-GroupsList',
+        resource: 'ProductManager',
+        action: 'ProductManager',
+      },
+      {
+        title: 'افزودن گروه ',
+        route: 'apps-Groups-AddGroups',
+        resource: 'ProductManager',
+        action: 'ProductManager',
+      },
+      // {
+      //   title: 'ارتقا آگهی',
+      //   route: 'apps-Upgrade-UpgradeAd',
+      //   resource: 'ProductManager',
+      //   action: 'ProductManager',
+      // },
+    ],
+  },
   {
     title: 'پست ها',
     icon: 'GridIcon',
@@ -65,10 +88,17 @@ export default [
   },
 
 
+
   {
     title: 'خدمات',
     icon: 'BriefcaseIcon',
     children: [
+      {
+        title: 'همه خدمات',
+        route: 'apps-Service-AllServices',
+        resource: 'ProductManager',
+        action: 'ProductManager',
+      },
       {
         title: 'خدمات تایید شده',
         route: 'apps-Service-ServicesList',
@@ -82,6 +112,12 @@ export default [
         action: 'ProductManager',
       },
       {
+        title: 'نیاز به بازبینی مجدد',
+        route: 'apps-Service-Pending',
+        resource: 'ProductManager',
+        action: 'ProductManager',
+      },
+      {
         title: ' دسته بندی  خدمات',
         route: 'apps-Service-ServiceCategories',
         resource: 'ProductManager',
@@ -89,6 +125,7 @@ export default [
       },
     ],
   },
+
 
   {
     title: 'مالی',

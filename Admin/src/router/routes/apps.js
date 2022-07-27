@@ -1,5 +1,17 @@
 export default [
-
+  // *===============================================---*
+  // *--------- Groups ---- ---------------------------------------*
+  // *===============================================---*
+  {
+    path: '/apps/Groups/AddGroup',
+    name: 'apps-Groups-AddGroups',
+    component: () => import('@/views/apps/Groups/AddGroup.vue'),
+  },
+  {
+    path: '/apps/Groups/GroupsList',
+    name: 'apps-Groups-GroupsList',
+    component: () => import('@/views/apps/Groups/GroupsList.vue'),
+  },
   // *===============================================---*
   // *--------- Posts ---- ---------------------------------------*
   // *===============================================---*
@@ -69,9 +81,19 @@ export default [
     component: () => import('@/views/apps/Service/ServicesList.vue'),
   },
   {
+    path: '/apps/Service/AllServices',
+    name: 'apps-Service-AllServices',
+    component: () => import('@/views/apps/Service/AllServices.vue'),
+  },
+  {
     path: '/apps/Service/ServicesListNotConfirmed',
     name: 'apps-Service-notConfirmed',
     component: () => import('@/views/apps/Service/ServicesListNotConfirmed.vue'),
+  },
+  {
+    path: '/apps/Service/Pending',
+    name: 'apps-Service-Pending',
+    component: () => import('@/views/apps/Service/ServicesPending.vue'),
   },
   {
     path: '/apps/Service/ServiceCategories',

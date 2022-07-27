@@ -318,6 +318,7 @@ export default {
                 this.$nuxt.loading = false;
                 this.$toast.success("پست با موفقیت ثبت شد");
                 this.showModal = false;
+                this.select_media = false
                 this.selected_media = []
                 this.description = ''
                 this.$emit('updateMyPosts')

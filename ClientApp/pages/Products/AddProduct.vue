@@ -54,6 +54,10 @@
           </div>
         </div>
         <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
+          <label>ظرفیت</label>
+          <input maxlength="11" v-model="Qty" type="number" class="with-border" placeholder="ظرفیت خدمت">
+        </div>
+        <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
           <label>شماره تلفن 1</label>
           <input maxlength="11" v-model="phone_number1" type="number" class="with-border" placeholder="شماره تلفن">
         </div>
@@ -277,6 +281,7 @@ export default {
       service_address: '',
       phone_number1: 0,
       phone_number2: 0,
+      Qty:0,
       mobile: 0,
       email: '',
       web_address: '',
@@ -484,6 +489,7 @@ export default {
               phoneNumber1: this.phone_number1,
               phoneNumber2: this.phone_number2,
               mobile: this.mobile,
+              quantity:parseInt(this.Qty),
               email: this.email,
               fireDate: '2022-06-25T12:04:09.204Z',
               specified: false,

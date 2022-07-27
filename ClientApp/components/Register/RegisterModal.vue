@@ -2,7 +2,7 @@
   <transition name="modal">
     <div v-if="is_modal_open" class="tw-modal tw-modal-open tw-bg-transparent" @click="closeRegisterModal">
       <div class="tw-container tw-mx-auto tw-w-11/12 tw-z-[99999]">
-        <div class=" tw-bg-white tw-modal-box tw-max-w-max tw-p-0 tw-w-full tw-mx-auto tw-rounded-xl tw-shadow-2xl tw-p-0" @click.stop>
+        <div style="overflow-x: hidden!important;" class=" tw-bg-white tw-modal-box tw-max-w-max tw-p-0 tw-w-full tw-mx-auto tw-rounded-xl tw-shadow-2xl tw-p-0" @click.stop>
           <div class="modal_header tw-flex tw-items-center tw-justify-between tw-border-b">
             <div class="tw-px-7 tw-py-5">
               <h2 class="lg:tw-text-2xl tw-text-xl tw-font-semibold tw-mb-1 tw-text-gray-600">ثبت نام</h2>
@@ -81,104 +81,11 @@
               </div>
 
             </div>
-            <!--          <div class="tw-mt-8 tw-text-center tw-text-sm">-->
-            <!--            <nuxt-link to="#" class="tw-font-semibold hover:tw-underline tw-no-underline">یک صفحه</nuxt-link> برای افراد مشهور، گروه موسیقی یا تجارت ایجاد کنید-->
-            <!--          </div>-->
+
 
           </div>
 
 
-          <!--          <div-->
-<!--            class="col-md-6 px-0 col-12 order-0 order-md-1 login-reg-bg position-relative"-->
-<!--          >-->
-<!--            <div class="log-reg-area position-absolute" :class="GetBgClass" dir="rtl">-->
-<!--              <p class="log-title-text" :class="{ TextWhite: userType !== 0 }">-->
-<!--                از بانو کلاب استفاده میکنید ؟-->
-<!--                <nuxt-link-->
-<!--                  to="/register"-->
-<!--                  href="#"-->
-<!--                  title=""-->
-<!--                  :class="{ TextWhite: userType !== 0 }"-->
-<!--                >قوانین را بخوانید-->
-<!--                </nuxt-link>-->
-<!--                یا-->
-<!--                <nuxt-link-->
-<!--                  to="/"-->
-<!--                  href="#"-->
-<!--                  title=""-->
-<!--                  :class="{ TextWhite: userType !== 0 }"-->
-<!--                >-->
-<!--                  اینجا کلیک کنید-->
-<!--                </nuxt-link>-->
-<!--              </p>-->
-
-<!--              <div class="row py-2" v-show="!isOtpSent">-->
-<!--                <div-->
-<!--                  class="col-6 text-center"-->
-<!--                  :class="registerType == 2 ? 'TabActive' : 'deActiveTab'"-->
-<!--                  @click="setRegisterMethod(2)"-->
-<!--                >-->
-<!--                  ثبت نام با ایمیل-->
-<!--                </div>-->
-<!--                <div-->
-<!--                  class="col-6 border-end text-center"-->
-<!--                  :class="registerType == 1 ? 'TabActive' : 'deActiveTab'"-->
-<!--                  @click="setRegisterMethod(1)"-->
-<!--                >-->
-<!--                  ثبت نام با شماره موبایل-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <form>-->
-<!--                <get-otp-->
-<!--                  v-if="!isOtpSent"-->
-<!--                  @OtpSent="setOtpSentStatus"-->
-<!--                  @getMail="setMail"-->
-<!--                  @getNumber="setNumber"-->
-<!--                  :registerType="registerType"-->
-<!--                ></get-otp>-->
-
-<!--                <register-form-->
-<!--                  v-if="isOtpSent"-->
-<!--                  @getUserRole="setUserType"-->
-<!--                  @getSignUpPayload="setSignUpPayload">-->
-<!--                </register-form>-->
-
-<!--              </form>-->
-<!--              <div class="col-12 my-3">-->
-<!--                <nuxt-link-->
-<!--                  to="Login"-->
-<!--                  class="existAccount"-->
-<!--                  :class="{ TextWhite: userType !== 0 }"-->
-<!--                >-->
-<!--                </nuxt-link>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--          <form class="tw-p-7 tw-space-y-5">-->
-<!--            <div class="tw-grid lg:tw-grid-cols-2 tw-gap-5">-->
-<!--              <input type="text" placeholder="نام" class="with-border">-->
-<!--              <input type="text" placeholder="نام خانوادگی" class="with-border">-->
-<!--            </div>-->
-<!--            <div class="tw-grid lg:tw-grid-cols-2 tw-gap-5">-->
-<!--              <input type="text" placeholder="شماره همراه" class="with-border">-->
-<!--              <input type="text" placeholder="کد تایید" class="with-border">-->
-<!--            </div>-->
-<!--            <div class="tw-grid lg:tw-grid-cols-2 tw-gap-5">-->
-<!--              <input type="text" placeholder="شماره معرف" class="with-border">-->
-<!--              <select v-model="service_category" class="form-select" aria-label="Default select example">-->
-<!--                <option :value="null">دسته بندی خدمت</option>-->
-<!--                <option v-for="service_category in categories" :value="service_category.serviceCategoryId">-->
-<!--                  {{ service_category.title }}-->
-<!--                </option>-->
-<!--              </select>-->
-<!--            </div>-->
-<!--            <div class="flex text-center">-->
-<!--              <button type="button" class="tw-bg-blue-600 tw-font-semibold tw-mx-auto tw-px-10 tw-py-3 tw-rounded-md tw-text-center tw-text-white">-->
-<!--                ثبت نام-->
-<!--              </button>-->
-<!--            </div>-->
-<!--          </form>-->
         </div>
       </div>
     </div>

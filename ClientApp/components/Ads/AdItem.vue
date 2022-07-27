@@ -7,9 +7,12 @@
         <img v-else :src="`/nopicture.jpg`" :alt="AdsDetail.title">
       </nuxt-link>
       <span class="tw-absolute tw-bg-white tw-px-2 tw-py-1 tw-text-sm tw-rounded-md tw-m-2"> Label</span>
-      <button @click.prevent="createWishList" v-if="!AdsDetail.isFavourite" class="tw-bg-red-100 tw-absolute tw-right-2 tw-top-2 p-1 tw-rounded-full tw-text-red-500 tw-flex tw-items-center tw-justify-center">
-        <!--        <HeartIcon fill="red"/>-->
-        <svg  xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+
+      <button @click="toggleWishList(AdsDetail)" class="tw-bg-red-100 tw-absolute tw-right-2 tw-top-2 p-1 tw-rounded-full tw-text-red-500 tw-flex tw-items-center tw-justify-center">
+        <svg v-if="!AdsDetail.isFavourite" xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="red" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+        <svg v-else xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
         </svg>
       </button>
@@ -20,7 +23,7 @@
         {{Intl.NumberFormat('fa-IR').format(AdsDetail.price)}}
         تومان
       </div>
-      <div class="tw-text-xs tw-font-semibold tw-uppercase tw-text-yellow-500 text-end">{{ AdsDetail.adsCategoryParents }}</div>
+      <div class="tw-text-xs tw-font-semibold tw-uppercase tw-text-yellow-500 text-end my-3">{{ AdsDetail.adsCategoryParents }}</div>
       <nuxt-link :to="`/Products/${AdsDetail.adsId}`" class="text-decoration-none">
         <h2 class="tw-text-lg tw-font-medium tw-mt-1 tw-t tw-truncate tw-text-slate-500 product_name tw-text-right mt-2">{{AdsDetail.title}}</h2>
       </nuxt-link>
@@ -45,24 +48,26 @@ export default {
   },
 
   methods:{
-    async createWishList(){
+    async toggleWishList(item){
       try {
-        await this.$repositories.createWishList.createWishList({
-          objectId: this.AdsDetail.adsId,
-          type: 3,
-          userId: this.$auth.user.userInfo.userId,
-          createDate: new Date(Date.now())
+        await this.$repositories.toggleWishList.toggleWishList({
+          objectId:item.adsId,
+          type:3
         })
-        this.$toast.success("آگهی به علاقمندی ها افزوده شد.");
-        this.$nuxt.refresh();
-
-
+        if(item.isFavourite){
+          this.$toast.success("آگهی از علاقمندی ها حذف شد");
+        }
+        else{
+          this.$toast.success("آگهی به علاقمندی ها اضافه شد");
+        }
+        this.$nuxt.refresh()
+        this.$fetch()
       }
       catch (error){
         console.log(error)
       }
-
     },
+
   }
 }
 </script>

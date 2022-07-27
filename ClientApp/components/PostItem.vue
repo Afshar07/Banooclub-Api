@@ -165,12 +165,12 @@
       <div class="pt-3 px-3">
         <div style="text-align: right">{{post_details.description}}</div>
         <div class="tw-flex tw-items-center py-3 tw-pt-2 justify-content-between">
-          <div class="dark:tw-text-gray-100 d-flex align-items-center" style="color:#676767;">
-            <div style="font-size: 14px">
+          <div  class="dark:tw-text-gray-100 d-flex align-items-center" style="color:#676767;">
+            <div v-if="post_details.likesCount" style="font-size: 14px">
               پسندیده شده توسط
             </div>
-            <strong class="px-1" style="font-size: 16px; font-weight: bolder"> {{ post_details.likesCount }} </strong>
-            <div style="font-size: 14px">نفر</div>
+            <strong v-if="post_details.likesCount" class="px-1" style="font-size: 16px; font-weight: bolder"> {{ post_details.likesCount }} </strong>
+            <div v-if="post_details.likesCount" style="font-size: 14px">نفر</div>
           </div>
           <button @click="likePost(post_details.postId, post_details.userId)"
                   class="tw-flex tw-items-center tw-space-x-2 text-decoration-none text-dark">
@@ -263,7 +263,7 @@ export default {
       SelectedPostComments: [],
       SelectedPostId: 0,
       commentingStatus:false,
-      site_url: 'pplus.simagar.com',
+      site_url: 'banooclub.simagar.com',
       reportReason:'',
       reportedPostId:0,
       reportedPostUserId:0
@@ -338,6 +338,7 @@ export default {
             if (response.status === 200) {
               this.$toast.success("ثبت گزارش با موفقیت انجام شد.");
               this.isRenderingReportingPost = false
+              this.reportReason = ''
               this.$nuxt.refresh()
             }
           })

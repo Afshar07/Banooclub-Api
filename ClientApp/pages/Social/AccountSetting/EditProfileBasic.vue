@@ -102,8 +102,8 @@
             </div>
           </div>
         </div>
-        <div class="col-md-12 my-3">
-          <span class="text-secondary mb-3">وضعیت تاهل</span>
+        <div class="col-md-12 my-3 d-flex align-items-center justify-content-around flex-wrap">
+          <span class="text-secondary ">وضعیت تاهل</span>
           <div class="form-check form-check-inline">
             <input
               class="form-check-input"
@@ -516,6 +516,7 @@ export default {
         this.nationalCart = this.userInfoData.userSetting.kartMelliDoc;
         this.Relation = this.userInfoData.relationState
         this.Video = this.userInfoData.userSetting.videoIdentity;
+        this.SelectedStateId = this.userInfoData.stateId;
 
       });
     },

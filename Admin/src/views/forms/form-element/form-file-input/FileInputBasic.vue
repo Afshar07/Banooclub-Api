@@ -10,7 +10,7 @@
       <!-- Styled -->
       <b-form-file
         v-model="file"
-        placeholder="Choose a file or drop it here..."
+        placeholder="فایل خود را انتخاب کنید"
         drop-placeholder="Drop file here..."
       />
 

@@ -27,13 +27,25 @@
           <b-form-input
               v-if="SelectedCategory!==null"
               id="email"
+              class="mb-2 my-3"
               type="text"
               placeholder="نام دسته بندی"
-              v-model="SelectedCategory.MainName"
+              v-model="SelectedCategory.name"
           />
 
         </b-form-group>
-
+        <b-form-group>
+        <b-form-file
+            ref="FileUpdate"
+            @input="HandleFileUpdate2"
+            placeholder="فایل خود را انتخاب کنید"
+            drop-placeholder="Drop file here..."
+        />
+        </b-form-group>
+        <div class="position-relative" v-if=" SelectedCategory!==null&&SelectedCategory.fileData!==null">
+          <img v-if="BaseImgUrl===''" :src="`https://banooclubapi.simagar.com/media/gallery/adsCategory/${SelectedCategory.fileData}`" width="100px" height="100px" alt="">
+          <img v-else :src="BaseImgUrl" width="100px" height="100px" alt="">
+        </div>
       </b-modal>
       <b-modal
           id="modal-Add"
@@ -51,15 +63,23 @@
               v-model="CategoryName"
           />
         </b-form-group>
-        <v-select
 
-            v-model="SelectedCategoryId"
-            :options="Categories"
-            label="MainName"
-            :reduce="MainName => MainName.MainAdsCategoryId"
-            :clearable="false"
-            input-id="user-status"
-        />
+        <b-form-group
+            label="عکس دسته بندی"
+
+            label-for="mc-last-name"
+        >
+          <b-form-file
+              ref="FileUpdate"
+              @input="HandleFileUpdate"
+              placeholder="فایل خود را انتخاب کنید"
+              drop-placeholder="Drop file here..."
+          />
+        </b-form-group>
+        <div v-if="BaseImgUrl!==''" class="position-relative">
+          <feather-icon icon="TrashIcon" class="position-absolute text-danger"  @click="RemovePic"/>
+          <img :src="BaseImgUrl" width="100px" height="100px" alt="">
+        </div>
       </b-modal>
       <!-- Table Container Card -->
       <b-card
@@ -108,7 +128,10 @@
         >
 
           <!-- Column: delete -->
+          <template #cell(fileData)="data">
 
+            <img :src="`https://banooclubapi.simagar.com/media/gallery/adsCategory/${data.item.fileData}`" width="50px" height="50px" alt="">
+          </template>
           <template #cell(Delete)="data">
 
             <div class="cursor-pointer d-flex flex-row"
@@ -188,7 +211,7 @@
 
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination, BOverlay, BModal, BFormGroup,BFormSelect
+  BBadge, BDropdown, BDropdownItem, BPagination, BOverlay, BModal, BFormGroup,BFormSelect,BFormFile
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 
@@ -214,16 +237,16 @@ export default {
       perPageOptions: [10, 20, 30, 40, 50],
       myTableColumns: [
         {
-          key: 'MainAdsCategoryId',
+          key: 'adsCategoryId',
           label: 'شناسه'
         },
         {
-          key: 'MainName',
-          label: 'نام'
+          key: 'fileData',
+          label: 'عکس'
         },
         {
-          key: 'ParentName',
-          label: 'نام دسته بندی مادر'
+          key: 'name',
+          label: 'نام'
         },
         {
           key: 'Delete',
@@ -239,6 +262,8 @@ export default {
       pageNumber: 1,
       count: 10,
       search: '',
+      BaseImgUrl:'',
+      images:'',
       SelectedCategory: null,
       selected: null,
       options: [
@@ -271,6 +296,7 @@ export default {
     BDropdownItem,
     BPagination,
     BOverlay,
+    BFormFile,
     BModal,
     BFormSelect,
     vSelect,
@@ -284,14 +310,53 @@ export default {
     }
   },
   methods: {
+    RemovePic(){
+      this.BaseImgUrl = ''
+      this.images = ''
+    },
+
+    HandleFileUpdate2(){
+      const that = this
+      let f = ''
+
+      f = this.$refs.FileUpdate.files[0]
+      this.BaseImgUrl = URL.createObjectURL(f)
+      const reader = new FileReader()
+      reader.onload = (function (theFile) {
+        return function () {
+          const binaryData = reader.result
+          that.images = window.btoa(binaryData)
+        }
+      })(f)
+      reader.readAsBinaryString(f)
+
+
+    },
+    HandleFileUpdate(){
+      const that = this
+      let f = ''
+
+      f = this.$refs.FileUpdate.files[0]
+      this.BaseImgUrl = URL.createObjectURL(f)
+      const reader = new FileReader()
+      reader.onload = (function (theFile) {
+        return function () {
+          const binaryData = reader.result
+          that.images = window.btoa(binaryData)
+        }
+      })(f)
+      reader.readAsBinaryString(f)
+
+
+    },
    async UpdateCategory(){
       let _this = this
       let updateAdCategory = new UpdateAdCategory(_this)
       let data = {
-        adsCategoryId: this.SelectedCategory.MainAdsCategoryId,
-        name: this.SelectedCategory.MainName,
+        adsCategoryId: this.SelectedCategory.adsCategoryId,
+        name: this.SelectedCategory.name,
         parentId: this.SelectedCategory.parentId,
-        parentName: this.SelectedCategory.parentName
+        fileData:this.images
       }
       updateAdCategory.setRequestParamDataObj(data)
       await updateAdCategory.fetch(function (content) {
@@ -314,8 +379,9 @@ export default {
       let _this = this
       let addAdCategory = new AddAdCategory(_this)
       let data = {
+        parentId: 0,
         name: this.CategoryName,
-        parentId: this.SelectedCategoryId,
+        fileData:this.images
       }
       addAdCategory.setRequestParamDataObj(data)
       await addAdCategory.fetch(function (content) {
@@ -329,6 +395,9 @@ export default {
             text: `دسته بندی ساخته شد`,
           },
         })
+        _this.images = ''
+        _this.BaseImgUrl = ''
+        _this.CategoryName = ''
         _this.GetAllAdsCategory();
       }, function (error) {
         console.log(error)
@@ -338,7 +407,7 @@ export default {
       let _this = this
       let deleteAdCategory = new DeleteAdCategory(_this)
       let data = {
-        id:this.SelectedCategory.MainAdsCategoryId
+        id:this.SelectedCategory.adsCategoryId
       }
       deleteAdCategory.setParams(data)
       await deleteAdCategory.fetch(function (content) {

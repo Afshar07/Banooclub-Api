@@ -4,9 +4,9 @@
       <div class="col-md-12 tw-border-b tw-shadow p-3 bg-white">
         <div class="d-flex align-items-center justify-content-between">
           <div class="d-flex align-items-center gap-2">
-            <img v-if="ActiveUser.userPhoto!==null && !$route.query.Photo" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://pplusapi.simagar.com/media/gallery/profile/${ActiveUser.userPhoto}`"/>
-            <img v-if="$route.query.Photo" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://pplusapi.simagar.com/media/gallery/profile/${$route.query.Photo}`"/>
-            <img v-else-if="ActiveUser.userPhoto!==null && ActiveUser.groupId!==0" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://pplusapi.simagar.com/media/gallery/group/${ActiveUser.userPhoto}`"/>
+            <img v-if="ActiveUser.userPhoto!==null && !$route.query.Photo && ActiveUser.userId!==0 " style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://banooclubapi.simagar.com/media/gallery/profile/${ActiveUser.userPhoto}`"/>
+            <img v-else-if="$route.query.Photo" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://banooclubapi.simagar.com/media/gallery/profile/${$route.query.Photo}`"/>
+            <img v-else-if="ActiveUser.userPhoto!==null && ActiveUser.groupId!==0" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://banooclubapi.simagar.com/media/gallery/group/${ActiveUser.userPhoto}`"/>
             <img v-else style="width: 50px; height: 50px;" class="rounded-circle" src="~/assets/images/defaultUser.png"/>
             <small class="cursor-pointer" @click="goToUserProfile(ActiveUser)">{{ ActiveUser.userName }}</small>
 
@@ -22,7 +22,8 @@
             <div v-if="!lastMessage && isLoading" class="col-md-12 d-flex align-items-center justify-content-center">
               <Spinner></Spinner>
             </div>
-            <MyMessageItem v-for="(item,idx) in ChatData" :key="idx" :Message="item" />
+            <MyMessageItem v-if="ActiveUser.userId!==0" v-for="(item,idx) in ChatData" :key="idx" :Message="item" />
+            <GroupMessageItem v-if="ActiveUser.groupId!==0" v-for="(item,idx) in ChatData" :key="idx" :Message="item" ></GroupMessageItem>
           </div>
           <div class="col-md-12 p-0 px-0 bg-white p-1  SendMessageContainer" >
             <div class="row">
@@ -50,6 +51,7 @@
 
 <script>
 import ContactMessageItem from "@/components/Chat/ContactMessageItem";
+import GroupMessageItem from "@/components/Chat/GroupMessageItem";
 import MyMessageItem from "@/components/Chat/MyMessageItem";
 import ProfileItem from "@/components/Chat/ProfileItem";
 import EditIcon from "@/components/Icons/EditIcon";
@@ -57,7 +59,7 @@ import {mapGetters} from "vuex";
 
 export default {
 
-  components: {ContactMessageItem, MyMessageItem, ProfileItem, EditIcon },
+  components: {ContactMessageItem,GroupMessageItem, MyMessageItem, ProfileItem, EditIcon },
   name: "MainChatData",
   props:['ActiveUser'],
   data(){
@@ -205,17 +207,13 @@ export default {
 
       }catch (e){
         console.log(e)
-        this.$nuxt.$loading.finish();
-        this.$nuxt.loading = false;
-      }  finally  {
 
+      }  finally  {
         this.$nextTick(()=>{
           this.scrollToBottom()
         })
-
         this.isLoading = false
-        this.$nuxt.$loading.finish();
-        this.$nuxt.loading = false;
+
       }
 
     },
@@ -262,13 +260,17 @@ export default {
         })
         this.MessageBody = ''
         this.FirstId = 0
-        this.GoBack()
+        if(this.$route.query.userId){
+          this.GoBack()
+        }
         // await this.GetConversation();
       }catch (e) {
         console.log(e)
       }finally {
         // await this.GetConversationWithScroll()
-        this.GoBack()
+        if(this.$route.params.userId){
+          this.GoBack()
+        }
         this.scrollToBottom()
       }
     },

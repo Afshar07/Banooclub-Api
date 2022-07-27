@@ -498,7 +498,7 @@ export default {
           const res = await this.$repositories.updateAService.updateAService(this.serviceDetailProp);
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
-
+          this.$nuxt.refresh();
           this.$toast.success("خدمت با موفقیت ویرایش شد");
           this.$router.push({path: `/Products/Upgrade/${res.data.servicePackId}`, query: { active_tab: 'preview' }});
 

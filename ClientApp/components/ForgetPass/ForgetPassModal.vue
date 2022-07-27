@@ -2,7 +2,7 @@
   <transition name="modal">
     <div v-if="is_modal_open" class="tw-modal tw-modal-open tw-bg-transparent" @click="closeModal">
       <div class="tw-container tw-mx-auto tw-w-11/12 tw-z-[99999]">
-        <div class=" tw-bg-white tw-modal-box tw-max-w-max tw-p-0 tw-w-full tw-mx-auto tw-rounded-xl tw-shadow-2xl tw-p-0 forget_pass_modal"  @click.stop>
+        <div  style="overflow-x: hidden!important;" class=" tw-bg-white tw-modal-box tw-max-w-max tw-p-0 tw-w-full tw-mx-auto tw-rounded-xl tw-shadow-2xl tw-p-0 forget_pass_modal"  @click.stop>
           <div class="modal_header tw-flex tw-items-center tw-justify-between tw-border-b">
             <div class="tw-px-7 tw-py-5">
               <div class="lg:tw-text-2xl tw-text-xl tw-font-semibold tw-mb-1 tw-text-gray-600">فراموشی رمز عبور</div>
@@ -22,9 +22,9 @@
               </select>
             </div>
             <div class="col-12">
+              {{PhoneOrEmail}}
               <input
-                autocomplete="off"
-                type="text"
+                type="email"
                 class="with-border"
                 v-model="PhoneOrEmail"
                 :placeholder="inputPlaceholder"
@@ -80,7 +80,7 @@ export default {
       this.$emit('close_modal')
     },
     async submitForgetPass() {
-      if(this.PhoneOrEmail == ''){
+      if(this.PhoneOrEmail === ''){
         this.$toast.error("موبایل یا ایمیل را وارد کنید");
       }
       else {
