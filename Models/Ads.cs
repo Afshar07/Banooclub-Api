@@ -22,6 +22,7 @@ namespace BanooClub.Models
         public int Condition { get; set; }
         public long CityId { get; set; }
         public long StateId { get; set; }
+        public DateTime FireDate { get; set; }
         [NotMapped]
         public string City { get; set; }
         [NotMapped]

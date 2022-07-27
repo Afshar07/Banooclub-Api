@@ -21,7 +21,8 @@ namespace BanooClub.Models
 
     public class MessageDTO
     {
-        public long UserId { get; set; }
+        public long? GroupId { get; set; }
+        public long? UserId { get; set; }
         public string Subject { get; set; }
         public string UserName { get; set; }
         public DateTime CreateDate { get; set; }

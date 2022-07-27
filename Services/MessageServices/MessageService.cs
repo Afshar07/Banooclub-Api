@@ -1,5 +1,6 @@
 ﻿using BanooClub.Extentions;
 using BanooClub.Models;
+using BanooClub.Models.Enums;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
@@ -15,14 +16,20 @@ namespace BanooClub.Services.MessageServices
     {
         private readonly IBanooClubEFRepository<Message> messageRepository;
         private readonly IBanooClubEFRepository<MessageRecipient> messageRecipientRepository;
+        private readonly IBanooClubEFRepository<UserGroup> userGroupRepository;
         private readonly IHubContext<MessageService> hubContext;
+        private readonly IBanooClubEFRepository<Group> groupRepository;
+        private readonly IBanooClubEFRepository<SocialMedia> mediaRepository;
         private readonly IHttpContextAccessor _accessor;
-        public MessageService(IBanooClubEFRepository<Message> messageRepository, IHubContext<MessageService> hubContext, IHttpContextAccessor accessor, IBanooClubEFRepository<MessageRecipient> messageRecipientRepository)
+        public MessageService(IBanooClubEFRepository<Message> messageRepository, IBanooClubEFRepository<SocialMedia> mediaRepository, IBanooClubEFRepository<Group> groupRepository, IBanooClubEFRepository<UserGroup> userGroupRepository, IHubContext<MessageService> hubContext, IHttpContextAccessor accessor, IBanooClubEFRepository<MessageRecipient> messageRecipientRepository)
         {
             this.messageRepository = messageRepository;
             _accessor = accessor;
             this.messageRecipientRepository = messageRecipientRepository;
             this.hubContext = hubContext;
+            this.groupRepository = groupRepository;
+            this.mediaRepository = mediaRepository;
+            this.userGroupRepository = userGroupRepository;
         }
         public async Task Create(Message inputDto)
         {
@@ -195,7 +202,7 @@ namespace BanooClub.Services.MessageServices
                 " join Social.Medias SM on SM.ObjectId = u.UserId where Sm.Type= 2) as Result" +
                 " order By Result.CreateDate Desc ";
 
-            string FinalCmd = "select * from (select u.UserId,(u.Name + ' ' + u.FamilyName) as UserName,m.Subject as Subject,m.createDate as CreateDate,SM.PictureUrl as UserPhoto, " +
+            string FinalCmd = "select * from (select 0 as GroupId , u.UserId,(u.Name + ' ' + u.FamilyName) as UserName,m.Subject as Subject,m.createDate as CreateDate,SM.PictureUrl as UserPhoto, " +
                 " (select count(*) from Social.Messages m " +
                 " join Social.MessageRecipients mr on m.MessageId = mr.MessageId " +
                 $" where (mr.UserId = {userId}) and(m.UserId = tbl1.UserId or mr.UserId = tbl1.UserId) and mr.IsRead = 0) as UnReadCount " +
@@ -276,7 +283,33 @@ namespace BanooClub.Services.MessageServices
             var messages = await messageRepository.DapperSqlQuery(FinalCmd);
             var SerializeObject = JsonSerializer.Serialize<object>(messages);
             var serializedMessage = JsonSerializer.Deserialize<List<MessageDTO>>(SerializeObject);
+            var groupIds = userGroupRepository.GetQuery().Where(z => z.UserId == userId).Select(x => x.GroupId).ToList();
+            if (groupIds.Count() > 0)
+            {
+                var dbGroups = groupRepository.GetQuery().Where(z => groupIds.Contains(z.GroupId)).ToList();
+                foreach (var group in dbGroups)
+                {
+                    var MR = messageRecipientRepository.GetQuery().OrderByDescending(z => z.MessageId).FirstOrDefault(x => x.GroupId == group.GroupId);
+                    var LastMessageId = MR == null ? 0 : MR.MessageId;
+                    var dbGroupMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == group.GroupId && z.Type == MediaTypes.Group);
+                    var groupM = dbGroupMedia == null ? "" : dbGroupMedia.PictureUrl;
+                    if (LastMessageId != 0)
+                    {
+                        var lastMessage = messageRepository.GetQuery().FirstOrDefault(z => z.MessageId == LastMessageId);
+                        var res = new MessageDTO() { CreateDate = lastMessage.CreateDate, GroupId = group.GroupId, Subject = lastMessage.Subject, UserId = 0, UnReadCount = 0, UserName = group.Name, UserPhoto =groupM };
+                        serializedMessage.Add(res);
+                    }
+                    else
+                    {
 
+                        serializedMessage.Add(new MessageDTO() { CreateDate = group.CreateDate, GroupId =group.GroupId, Subject = "", UnReadCount= 0, UserId = 0, UserName = group.Name, UserPhoto = groupM });
+                    }
+
+                }
+            }
+
+
+            serializedMessage = serializedMessage.OrderByDescending(z => z.CreateDate).ToList();
             return serializedMessage;
         }
 
@@ -304,11 +337,12 @@ namespace BanooClub.Services.MessageServices
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
             var completationCmd = messageId ==0 ? "" : $"and M.MessageId < {messageId}";
-            string cmd = "select M.UserId as CreatorUserId, M.MessageId , M.MessageBody , M.Subject , M.IsForwarded , M.CreateDate , M.ParentMessageId , MR.IsRead , MR.IsDelivered " +
+            string cmd = "select M.UserId as CreatorUserId, M.MessageId , M.MessageBody , M.Subject , M.IsForwarded , M.CreateDate , M.ParentMessageId , MR.IsRead , MR.IsDelivered ,SM.PictureUrl UserPhoto" +
                 " from Social.Messages M " +
                 " join Social.MessageRecipients MR on M.MessageId = MR.MessageId " +
-                //" join Social.Medias SM on SM.ObjectId = M.UserId "+
-                $" where MR.GroupId = {groupId} and SM.Type = 2 {completationCmd}" +
+                " left join Social.Medias SM on SM.ObjectId = M.UserId and SM.Type = 2"+
+                $" where MR.GroupId = {groupId}" +
+                $" {completationCmd} " +
                 $" order by M.CreateDate Desc OFFSET 0 ROWS FETCH NEXT {count} ROWS ONLY ";
             var messages = await messageRepository.DapperSqlQuery(cmd);
             var SerializeObject = JsonSerializer.Serialize<object>(messages);

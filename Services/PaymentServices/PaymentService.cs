@@ -24,11 +24,13 @@ namespace BanooClub.Services.PaymentServices
         private readonly IBanooClubEFRepository<Wallet> walletRepository;
         private readonly IBanooClubEFRepository<ServicePlan> servicePlanRepository;
         private readonly IBanooClubEFRepository<ServicePack> servicePackRepository;
+        private readonly IBanooClubEFRepository<Plan> planRepository;
+        private readonly IBanooClubEFRepository<Ads> adsRepository;
         private readonly ISmsSenderService _smsSenderService;
         private readonly IHttpContextAccessor _accessor;
-        const string ApiKey = "cc5ef427-0b4f-4298-a40d-18760d80e8f2";
+        const string ApiKey = "3959a1e0-eb38-465f-8549-db88fb7c2e89";
 
-        public PaymentService(IBanooClubEFRepository<Payment> paymentRepository, IBanooClubEFRepository<Order> orderRepository, IBanooClubEFRepository<ServicePlan> servicePlanRepository
+        public PaymentService(IBanooClubEFRepository<Payment> paymentRepository, IBanooClubEFRepository<Ads> adsRepository, IBanooClubEFRepository<Plan> planRepository, IBanooClubEFRepository<Order> orderRepository, IBanooClubEFRepository<ServicePlan> servicePlanRepository
             , IHttpContextAccessor accessor, IBanooClubEFRepository<User> userRepository, IBanooClubEFRepository<Wallet> walletRepository
             , IBanooClubEFRepository<OrderItem> orderItemRepository, ISmsSenderService smsSenderService, IBanooClubEFRepository<ServicePack> servicePackRepository)
         {
@@ -39,6 +41,8 @@ namespace BanooClub.Services.PaymentServices
             this.walletRepository = walletRepository;
             this.servicePlanRepository = servicePlanRepository;
             this.servicePlanRepository = servicePlanRepository;
+            this.adsRepository = adsRepository;
+            this.planRepository = planRepository;
             _smsSenderService = smsSenderService;
             _accessor = accessor;
         }
@@ -156,15 +160,39 @@ namespace BanooClub.Services.PaymentServices
 
             if (dbWallet != null && dbWallet.Credit > dbOrder.SumPrice && dbOrder.Status == OrderStatus.Submit)
             {
-                dbWallet.Credit -= dbOrder.SumPrice;
+                
+                var dbOrderItems = orderItemRepository.GetQuery().Where(z => z.OrderId == dbOrder.OrderId).ToList();
                 if (dbOrder.ServiceId != null && dbOrder.ServiceId > 0)
                 {
-                    //var dbOrderItems = orderItemRepository.GetQuery().Where(z => z.OrderId == dbOrder.OrderId).ToList();
-                    //foreach (var item in dbOrderItems)
-                    //{
-                    //    servicePlanRepository.Insert(new ServicePlan() { CreateDate = DateTime.Now, IsDeleted = false, PlanId =item.PlanId, ObjectId = (long)dbOrder.ServiceId,Type = dbOrder., ServicePlanId = 0 });
-                    //}
+                    foreach (var item in dbOrderItems)
+                    {
+                        servicePlanRepository.Insert(new ServicePlan() { CreateDate = DateTime.Now, IsDeleted = false, PlanId =item.PlanId, ObjectId = (long)dbOrder.ServiceId, Type = ServicePlanType.Service, ServicePlanId = 0 });
+                    }
                 }
+                else if(dbOrder.AdsId != null && dbOrder.AdsId != 0)
+                {
+                    foreach (var item in dbOrderItems)
+                    {
+                        servicePlanRepository.Insert(new ServicePlan() { CreateDate = DateTime.Now, IsDeleted = false, PlanId =item.PlanId, ObjectId = (long)dbOrder.AdsId, Type = ServicePlanType.Ads, ServicePlanId = 0 });
+                    }
+                }
+                else if((dbOrder.AdsId == null || dbOrder.AdsId == 0) && (dbOrder.ServiceId == null || dbOrder.ServiceId == 0))
+                {
+                    foreach(var item in dbOrderItems)
+                    {
+                        var dbService = servicePackRepository.GetQuery().FirstOrDefault(z => z.ServicePackId == item.ServiceId);
+                        if(dbService != null )
+                        {
+                            dbService.Maintain -= item.Count;
+                            if(dbService.Maintain < 0)
+                            {
+                                return 0;
+                            }
+                            await servicePackRepository.Update(dbService);
+                        }
+                    } 
+                }
+                dbWallet.Credit -= dbOrder.SumPrice;
                 await walletRepository.Update(dbWallet);
                 dbOrder.Status = OrderStatus.Payed;
                 await orderRepository.Update(dbOrder);
@@ -213,19 +241,51 @@ namespace BanooClub.Services.PaymentServices
                         await walletRepository.Update(dbWallet);
                     }
                 }
-                if (dbOrder.ServiceId != null && dbOrder.ServiceId > 0)
+                if ((dbOrder.ServiceId != null && dbOrder.ServiceId != 0) || (dbOrder.AdsId != null && dbOrder.AdsId != 0))
                 {
-                    //var dbOrderItems = orderItemRepository.GetQuery().Where(z => z.OrderId == dbOrder.OrderId).ToList();
-                    //foreach (var item in dbOrderItems)
-                    //{
-                    //    if (item.PlanId == 1)
-                    //    {
-                    //        var dbService = servicePackRepository.GetQuery().FirstOrDefault(z => z.ServicePackId == dbOrder.ServiceId);
-                    //        dbService.FireDate = DateTime.Now;
-                    //        await servicePackRepository.Update(dbService);
-                    //    }
-                    //    servicePlanRepository.Insert(new ServicePlan() { CreateDate = DateTime.Now, IsDeleted = false, PlanId =item.PlanId, ServiceId = (long)dbOrder.ServiceId, ServicePlanId = 0 });
-                    //}
+                    var dbOrderItems = orderItemRepository.GetQuery().Where(z => z.OrderId == dbOrder.OrderId).ToList();
+                    foreach (var item in dbOrderItems)
+                    {
+                        var dbPlan = planRepository.GetQuery().FirstOrDefault(z=>z.PlanId == item.PlanId);
+                        if (dbPlan.Type == (int)PlanTypes.Ladder)
+                        {
+                            if(dbOrder.ServiceId != null && dbOrder.ServiceId != 0)
+                            {
+                                var dbService = servicePackRepository.GetQuery().FirstOrDefault(z => z.ServicePackId == dbOrder.ServiceId);
+                                dbService.FireDate = DateTime.Now;
+                                await servicePackRepository.Update(dbService);
+                            }
+                            if(dbOrder.AdsId != null && dbOrder.AdsId != 0)
+                            {
+                                var dbAds = adsRepository.GetQuery().FirstOrDefault(z=>z.AdsId == dbOrder.AdsId);
+                                dbAds.FireDate = DateTime.Now;
+                                await adsRepository.Update(dbAds);
+                            }
+                            
+                        }
+                        if (dbOrder.ServiceId != null && dbOrder.ServiceId != 0)
+                        {
+                            servicePlanRepository.Insert(new ServicePlan() { CreateDate = DateTime.Now, IsDeleted = false, PlanId =item.PlanId,Type = ServicePlanType.Service, ObjectId = (long)dbOrder.ServiceId, ServicePlanId = 0 });
+                        }
+                        if (dbOrder.AdsId != null && dbOrder.AdsId != 0)
+                        {
+                            servicePlanRepository.Insert(new ServicePlan() { CreateDate = DateTime.Now, IsDeleted = false, PlanId =item.PlanId, Type = ServicePlanType.Ads, ObjectId = (long)dbOrder.AdsId, ServicePlanId = 0 });
+                        }
+                        
+                    }
+                }
+                else if ((dbOrder.AdsId == null || dbOrder.AdsId == 0) && (dbOrder.ServiceId == null || dbOrder.ServiceId == 0))
+                {
+                    var dbOrderItems = orderItemRepository.GetQuery().Where(z => z.OrderId == dbOrder.OrderId).ToList();
+                    foreach (var item in dbOrderItems)
+                    {
+                        var dbService = servicePackRepository.GetQuery().FirstOrDefault(z => z.ServicePackId == item.ServiceId);
+                        if (dbService != null)
+                        {
+                            dbService.Maintain -= item.Count;
+                            await servicePackRepository.Update(dbService);
+                        }
+                    }
                 }
 
                 #region Send Message

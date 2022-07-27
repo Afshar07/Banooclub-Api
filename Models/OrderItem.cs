@@ -9,5 +9,6 @@
         public int Count { get; set; }
         public long VendorUserId { get; set; }
         public long Price { get; set; }
+        public long? ServiceId { get; set; }
     }
 }

@@ -30,6 +30,8 @@ namespace BanooClub.Services.ServicePackServices
         private readonly IBanooClubEFRepository<ServicePlan> servicePlanRepository;
         private readonly IBanooClubEFRepository<CommentLike> commentLikeRepository;
         private readonly IBanooClubEFRepository<Plan> planRepository;
+        private readonly IBanooClubEFRepository<Order> orderRepository;
+        private readonly IBanooClubEFRepository<OrderItem> orderItemRepository;
 
         private readonly IRatingService ratingService;
         private readonly ISocialMediaService mediaService;
@@ -41,6 +43,8 @@ namespace BanooClub.Services.ServicePackServices
             IBanooClubEFRepository<ServiceCategory> categoryRepository,
             IBanooClubEFRepository<ServicePlan> servicePlanRepository,
             IBanooClubEFRepository<CommentLike> commentLikeRepository,
+            IBanooClubEFRepository<Order> orderRepository,
+            IBanooClubEFRepository<OrderItem> orderItemRepository,
             IBanooClubEFRepository<Plan> planRepository,
             IBanooClubEFRepository<Rating> ratingRepository
             , IHttpContextAccessor accessor, IBanooClubEFRepository<ServiceProperty> propertyRepository, IBanooClubEFRepository<View> viewRepository, IBanooClubEFRepository<User> userRepository,
@@ -65,6 +69,8 @@ namespace BanooClub.Services.ServicePackServices
             this.propertyRepository = propertyRepository;
             this.commentLikeRepository = commentLikeRepository;
             this.planRepository = planRepository;
+            this.orderItemRepository = orderItemRepository;
+            this.orderRepository = orderRepository;
             _accessor = accessor;
         }
         public async Task<long> Create(ServicePack inputDto)
@@ -76,6 +82,7 @@ namespace BanooClub.Services.ServicePackServices
             inputDto.IsDeleted = false;
             inputDto.CreateDate = DateTime.Now;
             inputDto.Status = ServicePackStatus.Pending;
+            inputDto.Maintain = inputDto.Quantity;
             var creation = servicePackRepository.Insert(inputDto);
 
             foreach (var tag in inputDto.Tags)
@@ -646,7 +653,42 @@ namespace BanooClub.Services.ServicePackServices
                 return false;
             }
         }
-
+        public async Task<int> GetMaintainedByServiceId(long serviceId)
+        {
+            var dbService = servicePackRepository.GetQuery().FirstOrDefault(z => z.ServicePackId == serviceId);
+            if(dbService != null)
+            {
+                return dbService.Maintain;
+            }
+            return 0;
+        }
+        public async Task<List<ServicePack>> GetAllOrderedService()
+        {
+            var orderItems = orderItemRepository.GetQuery().Where(z => z.ServiceId != null && z.ServiceId != 0).Select(x=>x.ServiceId).Distinct().ToList();
+            var services = servicePackRepository.GetQuery().Where(z=>orderItems.Contains(z.ServicePackId)).ToList();
+            return services;
+        }
+        public async Task<List<ServicePack>> GetOrderedServiceForVendor()
+        {
+            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                    ? _accessor.HttpContext.User.Identity.GetUserId()
+                    : 0;
+            var orderItems = orderItemRepository.GetQuery().Where(z => z.ServiceId != null && z.ServiceId != 0 && z.VendorUserId == userId).Select(x => x.ServiceId).Distinct().ToList();
+            var services = servicePackRepository.GetQuery().Where(z => orderItems.Contains(z.ServicePackId)).ToList();
+            return services;
+        }
+        public async Task<List<User>> GetServicePayedMember(long serviceId)
+        {
+            var dbOrderIds = orderItemRepository.GetQuery().Where(z => z.ServiceId == serviceId).Select(x => x.OrderId).ToList();
+            var dbUserIds = orderRepository.GetQuery().Where(z=>dbOrderIds.Contains(z.OrderId) && z.IsPayed == true).Select(x=>x.UserId).ToList();
+            var dbUsers = userRepository.GetQuery().Where(z => dbUserIds.Contains(z.UserId)).ToList();
+            foreach(var user in dbUsers)
+            {
+                var dbMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Profile);
+                user.SelfieFileData = dbMedia == null ? "" : dbMedia.PictureUrl;
+            }
+            return dbUsers;
+        }
         public async Task<ServicePack> GetwithView(long id)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated

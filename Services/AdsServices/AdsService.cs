@@ -78,6 +78,7 @@ namespace BanooClub.Services.AdsServices
             inputDto.UserId = userId;
             inputDto.IsDeleted = false;
             inputDto.Status = (int)AdsStatus.NotConfirmed;
+            
             if (inputDto.AdsId > 0 && inputDto !=null)
             {
                 await Update(inputDto);
@@ -86,6 +87,7 @@ namespace BanooClub.Services.AdsServices
             {
                 inputDto.UpdateDate = DateTime.Now;
                 inputDto.CreateDate = DateTime.Now;
+                inputDto.FireDate = DateTime.Now;
                 var dbAd = adsRepository.Insert(inputDto);
 
                 foreach (var item in inputDto.Photos)
@@ -243,7 +245,7 @@ namespace BanooClub.Services.AdsServices
                     : 0;
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && (z.Title.Contains(search) || z.Description.Contains(search))).
-                OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
+                OrderByDescending(x => x.FireDate).Skip((pageNumber-1)*count).Take(count).ToList();
             var AdsCount=adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && (z.Title.Contains(search) || z.Description.Contains(search))).Count();
             foreach (var ad in dbAds)
             {
@@ -338,8 +340,9 @@ namespace BanooClub.Services.AdsServices
             {
                 ad.IsFavourite = false;
             }
-
-            ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
+            var cat = adsCategoryRepository.GetQuery().FirstOrDefault(z => z.AdsCategoryId == ad.CategoryId);
+            ad.AdsCategoryParents = cat == null ? "" : cat.Name;
+            //ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
             return ad;
         }
         public async Task<object> GetMyAds(int pageNumber, int count)
@@ -349,11 +352,13 @@ namespace BanooClub.Services.AdsServices
                     : 0;
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.UserId == userId).
-                OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
+                OrderByDescending(x => x.FireDate).Skip((pageNumber-1)*count).Take(count).ToList();
             var AdsCount = adsRepository.GetQuery().Where(z => z.UserId == userId).Count();
             foreach (var ad in dbAds)
             {
-                ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
+                //ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
+                var cat = adsCategoryRepository.GetQuery().FirstOrDefault(z => z.AdsCategoryId == ad.CategoryId);
+                ad.AdsCategoryParents = cat == null ? "" : cat.Name;
                 ad.Photos = new List<FileData>();
                 var dbPhotos = _mediaRepository.GetQuery().Where(z => z.ObjectId == ad.AdsId && z.Type == MediaTypes.AdsPhoto).ToList();
                 foreach (var photo in dbPhotos)
@@ -390,7 +395,7 @@ namespace BanooClub.Services.AdsServices
                     : 0;
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.UserId == userId && z.Status == (int)AdsStatus.Published).
-                OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
+                OrderByDescending(x => x.FireDate).Skip((pageNumber-1)*count).Take(count).ToList();
             var AdsCount = adsRepository.GetQuery().Where(z => z.UserId == userId && z.Status == (int)AdsStatus.Published).Count();
             foreach (var ad in dbAds)
             {
@@ -492,7 +497,7 @@ namespace BanooClub.Services.AdsServices
         {
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.NotConfirmed && (z.Title.Contains(search) || z.Description.Contains(search))).
-                OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
+                OrderByDescending(x => x.FireDate).Skip((pageNumber-1)*count).Take(count).ToList();
             var AdsCount = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.NotConfirmed && (z.Title.Contains(search) || z.Description.Contains(search))).Count();
             foreach (var ad in dbAds)
             {
@@ -528,7 +533,7 @@ namespace BanooClub.Services.AdsServices
         {
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Rejected && (z.Title.Contains(search) || z.Description.Contains(search))).
-                OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
+                OrderByDescending(x => x.FireDate).Skip((pageNumber-1)*count).Take(count).ToList();
             var AdsCount = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Rejected && (z.Title.Contains(search) || z.Description.Contains(search))).Count();
             foreach (var ad in dbAds)
             {
@@ -602,12 +607,12 @@ namespace BanooClub.Services.AdsServices
                 if(firstSearchadsId !=0)
                 {
                     dbAds=adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && z.AdsId < firstSearchadsId).
-                    OrderByDescending(x => x.AdsId).Take(count).ToList();
+                    OrderByDescending(x => x.FireDate).Take(count).ToList();
                 }
                 else
                 {
                     dbAds=adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published).
-                    OrderByDescending(x => x.AdsId).Take(count).ToList();
+                    OrderByDescending(x => x.FireDate).Take(count).ToList();
                 }
                 AdsCount=adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published).Count();
             }
@@ -617,12 +622,12 @@ namespace BanooClub.Services.AdsServices
                 if(firstSearchadsId !=0)
                 {
                     dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && catIds.Contains(z.CategoryId) && z.AdsId < firstSearchadsId).
-                    OrderByDescending(x => x.AdsId).Take(count).ToList();
+                    OrderByDescending(x => x.FireDate).Take(count).ToList();
                 }
                 else
                 {
                     dbAds=adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && catIds.Contains(z.CategoryId)).
-                    OrderByDescending(x => x.AdsId).Take(count).ToList();
+                    OrderByDescending(x => x.FireDate).Take(count).ToList();
                 }
                 AdsCount = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && catIds.Contains(z.CategoryId)).Count();
             }
@@ -682,12 +687,12 @@ namespace BanooClub.Services.AdsServices
             if (firstSearchadsId !=0)
             {
             dbAds=adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && z.AdsId < firstSearchadsId).
-            OrderByDescending(x => x.AdsId);
+            OrderByDescending(x => x.FireDate);
             }
             else
             {
             dbAds=adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published).
-            OrderByDescending(x => x.AdsId);
+            OrderByDescending(x => x.FireDate);
             }
             
             var result = dbAds.Where(z => z.Tag.Contains(tag) && z.Title.Contains(title));
@@ -719,7 +724,9 @@ namespace BanooClub.Services.AdsServices
             var finalResult=result.Take(count).ToList();
             foreach (var ad in finalResult)
             {
-                ad.AdsCategoryParents = GetAdsParents(ad.CategoryId, "");
+                //ad.AdsCategoryParents = GetAdsParents(ad.CategoryId, "");
+                var cat = adsCategoryRepository.GetQuery().FirstOrDefault(z => z.AdsCategoryId == ad.CategoryId);
+                ad.AdsCategoryParents = cat == null ? "" : cat.Name;
                 ad.Photos = new List<FileData>();
                 var dbPhotos = _mediaRepository.GetQuery().Where(z => z.ObjectId == ad.AdsId && z.Type == MediaTypes.AdsPhoto).ToList();
                 foreach (var photo in dbPhotos)

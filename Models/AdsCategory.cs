@@ -9,5 +9,7 @@ namespace BanooClub.Models
         public long? ParentId { get; set; }
         [NotMapped]
         public string ParentName { get; set; }
+        [NotMapped]
+        public string FileData { get; set; }
     }
 }

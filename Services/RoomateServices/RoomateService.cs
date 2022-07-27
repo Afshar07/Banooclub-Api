@@ -133,7 +133,8 @@ namespace BanooClub.Services.RoomateServices
                             roomate.Photos.Add(new FileData()
                             {
                                 Base64 = "media/gallery/RoomatePhotos/" + photo.PictureUrl,
-                                Priority = (int)photo.Priority
+                                Priority = (int)photo.Priority,
+                                UploadType = 1
                             });
                         }
                     }
@@ -168,22 +169,7 @@ namespace BanooClub.Services.RoomateServices
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
             var userSetting = userSettingRepository.GetQuery().FirstOrDefault(z=>z.UserId == userId);
-            if(state ==true)
-            {
-                var status=roomateDocRepository.GetQuery().FirstOrDefault(z => z.UserId ==userId).Status;
-                if (status==1)
-                {
-                    userSetting.ActiveRoomate =state;
-                }
-                else
-                {
-                    return status;
-                }
-            }
-            else
-            {
-                userSetting.ActiveRoomate=state;
-            }
+            userSetting.ActiveRoomate = state;
             await userSettingRepository.Update(userSetting);
             return true;
         }

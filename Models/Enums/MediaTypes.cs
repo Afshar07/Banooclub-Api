@@ -18,6 +18,7 @@
         Service,
         ServiceCategory,
         Post,
-        Blog
+        Blog,
+        AdsCategory
     }
 }

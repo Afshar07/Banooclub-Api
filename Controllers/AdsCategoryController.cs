@@ -27,6 +27,7 @@ namespace BanooClub.Controllers
         public async Task Create([FromBody] AdsCategory inputDto)
         {
             await this.adsCategoryService.Create(inputDto);
+            
         }
 
         [HttpPost]

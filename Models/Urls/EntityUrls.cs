@@ -20,5 +20,6 @@
         public static string ServiceCategory { get; set; } = MediaBaseUrl + "ServiceCategory";
         public static string PostMediaUrl { get; set; } = MediaBaseUrl + "Post";
         public static string Blog { get; set; } = MediaBaseUrl + "Blog";
+        public static string AdsCategory { get; set; } = MediaBaseUrl + "AdsCategory";
     }
 }
