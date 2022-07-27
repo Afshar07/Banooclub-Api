@@ -111,7 +111,7 @@ components:{ChargeWalletSideNav},
     },
     async createPayment(){
       let walletCharge = false
-      if(this.OrderData.subOrders[0].planId ===0){
+      if(this.OrderData.subOrders[0].planId ===0&&this.OrderData.subOrders[0].serviceId ===0 ){
         walletCharge = true
       }
       try {

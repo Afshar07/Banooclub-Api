@@ -151,6 +151,18 @@
                   <span v-if="!decrease_width" class="font_sidebar_size">همه خدمات</span>
                 </nuxt-link>
               </div>
+              <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <nuxt-link
+                  exact-active-class="SingleShortCutActive"
+                  to="/Products/OrderedProducts/"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                >
+                  <PlusIcon class="svg_icons_size" v-if="decrease_width" fill="rgb(245 158 11)"/>
+                  <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
+                  <span v-if="!decrease_width" class="font_sidebar_size">خدمات سفارش داده شده</span>
+                </nuxt-link>
+              </div>
               <div v-if=" $auth.user&& $auth.user && $auth.user.baseData&&$auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
@@ -177,7 +189,7 @@
               </div>
             </div>
           </div>
-          <div v-if="$auth.user && $auth.user.userInfo&&  $auth.user.userInfo.type  &&$auth.user.userInfo.type === 3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+          <div  class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
               exact-active-class="SingleShortCutActive"
               to="/Payments/"
@@ -187,7 +199,7 @@
               <span v-if="!decrease_width" class="header_font_sidebar_size">پرداخت ها</span>
             </nuxt-link>
           </div>
-          <div v-if="$auth.user && $auth.user.userInfo&&  $auth.user.userInfo.type  && $auth.user.userInfo.type === 3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+          <div  class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
               exact-active-class="SingleShortCutActive"
               to="/Orders/"
@@ -448,6 +460,18 @@
                     <span v-if="!decrease_width" class="font_sidebar_size">همه خدمات</span>
                   </nuxt-link>
                 </div>
+                <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    exact-active-class="SingleShortCutActive"
+                    to="/Products/OrderedProducts/"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                  >
+                    <PlusIcon class="svg_icons_size" v-if="decrease_width" fill="rgb(245 158 11)"/>
+                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
+                    <span v-if="!decrease_width" class="font_sidebar_size">خدمات سفارش داده شده</span>
+                  </nuxt-link>
+                </div>
                 <div v-if=" $auth.user&& $auth.user && $auth.user.baseData&& $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
@@ -474,7 +498,7 @@
                 </div>
               </div>
             </div>
-            <div v-if="$auth.user && $auth.user.userInfo&&  $auth.user.userInfo.type  && $auth.user.userInfo.type === 3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+            <div  class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
                 exact-active-class="SingleShortCutActive"
                 to="/Payments/"
@@ -484,7 +508,7 @@
                 <span v-if="!decrease_width" class="header_font_sidebar_size">پرداخت ها</span>
               </nuxt-link>
             </div>
-            <div v-if="$auth.user && $auth.user.userInfo&&  $auth.user.userInfo.type  && $auth.user.userInfo.type === 3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+            <div  class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
                 exact-active-class="SingleShortCutActive"
                 to="/Orders/"

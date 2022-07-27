@@ -60,7 +60,7 @@
                 <form class="position-relative mx-1 mx-md-3">
                   <div class="col-12 mt-3">
                     <!-- <tiptap-editor></tiptap-editor> -->
-                    <quill-example-nuxt @content="postContent"/>
+
                   </div>
                   <div class="col-12 text-start my-3">
                     <button
@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import QuillExampleNuxt from "~/components/editor";
+
 import AboutMe from "../UserPanel/AboutMe";
 import MyFriends from "../UserPanel/MyFriends";
 import SocialPost from "../SocialPost";
@@ -98,7 +98,7 @@ export default {
     SocialPost,
     MyFriends,
     AboutMe,
-    QuillExampleNuxt
+
   },
   data(){
     return{

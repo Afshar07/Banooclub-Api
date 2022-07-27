@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class=" col-md-4">
-        <SideBar @SideNavPictureVideo="SideNavPictureVideoToggle($event)"/></div>
+        <SideBar /></div>
     </div>
 
   </div>
@@ -90,7 +90,7 @@ const res = await this.$repositories.GetCredit.GetCredit()
       console.log(error);
     }
     try {
-      
+
       const galleries = await this.$repositories.getMyPhotos.getMyPhotos();
       this.galleries = galleries.data
     }catch (error) {
@@ -169,13 +169,7 @@ const res = await this.$repositories.GetCredit.GetCredit()
     loggedInfoData() {
       return this.$store.state.loggedInfo;
     },
-    SideNavPictureVideoToggle(data) {
-      this.displaySideNav = false;
-      this.displayRightSideNav = false;
 
-      this.dataType = data;
-      this.SideNavPictures = data;
-    },
     reset: function () {
       this.image = null;
       this.preview = null;

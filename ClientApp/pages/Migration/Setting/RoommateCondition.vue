@@ -810,13 +810,10 @@
 </template>
 
 <script>
-// import veeno from "veeno";
-// import "nouislider/distribute/nouislider.min.css";
-import QuillExampleNuxt from "../../../components/editor";
+
 
 export default {
   name: "RoommateCondition",
-  components: { QuillExampleNuxt },
   layout: "PoshtebamPlusLayout",
   head() {
     return {

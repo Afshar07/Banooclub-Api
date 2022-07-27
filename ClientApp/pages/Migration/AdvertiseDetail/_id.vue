@@ -5,7 +5,7 @@
         <AdsDetail :AdsDetail="AdsDetail"/>
       </div>
 <!--      <div class=" col-lg-4">-->
-<!--        <SideBar class="tw-mt-5" @SideNavPictureVideo="SideNavPictureVideoToggle($event)"/>-->
+        <SideBar class="tw-mt-5"/>
 <!--      </div>-->
     </div>
   </div>
