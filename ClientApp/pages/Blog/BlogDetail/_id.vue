@@ -193,6 +193,7 @@ const res = this.$repositories.CreateBlogLike.CreateBlogLike({
 
 })
         this.$toast.success('مقاله لایک شد')
+        this.$nuxt.refresh()
         this.GetBlog()
       }catch (e) {
         console.log(e)
@@ -204,7 +205,7 @@ const res = this.$repositories.CreateBlogLike.CreateBlogLike({
           blogName:this.$route.params.seourl
         })
         this.BlogData = res.data
-        console.log(this.BlogData)
+
       }catch (e) {
         console.log(e)
       }

@@ -64,8 +64,8 @@
                                     <option  :value="0" selected>
                                       همه دسته بندی ها
                                     </option>
-                                    <option v-for="item in categories" :value="item.MainAdsCategoryId">
-                                      {{item.MainName}}
+                                    <option v-for="item in categories" :value="item.adsCategoryId">
+                                      {{item.name}}
                                     </option>
                                   </select>
                                 </div>

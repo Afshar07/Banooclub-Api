@@ -74,15 +74,15 @@
                 </div>
                 <div class="d-flex align-items-center tw-mt-3" style="height: 40px;">
                   <div class="d-flex px-3">
-                    <nuxt-link to="#">
+                    <a target="_blank" :href="`https://telegram.me/share/url?url=${site_url+$route.fullPath}`">
                       <TelegramIcon style="width: 20px; height: 20px;"/>
-                    </nuxt-link>
-                    <nuxt-link to="#">
-                      <WhatsappIcon style="width: 20px; height: 20px;"/>
-                    </nuxt-link>
-                    <nuxt-link to="#">
+                    </a>
+                    <a target="_blank" :href="`https://api.whatsapp.com/send?text=${site_url+$route.fullPath}`">
+                      <WhatsappIcon  style="width: 20px; height: 20px;"/>
+                    </a>
+                    <a target="_blank" :href="`https://www.facebook.com/sharer.php?u=${site_url+$route.fullPath}`">
                       <InstagramIcon style="width: 20px; height: 20px;"/>
-                    </nuxt-link>
+                    </a>
                   </div>
 
                   <div class=" d-flex tw-mr-auto justify-content-center align-items-center" :class="[]">
@@ -124,15 +124,15 @@
                   </p>
                   <div class="d-flex justify-content-between">
                     <div class="d-flex px-3 mt-2">
-                      <nuxt-link to="#">
+                      <a target="_blank" :href="`https://telegram.me/share/url?url=${site_url+$route.fullPath}`">
                         <TelegramIcon style="width: 20px; height: 20px;"/>
-                      </nuxt-link>
-                      <nuxt-link to="#">
-                        <WhatsappIcon style="width: 20px; height: 20px;"/>
-                      </nuxt-link>
-                      <nuxt-link to="#">
+                      </a>
+                      <a target="_blank" :href="`https://api.whatsapp.com/send?text=${site_url+$route.fullPath}`">
+                        <WhatsappIcon  style="width: 20px; height: 20px;"/>
+                      </a>
+                      <a target="_blank" :href="`https://www.facebook.com/sharer.php?u=${site_url+$route.fullPath}`">
                         <InstagramIcon style="width: 20px; height: 20px;"/>
-                      </nuxt-link>
+                      </a>
                     </div>
 <!--                    <button type="button" class="button p-2" style="font-size: 12px; height: 28px">-->
 <!--                      دنبال کردن-->
@@ -190,7 +190,8 @@ export default {
       likes:0,
       show_comment_input:false,
       forumDetails:null,
-      forum_comment:''
+      forum_comment:'',
+      site_url: 'https://banooclub.simagar.com',
 
     }
   },

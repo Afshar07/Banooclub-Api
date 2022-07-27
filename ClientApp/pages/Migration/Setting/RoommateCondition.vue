@@ -515,7 +515,7 @@
                       <client-only>
                         <l-map :zoom="17" :center="center" @click="addMarker">
                           <l-tile-layer
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
                           ></l-tile-layer>
                           <l-marker :lat-lng="center"></l-marker>
                         </l-map>
@@ -884,7 +884,7 @@ export default {
         ownerAge:0,
         ownerLangs:'',
         description:'',
-        userId:0,
+        userId:this.$auth.user.userInfo.userId,
         paymentId:null,
         haveParking:0,
         photos:[],
@@ -1010,7 +1010,7 @@ export default {
             ownerAge:this.RoomMateInfo.ownerAge,
             ownerLangs: this.RoomMateInfo.ownerLangs.toString(),
             description:  this.RoomMateInfo.description,
-            userId: this.RoomMateInfo.userId,
+            userId: this.$auth.user.userInfo.userId,
             paymentId: this.RoomMateInfo.paymentId,
             photos: tmpPhotos,
           },

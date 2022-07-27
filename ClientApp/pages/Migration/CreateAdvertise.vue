@@ -19,59 +19,57 @@
                     <div class="my-3">
                       <select class="form-control" v-model="categoryId">
                         <option
-                          v-for="(item, index) in categories.filter(
-                      (e) => e.ParentId === null
-                    )"
-                          :value="item.MainAdsCategoryId"
+                          v-for="(item, index) in categories"
+                          :value="item.adsCategoryId"
                           :key="index"
                         >
-                          {{ item.MainName }}
+                          {{ item.name }}
                         </option>
                       </select>
                     </div>
                   </div>
-                  <div
-                    v-if="
-                categoryId !== null &&
-                categories.findIndex((e) => e.ParentId === categoryId) > -1
-              "
-                    class="col-md-4"
-                  >
-                    <div class="my-3">
-                      <select class="form-control" v-model="categoryId2">
-                        <option
-                          v-for="(item, index) in categories.filter(
-                      (e) => e.ParentId === categoryId
-                    )"
-                          :value="item.MainAdsCategoryId"
-                          :key="index"
-                        >
-                          {{ item.MainName }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  <div
-                    v-if="
-                categoryId2 !== null &&
-                categories.findIndex((e) => e.ParentId === categoryId2) > -1
-              "
-                    class="col-md-4"
-                  >
-                    <div class="my-3">
-                      <select class="form-control" v-model="categoryId3">
-                        <option
-                          v-for="(item, index) in categories.filter(
-                      (e) => e.ParentId === categoryId2
-                    )"
-                          :value="item.MainAdsCategoryId"
-                          :key="index"
-                        >
-                          {{ item.MainName }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
+<!--                  <div-->
+<!--                    v-if="-->
+<!--                categoryId !== null &&-->
+<!--                categories.findIndex((e) => e.ParentId === categoryId) > -1-->
+<!--              "-->
+<!--                    class="col-md-4"-->
+<!--                  >-->
+<!--                    <div class="my-3">-->
+<!--                      <select class="form-control" v-model="categoryId2">-->
+<!--                        <option-->
+<!--                          v-for="(item, index) in categories.filter(-->
+<!--                      (e) => e.ParentId === categoryId-->
+<!--                    )"-->
+<!--                          :value="item.MainAdsCategoryId"-->
+<!--                          :key="index"-->
+<!--                        >-->
+<!--                          {{ item.MainName }}-->
+<!--                        </option>-->
+<!--                      </select>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div-->
+<!--                    v-if="-->
+<!--                categoryId2 !== null &&-->
+<!--                categories.findIndex((e) => e.ParentId === categoryId2) > -1-->
+<!--              "-->
+<!--                    class="col-md-4"-->
+<!--                  >-->
+<!--                    <div class="my-3">-->
+<!--                      <select class="form-control" v-model="categoryId3">-->
+<!--                        <option-->
+<!--                          v-for="(item, index) in categories.filter(-->
+<!--                      (e) => e.ParentId === categoryId2-->
+<!--                    )"-->
+<!--                          :value="item.MainAdsCategoryId"-->
+<!--                          :key="index"-->
+<!--                        >-->
+<!--                          {{ item.MainName }}-->
+<!--                        </option>-->
+<!--                      </select>-->
+<!--                    </div>-->
+<!--                  </div>-->
                 </div>
               </div>
             </div>
@@ -296,8 +294,7 @@ export default {
       subImage: "",
       photos: [],
       categoryId: null,
-      categoryId2: null,
-      categoryId3: null,
+
       Status: 0,
       Tags: "",
         AllCities: [],
@@ -375,14 +372,6 @@ export default {
       reader.readAsBinaryString(file);
     },
     async submitCreateAdvertise() {
-      let CategoryId = 0;
-      if (this.categoryId3 !== null) {
-        CategoryId = this.categoryId3;
-      } else if (this.categoryId2 !== null) {
-        CategoryId = this.categoryId2;
-      } else if (this.categoryId !== null) {
-        CategoryId = this.categoryId;
-      }
 
       if (this.categoryId === null) {
         this.$toast.error("لطفا دسته بندی ر ا انتخاب کنید");
@@ -399,7 +388,7 @@ export default {
         try {
           await this.$repositories.createAnAd.createAnAd({
             title: this.title,
-            categoryId: CategoryId,
+            categoryId: this.categoryId ,
             price: parseInt(this.price) ,
             expirationDate: new Date(Date.now()),
             status: 2,

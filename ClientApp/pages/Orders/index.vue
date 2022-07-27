@@ -44,6 +44,9 @@
             <th v-if="item.adsInfo!==null" class="fw-normal">
               <small> برای آگهی {{item.adsInfo.title}} </small>
             </th>
+            <th v-else-if="item.adsInfo===null && item.serviceInfo===null" class="fw-normal">
+              <small> - </small>
+            </th>
             <td>{{ new Date(item.createDate).toLocaleTimeString('fa-IR') }}</td>
             <td>
               <div class="tw-bg-red-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-if="item.status === 3">

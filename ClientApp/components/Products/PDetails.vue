@@ -273,11 +273,14 @@
           <a :href="`tel:${service_details.mobile}`" class="text-decoration-none tw-bg-gray-200 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md my-1">
             تماس
           </a>
-          <button class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
+          <button @click="GoToChat(service_details)" class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
             چت
           </button>
-          <button class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
-            رزرو
+          <button v-if="service_details.maintain>0" @click="CreateOrder(service_details)" class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
+            پرداخت
+          </button>
+          <button v-else  class="tw-bg-stone-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
+            ظرفیت تکمیل
           </button>
         </div>
         <div>
@@ -503,7 +506,7 @@ export default {
     return{
       userDefault: require("~/assets/images/defaultUser.png"),
       isRenderingDeleteConfirmation:false,
-      site_url: 'banooclub.simagar.com',
+      site_url: 'https://banooclub.simagar.com',
       show_more: false,
       images_preview:[],
       serviceVideos:[],
@@ -539,6 +542,43 @@ export default {
     }
   },
   methods:{
+    async CreateOrder(item){
+      this.$nuxt.$loading.start();
+      try {
+        let tmpSubOrders = []
+        let tmpSubOrder = {
+          orderId: 0,
+          planId: 0,
+          count: 1,
+          vendorUserId: 0,
+          price: item.totalPrice,
+          title:item.title,
+          serviceId:item.servicePackId
+        }
+        tmpSubOrders.push(tmpSubOrder)
+        const res = await this.$repositories.createAOrder.createAOrder({
+          isDeleted: false,
+          orderId: 0,
+          isPayed: false,
+          description: item.title,
+          sumPrice: item.totalPrice,
+          serviceId:0,
+          adsId:0,
+          userId: 0,
+          createDate: new Date(Date.now()),
+          status: 1,
+          subOrders: tmpSubOrders
+        });
+        this.$nuxt.$loading.finish();
+        this.$nuxt.loading = false;
+        this.$toast.success("سفارش شما با موفقیت ثبت شد");
+        this.$router.push({path: `/Products/Order/${res.data}`});
+
+      }
+      catch (error){
+        console.error(error)
+      }
+    },
     // setReplyData(PlaceHolder,parentId,baseId){
     //
     //   this.place_holder = PlaceHolder
@@ -567,6 +607,9 @@ export default {
         console.log(error)
       }
     },
+    GoToChat(item){
+      this.$router.push({path:'/Social/Chat',query:{userId:item.userInfo.userId,Photo:item.userInfo.selfieFileData}})
+    },
     addMarker(event) {
       this.latlng = event.latlng;
     },
@@ -594,6 +637,9 @@ export default {
       }catch (e) {
         console.log(e)
       }
+    },
+    AddToCart(){
+
     },
     async add_rate(){
       this.$nuxt.$loading.start();

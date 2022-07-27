@@ -6,14 +6,16 @@
           class="headerPicture"
           :src="`https://banooclubapi.simagar.com/media/gallery/profile/${service_details.userInfo.selfieFileData}`"
           alt=""
-          style="border-radius: 50%; cursor: pointer"
+
+          style="border-radius: 50%; cursor: pointer;    width: 30px;  height: 30px;"
         />
         <img
           v-else
           class="headerPicture"
           :src="userDefault"
           alt=""
-          style="border-radius: 50%; cursor: pointer"
+
+          style="border-radius: 50%; cursor: pointer;  width: 30px;  height: 30px;"
         />
       </div>
       <div class="card-media tw-h-40">
