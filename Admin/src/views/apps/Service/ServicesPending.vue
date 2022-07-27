@@ -225,7 +225,7 @@ export default {
     BFormSelect,
     vSelect,
   },
-  title: 'خدمات نیاز به بازبینی مجدد  - پنل ادمین پشت بام پلاس',
+  title: 'خدمات نیاز به بازبینی مجدد  - پنل ادمین بانو کلاب',
   name: 'UsersList',
   data() {
     return {

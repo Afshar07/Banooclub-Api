@@ -152,7 +152,7 @@ import ToastificationContent from "@core/components/toastification/Toastificatio
 import PostGetRejected from "@/libs/Api/Post/PostGetRejected";
 import PostGetRequest from "@/libs/Api/Post/PostGetRequest";
 export default {
-  title: 'لیست پست های گزارش شده - پنل ادمین پشت بام پلاس',
+  title: 'لیست پست های گزارش شده - پنل ادمین بانو کلاب',
   name: "PostList",
   data(){
     return{

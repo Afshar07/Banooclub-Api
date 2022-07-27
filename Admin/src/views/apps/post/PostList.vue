@@ -158,7 +158,7 @@ import postModal from "@/views/components/post/postModal";
 import vSelect from 'vue-select'
 import ToastificationContent from "@core/components/toastification/ToastificationContent";
 export default {
-  title: 'لیست پست ها - پنل ادمین پشت بام پلاس',
+  title: 'لیست پست ها - پنل ادمین بانو کلاب',
   name: "PostList",
   data(){
     return{

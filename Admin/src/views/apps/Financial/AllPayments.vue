@@ -193,7 +193,7 @@ import PaymentGetAllRequest from '@/libs/Api/Payment/PaymentGetAllRequest'
 import ToastificationContent from '@core/components/toastification/ToastificationContent'
 
 export default {
-  title: 'لیست پرداخت ها  - پنل ادمین پشت بام پلاس',
+  title: 'لیست پرداخت ها  - پنل ادمین بانو کلاب',
   name: 'UsersList',
   data() {
     return {

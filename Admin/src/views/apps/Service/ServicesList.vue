@@ -225,7 +225,7 @@ export default {
     BFormSelect,
     vSelect,
   },
-  title: 'خدمات تایید شده  - پنل ادمین پشت بام پلاس',
+  title: 'خدمات تایید شده  - پنل ادمین بانو کلاب',
   name: 'UsersList',
   data() {
     return {

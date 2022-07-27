@@ -112,7 +112,7 @@ export default {
       bodyAttrs: {
         class: this.displayChargeSideNav ? "fixed-body" : "",
       },
-      title: 'پشت بام پلاس - پرداخت ها'
+      title: 'بانو کلاب - پرداخت ها'
     };
   },
 

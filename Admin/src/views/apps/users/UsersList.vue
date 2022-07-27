@@ -190,7 +190,7 @@ import ToastificationContent from "@core/components/toastification/Toastificatio
 import UsersGetAllRequest from '@/libs/Api/Users/UsersGetAllRequest'
 
 export default {
-  title: 'لیست کاربران - پنل ادمین پشت بام پلاس',
+  title: 'لیست کاربران - پنل ادمین بانو کلاب',
   name: "UsersList",
   data(){
     return{

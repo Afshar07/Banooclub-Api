@@ -100,7 +100,7 @@ export default {
       bodyAttrs: {
         class: this.displayChargeSideNav ? "fixed-body" : "",
       },
-      title: 'پشت بام پلاس - سفارشات'
+      title: 'بانو کلاب - سفارشات'
 
     };
   },

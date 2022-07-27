@@ -158,7 +158,7 @@ import vSelect from 'vue-select'
 import ToastificationContent from "@core/components/toastification/ToastificationContent";
 import PostsGetNotConfirmed from "@/libs/Api/Post/PostsGetNotConfirmed";
 export default {
-  title: 'لیست پست های تایید نشده - پنل ادمین پشت بام پلاس',
+  title: 'لیست پست های تایید نشده - پنل ادمین بانو کلاب',
   name: "PostList",
   data(){
     return{

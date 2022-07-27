@@ -174,7 +174,7 @@ import ToastificationContent from '@core/components/toastification/Toastificatio
 import ChangeGroupStatus from "@/libs/Api/Groups/ChangeGroupStatus";
 
 export default {
-  title: 'لیست گروه ها  - پنل ادمین پشت بام پلاس',
+  title: 'لیست گروه ها  - پنل ادمین بانو کلاب',
   name: 'UsersList',
   data() {
     return {

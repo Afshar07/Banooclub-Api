@@ -255,7 +255,7 @@ import ServiceCategoryUpdateRequest from '@/libs/Api/Service/ServiceCategoryUpda
 import ToastificationContent from '@core/components/toastification/ToastificationContent'
 
 export default {
-  title: 'لیست دسته بندی خدمات  - پنل ادمین پشت بام پلاس',
+  title: 'لیست دسته بندی خدمات  - پنل ادمین بانو کلاب',
   name: 'UsersList',
   data() {
     return {
