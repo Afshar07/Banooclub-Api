@@ -106,7 +106,7 @@ namespace BanooClub.Services.ServiceCategoryServices
             foreach(var serviceCategory in serviceCategories)
             {
                 var dbMedia = _mediaRepository.GetQuery().FirstOrDefault(z => z.Type == MediaTypes.ServiceCategory && z.ObjectId == serviceCategory.ServiceCategoryId);
-                if(dbMedia == null)
+                if(dbMedia != null)
                 {
                     serviceCategory.FileData = dbMedia.PictureUrl;
                 }
@@ -137,7 +137,7 @@ namespace BanooClub.Services.ServiceCategoryServices
         {
             var serviceCategory = serviceCategoryRepository.GetQuery().FirstOrDefault(z => z.ServiceCategoryId == id);
             var dbMedia = _mediaRepository.GetQuery().FirstOrDefault(z => z.Type == MediaTypes.ServiceCategory && z.ObjectId == serviceCategory.ServiceCategoryId);
-            if (dbMedia == null)
+            if (dbMedia != null)
             {
                 serviceCategory.FileData = dbMedia.PictureUrl;
             }

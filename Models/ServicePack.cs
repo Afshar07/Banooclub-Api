@@ -30,6 +30,8 @@ namespace BanooClub.Models
         public long TotalPrice { get; set; }
         public DateTime? ExpireDate { get; set; }
         public ServicePackStatus Status { get; set; }
+        public int Quantity { get; set; }
+        public int Maintain { get; set; }
         [NotMapped]
         public long ViewsCount { get; set; }
         [NotMapped]

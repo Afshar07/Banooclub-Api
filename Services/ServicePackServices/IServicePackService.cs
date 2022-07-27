@@ -1,5 +1,6 @@
 ﻿using BanooClub.Models;
 using BanooClub.Models.Enums;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BanooClub.Services.ServicePackServices
@@ -17,5 +18,9 @@ namespace BanooClub.Services.ServicePackServices
         Task<object> GetDeactiveServices();
         Task<bool> ChangeServiceStatus(long servicePackId, ServicePackStatus status);
         Task<ServicePack> GetwithView(long servicePackId);
+        Task<int> GetMaintainedByServiceId(long serviceId);
+        Task<List<ServicePack>> GetAllOrderedService();
+        Task<List<ServicePack>> GetOrderedServiceForVendor();
+        Task<List<User>> GetServicePayedMember(long serviceId);
     }
 }

@@ -26,6 +26,7 @@ namespace BanooClub.Services.UserServices
         private readonly IBanooClubEFRepository<Following> followingRepository;
         private readonly IBanooClubEFRepository<SocialMedia> _mediaRepository;
         private readonly IBanooClubEFRepository<Activity> _activityRepository;
+        private readonly IBanooClubEFRepository<FollowRequest> _followRequestRepository;
         private readonly ISocialMediaService _mediaService;
         private readonly IHttpContextAccessor _accessor;
         private readonly IEncryptService _encryptService;
@@ -36,6 +37,7 @@ namespace BanooClub.Services.UserServices
             IBanooClubEFRepository<Following> followingRepository,
             IBanooClubEFRepository<SocialMedia> mediaRepository,
             IBanooClubEFRepository<Activity> activityRepository,
+            IBanooClubEFRepository<FollowRequest> followRequestRepository,
             IHttpContextAccessor accessor,
             ISocialMediaService socialMediaService,
             IEncryptService encryptService)
@@ -49,6 +51,7 @@ namespace BanooClub.Services.UserServices
             _mediaService = socialMediaService;
             _accessor = accessor;
             _encryptService = encryptService;
+            _followRequestRepository = followRequestRepository;
         }
         public async Task Create(User inputDto)
         {
@@ -918,16 +921,27 @@ namespace BanooClub.Services.UserServices
             var mySelfId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+
+            int IsRequested = 0;
+            var dbFollowRequest = _followRequestRepository.GetQuery().FirstOrDefault(z => z.FollowerUserId == mySelfId & z.FollowingUserId == userId);
+            if (dbFollowRequest != null)
+            {
+                IsRequested = 1;
+            }
+
             var completationCmd = userId ==0 ? "" : $"and U.UserId < {userId}";
-            string cmd = "select SF.UserId as IsFollowing , U.UserId , U.Name , U.FamilyName , U.UserName , SM.PictureUrl , US.Bio , U.Type , (select Count(*) from Social.Followers where UserId = U.userId) as FollowersCount , (select Count(*) from Social.Followings where UserId = U.userId) as FollowingsCount " +
+            string cmd = $"select SF.UserId as IsFollowing ,{IsRequested} as Requested, U.UserId , U.Name , U.FamilyName , U.UserName , SM.PictureUrl , US.Bio , U.Type , (select Count(*) from Social.Followers where UserId = U.userId) as FollowersCount , (select Count(*) from Social.Followings where UserId = U.userId) as FollowingsCount " +
             "  from[User].Users U "+
             "  join[User].UserSettings US on U.UserId = US.UserId "+
-            "  join Social.Medias SM on SM.ObjectId = U.UserId "+
+            "  join Social.Medias SM on SM.ObjectId = U.UserId " +
             $" left join Social.Followings SF on SF.FollowingUserId = U.UserId and SF.UserId = {mySelfId}"+
             $"  where(U.Name like N'%{search}%' or U.FamilyName like N'%{search}%' or U.UserName like N'%{search}%') and SM.Type =2 {completationCmd} "+
             $"  order by U.userId Desc OFFSET 0 ROWS FETCH NEXT { count} ROWS ONLY ";
             var dbUsers = userRepository.DapperSqlQuery(cmd).Result;
             var SerializeObject = JsonSerializer.Serialize<object>(dbUsers);
+
+            
+
             return SerializeObject;
         }
     }

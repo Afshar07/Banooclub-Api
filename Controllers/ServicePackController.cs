@@ -97,5 +97,32 @@ namespace BanooClub.Controllers
             return await servicePackService.GetwithView(servicePackId);
         }
 
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<int> GetMaintainedByServiceId(long serviceId)
+        {
+            return await servicePackService.GetMaintainedByServiceId(serviceId);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<List<ServicePack>> GetAllOrderedService()
+        {
+            return await servicePackService.GetAllOrderedService();
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<List<ServicePack>> GetOrderedServiceForVendor()
+        {
+            return await servicePackService.GetOrderedServiceForVendor();
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<List<User>> GetServicePayedMember(long serviceId)
+        {
+            return await servicePackService.GetServicePayedMember(serviceId);
+        }
     }
 }
