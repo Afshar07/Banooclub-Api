@@ -96,13 +96,17 @@ namespace BanooClub.Services.BlogServices
                     item.ViewsCount = 0;
                 }
 
-                item.IsFavourite = false;
                 if (userId != 0)
                 {
                     var dbLike = likeRepository.GetQuery().FirstOrDefault(z => z.UserId == userId && z.Type == LikeType.Blog && z.ObjectId == item.BlogId);
+
                     if (dbLike != null)
                     {
-                        item.IsFavourite = true;
+                        item.MyLikeStatus = (LikeStatus)dbLike.Status;
+                    }
+                    else
+                    {
+                        item.MyLikeStatus = null;
                     }
                 }
                 item.LikeCount = likeRepository.GetQuery().Where(z => z.Type == LikeType.Blog && z.ObjectId == item.BlogId).Count();
@@ -263,7 +267,17 @@ namespace BanooClub.Services.BlogServices
             //}
             dbBlog.Tags = new List<Tag>();
             dbBlog.Tags = blogTags;
+            var dbLike = likeRepository.GetQuery().FirstOrDefault(z => z.UserId == userId && z.Type == LikeType.Blog && z.ObjectId == id);
 
+            if (dbLike != null)
+            {
+                dbBlog.MyLikeStatus = (LikeStatus)dbLike.Status;
+            }
+            else
+            {
+                dbBlog.MyLikeStatus = null;
+            }
+            dbBlog.LikeCount = likeRepository.GetQuery().Where(z => z.Type == LikeType.Blog && z.ObjectId == id).Count();
             return new ServiceResult<Blog>().Ok(dbBlog);
         }
 
@@ -274,8 +288,6 @@ namespace BanooClub.Services.BlogServices
                     : 0;
 
             var dbView = viewRepository.GetQuery().FirstOrDefault(z => /*z.UserId == userId &&*/ z.Type == ViewType.Blog && z.ObjectId ==id);
-
-            
 
             if (dbView == null)
             {
@@ -310,13 +322,17 @@ namespace BanooClub.Services.BlogServices
             //}
             dbBlog.Tags = new List<Tag>();
             dbBlog.Tags = blogTags;
-            dbBlog.IsFavourite = false;
             if (userId != 0)
             {
                 var dbLike = likeRepository.GetQuery().FirstOrDefault(z => z.UserId == userId && z.Type == LikeType.Blog && z.ObjectId == id);
+                
                 if (dbLike != null)
                 {
-                    dbBlog.IsFavourite = true;
+                    dbBlog.MyLikeStatus = (LikeStatus)dbLike.Status;
+                }
+                else
+                {
+                    dbBlog.MyLikeStatus = null;
                 }
             }
             dbBlog.LikeCount = likeRepository.GetQuery().Where(z=>z.Type == LikeType.Blog && z.ObjectId == id).Count();

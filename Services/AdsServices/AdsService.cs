@@ -263,7 +263,9 @@ namespace BanooClub.Services.AdsServices
                     }
                 }
                 ad.UserInfo=userService.Get(ad.UserId);
-                ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
+                //ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
+                var cat = adsCategoryRepository.GetQuery().FirstOrDefault(z => z.AdsCategoryId == ad.CategoryId);
+                ad.AdsCategoryParents = cat == null ? "" : cat.Name;
                 var dbState = _stateRepository.GetQuery().FirstOrDefault(z => z.StateId == ad.StateId);
                 ad.State = dbState == null ? "" : dbState.Name;
                 var dbCity = _cityRepository.GetQuery().FirstOrDefault(z => z.CityId == ad.CityId);
@@ -501,7 +503,9 @@ namespace BanooClub.Services.AdsServices
             var AdsCount = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.NotConfirmed && (z.Title.Contains(search) || z.Description.Contains(search))).Count();
             foreach (var ad in dbAds)
             {
-                ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
+                //ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
+                var cat = adsCategoryRepository.GetQuery().FirstOrDefault(z => z.AdsCategoryId == ad.CategoryId);
+                ad.AdsCategoryParents = cat == null ? "" : cat.Name;
                 ad.Photos = new List<FileData>();
                 var dbPhotos = _mediaRepository.GetQuery().Where(z => z.ObjectId == ad.AdsId && z.Type == MediaTypes.AdsPhoto).ToList();
                 foreach (var photo in dbPhotos)

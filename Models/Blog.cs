@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BanooClub.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -25,7 +26,7 @@ namespace BanooClub.Models
         [NotMapped]
         public long ViewsCount { get; set; }
         [NotMapped]
-        public bool IsFavourite { get; set; }
+        public LikeStatus? MyLikeStatus { get; set; }
         [NotMapped]
         public double? Rate { get; set; }
         [NotMapped]

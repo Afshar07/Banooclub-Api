@@ -65,7 +65,7 @@ namespace BanooClub.Services.PostServices
         }
         public async Task Create(Post inputDto)
         {
-            var cacheKey = "LAST";
+            var cacheKey = "BanooClubLastNK";
             string serializedCustomerList;
             var Nks = new List<PostNK>();
             var PostNksType = distributedCache.GetType();

@@ -42,7 +42,6 @@ namespace BanooClub.Services.LikeServices
                     else
                     {
                         dbCommentLike.Status = LikeStatus.Like;
-
                     }
                 }
                 if (inputDto.Status == LikeStatus.DisLike)
