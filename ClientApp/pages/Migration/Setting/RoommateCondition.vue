@@ -6,11 +6,13 @@
           <h5><strong>وضعیت هم خانه</strong></h5>
           <div class="d-flex align-items-center gap-2">
             <span>وضعیت فعلی : </span>
+
             <span
-              v-if="$store.state.HeaderData.activeRoomate"
+              v-if="$auth.user.userInfo.userSetting.activeRoomate"
               class="badge bg-success text-white"
             >فعال</span
             >
+
             <span v-else class="badge bg-danger text-white">غیر فعال</span>
           </div>
           <div class="d-flex align-items-center justify-content-between gap-2 my-2">
@@ -619,7 +621,7 @@
                   <div>
                     <div class="row">
                       <div class="col-md-4 col-lg-4 col-12 my-md-0 my-2">
-                        <label for="" class="m-0 mb-2">سیگار </label>
+                        <label  class="m-0 mb-2">سیگار </label>
                         <v-select
                           :options="options"
                           dir="rtl"
@@ -631,7 +633,7 @@
                         ></v-select>
                       </div>
                       <div class="col-md-4 col-lg-4 col-12 my-md-0 my-2">
-                        <label for="" class="m-0 mb-2">همراه(فرزند) </label>
+                        <label  class="m-0 mb-2">همراه(فرزند) </label>
                         <v-select
                           :options="options"
                           dir="rtl"
@@ -1040,23 +1042,22 @@ export default {
       }
       this.$axios
         .post(`/Roomate/ChangeRoomateActivation?state=${active}`, null, {})
-        .then((res) => {
-          if (res.data === 3) {
-            this.$toast.error(
-              "پاسپورت و کارت ملی شما توسط ادمین رد شده است و به همین دلیل امکان تغییر وضعیت هم خانه وجود ندارد"
-            );
-          } else if (res.data === 2) {
-            this.$toast.error(
-              "پاسپورت و کارت ملی شما هنوز توسط ادمین تایید نشده است !"
-            );
-          } else if (res.data === 4) {
-            this.$toast.error(
-              "شما هنوز پاسپورت و کارت ملی خود را آپلود نکرده اید."
-            );
-          }
-          this.$axios.post(`Common/GetIndexData`, null, {}).then((response) => {
-            this.$store.commit("SetUserData", response.data);
-          });
+        .then(async (res) => {
+          // if (res.data === 3) {
+          //   this.$toast.error(
+          //     "پاسپورت و کارت ملی شما توسط ادمین رد شده است و به همین دلیل امکان تغییر وضعیت هم خانه وجود ندارد"
+          //   );
+          // } else if (res.data === 2) {
+          //   this.$toast.error(
+          //     "پاسپورت و کارت ملی شما هنوز توسط ادمین تایید نشده است !"
+          //   );
+          // } else if (res.data === 4) {
+          //   this.$toast.error(
+          //     "شما هنوز پاسپورت و کارت ملی خود را آپلود نکرده اید."
+          //   );
+          // }
+         await this.$auth.fetchUser()
+          this.$toast.success('وضعیت هم خانه با موفقیت تغییر یافت')
         });
     },
 

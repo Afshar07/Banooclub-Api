@@ -321,6 +321,7 @@ export default {
                 this.select_media = false
                 this.selected_media = []
                 this.description = ''
+                this.BaseImgUrls = []
                 this.$emit('updateMyPosts')
                 this.$fetch();
               }

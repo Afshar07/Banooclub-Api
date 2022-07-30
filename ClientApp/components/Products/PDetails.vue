@@ -231,11 +231,11 @@
         </div>
 
         <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2 mb-1">آدرس وب سایت</h2>
-        <a :href="service_details.webAddress" target="_blank" class="tw-text-gray-600">
+        <a v-if="service_details.webAddress!==''" :href="service_details.webAddress" target="_blank" class="tw-text-gray-600">
           {{service_details.webAddress}}
         </a>
         <div class="tw-flex tw-items-center tw-gap-2">
-          <h2 class="tw-text-base tw-font-bold tw-text-gray-600 tw-pt-2 mb-1">ظرفیت باقی مانده :</h2>
+          <h2 class="tw-text-base tw-font-bold tw-text-gray-600 tw-pt-2 ">ظرفیت باقی مانده :</h2>
           <span   class="tw-text-gray-600">
           {{service_details.maintain}}
         </span>
@@ -543,6 +543,7 @@ export default {
   },
   methods:{
     async CreateOrder(item){
+
       this.$nuxt.$loading.start();
       try {
         let tmpSubOrders = []
@@ -550,7 +551,7 @@ export default {
           orderId: 0,
           planId: 0,
           count: 1,
-          vendorUserId: 0,
+          vendorUserId: item.userInfo.userId,
           price: item.totalPrice,
           title:item.title,
           serviceId:item.servicePackId

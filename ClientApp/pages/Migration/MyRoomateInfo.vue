@@ -16,6 +16,21 @@
                   <div
                     class="SingleRoomMateInfo d-flex gap-2 align-items-center my-3"
                   >
+                    <small>وضعیت هم خانه شما :</small>
+                    <span
+                      v-if="$auth.user.userInfo.userSetting.activeRoomate"
+                      class="badge bg-success text-white"
+                    >فعال</span
+                    >
+
+                    <span v-else class="badge bg-danger text-white">غیر فعال</span>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div
+                    class="SingleRoomMateInfo d-flex gap-2 align-items-center my-3"
+                  >
                     <small>نوع مکان زندگی :</small>
                     <small class="text-muted">{{
                         roomateData.roomType === 1

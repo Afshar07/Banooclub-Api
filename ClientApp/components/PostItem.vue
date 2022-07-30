@@ -54,18 +54,18 @@
     <div class="custom_card py-3">
       <div class="d-flex px-3 pb-3 align-items-center justify-content-between">
         <div class="d-flex">
-          <div class="d-flex flex-column" @click="goToServiceProfile(post_details.userId)">
+          <div class="d-flex flex-column" @click="goToServiceProfile(post_details.userInfo)">
             <img
               v-if="(post_details.userInfo && post_details.userInfo.selfieFileData && inMyPosts)"
               class="IMG-FLUID myPicture"
-              :src="`https://banooclubapi.simagar.com/media/gallery/profile/${post_details.userInfo.selfieFileData}`"
+              :src="`https://banooclubapi.simagar.com/media/gallery/Profile/${post_details.userInfo.selfieFileData}`"
               alt=""
               style="width: 40px; height: 40px;border-radius: 50%; object-fit: contain; cursor: pointer"
             />
             <img
               v-else-if="post_details.userInfo && post_details.userInfo.selfieFileData && !inMyPosts"
               class="IMG-FLUID myPicture"
-              :src="`https://banooclubapi.simagar.com/media/gallery/profile/${post_details.userInfo.selfieFileData}`"
+              :src="`https://banooclubapi.simagar.com/media/gallery/Profile/${post_details.userInfo.selfieFileData}`"
               alt=""
               style="width: 40px; height: 40px;border-radius: 50%; object-fit: contain; cursor: pointer"
             />
@@ -78,8 +78,8 @@
             />
           </div>
           <div class="d-flex flex-column px-3 tw-font-semibold tw-capitalize" style="font-size: 14px">
-            <div v-if="post_details.userInfo" class="text-primary tw-cursor-pointer" @click="goToUserProfile(post_details.userInfo)">
-              {{post_details.userInfo.name + ' ' + post_details.userInfo.familyName}}
+            <div v-if="post_details.userInfo" class="text-primary tw-cursor-pointer" @click="goToServiceProfile(post_details.userInfo)">
+              {{post_details.userInfo.userName}} @
             </div>
             <div>
               {{
@@ -92,18 +92,18 @@
         </div>
         <div>
           <div class="d-flex">
-            <button v-if="!inMyPosts" @click="openReportModal"
+            <button v-if="post_details.userInfo && !(post_details.userInfo.userId === $auth.user.userInfo.userId)" @click="openReportModal"
                     class="tw-flex tw-items-center tw-flex-1 tw-justify-end text-decoration-none text-dark">
               <div class="tw-p-2 tw-rounded-full tw-text-black">
                 <ExclamationMarkIcon style="width: 22px; height: 22px;"/>
               </div>
             </button>
-            <button class="tw-text-2xl hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw-transition tw--mr-1 tw-relative" @click="showMore(post_details.postId)">
+            <button v-click-outside="hideMoreDiv" class="tw-text-2xl hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw-transition tw--mr-1 tw-relative"
+                    @click.stop="showMoreDiv">
               <MoreIcon/>
             </button>
           </div>
-          <div :ref="`ShowMore${post_details.postId}`"
-               class="tw-z-10 d-none tw-absolute tw-left-0 tw-bg-white tw-w-56 tw-shadow-md tw-mx-auto tw-p-2 tw-rounded-md tw-text-gray-500 tw-text-base tw-border tw-border-gray-100">
+          <div v-if="show_more" class="tw-z-10 tw-absolute tw-left-0 tw-bg-white tw-w-56 tw-shadow-md tw-mx-auto tw-p-2 tw-rounded-md tw-text-gray-500 tw-text-base tw-border tw-border-gray-100">
             <ul class="tw-pl-0 mb-0">
               <li>
                 <button @click="Share" class="tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md tw-w-full">
@@ -165,14 +165,14 @@
       <div class="pt-3 px-3">
         <div style="text-align: right">{{post_details.description}}</div>
         <div class="tw-flex tw-items-center py-3 tw-pt-2 justify-content-between">
-          <div  class="dark:tw-text-gray-100 d-flex align-items-center" style="color:#676767;">
-            <div v-if="post_details.likesCount" style="font-size: 14px">
+          <div class="dark:tw-text-gray-100 d-flex align-items-center" style="color:#676767;">
+            <div style="font-size: 14px">
               پسندیده شده توسط
             </div>
-            <strong v-if="post_details.likesCount" class="px-1" style="font-size: 16px; font-weight: bolder"> {{ post_details.likesCount }} </strong>
-            <div v-if="post_details.likesCount" style="font-size: 14px">نفر</div>
+            <strong class="px-1" style="font-size: 16px; font-weight: bolder"> {{ post_details.likesCount }} </strong>
+            <div style="font-size: 14px">نفر</div>
           </div>
-          <button @click="likePost(post_details.postId, post_details.userId)"
+          <button v-if="post_details.userInfo && !(post_details.userInfo.userId === $auth.user.userInfo.userId)" @click="likePost(post_details.postId, post_details.userId)"
                   class="tw-flex tw-items-center tw-space-x-2 text-decoration-none text-dark">
             <div class="tw-p-2 tw-rounded-full  tw-text-black d-flex align-items-center">
               <LikeIcon v-if="post_details.isLikedByMe" style="width: 20px; height: 20px" fill_color="red"/>
@@ -187,9 +187,9 @@
           <div v-if="inMainPage && post_details.comments.length>5" style="display: flex; flex-direction: column">
             <div v-for="(comItem, index) in post_details.comments.slice(0,5)" :key="index" class="tw-flex my-2">
               <div class="tw-w-10 tw-h-10 tw-rounded-full tw-relative tw-flex-shrink-0">
-                <img style="width: 40px; height: 40px;object-fit: contain" v-if="comItem.userInfo && inMyPosts" class="IMG-FLUID tw-rounded-full" :src="BaseUrl  + 'media/gallery/profile/'+  comItem.userInfo.selfieFileData || '=../assets/images/defaultUser.png'" alt=""/>
-                <img style="width: 40px; height: 40px;object-fit: contain" v-else-if="comItem.userInfo && !inMyPosts" class="IMG-FLUID tw-rounded-full" :src="BaseUrl + 'media/gallery/profile/'+ comItem.userInfo.selfieFileData || '=../assets/images/defaultUser.png'" alt=""/>
-                <img style="width: 40px; height: 40px;object-fit: contain" v-else-if="comItem.userInfo && !inMainPage" class="IMG-FLUID tw-rounded-full" :src="BaseUrl+ 'media/gallery/profile/'+ comItem.userInfo.selfieFileData || '=../assets/images/defaultUser.png'" alt=""/>
+                <img style="width: 40px; height: 40px;object-fit: contain" v-if="comItem.userInfo && inMyPosts" class="IMG-FLUID tw-rounded-full" :src="BaseUrl + '/' + comItem.userInfo.selfieFileData || '=../assets/images/defaultUser.png'" alt=""/>
+                <img style="width: 40px; height: 40px;object-fit: contain" v-else-if="comItem.userInfo && !inMyPosts" class="IMG-FLUID tw-rounded-full" :src="BaseUrl + '/media/gallery/Profile/' + comItem.userInfo.selfieFileData || '=../assets/images/defaultUser.png'" alt=""/>
+                <img style="width: 40px; height: 40px;object-fit: contain" v-else-if="comItem.userInfo && !inMainPage" class="IMG-FLUID tw-rounded-full" :src="BaseUrl + comItem.userInfo.selfieFileData || '=../assets/images/defaultUser.png'" alt=""/>
               </div>
               <div>
                 <div
@@ -208,13 +208,13 @@
           </div>
           <div v-else v-for="(comItem, index) in post_details.comments" :key="index" class="tw-flex">
             <div class="tw-w-10 tw-h-10 tw-rounded-full tw-relative tw-flex-shrink-0">
-              <img style="width: 40px; height: 40px;object-fit: contain" v-if="comItem.userInfo && inMyPosts" class="IMG-FLUID tw-rounded-full" :src="BaseUrl +  comItem.userInfo.selfieFileData || '=../assets/images/defaultUser.png'" alt=""/>
-              <img style="width: 40px; height: 40px;object-fit: contain" v-if="comItem.userInfo && !inMyPosts" class="IMG-FLUID tw-rounded-full" :src="BaseUrl +'media/gallery/profile/'+ comItem.userInfo.selfieFileData || '=../assets/images/defaultUser.png'" alt=""/>
+              <img style="width: 40px; height: 40px;object-fit: contain" v-if="comItem.userInfo && inMyPosts" class="IMG-FLUID tw-rounded-full" :src="BaseUrl + '/' + comItem.userInfo.selfieFileData || '=../assets/images/defaultUser.png'" alt=""/>
+              <img style="width: 40px; height: 40px;object-fit: contain" v-if="comItem.userInfo && !inMyPosts" class="IMG-FLUID tw-rounded-full" :src="BaseUrl + '/media/gallery/Profile/' + comItem.userInfo.selfieFileData || '=../assets/images/defaultUser.png'" alt=""/>
             </div>
             <div>
               <div
                 class="tw-text-gray-700 tw-py-2 tw-px-3 tw-rounded-md tw-bg-gray-100 tw-relative lg:tw-ml-5 tw-ml-2 lg:tw-mr-5">
-                <p class="leading-6 mb-0" style="overflow-wrap: anywhere">
+                <p class="leading-6 mb-0">
                   {{ comItem.content }}
                 </p>
                 <div
@@ -224,7 +224,7 @@
           </div>
         </div>
         <div v-if="!commentingStatus" class=" d-flex">
-          <input  v-on:keyup.enter="addComment" v-model="CommentContent" @click="SetPostComments(post_details)"
+          <input v-model="CommentContent" @click="SetPostComments(post_details)"
                  style="border-radius: 50px; background-color: rgb(243 244 246); height: 40px !important;"
                  value="" type="text" class="form-control mx-1"
                  placeholder="نظر خود را وارد کنید...">
@@ -249,10 +249,14 @@ import MessageIcon from "./Icons/MessageIcon";
 import ShareIcon from "./Icons/ShareIcon";
 import ExclamationMarkIcon from "./Icons/ExclamationMarkIcon"
 import DisLikeIcon from "./Icons/DisLikeIcon";
+// import vClickOutside from 'v-click-outside'
 
 
 
 export default {
+  // directives: {
+  //   clickOutside: vClickOutside.directive
+  // },
   name: "PostItem",
   data(){
     return {
@@ -263,7 +267,7 @@ export default {
       SelectedPostComments: [],
       SelectedPostId: 0,
       commentingStatus:false,
-      site_url: 'banooclub.simagar.com',
+      site_url: 'pplus.simagar.com',
       reportReason:'',
       reportedPostId:0,
       reportedPostUserId:0
@@ -307,13 +311,14 @@ export default {
         console.log(e)
       }
     },
-    goToServiceProfile(userId){
+    goToServiceProfile(userInfo){
+      console.log(userInfo)
 
-      if(this.$auth.user.userInfo.userId === userId){
+      if(this.$auth.user.userInfo.userId === userInfo.userId){
         this.$router.push({ path: `/Social/AccountSetting/MyPage` });
       }
       else {
-        this.$router.push({ path: `/user/${userId}/posts` });
+        this.$router.push({ path: `/user/${userInfo.userName}/posts` });
       }
     },
 
@@ -338,7 +343,6 @@ export default {
             if (response.status === 200) {
               this.$toast.success("ثبت گزارش با موفقیت انجام شد.");
               this.isRenderingReportingPost = false
-              this.reportReason = ''
               this.$nuxt.refresh()
             }
           })
@@ -351,6 +355,18 @@ export default {
       this.isRenderingReportingPost = true
       this.reportedPostId = this.post_details.postId
       this.reportedPostUserId = this.post_details.userId
+    },
+    showMoreDiv(){
+      console.log(this.show_more)
+      if(this.show_more){
+        this.show_more = false
+      }
+      else {
+        this.show_more = true
+      }
+    },
+    hideMoreDiv(){
+      this.show_more = false
     },
 
     openDeleteModal(){
@@ -382,8 +398,8 @@ export default {
       }
     },
     addComment() {
-      if(this.CommentContent === ''){
-        this.$toast.error("لطفا نظر خود را وارد کنید");
+      if(this.CommentContent === '' || this.CommentContent.match(/^ *$/) !== null){
+        this.$toast.error("لطفا متن نظر خود را وارد کنید");
       }
       else{
         try {
@@ -391,7 +407,7 @@ export default {
             .post(
               `PostComment/Create`,
               {
-                content: this.CommentContent,
+                content: this.CommentContent.trim(),
                 parentId: 0,
                 postId: this.SelectedPostId,
               },
@@ -451,6 +467,14 @@ export default {
         this.$refs[`ShowMore${id}`].classList.remove('d-none')
       }
     },
+    hideMore(id){
+      console.log(this.$refs[`ShowMore${id}`])
+      if(this.$refs[`ShowMore${id}`]){
+        this.$refs[`ShowMore${id}`].classList.remove('d-block')
+        this.$refs[`ShowMore${id}`].classList.add('d-none')
+      }
+
+    },
     time_ago(time) {
       switch (typeof time) {
         case 'number':
@@ -466,9 +490,9 @@ export default {
       }
       let time_formats = [
         [60, 'ثانیه ', 1], // 60
-        [120, '1 دقیقه پیش', 'یک دقیقه پیش'], // 60*2
+        [120, '1 دقیقه پیش', 'یک دقیقه از الان'], // 60*2
         [3600, 'دقیقه ', 60], // 60*60, 60
-        [7200, '1 ساعت پیش', '1 ساعت پیش'], // 60*60*2
+        [7200, '1 ساعت پیش', '1 ساعت از الان'], // 60*60*2
         [86400, 'ساعت ', 3600], // 60*60*24, 60*60
         [172800, 'دیروز', 'فردا'], // 60*60*24*2
         [604800, 'روز ', 86400], // 60*60*24*7, 60*60*24
@@ -485,11 +509,11 @@ export default {
         list_choice = 1;
 
       if (seconds == 0) {
-        return 'پیش'
+        return 'همین حالا'
       }
       if (seconds < 0) {
         seconds = Math.abs(seconds);
-        token = 'پیش';
+        token = 'از الان';
         list_choice = 2;
       }
       let i = 0,

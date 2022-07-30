@@ -84,7 +84,8 @@ const res = await this.$repositories.GetCredit.GetCredit()
           count:3
         }
       );
-      this.postData = response.data.posts;
+
+      this.postData = response.data.posts
       this.postCounts = response.data.postCount;
     }catch (error) {
       console.log(error);
@@ -113,9 +114,14 @@ const res = await this.$repositories.GetCredit.GetCredit()
         );
         const newPosts = response.data.posts;
         newPosts.forEach((element) => {
-          this.postData.push(element)
+          if(this.postData.findIndex(e=> e.postId === element.postId)>-1){
+            const idx = this.postData.findIndex(e=> e.postId === element.postId)
+            this.postData[idx] = element
+          }else{
+            this.postData.push(element)
+          }
+
         });
-        // console.log('this.postData',this.postData)
       }catch (error) {
         console.log(error);
       }

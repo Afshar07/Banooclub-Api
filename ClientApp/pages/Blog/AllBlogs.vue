@@ -43,7 +43,7 @@
                           </div>
                           <div class="tw-flex tw-items-center tw-gap-1">
                             <small class=" tw-text-stone-400">{{ item.likeCount }}</small>
-                            <i v-if="!item.isFavourite"  class="far fa-heart tw-text-stone-400"></i>
+                            <i v-if="item.myLikeStatus===1"  class="far fa-heart tw-text-stone-400"></i>
                             <i v-else  class="fas fa-heart tw-text-red-600"></i>
                           </div>
 

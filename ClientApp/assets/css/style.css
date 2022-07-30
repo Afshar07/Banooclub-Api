@@ -12,7 +12,12 @@
 *:focus {
   outline: 0 !important;
 }
-
+.ShortDescriptionIndex{
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 html {
   scroll-behavior: smooth !important;
 }
