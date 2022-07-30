@@ -88,6 +88,7 @@
           </tr>
           </tbody>
         </table>
+        <Pagination v-if="totalPages.length>1" :pages="totalPages" @PageChanged="changePage($event)"/>
       </div>
     </div>
   </div>
@@ -99,12 +100,14 @@
 import PlusIcon from "../../components/Icons/PlusIcon";
 import {data} from "autoprefixer";
 import ChargeWalletSideNav from "../../components/ChargeWalletSideNav";
+import Pagination from "../../components/Pagination";
 
 export default {
   name: "index",
   layout: "PoshtebamPlusLayout",
   components: {
     ChargeWalletSideNav,
+    Pagination,
     PlusIcon
   },
   head() {
@@ -120,7 +123,8 @@ export default {
     return {
       displayChargeSideNav:false,
       AllPayments:[],
-      SelectedPageNumber:1
+      SelectedPageNumber:1,
+      totalPages:[]
 
     }
   },
@@ -132,7 +136,30 @@ export default {
         console.log(e)
       }
     },
+    changePage(id){
+        this.SelectedPageNumber = id
+      this.GetMyPayments()
+    },
+
+   async GetMyPayments(){
+      try {
+        const res = await this.$repositories.GetMyPayments.GetMyPayments({
+          pageNumber:this.SelectedPageNumber,
+          count:10
+        })
+        this.AllPayments = res.data.payments
+        this.totalPages = []
+        const result = Math.ceil(res.data.paymentsCount / 10)
+        for (let i = 1; i <= result; i++) {
+          this.totalPages.push(i);
+        }
+      }catch (e) {
+        console.log(e)
+      }
+    },
   },
+
+
   async fetch(){
     try {
       const res = await this.$repositories.GetMyPayments.GetMyPayments({
@@ -140,6 +167,11 @@ export default {
         count:10
       })
       this.AllPayments = res.data.payments
+      this.totalPages = []
+      const result = Math.ceil(res.data.paymentsCount / 10)
+      for (let i = 1; i <= result; i++) {
+        this.totalPages.push(i);
+      }
     }catch (e) {
       console.log(e)
     }
