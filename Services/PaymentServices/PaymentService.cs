@@ -261,7 +261,6 @@ namespace BanooClub.Services.PaymentServices
                                 dbAds.FireDate = DateTime.Now;
                                 await adsRepository.Update(dbAds);
                             }
-                            
                         }
                         if (dbOrder.ServiceId != null && dbOrder.ServiceId != 0)
                         {

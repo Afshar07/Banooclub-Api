@@ -121,6 +121,18 @@ namespace BanooClub.Services.RoomateServices
                 }
 
                 var finalRoomates = dbRoomates.ToList();
+                var roommateUserIds = finalRoomates.Select(z => z.UserId).ToList();
+                var dbUserSettings = userSettingRepository.GetQuery().Where(z=>roommateUserIds.Contains(z.UserId)).ToList();
+                var ActiveRoomatesIds = new List<long>();
+                foreach(var item in dbUserSettings)
+                {
+                    if(item.ActiveRoomate == true)
+                    {
+                        ActiveRoomatesIds.Add(item.UserId);
+                    }
+                }
+                finalRoomates = finalRoomates.Where(z => ActiveRoomatesIds.Contains(z.UserId)).ToList();
+
                 foreach (var roomate in finalRoomates)
                 {
                     roomate.IsPrivate = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == roomate.UserId).IsPrivateRoomate;

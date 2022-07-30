@@ -65,6 +65,7 @@
     "vue-persian-datetime-picker": "^2.10.1",
     "vue-quill-editor": "^3.0.6",
     "vue-select": "^3.16.0",
+    "vue-server-renderer": "^2.7.8",
     "vue-simple-context-menu": "^3.4.2",
     "vue-slick-carousel": "^1.0.6",
     "vue-star-rating": "^1.7.0",
