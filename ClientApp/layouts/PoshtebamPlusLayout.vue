@@ -14,11 +14,7 @@
     />
     <TheSideNav :show="displaySideNav" @close="displaySideNav = false" />
 
-    <SideNavPictureVideo
-      :show="displaySideNavPictureVideo"
-      :type-data="dataType"
-      @close="displaySideNavPictureVideo = false"
-    />
+
     <div
       class="row gaping position-relative col-12 mx-auto tw-overflow-x-hidden bg-white px-0"
       @click="closingHeader = true"
@@ -30,7 +26,6 @@
       <div  class="col-xl-9 m-0 p-0">
         <Nuxt
           @GetFullName="SetFullName($event)"
-          @SideNavPictureVideo="SideNavPictureVideoToggle($event)"
         />
       </div>
 
@@ -51,22 +46,18 @@
 import Header from "./Header";
 import Footer from "./Footer";
 import TheSideNav from "./TheSideNav";
-
-
-import SideNavPictureVideo from "../components/SideNavPictureVideo";
-
 export default {
   name: "PoshtebamPlusLayout",
 
   components: {
-    SideNavPictureVideo,
+
     TheSideNav,
     Footer,
     Header,
   },
   data() {
     return {
-      displaySideNavPictureVideo: false,
+
       displaySideNav: false,
       displayRightSideNav: false,
       showScrollTopIcon: false,
@@ -114,12 +105,12 @@ export default {
     },
     sideNavToggle() {
       this.displayRightSideNav = false;
-      this.displaySideNavPictureVideo = false;
+
       this.displaySideNav = !this.displaySideNav;
     },
     rightSideNavToggle() {
       this.displaySideNav = false;
-      this.displaySideNavPictureVideo = false;
+
       this.displayRightSideNav = !this.displayRightSideNav;
     },
     SideNavPictureVideoToggle(data) {

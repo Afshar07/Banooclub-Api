@@ -13,6 +13,16 @@ export default (context, resources) => ({
     })
     return response
   },
+  async GetOrderedServices(){
+    const response = await context.$axios.post(resources)
+    return response
+  },
+  async GetOrderedServicesMembers(params){
+    const response = await context.$axios.post(resources,null,{
+      params
+    })
+    return response
+  },
   async getMyServices(params){
     const response = await context.$axios.post(resources,null,{
       params

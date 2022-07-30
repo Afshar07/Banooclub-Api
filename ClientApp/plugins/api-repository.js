@@ -171,7 +171,8 @@ export default (context, inject) => {
     getUserServices: createServicePackRepository(context,"ServicePack/GetUserServices"),
     updateAService: createServicePackRepository(context,"ServicePack/Update"),
     deleteAService: createServicePackRepository(context,"ServicePack/Delete"),
-
+    GetOrderedServices: createServicePackRepository(context,"ServicePack/GetOrderedServiceForVendor"),
+    GetOrderedServicesMembers: createServicePackRepository(context,"ServicePack/GetServicePayedMember"),
     // Service repository end
 
 

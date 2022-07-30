@@ -39,11 +39,7 @@ module.exports = {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    "quill/dist/quill.core.css",
-    // for snow theme
-    "quill/dist/quill.snow.css",
-    // for bubble theme
-    "quill/dist/quill.bubble.css",
+
     "~/assets/css/publicFonts.css",
     "~/assets/css/style.css",
     "@fortawesome/fontawesome-svg-core/styles.css",
@@ -66,16 +62,13 @@ module.exports = {
     {src: "~/plugins/nuxt-swiper-plugin.js", mode: "client"},
     {src: "~/plugins/datePicker", mode: "client", ssr: false},
     {src: "~/plugins/v-select", mode: "client"},
-    {src: "~plugins/nuxt-quill-plugin", ssr: false},
     {src: "~plugins/vue-awesome-counter", ssr: false,mode:'client'},
     {src: "~/plugins/vuex-persist", ssr: false},
-    {src: "@/plugins/vue-flags.js"},
     {src: "~/plugins/chart.js", mode: "client"},
     {src: "plugins/vue-context", mode: "client", ssr: false},
-    {src: "plugins/vue-crop", mode: "client", ssr: false},
     {src: "plugins/vue-signalR", ssr: false},
     {src: "plugins/vue-countdown", mode: "client", ssr: false},
-    {src: "plugins/vue-toggle", mode: "client", ssr: false},
+
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -87,21 +80,9 @@ module.exports = {
       'nuxt-webpack-optimisations',
       "nuxt-compress",
       "@nuxtjs/fontawesome",
-      "nuxt-gsap-module",
       '@nuxt/postcss8',
-
-
     ],
-  gsap: {
-    registerEase: [
-      {
-        name: "ease.1",
-        ease: (progress) => {
-          return progress; // linear
-        },
-      },
-    ],
-  },
+
   router: {
     middleware: ["auth"],
     extendRoutes(routes, resolve) {
@@ -139,7 +120,6 @@ module.exports = {
     ],
     "@nuxtjs/axios",
     "@nuxtjs/toast",
-    "vue2-editor/nuxt",
     "nuxt-leaflet",
   ],
   'nuxt-compress': {

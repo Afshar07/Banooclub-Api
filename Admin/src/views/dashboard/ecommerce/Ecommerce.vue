@@ -171,8 +171,8 @@ export default {
 .bg-logo{
   margin-left: auto;
   margin-right: auto;
-  width: 40rem;
-  height: 40rem;
+  width: 10rem;
+  height: 10rem;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -189,8 +189,8 @@ export default {
     font-size: 1rem !important;
   }
   .bg-logo{
-    width: 20rem;
-    height: 20rem;
+    width: 10rem;
+    height: 10rem;
   }
 }
 @import '@core/scss/vue/pages/dashboard-ecommerce.scss';

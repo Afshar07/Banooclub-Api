@@ -231,11 +231,11 @@
         </div>
 
         <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2 mb-1">آدرس وب سایت</h2>
-        <a :href="service_details.webAddress" target="_blank" class="tw-text-gray-600">
+        <a v-if="service_details.webAddress!==''" :href="service_details.webAddress" target="_blank" class="tw-text-gray-600">
           {{service_details.webAddress}}
         </a>
         <div class="tw-flex tw-items-center tw-gap-2">
-          <h2 class="tw-text-base tw-font-bold tw-text-gray-600 tw-pt-2 mb-1">ظرفیت باقی مانده :</h2>
+          <h2 class="tw-text-base tw-font-bold tw-text-gray-600 tw-pt-2 ">ظرفیت باقی مانده :</h2>
           <span   class="tw-text-gray-600">
           {{service_details.maintain}}
         </span>
@@ -543,6 +543,7 @@ export default {
   },
   methods:{
     async CreateOrder(item){
+
       this.$nuxt.$loading.start();
       try {
         let tmpSubOrders = []
@@ -550,7 +551,7 @@ export default {
           orderId: 0,
           planId: 0,
           count: 1,
-          vendorUserId: 0,
+          vendorUserId: item.userInfo.userId,
           price: item.totalPrice,
           title:item.title,
           serviceId:item.servicePackId
@@ -770,9 +771,9 @@ export default {
       }
       let time_formats = [
         [60, 'ثانیه ', 1], // 60
-        [120, '1 دقیقه پیش', 'یک دقیقه از الان'], // 60*2
+        [120, '1 دقیقه پیش', 'یک دقیقه پیش'], // 60*2
         [3600, 'دقیقه ', 60], // 60*60, 60
-        [7200, '1 ساعت پیش', '1 ساعت از الان'], // 60*60*2
+        [7200, '1 ساعت پیش', '1 ساعت پیش'], // 60*60*2
         [86400, 'ساعت ', 3600], // 60*60*24, 60*60
         [172800, 'دیروز', 'فردا'], // 60*60*24*2
         [604800, 'روز ', 86400], // 60*60*24*7, 60*60*24
@@ -789,11 +790,11 @@ export default {
         list_choice = 1;
 
       if (seconds == 0) {
-        return 'همین حالا'
+        return 'پیش'
       }
       if (seconds < 0) {
         seconds = Math.abs(seconds);
-        token = 'از الان';
+        token = 'پیش';
         list_choice = 2;
       }
       let i = 0,

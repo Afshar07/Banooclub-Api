@@ -57,10 +57,10 @@
       <p class="tw-leading-6 tw-line-clamp-2 tw-mt-3">
         {{forum_details.description}}
       </p>
-      <p v-if=" $route.path!=='/Forums/' && forum_details.status ===4" class="tw-leading-6 tw-text-red-600 tw-line-clamp-2 tw-mt-3">
+      <p v-if=" $route.path!=='/Forums/' && forum_details.status ===3" class="tw-leading-6 tw-text-red-600 tw-line-clamp-2 tw-mt-3">
         انجمن شما به دلیل وجود کلمات نا مناسب توسط ربات سایت گزارش داده شده و در دست بررسی میباشد.
       </p>
-      <p v-if=" $route.path!=='/Forums/' && forum_details.status ===3" class="tw-leading-6 tw-text-red-600 tw-line-clamp-2 tw-mt-3">
+      <p v-if=" $route.path!=='/Forums/' && forum_details.status ===4" class="tw-leading-6 tw-text-red-600 tw-line-clamp-2 tw-mt-3">
         انجمن شما به دلیل وجود کلمات نا مناسب توسط کاربران سایت گزارش داده شده و در دست بررسی میباشد.
       </p>
       <p v-if=" $route.path!=='/Forums/' && forum_details.status ===1" class="tw-leading-6 tw-text-green-500 tw-line-clamp-2 tw-mt-3">
@@ -122,9 +122,9 @@ export default {
       }
       let time_formats = [
         [60, 'ثانیه ', 1], // 60
-        [120, '1 دقیقه پیش', 'یک دقیقه از الان'], // 60*2
+        [120, '1 دقیقه پیش', 'یک دقیقه پیش'], // 60*2
         [3600, 'دقیقه ', 60], // 60*60, 60
-        [7200, '1 ساعت پیش', '1 ساعت از الان'], // 60*60*2
+        [7200, '1 ساعت پیش', '1 ساعت پیش'], // 60*60*2
         [86400, 'ساعت ', 3600], // 60*60*24, 60*60
         [172800, 'دیروز', 'فردا'], // 60*60*24*2
         [604800, 'روز ', 86400], // 60*60*24*7, 60*60*24
@@ -141,11 +141,11 @@ export default {
         list_choice = 1;
 
       if (seconds == 0) {
-        return 'همین حالا'
+        return 'پیش'
       }
       if (seconds < 0) {
         seconds = Math.abs(seconds);
-        token = 'از الان';
+        token = 'پیش';
         list_choice = 2;
       }
       let i = 0,
