@@ -4,12 +4,15 @@
       :isRenderingModal="isRenderingDeleteConfirmation"
       @closeModal="closeDeleteConfirmationModal"
     >
-      <template v-slot:title>حذف پست</template>
+      <template v-slot:title>
+
+        <div class="p-3">حذف پست</div>
+        </template>
       <template v-slot:content>
-        <p>آیا از حذف پست اطمینان دارید؟</p>
+        <p class="p-5 pb-0">آیا از حذف پست اطمینان دارید؟</p>
       </template>
       <template v-slot:actions>
-        <div class="d-flex align-items-center justify-content-end">
+        <div class="d-flex align-items-center justify-content-end p-3">
           <button
             class="btn btn-danger mx-2"
             @click="closeDeleteConfirmationModal"

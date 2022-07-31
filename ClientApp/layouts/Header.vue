@@ -1,5 +1,5 @@
 <template>
-  <section class="m-0 position-sticky top-0 tw-z-[1000]" >
+  <section class="m-0 position-sticky top-0 tw-z-[1000]">
     <!--    mobile menu-->
     <div
       class="offcanvas offcanvas-end sidebar-bg right_menu_mobile"
@@ -7,7 +7,7 @@
       id="test"
       aria-labelledby="test"
     >
-      <div  class="offcanvas-body px-2" style="height: 700px!important;overflow-y: scroll!important;">
+      <div class="offcanvas-body px-2" style="height: 700px!important;overflow-y: scroll!important;">
         <div class="d-flex flex-column" style="padding-right: 15px">
           <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
@@ -76,12 +76,13 @@
             </nuxt-link>
           </div>
           <div :class="[decrease_width ? '' : ' ']" class="py-1">
-            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+                 class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
               <AdsIcon class="svg_icons_size"/>
               <span class="header_font_sidebar_size">آگهی ها </span>
               <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
             </div>
-            <div class="px-3"  :class="[decrease_width ? '' : '']">
+            <div class="px-3" :class="[decrease_width ? '' : '']">
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
@@ -133,12 +134,13 @@
           </div>
           <div :class="[decrease_width ? '' : '']" class="py-1">
 
-            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+                 class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
               <ProductsIcon class="svg_icons_size tw-text-red-500"/>
               <span v-if="!decrease_width" class="header_font_sidebar_size">خدمات </span>
               <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
             </div>
-            <div class="px-3"  :class="[decrease_width ? '' : '']">
+            <div class="px-3" :class="[decrease_width ? '' : '']">
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
@@ -151,7 +153,8 @@
                   <span v-if="!decrease_width" class="font_sidebar_size">همه خدمات</span>
                 </nuxt-link>
               </div>
-              <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+              <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3"
+                   class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
                   to="/Products/OrderedProducts/"
@@ -163,7 +166,8 @@
                   <span v-if="!decrease_width" class="font_sidebar_size">خدمات سفارش داده شده</span>
                 </nuxt-link>
               </div>
-              <div v-if=" $auth.user&& $auth.user && $auth.user.baseData&&$auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+              <div v-if=" $auth.user&& $auth.user && $auth.user.baseData&&$auth.user.baseData.userType===3"
+                   class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
                   to="/Products/MyServices/"
@@ -175,7 +179,8 @@
                   <span v-if="!decrease_width" class="font_sidebar_size">خدمات من</span>
                 </nuxt-link>
               </div>
-              <div v-if=" $auth.user&& $auth.user && $auth.user.baseData&& $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+              <div v-if=" $auth.user&& $auth.user && $auth.user.baseData&& $auth.user.baseData.userType===3"
+                   class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
                   to="/Products/AddProduct/"
@@ -189,7 +194,7 @@
               </div>
             </div>
           </div>
-          <div  class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
               exact-active-class="SingleShortCutActive"
               to="/Payments/"
@@ -199,23 +204,24 @@
               <span v-if="!decrease_width" class="header_font_sidebar_size">پرداخت ها</span>
             </nuxt-link>
           </div>
-          <div  class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
               exact-active-class="SingleShortCutActive"
               to="/Orders/"
               class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
             >
-              <OrderIcon fill="rgb(245 158 11)"  class="svg_icons_size text-warning"/>
+              <OrderIcon fill="rgb(245 158 11)" class="svg_icons_size text-warning"/>
               <span v-if="!decrease_width" class="header_font_sidebar_size">سفارشات</span>
             </nuxt-link>
           </div>
           <div :class="[decrease_width ? '' : '']" class="py-1">
-            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+                 class=" SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
               <ForumIcon class="svg_icons_size"/>
               <span v-if="!decrease_width" class="header_font_sidebar_size">انجمن ها </span>
               <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
             </div>
-            <div class="px-3"  :class="[decrease_width ? '' : '']">
+            <div class="px-3" :class="[decrease_width ? '' : '']">
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
@@ -256,12 +262,13 @@
           </div>
           <div :class="[decrease_width ? '' : ' ']" class=" py-1">
 
-            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+                 class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
               <BedIcon class="svg_icons_size"/>
               <span v-if="!decrease_width" class="header_font_sidebar_size">هم خانه</span>
               <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
             </div>
-            <div class="px-3"  :class="[decrease_width ? '' : '']">
+            <div class="px-3" :class="[decrease_width ? '' : '']">
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   exact-active-class="SingleShortCutActive"
@@ -295,7 +302,7 @@
                   class="SingleShortCut  py-2 w-100 d-flex align-items-center gap-4"
                   :class="[decrease_width ? 'p-3' : 'px-3']"
                 >
-                  <BedIcon class="svg_icons_size"  v-if="decrease_width"/>
+                  <BedIcon class="svg_icons_size" v-if="decrease_width"/>
                   <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
 
                   <span v-if="!decrease_width" class="font_sidebar_size">افزودن هم خانه</span>
@@ -316,7 +323,7 @@
         @mouseleave="MouseLeaveRightMenu"
         @mouseenter="MouseOverRightMenu"
       >
-        <div class="offcanvas-body px-2" style="height: 700px!important;overflow-y: scroll!important;">
+        <div class="offcanvas-body px-2 mt-3" style="height: 700px!important;overflow-y: scroll!important;">
           <div class="d-flex flex-column" style="padding-right: 15px">
             <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
@@ -385,12 +392,13 @@
               </nuxt-link>
             </div>
             <div :class="[decrease_width ? '' : ' ']" class="py-1">
-              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+                   class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <AdsIcon class="svg_icons_size"/>
                 <span class="header_font_sidebar_size">آگهی ها </span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div class="px-3"  :class="[decrease_width ? '' : '']">
+              <div class="px-3" :class="[decrease_width ? '' : '']">
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
@@ -442,12 +450,13 @@
             </div>
             <div :class="[decrease_width ? '' : '']" class="py-1">
 
-              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+                   class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <ProductsIcon class="svg_icons_size tw-text-red-500"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">خدمات </span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div class="px-3"  :class="[decrease_width ? '' : '']">
+              <div class="px-3" :class="[decrease_width ? '' : '']">
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
@@ -460,7 +469,8 @@
                     <span v-if="!decrease_width" class="font_sidebar_size">همه خدمات</span>
                   </nuxt-link>
                 </div>
-                <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3"
+                     class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
                     to="/Products/OrderedProducts/"
@@ -472,7 +482,8 @@
                     <span v-if="!decrease_width" class="font_sidebar_size">خدمات سفارش داده شده</span>
                   </nuxt-link>
                 </div>
-                <div v-if=" $auth.user&& $auth.user && $auth.user.baseData&& $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <div v-if=" $auth.user&& $auth.user && $auth.user.baseData&& $auth.user.baseData.userType===3"
+                     class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
                     to="/Products/MyServices/"
@@ -484,7 +495,8 @@
                     <span v-if="!decrease_width" class="font_sidebar_size">خدمات من</span>
                   </nuxt-link>
                 </div>
-                <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3"
+                     class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
                     to="/Products/AddProduct/"
@@ -498,7 +510,7 @@
                 </div>
               </div>
             </div>
-            <div  class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
                 exact-active-class="SingleShortCutActive"
                 to="/Payments/"
@@ -508,23 +520,24 @@
                 <span v-if="!decrease_width" class="header_font_sidebar_size">پرداخت ها</span>
               </nuxt-link>
             </div>
-            <div  class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
                 exact-active-class="SingleShortCutActive"
                 to="/Orders/"
                 class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
               >
-                <OrderIcon fill="rgb(245 158 11)"  class="svg_icons_size text-warning"/>
+                <OrderIcon fill="rgb(245 158 11)" class="svg_icons_size text-warning"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">سفارشات</span>
               </nuxt-link>
             </div>
             <div :class="[decrease_width ? '' : '']" class="py-1">
-              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+                   class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <ForumIcon class="svg_icons_size"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">انجمن ها </span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div class="px-3"  :class="[decrease_width ? '' : '']">
+              <div class="px-3" :class="[decrease_width ? '' : '']">
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
@@ -564,7 +577,8 @@
               </div>
             </div>
             <div :class="[decrease_width ? '' : ' ']" class=" py-1">
-              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+                   class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <BedIcon class="svg_icons_size"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">هم خانه</span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
@@ -603,7 +617,7 @@
                     class="SingleShortCut  py-2 w-100 d-flex align-items-center gap-4"
                     :class="[decrease_width ? 'p-3' : 'px-3']"
                   >
-                    <BedIcon class="svg_icons_size"  v-if="decrease_width"/>
+                    <BedIcon class="svg_icons_size" v-if="decrease_width"/>
                     <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
 
                     <span v-if="!decrease_width" class="font_sidebar_size">افزودن هم خانه</span>
@@ -621,7 +635,8 @@
 
     <!--Top nav-->
     <section class="container-fluid d-xl-block d-none">
-      <div class="row headerStyle sticky-top tw-flex tw-flex-row tw-items-center tw-justify-between py-3 position-sticky top-0">
+      <div
+        class="row headerStyle sticky-top tw-flex tw-flex-row tw-items-center tw-justify-between py-3 position-sticky top-0">
         <div :class="[!isChatLayout ? 'col-xl-4' : 'col-xl-6']" class="col-lg-2 d-flex align-items-center">
           <!--          <button-->
           <!--            class="btn ms-3 ShortCutToggle h-100"-->
@@ -632,25 +647,27 @@
           <!--            <i class="fas fa-stream"></i>-->
           <!--          </button>-->
           <button v-if="!isChatLayout"
-            @click="decreaseWidthButton"
-            class="btn ms-3 ShortCutToggle h-100"
-            type="button">
+                  @click="decreaseWidthButton"
+                  class="btn ms-3 ShortCutToggle h-100"
+                  type="button">
             <MenuIcon style="transform: scale(-1,-1);"/>
             <!--            <i class="fas fa-stream"></i>-->
           </button>
           <nuxt-link to="/social">
             بانوکلاب
-<!--            <img-->
-<!--              src="../assets/images/PoshtebamPlusLogo.png"-->
-<!--              width="100px"-->
-<!--              height="40px"-->
-<!--              alt="PoshtebamPlus Logo"-->
-<!--            />-->
+            <!--            <img-->
+            <!--              src="../assets/images/PoshtebamPlusLogo.png"-->
+            <!--              width="100px"-->
+            <!--              height="40px"-->
+            <!--              alt="PoshtebamPlus Logo"-->
+            <!--            />-->
           </nuxt-link>
         </div>
         <div v-if="!isChatLayout" class="col-lg-5 col-xl-4 header_search tw-relative">
-          <SearchIcon class="tw-absolute tw-top-1/2 -tw-translate-y-1/2 -tw-translate-x-1/2 tw-flex tw-items-center tw-pointer-events-none"/>
-          <input v-model="SearchUsers" value="" type="text" class="form-control" placeholder="جست و جو دوستان" autocomplete="off">
+          <SearchIcon
+            class="tw-absolute tw-top-1/2 -tw-translate-y-1/2 -tw-translate-x-1/2 tw-flex tw-items-center tw-pointer-events-none"/>
+          <input v-model="SearchUsers" value="" type="text" class="form-control" placeholder="جست و جو دوستان"
+                 autocomplete="off">
           <div
             class="bg-white p-3 SearchContainer"
             v-if="SearchUsers !== ''"
@@ -689,21 +706,26 @@
             </div>
           </div>
         </div>
-        <div :class="[!isChatLayout ? 'col-xl-4' : 'col-xl-6']" class="col-lg-4 col-xl-4 icons  d-flex justify-content-end align-items-center">
+        <div :class="[!isChatLayout ? 'col-xl-4' : 'col-xl-6']"
+             class="col-lg-4 col-xl-4 icons  d-flex justify-content-end align-items-center">
           <div class="headerIcon">
             <div class="d-flex flex-row justify-content-end align-items-center">
               <nuxt-link to="/social" class="d-flex align-items-center">
-                <div v-tooltip.bottom-start="'خانه'" class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1" @click="goToMyPage">
+                <div v-tooltip.bottom-start="'خانه'"
+                     class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
+                     @click="goToMyPage">
                   <font-awesome-icon icon="home" color="#999999"></font-awesome-icon>
                 </div>
               </nuxt-link>
-<!--              <div class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">-->
-<!--                <nuxt-link to="/social/accountsetting/myposts" class="d-flex align-items-center">-->
-<!--                  <i class="far fa-plus-square" style="color: #999" v-tooltip.bottom-start="'افزودن پست'"></i>-->
-<!--                </nuxt-link>-->
-<!--              </div>-->
+              <!--              <div class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">-->
+              <!--                <nuxt-link to="/social/accountsetting/myposts" class="d-flex align-items-center">-->
+              <!--                  <i class="far fa-plus-square" style="color: #999" v-tooltip.bottom-start="'افزودن پست'"></i>-->
+              <!--                </nuxt-link>-->
+              <!--              </div>-->
               <nuxt-link to="/social/Chat" class="d-flex align-items-center">
-                <div v-tooltip.bottom-start="'مکالمات'" class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1" ref="Chat">
+                <div v-tooltip.bottom-start="'مکالمات'"
+                     class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
+                     ref="Chat">
                   <i
                     class="far fa-comment"
                     style="color: #999"></i>
@@ -711,106 +733,108 @@
               </nuxt-link>
 
               <!--              <div class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">-->
-<!--                <nuxt-link to="/migration/alladvertise"-->
-<!--                ><i-->
-<!--                  class="fas fa-ad"-->
-<!--                  style="color: #999"-->
-<!--                ></i-->
-<!--                ></nuxt-link>-->
-<!--              </div>-->
+              <!--                <nuxt-link to="/migration/alladvertise"-->
+              <!--                ><i-->
+              <!--                  class="fas fa-ad"-->
+              <!--                  style="color: #999"-->
+              <!--                ></i-->
+              <!--                ></nuxt-link>-->
+              <!--              </div>-->
               <nuxt-link to="/social/accountsetting/tickets" class="d-flex align-items-center">
-                <div v-tooltip.bottom-start="'تیکت ها'" class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
+                <div v-tooltip.bottom-start="'تیکت ها'"
+                     class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
                   <i class="fas fa-ticket-alt" style="color: #999"></i>
                 </div>
               </nuxt-link>
 
-<!--              <div  @click="notificationList" class=" position-relative custom_header_size custom_header_icon rounded-circle d-flex justify-content-center align-items-center mx-1">-->
-<!--                <font-awesome-icon-->
-<!--                  icon="bell"-->
-<!--                  color="#999999"-->
-<!--                ></font-awesome-icon>-->
-<!--                <span v-if="Notifications" class="headerNumberNotification position-absolute d-flex justify-content-center align-items-center rounded-circle">-->
-<!--                  <strong>{{ Notifications.length }}</strong>-->
-<!--                </span>-->
-<!--                <div class="listNotification position-absolute" v-if="showNotificationList">-->
-<!--                  <div v-if="Notifications" class="col-12 numberMessageText">-->
-<!--                    {{ Notifications.length }} نوتیفکیشن جدید-->
-<!--                  </div>-->
-<!--                  &lt;!&ndash;-lawyer-&ndash;&gt;-->
-<!--                  <div class="col-12" v-for="(item,idx) in Notifications" :key="idx">-->
-<!--                    <div class="d-flex flex-row border-bottom w-100 h-100 overflow-hidden">-->
-<!--                      <div class="d-flex flex-column text-end position-relative p-2">-->
-<!--                        <div class="senderName">-->
-<!--                          <small class="text-muted"><i class="fas fa-balance-scale"></i></small>-->
-<!--                          <small>{{ item.title }}</small>-->
-<!--                        </div>-->
-<!--                        <br/>-->
-<!--                        <small class="messageText"><small>{{ item.body }}</small>-->
-<!--                          <nuxt-link-->
-<!--                            v-if="item.link"-->
-<!--                            to="/social/accountsetting/editprofilebasic">اینجا کلیک کنید-->
-<!--                          </nuxt-link>-->
-<!--                        </small>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div  @click="messageList" class="position-relative custom_header_size custom_header_icon rounded-circle d-flex justify-content-center align-items-center mx-1">-->
-<!--                <font-awesome-icon-->
-<!--                  icon="comment-alt"-->
-<!--                  color="#999999"-->
-<!--                ></font-awesome-icon>-->
-<!--                <span class="headerNumberNotification position-absolute rounded-circle d-flex justify-content-center align-items-center">-->
-<!--                  <strong>-->
-<!--                    {{ChatNotifs.length }}-->
-<!--                  </strong>-->
-<!--                </span>-->
-<!--                <div-->
-<!--                  class="listMessage position-absolute"-->
-<!--                  v-if="showMessageList"-->
-<!--                >-->
-<!--                  <div class="col-12 numberMessageText">-->
-<!--                    {{ ChatNotifs.length }} پیام جدید-->
-<!--                  </div>-->
-<!--                  <div class="col-12" v-for="(item,idx) in ChatNotifs" :key="idx">-->
-<!--                    <div-->
-<!--                      class="d-flex flex-column text-end position-relative p-2"-->
-<!--                    >-->
-<!--                      <div class="senderName">-->
-<!--                        <small class="text-muted"-->
-<!--                        ><i class="fas fa-comment"></i-->
-<!--                        ></small>-->
-<!--                        <small>مکالمات من</small>-->
-<!--                      </div>-->
+              <!--              <div  @click="notificationList" class=" position-relative custom_header_size custom_header_icon rounded-circle d-flex justify-content-center align-items-center mx-1">-->
+              <!--                <font-awesome-icon-->
+              <!--                  icon="bell"-->
+              <!--                  color="#999999"-->
+              <!--                ></font-awesome-icon>-->
+              <!--                <span v-if="Notifications" class="headerNumberNotification position-absolute d-flex justify-content-center align-items-center rounded-circle">-->
+              <!--                  <strong>{{ Notifications.length }}</strong>-->
+              <!--                </span>-->
+              <!--                <div class="listNotification position-absolute" v-if="showNotificationList">-->
+              <!--                  <div v-if="Notifications" class="col-12 numberMessageText">-->
+              <!--                    {{ Notifications.length }} نوتیفکیشن جدید-->
+              <!--                  </div>-->
+              <!--                  &lt;!&ndash;-lawyer-&ndash;&gt;-->
+              <!--                  <div class="col-12" v-for="(item,idx) in Notifications" :key="idx">-->
+              <!--                    <div class="d-flex flex-row border-bottom w-100 h-100 overflow-hidden">-->
+              <!--                      <div class="d-flex flex-column text-end position-relative p-2">-->
+              <!--                        <div class="senderName">-->
+              <!--                          <small class="text-muted"><i class="fas fa-balance-scale"></i></small>-->
+              <!--                          <small>{{ item.title }}</small>-->
+              <!--                        </div>-->
+              <!--                        <br/>-->
+              <!--                        <small class="messageText"><small>{{ item.body }}</small>-->
+              <!--                          <nuxt-link-->
+              <!--                            v-if="item.link"-->
+              <!--                            to="/social/accountsetting/editprofilebasic">اینجا کلیک کنید-->
+              <!--                          </nuxt-link>-->
+              <!--                        </small>-->
+              <!--                      </div>-->
+              <!--                    </div>-->
+              <!--                  </div>-->
+              <!--                </div>-->
+              <!--              </div>-->
+              <!--              <div  @click="messageList" class="position-relative custom_header_size custom_header_icon rounded-circle d-flex justify-content-center align-items-center mx-1">-->
+              <!--                <font-awesome-icon-->
+              <!--                  icon="comment-alt"-->
+              <!--                  color="#999999"-->
+              <!--                ></font-awesome-icon>-->
+              <!--                <span class="headerNumberNotification position-absolute rounded-circle d-flex justify-content-center align-items-center">-->
+              <!--                  <strong>-->
+              <!--                    {{ChatNotifs.length }}-->
+              <!--                  </strong>-->
+              <!--                </span>-->
+              <!--                <div-->
+              <!--                  class="listMessage position-absolute"-->
+              <!--                  v-if="showMessageList"-->
+              <!--                >-->
+              <!--                  <div class="col-12 numberMessageText">-->
+              <!--                    {{ ChatNotifs.length }} پیام جدید-->
+              <!--                  </div>-->
+              <!--                  <div class="col-12" v-for="(item,idx) in ChatNotifs" :key="idx">-->
+              <!--                    <div-->
+              <!--                      class="d-flex flex-column text-end position-relative p-2"-->
+              <!--                    >-->
+              <!--                      <div class="senderName">-->
+              <!--                        <small class="text-muted"-->
+              <!--                        ><i class="fas fa-comment"></i-->
+              <!--                        ></small>-->
+              <!--                        <small>مکالمات من</small>-->
+              <!--                      </div>-->
 
-<!--                      <h4 class="messageTextt">-->
-<!--                        <small>{{ item }}</small-->
-<!--                        >-->
-<!--                        <nuxt-link-->
-<!--                          tag="small text-primary mx-2"-->
-<!--                          to="/social/Chat"-->
-<!--                        >اینجا کلیک کنید-->
-<!--                        </nuxt-link-->
-<!--                        >-->
-<!--                      </h4>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
+              <!--                      <h4 class="messageTextt">-->
+              <!--                        <small>{{ item }}</small-->
+              <!--                        >-->
+              <!--                        <nuxt-link-->
+              <!--                          tag="small text-primary mx-2"-->
+              <!--                          to="/social/Chat"-->
+              <!--                        >اینجا کلیک کنید-->
+              <!--                        </nuxt-link-->
+              <!--                        >-->
+              <!--                      </h4>-->
+              <!--                    </div>-->
+              <!--                  </div>-->
+              <!--                </div>-->
+              <!--              </div>-->
               <div class="position-relative custom_header_size">
                 <img
+                  v-click-outside="CloseProfileHeader"
                   v-if="$auth.user && $auth.user.baseData &&  $auth.user.baseData.selfie"
-                  class="img-fluid headerPicture"
+                  class="img-fluid headerPicture tw-object-cover"
                   :src="`https://banooclubapi.simagar.com/media/gallery/profile/${$auth.user.baseData.selfie}`"
                   alt=""
-                  @click="profileHeader"
+                  @click.stop="profileHeader"
                 />
                 <img
                   v-else
-                  class="img-fluid headerPicture"
+                  class="img-fluid headerPicture tw-object-cover"
                   :src="userDefault"
-                  @click="profileHeader"
+                  @click.stop="profileHeader"
                   alt=""
                 />
 
@@ -819,55 +843,6 @@
                   v-if="showProfileHeader && !closeHeader"
                 >
                   <div class="d-flex flex-column">
-                    <!--                    <div class="userStatus">-->
-                    <!--                      <div class="d-flex flex-row justify-content-between">-->
-                    <!--                        <div class="">آنلاین</div>-->
-                    <!--                        <div class=" "><span class="statusShowingProfile onlineStatus"></span></div>-->
-                    <!--                      </div>-->
-                    <!--                    </div>-->
-                    <!--                    <div class="userStatus">-->
-                    <!--                      <div class="d-flex flex-row justify-content-between">-->
-                    <!--                        <div class="userStatusColor">دور</div>-->
-                    <!--                        <div class=" "><span class="statusShowingProfile awayStatus"></span></div>-->
-                    <!--                      </div>-->
-                    <!--                    </div>-->
-                    <!--                    <div class="userStatus">-->
-                    <!--                      <div class="d-flex flex-row justify-content-between">-->
-                    <!--                        <div class="userStatusColor">آفلاین</div>-->
-                    <!--                        <div class=" "><span class="statusShowingProfile offlineStatus"></span></div>-->
-                    <!--                      </div>-->
-                    <!--                    </div>-->
-                    <!--                    <div class="userStatus">-->
-                    <!--                      <nuxt-link to="/">-->
-                    <!--                        <div class="d-flex flex-row justify-content-start">-->
-                    <!--                          <div class="">-->
-                    <!--                            <font-awesome-icon icon="user" color="007bff"/>-->
-                    <!--                          </div>-->
-                    <!--                          <div class="userStatusColor">نمایش پروفایل</div>-->
-                    <!--                        </div>-->
-                    <!--                      </nuxt-link>-->
-                    <!--                    </div>-->
-                    <!--                    <div class="userStatus">-->
-                    <!--                      <nuxt-link to="/">-->
-                    <!--                        <div class="d-flex flex-row justify-content-start">-->
-                    <!--                          <div class="">-->
-                    <!--                            <font-awesome-icon icon="user-edit" color="#007bff"/>-->
-                    <!--                          </div>-->
-                    <!--                          <div class="userStatusColor">ویرایش پروفایل</div>-->
-                    <!--                        </div>-->
-                    <!--                      </nuxt-link>-->
-                    <!--                    </div>-->
-                    <!--                    <div class="userStatus">-->
-                    <!--                      <nuxt-link to="/">-->
-                    <!--                        <div class="d-flex flex-row justify-content-start">-->
-                    <!--                          <div class="">-->
-                    <!--                            <font-awesome-icon icon="history" color="007bff"/>-->
-                    <!--                          </div>-->
-                    <!--                          <div class="userStatusColor">گزارش فعالیت</div>-->
-                    <!--                        </div>-->
-                    <!--                      </nuxt-link>-->
-                    <!--                    </div>-->
-
                     <div class="userStatus">
                       <nuxt-link to="/Social">
                         <div
@@ -891,9 +866,17 @@
                             alt=""
                           />
                           <!--                        <i class="fas fa-user"></i>-->
-                          <div v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName " class="d-flex flex-column align-items-end px-2">
-                            <div v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "  class="profile_pic">{{$auth.user.baseData.name + ' ' + $auth.user.baseData.familyName}}</div>
-                            <div v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "  class="d-flex profile_username text-primary tw-cursor-pointer" @click="goToUserProfile($auth.user.baseData)">
+                          <div
+                            v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
+                            class="d-flex flex-column align-items-end px-2">
+                            <div
+                              v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
+                              class="profile_pic">{{ $auth.user.baseData.name + ' ' + $auth.user.baseData.familyName }}
+                            </div>
+                            <div
+                              v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
+                              class="d-flex profile_username text-primary tw-cursor-pointer"
+                              @click="goToUserProfile($auth.user.baseData)">
                               {{ $auth.user.baseData.userName }}
                               @
                             </div>
@@ -927,7 +910,7 @@
                             style="font-size: 14px;font-weight: 500;"
                           >
                             موجودی:
-                            {{Intl.NumberFormat('fa-IR').format($store.state.WalletAmount)}}
+                            {{ Intl.NumberFormat('fa-IR').format($store.state.WalletAmount) }}
                             تومان
                           </div>
                           <button @click="openChargeWalletSideNav" class="btn AddReplyBtn text-white">
@@ -946,17 +929,21 @@
                           <!--                          />-->
                         </div>
                         <div class="userStatusColor text-dark px-2" style="font-size: 14px;font-weight: 500;">
-                          خروج</div>
+                          خروج
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="custom_header_size d-flex justify-content-center align-items-center " @click="$emit('sidenavToggle')">
-<!--                <PrivacyIcon style="width: 25px; height: 25px;"/>-->
-                <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-7 tw-w-7" fill="none" viewBox="0 0 24 24" stroke="#999" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <div class="custom_header_size d-flex justify-content-center align-items-center "
+                   @click="$emit('sidenavToggle')">
+                <!--                <PrivacyIcon style="width: 25px; height: 25px;"/>-->
+                <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-7 tw-w-7" fill="none" viewBox="0 0 24 24"
+                     stroke="#999" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
 
               </div>
@@ -970,8 +957,8 @@
 
     <!--Top nav-->
     <!--Mobile topNav-->
-    <section  class="sticky_header d-xl-none d-block w-100">
-      <div class="headerStyleMobile py-2" >
+    <section class="sticky_header d-xl-none d-block w-100">
+      <div class="headerStyleMobile py-2">
         <div v-if="!want_to_search" class="px-2 d-flex justify-content-between align-items-center">
           <div class="p-3" data-bs-toggle="offcanvas" data-bs-target="#test">
             <font-awesome-icon
@@ -984,28 +971,30 @@
           <div>
             <a href="/social">
               بانوکلاب
-<!--              <img-->
-<!--                data-not-lazy-->
-<!--                class="headerMobileIcon"-->
-<!--                width="100px"-->
-<!--                height="60px"-->
-<!--                src="../assets/images/PoshtebamPlusLogo.png"-->
-<!--              />-->
+              <!--              <img-->
+              <!--                data-not-lazy-->
+              <!--                class="headerMobileIcon"-->
+              <!--                width="100px"-->
+              <!--                height="60px"-->
+              <!--                src="../assets/images/PoshtebamPlusLogo.png"-->
+              <!--              />-->
             </a>
           </div>
           <font-awesome-icon @click="want_to_search = !want_to_search" icon="search" color="#999"/>
           <div class="p-3" @click="$emit('sidenavToggle')">
-<!--            <PrivacyIcon style="width: 25px; height: 25px;"/>-->
-            <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-7 tw-w-7" fill="none" viewBox="0 0 24 24" stroke="#999" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <!--            <PrivacyIcon style="width: 25px; height: 25px;"/>-->
+            <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-7 tw-w-7" fill="none" viewBox="0 0 24 24" stroke="#999"
+                 stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
 
             <!--            <font-awesome-icon-->
-<!--              icon="sliders-h"-->
-<!--              size="lg"-->
-<!--              color="#999"-->
-<!--            ></font-awesome-icon>-->
+            <!--              icon="sliders-h"-->
+            <!--              size="lg"-->
+            <!--              color="#999"-->
+            <!--            ></font-awesome-icon>-->
           </div>
         </div>
         <div v-else class="px-2">
@@ -1014,7 +1003,8 @@
             <span class="searchIconMobile position-absolute">
               <font-awesome-icon icon="search" color="#999"/>
             </span>
-              <input v-model="SearchUsers" value="" type="text" class="form-control search_style" placeholder="جست و جو دوستان" autocomplete="off">
+              <input v-model="SearchUsers" value="" type="text" class="form-control search_style"
+                     placeholder="جست و جو دوستان" autocomplete="off">
             </form>
             <button
               type="button"
@@ -1054,12 +1044,12 @@
                         item.name + " " + item.familyName
                       }}</small>
                   </div>
-<!--                  <div-->
-<!--                    v-if="item.userSetting !== undefined"-->
-<!--                    class="fs-6 fw-light text-muted"-->
-<!--                  >-->
-<!--                    {{ item.userSetting.bio }}-->
-<!--                  </div>-->
+                  <!--                  <div-->
+                  <!--                    v-if="item.userSetting !== undefined"-->
+                  <!--                    class="fs-6 fw-light text-muted"-->
+                  <!--                  >-->
+                  <!--                    {{ item.userSetting.bio }}-->
+                  <!--                  </div>-->
                 </div>
               </div>
             </div>
@@ -1067,11 +1057,13 @@
         </div>
       </div>
     </section>
-    <section  class="sticky_footer d-xl-none d-block w-100">
+    <section class="sticky_footer d-xl-none d-block w-100">
       <div class="headerStyleMobile py-2">
         <div class="headerIcon">
           <div class="d-flex flex-row justify-content-around align-items-center">
-            <div class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1" @click="goToMyPage">
+            <div
+              class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
+              @click="goToMyPage">
               <nuxt-link to="/social"
               >
                 <font-awesome-icon
@@ -1085,16 +1077,18 @@
               </nuxt-link
               >
             </div>
-<!--            <div class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">-->
-<!--              <nuxt-link to="/social/accountsetting/myposts"-->
-<!--              ><i-->
-<!--                class="far fa-plus-square"-->
-<!--                style="color: #999"-->
-<!--                v-tooltip.bottom-start="'افزودن پست'"-->
-<!--              ></i-->
-<!--              ></nuxt-link>-->
-<!--            </div>-->
-            <div class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1" ref="Chat">
+            <!--            <div class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">-->
+            <!--              <nuxt-link to="/social/accountsetting/myposts"-->
+            <!--              ><i-->
+            <!--                class="far fa-plus-square"-->
+            <!--                style="color: #999"-->
+            <!--                v-tooltip.bottom-start="'افزودن پست'"-->
+            <!--              ></i-->
+            <!--              ></nuxt-link>-->
+            <!--            </div>-->
+            <div
+              class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
+              ref="Chat">
               <nuxt-link to="/social/Chat"><i
                 class="far fa-comment"
                 style="color: #999"
@@ -1102,16 +1096,17 @@
               ></i
               ></nuxt-link>
             </div>
-<!--            <div class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">-->
-<!--              <nuxt-link to="/migration/alladvertise"-->
-<!--              ><i-->
-<!--                class="fas fa-ad"-->
-<!--                style="color: #999"-->
-<!--                v-tooltip.bottom-start="'آگهی ها'"-->
-<!--              ></i-->
-<!--              ></nuxt-link>-->
-<!--            </div>-->
-            <div class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
+            <!--            <div class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">-->
+            <!--              <nuxt-link to="/migration/alladvertise"-->
+            <!--              ><i-->
+            <!--                class="fas fa-ad"-->
+            <!--                style="color: #999"-->
+            <!--                v-tooltip.bottom-start="'آگهی ها'"-->
+            <!--              ></i-->
+            <!--              ></nuxt-link>-->
+            <!--            </div>-->
+            <div
+              class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
               <nuxt-link to="/social/accountsetting/tickets"
               ><i
                 class="fas fa-ticket-alt"
@@ -1120,14 +1115,16 @@
               ></i
               ></nuxt-link>
             </div>
-            <div class=" position-relative custom_header_size custom_header_icon rounded-circle d-flex justify-content-center align-items-center mx-1">
+            <div
+              class=" position-relative custom_header_size custom_header_icon rounded-circle d-flex justify-content-center align-items-center mx-1">
               <font-awesome-icon
                 v-tooltip.bottom-start="'اعلانات'"
                 icon="bell"
                 color="#999999"
                 @click="notificationList"
               ></font-awesome-icon>
-              <span v-if="Notifications" class="headerNumberNotification position-absolute d-flex justify-content-center align-items-center rounded-circle"
+              <span v-if="Notifications"
+                    class="headerNumberNotification position-absolute d-flex justify-content-center align-items-center rounded-circle"
               ><strong>{{ Notifications.length }}</strong></span
               >
               <div
@@ -1168,15 +1165,17 @@
                 </div>
               </div>
             </div>
-            <div class="position-relative custom_header_size custom_header_icon rounded-circle d-flex justify-content-center align-items-center mx-1">
+            <div
+              class="position-relative custom_header_size custom_header_icon rounded-circle d-flex justify-content-center align-items-center mx-1">
               <font-awesome-icon
                 icon="comment-alt"
                 color="#999999"
                 @click="messageList"
               ></font-awesome-icon>
-              <span class="headerNumberNotification position-absolute rounded-circle d-flex justify-content-center align-items-center">
+              <span
+                class="headerNumberNotification position-absolute rounded-circle d-flex justify-content-center align-items-center">
                   <strong>
-                    {{ChatNotifs.length }}
+                    {{ ChatNotifs.length }}
                   </strong>
                 </span>
               <div
@@ -1214,14 +1213,14 @@
             <div class="position-relative custom_header_size">
               <img
                 v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
-                class="img-fluid headerPicture"
+                class="img-fluid headerPicture tw-object-cover"
                 :src="`https://banooclubapi.simagar.com/media/gallery/profile/${$auth.user.baseData.selfie}`"
                 alt=""
                 @click="profileHeader"
               />
               <img
                 v-else
-                class="img-fluid headerPicture"
+                class="img-fluid headerPicture  tw-object-cover"
                 :src="userDefault"
                 @click="profileHeader"
                 alt=""
@@ -1304,9 +1303,17 @@
                           alt=""
                         />
                         <!--                        <i class="fas fa-user"></i>-->
-                        <div v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName " class="d-flex flex-column align-items-end px-2">
-                          <div v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName " class="profile_pic">{{$auth.user.baseData.name + ' ' + $auth.user.baseData.familyName}}</div>
-                          <div v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName " class="d-flex profile_username text-primary tw-cursor-pointer" @click="goToUserProfile($auth.user.baseData)">
+                        <div
+                          v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
+                          class="d-flex flex-column align-items-end px-2">
+                          <div
+                            v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
+                            class="profile_pic">{{ $auth.user.baseData.name + ' ' + $auth.user.baseData.familyName }}
+                          </div>
+                          <div
+                            v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
+                            class="d-flex profile_username text-primary tw-cursor-pointer"
+                            @click="goToUserProfile($auth.user.baseData)">
                             {{ $auth.user.baseData.userName }}
                             @
                           </div>
@@ -1340,7 +1347,7 @@
                           style="font-size: 14px;font-weight: 500;"
                         >
                           موجودی:
-                          {{Intl.NumberFormat('fa-IR').format(100000)}}
+                          {{ Intl.NumberFormat('fa-IR').format(100000) }}
                           تومان
                         </div>
                         <button @click="openChargeWalletSideNav" class="btn AddReplyBtn text-white">
@@ -1360,7 +1367,8 @@
                         <!--                          />-->
                       </div>
                       <div class="userStatusColor text-dark px-2" style="font-size: 14px;font-weight: 500;">
-                        خروج</div>
+                        خروج
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1494,7 +1502,8 @@ export default {
     SettingIcon,
     PlusIcon,
     AdsIcon,
-    FriendsIcon, BedIcon, PictureIcon, MenuIcon, AllUsersIcon, TicketIcon, MessageIcon, HomeIcon, SearchIcon,OrderIcon},
+    FriendsIcon, BedIcon, PictureIcon, MenuIcon, AllUsersIcon, TicketIcon, MessageIcon, HomeIcon, SearchIcon, OrderIcon
+  },
   head() {
     return {
       bodyAttrs: {
@@ -1505,10 +1514,10 @@ export default {
 
   data() {
     return {
-      displayChargeSideNav:false,
-      want_to_search:false,
+      displayChargeSideNav: false,
+      want_to_search: false,
       on_search_click: false,
-      decrease_width_button:false,
+      decrease_width_button: false,
       showLanguageList: false,
       showMessageList: false,
       showSearch: false,
@@ -1538,7 +1547,7 @@ export default {
       ChatNotifs: [],
     };
   },
-  emits:['toggle_width'],
+  emits: ['toggle_width'],
   // props: ["closeHeader", "fullName", "isChatLayout"],
   props: {
     closeHeader: {
@@ -1552,7 +1561,7 @@ export default {
       required: false,
       default: false,
     },
-    decrease_width:{
+    decrease_width: {
       type: Boolean,
       required: true,
       default: false,
@@ -1611,134 +1620,134 @@ export default {
       };
 
       const data = this.$store.state.loggedInfo;
-      if(data){
+      if (data) {
 
-      if (data && data.type && data.type === 3 && data.lawyerCertificateStatus === 4) {
-        tmpnotif.title = "اطلاعات حقوقی";
-        tmpnotif.body =
-          "حساب کاربری شما غیر فعال است. لطفا پروانه کسب خود را آپلود نمایید";
-        tmpnotif.link = true;
-        const clone = {...tmpnotif};
-        tmpNotifs.push(clone);
-        tmpnotif.title = "";
-        tmpnotif.body = "";
-        tmpnotif.link = false;
-      }
-      if (data?.type === 3 && data?.lawyerCertificateStatus === 3) {
-        tmpnotif.title = "اطلاعات حقوقی";
-        tmpnotif.body =
-          "پروانه کسب شما توسط ادمین تایید نشد! لطفا مجددا آن را آپلود نمایید";
-        tmpnotif.link = true;
-        const clone = {...tmpnotif};
-        tmpNotifs.push(clone);
-        tmpnotif.title = "";
-        tmpnotif.body = "";
-        tmpnotif.link = false;
-      }
-      if (data?.type === 3 && data?.lawyerCertificateStatus === 2) {
-        tmpnotif.title = "اطلاعات حقوقی";
-        tmpnotif.body =
-          "شما پروانه کسب خود را آپلود کرده اید. لطفا تا زمان تایید ادمین منتظر بمانید";
-        tmpnotif.link = false;
-        const clone = {...tmpnotif};
-        tmpNotifs.push(clone);
-        tmpnotif.title = "";
-        tmpnotif.body = "";
-        tmpnotif.link = false;
-      }
-      if (
-        data.type === 3 &&
-        data.lawyerCertificateStatus === 1 &&
-        data.newspaperStatus === 1
-      ) {
-        tmpnotif.title = "اطلاعات حقوقی";
-        tmpnotif.body =
-          "تبریک! حساب کاربری شما فعال است. از بانوکلاب لذت ببرید";
-        tmpnotif.link = false;
-        const clone = {...tmpnotif};
-        tmpNotifs.push(clone);
-        tmpnotif.title = "";
-        tmpnotif.body = "";
-        tmpnotif.link = false;
-      }
-      if (data.type === 3 && data.newspaperStatus === 4) {
-        tmpnotif.title = "اطلاعات حقوقی";
-        tmpnotif.body =
-          "حساب کاربری شما غیر فعال است. لطفا روزنامه رسمی خود را آپلود کنید";
-        tmpnotif.link = true;
-        const clone = {...tmpnotif};
-        tmpNotifs.push(clone);
-        tmpnotif.title = "";
-        tmpnotif.body = "";
-        tmpnotif.link = false;
-      }
-      if (data.type === 3 && data.newspaperStatus === 3) {
-        tmpnotif.title = "اطلاعات حقوقی";
-        tmpnotif.body =
-          "روزنامه رسمی شما توسط ادمین تایید نشد! لطفا مجددا آن را آپلود نمایید";
-        tmpnotif.link = true;
-        const clone = {...tmpnotif};
-        tmpNotifs.push(clone);
-        tmpnotif.title = "";
-        tmpnotif.body = "";
-        tmpnotif.link = false;
-      }
-      if (data.type === 3 && data.newspaperStatus === 2) {
-        tmpnotif.title = "اطلاعات حقوقی";
-        tmpnotif.body =
-          "شما روزنامه رسمی خود را آپلود کرده اید. لطفا تا زمان تایید توسط ادمین منتظر بمانید";
-        tmpnotif.link = false;
-        const clone = {...tmpnotif};
-        tmpNotifs.push(clone);
-        tmpnotif.title = "";
-        tmpnotif.body = "";
-        tmpnotif.link = false;
-      }
-      if (data.type === 4 && data.videoIdentityStatus === 1) {
-        tmpnotif.title = "احراز هویت";
-        tmpnotif.body =
-          "حساب کاربری شما غیر فعال است. لطفا ویدیو احراز هویت خود را آپلود نمایید";
-        tmpnotif.link = true;
-        const clone = {...tmpnotif};
-        tmpNotifs.push(clone);
-        tmpnotif.title = "";
-        tmpnotif.body = "";
-        tmpnotif.link = false;
-      }
-      if (data.type === 4 && data.videoIdentityStatus === 2) {
-        tmpnotif.title = "احراز هویت";
-        tmpnotif.body =
-          "شما ویدیو احراز هویت خود را آپلود کرده اید. لطفا تا زمان تایید توسط ادمین منتظر بمانید";
-        tmpnotif.link = true;
-        const clone = {...tmpnotif};
-        tmpNotifs.push(clone);
-        tmpnotif.title = "";
-        tmpnotif.body = "";
-        tmpnotif.link = false;
-      }
-      if (data.type === 4 && data.videoIdentityStatus === 3) {
-        tmpnotif.title = "احراز هویت";
-        tmpnotif.body =
-          "تبریک ! حساب کاربری شما فعال است. از بانوکلاب لذت ببرید";
-        tmpnotif.link = true;
-        const clone = {...tmpnotif};
-        tmpNotifs.push(clone);
-        tmpnotif.title = "";
-        tmpnotif.body = "";
-        tmpnotif.link = false;
-      }
-      if (data.type === 4 && data.videoIdentityStatus === 4) {
-        tmpnotif.title = "احراز هویت";
-        tmpnotif.body =
-          "ویدیو احراز هویت شما توسط ادمین تایید نشد! لطفا مجددا آن را آپلود نمایید";
-        tmpnotif.link = true;
-        const clone = {...tmpnotif};
-        tmpNotifs.push(clone);
-        tmpnotif.title = "";
-        tmpnotif.body = "";
-        tmpnotif.link = false;
-      }
-      return tmpNotifs;
+        if (data && data.type && data.type === 3 && data.lawyerCertificateStatus === 4) {
+          tmpnotif.title = "اطلاعات حقوقی";
+          tmpnotif.body =
+            "حساب کاربری شما غیر فعال است. لطفا پروانه کسب خود را آپلود نمایید";
+          tmpnotif.link = true;
+          const clone = {...tmpnotif};
+          tmpNotifs.push(clone);
+          tmpnotif.title = "";
+          tmpnotif.body = "";
+          tmpnotif.link = false;
+        }
+        if (data?.type === 3 && data?.lawyerCertificateStatus === 3) {
+          tmpnotif.title = "اطلاعات حقوقی";
+          tmpnotif.body =
+            "پروانه کسب شما توسط ادمین تایید نشد! لطفا مجددا آن را آپلود نمایید";
+          tmpnotif.link = true;
+          const clone = {...tmpnotif};
+          tmpNotifs.push(clone);
+          tmpnotif.title = "";
+          tmpnotif.body = "";
+          tmpnotif.link = false;
+        }
+        if (data?.type === 3 && data?.lawyerCertificateStatus === 2) {
+          tmpnotif.title = "اطلاعات حقوقی";
+          tmpnotif.body =
+            "شما پروانه کسب خود را آپلود کرده اید. لطفا تا زمان تایید ادمین منتظر بمانید";
+          tmpnotif.link = false;
+          const clone = {...tmpnotif};
+          tmpNotifs.push(clone);
+          tmpnotif.title = "";
+          tmpnotif.body = "";
+          tmpnotif.link = false;
+        }
+        if (
+          data.type === 3 &&
+          data.lawyerCertificateStatus === 1 &&
+          data.newspaperStatus === 1
+        ) {
+          tmpnotif.title = "اطلاعات حقوقی";
+          tmpnotif.body =
+            "تبریک! حساب کاربری شما فعال است. از بانوکلاب لذت ببرید";
+          tmpnotif.link = false;
+          const clone = {...tmpnotif};
+          tmpNotifs.push(clone);
+          tmpnotif.title = "";
+          tmpnotif.body = "";
+          tmpnotif.link = false;
+        }
+        if (data.type === 3 && data.newspaperStatus === 4) {
+          tmpnotif.title = "اطلاعات حقوقی";
+          tmpnotif.body =
+            "حساب کاربری شما غیر فعال است. لطفا روزنامه رسمی خود را آپلود کنید";
+          tmpnotif.link = true;
+          const clone = {...tmpnotif};
+          tmpNotifs.push(clone);
+          tmpnotif.title = "";
+          tmpnotif.body = "";
+          tmpnotif.link = false;
+        }
+        if (data.type === 3 && data.newspaperStatus === 3) {
+          tmpnotif.title = "اطلاعات حقوقی";
+          tmpnotif.body =
+            "روزنامه رسمی شما توسط ادمین تایید نشد! لطفا مجددا آن را آپلود نمایید";
+          tmpnotif.link = true;
+          const clone = {...tmpnotif};
+          tmpNotifs.push(clone);
+          tmpnotif.title = "";
+          tmpnotif.body = "";
+          tmpnotif.link = false;
+        }
+        if (data.type === 3 && data.newspaperStatus === 2) {
+          tmpnotif.title = "اطلاعات حقوقی";
+          tmpnotif.body =
+            "شما روزنامه رسمی خود را آپلود کرده اید. لطفا تا زمان تایید توسط ادمین منتظر بمانید";
+          tmpnotif.link = false;
+          const clone = {...tmpnotif};
+          tmpNotifs.push(clone);
+          tmpnotif.title = "";
+          tmpnotif.body = "";
+          tmpnotif.link = false;
+        }
+        if (data.type === 4 && data.videoIdentityStatus === 1) {
+          tmpnotif.title = "احراز هویت";
+          tmpnotif.body =
+            "حساب کاربری شما غیر فعال است. لطفا ویدیو احراز هویت خود را آپلود نمایید";
+          tmpnotif.link = true;
+          const clone = {...tmpnotif};
+          tmpNotifs.push(clone);
+          tmpnotif.title = "";
+          tmpnotif.body = "";
+          tmpnotif.link = false;
+        }
+        if (data.type === 4 && data.videoIdentityStatus === 2) {
+          tmpnotif.title = "احراز هویت";
+          tmpnotif.body =
+            "شما ویدیو احراز هویت خود را آپلود کرده اید. لطفا تا زمان تایید توسط ادمین منتظر بمانید";
+          tmpnotif.link = true;
+          const clone = {...tmpnotif};
+          tmpNotifs.push(clone);
+          tmpnotif.title = "";
+          tmpnotif.body = "";
+          tmpnotif.link = false;
+        }
+        if (data.type === 4 && data.videoIdentityStatus === 3) {
+          tmpnotif.title = "احراز هویت";
+          tmpnotif.body =
+            "تبریک ! حساب کاربری شما فعال است. از بانوکلاب لذت ببرید";
+          tmpnotif.link = true;
+          const clone = {...tmpnotif};
+          tmpNotifs.push(clone);
+          tmpnotif.title = "";
+          tmpnotif.body = "";
+          tmpnotif.link = false;
+        }
+        if (data.type === 4 && data.videoIdentityStatus === 4) {
+          tmpnotif.title = "احراز هویت";
+          tmpnotif.body =
+            "ویدیو احراز هویت شما توسط ادمین تایید نشد! لطفا مجددا آن را آپلود نمایید";
+          tmpnotif.link = true;
+          const clone = {...tmpnotif};
+          tmpNotifs.push(clone);
+          tmpnotif.title = "";
+          tmpnotif.body = "";
+          tmpnotif.link = false;
+        }
+        return tmpNotifs;
       }
 
     },
@@ -1768,10 +1777,9 @@ export default {
       return this.$store.state.HeaderData;
     },
     loggedInfoData() {
-      if(this.$store.state.loggedInfo){
+      if (this.$store.state.loggedInfo) {
         return this.$store.state.loggedInfo;
-      }
-      else {
+      } else {
         return this.$store.state.HeaderData
       }
     },
@@ -1809,24 +1817,24 @@ export default {
     // },
   },
   methods: {
-    openChargeWalletSideNav(){
+    openChargeWalletSideNav() {
       this.displayChargeSideNav = true
       this.showProfileHeader = false
     },
-    decreaseWidthButton(){
-      this.decrease_width_button = ! this.decrease_width_button
-      this.decrease_width = ! this.decrease_width
+    decreaseWidthButton() {
+      this.decrease_width_button = !this.decrease_width_button
+      this.decrease_width = !this.decrease_width
       this.$root.$emit("change-cols")
       this.$emit("toggle_width")
     },
-    MouseOverRightMenu(){
-      if(this.decrease_width_button){
-        this.decrease_width = ! this.decrease_width
+    MouseOverRightMenu() {
+      if (this.decrease_width_button) {
+        this.decrease_width = !this.decrease_width
       }
     },
-    MouseLeaveRightMenu(){
-      if(this.decrease_width_button){
-        this.decrease_width = ! this.decrease_width
+    MouseLeaveRightMenu() {
+      if (this.decrease_width_button) {
+        this.decrease_width = !this.decrease_width
       }
     },
     toggleSearchDropDown() {
@@ -1844,7 +1852,7 @@ export default {
     updateScroll() {
       this.ScrollPosition = window.scrollY;
     },
-   async goToUserProfile(user){
+    async goToUserProfile(user) {
       try {
         // const res = await this.$repositories.GetUserByUserName.GetUserByUserName({
         //   userName:user.userName
@@ -1854,7 +1862,7 @@ export default {
           path: `/user/${user.userName}/posts`
         });
         this.SearchUsers = "";
-      }catch (e){
+      } catch (e) {
         console.log(e)
       }
     },
@@ -1924,6 +1932,7 @@ export default {
     },
 
     CloseProfileHeader() {
+
       this.showProfileHeader = false;
     },
     LanguageList() {
@@ -2144,12 +2153,13 @@ export default {
 
 <style scoped>
 @media screen and (max-width: 425px) {
-  .right_menu_mobile{
+  .right_menu_mobile {
     width: 75% !important;
 
   }
 }
-.styleCursor:hover{
+
+.styleCursor:hover {
   cursor: pointer;
   background: #f0f2f5;
   border-radius: 10px;
@@ -2157,6 +2167,7 @@ export default {
   padding-bottom: 10px;
 
 }
+
 @media screen and (max-width: 1024px) {
   .showProfileHeader {
     top: -158px !important;
@@ -2164,25 +2175,29 @@ export default {
   }
 }
 
-.profile_username{
+.profile_username {
   font-size: 12.5px;
   font-weight: normal;
   color: black;
 }
-.profile_pic{
+
+.profile_pic {
   line-height: 20px;
   font-weight: 600;
   color: #333;
   font-size: 16px;
 }
-.svg_icons_size{
+
+.svg_icons_size {
   width: 24px !important;
   height: 24px !important;
 }
-.decrease_width{
+
+.decrease_width {
   width: 90px !important;
 }
-.search_style{
+
+.search_style {
   height: 44px;
   color: #393939;
   padding: 0 30px 0 40px;
@@ -2193,26 +2208,31 @@ export default {
   /*min-width: 550px;*/
   font-size: 15px;
 }
-.sticky_header{
+
+.sticky_header {
   z-index: 2;
   position: sticky;
-  top:0
+  top: 0
 
 }
-.sticky_footer{
+
+.sticky_footer {
   z-index: 2;
   position: fixed;
-  bottom:0
+  bottom: 0
 
 }
-.header_font_sidebar_size{
+
+.header_font_sidebar_size {
   font-size: 16px;
   font-weight: 600;
 }
-.font_sidebar_size{
+
+.font_sidebar_size {
   font-size: 14px;
   font-weight: 600;
 }
+
 .header_search input {
   height: 44px;
   color: #393939;
@@ -2224,8 +2244,9 @@ export default {
   min-width: 500px !important;
   font-size: 15px;
 }
+
 @media screen and (min-width: 1441px) {
-  .header_search input{
+  .header_search input {
     min-width: 550px !important;
 
   }
@@ -2670,6 +2691,7 @@ export default {
   background: #f1f1f1;
   border-radius: 8px !important;
 }
+
 .userStatus:hover .padding_on_hover {
   padding: 8px !important;
 }
@@ -2682,14 +2704,16 @@ export default {
   color: #595459;
   margin-right: 8px;
 }
-.defaultUserStatus:hover{
+
+.defaultUserStatus:hover {
   cursor: default !important;
 }
+
 .showProfileHeader {
   top: 40px;
   left: -10px;
   background: white;
-  border-radius:8px;
+  border-radius: 8px;
   width: 270px;
   line-height: initial;
   border: 1px solid #e1e8ed;

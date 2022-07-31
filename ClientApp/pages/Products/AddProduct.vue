@@ -42,16 +42,7 @@
         </div>
         <div class="col-12 py-3" style="padding-left: 0">
           <div class="labelText">موقعیت روی نقشه</div>
-          <div class="my-3" id="map-wrap" style="height: 50vh">
-            <client-only>
-              <l-map :zoom="17" :center="center" @click="addMarker">
-                <l-tile-layer
-                  url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-                ></l-tile-layer>
-                <l-marker :lat-lng="latlng"></l-marker>
-              </l-map>
-            </client-only>
-          </div>
+          <SetLocation @getGeoLocation="SetGeoLocation()"></SetLocation>
         </div>
         <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
           <label>ظرفیت</label>
@@ -243,10 +234,11 @@
 <script>
 import UploadFileIcon from "../../components/Icons/UploadFileIcon";
 import PlusIcon from "../../components/Icons/PlusIcon";
+import SetLocation from "../../components/SetLocation";
 
 export default {
   name: "AddProduct",
-  components: {PlusIcon, UploadFileIcon},
+  components: {PlusIcon, UploadFileIcon,SetLocation},
   layout: "PoshtebamPlusLayout",
   fetchOnServer: false,
   head() {
@@ -289,8 +281,6 @@ export default {
       BaseVideos: [],
       categories: [],
       expiration_date: "",
-      center: [35.757539, 51.409968],
-      latlng: [35, 51],
       photos: [],
       Videos: [],
       property_count: [],
@@ -298,10 +288,16 @@ export default {
       tag: '',
       render_tags: null,
       properties: null,
-      totalPrice: 0
+      totalPrice: 0,
+      latitude : 0,
+      longitude :0
     };
   },
   methods: {
+    SetGeoLocation(lat,lang){
+   this.latitude = lat
+      this.longitude = lang
+    },
     removeTag(index) {
       this.tags.splice(index, 1)
     },
@@ -483,8 +479,8 @@ export default {
               seoTitle: '',
               seoDescription: '',
               address: this.service_address,
-              latitude: this.latlng.lat,
-              longitude: this.latlng.lng,
+              latitude: this.latitude,
+              longitude: this.longitude,
               webAddress: this.web_address,
               phoneNumber1: this.phone_number1,
               phoneNumber2: this.phone_number2,

@@ -1,5 +1,26 @@
 <template>
   <div>
+    <div class="modal fade" id="MediaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div v-if="SelectedMedia!==null" class="modal-body">
+            <img v-if="SelectedMedia.priority == 1 || SelectedMedia.priority == 2" class="tw-w-full tw-h-full" :src="`https://banooclubapi.simagar.com/media/gallery/galleryimages/${SelectedMedia.base64}`" alt="Product Image"
+                 style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
+            <video
+              v-else-if="SelectedMedia.priority == 3"
+              class="w-100 tw-h-full"
+              controls
+              :src="`https://banooclubapi.simagar.com/media/gallery/galleryvideos/${SelectedMedia.base64}`"
+            ></video>
+          </div>
+
+        </div>
+      </div>
+    </div>
     <div
       class="offcanvas offcanvas-start sidebar-bg"
       tabindex="-1"
@@ -69,23 +90,25 @@
         >
           <div class="position-relative">
 <!--            <a href="#offcanvasExampleeee" data-bs-toggle="offcanvas">-->
-              <img
-                v-if="item.priority === 2"
-                :src="`https://banooclubapi.simagar.com/media/gallery/galleryimages/${item.base64}`"
-                style="object-fit: cover;object-position: center; width: 300px;height: 250px"
-                class="rounded"
-                alt=""
-              />
-            <video
-              v-else-if="item.priority === 3"
-              class="rounded w-100"
-              style="object-fit: cover;object-position: center;height: 250px"
-              controls
-              :src="`https://banooclubapi.simagar.com/media/gallery/galleryvideos/${item.base64}`"
-            ></video>
-              <span class="position-absolute deleteIcon m-3" style="top: 0" @click.stop="renderConfirmationModal(item.base64)">
+            <button  v-if="item.priority === 1 || item.priority === 2" class="btn tw-w-full tw-h-full ShowMediaModal"  data-bs-toggle="modal" data-bs-target="#MediaModal"  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
+              <span class="position-absolute tw-left-1 deleteIcon m-3" style="top: 0" @click.stop="renderConfirmationModal(item.base64)">
                 <font-awesome-icon icon="trash" color="#ff4d4d" size="lg"/>
               </span>
+
+              <img  @click="SetSelectedMedia(item)" class="tw-w-full tw-h-full" :src="`https://banooclubapi.simagar.com/media/gallery/galleryimages/${item.base64}`"  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
+            </button>
+            <button  v-else-if="item.priority === 3" class="btn ShowMediaModal w-100 tw-h-full" data-bg-toggle="modal" @click="SetSelectedMedia(item)" data-bs-target="#MediaModal">
+
+                <span class="position-absolute tw-left-1 deleteIcon m-3" style="top: 0" @click.stop="renderConfirmationModal(item.base64)">
+                <font-awesome-icon icon="trash" color="#ff4d4d" size="lg"/>
+              </span>
+              <video
+                class="w-100 tw-h-full"
+                controls
+                :src="`https://banooclubapi.simagar.com/media/gallery/galleryvideos/${item.base64}`"
+              ></video>
+            </button>
+
 <!--            </a>-->
           </div>
         </div>
@@ -134,6 +157,7 @@ export default {
       images: [],
       imgId: 0,
       MyPhotos: [],
+      SelectedMedia:null,
       swiperOptionTop: {
         loop: false,
         loopedSlides: 5,
@@ -154,6 +178,9 @@ export default {
     this.MyPhotos = response.data;
   },
   methods: {
+    SetSelectedMedia(slide){
+      this.SelectedMedia = slide
+    },
     async confirmDeletingPhoto() {
       try {
         this.$nuxt.$loading.start();

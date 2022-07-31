@@ -1,12 +1,12 @@
 <template>
-  <div class="row py-3">
+  <div class="row px-2 py-3">
     <input
       class="searchFriend"
       type="text"
       placeholder="جست‌وجو خدمت"
       v-model="searchKey"
     />
-    <div class="row">
+    <div class="row mx-auto">
       <div class="col-md-4 col-lg-3" v-for="(service,idx) in my_services" :key="idx">
         <ProductItem @updateServiceDetails="updateServiceDetails" class="my-3" :service_details="service" :show_buttons="true"/>
       </div>

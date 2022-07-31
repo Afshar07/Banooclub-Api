@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer">
+  <div class="container mcontainer ">
     <!-- Modal -->
     <div class="modal fade" id="AddBlogComment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -22,7 +22,7 @@
     </div>
     <div class="row">
 
-      <div class="col-lg-8 tw-flex-shirink-0">
+      <div class="col-lg-8 tw-flex-shirink-0 tw-shadow">
         <div class="tab-content" id="pills-tabContent" v-if="!$fetchState.pending">
           <div class="tab-pane fade show active" id="forum-active-content" role="tabpanel"
                aria-labelledby="forum-active-tab">
@@ -68,7 +68,7 @@
                   </div>
                 </div>
               </div>
-              <div class=" bg-white rounded tw-p-4  tw-w-96 tw-bg-base-100 " style="margin-top: 2rem!important;">
+              <div class=" bg-white rounded tw-p-4 tw-border-t-2  tw-w-96 tw-bg-base-100 " style="margin-top: 2rem!important;">
                 <strong>مقالات مرتبط</strong>
                 <div class="tw-grid tw-grid-cols-3  my-3">
                   <div v-for="(item,idx) in AllBlogs" :key="idx"

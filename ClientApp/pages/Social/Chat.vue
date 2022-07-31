@@ -3,13 +3,17 @@
     <div v-if="!ChatSelected" class="col-md-5 lg:tw-border-l tw-shadow" style="height: 800px;overflow-y: scroll">
       <div class="row">
         <div class="col-md-12">
-          <h1 class="h3">مکالمات من </h1>
+          <h1 class="h3 mt-3">مکالمات من </h1>
         </div>
         <div class="col-md-12 border-bottom pb-2 my-2">
           <input type="search" v-model="Search" class="form-control" placeholder="جستجو">
         </div>
-        <div v-for="(item,idx) in FilteredChats" :key="idx"  @click="SetActiveUser(item)" :class="GetActiveChatClass(item)" class="col-md-12 profile_item">
+
+        <div v-if="FilteredChats.length>0" v-for="(item,idx) in FilteredChats" :key="idx"  @click="SetActiveUser(item)" :class="GetActiveChatClass(item)" class="col-md-12 profile_item">
           <ProfileItem    :UserData="item"/>
+        </div>
+        <div v-if="FilteredChats.length===0" class="col-md-12 d-flex align-items-center justify-content-center mt-2">
+          <small class="text-warning">مکالمه ای با این مشخصات یافت نشد</small>
         </div>
       </div>
     </div>

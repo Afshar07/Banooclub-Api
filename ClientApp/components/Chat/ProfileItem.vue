@@ -6,7 +6,7 @@
     <div class="d-flex justify-content-between w-100 px-3">
       <div class="d-flex flex-column">
         <div style="color: #333;font-size: 15px;font-weight: 600;" >{{ UserData.userName }}</div>
-        <div style="color: #888;font-size: 14px;" clas="=ShortTitle">{{ UserData.subject }}</div>
+        <div style="color: #888;font-size: 14px;" class="=ShortDescriptionIndex">{{ UserData.subject }}</div>
       </div>
       <div class="d-flex flex-column justify-content-center align-items-center">
         <div v-if="UserData.unReadCount!==0" class="d-flex align-items-center justify-content-center  rounded-circle tw-bg-blue-600" style="width: 20px;height: 20px">

@@ -215,12 +215,7 @@
               <div class="labelText">موقعیت روی نقشه</div>
               <div class="my-3" id="map-wrap" style="height: 50vh">
                 <client-only>
-                  <l-map :zoom="17" :center="center" @click="addMarker">
-                    <l-tile-layer
-                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    ></l-tile-layer>
-                    <l-marker :lat-lng="latlng"></l-marker>
-                  </l-map>
+               <SetLocation @getGeoLocation="SetLocation"></SetLocation>
                 </client-only>
               </div>
             </div>
@@ -287,9 +282,8 @@ export default {
       subUrl: [],
       price: 0,
       phone: null,
-
-      center: [35.757539, 51.409968],
-      latlng: [35, 51],
+      latitude:0,
+      longitude:0,
       mainImage: "",
       subImage: "",
       photos: [],
@@ -304,6 +298,10 @@ export default {
     };
   },
   methods: {
+    SetLocation(lat,lang){
+this.latitude = lat
+      this.longitude = lang
+    },
 
       async GetCity(){
         this.$nextTick(()=>{
@@ -328,9 +326,7 @@ export default {
       },
 
 
-    addMarker(event) {
-      this.latlng = event.latlng;
-    },
+
     callInputMethodMainImage() {
       document.querySelector(".MainImage").click();
     },
@@ -381,7 +377,7 @@ export default {
         this.$toast.error("لطفا قیمت را مشخص کنید");
       } else if (this.photos === null) {
         this.$toast.error("لطفا تصاویر را بارگذاری کنید");
-      }  else if (!this.latlng.lat) {
+      }  else if (this.latitude === 0) {
         this.$toast.error("لطفا موقعیت مکانی آگهی را مشخص کنید");
       } else {
         this.$nuxt.$loading.start();
@@ -399,8 +395,8 @@ export default {
             stateId: this.SelectedStateId,
             userId: this.$auth.user.userInfo.userId,
             description: this.description,
-            latitude: this.latlng.lat,
-            longitude: this.latlng.lng,
+            latitude: this.latitude,
+            longitude: this.longitude,
             photos: this.photos,
           });
           this.$nuxt.$loading.finish();

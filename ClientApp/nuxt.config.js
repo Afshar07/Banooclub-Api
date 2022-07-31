@@ -62,6 +62,7 @@ module.exports = {
     {src: "~/plugins/nuxt-swiper-plugin.js", mode: "client"},
     {src: "~/plugins/datePicker", mode: "client", ssr: false},
     {src: "~/plugins/v-select", mode: "client"},
+    {src: "~/plugins/leaflet", mode: "client"},
     {src: "~plugins/vue-awesome-counter", ssr: false,mode:'client'},
     {src: "~/plugins/vuex-persist", ssr: false},
     {src: "~/plugins/chart.js", mode: "client"},
@@ -120,7 +121,7 @@ module.exports = {
     ],
     "@nuxtjs/axios",
     "@nuxtjs/toast",
-    "nuxt-leaflet",
+
   ],
   'nuxt-compress': {
     gzip: {

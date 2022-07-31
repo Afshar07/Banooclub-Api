@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-6 pt-3">
           <label>نام انجمن *</label>
-          <input v-model="forum_title" type="text" class="with-border" placeholder="نام انجمن"
+          <input v-model="forum_title" type="text" class="with-border " style="height: 30px!important;" placeholder="نام انجمن"
                  :class="{BorderRed:forum_title==='',BorderGreen:forum_title!==''}">
         </div>
 
@@ -52,7 +52,7 @@
           ></textarea>
         </div>
 
-        <div class="col-12 pt-3">
+        <div class="col-12 d-flex align-items-center justify-content-center pt-3">
           <button type="button" class="button mt-auto" @click="createForum">
             ثبت
           </button>

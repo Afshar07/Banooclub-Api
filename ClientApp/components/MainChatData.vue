@@ -27,14 +27,15 @@
           </div>
           <div class="col-md-12 p-0 px-0 bg-white p-1  SendMessageContainer" >
             <div class="row">
-              <div class="col-1">
-                <button type="button" class="   tw-bg-[#0870a0] hover:tw-bg-blue-500 tw-transition   rounded p-1"  @click="sendMessage">
+              <div class="col-1 d-flex align-items-center">
+                <button type="button" class=" tw-z-20   tw-bg-[#0870a0] hover:tw-bg-blue-500 tw-transition   rounded p-1"  @click="sendMessage">
                   <span class="text-white">ارسال</span>
                 </button>
               </div>
               <div class="col-11">
-                <textarea v-model="MessageBody" class="form-control " placeholder="پیام خود را وارد کنید..." style="resize: none!important;" rows="1"  ></textarea>
+                <textarea v-model="MessageBody" class="form-control tw-z-10 " placeholder="پیام خود را وارد کنید..." style="resize: none!important;" rows="1"  ></textarea>
               </div>
+
             </div>
 
 

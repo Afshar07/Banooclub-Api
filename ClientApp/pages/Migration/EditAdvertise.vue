@@ -170,12 +170,7 @@
               <div class="labelText">موقعیت روی نقشه</div>
               <div class="my-3" id="map-wrap" style="height: 50vh">
                 <client-only>
-                  <l-map :zoom="17" :center="center" @click="addMarker">
-                    <l-tile-layer
-                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    ></l-tile-layer>
-                    <l-marker :lat-lng="latlng"></l-marker>
-                  </l-map>
+                  <SetLocation @getGeoLocation="SetLocation" :defaultMarkerGeoLoc="[AdDetail.latitude,AdDetail.longitude]"  :defaultGeoLoc="[AdDetail.latitude,AdDetail.longitude]"></SetLocation>
                 </client-only>
               </div>
             </div>
@@ -203,10 +198,12 @@
 </template>
 
 <script>
+
+import SetLocation from '../../components/SetLocation'
 export default {
   name: "CreateAdvertise",
   layout: "PoshtebamPlusLayout",
-
+components:{SetLocation},
   fetchOnServer() {
     return true;
   },
@@ -248,8 +245,6 @@ export default {
       subUrl: [],
       price: 0,
       phone: null,
-      center: [35.757539, 51.409968],
-      latlng: [35, 51],
       mainImage: "",
       subImage: "",
       photos: [],
@@ -279,6 +274,10 @@ export default {
     };
   },
   methods: {
+    SetLocation(lat,lang){
+        this.AdDetail.latitude = lat
+      this.AdDetail.longitude = lang
+    },
     DeleteImage(image,Idx){
 
       let tmpImage = {
@@ -310,9 +309,6 @@ export default {
         this.$nuxt.$loading.finish()
         this.$nuxt.loading = false;
       }
-    },
-    addMarker(event) {
-      this.latlng = event.latlng;
     },
     callInputMethodMainImage() {
       document.querySelector(".MainImage").click();

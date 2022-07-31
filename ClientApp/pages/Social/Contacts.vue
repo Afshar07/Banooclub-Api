@@ -1,5 +1,5 @@
 <template>
-  <div class="mcontainer px-3">
+  <div class="mcontainer tw-shadow px-3">
     <div class="row p-3 rounded-top">
       <div class="col-md-12">
         <input
@@ -12,11 +12,17 @@
     </div>
       <div class="row">
         <div class="col-md-12" style="height: 900px;overflow-y: scroll;" @scroll="handleScroll">
-          <div class="row">
-            <div class="col-12 col-md-6" v-for="(item,index) in AllUsers" :key="index">
+          <div v-if="AllUsers.length>0" class="row">
+            <div class="col-12 col-lg-6" v-for="(item,index) in AllUsers" :key="index">
               <UserItem class="my-2" :userDetails="item"/>
             </div>
             <Spinner style="text-align: center" v-if="AllUsers && AllUsers.length !== AllUsersCount"/>
+          </div>
+          <div v-else class="row">
+            <div class="col-12 d-flex align-items-center justify-content-center" >
+              <small class="text-warning">کاربری  با این مشخصات یافت نشد</small>
+            </div>
+
           </div>
         </div>
       </div>
@@ -78,23 +84,6 @@ export default {
       console.log(error);
     }
   },
-
-  // async fetch() {
-  //   const response =
-  //     await this.$repositories.getAllUsersForUser.getAllUsersForUser(
-  //       this.lastUserId,
-  //       this.searchKey
-  //     );
-  //   if (this.lastUserId !== 0) {
-  //     response.data.forEach((item) => {
-  //       this.AllUsers.push(item);
-  //     });
-  //   } else {
-  //     this.AllUsers = response.data;
-  //   }
-  //   console.log('this.AllUsers', this.AllUsers)
-  // },
-
   computed: {
     BaseUrl() {
       return process.env.pic;
@@ -102,31 +91,28 @@ export default {
   },
   watch: {
     searchKey(){
-        this.$fetch()
+        this.GetAllUsers()
     }
-
-    // searchKey: function (val, oldVal) {
-    //   if (!val || val == "") {
-    //     this.searchKey = null;
-    //   }
-    //   this.$nextTick(() => {
-    //     this.$nuxt.$loading.start();
-    //   });
-    //   this.$fetch();
-    //   this.$nextTick(() => {
-    //     this.$nuxt.$loading.finish();
-    //   });
-    // },
-    // Atbottom: function (val, oldVal) {
-    //   if (val) {
-    //     if (this.lastUserId != this.AllUsers[this.AllUsers.length - 1].UserId) {
-    //       this.lastUserId = this.AllUsers[this.AllUsers.length - 1].UserId;
-    //       this.$fetch();
-    //     }
-    //   }
-    // },
   },
   methods: {
+    async GetAllUsers(){
+      try {
+        const response = await this.$repositories.getAllUsersForUser.getAllUsersForUser(
+          {
+            userId:this.userId,
+            count:20,
+            search:this.searchKey
+          }
+        );
+        console.log('response',response)
+        this.AllUsers = response.data;
+        console.log('this.AllUsers',this.AllUsers)
+        this.AllUsersCount = this.AllUsers.length;
+      }catch (error) {
+        console.log(error);
+      }
+    },
+
     async getUsersForInfiniteScroll(id){
       try {
         const response = await this.$repositories.getAllUsersForUser.getAllUsersForUser(
@@ -152,27 +138,7 @@ export default {
         this.getUsersForInfiniteScroll(lastUserId.userId)
       }
 
-      // if (event.target.scrollHeight) {
-      //   console.log('event.target.scrollHeight',event.target.scrollHeight)
-      //   console.log(event.target.scrollTop)
-      //   //this is stupid but it works temprory
-      //   if (event.target.scrollTop === event.target.scrollHeight - 969) {
-      //
-      //   }
-      // }
     },
-
-    //
-    // handleScroll: function ({
-    //                           target: {scrollTop, clientHeight, scrollHeight},
-    //                         }) {
-    //   if (scrollTop + clientHeight >= scrollHeight) {
-    //     this.Atbottom = true;
-    //   } else {
-    //     this.Atbottom = false;
-    //   }
-    // },
-
     async ChangeRoute(item) {
       console.log(item);
       this.$store.commit("SetSearchedUserId", item.UserId);
@@ -193,6 +159,7 @@ export default {
           );
         if (response.data) {
           this.$toast.success("درخواست دوستی شما ارسال شد");
+          this.GetAllUsers();
         } else {
           this.$toast.error("عملیات قابل اجرا نیست");
         }

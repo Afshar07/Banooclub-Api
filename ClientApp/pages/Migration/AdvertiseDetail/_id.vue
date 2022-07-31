@@ -5,7 +5,7 @@
         <AdsDetail :AdsDetail="AdsDetail"/>
       </div>
 <!--      <div class=" col-lg-4">-->
-        <SideBar class="tw-mt-5"/>
+
 <!--      </div>-->
     </div>
   </div>
@@ -21,7 +21,6 @@ export default {
   name: "AdvertiseDetail",
   head() {
     return {
-
       title: 'جزئیات آگهی',
       meta: [
         {
@@ -35,12 +34,7 @@ export default {
   layout: "PoshtebamPlusLayout",
   components:{
     AdsDetail,
-
     BaseModal,
-  },
-
-  computed:{
-
   },
   data(){
     return{
