@@ -1,41 +1,7 @@
 <template>
   <div class="container mcontainer">
     <!-- Modal -->
-    <div
-      class="modal fade"
-      id="LadderModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">نردبان</h5>
-          </div>
-          <div class="modal-body">
-            <span>آیا از استفاده از نردبان مطمئن هستید؟</span>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-danger"
-              data-bs-dismiss="modal"
-            >
-              خیر
-            </button>
-            <button
-              type="button"
-              class="btn btn-success text-white"
-              data-bs-dismiss="modal"
-              @click="ApplyLadder"
-            >
-              بله
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+
     <div
       class="modal fade"
       id="DeleteModal"
@@ -180,7 +146,7 @@
                 <img
                   v-if="item.photos.length > 0"
                   :src="'https://banooclubapi.simagar.com/'+ item.photos[0].base64"
-                  class="img-fluid rounded image-custom-height"
+                  class="img-fluid rounded image-custom-height tw-object-contain"
                   alt=""
                 />
                 <p v-else class="small mt-2">این آگهی عکسی جهت نمایش ندارد</p>

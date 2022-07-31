@@ -39,15 +39,10 @@
       </div>
       <div class="col-12 py-3">
         <div class="labelText">موقعیت روی نقشه</div>
-        <div class="my-3" id="map-wrap" style="height: 50vh">
-          <client-only>
-            <l-map :zoom="17" :center="[serviceDetailProp.latitude,serviceDetailProp.longitude]" @click="addMarker">
-              <l-tile-layer
-                url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-              ></l-tile-layer>
-              <l-marker :lat-lng="[serviceDetailProp.latitude,serviceDetailProp.longitude]"></l-marker>
-            </l-map>
-          </client-only>
+        <div class="my-3" id="map-wrap" >
+
+           <SetLocation @getGeoLocation="SetLcoation"  :defaultMarkerGeoLoc="[serviceDetailProp.latitude,serviceDetailProp.longitude]"  :defaultGeoLoc="[serviceDetailProp.latitude,serviceDetailProp.longitude]"></SetLocation>
+
         </div>
       </div>
       <div class="col-md-6 col-12 pt-3">
@@ -258,10 +253,11 @@
 <script>
 import UploadFileIcon from "../../components/Icons/UploadFileIcon";
 import PlusIcon from "../../components/Icons/PlusIcon";
+import SetLocation from "../../components/SetLocation";
 
 export default {
   name: "EditProductTab",
-  components: {PlusIcon, UploadFileIcon},
+  components: {PlusIcon, UploadFileIcon,SetLocation},
   async fetch() {
     this.serviceDetailProp = JSON.parse(JSON.stringify(this.service_details))
     this.serviceDetailProp.medias=[]
@@ -305,6 +301,10 @@ export default {
     };
   },
   methods: {
+    SetLcoation(lat,lang){
+      this.serviceDetailProp.latitude = lat
+      this.serviceDetailProp.longitude = lang
+    },
     async createProperty(){
       if(this.property_name === ''){
         this.$toast.error("لطفا نام ویژگی را وارد کنید");

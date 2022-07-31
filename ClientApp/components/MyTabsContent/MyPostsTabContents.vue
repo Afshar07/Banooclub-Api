@@ -12,13 +12,13 @@
                        placeholder="افزودن پست ...">
                 <img
                   v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
-                  class="img-fluid headerPicture custom_header_size tw-w-10 tw-h-10 mx-2 tw-rounded-full"
+                  class="img-fluid headerPicture custom_header_size tw-w-10 tw-h-10 mx-2  tw-rounded-full tw-object-cover"
                   :src="`https://banooclubapi.simagar.com/media/gallery/profile/${$auth.user.baseData.selfie}`"
                   alt=""
                 />
                 <img
                   v-else
-                  class="img-fluid headerPicture custom_header_size tw-w-10 tw-h-10 mx-2 tw-rounded-full"
+                  class="img-fluid headerPicture custom_header_size tw-w-10 tw-h-10 mx-2 tw-rounded-full  tw-object-cover "
                   :src="userDefault"
                   alt=""
                 />

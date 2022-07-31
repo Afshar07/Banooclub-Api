@@ -45,16 +45,22 @@
           <div class="accordion-item">
             <h2 class="accordion-header" id="panelsStayOpen-headingOne">
               <button
-                class="accordion-button"
+                @click="ActiveAccordion=1"
+                class="accordion-button   d-flex align-items-center justify-content-between w-100"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#panelsStayOpen-collapseOne"
                 aria-expanded="true"
                 aria-controls="panelsStayOpen-collapseOne"
               >
-                ویژگی های خانه
+                <small>
+                  ویژگی های خانه
+                </small>
+<!--                <i class="fas fa-chevron-down text-white" :class="[{'textPrimary':ActiveAccordion=1}]"></i>-->
               </button>
+
             </h2>
+
             <div
               id="panelsStayOpen-collapseOne"
               class="accordion-collapse collapse show"
@@ -181,8 +187,8 @@
                     <div class=" col-12 my-2">
                       <div class="d-flex flex-column">
                         <div class="">
-                          <div class="d-flex flex-row align-items-center gap-3">
-                            <div class="labelText">نوع اتاق خواب</div>
+                          <div class="d-flex flex-row align-items-start gap-3">
+                            <div class="labelText ">نوع اتاق خواب</div>
                             <div class="me-auto align-items-center">
                               <div
                                 class="d-flex flex-row justify-content-between"
@@ -206,8 +212,8 @@
                           </div>
                         </div>
                         <div class="">
-                          <div class="d-flex flex-row gap-3">
-                            <div class="labelText">نوع سرویس بهداشتی</div>
+                          <div class="d-flex flex-row align-items-start gap-3">
+                            <div class="labelText ">نوع سرویس بهداشتی</div>
                             <div class="me-auto">
                               <div
                                 class="d-flex flex-row justify-content-between"
@@ -515,12 +521,7 @@
                   <div class="my-3">
                     <div id="map-wrap" style="height: 50vh">
                       <client-only>
-                        <l-map :zoom="17" :center="center" @click="addMarker">
-                          <l-tile-layer
-                            url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-                          ></l-tile-layer>
-                          <l-marker :lat-lng="center"></l-marker>
-                        </l-map>
+                      <SetLocation  @getGeoLocation="SetLocation"  :defaultMarkerGeoLoc="[RoomMateInfo.latitude,RoomMateInfo.longitude]"  :defaultGeoLoc="[RoomMateInfo.latitude,RoomMateInfo.longitude]" ></SetLocation>
                       </client-only>
                     </div>
                   </div>
@@ -813,9 +814,10 @@
 
 <script>
 
-
+import SetLocation from '../../../components/SetLocation'
 export default {
   name: "RoommateCondition",
+  components:{SetLocation},
   layout: "PoshtebamPlusLayout",
   head() {
     return {
@@ -832,6 +834,8 @@ export default {
   },
   data() {
     return {
+      longitude:'',
+      latitude:'',
       optionsHome: [
         { title: "آسانسور", code: 1 },
         { title: "دوربین مدار بسته", code: 2 },
@@ -850,6 +854,7 @@ export default {
         { title: "خیر", code: 2 },
         { title: "فرقی نمی کند", code: 3 },
       ],
+      ActiveAccordion:0,
       RoomMateInfo:{
         roomateId:0,
         roomType:0,
@@ -859,8 +864,8 @@ export default {
         bathroomType:0,
         ownerType:0,
         address:'',
-        longtitude:null,
-        latitude:null,
+        longitude:0,
+        latitude:0,
         haveLobbyMan:0,
         haveFurniture:0,
         haveCCTV:0,
@@ -897,36 +902,18 @@ export default {
     };
   },
   methods: {
-    addMarker(event) {
-
-      this.RoomMateInfo.latitude = event.latlng.lat
-      this.RoomMateInfo.longtitude = event.latlng.lng
-
+    SetLocation(lat,lang){
+      this.RoomMateInfo.latitude = lat
+      this.RoomMateInfo.longitude = lang
     },
     RemovePic(idx){
       this.BaseImgUrls.splice(idx,1)
       this.images.splice(idx,1)
     },
-    getSliderValue(value) {
-      this.RoomateAgeRangeFrom = value.positions[0];
-      this.RoomateAgeRangeTo = value.positions[1];
-    },
+
     callInputMethod() {
       this.$refs.RoomateFile.click();
 
-    },
-    BedroomCountDecrise() {
-      if (this.BedroomCount > 0) {
-        this.BedroomCount--;
-      }
-    },
-    BathroomCountDecrise() {
-      if (this.BathroomCount > 0) {
-        this.BathroomCount--;
-      }
-    },
-    textOnPictureHandler(value) {
-      this.OwnerDescription = value;
     },
     onFileChange(e) {
 
@@ -983,7 +970,7 @@ export default {
             bathroomType: bathType ,
             ownerType: this.RoomMateInfo.ownerType,
             address: this.RoomMateInfo.address,
-            longtitude: this.RoomMateInfo.longtitude,
+            longitude: this.RoomMateInfo.longitude,
             latitude: this.RoomMateInfo.latitude,
             haveLobbyMan: this.RoomMateInfo.haveLobbyMan?1:0 ,
             haveParking: this.RoomMateInfo.haveParking?1:0 ,
@@ -1074,10 +1061,9 @@ export default {
               this.RoomMateInfo.bathroomType = response.data.roomate.bathroomType
               this.RoomMateInfo.ownerType= response.data.roomate.ownerType
               this.RoomMateInfo.address = response.data.roomate.address
-              this.RoomMateInfo.longtitude = response.data.roomate.longtitude
+              this.RoomMateInfo.longitude = response.data.roomate.longitude
               this.RoomMateInfo.latitude = response.data.roomate.latitude
             this.latLang = [this.RoomMateInfo.latitude,this.RoomMateInfo.longtitude]
-
               this.RoomMateInfo.haveLobbyMan = response.data.roomate.haveLobbyMan
               this.RoomMateInfo.haveFurniture =  response.data.roomate.haveFurniture
               this.RoomMateInfo.haveCCTV =  response.data.roomate.haveCCTV
@@ -1361,5 +1347,10 @@ input::placeholder {
   .accordianStyle {
     width: fit-content;
   }
+}
+
+
+.textPrimary{
+  color: #00adef!important;
 }
 </style>

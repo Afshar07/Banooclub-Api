@@ -1,26 +1,13 @@
 <template>
-  <div class="container mcontainer">
+  <div class="container mcontainer tw-shadow">
     <h1 class="tw-text-2xl tw-font-semibold"> مقالات  </h1>
     <div class="row">
 
       <div class="col-lg-8 tw-flex-shirink-0">
-        <div class="col-md-12">
-          <input type="text" class="form-control " v-model="Search" placeholder="جستجوی مقالات">
+        <div class="col-md-12 my-3 px-0">
+          <input type="text" class="form-control  px-0 border  " v-model="Search" placeholder="جستجوی مقالات">
         </div>
-<!--        <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">-->
-<!--          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" >-->
-<!--            <button   :value="1" class="nav-link active" id="forum-active-tab" data-bs-toggle="pill"-->
-<!--                      data-bs-target="#products-pills-home" type="button" role="tab" aria-controls="products-pills-home" aria-selected="true">-->
-<!--              پر بازدید ها-->
-<!--            </button>-->
-<!--          </li>-->
-<!--          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;"  >-->
-<!--            <button  :value="2" class="nav-link" id="forum-second-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">-->
-<!--              برترین ها-->
-<!--            </button>-->
-<!--          </li>-->
 
-<!--        </ul>-->
         <div class="tab-content" id="pills-tabContent" v-if="!$fetchState.pending">
           <div class="tab-pane fade show active" id="forum-active-content" role="tabpanel" aria-labelledby="forum-active-tab">
             <div class="row boxMainContent mx-auto">
@@ -30,7 +17,7 @@
                     <div class="tw-card lg:tw-card-side bg-base-100 shadow-xl">
 
                       <div class="tw-card-body">
-                        <h2 class="tw-card-title tw-text-stone-500">{{ item.title }}</h2>
+                        <h2 class="tw-card-title tw-text-stone-500 ShortDescriptionIndex">{{ item.title }}</h2>
                         <p class="tw-card-text tw-text-stone-400">{{ item.summary }}</p>
                         <div class="tw-flex tw-gap-2 tw-justify-end">
                           <div class="tw-flex tw-items-center tw-gap-1">
@@ -51,7 +38,7 @@
                       </div>
                       <div class="tw-relative">
                         <div v-if="item.tags.length>0" class="tw-badge tw-absolute tw-badge-primary tw-m-3 tw-p-2 tw-left-0">{{ item.tags[0].title }}</div>
-                        <img :src="`https://banooclubapi.simagar.com/${item.fileData}`" alt="Album" class="tw-rounded tw-m-2 tw-object-cover tw-object-center" width="300px" style="height: 170px!important;">
+                        <img :src="`https://banooclubapi.simagar.com/${item.fileData}`"  class="tw-rounded tw-m-2 tw-object-contain tw-object-center" width="300px" style="height: 170px!important;">
                       </div>
 
                     </div>

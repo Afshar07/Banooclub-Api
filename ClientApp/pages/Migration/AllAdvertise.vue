@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer">
+  <div class="container tw-shadow p-3 mcontainer">
     <div class="row">
       <h1 class="tw-text-2xl tw-font-semibold">آگهی ها</h1>
 
@@ -8,7 +8,7 @@
 
         <div class="row boxMainContent mx-auto">
           <div class="col-12  px-0">
-            <div class="row">
+            <div class="row mx-auto">
               <div class="col-md-12">
                 <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
                   <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" @click="ActiveTab=1">
@@ -119,7 +119,6 @@
                           <input type="search" v-model="Search" class="form-control"  placeholder="جستجو در میان آگهی ها">
                         </div>
                         <div class="col-md-12">
-
                           <AllAdsTabContent :Ads="AllAds" :categories="categories"/>
                         </div>
                       </div>

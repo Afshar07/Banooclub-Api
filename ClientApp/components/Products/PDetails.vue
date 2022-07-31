@@ -23,29 +23,28 @@
       </template>
     </base-modal>
 
-<!--    <base-modal v-if="is_show_delete_modal" @close_modal="hideDeleteModal">-->
-<!--      <template v-slot:title>-->
-<!--        <h5 class="text-right px-3">حذف خدمت</h5>-->
-<!--      </template>-->
-<!--      <template v-slot:content>-->
-<!--        <div class="d-flex flex-column">-->
-<!--          <p>آیا از حذف این خدمت اطمینان دارید؟</p>-->
-<!--          <div class="d-flex">-->
-<!--            <button @click="deleteService(service_details.servicePackId)"-->
-<!--                    class="tw-w-1/2 tw-flex tw-items-center tw-justify-center tw-py-2 tw-text-red-500 hover:tw-bg-red-100 hover:tw-text-red-500 tw-rounded-md">-->
-<!--              <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
-<!--                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />-->
-<!--              </svg>-->
-<!--              بله-->
-<!--            </button>-->
-<!--            <button @click="hideDeleteModal"-->
-<!--                    class="tw-w-1/2 tw-flex tw-items-center tw-justify-center tw-py-2 tw-text-green-500 hover:tw-bg-green-100 hover:tw-text-greeb-500 tw-rounded-md">-->
-<!--              خیر-->
-<!--            </button>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </template>-->
-<!--    </base-modal>-->
+    <!-- Modal -->
+    <div class="modal fade" id="MediaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div v-if="SelectedMedia!==null" class="modal-body">
+            <img v-if="SelectedMedia.priority == 1 || SelectedMedia.priority == 2" class="tw-w-full tw-h-full" :src="`https://banooclubapi.simagar.com/media/gallery/Service/${SelectedMedia.base64}`" alt="Product Image"
+                 style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
+            <video
+              v-else-if="SelectedMedia.priority == 3"
+              class="w-100 tw-h-full"
+              controls
+              :src="`https://banooclubapi.simagar.com/media/gallery/Service/${SelectedMedia.base64}`"
+            ></video>
+          </div>
+
+        </div>
+      </div>
+    </div>
     <div class="custom_card">
       <!-- post header-->
       <div class="tw-flex tw-justify-between tw-items-center lg:tw-p-4 tw-p-2.5">
@@ -57,7 +56,7 @@
                  class="tw-bg-gray-200 tw-border tw-border-white tw-rounded-full tw-w-10 tw-h-10">
           </nuxt-link>
           <div class="d-flex flex-column tw-font-semibold tw-capitalize tw-mr-4">
-            <h2 class="text-primary tw-cursor-pointer text-decoration-none service_name" @click="goToUserProfile(service_details.userInfo)">{{ service_details.userInfo.userName }}</h2>
+            <h2 class="text-primary tw-cursor-pointer text-decoration-none service_name" @click="goToUserProfile(service_details.userInfo)">@{{ service_details.userInfo.userName }}</h2>
             <div class="d-flex">
               <div class="d-flex justify-content-start align-items-center">
                 <AllUsersIcon fill="#374151" style="width: 15px; height: 15px;"/>
@@ -84,8 +83,8 @@
           </div>
         </div>
         <div>
-            <button  class="tw-text-2xl hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw-transition tw--mr-1 tw-relative">
-              <svg @click.stop="showMoreDiv" xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <button v-click-outside="showMoreDiv" @click.stop="showMoreDiv" class="tw-text-2xl hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw-transition tw--mr-1 tw-relative">
+              <svg  xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
               </svg>
             </button>
@@ -93,9 +92,12 @@
           <div v-if="show_more" class="tw-absolute tw-z-10 tw-left-5 tw-bg-white tw-w-56 tw-shadow-md tw-mx-auto tw-p-2 tw-rounded-md tw-text-gray-500 tw-text-base tw-border tw-border-gray-100">
             <ul class="tw-pl-0 mb-0">
               <li>
-                <a href="#share" class="tw-w-full tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
-                  <ShareIcon  class="tw-ml-1"/>
-                  اشتراک گذاری
+                <a @click="Share" class="tw-w-full tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
+                  <small class="d-flex tw-text-gray-700">
+                    <ShareIcon  class="tw-ml-1"/>
+
+                    اشتراک گذاری
+                  </small>
                 </a>
               </li>
               <li v-if="service_details.userInfo.userId === $auth.user.userInfo.userId">
@@ -118,14 +120,14 @@
                 </button>
               </li>
               <li>
-                <button @click="toggleWishList(service_details)" class="tw-w-full tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
+                <button style="font-size: 15px" @click="toggleWishList(service_details.servicePackId)" class="tw-w-full tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
                   <span v-if="service_details.isFavourite" class="d-flex">
                     <SolidSter/>
-                    حذف از علاقمندی ها
+                    حذف از علاقه مندی ها
                   </span>
                   <span v-else class="d-flex">
                     <EmptyStar/>
-                    افزودن به علاقمندی ها
+                    افزودن به علاقه مندی ها
                   </span>
                 </button>
               </li>
@@ -161,14 +163,17 @@
           :key="i"
         >
           <template #content>
-            <img v-if="slide.priority == 1 || slide.priority == 2" class="tw-w-full tw-h-full" :src="`https://banooclubapi.simagar.com/media/gallery/Service/${slide.base64}`" :alt="service_details.title"
-                 style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
+
+            <button  v-if="slide.priority === 1 || slide.priority === 2" class="btn tw-w-full tw-h-full ShowMediaModal"  data-bs-toggle="modal" data-bs-target="#MediaModal"  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
+              <img  @click="SetSelectedMedia(slide)" class="tw-w-full tw-h-full" :src="`https://banooclubapi.simagar.com/media/gallery/Service/${slide.base64}`" :alt="service_details.title" style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
+            </button>
+            <button  v-else-if="slide.priority === 3" class="btn ShowMediaModal w-100 tw-h-full" data-bg-toggle="modal" @click="SetSelectedMedia(slide)" data-bs-target="#MediaModal">
             <video
-              v-else-if="slide.priority == 3"
               class="w-100 tw-h-full"
               controls
               :src="`https://banooclubapi.simagar.com/media/gallery/Service/${slide.base64}`"
             ></video>
+            </button>
           </template>
         </vueper-slide>
       </vueper-slides>
@@ -221,12 +226,7 @@
         <p class="mt-1 tw-text-gray-600">{{service_details.address}}</p>
         <div class="my-3" id="map-wrap" style="height: 25vh">
           <client-only>
-            <l-map :zoom="17" :center="[service_details.latitude,service_details.longitude]" @click="addMarker">
-              <l-tile-layer
-                url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-              ></l-tile-layer>
-              <l-marker :lat-lng="[service_details.latitude,service_details.longitude]"></l-marker>
-            </l-map>
+            <Map :latitude="service_details.latitude" :longitude="service_details.longitude"></Map>
           </client-only>
         </div>
 
@@ -431,32 +431,6 @@
 
 
 
-          <!--          <div class="tw-flex my-4">-->
-<!--            <div class="tw-w-10 tw-h-10 tw-rounded-full tw-relative tw-flex-shrink-0">-->
-<!--              <img src="~/assets/images/products/product_image.jpg" alt="" class="tw-absolute tw-h-full tw-rounded-full tw-w-full">-->
-<!--            </div>-->
-<!--            <div>-->
-<!--              <div class="tw-text-gray-700 tw-py-2 tw-px-3 tw-rounded-md tw-bg-gray-100 tw-relative lg:tw-mr-5 tw-mr-2 lg:tw-ml-12">-->
-<!--                <p class="tw-leading-6 tw-flex justify-content-center align-items-center mb-0">-->
-<!--                  تست !-->
-<!--                  <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
-<!--                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />-->
-<!--                  </svg>-->
-<!--                </p>-->
-<!--                <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800"></div>-->
-<!--              </div>-->
-<!--              <div class="tw-text-sm tw-flex tw-items-center tw-mt-2 tw-ml-5 mx-3">-->
-<!--                <button class="tw-flex tw-text-red-600 tw-ml-2">-->
-<!--                  <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
-<!--                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />-->
-<!--                  </svg>-->
-<!--                  لایک-->
-<!--                </button>-->
-<!--                <button class="mx-2"> پاسخ </button>-->
-<!--                <span class="mx-2"> 3 روز </span>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
 
 
 
@@ -485,6 +459,7 @@ import TelegramIcon from "../Icons/TelegramIcon";
 import WhatsappIcon from "../Icons/WhatsappIcon";
 import InstagramIcon from "../Icons/InstagramIcon";
 import FacebookIcon from "../Icons/FacebookIcon";
+import Map from "../Map";
 import EmptyStar from "../Icons/EmptyStar";
 import SolidSter from "../Icons/SolidSter";
 import PComments  from "../../components/Products/PComments";
@@ -501,6 +476,7 @@ export default {
     InstagramIcon,
     WhatsappIcon,
     TelegramIcon,
+    Map,
     ShareIcon, MessageIcon, LikeIcon, MoreIcon, AllUsersIcon, EditIcon,  VueperSlides, VueperSlide },
   data(){
     return{
@@ -520,6 +496,7 @@ export default {
       base_id:0,
       parentComments:[],
       service_rate:0,
+      SelectedMedia:null,
       rates:[],
       center: [35.757539, 51.409968],
       latlng: [35, 51],
@@ -542,6 +519,15 @@ export default {
     }
   },
   methods:{
+    Share(){
+      if(navigator.share){
+        navigator.share({
+          title: this.service_details.title,
+          url: this.site_url+this.$route.fullPath
+        })
+      }
+
+    },
     async CreateOrder(item){
 
       this.$nuxt.$loading.start();
@@ -580,14 +566,9 @@ export default {
         console.error(error)
       }
     },
-    // setReplyData(PlaceHolder,parentId,baseId){
-    //
-    //   this.place_holder = PlaceHolder
-    // this.reply_parent_id = parentId
-    //   this.base_id = baseId
-    //   this.want_to_reply = true
-    //   console.log(this.place_holder)
-    // },
+   SetSelectedMedia(slide){
+     this.SelectedMedia = slide
+   },
     async toggleWishList(item){
       try {
         await this.$repositories.toggleWishList.toggleWishList({
@@ -717,8 +698,9 @@ export default {
       }
     },
     async addComment(){
-      if(this.service_comment == ''){
+      if(this.service_comment == '' || this.service_comment.match(/^ *$/) !== null){
         this.$toast.error("لطفا متن نظر را وارد کنید");
+        this.service_comment = ''
       }
       else{
         this.$nuxt.$loading.start();
@@ -880,4 +862,8 @@ export default {
    z-index: 999 !important;
 }
 
+
+.ShowMediaModal{
+  border: none!important;
+}
 </style>

@@ -127,12 +127,7 @@ export default {
         } else if (response.data.status === 11) {
           this.$toast.error("اکانت شما غیرفعال شده است.");
         }
-        // this.$store.dispatch("login", {
-        //   payload: response.data.data,
-        // });
-        // this.$store.commit("setUser", {
-        //   user: response.data.data.user,
-        // });
+
         if (response.data.data.user.role === "Admin") {
           this.$router.push({ path: "/social" });
         } else {

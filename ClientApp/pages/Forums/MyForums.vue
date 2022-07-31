@@ -7,7 +7,7 @@
           <li v-if="my_forums!==null" v-for="Forum in my_forums">
             <ForumMainItem :forum_details="Forum"/>
           </li>
-          <li class="text-center p-3" v-if="my_forums.length===0">
+          <li class="text-center p-3" v-if="my_forums.length===null">
             <span class="text-warning">شما انجمن فعال ندارید.</span>
           </li>
         </ul>

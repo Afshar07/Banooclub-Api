@@ -21,7 +21,7 @@
       <div class="card-media tw-h-40">
         <nuxt-link :to="`/Products/${service_details.servicePackId}`">
           <img :src="`https://banooclubapi.simagar.com/media/gallery/Service/${headerImage}`" :alt="service_details.title"
-               style="object-fit: contain;object-position: center; height: 160px !important"/>
+               style="object-fit: contain;object-position: center; height: 160px !important;"/>
         </nuxt-link>
         <button @click="toggleWishList(service_details)" class="tw-bg-red-100 tw-absolute tw-right-2 tw-top-2 p-1 tw-rounded-full tw-text-red-500 tw-flex tw-items-center tw-justify-center">
           <svg v-if="service_details && service_details.isFavourite" xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="red" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

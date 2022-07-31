@@ -60,6 +60,7 @@ export default {
             pageNumber:this.pageNumber,
             count:12,
             searchCommand:this.searchKey,
+            status:1
           }
         )
         this.AllServices = res.data.services

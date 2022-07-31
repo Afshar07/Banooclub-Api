@@ -191,7 +191,7 @@ export default {
         //   user: response.data.data.user,
         // });
         if (response.data.data.user.role === "Admin") {
-          this.$router.push({ name: "SuperAdmin", path: "/SuperAdmin" });
+          this.$router.push({ path: "/social" });
         } else {
           this.$router.push({ path: "/social" });
         }

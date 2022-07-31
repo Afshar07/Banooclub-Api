@@ -52,7 +52,7 @@
                     :src="userAvatar"
                     class="UserPhoto rounded-circle mb-md-3"
                     alt=""
-                    style="width: 120px;height: 120px;object-fit: contain"
+                    style="width: 120px;height: 120px;object-fit: contain;box-shadow: inset 0 0 20px white"
                   />
                 </div>
                 <div class="d-flex flex-column align-items-center justify-content-center">
@@ -113,13 +113,7 @@
                       </div>
                     </div>
                   </div>
-                  <!--                  <p v-if="!$route.params.id" style="color: #9c9c9c;">-->
-                  <!--                    {{$auth.user.userInfo.userSetting.bio }}-->
-                  <!--&lt;!&ndash;                    <nuxt-link class="px-2 text-decoration-none" to="/social/accountsetting/editprofilebasic">ویرایش</nuxt-link>&ndash;&gt;-->
-                  <!--                  </p>-->
-                  <!--                  <p  v-else-if="$route.params.id && getUserDetails && getUserDetails.baseData">-->
-                  <!--                    {{getUserDetails.userInfo.userSetting.bio }}-->
-                  <!--                  </p>-->
+
 
                 </div>
               </div>
@@ -158,16 +152,7 @@
                   type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
             <span v-if="!$route.params.slug">
                دوستان من
-              <!--                <span class="follower_count">-->
-              <!--              {{ $auth.user.baseData.followersCount }}-->
-              <!--                </span>-->
             </span>
-            <!--            <span v-else-if="$route.params.id && getUserDetails && getUserDetails.baseData">-->
-            <!--               دوستان-->
-            <!--&lt;!&ndash;              <span class="follower_count">&ndash;&gt;-->
-            <!--&lt;!&ndash;                {{getUserDetails.baseData.followersCount }}&ndash;&gt;-->
-            <!--&lt;!&ndash;              </span>&ndash;&gt;-->
-            <!--            </span>-->
           </button>
         </li>
         <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
@@ -184,21 +169,7 @@
             </span>
           </button>
         </li>
-        <!--        <li style="margin-right: auto;margin-left: auto">-->
-        <!--          <div class="d-flex mb-2" v-if="$route.params.id && getUserDetails">-->
-        <!--            <div class="mx-2 d-flex">-->
-        <!--              <FollowerIcon style="fill: #0d6efd;width: 24px;height: 24px;"/>-->
-        <!--              {{getUserDetails.baseData.followersCount}}-->
-        <!--            </div>-->
-        <!--            <div class="mx-2 d-flex">-->
-        <!--              <FollowingIcon style="fill: #0d6efd;width: 24px;height: 24px;"/>-->
-        <!--              {{getUserDetails.baseData.followingsCount}}-->
-        <!--            </div>-->
 
-
-        <!--          </div>-->
-
-        <!--        </li>-->
         <li class="d-flex mb-1 align-items-end" style="margin-right: auto">
           <div class="add-btn" v-if="$route.params.slug && getUserDetails">
             <button

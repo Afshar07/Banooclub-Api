@@ -55,10 +55,11 @@ export default {
           type:3
         })
         if(item.isFavourite){
-          this.$toast.success("آگهی از علاقمندی ها حذف شد");
+          this.$toast.success("آگهی به علاقمندی ها اضافه شد");
+
         }
         else{
-          this.$toast.success("آگهی به علاقمندی ها اضافه شد");
+          this.$toast.success("آگهی از علاقمندی ها حذف شد");
         }
         this.$nuxt.refresh()
         this.$fetch()

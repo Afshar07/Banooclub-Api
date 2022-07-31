@@ -1,6 +1,6 @@
 <template>
   <div class="container mcontainer">
-    <h1 class="tw-text-2xl tw-font-semibold"> انجمن  </h1>
+    <h1 class="tw-text-2xl tw-font-semibold p-3"> انجمن  </h1>
     <div class="row">
 
       <div class="col-lg-8 tw-flex-shirink-0">
@@ -36,7 +36,7 @@
         <div class="tab-content" id="pills-tabContent" v-if="!$fetchState.pending">
           <div class="tab-pane fade show active" id="forum-active-content" role="tabpanel" aria-labelledby="forum-active-tab">
             <div class="row boxMainContent mx-auto">
-              <ul class="custom_card tw-divide-y tw-divide-gray-100 sm:tw-m-0 tw--mx-5">
+              <ul class="custom_card tw-divide-y tw-divide-gray-100 sm:tw-m-0  ">
                 <li v-for="Forum in AllForums.filter(e=> e.status===1)">
                   <ForumMainItem :forum_details="Forum" />
                 </li>
@@ -46,18 +46,18 @@
           </div>
 
         </div>
-        <div class="col-md-12  d-flex justify-content-center my-5 border-top pt-2">
+        <div v-if="totalPages.length>1" class="col-md-12  d-flex justify-content-center my-5 border-top pt-2">
           <nav aria-label="Page navigation example">
             <ul  class="pagination px-0">
-              <li class="page-item" @click="DecrementSelectedPageId">
-                <a class="page-link" href="#" aria-label="Previous">
+              <li class=" Next" @click="DecrementSelectedPageId">
+                <a class="page-link Next" href="#" aria-label="Previous">
                   <span aria-hidden="true">&laquo;</span>
                 </a>
               </li>
               <li @click="SetSelectedPageId(i)" class="page-item" v-for="i in totalPages" :key="i"><a class="page-link" :class="GetClassName(i)" href="#">{{ i }}</a></li>
 
-              <li class="page-item" @click="IncrementSelectedPageId">
-                <a class="page-link" href="#" aria-label="Next">
+              <li class=" Prev " @click="IncrementSelectedPageId">
+                <a class="page-link Prev" href="#" aria-label="Next">
                   <span aria-hidden="true">&raquo;</span>
                 </a>
               </li>
@@ -229,6 +229,23 @@ export default {
 .ActivePage {
   color: white;
   background-color: #00adef;
+}
+
+
+
+.Next{
+  border-top-right-radius: 5px!important;
+  border-bottom-right-radius: 5px!important;
+  border-top-left-radius: 0px!important;
+  border-bottom-left-radius: 0px!important;
+}
+
+
+.Prev{
+  border-top-right-radius: 0px!important;
+  border-bottom-right-radius: 0px!important;
+  border-top-left-radius: 5px!important;
+  border-bottom-left-radius: 5px!important;
 }
 
 </style>

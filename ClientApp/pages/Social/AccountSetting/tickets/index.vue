@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer containerBox my-5">
+  <div class="container mcontainer tw-shadow containerBox my-5">
     <div
       class="offcanvas offcanvas-start sidebar-bg"
       tabindex="-1"
@@ -98,7 +98,7 @@
           />
           <div class="tw-overflow-x-scroll" v-if="FilteredTickets.length>0">
             <div class="tw-overflow-x-scroll">
-              <table class="tw-table tw-w-full tw-table-zebra table-compact" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
+              <table class="tw-table tw-w-full tw-overflow-x-scroll tw-table-zebra table-compact" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
                 <!-- head -->
                 <thead>
                 <tr>

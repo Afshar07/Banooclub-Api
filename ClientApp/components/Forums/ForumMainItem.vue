@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-flex tw-items-start tw-p-7">
+  <div class="tw-flex tw-items-start tw-p-7 mx-auto">
     <!-- Modal -->
     <div class="modal fade" id="DeleteForum" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
