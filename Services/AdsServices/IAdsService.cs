@@ -8,7 +8,7 @@ namespace BanooClub.Services.AdsServices
     {
         Task Create(Ads inputDto);
         Task<Ads> Update(Ads item);
-        Task Delete(long id);
+        Task<bool> Delete(long id);
         Task<object> GetAll(int pageNumber, int count, string search);
         Task<Ads> Get(long id);
         Task<object> GetByUserId(long userId, int pageNumber, int count);

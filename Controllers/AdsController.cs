@@ -54,9 +54,9 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task Delete(long id)
+        public async Task<bool> Delete(long id)
         {
-            await adsService.Delete(id);
+            return await adsService.Delete(id);
         }
 
         [HttpPost]

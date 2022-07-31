@@ -923,7 +923,7 @@ namespace BanooClub.Services.UserServices
                     : 0;
 
             int IsRequested = 0;
-            var dbFollowRequest = _followRequestRepository.GetQuery().FirstOrDefault(z => z.FollowerUserId == mySelfId & z.FollowingUserId == userId);
+            var dbFollowRequest = _followRequestRepository.GetQuery().FirstOrDefault(z => z.FollowerUserId == mySelfId && z.FollowingUserId == userId);
             if (dbFollowRequest != null)
             {
                 IsRequested = 1;

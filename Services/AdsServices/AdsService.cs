@@ -288,21 +288,35 @@ namespace BanooClub.Services.AdsServices
             };
             return obj;
         }
-        public async Task Delete(long id)
+        public async Task<bool> Delete(long id)
         {
-            var dbAds = adsRepository.GetQuery().FirstOrDefault(z => z.AdsId == id);
-            await adsRepository.Delete(dbAds);
-
-            _activityRepository.Insert(new Activity()
+            try
             {
-                CreateDate=DateTime.Now,
-                IsDeleted=false,
-                ActivityId=0,
-                ObjectId=id,
-                UserId=dbAds.UserId,
-                Type=ActivityTypes.DeleteAd
+                var dbAds = adsRepository.GetQuery().FirstOrDefault(z => z.AdsId == id);
+                var dbwishLists = wishListRepository.GetQuery().Where(z=>z.Type == WishListType.Ads && z.ObjectId == id).ToList();
+                foreach(var wish in dbwishLists)
+                {
+                    await wishListRepository.Delete(wish);
+                }
+                await adsRepository.Delete(dbAds);
+
+                _activityRepository.Insert(new Activity()
+                {
+                    CreateDate=DateTime.Now,
+                    IsDeleted=false,
+                    ActivityId=0,
+                    ObjectId=id,
+                    UserId=dbAds.UserId,
+                    Type=ActivityTypes.DeleteAd
+                }
+                    );
+                return true;
             }
-                );
+            catch (Exception ex)
+            {
+                return false;
+            }
+            
         }
         public async Task<Ads> Get(long id)
         {
@@ -581,9 +595,16 @@ namespace BanooClub.Services.AdsServices
         }
         public async Task<Ads> ChangeAdsStatus(Ads item)
         {
-            item.UpdateDate = DateTime.Now;
-            await adsRepository.Update(item);
-            return item;
+            var dbAds = adsRepository.GetQuery().FirstOrDefault(z => z.AdsId == item.AdsId);
+            if(dbAds != null)
+            {
+                dbAds.UpdateDate = DateTime.Now;
+                dbAds.Status = item.Status;
+                await adsRepository.Update(dbAds);
+                
+            }
+            return dbAds;
+
         }
 
         public List<long> GetAllSubCatsId(long categoryId,List<long> catIds)
