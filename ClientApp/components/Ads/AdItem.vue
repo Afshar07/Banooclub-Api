@@ -26,10 +26,10 @@
         <img v-if="AdsDetail.photos && AdsDetail.photos.length>0" :src="`https://banooclubapi.simagar.com/${AdsDetail.photos[0].base64}`" :alt="AdsDetail.title">
         <img v-else :src="`/nopicture.jpg`" :alt="AdsDetail.title">
       </nuxt-link>
-      <span class="tw-absolute tw-bg-white tw-px-2 tw-py-1 tw-text-sm tw-rounded-md tw-m-2"> Label</span>
+
 
       <button @click="toggleWishList(AdsDetail)" class="tw-bg-red-100 tw-absolute tw-right-2 tw-top-2 p-1 tw-rounded-full tw-text-red-500 tw-flex tw-items-center tw-justify-center">
-        <svg v-if="!AdsDetail.isFavourite" xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="red" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <svg v-if="AdsDetail.isFavourite" xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="red" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
         </svg>
         <svg v-else xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -100,6 +100,11 @@ export default {
       required: true
     },
 
+  },
+  data(){
+    return{
+      userDefault: require("~/assets/images/defaultUser.png"),
+    }
   },
 
   methods:{

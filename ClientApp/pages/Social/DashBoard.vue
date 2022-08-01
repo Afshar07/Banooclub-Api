@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid   tw-bg-[#f5f5f5]">
+  <div v-if="!$fetchState.pending" class="container-fluid skeleton  tw-bg-[#f5f5f5]">
     <ChargeWalletSideNav  :show="ShowSideNav" @close="ShowSideNav = false">
     </ChargeWalletSideNav>
 
@@ -115,7 +115,7 @@
               </div>
               <div class="tw-w-full tw-pl-4 tw-max-w-full tw-flex-grow tw-flex-1 tw-mb-2 tw-text-right  ">
                 <h5 class="tw-text-gray-500 tw-font-light tw-tracking-wide  tw-text-base tw-mb-1">نظرات من</h5>
-                <span class="tw-text-xl tw-text-gray-900">{{DashBoard.forumComments + DashBoard.postCommnet}}</span>
+                <span class="tw-text-xl tw-text-gray-900">{{DashBoard.forumComments + DashBoard.postComment}}</span>
               </div>
             </div>
             <div class="tw-text-sm tw-text-gray-700 tw-pt-4 tw-flex tw-items-center undefined">
@@ -136,7 +136,7 @@
                   </div>
                   <div class="tw-flex tw-items-center tw-justify-between">
                     <span class="">نظرات ثبت شده  پست ها  : </span>
-                    <span>  {{DashBoard.postCommnet}}</span>
+                    <span>  {{DashBoard.postComment}}</span>
                   </div>
 
                 </div>
@@ -244,8 +244,9 @@
                     {{item.transId.substr(0,6)}}...
                   </td>
                   <td
+                    v-tooltip.bottom-start="`${item.refId}`"
                     class="tw-border-b tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
-                    {{item.refId}}
+                    {{item.refId.substr(0,6)}}...
                   </td>
                   <td
                     v-if="item.userInfo" @click="goToUserProfile(item.userInfo)"
@@ -287,7 +288,7 @@
             </div>
           </div>
         </div>
-        <div class="tw-w-full tw-col-span-4 tw-bg-white tw-rounded-xl tw-shadow-md tw-p-4 ">
+        <div v-if="$auth.user && $auth.user.userInfo &&$auth.user.userInfo.type && $auth.user.userInfo.type===3  " class="tw-w-full tw-col-span-4 tw-bg-white tw-rounded-xl tw-shadow-md tw-p-4 ">
           <div
             class="tw-bg-gradient-to-tr tw-from-cyan-400 tw-to-cyan-600 tw--mt-10 tw-mb-4 tw-rounded-xl tw-text-white tw-grid tw-items-center tw-w-full tw-h-24 tw-py-4 tw-px-8  shadow-lg-blue ">
             <div class="tw-w-full tw-flex tw-items-center tw-justify-between">
@@ -345,7 +346,7 @@
 
       </div>
       <div class="tw-grid tw-p-10  tw-mt-8 tw-grid-cols-1 tw-gap-y-20 md:tw-grid-cols-1 tw-gap-4">
-        <div class="tw-w-full tw-bg-white tw-rounded-xl tw-shadow-md tw-p-4 ">
+        <div v-if="$auth.user && $auth.user.userInfo &&$auth.user.userInfo.type && $auth.user.userInfo.type===3  " class="tw-w-full tw-bg-white tw-rounded-xl tw-shadow-md tw-p-4 ">
           <div
             class=" tw-h-auto tw-bg-gradient-to-tr tw-from-purple-500 tw-to-purple-700 tw--mt-10 tw-mb-4 tw-rounded-xl tw-text-white tw-grid tw-items-center tw-w-full tw-h-24 tw-py-4 tw-px-8  shadow-lg-blue ">
             <div class="tw-w-full  tw-flex md:tw-flex-col tw-flex-col sm:tw-flex-row lg:tw-flex-row tw-items-center tw-justify-between">
@@ -500,28 +501,28 @@
               </table>
             </div>
           </div>
-          <div v-if="SelectedUser!==null" class="col-md-12 my-3 bg-white p-3 ">
+          <div v-if="SelectedUser!==null" class="col-md-12 my-3  bg-white p-3 ">
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-3">
                 <span  class="text-secondary">نام کوچک : </span>
                 <span>{{SelectedUser.name}}</span>
 
               </div>
-              <div class="col-md-6">
+              <div class="col-md-3">
                 <span  class="text-secondary">نام خانوادگی : </span>
                 <span>{{SelectedUser.familyName}}</span>
 
               </div>
-              <div class="col-md-6 my-3">
+              <div class="col-md-3 ">
                 <span  class="text-secondary">نام کاربری: </span>
                 <nuxt-link class=" tw-transition tw-text-blue-500 text-decoration-none" :to="`/user/${SelectedUser.userName}/posts`">@{{SelectedUser.userName}}</nuxt-link>
               </div>
-              <div class="col-md-6 my-3">
+              <div class="col-md-3 my-3">
                 <span  class="text-secondary">شماره موبایل : </span>
                 <span v-if="SelectedUser.mobile!=='' || SelectedUser.mobile!==null">{{SelectedUser.mobile}}</span>
                 <span v-else>-</span>
               </div>
-              <div class="col-md-12 d-flex align-items-center gap-2">
+              <div class="col-md-12  d-flex align-items-center gap-2">
                 <span  class="text-secondary">ایمیل : </span>
                 <span v-if="SelectedUser.email!=='' || SelectedUser.email!==null">{{SelectedUser.email}}</span>
                 <span v-else>-</span>
@@ -707,4 +708,7 @@ export default {
   vertical-align: middle!important;
   horiz-align: center!important;
 }
+
+
+
 </style>
