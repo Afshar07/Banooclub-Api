@@ -195,6 +195,7 @@ namespace BanooClub.Controllers
         [Route("[action]"), Authorize(Roles = "Vendor")]
         public async Task<object> UserDashboards()
         {
+
             return await userService.UserDashboards();
         }
     }
