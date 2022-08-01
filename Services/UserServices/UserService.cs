@@ -4,6 +4,7 @@ using BanooClub.Models.Enums;
 using BanooClub.Models.Urls;
 using BanooClub.Services.Common;
 using BanooClub.Services.CryptographyServices;
+using BanooClub.Services.RatingServices;
 using BanooClub.Services.SocialMediaServices;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +28,17 @@ namespace BanooClub.Services.UserServices
         private readonly IBanooClubEFRepository<SocialMedia> _mediaRepository;
         private readonly IBanooClubEFRepository<Activity> _activityRepository;
         private readonly IBanooClubEFRepository<FollowRequest> _followRequestRepository;
+        private readonly IBanooClubEFRepository<Post> postRepository;
+        private readonly IBanooClubEFRepository<PostLike> postLikeRepository;
+        private readonly IBanooClubEFRepository<PostComment> postCommentRepository;
+        private readonly IBanooClubEFRepository<Rating> ratingRepository;
+        private readonly IBanooClubEFRepository<Forum> forumRepository;
+        private readonly IBanooClubEFRepository<ForumComment> forumCommentRepository;
+        private readonly IBanooClubEFRepository<ServicePack> servicePackRepository;
+        private readonly IBanooClubEFRepository<Order> orderRepository;
+        private readonly IBanooClubEFRepository<OrderItem> orderItemRepository;
         private readonly ISocialMediaService _mediaService;
+        private readonly IRatingService ratingService;
         private readonly IHttpContextAccessor _accessor;
         private readonly IEncryptService _encryptService;
 
@@ -38,20 +49,41 @@ namespace BanooClub.Services.UserServices
             IBanooClubEFRepository<SocialMedia> mediaRepository,
             IBanooClubEFRepository<Activity> activityRepository,
             IBanooClubEFRepository<FollowRequest> followRequestRepository,
+            IBanooClubEFRepository<Post> postRepository,
+            IBanooClubEFRepository<PostLike> postLikeRepository,
+            IBanooClubEFRepository<PostComment> postCommentRepository,
+            IBanooClubEFRepository<Rating> ratingRepository,
+            IBanooClubEFRepository<Forum> forumRepository,
+            IBanooClubEFRepository<ForumComment> forumCommentRepository,
+            IBanooClubEFRepository<ServicePack> servicePackRepository,
+            IBanooClubEFRepository<Order> orderRepository,
+            IBanooClubEFRepository<OrderItem> orderItemRepository,
             IHttpContextAccessor accessor,
             ISocialMediaService socialMediaService,
+            IRatingService ratingService,
             IEncryptService encryptService)
         {
             this.followerRepository = followerRepository;
             this.followingRepository = followingRepository;
             this.userRepository = userRepository;
-            _activityRepository= activityRepository;
+            this.postLikeRepository = postLikeRepository;
+            this.postCommentRepository = postCommentRepository;
+            this.ratingRepository = ratingRepository;
+            this.forumRepository = forumRepository;
+            this.forumCommentRepository = forumCommentRepository;
+            this.servicePackRepository = servicePackRepository;
+            this.orderRepository = orderRepository;
+            this.orderItemRepository = orderItemRepository;
+            _activityRepository = activityRepository;
             this.userSettingRepository = userSettingRepository;
             _mediaRepository = mediaRepository;
             _mediaService = socialMediaService;
+            this.ratingService = ratingService;
             _accessor = accessor;
             _encryptService = encryptService;
             _followRequestRepository = followRequestRepository;
+            this.postRepository = postRepository;
+            
         }
         public async Task Create(User inputDto)
         {
@@ -943,6 +975,108 @@ namespace BanooClub.Services.UserServices
             
 
             return SerializeObject;
+        }
+
+        public async Task<object> UserDashboards()
+        {
+            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                    ? _accessor.HttpContext.User.Identity.GetUserId()
+                    : 0;
+
+            var offset = DateTime.Now.AddDays(-6);
+
+            var userFollowers = followerRepository.GetQuery().Where(x => x.UserId == userId && x.CreateDate >= offset).Count();
+
+            //پست های این شخص
+            List<Post> userPosts = new List<Post>();
+            userPosts = postRepository.GetQuery().Where(x => x.UserId == userId).ToList();
+            //تعداد لایک هایی که پست های این شخص خورده
+            int lastWeekPostLikeCount = 0;
+            int lastWeekPostCommnetcount = 0;
+
+            int allPostLikeCount = 0;
+
+            foreach (var post in userPosts)
+            {
+                #region lastWeekPostLikeCount
+                int likesCount = postLikeRepository.GetQuery().Count(z => z.PostId == post.PostId && z.CreateDate >= offset);
+                lastWeekPostLikeCount += likesCount;
+                #endregion
+
+                #region allPostLikeCount
+                int allLikesCount = postLikeRepository.GetQuery().Count(z => z.PostId == post.PostId);
+                allPostLikeCount += allLikesCount;
+                #endregion
+
+                #region lastWeekPostCommnetcount
+                int commnetCount = postCommentRepository.GetQuery().Count(z => z.ParentId == 0 && z.PostId == post.PostId && z.CreateDate >= offset);
+                lastWeekPostCommnetcount += commnetCount;
+                #endregion
+            }
+
+            //فروم های این شخص
+            List<Forum> userforums = new List<Forum>();
+            userforums = forumRepository.GetQuery().Where(z => z.UserId == userId).ToList();
+            //
+
+            double lastWeekFroumsRate = 0;
+            double allFroumsRate = 0;
+            int lastWeekforumComments = 0;
+            foreach (var item in userforums)
+            {
+                //امتیاز هفته آخر فروم کاربر
+                var lastweekdbRate = await ratingService.GetLastWeekByObjectIdAndType(item.ForumId, RatingType.Forum);
+                var lastweekRate = lastweekdbRate.Data.Average;
+                lastWeekFroumsRate += lastweekRate;
+
+                //امتیاز فروم
+                var alldbRate = await ratingService.GetLastWeekByObjectIdAndType(item.ForumId, RatingType.Forum);
+                var allRate = lastweekdbRate.Data.Average;
+                allFroumsRate += allRate;
+
+                //تعداد کامنت های فروم در هفته آخر
+                var lastWeekDbforumComments = forumCommentRepository.GetQuery().Count(z => z.ForumId == item.ForumId && z.CreateDate >= offset);
+                lastWeekforumComments += lastWeekDbforumComments;
+            }
+
+            // سرویس های کاربر
+            List<ServicePack> userServicePacks = new List<ServicePack>();
+            userServicePacks = servicePackRepository.GetQuery().Where(z => z.UserId == userId).ToList();
+
+            double lastWeekIncome = 0;
+
+            foreach (var item in userServicePacks)
+            {
+                //پرداخت هایی که به ازای این سرویس در هفته آخر انجام شده
+                var income = orderRepository.GetQuery().Where(z => z.ServiceId == item.ServicePackId && z.CreateDate>=offset).Sum(x => x.SumPrice);
+                lastWeekIncome += income;
+
+            }
+
+
+            //همه پلن هایی که کاربر خریده
+
+
+            
+
+
+
+
+
+            var Obj = new
+            {
+                FollowersCount = userFollowers,
+                PostLikeCount = lastWeekPostLikeCount,
+                PostCommnet= lastWeekPostCommnetcount,
+                ForumRate= lastWeekFroumsRate,
+                ForumComments= lastWeekforumComments,
+                AllPostLikeCount= allPostLikeCount,
+                AllForumRate= allFroumsRate,
+                LastWeekIncome= lastWeekIncome,
+            };
+
+            return Obj;
+
         }
     }
 }

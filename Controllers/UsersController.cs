@@ -190,5 +190,12 @@ namespace BanooClub.Controllers
             search = search ==null ? "" : search;
             return userService.GetAllUserforUser(userId, count, search);
         }
+
+        [HttpPost]
+        [Route("[action]"), Authorize(Roles = "Vendor")]
+        public async Task<object> UserDashboards()
+        {
+            return await userService.UserDashboards();
+        }
     }
 }
