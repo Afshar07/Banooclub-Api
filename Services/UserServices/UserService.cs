@@ -1063,7 +1063,6 @@ namespace BanooClub.Services.UserServices
                 .Where(z => z.UserId == userId && z.CreateDate>=offset && z.Status==0)
                 .Sum(x=>x.Amount);
 
-
             // پلن هایی که کاربر خریده به تفکیک تعداد
             string cmd = " SELECT            [Order].Orders.ServiceId, " +
                          " [Order].OrderItems.PlanId, count( [Order].OrderItems.PlanId) PlanCount,Plans.Title " +
