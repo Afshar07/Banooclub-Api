@@ -3,7 +3,7 @@
     <div class="row p-3 rounded-top">
       <div class="col-md-12">
         <input
-          class="searchFriend"
+          class="SearchStyle"
           type="text"
           placeholder="جست‌وجو کاربران"
           v-model="searchKey"
@@ -78,7 +78,7 @@ export default {
       );
       console.log('response',response)
       this.AllUsers = response.data;
-      console.log('this.AllUsers',this.AllUsers)
+
       this.AllUsersCount = this.AllUsers.length;
     }catch (error) {
       console.log(error);

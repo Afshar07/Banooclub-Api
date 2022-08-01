@@ -9,6 +9,14 @@ export default (context, resources) => ({
       console.log(error);
     }
   },
+  async GetUserDashBoard() {
+    try {
+      const response = await context.$axios.post(resources);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  },
   async getAUserById(id) {
     try {
       const response = await context.$axios.post(resources, null, {

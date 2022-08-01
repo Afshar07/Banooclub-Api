@@ -29,6 +29,6 @@ namespace BanooClub.Models
     }
     public class IncomeDto
     {
-        
+        public long Price { get; set; }
     }
 }

@@ -1,11 +1,11 @@
 <template>
-  <div class="container mcontainer tw-shadow">
+  <div class="container mcontainer tw-shadow p-3 ">
     <h1 class="tw-text-2xl tw-font-semibold"> مقالات  </h1>
     <div class="row">
 
-      <div class="col-lg-8 tw-flex-shirink-0">
+      <div class="col-lg-8 tw-flex-shirink-0 p-3">
         <div class="col-md-12 my-3 px-0">
-          <input type="text" class="form-control  px-0 border  " v-model="Search" placeholder="جستجوی مقالات">
+          <input type="text" class="SearchStyle  px-0 border  " v-model="Search" placeholder="جستجوی مقالات">
         </div>
 
         <div class="tab-content" id="pills-tabContent" v-if="!$fetchState.pending">

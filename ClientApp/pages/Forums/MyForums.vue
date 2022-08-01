@@ -7,7 +7,7 @@
           <li v-if="my_forums!==null" v-for="Forum in my_forums">
             <ForumMainItem :forum_details="Forum"/>
           </li>
-          <li class="text-center p-3" v-if="my_forums.length===null">
+          <li class="text-center p-3" v-if="my_forums===null">
             <span class="text-warning">شما انجمن فعال ندارید.</span>
           </li>
         </ul>
@@ -50,7 +50,7 @@ export default {
     try {
       const forums = await this.$repositories.getMyForums.getMyForums({pageNumber:0, count:0, searchCommand:null})
       this.my_forums = forums.data.forums
-      console.log(this.my_forums)
+
     }
     catch (error){
       console.log(error)

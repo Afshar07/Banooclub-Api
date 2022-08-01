@@ -179,7 +179,7 @@
         }).then((response) => {
           this.$nuxt.$loading.finish();
           if (response.status === 200) {
-            console.log(response.data)
+
             if (response.data.data.status === 6) {
               this.$toast.error('کاربری یافت نشد .')
             } else if (response.data.data.status === 7) {

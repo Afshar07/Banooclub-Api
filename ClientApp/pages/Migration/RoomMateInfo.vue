@@ -470,7 +470,7 @@ export default {
             },
           })
           .then((response) => {
-            console.log(response);
+
             if (response.status === 200) {
               this.$nuxt.$loading.finish();
               this.$nuxt.loading = false;
@@ -486,7 +486,7 @@ export default {
           .then((response) => {
             if (response.status === 200) {
               this.roomateData = response.data;
-              console.log(this.roomateData);
+
             }
           })
           .catch((error) => {

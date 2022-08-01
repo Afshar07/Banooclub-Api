@@ -138,7 +138,7 @@ export default (context, inject) => {
     ChangePaymentStatus:CreatePaymentRepository(context,'Payment/ChangePaymentStatus'),
     GetMyPayments:CreatePaymentRepository(context,'Payment/GetMyPayments'),
     GetCredit:CreatePaymentRepository(context,'Wallet/GetCredit'),
-
+    GetUserDashBoard:createUserRepository(context,'users/UserDashBoards'),
 
     // Ads repository start
     getAllAdsCategory: createAdsRepository(context, "AdsCategory/GetAll"),

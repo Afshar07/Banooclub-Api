@@ -178,7 +178,7 @@ export default {
         }
       )
       this.forumDetails = forum_details.data
-      console.log('this.forumDetails',this.forumDetails)
+
     }
     catch (error){
       console.log(error)

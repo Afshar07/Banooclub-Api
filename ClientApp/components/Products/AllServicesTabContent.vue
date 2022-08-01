@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <input
-      class="searchFriend"
+      class="SearchStyle"
       type="text"
       placeholder="جست‌وجو خدمت"
       v-model="searchKey"

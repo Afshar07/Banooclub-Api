@@ -1,27 +1,30 @@
 <template>
   <div class="card "   v-if="service_details">
       <div class="tw-absolute tw-left-2 tw-top-2 tw-rounded-full tw-flex tw-items-center tw-justify-center customProfileImage" @click="goToServiceProfile(service_details.userInfo.userId)">
+        <nuxt-link    v-if="service_details.userInfo.selfieFileData" :to="`/user/${service_details.userInfo.userName}/posts`">
         <img
-          v-if="service_details.userInfo.selfieFileData"
           class="headerPicture"
           :src="`https://banooclubapi.simagar.com/media/gallery/profile/${service_details.userInfo.selfieFileData}`"
           alt=""
 
-          style="border-radius: 50%; cursor: pointer;    width: 30px;  height: 30px;"
+          style="border-radius: 50%; cursor: pointer;    width: 30px;  height: 30px;box-shadow: 0 0 9px rgb(72 69 72);"
         />
+        </nuxt-link>
+        <nuxt-link     v-else :to="`/user/${service_details.userInfo.userName}/posts`">
         <img
-          v-else
+
           class="headerPicture"
           :src="userDefault"
           alt=""
 
           style="border-radius: 50%; cursor: pointer;  width: 30px;  height: 30px;"
         />
+        </nuxt-link>
       </div>
       <div class="card-media tw-h-40">
         <nuxt-link :to="`/Products/${service_details.servicePackId}`">
           <img :src="`https://banooclubapi.simagar.com/media/gallery/Service/${headerImage}`" :alt="service_details.title"
-               style="object-fit: contain;object-position: center; height: 160px !important;"/>
+               style="object-fit: cover;object-position: center; height: 160px !important;"/>
         </nuxt-link>
         <button @click="toggleWishList(service_details)" class="tw-bg-red-100 tw-absolute tw-right-2 tw-top-2 p-1 tw-rounded-full tw-text-red-500 tw-flex tw-items-center tw-justify-center">
           <svg v-if="service_details && service_details.isFavourite" xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="red" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -32,7 +35,17 @@
           </svg>
         </button>
       </div>
-      <div  class="card-body p-2">
+      <div  class="card-body p-2 ">
+
+        <div class="tw-flex tw-items-center  tw-left-2  tw-justify-center position-absolute tw-top-[-15px]">
+
+          <div class="tw-top-3  tw-border-1 tw-bg-white ServicePrice tw-shadow tw-border-pink-700  tw-font-medium tw-px-2 tw-py-1 tw-left-2  tw-text tw-text-blue-500 ">
+            {{Intl.NumberFormat('fa-IR').format(service_details.totalPrice)}}
+            <small class="Toman">تومان</small>
+
+          </div>
+
+        </div>
         <div class="tw-flex tw-items-center  tw-relative tw-justify-end">
           <div v-if="$route.path === '/Products/MyServices/'"  class=" tw-stack  tw-right-0 tw-cursor-pointer tw-absolute hover:tw-flex hover:tw-flex-col hover:tw-gap-2 tw-transition ">
             <div v-if="service_details.planTypes.includes(2)"
@@ -54,18 +67,17 @@
           </div>
 
 
-          <div
-            class="tw--top-3  tw-bg-blue-100 tw-font-medium tw-px-2 tw-py-1 tw-left-2 tw-rounded-full tw-text tw-text-blue-500 tw-">
-            {{Intl.NumberFormat('fa-IR').format(service_details.totalPrice)}}
-            تومان
-          </div>
-
         </div>
 
-        <div class="tw-text-xs tw-font-semibold tw-uppercase tw-text-yellow-500 text-end">{{ service_details.catName }}</div>
         <nuxt-link :to="`/Products/${service_details.servicePackId}`" class="text-decoration-none">
           <h2 class="tw-text-lg tw-font-medium tw-mt-4 tw-t tw-truncate tw-text-slate-500 product_name tw-text-right ">{{service_details.title}}</h2>
         </nuxt-link>
+<!--        <div class="tw-text-xs tw-font-semibold tw-uppercase tw-text-yellow-500 text-end">{{ service_details.catName }}</div>-->
+
+
+
+
+
         <div v-if="$route.path === '/Products/MyServices/'" class="my-2">
           <small v-if="service_details.status===2" class="text-secondary ">خدمت شما در دست بررسی است</small>
           <small v-if="service_details.status===1" class="text-success ">خدمت شما فعال است</small>
@@ -172,8 +184,8 @@ export default {
   z-index: 1;
 }
 .product_buttons{
-  background-color: #dbeafe;
-  color: #3b8ff8;
+  background-color: #fce6ff;
+  color: #ff8100;
 }
 /*@media (min-width: 376px) and (max-width: 425px) {*/
 /*  .card{*/
@@ -211,4 +223,15 @@ export default {
 .product_name:hover{
   color: #007bff !important;
 }
+
+.ServicePrice{
+
+  border-radius: 7px;
+  color: #787878;
+  font-size: 12px;
+  font-weight: bolder;
+  background-color: #ffe6e6;
+  box-shadow: 0px 0px 16px rgb(229 173 237);
+}
+
 </style>

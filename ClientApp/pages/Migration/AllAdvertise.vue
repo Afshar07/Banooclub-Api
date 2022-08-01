@@ -116,7 +116,7 @@
                     <div class="col-md-9">
                       <div class="row">
                         <div class="col-md-12 mt-3">
-                          <input type="search" v-model="Search" class="form-control"  placeholder="جستجو در میان آگهی ها">
+                          <input type="search" v-model="Search" class="SearchStyle"  placeholder="جستجو در میان آگهی ها">
                         </div>
                         <div class="col-md-12">
                           <AllAdsTabContent :Ads="AllAds" :categories="categories"/>
@@ -313,7 +313,7 @@
               res.data.states.forEach((item)=>{
                 this.AllStates.push(item)
               })
-              console.log(this.AllStates)
+
 
             }catch (e) {
               console.log(e)

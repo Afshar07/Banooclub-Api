@@ -20,10 +20,10 @@
       @click="closingHeader = true"
     >
 
-      <div  class=" col-xl-3  m-0 p-0">
+      <div  class=" col-xl-2  m-0 p-0">
 
       </div>
-      <div  class="col-xl-9 m-0 p-0">
+      <div  class="col-xl-10 m-0 p-0">
         <Nuxt
           @GetFullName="SetFullName($event)"
         />

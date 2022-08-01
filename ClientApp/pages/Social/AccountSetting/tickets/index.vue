@@ -21,7 +21,7 @@
               <input
                 v-model="TicketTitle"
                 type="text"
-                class="form-control with-border"
+                class="SearchStyle with-border"
                 placeholder="عنوان تیکت"
               />
             </div>
