@@ -20,4 +20,11 @@ namespace BanooClub.Models
         [NotMapped]
         public Order OrderInfo { get; set; }
     }
+    public class PurchasedPlansByUserDto
+    {
+        public long ServiceId { get; set; }
+        public long PlanId { get; set; }
+        public int BuyCount { get; set; }
+        public string Title { get; set; }
+    }
 }

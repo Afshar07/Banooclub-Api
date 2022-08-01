@@ -37,6 +37,7 @@ namespace BanooClub.Services.UserServices
         private readonly IBanooClubEFRepository<ServicePack> servicePackRepository;
         private readonly IBanooClubEFRepository<Order> orderRepository;
         private readonly IBanooClubEFRepository<OrderItem> orderItemRepository;
+        private readonly IBanooClubEFRepository<Payment> paymentRepository;
         private readonly ISocialMediaService _mediaService;
         private readonly IRatingService ratingService;
         private readonly IHttpContextAccessor _accessor;
@@ -58,6 +59,7 @@ namespace BanooClub.Services.UserServices
             IBanooClubEFRepository<ServicePack> servicePackRepository,
             IBanooClubEFRepository<Order> orderRepository,
             IBanooClubEFRepository<OrderItem> orderItemRepository,
+            IBanooClubEFRepository<Payment> paymentRepository,
             IHttpContextAccessor accessor,
             ISocialMediaService socialMediaService,
             IRatingService ratingService,
@@ -74,6 +76,7 @@ namespace BanooClub.Services.UserServices
             this.servicePackRepository = servicePackRepository;
             this.orderRepository = orderRepository;
             this.orderItemRepository = orderItemRepository;
+            this.paymentRepository = paymentRepository;
             _activityRepository = activityRepository;
             this.userSettingRepository = userSettingRepository;
             _mediaRepository = mediaRepository;
@@ -1044,24 +1047,36 @@ namespace BanooClub.Services.UserServices
             userServicePacks = servicePackRepository.GetQuery().Where(z => z.UserId == userId).ToList();
 
             double lastWeekIncome = 0;
-
+            
             foreach (var item in userServicePacks)
             {
                 //پرداخت هایی که به ازای این سرویس در هفته آخر انجام شده
-                var income = orderRepository.GetQuery().Where(z => z.ServiceId == item.ServicePackId && z.CreateDate>=offset).Sum(x => x.SumPrice);
-                lastWeekIncome += income;
+
+                var dfdfdf = orderItemRepository.GetQuery().Where(z => z.ServiceId == item.ServicePackId);
+                //var income = orderRepository.GetQuery().Where(z => z.ServiceId == item.ServicePackId && z.CreateDate>=offset).Sum(x => x.SumPrice);
+                //lastWeekIncome += income;
 
             }
 
-
-            //همه پلن هایی که کاربر خریده
-
-
-            
-
+            //پرداخت های هفته آخر کاربر
+            double lastWeekPayed = paymentRepository.GetQuery()
+                .Where(z => z.UserId == userId && z.CreateDate>=offset && z.Status==0)
+                .Sum(x=>x.Amount);
 
 
+            // پلن هایی که کاربر خریده به تفکیک تعداد
+            string cmd = " SELECT            [Order].Orders.ServiceId, " +
+                         " [Order].OrderItems.PlanId, count( [Order].OrderItems.PlanId) PlanCount,Plans.Title " +
+                         " FROM Payment.Payments INNER JOIN " +
+                          " [Order].Orders ON Payment.Payments.UserId = [Order].Orders.UserId INNER JOIN " +
+                          " [Order].OrderItems ON[Order].Orders.OrderId = [Order].OrderItems.OrderId " +
+                          " inner JOIN Plans ON Plans.PlanId =[Order].OrderItems.PlanId " +
+                          $" WHERE ([Order].Orders.UserId = {userId}) " +
+                          " group by [Order].OrderItems.PlanId,[Order].Orders.ServiceId,Plans.Title ";
 
+            var purchasedPlans = await orderRepository.DapperSqlQuery(cmd);
+            var SerializeObject = JsonSerializer.Serialize<object>(purchasedPlans);
+            var serializedPurchasedPlans = JsonSerializer.Deserialize<List<PurchasedPlansByUserDto>>(SerializeObject);
 
             var Obj = new
             {
@@ -1072,7 +1087,9 @@ namespace BanooClub.Services.UserServices
                 ForumComments= lastWeekforumComments,
                 AllPostLikeCount= allPostLikeCount,
                 AllForumRate= allFroumsRate,
-                LastWeekIncome= lastWeekIncome,
+                //LastWeekIncome= lastWeekIncome,
+                //LastWeekPayed= lastWeekPayed,
+                //PurchasedPlans = serializedPurchasedPlans
             };
 
             return Obj;
