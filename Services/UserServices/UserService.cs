@@ -1025,6 +1025,7 @@ namespace BanooClub.Services.UserServices
             double lastWeekFroumsRate = 0;
             double allFroumsRate = 0;
             int lastWeekforumComments = 0;
+
             foreach (var item in userforums)
             {
                 //امتیاز هفته آخر فروم کاربر
