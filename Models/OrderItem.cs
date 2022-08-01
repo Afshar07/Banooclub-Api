@@ -1,4 +1,6 @@
-﻿namespace BanooClub.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BanooClub.Models
 {
     public class OrderItem : BaseEntity
     {
@@ -10,5 +12,7 @@
         public long VendorUserId { get; set; }
         public long Price { get; set; }
         public long? ServiceId { get; set; }
+        [NotMapped]
+        public ServicePack ServiceInfo { get; set; }
     }
 }

@@ -22,5 +22,7 @@ namespace BanooClub.Models
         public ServicePack ServiceInfo { get; set; }
         [NotMapped]
         public Ads AdsInfo { get; set; }
+        [NotMapped]
+        public Payment PaymentInfo { get; set; }
     }
 }
