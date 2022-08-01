@@ -332,7 +332,7 @@ namespace BanooClub.Services.ServicePackServices
                 if (dbMedia != null)
                 {
                     servicePack.Medias = new List<FileData>();
-                    servicePack.Medias.Add(new FileData() { Priority = 1, Base64 = dbMedia.PictureUrl });
+                    servicePack.Medias.Add(new FileData() { Priority = 1, Base64 = dbMedia.PictureUrl ,UploadType=1});
                 }
                 var dbRate = await ratingService.GetByObjectIdAndType(servicePack.ServicePackId, RatingType.Service);
                 servicePack.Rate = dbRate.Data.Average;
@@ -385,7 +385,8 @@ namespace BanooClub.Services.ServicePackServices
                     $"Update Common.tags set IsDeleted = 1  where Type = 1 and ObjectId = {id} " +
                     $"Update Service.ServiceProperties set IsDeleted = 1  where ServiceId = {id} " +
                     $"Update Comment set IsDeleted = 1  where ServiceId = {id} " +
-                    $"Update Service.ServicePacks set IsDeleted = 1  where ServicePackId ={id} ";
+                    $"Update Service.ServicePacks set IsDeleted = 1  where ServicePackId ={id} " +
+                    $"Update Common.WishLists set IsDeleted = 1  where Type = 1 and  ObjectId = {id} ";
                 await servicePackRepository.DapperSqlQuery(cmnd);
 
                 return true;

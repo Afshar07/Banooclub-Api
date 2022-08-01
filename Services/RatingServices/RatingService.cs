@@ -59,6 +59,42 @@ namespace BanooClub.Services.RatingServices
 
             return new ServiceResult<RateOveral>().Ok(obj);
         }
+        public async Task<IServiceResult<RateOveral>> GetLastWeekByObjectIdAndType(long objectId, RatingType type)
+        {
+            var offset = DateTime.Now.AddDays(-6);
+            var dbRates = _ratingRepository.GetQuery().Where(z => z.ObjectId == objectId && z.Type == type && z.CreateDate >= offset).ToList();
+            //var users = (await _accountManagerService.GetByIds(dbRates.Select(p => p.UserId).ToList()));
+
+            var Five = dbRates.Where(x => x.Rate == 5).Count();
+            var Four = dbRates.Where(x => x.Rate == 4).Count();
+            var Three = dbRates.Where(x => x.Rate == 3).Count();
+            var Two = dbRates.Where(x => x.Rate == 2).Count();
+            var One = dbRates.Where(x => x.Rate == 1).Count();
+            var Sum = ((Five * 5) + (Four * 4) + (Three * 3) + (Two * 2) + (One * 1));
+            var RATECOUNT = Five + Four + Three + Two + One;
+            double AVG = 0.0;
+            if (Sum > 0)
+            {
+                AVG = (double)Sum / (double)dbRates.Count();
+            }
+            RateOveral obj = new RateOveral()
+            {
+                FiveStar = RATECOUNT > 0 ? (Five * 100) / RATECOUNT : 0,
+                FourStar = RATECOUNT > 0 ? (Four * 100) / RATECOUNT : 0,
+                ThreeStar = RATECOUNT > 0 ? (Three * 100) / RATECOUNT : 0,
+                TwoStar = RATECOUNT > 0 ? (Two * 100) / RATECOUNT : 0,
+                OneStar = RATECOUNT > 0 ? (One * 100) / RATECOUNT : 0,
+                RateCount = RATECOUNT,
+                Average = AVG
+            };
+            //var OBJS = new List<object>()
+            //{
+            //    model,
+            //    obj
+            //};
+
+            return new ServiceResult<RateOveral>().Ok(obj);
+        }
 
         public IServiceResult<object> GetAll()
         {
