@@ -30,13 +30,7 @@ export default {
   },
 
   mounted() {
-    // Chart.defaults.set("plugins.datalabels", {
-    //   color: "#000000",
-    //   align: "top",
-    //   offset: 7,
-    //   anchor: "end",
-    //   textAlign: "center",
-    // });
+
     this.chart = new Chart(this.$refs.chart, {
       type: "bar",
       data: {

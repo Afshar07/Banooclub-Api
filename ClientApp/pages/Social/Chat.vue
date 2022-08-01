@@ -6,7 +6,7 @@
           <h1 class="h3 mt-3">مکالمات من </h1>
         </div>
         <div class="col-md-12 border-bottom pb-2 my-2">
-          <input type="search" v-model="Search" class="form-control" placeholder="جستجو">
+          <input type="search" v-model="Search" class="SearchStyle" placeholder="جستجو">
         </div>
 
         <div v-if="FilteredChats.length>0" v-for="(item,idx) in FilteredChats" :key="idx"  @click="SetActiveUser(item)" :class="GetActiveChatClass(item)" class="col-md-12 profile_item">

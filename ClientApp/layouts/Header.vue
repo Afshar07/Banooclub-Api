@@ -12,6 +12,17 @@
           <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
               exact-active-class="SingleShortCutActive"
+              to="/social/DashBoard"
+              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+            >
+              <DashBoard class="svg_icons_size"></DashBoard>
+              <!--                <i class="fas fa-home" style="font-size: 18px"></i>-->
+              <span v-if="!decrease_width" class="header_font_sidebar_size">داشبورد</span>
+            </nuxt-link>
+          </div>
+          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+            <nuxt-link
+              exact-active-class="SingleShortCutActive"
               to="/social"
               class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
             >
@@ -318,13 +329,25 @@
     <div class="offCanvasWrapper" :class="{ OffCanvasWrapperActive: true }">
       <div
         class="OffCanvas d-none d-xl-block "
-        style="z-index: 999999 !important; overflow-x: hidden; border-left: 1px solid #eeeeee"
+        style="z-index: 999999 !important; overflow-x: hidden; border-left: 1px solid #eeeeee;    box-shadow: 0px 0 12px 8px rgb(235 88 255 / 20%);"
         :class="{ decrease_width: decrease_width===true ,OffCanvasActive:decrease_width===false }"
         @mouseleave="MouseLeaveRightMenu"
         @mouseenter="MouseOverRightMenu"
       >
         <div class="offcanvas-body px-2 mt-3" style="height: 700px!important;overflow-y: scroll!important;">
           <div class="d-flex flex-column" style="padding-right: 15px">
+
+            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+              <nuxt-link
+                exact-active-class="SingleShortCutActive"
+                to="/social/DashBoard"
+                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+              >
+                <DashBoard class="svg_icons_size"></DashBoard>
+                <!--                <i class="fas fa-home" style="font-size: 18px"></i>-->
+                <span v-if="!decrease_width" class="header_font_sidebar_size">داشبورد</span>
+              </nuxt-link>
+            </div>
             <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
                 exact-active-class="SingleShortCutActive"
@@ -392,13 +415,13 @@
               </nuxt-link>
             </div>
             <div :class="[decrease_width ? '' : ' ']" class="py-1">
-              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+              <div v-if="!decrease_width"
                    class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <AdsIcon class="svg_icons_size"/>
                 <span class="header_font_sidebar_size">آگهی ها </span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div class="px-3" :class="[decrease_width ? '' : '']">
+              <div v-if="!decrease_width" class="px-3" >
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
@@ -456,7 +479,7 @@
                 <span v-if="!decrease_width" class="header_font_sidebar_size">خدمات </span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div class="px-3" :class="[decrease_width ? '' : '']">
+              <div v-if="!decrease_width" class="px-3" >
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
@@ -537,7 +560,7 @@
                 <span v-if="!decrease_width" class="header_font_sidebar_size">انجمن ها </span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div class="px-3" :class="[decrease_width ? '' : '']">
+              <div v-if="!decrease_width" class="px-3" >
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
@@ -583,7 +606,7 @@
                 <span v-if="!decrease_width" class="header_font_sidebar_size">هم خانه</span>
                 <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div class="px-3" :class="[decrease_width ? '' : '']">
+              <div v-if="!decrease_width" class="px-3" >
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
@@ -1469,7 +1492,7 @@ import PictureIcon from "../components/Icons/PictureIcon";
 import BedIcon from "../components/Icons/BedIcon";
 import FriendsIcon from "../components/Icons/FriendsIcon";
 import AdsIcon from "../components/Icons/AdsIcon";
-
+import DashBoard from "../components/Icons/DashBoard";
 import OrderIcon from "../components/Icons/OrderIcon";
 import BlogIcon from "../components/Icons/BlogIcon";
 import PlusIcon from "../components/Icons/PlusIcon";
@@ -1493,6 +1516,7 @@ export default {
     BlogIcon,
     PrivacyIcon,
     ChargeWalletSideNav,
+    DashBoard,
     CheveronIcon,
     CircleIcon,
     ForumIcon,
@@ -2355,7 +2379,7 @@ export default {
 }
 
 .OffCanvasActive {
-  width: 300px !important;
+  width: 17.3% !important;
   transition: 0.5s ease;
 }
 
@@ -2860,7 +2884,7 @@ export default {
   background: #fff;
   /* height: 60px; */
   /* padding: 0px 0px 0px 48px; */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 50px rgb(251 226 255);
   z-index: 999999;
   position: relative;
   justify-content: space-between;

@@ -46,7 +46,7 @@
         </div>
       </transition-group>
     </div>
-    <div class="col-12 text-warning fw-bold text-center mt-3" v-else>
+    <div class="col-12 text-warning fw-bold tw-text-right mt-3" v-else>
       هیچ دنبال کننده ای برای نمایش وجود ندارد
     </div>
 

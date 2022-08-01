@@ -98,7 +98,7 @@ export default {
     },
 
     GetElement(eleee) {
-      console.log(eleee);
+
     },
 
     SetSearchedUserStatus(state, status) {

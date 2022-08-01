@@ -225,7 +225,7 @@ components:{SetLocation},
         id:this.$route.query.adId
       })
       this.AdDetail = res.data
-      console.log(this.AdDetail)
+
 
     }catch (e){
       console.log(e)

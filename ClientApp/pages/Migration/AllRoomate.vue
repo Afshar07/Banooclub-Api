@@ -103,7 +103,7 @@ export default {
   },
   async fetch() {
     const response = await this.$repositories.getAllRoommates.getAllRoommates();
-    console.log(response);
+
     this.Allroomate = response.data;
   },
   data() {

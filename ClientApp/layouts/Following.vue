@@ -39,7 +39,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12 text-warning fw-bold text-center mt-3"  v-if="Following.length===0">
+    <div class="col-12 text-warning fw-bold tw-text-right mt-3"  v-if="Following.length===0">
       هیچ دنبال شونده ای برای نمایش وجود ندارد
     </div>
   </div>

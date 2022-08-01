@@ -65,14 +65,14 @@
               تومان
             </td>
             <td>
-              <div class="tw-bg-green-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-if="item.status === 3">
+              <div class="tw-bg-green-700 tw-cursor-pointer tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-if="item.status === 3">
                 <span class="text-white tw-text-xs">پرداخت </span>
               </div>
 
-              <div class="tw-bg-blue-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1"  >
-                <nuxt-link :to="`/Products/Order/${item.orderId}`">
-                  <span class="text-white tw-text-xs">مشاهده </span>
-                </nuxt-link>
+              <div class="tw-bg-blue-500 tw-cursor-pointer tw-rounded d-inline-flex justify-content-center align-items-center p-1"  >
+
+                  <span class="text-white tw-text-xs" @click="RouteToOrder(item)">مشاهده </span>
+
 
               </div>
             </td>
@@ -113,6 +113,21 @@ export default {
       displayChargeSideNav:false,
       AllOrders:[],
       SelectedPageNumber:1
+
+    }
+  },
+  methods:{
+    RouteToOrder(item){
+      if(item && item.subOrders&& item.subOrders.length===0){
+        this.$router.push({
+          path:`/Orders/ServiceOrderDetail/${item.orderId}`
+        })
+      }else{
+        this.$router.push({
+          path:`/Products/Order/${item.orderId}`
+        })
+
+      }
 
     }
   },

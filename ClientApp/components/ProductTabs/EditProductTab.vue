@@ -458,7 +458,8 @@ export default {
         reader.onload = (function (theFile) {
           return function () {
             const binaryData = reader.result;
-            if(this.is_first_image){
+            if(that.is_first_image){
+
               that.serviceDetailProp.medias.push({
                   base64: window.btoa(binaryData),
                   priority:1
@@ -492,7 +493,7 @@ export default {
           this.properties.forEach((element) => {
             result += parseInt(element.price)
           })
-          // this.serviceDetailProp.totalPrice = this.serviceDetailProp.totalPrice + result
+
         }
         try {
           const res = await this.$repositories.updateAService.updateAService(this.serviceDetailProp);
