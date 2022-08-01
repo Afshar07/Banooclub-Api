@@ -1017,6 +1017,7 @@ namespace BanooClub.Services.UserServices
                 #endregion
             }
 
+
             //فروم های این شخص
             List<Forum> userforums = new List<Forum>();
             userforums = forumRepository.GetQuery().Where(z => z.UserId == userId).ToList();
@@ -1048,13 +1049,34 @@ namespace BanooClub.Services.UserServices
 
             double lastWeekIncome = 0;
             
-            foreach (var item in userServicePacks)
+            foreach (var service in userServicePacks)
             {
                 //پرداخت هایی که به ازای این سرویس در هفته آخر انجام شده
 
-                var dfdfdf = orderItemRepository.GetQuery().Where(z => z.ServiceId == item.ServicePackId);
-                //var income = orderRepository.GetQuery().Where(z => z.ServiceId == item.ServicePackId && z.CreateDate>=offset).Sum(x => x.SumPrice);
-                //lastWeekIncome += income;
+                //var orderItemList = orderItemRepository.GetQuery().Where(z => z.ServiceId == service.ServicePackId);
+                //foreach (var item in orderItemList)
+                //{
+                //    var income = orderRepository.GetQuery().Where(z => z.ServiceId == item.ServicePackId && z.CreateDate>=offset).Sum(x => x.SumPrice);
+                //    lastWeekIncome += income;
+                //}
+
+                string incomeCmd = " SELECT        SUM([Order].Orders.SumPrice) price " +
+" FROM[Order].OrderItems INNER JOIN " +
+             " [Order].Orders ON[Order].OrderItems.OrderId = [Order].Orders.OrderId " +
+" WHERE([Order].OrderItems.ServiceId = 51 and[Order].Orders.IsPayed = 1 " +
+" and( " +
+
+" CAST([Order].Orders.CreateDate as date) between " +
+" CAST(DATEADD(dd, -7, GETDATE()) as date) and " +
+" CAST(GETDATE() AS DATE) " +
+" ) " +
+" ) ";
+ 
+
+                var incomes = await orderRepository.DapperSqlQuery(incomeCmd);
+                var incomesSerializeObject = JsonSerializer.Serialize<object>(incomes);
+                var serializedincomes = JsonSerializer.Deserialize<List<PurchasedPlansByUserDto>>(incomesSerializeObject);
+
 
             }
 

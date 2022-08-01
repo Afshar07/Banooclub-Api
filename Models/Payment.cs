@@ -27,4 +27,8 @@ namespace BanooClub.Models
         public int BuyCount { get; set; }
         public string Title { get; set; }
     }
+    public class IncomeDto
+    {
+        
+    }
 }
