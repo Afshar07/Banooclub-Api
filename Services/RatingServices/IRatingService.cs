@@ -12,5 +12,6 @@ namespace BanooClub.Services.RatingServices
         Task<IServiceResult<bool>> DeleteProductRate(long id);
         Task<IServiceResult<long>> CreateObjectRate(int rate, long objectId, RatingType type);
         Task<IServiceResult<Rating>> UpdateProductRate(Rating model);
+        Task<IServiceResult<RateOveral>> GetLastWeekByObjectIdAndType(long forumId, RatingType forum);
     }
 }
