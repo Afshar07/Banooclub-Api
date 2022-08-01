@@ -1021,7 +1021,6 @@ namespace BanooClub.Services.UserServices
             List<Forum> userforums = new List<Forum>();
             userforums = forumRepository.GetQuery().Where(z => z.UserId == userId).ToList();
             //
-
             double lastWeekFroumsRate = 0;
             double allFroumsRate = 0;
             int lastWeekforumComments = 0;
