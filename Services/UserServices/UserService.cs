@@ -921,20 +921,14 @@ namespace BanooClub.Services.UserServices
             var mySelfId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
-
-            int IsRequested = 0;
-            var dbFollowRequest = _followRequestRepository.GetQuery().FirstOrDefault(z => z.FollowerUserId == mySelfId && z.FollowingUserId == userId);
-            if (dbFollowRequest != null)
-            {
-                IsRequested = 1;
-            }
-
+            
             var completationCmd = userId ==0 ? "" : $"and U.UserId < {userId}";
-            string cmd = $"select SF.UserId as IsFollowing ,{IsRequested} as Requested, U.UserId , U.Name , U.FamilyName , U.UserName , SM.PictureUrl , US.Bio , U.Type , (select Count(*) from Social.Followers where UserId = U.userId) as FollowersCount , (select Count(*) from Social.Followings where UserId = U.userId) as FollowingsCount " +
+            string cmd = $"select SF.UserId as IsFollowing ,SFR.FollowingUserId as Requested, U.UserId , U.Name , U.FamilyName , U.UserName , SM.PictureUrl , US.Bio , U.Type , (select Count(*) from Social.Followers where UserId = U.userId) as FollowersCount , (select Count(*) from Social.Followings where UserId = U.userId) as FollowingsCount " +
             "  from[User].Users U "+
             "  join[User].UserSettings US on U.UserId = US.UserId "+
             "  join Social.Medias SM on SM.ObjectId = U.UserId " +
             $" left join Social.Followings SF on SF.FollowingUserId = U.UserId and SF.UserId = {mySelfId}"+
+            $" left join Social.FollowRequests SFR on SFR.FollowingUserId = U.UserId and SFR.FollowerUserId = {mySelfId}"+
             $"  where(U.Name like N'%{search}%' or U.FamilyName like N'%{search}%' or U.UserName like N'%{search}%') and SM.Type =2 {completationCmd} "+
             $"  order by U.userId Desc OFFSET 0 ROWS FETCH NEXT { count} ROWS ONLY ";
             var dbUsers = userRepository.DapperSqlQuery(cmd).Result;

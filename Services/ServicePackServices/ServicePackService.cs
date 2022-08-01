@@ -332,7 +332,7 @@ namespace BanooClub.Services.ServicePackServices
                 if (dbMedia != null)
                 {
                     servicePack.Medias = new List<FileData>();
-                    servicePack.Medias.Add(new FileData() { Priority = 1, Base64 = dbMedia.PictureUrl });
+                    servicePack.Medias.Add(new FileData() { Priority = 1, Base64 = dbMedia.PictureUrl ,UploadType=1});
                 }
                 var dbRate = await ratingService.GetByObjectIdAndType(servicePack.ServicePackId, RatingType.Service);
                 servicePack.Rate = dbRate.Data.Average;
