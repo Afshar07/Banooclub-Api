@@ -1047,7 +1047,7 @@ namespace BanooClub.Services.UserServices
             List<ServicePack> userServicePacks = new List<ServicePack>();
             userServicePacks = servicePackRepository.GetQuery().Where(z => z.UserId == userId).ToList();
 
-            double lastWeekIncome = 0;
+            long lastWeekIncome = 0;
             
             foreach (var service in userServicePacks)
             {
@@ -1060,23 +1060,23 @@ namespace BanooClub.Services.UserServices
                 //    lastWeekIncome += income;
                 //}
 
-                string incomeCmd = " SELECT        SUM([Order].Orders.SumPrice) price " +
-" FROM[Order].OrderItems INNER JOIN " +
-             " [Order].Orders ON[Order].OrderItems.OrderId = [Order].Orders.OrderId " +
-" WHERE([Order].OrderItems.ServiceId = 51 and[Order].Orders.IsPayed = 1 " +
-" and( " +
+//                string incomeCmd = " SELECT        SUM([Order].Orders.SumPrice) Price " +
+//" FROM[Order].OrderItems INNER JOIN " +
+//             " [Order].Orders ON[Order].OrderItems.OrderId = [Order].Orders.OrderId " +
+//$" WHERE([Order].OrderItems.ServiceId = {service.ServicePackId} and [Order].Orders.IsPayed = 1 " +
+//" and( " +
 
-" CAST([Order].Orders.CreateDate as date) between " +
-" CAST(DATEADD(dd, -7, GETDATE()) as date) and " +
-" CAST(GETDATE() AS DATE) " +
-" ) " +
-" ) ";
+//" CAST([Order].Orders.CreateDate as date) between " +
+//" CAST(DATEADD(dd, -7, GETDATE()) as date) and " +
+//" CAST(GETDATE() AS DATE) " +
+//" ) " +
+//" ) ";
  
 
-                var incomes = await orderRepository.DapperSqlQuery(incomeCmd);
-                var incomesSerializeObject = JsonSerializer.Serialize<object>(incomes);
-                var serializedincomes = JsonSerializer.Deserialize<List<PurchasedPlansByUserDto>>(incomesSerializeObject);
-
+                //var incomes = await orderRepository.DapperSqlQuery(incomeCmd);
+                //var incomesSerializeObject = JsonSerializer.Serialize<object>(incomes);
+                //var serializedincomes = JsonSerializer.Deserialize<IncomeDto>(incomesSerializeObject);
+                //lastWeekIncome += serializedincomes.Price;
 
             }
 
@@ -1109,7 +1109,7 @@ namespace BanooClub.Services.UserServices
                 AllPostLikeCount= allPostLikeCount,
                 AllForumRate= allFroumsRate,
                 //LastWeekIncome= lastWeekIncome,
-                //LastWeekPayed= lastWeekPayed,
+                LastWeekPayed= lastWeekPayed,
                 //PurchasedPlans = serializedPurchasedPlans
             };
 
