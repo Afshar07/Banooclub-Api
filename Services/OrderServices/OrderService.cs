@@ -17,10 +17,12 @@ namespace BanooClub.Services.OrderServices
         private readonly IBanooClubEFRepository<ServicePack> servicePackRepository;
         private readonly IBanooClubEFRepository<Ads> adsRepository;
         private readonly IBanooClubEFRepository<Payment> paymentRepository;
+        private readonly IBanooClubEFRepository<User> userRepository;
+        private readonly IBanooClubEFRepository<SocialMedia> mediaRepository;
         private readonly IHttpContextAccessor _accessor;
 
-        public OrderService(IBanooClubEFRepository<Order> orderRepository, IHttpContextAccessor accessor,
-            IBanooClubEFRepository<OrderItem> orderItemRepository,
+        public OrderService(IBanooClubEFRepository<Order> orderRepository, IHttpContextAccessor accessor, IBanooClubEFRepository<SocialMedia> mediaRepository,
+            IBanooClubEFRepository<OrderItem> orderItemRepository, IBanooClubEFRepository<User> userRepository,
             IBanooClubEFRepository<Ads> adsRepository, IBanooClubEFRepository<Payment> paymentRepository,
             IBanooClubEFRepository<ServicePack> servicePackRepository)
         {
@@ -30,6 +32,8 @@ namespace BanooClub.Services.OrderServices
             this.adsRepository = adsRepository;
             this.servicePackRepository = servicePackRepository;
             this.paymentRepository = paymentRepository;
+            this.userRepository = userRepository;
+            this.mediaRepository = mediaRepository;
         }
         public async Task<long> Create(Order inputDto)
         {
@@ -81,6 +85,7 @@ namespace BanooClub.Services.OrderServices
         public async Task<Order> Get(long id)
         {
             var order = orderRepository.GetQuery().FirstOrDefault(z => z.OrderId == id);
+            order.SubOrders = new List<OrderItem>();
             var SubOrders = orderItemRepository.GetQuery().Where(z => z.OrderId == id).ToList();
 
             order.SubOrders = SubOrders;
@@ -89,6 +94,27 @@ namespace BanooClub.Services.OrderServices
                 if(sub.ServiceId != null)
                 {
                     sub.ServiceInfo = servicePackRepository.GetQuery().FirstOrDefault(z => z.ServicePackId == sub.ServiceId);
+                    if(sub.ServiceInfo != null)
+                    {
+                        sub.ServiceInfo.UserInfo = userRepository.GetQuery().FirstOrDefault(z => z.UserId == sub.ServiceInfo.UserId);
+                        var dbVendorMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == sub.ServiceInfo.UserId && z.Type == MediaTypes.Profile);
+                        if(dbVendorMedia != null)
+                        {
+                            sub.ServiceInfo.UserInfo.SelfieFileData = dbVendorMedia != null ? dbVendorMedia.PictureUrl : "";
+                        }
+                        var ServiceMedias = mediaRepository.GetQuery().Where(z => z.ObjectId == sub.ServiceInfo.ServicePackId && z.Type == MediaTypes.Service).ToList();
+                        sub.ServiceInfo.Medias = new List<FileData>();
+                        foreach(var item in ServiceMedias)
+                        {
+                            var data = new FileData()
+                            {
+                                Base64 = item.PictureUrl,
+                                Priority = item.Priority,
+                                UploadType = 1
+                            };
+                            sub.ServiceInfo.Medias.Add(data);
+                        }
+                    }
                 }
             }
 
