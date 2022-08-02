@@ -1,5 +1,5 @@
 <template>
-  <div class="row px-2 py-3">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="row px-2 py-3">
     <input
       class="SearchStyle"
       type="text"

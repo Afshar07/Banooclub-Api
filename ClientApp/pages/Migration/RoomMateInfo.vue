@@ -1,6 +1,6 @@
 <template>
-  <div class="container px-0 mcontainer">
-    <div v-if="roomateData">
+  <div :class="roomateData===null?'loading-skeleton':''" class="container px-0 mcontainer">
+    <div >
       <div class="col-12">
         <div class="col-md-12">
           <div class="row p-4">

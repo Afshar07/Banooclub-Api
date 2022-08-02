@@ -1,5 +1,5 @@
 <template>
-  <div class=" mcontainer px-2">
+  <div :class="$fetchState.pending?'loading-skeleton':''"  class=" mcontainer bg-white  px-2">
     <div class="row" style="padding-left: 0">
       <h1 class="tw-text-2xl tw-font-semibold pb-3">افزودن خدمت</h1>
       <div class="row" style="padding-left: 0">

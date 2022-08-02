@@ -19,7 +19,15 @@ export default {
     ProductDetail,
     Chart
   },
+async fetch(){
 
+
+},
+  data(){
+    return{
+      ServiceViews:null
+    }
+  },
   props:{
     service_details:{
       type: Object,

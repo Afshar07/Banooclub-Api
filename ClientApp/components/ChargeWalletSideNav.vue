@@ -88,6 +88,7 @@ export default {
         this.$nuxt.loading = false;
         this.$toast.success("سفارش شما با موفقیت ثبت شد.");
         this.$router.push({path: `/Products/Order/${res.data}`});
+        this.WalletAmount = 0
 
       }
       catch (error){

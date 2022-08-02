@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer px-2 h-100">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer px-2 h-100">
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="tw-text-2xl tw-font-semibold py-3">خدمات سفارش داده شده</h2>
     </div>
@@ -50,10 +50,10 @@
              </span>
             </th>
             <td>
-              <div class="tw-bg-green-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1"
-                   v-if="item.status === 3">
-                <span class="text-white tw-text-xs">پرداخت </span>
-              </div>
+<!--              <div class="tw-bg-green-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1"-->
+<!--                   v-if="item.status === 3">-->
+<!--                <span class="text-white tw-text-xs">پرداخت </span>-->
+<!--              </div>-->
 
               <div
                 class="tw-bg-blue-500 tw-rounded tw-cursor-pointer d-inline-flex justify-content-center align-items-center p-1"
@@ -117,28 +117,28 @@
          class="col-md-12 d-flex align-items-center justify-content-center">
       <Spinner></Spinner>
     </div>
-    <div v-if="SelectedUser!==null" class="col-md-12 my-3 bg-white p-3 ">
+    <div v-if="SelectedUser!==null" class="col-md-12 my-3  bg-white p-3 ">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-3">
           <span  class="text-secondary">نام کوچک : </span>
           <span>{{SelectedUser.name}}</span>
 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
           <span  class="text-secondary">نام خانوادگی : </span>
           <span>{{SelectedUser.familyName}}</span>
 
         </div>
-        <div class="col-md-6 my-3">
+        <div class="col-md-3 ">
           <span  class="text-secondary">نام کاربری: </span>
           <nuxt-link class=" tw-transition tw-text-blue-500 text-decoration-none" :to="`/user/${SelectedUser.userName}/posts`">@{{SelectedUser.userName}}</nuxt-link>
         </div>
-        <div class="col-md-6 my-3">
+        <div class="col-md-3 my-3">
           <span  class="text-secondary">شماره موبایل : </span>
           <span v-if="SelectedUser.mobile!=='' || SelectedUser.mobile!==null">{{SelectedUser.mobile}}</span>
           <span v-else>-</span>
         </div>
-        <div class="col-md-12 d-flex align-items-center gap-2">
+        <div class="col-md-12  d-flex align-items-center gap-2">
           <span  class="text-secondary">ایمیل : </span>
           <span v-if="SelectedUser.email!=='' || SelectedUser.email!==null">{{SelectedUser.email}}</span>
           <span v-else>-</span>

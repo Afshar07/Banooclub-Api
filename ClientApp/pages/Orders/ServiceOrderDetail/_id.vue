@@ -1,93 +1,123 @@
 <template>
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="mcontainer">
+    <div class="container ">
+      <div class="row ">
+        <div class="well col-xs-10 col-sm-10 p-4 rounded col-md-12 col-xs-offset-1 col-sm-offset-1 col-md-offset-3 bg-white tw-shadow-xl">
+          <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-6">
 
-  <div class="tw-py-14 tw-px-4 md:tw-px-6 2xl:tw-px-20 2xl:container 2xl:tw-mx-auto">
-    <div class="tw-flex tw-justify-start item-start tw-space-y-2 tw-flex-col">
-      <h1 class="tw-text-3xl dark:tw-text-white lg:tw-text-4xl tw-font-semibold tw-leading-7 lg:tw-leading-9 tw-text-gray-800">شناسه سفارش : </h1>
-      <p class="tw-text-base dark:tw-text-gray-300 tw-font-medium tw-leading-6 tw-text-gray-600">تاریخ : {{new Date(Date.now()).toLocaleDateString('fa-IR')}}</p>
-    </div>
-    <div class="tw-mt-10 tw-flex tw-flex-col xl:tw-flex-row jusitfy-center tw-items-stretch tw-w-full xl:tw-space-x-8 tw-space-y-4 md:tw-space-y-6 xl:tw-space-y-0">
-      <div class="tw-flex tw-flex-col tw-justify-start tw-items-start tw-w-full tw-space-y-4 md:tw-space-y-6 xl:tw-space-y-8">
-        <div class="tw-flex tw-flex-col tw-justify-start tw-items-start dark:tw-bg-gray-800 tw-bg-gray-50 tw-px-4 tw-py-4 md:tw-py-6 md:tw-p-6 xl:tw-p-8 tw-w-full">
-          <div class="tw-mt-4 md:tw-mt-6 tw-flex tw-flex-col md:tw-flex-row tw-justify-start tw-items-start md:tw-items-center md:tw-space-x-6 xl:tw-space-x-8 tw-w-full">
-            <div class="tw-pb-4 md:tw-pb-8 tw-w-full md:tw-w-40">
-              <img class="tw-w-full tw-hidden md:tw-block" src="https://i.ibb.co/84qQR4p/Rectangle-10.png" alt="dress" />
-              <img class="tw-w-full md:tw-hidden" src="https://i.ibb.co/L039qbN/Rectangle-10.png" alt="dress" />
+                <nuxt-link  class="text-decoration-none " :to="`/Products/${serviceDetail.servicePackId}`">
+                  <strong class="text-primary mb-3">{{ serviceDetail.title }}</strong>
+                </nuxt-link>
+
+                <br>
+                <div class="d-flex align-items-center justify-content-between">
+                  <small class="text-secondary">قیمت : </small>
+                  <small class="">{{ serviceDetail.totalPrice }} </small>
+                </div>
+                <br>
+                <div class="d-flex align-items-center justify-content-between">
+                  <small class="text-secondary">ظرفیت باقی مانده : </small>
+                  <small class="">{{ serviceDetail.maintain }} </small>
+                </div>
+                <br>
+                <div class="d-flex align-items-center justify-content-between">
+                  <small class="text-secondary">تاریخ انقضا : </small>
+                  <small class="">{{ new Date(serviceDetail.expireDate).toLocaleDateString('fa-IR')  }} </small>
+                </div>
+
             </div>
-            <div class="tw-border-b tw-border-gray-200 md:tw-flex-row tw-flex-col tw-flex tw-justify-between tw-items-start tw-w-full tw-pb-8 tw-space-y-4 md:tw-space-y-0">
-              <div class="tw-w-full tw-flex tw-flex-col tw-justify-start tw-items-start tw-space-y-8">
-                <h3 class="tw-text-xl dark:tw-text-white xl:tw-text-2xl tw-font-semibold tw-leading-6 tw-text-gray-800">Premium Quaility Dress</h3>
-                <div class="tw-flex tw-justify-start tw-items-start tw-flex-col tw-space-y-2">
-                  <p class="tw-text-sm dark:tw-text-white tw-leading-none tw-text-gray-800"><span class="dark:tw-text-gray-400 tw-text-gray-300">Style: </span> Italic Minimal Design</p>
-                  <p class="tw-text-sm dark:tw-text-white tw-leading-none tw-text-gray-800"><span class="dark:tw-text-gray-400 tw-text-gray-300">Size: </span> Small</p>
-                  <p class="tw-text-sm dark:tw-text-white tw-leading-none tw-text-gray-800"><span class="dark:tw-text-gray-400 tw-text-gray-300">Color: </span> Light Blue</p>
+            <div v-if="serviceDetail.userInfo" class="col-xs-6 col-sm-6 col-md-6">
+
+              <div class="d-flex align-items-center justify-content-between">
+                <strong class="text-primary ">ارائه دهنده :</strong>
+                <nuxt-link class="text-decoration-none" :to="`/user/${serviceDetail.userInfo.userName }/posts`">
+                  <small class="">{{ serviceDetail.userInfo.userName }}@ </small>
+                </nuxt-link>
+
+              </div>
+              <div class="d-flex align-items-center justify-content-between">
+                <small class="text-secondary">نام و نام خانوادگی : </small>
+                <small class="">{{ serviceDetail.userInfo.name + ' ' +  serviceDetail.userInfo.familyName }} </small>
+              </div>
+              <br>
+              <div class="d-flex align-items-center justify-content-between">
+                <small class="text-secondary">شماره تماس : </small>
+                <small class="">{{ serviceDetail.userInfo.mobile }} </small>
+              </div>
+              <br>
+              <div class="d-flex align-items-center justify-content-between">
+                <small class="text-secondary">ایمیل : </small>
+                <small class="">{{ serviceDetail.userInfo.email }} </small>
+              </div>
+              <div class="tw-grid tw-grid-cols-2 tw-gap-x-2">
+                <div class="d-flex tw-col-span-1 align-items-center justify-content-between">
+                  <button @click="GoToChat(serviceDetail)" class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
+                    چت
+                  </button>
+                </div>
+                <div class="d-flex tw-col-span-1 align-items-center justify-content-between">
+                  <a :href="`tel:${serviceDetail.mobile}`" class="text-decoration-none tw-bg-gray-200 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md my-1">
+                    تماس
+                  </a>
                 </div>
               </div>
-              <div class="tw-flex tw-justify-between tw-space-x-8 tw-items-start tw-w-full">
-                <p class="tw-text-base dark:tw-text-white xl:tw-text-lg tw-leading-6">$36.00 <span class="tw-text-red-300 tw-line-through"> $45.00</span></p>
-                <p class="tw-text-base dark:tw-text-white xl:tw-text-lg tw-leading-6 tw-text-gray-800">01</p>
-                <p class="tw-text-base dark:tw-text-white xl:tw-text-lg tw-font-semibold tw-leading-6 tw-text-gray-800">$36.00</p>
-              </div>
+
+
+
             </div>
           </div>
+          <div class="row my-3">
+            <div class="text-right">
+              <h4 class="tw-font-bold ">جزئیات پرداخت</h4>
+            </div>
+            <table v-if="OrderData.paymentInfo" class="tw-table tw-w-full tw-table-zebra" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
+              <!-- head -->
+              <thead>
+              <tr>
+                <th>شناسه</th>
+                <th>شناسه پرداخت</th>
+                <th>کد پیگیری</th>
+                <th>تاریخ</th>
+                <th>وضعیت</th>
+                <th>مجموع</th>
+              </tr>
+              </thead>
+              <tbody>
+              <!-- rows -->
+              <tr class="tw-hover"  >
+                <th class="fw-normal">{{ OrderData.paymentInfo.paymentId }}</th>
+                <th class="fw-normal" v-tooltip.bottom-start="OrderData.paymentInfo.transId">{{OrderData.paymentInfo.transId.substr(0,6)}}...</th>
+                <th class="fw-normal">{{OrderData.paymentInfo.refId}}</th>
+                <td>{{ new Date(OrderData.paymentInfo.createDate).toLocaleTimeString('fa-IR') }}</td>
+                <td>
+                  <div class="tw-bg-red-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-if="OrderData.paymentInfo.status === -2 || OrderData.paymentInfo.status ===-4">
+                    <span class="text-white tw-text-xs">لغو شده</span>
+                  </div>
+                  <div class="tw-bg-green-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="OrderData.paymentInfo.status === 0">
+                    <span class="text-white tw-text-xs">پرداخت شده</span>
+                  </div>
+                  <div class="tw-bg-gray-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="OrderData.paymentInfo.status === -122">
+                    <span class="text-white tw-text-xs">در انتظار پرداخت</span>
+                  </div>
+                  <div class="tw-bg-yellow-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="OrderData.paymentInfo.status === -49">
+                    <span class="text-white tw-text-xs">تراکنش تکراری</span>
+                  </div>
+                  <div class="tw-bg-blue-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="OrderData.paymentInfo.status === -3">
+                    <span class="text-white tw-text-xs">در انتظار پاسخ</span>
+                  </div>
 
-        </div>
-        <div class="tw-flex tw-justify-center tw-flex-col md:tw-flex-row tw-flex-col tw-items-stretch tw-w-full tw-space-y-4 md:tw-space-y-0 md:tw-space-x-6 xl:tw-space-x-8">
-          <div class="tw-flex tw-flex-col tw-px-4 tw-py-6 md:tw-p-6 xl:tw-p-8 tw-w-full tw-bg-gray-50 dark:tw-bg-gray-800 tw-space-y-6">
-            <h3 class="tw-text-xl dark:tw-text-white tw-font-semibold tw-leading-5 tw-text-gray-800">Summary</h3>
-            <div class="tw-flex tw-justify-center tw-items-center tw-w-full tw-space-y-4 tw-flex-col tw-border-gray-200 tw-border-b tw-pb-4">
-              <div class="tw-flex tw-justify-between tw-w-full">
-                <p class="tw-text-base dark:tw-text-white tw-leading-4 tw-text-gray-800">Subtotal</p>
-                <p class="tw-text-base dark:tw-text-gray-300 tw-leading-4 tw-text-gray-600">$56.00</p>
-              </div>
-              <div class="tw-flex tw-justify-between tw-items-center tw-w-full">
-                <p class="tw-text-base dark:tw-text-white tw-leading-4 tw-text-gray-800">Discount <span class="tw-bg-gray-200 tw-p-1 tw-text-xs tw-font-medium dark:tw-bg-white dark:tw-text-gray-800 tw-leading-3 tw-text-gray-800">STUDENT</span></p>
-                <p class="tw-text-base dark:tw-text-gray-300 tw-leading-4 tw-text-gray-600">-$28.00 (50%)</p>
-              </div>
-              <div class="tw-flex tw-justify-between tw-items-center tw-w-full">
-                <p class="tw-text-base dark:tw-text-white tw-leading-4 tw-text-gray-800">Shipping</p>
-                <p class="tw-text-base dark:tw-text-gray-300 tw-leading-4 tw-text-gray-600">$8.00</p>
-              </div>
-            </div>
-            <div class="tw-flex tw-justify-between tw-items-center tw-w-full">
-              <p class="tw-text-base dark:tw-text-white tw-font-semibold tw-leading-4 tw-text-gray-800">Total</p>
-              <p class="tw-text-base dark:tw-text-gray-300 tw-font-semibold tw-leading-4 tw-text-gray-600">$36.00</p>
-            </div>
-          </div>
 
-        </div>
-      </div>
-      <div class="tw-bg-gray-50 dark:tw-bg-gray-800 tw-w-full xl:tw-w-96 tw-flex tw-justify-between tw-items-center md:tw-items-start tw-px-4 tw-py-6 md:tw-p-6 xl:tw-p-8 tw-flex-col">
-        <h3 class="tw-text-xl dark:tw-text-white tw-font-semibold tw-leading-5 tw-text-gray-800">Customer</h3>
-        <div class="tw-flex tw-flex-col md:tw-flex-row xl:tw-flex-col tw-justify-start tw-items-stretch tw-h-full tw-w-full md:tw-space-x-6 lg:tw-space-x-8 xl:tw-space-x-0">
-          <div class="tw-flex tw-flex-col tw-justify-start tw-items-start tw-flex-shrink-0">
-            <div class="tw-flex tw-justify-center tw-w-full md:tw-justify-start tw-items-center tw-space-x-4 tw-py-8 tw-border-b tw-border-gray-200">
-              <img src="https://i.ibb.co/5TSg7f6/Rectangle-18.png" alt="avatar" />
-              <div class="tw-flex tw-justify-start tw-items-start tw-flex-col tw-space-y-2">
-                <p class="tw-text-base dark:tw-text-white tw-font-semibold tw-leading-4 tw-text-left tw-text-gray-800">David Kent</p>
-                <p class="tw-text-sm dark:tw-text-gray-300 tw-leading-5 tw-text-gray-600">10 Previous Orders</p>
-              </div>
-            </div>
 
-            <div class="tw-flex tw-justify-center tw-text-gray-800 dark:tw-text-white md:tw-justify-start tw-items-center tw-space-x-4 tw-py-4 tw-border-b tw-border-gray-200 tw-w-full">
-              <img class="dark:tw-hidden" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/order-summary-3-svg1.svg" alt="email">
-              <img class="tw-hidden dark:tw-block" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/order-summary-3-svg1dark.svg" alt="email">
-              <p class="tw-cursor-pointer tw-text-sm tw-leading-5 ">david89@gmail.com</p>
-            </div>
-          </div>
-          <div class="tw-flex tw-justify-between xl:tw-h-full tw-items-stretch tw-w-full tw-flex-col tw-mt-6 md:tw-mt-0">
-            <div class="tw-flex tw-justify-center md:tw-justify-start xl:tw-flex-col tw-flex-col md:tw-space-x-6 lg:tw-space-x-8 xl:tw-space-x-0 tw-space-y-4 xl:tw-space-y-12 md:tw-space-y-0 md:tw-flex-row tw-items-center md:tw-items-start">
-              <div class="tw-flex tw-justify-center md:tw-justify-start tw-items-center md:tw-items-start tw-flex-col tw-space-y-4 xl:tw-mt-8">
-                <p class="tw-text-base dark:tw-text-white tw-font-semibold tw-leading-4 tw-text-center md:tw-text-left tw-text-gray-800">Shipping Address</p>
-                <p class="tw-w-48 lg:tw-w-full dark:tw-text-gray-300 xl:tw-w-48 tw-text-center md:tw-text-left tw-text-sm tw-leading-5 tw-text-gray-600">180 North King Street, Northhampton MA 1060</p>
-              </div>
-              <div class="tw-flex tw-justify-center md:tw-justify-start tw-items-center md:tw-items-start tw-flex-col tw-space-y-4">
-                <p class="tw-text-base dark:tw-text-white tw-font-semibold tw-leading-4 tw-text-center md:tw-text-left tw-text-gray-800">Billing Address</p>
-                <p class="tw-w-48 lg:tw-w-full dark:tw-text-gray-300 xl:tw-w-48 tw-text-center md:tw-text-left tw-text-sm tw-leading-5 tw-text-gray-600">180 North King Street, Northhampton MA 1060</p>
-              </div>
-            </div>
-            <div class="tw-flex tw-w-full tw-justify-center tw-items-center md:tw-justify-start md:tw-items-start">
-              <button class="tw-mt-6 md:tw-mt-0 dark:tw-border-white dark:hover:tw-bg-gray-900 dark:tw-bg-transparent dark:tw-text-white tw-py-5 hover:tw-bg-gray-200 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2 focus:tw-ring-gray-800 tw-border tw-border-gray-800 tw-font-medium tw-w-96 2xl:tw-w-full tw-text-base tw-font-medium tw-leading-4 tw-text-gray-800">Edit Details</button>
-            </div>
+                </td>
+                <td>
+                  {{Intl.NumberFormat('fa-IR').format(OrderData.paymentInfo.amount)}}
+                  تومان
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
           </div>
         </div>
       </div>
@@ -102,17 +132,23 @@ export default {
   layout:'PoshtebamPlusLayout',
   data(){
     return{
-      OrderData:null
+      OrderData:'',
+      serviceDetail:''
     }
+  },
+  methods:{
+    GoToChat(item){
+      this.$router.push({path:'/Social/Chat',query:{userId:item.userInfo.userId,Photo:item.userInfo.selfieFileData}})
+    },
   },
 
   async fetch(){
     try {
-      const res = this.$repositories.getAOrder.getAOrder({
+      const res = await this.$repositories.getAOrder.getAOrder({
         orderId:this.$route.params.id
       })
       this.OrderData = res.data
-      console.log(this.OrderData)
+        this.serviceDetail = res.data.subOrders[0].serviceInfo
     }catch (e) {
 
     }
@@ -121,5 +157,80 @@ export default {
 </script>
 
 <style scoped>
+body{
+  background-color: #eee;
+}
+.card{
+  background-color: #fff;
+  width: 600px;
+  border: none;
+  border-radius: 16px;
 
+}
+
+.info{
+  line-height: 19px;
+}
+
+.name{
+  color: #4c40e0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.order{
+  font-size: 14px;
+  font-weight: 400;
+  color: #b7b5b5;
+}
+.detail{
+
+  line-height:19px;
+}
+
+.summery{
+
+
+  color: #d2cfcf;
+  font-weight: 400;
+  font-size: 13px;
+}
+
+
+.text{
+
+  line-height:15px;
+}
+.new{
+
+  color: #000;
+  font-size: 14px;
+  font-weight: 600;
+}
+.money{
+
+
+  font-size: 14px;
+  font-weight:500;
+}
+.address{
+
+  color: #d2cfcf;
+  font-weight:500;
+  font-size:14px;
+}
+
+.last{
+
+  font-size: 10px;
+  font-weight: 500;
+
+}
+
+
+.address-line{
+  color: #4C40E0;
+  font-size: 11px;
+  font-weight: 700;
+}
 </style>

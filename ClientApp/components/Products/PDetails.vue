@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="$fetchState.pending?'loading-skeleton':''" >
     <base-modal
       @close_modal="hideDeleteModal"
       :isRenderingModal="isRenderingDeleteConfirmation"
@@ -120,7 +120,7 @@
                 </button>
               </li>
               <li>
-                <button style="font-size: 15px" @click="toggleWishList(service_details.servicePackId)" class="tw-w-full tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
+                <button style="font-size: 15px" @click="toggleWishList(service_details)" class="tw-w-full tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
                   <span v-if="service_details.isFavourite" class="d-flex">
                     <SolidSter/>
                     حذف از علاقه مندی ها

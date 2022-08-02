@@ -1,10 +1,10 @@
 <template>
-  <div class="container tw-shadow p-3 mcontainer">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container tw-shadow bg-white p-3 mcontainer">
     <div class="row">
       <h1 class="tw-text-2xl tw-font-semibold">آگهی ها</h1>
 
     </div>
-    <div class="tab-content" id="pills-tabContent" v-if="!$fetchState.pending">
+    <div class="tab-content" id="pills-tabContent" >
 
         <div class="row boxMainContent mx-auto">
           <div class="col-12  px-0">

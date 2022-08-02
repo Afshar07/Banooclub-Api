@@ -154,8 +154,7 @@ export default {
         else{
           this.$toast.success("خدمت به علاقمندی ها اضافه شد");
         }
-        this.$nuxt.refresh()
-        this.$fetch()
+        this.$emit('GetServices')
       }
       catch (error){
         console.log(error)

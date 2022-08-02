@@ -23,7 +23,7 @@
       <div  class=" col-xl-2  m-0 p-0">
 
       </div>
-      <div  class="col-xl-10 m-0 p-0">
+      <div  class="col-xl-10 m-0 p-0 tw-bg-[#f5f5f5]">
         <Nuxt
           @GetFullName="SetFullName($event)"
         />

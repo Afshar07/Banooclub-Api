@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer">
     <div class="row">
       <h1 class="tw-text-2xl tw-font-semibold">علاقه مندیها</h1>
       <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
@@ -99,8 +99,7 @@ export default {
     })
       this.ServicesWishList = res.data.serviceWishes
       this.AdsWishList = res.data.adsWishes
-      console.log(this.ServicesWishList)
-      console.log(this.AdsWishList)
+
     }
     catch (error){
       console.log(error)

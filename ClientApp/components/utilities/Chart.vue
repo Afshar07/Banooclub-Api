@@ -1,95 +1,73 @@
 <template>
-  <div class="main-section w-full">
-    <div class="w-full my-3 px-4">
-      <canvas ref="chart" class="tw-w-full tw-h-full" ></canvas>
-    </div>
+  <div class="bg-white rounded BoxShadow p-3" style="height: 500px!important;">
+      <canvas ref="LineChart" class="w-100 " style="height: 500px!important;"></canvas>
+
   </div>
 </template>
 
 <script>
-// import ChartDataLabels from "chartjs-plugin-datalabels";
-import Chart from "chart.js"
+
+
+import Chart from "chart.js";
+
 export default {
-  name: "Chart",
-  async fetch(){
+  name: 'Chart',
+  async fetch() {
     try {
       const service_view = await this.$repositories.GetwithView.GetwithView(
         {
           servicePackId:this.$route.params.UpgradeProduct
-        }
-      )
-      this.ServiceViews = service_view.data
-      this.ServiceViews.weekViews.data.forEach(el=>{
-        this.labels.push(new Date(el.createDate).toLocaleDateString('fa-IR'))
-        this.dataSets.push(el.count)
-      })
-    }
-    catch (error){
-      console.log(error)
-    }
-  },
+        })
 
-  mounted() {
+      this.ChartData = service_view.data.weekViews.data
 
-    this.chart = new Chart(this.$refs.chart, {
-      type: "bar",
-      data: {
-        labels: this.labels,
+    }catch (e) {
+      console.log(e)
+    }
+    if (this.ChartData) {
+
+      let tmpLabels = []
+      let tmpData = []
+      let tmpDataset = {
+        labels: [],
         datasets: [
           {
-            label: "آمار بازدید",
-            data: this.dataSets,
-            backgroundColor: "#2563eb",
-            font: {
-              size: 20,
-              family: "IranSans",
-            },
-          },
-        ],
+            label: 'آمار بازدید',
+            backgroundColor: '#1470ce',
+            data: []
+          }
+        ]
+      }
+      this.ChartData.forEach((item) => {
+        tmpLabels.push( new Date(item.createDate).toLocaleDateString('fa-IR') )
+        tmpData.push(item.count)
+      })
+      tmpDataset.labels = tmpLabels
+      tmpDataset.datasets[0].data = tmpData
+
+      this.chartData = tmpDataset
+
+    }
+    this.BarChart = new Chart(this.$refs.LineChart, {
+      type: 'bar',
+      data: {
+        labels: this.chartData.labels,
+        datasets: this.chartData.datasets
       },
-      // plugins: [ChartDataLabels],
-      options: {
-        responsive: true,
-        plugins: {
-          decimation: true,
-          legend: {
-            font: {
-              size: 14,
-              family: "IranSans",
-            },
-            position: "top",
-          },
-          title: {
-            display: true,
-            text: "آمار بازدید",
-            font: {
-              size: 20,
-              family: "IranSans",
-            },
-          },
-        },
-        borderWidth: 1,
-      },
-    });
+      options: this.chartOptions
+    })
+
   },
+
   data() {
     return {
-      ServiceViews:[],
-      dataSets: [],
-      chart: null,
-      labels:[],
-
-    };
-  },
-  props:{
-    serviceViews:{
-      type: Array,
-      required:true
+      BarChart: null,
+      ChartData:null,
+      chartOptions: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>
