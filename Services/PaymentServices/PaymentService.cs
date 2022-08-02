@@ -241,7 +241,7 @@ namespace BanooClub.Services.PaymentServices
                         await walletRepository.Update(dbWallet);
                     }
                 }
-                if ((dbOrder.ServiceId != null && dbOrder.ServiceId != 0) || (dbOrder.AdsId != null && dbOrder.AdsId != 0))
+                if ((dbOrder.ServiceId != null && dbOrder.ServiceId != 0) || (dbOrder.AdsId != null && dbOrder.AdsId != 0) && dbPayment.WalletCharge != true )
                 {
                     var dbOrderItems = orderItemRepository.GetQuery().Where(z => z.OrderId == dbOrder.OrderId).ToList();
                     foreach (var item in dbOrderItems)
@@ -273,7 +273,7 @@ namespace BanooClub.Services.PaymentServices
                         
                     }
                 }
-                else if ((dbOrder.AdsId == null || dbOrder.AdsId == 0) && (dbOrder.ServiceId == null || dbOrder.ServiceId == 0))
+                else if ((dbOrder.AdsId == null || dbOrder.AdsId == 0) && (dbOrder.ServiceId == null || dbOrder.ServiceId == 0) && dbPayment.WalletCharge != true)
                 {
                     var dbOrderItems = orderItemRepository.GetQuery().Where(z => z.OrderId == dbOrder.OrderId).ToList();
                     foreach (var item in dbOrderItems)
