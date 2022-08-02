@@ -192,7 +192,7 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost]
-        [Route("[action]"), Authorize]
+        [Route("[action]"), Authorize]                        
         public async Task<object> UserDashboards()
         {
             return await userService.UserDashboards();

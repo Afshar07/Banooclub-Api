@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -38,6 +39,7 @@ namespace BanooClub.Services.UserServices
         private readonly IBanooClubEFRepository<Order> orderRepository;
         private readonly IBanooClubEFRepository<OrderItem> orderItemRepository;
         private readonly IBanooClubEFRepository<Payment> paymentRepository;
+        private readonly IBanooClubEFRepository<Wallet> walletRepository;
         private readonly ISocialMediaService _mediaService;
         private readonly IRatingService ratingService;
         private readonly IHttpContextAccessor _accessor;
@@ -57,6 +59,7 @@ namespace BanooClub.Services.UserServices
             IBanooClubEFRepository<Forum> forumRepository,
             IBanooClubEFRepository<ForumComment> forumCommentRepository,
             IBanooClubEFRepository<ServicePack> servicePackRepository,
+            IBanooClubEFRepository<Wallet> walletRepository,
             IBanooClubEFRepository<Order> orderRepository,
             IBanooClubEFRepository<OrderItem> orderItemRepository,
             IBanooClubEFRepository<Payment> paymentRepository,
@@ -76,6 +79,7 @@ namespace BanooClub.Services.UserServices
             this.servicePackRepository = servicePackRepository;
             this.orderRepository = orderRepository;
             this.orderItemRepository = orderItemRepository;
+            this.walletRepository = walletRepository;
             this.paymentRepository = paymentRepository;
             _activityRepository = activityRepository;
             this.userSettingRepository = userSettingRepository;
@@ -974,141 +978,303 @@ namespace BanooClub.Services.UserServices
             return SerializeObject;
         }
 
+//        public async Task<object> UserDashboards()
+//        {
+//            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+//                    ? _accessor.HttpContext.User.Identity.GetUserId()
+//                    : 0;
+
+//            var offset = DateTime.Now.AddDays(-6);
+
+//            var userFollowers = followerRepository.GetQuery().Where(x => x.UserId == userId && x.CreateDate >= offset).Count();
+
+//            //پست های این شخص
+//            List<Post> userPosts = new List<Post>();
+//            userPosts = postRepository.GetQuery().Where(x => x.UserId == userId).ToList();
+//            //تعداد لایک هایی که پست های این شخص خورده
+//            int lastWeekPostLikeCount = 0;
+//            int lastWeekPostCommnetcount = 0;
+
+//            int allPostLikeCount = 0;
+
+//            foreach (var post in userPosts)
+//            {
+//                #region lastWeekPostLikeCount
+//                int likesCount = postLikeRepository.GetQuery().Count(z => z.PostId == post.PostId && z.CreateDate >= offset);
+//                lastWeekPostLikeCount += likesCount;
+//                #endregion
+
+//                #region allPostLikeCount
+//                int allLikesCount = postLikeRepository.GetQuery().Count(z => z.PostId == post.PostId);
+//                allPostLikeCount += allLikesCount;
+//                #endregion
+
+//                #region lastWeekPostCommnetcount
+//                int commnetCount = postCommentRepository.GetQuery().Count(z => z.ParentId == 0 && z.PostId == post.PostId && z.CreateDate >= offset);
+//                lastWeekPostCommnetcount += commnetCount;
+//                #endregion
+//            }
+
+
+//            //فروم های این شخص
+//            List<Forum> userforums = new List<Forum>();
+//            userforums = forumRepository.GetQuery().Where(z => z.UserId == userId).ToList();
+//            //
+//            double lastWeekFroumsRate = 0;
+//            double allFroumsRate = 0;
+//            int lastWeekforumComments = 0;
+
+//            foreach (var item in userforums)
+//            {
+//                //امتیاز هفته آخر فروم کاربر
+//                var lastweekdbRate = await ratingService.GetLastWeekByObjectIdAndType(item.ForumId, RatingType.Forum);
+//                var lastweekRate = lastweekdbRate.Data.Average;
+//                lastWeekFroumsRate += lastweekRate;
+
+//                //امتیاز فروم
+//                var alldbRate = await ratingService.GetLastWeekByObjectIdAndType(item.ForumId, RatingType.Forum);
+//                var allRate = lastweekdbRate.Data.Average;
+//                allFroumsRate += allRate;
+
+//                //تعداد کامنت های فروم در هفته آخر
+//                var lastWeekDbforumComments = forumCommentRepository.GetQuery().Count(z => z.ForumId == item.ForumId && z.CreateDate >= offset);
+//                lastWeekforumComments += lastWeekDbforumComments;
+//            }
+
+//            // سرویس های کاربر
+//            List<ServicePack> userServicePacks = new List<ServicePack>();
+//            userServicePacks = servicePackRepository.GetQuery().Where(z => z.UserId == userId).ToList();
+
+//            long lastWeekIncome = 0;
+            
+//            foreach (var service in userServicePacks)
+//            {
+//                //پرداخت هایی که به ازای این سرویس در هفته آخر انجام شده
+
+//                //var orderItemList = orderItemRepository.GetQuery().Where(z => z.ServiceId == service.ServicePackId);
+//                //foreach (var item in orderItemList)
+//                //{
+//                //    var income = orderRepository.GetQuery().Where(z => z.ServiceId == item.ServicePackId && z.CreateDate>=offset).Sum(x => x.SumPrice);
+//                //    lastWeekIncome += income;
+//                //}
+
+////                string incomeCmd = " SELECT        SUM([Order].Orders.SumPrice) Price " +
+////" FROM[Order].OrderItems INNER JOIN " +
+////             " [Order].Orders ON[Order].OrderItems.OrderId = [Order].Orders.OrderId " +
+////$" WHERE([Order].OrderItems.ServiceId = {service.ServicePackId} and [Order].Orders.IsPayed = 1 " +
+////" and( " +
+
+////" CAST([Order].Orders.CreateDate as date) between " +
+////" CAST(DATEADD(dd, -7, GETDATE()) as date) and " +
+////" CAST(GETDATE() AS DATE) " +
+////" ) " +
+////" ) ";
+ 
+
+//                //var incomes = await orderRepository.DapperSqlQuery(incomeCmd);
+//                //var incomesSerializeObject = JsonSerializer.Serialize<object>(incomes);
+//                //var serializedincomes = JsonSerializer.Deserialize<IncomeDto>(incomesSerializeObject);
+//                //lastWeekIncome += serializedincomes.Price;
+
+//            }
+
+//            //پرداخت های هفته آخر کاربر
+//            double lastWeekPayed = paymentRepository.GetQuery()
+//                .Where(z => z.UserId == userId && z.CreateDate>=offset && z.Status==0)
+//                .Sum(x=>x.Amount);
+
+//            // پلن هایی که کاربر خریده به تفکیک تعداد
+//            string cmd = " SELECT            [Order].Orders.ServiceId, " +
+//                         " [Order].OrderItems.PlanId, count( [Order].OrderItems.PlanId) PlanCount,Plans.Title " +
+//                         " FROM Payment.Payments INNER JOIN " +
+//                          " [Order].Orders ON Payment.Payments.UserId = [Order].Orders.UserId INNER JOIN " +
+//                          " [Order].OrderItems ON[Order].Orders.OrderId = [Order].OrderItems.OrderId " +
+//                          " inner JOIN Plans ON Plans.PlanId =[Order].OrderItems.PlanId " +
+//                          $" WHERE ([Order].Orders.UserId = {userId}) " +
+//                          " group by [Order].OrderItems.PlanId,[Order].Orders.ServiceId,Plans.Title ";
+
+//            var purchasedPlans = await orderRepository.DapperSqlQuery(cmd);
+//            var SerializeObject = JsonSerializer.Serialize<object>(purchasedPlans);
+//            var serializedPurchasedPlans = JsonSerializer.Deserialize<List<PurchasedPlansByUserDto>>(SerializeObject);
+
+//            var Obj = new
+//            {
+//                FollowersCount = userFollowers,
+//                PostLikeCount = lastWeekPostLikeCount,
+//                PostComment= lastWeekPostCommnetcount,
+//                ForumRate= lastWeekFroumsRate,
+//                ForumComments= lastWeekforumComments,
+//                AllPostLikeCount= allPostLikeCount,
+//                AllForumRate= allFroumsRate,
+//                //LastWeekIncome= lastWeekIncome,
+//                LastWeekPayed= lastWeekPayed,
+//                //PurchasedPlans = serializedPurchasedPlans
+//            };
+
+//            return Obj;
+
+//        }
         public async Task<object> UserDashboards()
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+            var DateTimeNow = DateTime.Now;
+            var DateTimeLastWeek = DateTime.Now.AddDays(-7);
+            var DateTimeLastMonth = DateTime.Now.AddMonths(-1);
 
-            var offset = DateTime.Now.AddDays(-6);
+            var WeekfollowersCount = followerRepository.GetQuery().Where(z=>z.UserId == userId && z.CreateDate > DateTimeLastWeek).Count();
+            var userPostIds = postRepository.GetQuery().Where(z=>z.UserId == userId).Select(x=>x.PostId).ToList();
+            var userForumIds = forumRepository.GetQuery().Where(z=>z.UserId == userId).Select(x=>x.ForumId).ToList();
+            var UsersServicesIds = servicePackRepository.GetQuery().Where(z => z.UserId == userId).Select(x => x.ServicePackId).ToList();
 
-            var userFollowers = followerRepository.GetQuery().Where(x => x.UserId == userId && x.CreateDate >= offset).Count();
+            var weekPostLikesCount = postLikeRepository.GetQuery().Where(z => userPostIds.Contains(z.PostId) && z.CreateDate > DateTimeLastWeek).Count();
+            var weekPostCommentsCount = postCommentRepository.GetQuery().Where(z => userPostIds.Contains(z.PostId) && z.CreateDate > DateTimeLastWeek).Count();
+            var WeekForumRatesCount = ratingRepository.GetQuery().Where(z => userForumIds.Contains(z.ObjectId) && z.Type == RatingType.Forum && z.CreateDate > DateTimeLastWeek).Count();
+            var WeekForumCommentsCount = forumCommentRepository.GetQuery().Where(z => userForumIds.Contains(z.ForumId) && z.CreateDate > DateTimeLastWeek).Count();
 
-            //پست های این شخص
-            List<Post> userPosts = new List<Post>();
-            userPosts = postRepository.GetQuery().Where(x => x.UserId == userId).ToList();
-            //تعداد لایک هایی که پست های این شخص خورده
-            int lastWeekPostLikeCount = 0;
-            int lastWeekPostCommnetcount = 0;
+            var UserLastMonthOutCome = paymentRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate > DateTimeLastMonth).Sum(z=>z.Amount);
 
-            int allPostLikeCount = 0;
+            var ServicesOrderItemsOrderIds = orderItemRepository.GetQuery().Where(x=>x.ServiceId != null && UsersServicesIds.Contains((long)x.ServiceId)).Select(z => z.OrderId).ToList();
+            var lastMonthIncomeAmount = paymentRepository.GetQuery().Where(z => ServicesOrderItemsOrderIds.Contains(z.OrderId) && z.CreateDate > DateTimeLastMonth && z.Status == 0).Sum(x => x.Amount);
 
-            foreach (var post in userPosts)
+            var LastMonthOrdersCount = orderRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate > DateTimeLastMonth).ToList();
+            var LastMonthPayedOrdersCount = LastMonthOrdersCount.Where(z => z.IsPayed == true).Count();
+            var LastMonthNotPayedOrdersCount = LastMonthOrdersCount.Where(z=>z.IsPayed == false).Count();
+
+            var LastMonthWalletChargeAmount = paymentRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate > DateTimeLastMonth && z.WalletCharge == true).Sum(x => x.Amount);
+
+            PersianCalendar persianCalandar = new PersianCalendar();
+            var DateInSystemDateTime = DateTime.Now;
+            List<object> IncomeOutComeYearReport = new List<object>();
+
+            int day = persianCalandar.GetDayOfMonth(DateInSystemDateTime);
+            var FirstDayOfThisMonth = DateInSystemDateTime.AddDays(-day);
+
+            var dbPayedOrdersAmount = orderRepository.GetQuery().Where(z =>z.UserId == userId && z.CreateDate >= FirstDayOfThisMonth && z.IsPayed == true).Sum(x => x.SumPrice);
+            var dbIncomeOrdersAmount = paymentRepository.GetQuery().Where(z => ServicesOrderItemsOrderIds.Contains(z.OrderId) && z.CreateDate > FirstDayOfThisMonth && z.Status == 0).Sum(x => x.Amount);
+            //var dbOrderCountFirstMonth = orderRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate >= FirstDayOfThisMonth).Count();
+
+            var MonthNow = persianCalandar.GetMonth(DateInSystemDateTime);
+            var MonthName = GetMonthName(MonthNow);
+            var YearNow = persianCalandar.GetYear(DateInSystemDateTime);
+            var PersianMonth = $"{YearNow}-{MonthName}";
+            var obj = new
             {
-                #region lastWeekPostLikeCount
-                int likesCount = postLikeRepository.GetQuery().Count(z => z.PostId == post.PostId && z.CreateDate >= offset);
-                lastWeekPostLikeCount += likesCount;
-                #endregion
+                PersianDate = PersianMonth,
+                OutcomeAmount = dbPayedOrdersAmount,
+                IncomeAmount = dbIncomeOrdersAmount
 
-                #region allPostLikeCount
-                int allLikesCount = postLikeRepository.GetQuery().Count(z => z.PostId == post.PostId);
-                allPostLikeCount += allLikesCount;
-                #endregion
-
-                #region lastWeekPostCommnetcount
-                int commnetCount = postCommentRepository.GetQuery().Count(z => z.ParentId == 0 && z.PostId == post.PostId && z.CreateDate >= offset);
-                lastWeekPostCommnetcount += commnetCount;
-                #endregion
-            }
-
-
-            //فروم های این شخص
-            List<Forum> userforums = new List<Forum>();
-            userforums = forumRepository.GetQuery().Where(z => z.UserId == userId).ToList();
-            //
-            double lastWeekFroumsRate = 0;
-            double allFroumsRate = 0;
-            int lastWeekforumComments = 0;
-
-            foreach (var item in userforums)
-            {
-                //امتیاز هفته آخر فروم کاربر
-                var lastweekdbRate = await ratingService.GetLastWeekByObjectIdAndType(item.ForumId, RatingType.Forum);
-                var lastweekRate = lastweekdbRate.Data.Average;
-                lastWeekFroumsRate += lastweekRate;
-
-                //امتیاز فروم
-                var alldbRate = await ratingService.GetLastWeekByObjectIdAndType(item.ForumId, RatingType.Forum);
-                var allRate = lastweekdbRate.Data.Average;
-                allFroumsRate += allRate;
-
-                //تعداد کامنت های فروم در هفته آخر
-                var lastWeekDbforumComments = forumCommentRepository.GetQuery().Count(z => z.ForumId == item.ForumId && z.CreateDate >= offset);
-                lastWeekforumComments += lastWeekDbforumComments;
-            }
-
-            // سرویس های کاربر
-            List<ServicePack> userServicePacks = new List<ServicePack>();
-            userServicePacks = servicePackRepository.GetQuery().Where(z => z.UserId == userId).ToList();
-
-            long lastWeekIncome = 0;
-            
-            foreach (var service in userServicePacks)
-            {
-                //پرداخت هایی که به ازای این سرویس در هفته آخر انجام شده
-
-                //var orderItemList = orderItemRepository.GetQuery().Where(z => z.ServiceId == service.ServicePackId);
-                //foreach (var item in orderItemList)
-                //{
-                //    var income = orderRepository.GetQuery().Where(z => z.ServiceId == item.ServicePackId && z.CreateDate>=offset).Sum(x => x.SumPrice);
-                //    lastWeekIncome += income;
-                //}
-
-//                string incomeCmd = " SELECT        SUM([Order].Orders.SumPrice) Price " +
-//" FROM[Order].OrderItems INNER JOIN " +
-//             " [Order].Orders ON[Order].OrderItems.OrderId = [Order].Orders.OrderId " +
-//$" WHERE([Order].OrderItems.ServiceId = {service.ServicePackId} and [Order].Orders.IsPayed = 1 " +
-//" and( " +
-
-//" CAST([Order].Orders.CreateDate as date) between " +
-//" CAST(DATEADD(dd, -7, GETDATE()) as date) and " +
-//" CAST(GETDATE() AS DATE) " +
-//" ) " +
-//" ) ";
- 
-
-                //var incomes = await orderRepository.DapperSqlQuery(incomeCmd);
-                //var incomesSerializeObject = JsonSerializer.Serialize<object>(incomes);
-                //var serializedincomes = JsonSerializer.Deserialize<IncomeDto>(incomesSerializeObject);
-                //lastWeekIncome += serializedincomes.Price;
-
-            }
-
-            //پرداخت های هفته آخر کاربر
-            double lastWeekPayed = paymentRepository.GetQuery()
-                .Where(z => z.UserId == userId && z.CreateDate>=offset && z.Status==0)
-                .Sum(x=>x.Amount);
-
-            // پلن هایی که کاربر خریده به تفکیک تعداد
-            string cmd = " SELECT            [Order].Orders.ServiceId, " +
-                         " [Order].OrderItems.PlanId, count( [Order].OrderItems.PlanId) PlanCount,Plans.Title " +
-                         " FROM Payment.Payments INNER JOIN " +
-                          " [Order].Orders ON Payment.Payments.UserId = [Order].Orders.UserId INNER JOIN " +
-                          " [Order].OrderItems ON[Order].Orders.OrderId = [Order].OrderItems.OrderId " +
-                          " inner JOIN Plans ON Plans.PlanId =[Order].OrderItems.PlanId " +
-                          $" WHERE ([Order].Orders.UserId = {userId}) " +
-                          " group by [Order].OrderItems.PlanId,[Order].Orders.ServiceId,Plans.Title ";
-
-            var purchasedPlans = await orderRepository.DapperSqlQuery(cmd);
-            var SerializeObject = JsonSerializer.Serialize<object>(purchasedPlans);
-            var serializedPurchasedPlans = JsonSerializer.Deserialize<List<PurchasedPlansByUserDto>>(SerializeObject);
-
-            var Obj = new
-            {
-                FollowersCount = userFollowers,
-                PostLikeCount = lastWeekPostLikeCount,
-                PostComment= lastWeekPostCommnetcount,
-                ForumRate= lastWeekFroumsRate,
-                ForumComments= lastWeekforumComments,
-                AllPostLikeCount= allPostLikeCount,
-                AllForumRate= allFroumsRate,
-                //LastWeekIncome= lastWeekIncome,
-                LastWeekPayed= lastWeekPayed,
-                //PurchasedPlans = serializedPurchasedPlans
             };
+            IncomeOutComeYearReport.Add(obj);
 
-            return Obj;
+            
+            for (int i = 1; i < 12; i++)
+            {
+                var ThisMonth = FirstDayOfThisMonth.AddMonths(-(i-1));
+                var LastMonthDate = FirstDayOfThisMonth.AddMonths(-(i));
 
+                //var dbOrdersCount = orderRepository.GetQuery().Where(z => z.CreateDate <= ThisMonth && z.CreateDate >= LastMonthDate).Count();
+                var dbOrdersAmounts = orderRepository.GetQuery().Where(z => z.CreateDate <= ThisMonth && z.CreateDate >= LastMonthDate).Sum(x => x.SumPrice);
+                var dbIncomeMonthAmount = paymentRepository.GetQuery().Where(z => ServicesOrderItemsOrderIds.Contains(z.OrderId) && z.CreateDate <= ThisMonth && z.CreateDate >= LastMonthDate && z.Status == 0).Sum(x => x.Amount);
+
+                var StartDateMonth = persianCalandar.GetMonth(LastMonthDate);
+                var StartDateYear = persianCalandar.GetYear(LastMonthDate);
+                var StartDateMonthName = GetMonthName(StartDateMonth);
+                var PersianStartMonth = $"{StartDateYear}/{StartDateMonthName}";
+                var obj1 = new
+                {
+                    PersianDate = PersianStartMonth,
+                    OutcomeAmount = dbOrdersAmounts,
+                    IncomeAmount = dbIncomeMonthAmount
+                };
+                IncomeOutComeYearReport.Add(obj1);
+            }
+            List<object> LastMonthFollowersChart = new List<object>();
+            for (int i = 0; i < 30; i++)
+            {
+                var CustomDate = DateInSystemDateTime.AddDays(-i);
+
+                var dailyFollowersCount = followerRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate.Date == CustomDate.Date).Count(); 
+
+                int year = persianCalandar.GetYear(CustomDate);
+                int month = persianCalandar.GetMonth(CustomDate);
+                int day1 = persianCalandar.GetDayOfMonth(CustomDate);
+                var PersianDate = $"{year}/{month}/{day1}";
+                var obj12 = new
+                {
+                    PersianDate = PersianDate,
+                    FollowersCount = dailyFollowersCount
+                };
+                LastMonthFollowersChart.Add(obj12);
+            }
+
+
+            var FinalObj = new
+            {
+                WeekFollowersCount = WeekfollowersCount,
+                WeekPostLikesCount = weekPostLikesCount,
+                WeekPostCommentsCount = weekPostCommentsCount,
+                WeekForumRate = WeekForumRatesCount,
+                WeekForumComments = WeekForumCommentsCount,
+                UserLastMonthOutcomeAmount = UserLastMonthOutCome,
+                UserLastMonthIncomeAmount = lastMonthIncomeAmount,
+                LastMonthPayedOrdersCount = LastMonthPayedOrdersCount,
+                LastMonthNotPayedOrdersCount = LastMonthNotPayedOrdersCount,
+                LastMonthWalletChargeAmount = LastMonthWalletChargeAmount,
+                YearIOReports = IncomeOutComeYearReport,
+                MonthFollowersChart = LastMonthFollowersChart
+            };
+            
+            return FinalObj;
+        }
+
+
+        public string GetMonthName(int month)
+        {
+            string result = "";
+            switch (month)
+            {
+                case 1:
+                    result = "فروردین";
+                    break;
+                case 2:
+                    result = "اردیبهشت";
+                    break;
+                case 3:
+                    result = "خرداد";
+                    break;
+                case 4:
+                    result = "تیر";
+                    break;
+                case 5:
+                    result = "مرداد";
+                    break;
+                case 6:
+                    result = "شهریور";
+                    break;
+                case 7:
+                    result = "مهر";
+                    break;
+                case 8:
+                    result = "آبان";
+                    break;
+                case 9:
+                    result = "آذر";
+                    break;
+                case 10:
+                    result = "دی";
+                    break;
+                case 11:
+                    result = "بهمن";
+                    break;
+                case 12:
+                    result = "اسفند";
+                    break;
+            }
+
+            return result;
         }
     }
+
 }
