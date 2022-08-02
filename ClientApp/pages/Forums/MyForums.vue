@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer">
     <h1 class="tw-text-2xl tw-font-semibold">انجمن های من</h1>
     <div class="row py-3">
       <div class="col-lg-8 tw-flex-shirink-0">

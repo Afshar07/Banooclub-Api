@@ -7,7 +7,7 @@
       v-model="searchKey"
     />
     <div class="col-xl-3 col-sm-12 col-md-4" v-for="(service,idx) in allServices" :key="idx">
-      <ProductItem class="my-3" :service_details="service" :show_buttons="false"/>
+      <ProductItem @GetServices="getAllServices()" class="my-3" :service_details="service" :show_buttons="false"/>
     </div>
     <div class="row mb-3" v-if="allServices && allServices.length === 0">
       <div class="col-12 text-warning fw-bold text-center">

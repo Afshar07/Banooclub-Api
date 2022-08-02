@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer tw-shadow p-3 ">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer tw-shadow p-3 ">
     <h1 class="tw-text-2xl tw-font-semibold"> مقالات  </h1>
     <div class="row">
 

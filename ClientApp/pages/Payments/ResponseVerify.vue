@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer containerBox  ">
+  <div  class="container mcontainer containerBox  ">
     <div class="container-fluid  ">
       <div class="container">
         <div class="row  py-5 d-flex justify-content-center  ">

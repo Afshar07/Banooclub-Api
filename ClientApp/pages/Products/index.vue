@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer px-2">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container bg-white mcontainer px-2">
     <div class="row">
       <h1 class="tw-text-2xl tw-font-semibold">خدمات</h1>
       <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
@@ -21,12 +21,12 @@
     <div class="tab-content" id="pills-tabContent">
       <div class="tab-pane fade show active" id="products-pills-home" role="tabpanel" aria-labelledby="products-pills-home-tab">
         <div class="row boxMainContent mx-auto">
-          <div class="col-12 text-center">
+          <div class="col-12 text-center ">
             <AllServicesTabContent/>
           </div>
         </div>
       </div>
-      <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+      <div class="tab-pane fade " id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
         <FirstTabContent :best="best" :Services="AllServices" :newest="newest" :categories="categories" :suggestion="suggestion" />
       </div>
     </div>

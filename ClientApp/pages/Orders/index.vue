@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer px-2">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer px-2">
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="tw-text-2xl tw-font-semibold py-3">سفارشات</h2>
     </div>
@@ -118,7 +118,7 @@ export default {
   },
   methods:{
     RouteToOrder(item){
-      if(item && item.subOrders&& item.subOrders.length===0){
+      if(item && item.subOrders&& item.subOrders[0].serviceId!==null){
         this.$router.push({
           path:`/Orders/ServiceOrderDetail/${item.orderId}`
         })

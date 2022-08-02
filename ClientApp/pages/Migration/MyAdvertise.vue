@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer">
+  <div :class="UserAds===''?'loading-skeleton':''" class="container mcontainer">
     <!-- Modal -->
 
     <div
@@ -38,123 +38,122 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-12">
-        <div class="row">
-          <div
-            class="col-md-4 p-3 bg-white AdCard mx-md-3 mb-4 rounded main-shadow"
-            style="cursor: pointer"
-            v-for="item in UserAds"
-            :key="item.adsId"
-          >
-            <div class="d-flex align-items-center justify-content-between">
-              <div class="d-flex flex-wrap mb-2 gap-2 align-items-center">
-                <a @click.prevent="EditAd(item.adsId)">
-                  <small
-                  ><i
-                    class="fas fa-edit text-primary"
-                    v-tooltip="{ content: 'ویرایش' }"
-                  ></i
-                  ></small>
-                </a>
-                <a
-                  @click.prevent="SetAdId(item.adsId)"
-                  href="#DeleteModal"
-                  data-bs-toggle="modal"
-                >
-                  <small>
-                    <i
-                      class="fas fa-trash text-danger"
-                      v-tooltip="{ content: 'حذف' }"
-                    ></i>
-                  </small>
-                </a>
-                <nuxt-link :to="`/Migration/UpgradeAd/${item.adsId}`">
-                  <small><i class="fas fa-arrow-up text-warning"></i></small>
-                </nuxt-link>
+      <div    v-for="item in UserAds" :key="item.adsId" class="col-md-4">
+        <div
+          class=" p-3  bg-white AdCard px-2 mb-4 rounded main-shadow"
+          style="cursor: pointer"
+
+        >
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex flex-wrap mb-2 gap-2 align-items-center">
+              <a @click.prevent="EditAd(item.adsId)">
+                <small
+                ><i
+                  class="fas fa-edit text-primary"
+                  v-tooltip="{ content: 'ویرایش' }"
+                ></i
+                ></small>
+              </a>
+              <a
+                @click.prevent="SetAdId(item.adsId)"
+                href="#DeleteModal"
+                data-bs-toggle="modal"
+              >
+                <small>
+                  <i
+                    class="fas fa-trash text-danger"
+                    v-tooltip="{ content: 'حذف' }"
+                  ></i>
+                </small>
+              </a>
+              <nuxt-link :to="`/Migration/UpgradeAd/${item.adsId}`">
+                <small><i class="fas fa-arrow-up text-warning"></i></small>
+              </nuxt-link>
+            </div>
+            <div   class=" tw-stack  tw-right-0 tw-cursor-pointer  hover:tw-flex hover:tw-flex-col hover:tw-gap-2 tw-transition ">
+              <div v-if="item.planTypes.includes(2)"
+                   class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
+                پیشنهادات
               </div>
-              <div   class=" tw-stack  tw-right-0 tw-cursor-pointer  hover:tw-flex hover:tw-flex-col hover:tw-gap-2 tw-transition ">
-                <div v-if="item.planTypes.includes(2)"
-                     class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
-                  پیشنهادات
-                </div>
-                <div v-if="item.planTypes.includes(1)"
-                     class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
-                  نردبان
-                </div>
-                <div v-if="item.planTypes.includes(4)"
-                     class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
-                  جدید ترین ها
-                </div>
-                <div v-if="item.planTypes.includes(3)"
-                     class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
-                  برترین ها
-                </div>
+              <div v-if="item.planTypes.includes(1)"
+                   class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
+                نردبان
+              </div>
+              <div v-if="item.planTypes.includes(4)"
+                   class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
+                جدید ترین ها
+              </div>
+              <div v-if="item.planTypes.includes(3)"
+                   class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
+                برترین ها
               </div>
             </div>
+          </div>
 
-            <div class="row" @click="ChangeRoute(item.adsId)">
-              <div class="col-md-6 pt-4">
-                <div class="d-flex align-items-center gap-2">
-                  <small>وضعیت </small>
-                  <small v-if="item.status === 1" class="badge bg-success"
-                    >منتشر شده</small
-                  >
-                  <small v-if="item.status === 2" class="badge bg-secondary"
-                    >تایید نشده</small
-                  >
-                  <small v-if="item.status === 3" class="badge bg-danger"
-                    >رد شده
-                  </small>
-                </div>
+          <div class="row" @click="ChangeRoute(item.adsId)">
+            <div class="col-md-6 pt-4">
+              <div class="d-flex align-items-center gap-2">
+                <small>وضعیت </small>
+                <small v-if="item.status === 1" class="badge bg-success"
+                >منتشر شده</small
+                >
+                <small v-if="item.status === 2" class="badge bg-secondary"
+                >تایید نشده</small
+                >
+                <small v-if="item.status === 3" class="badge bg-danger"
+                >رد شده
+                </small>
+              </div>
 
-                <br />
-                <nuxt-link
-                  class="text-dark text-decoration-none"
-                  :to="{
+              <br />
+              <nuxt-link
+                class="text-dark text-decoration-none"
+                :to="{
                     path: `/Migration/AdvertiseDetail/${item.adsId}`,
 
                   }"
-                >
-                  <span>{{ item.title }}</span></nuxt-link
-                >
-                <br />
-                <br />
-                <div class="d-flex align-items-center gap-2">
-                  <h6>
-                    {{ item.description.substr(0, 10) }}
-                    <span class="text-secondary">...</span>
-                  </h6>
-                </div>
+              >
+                <span>{{ item.title }}</span></nuxt-link
+              >
+              <br />
+              <br />
+              <div class="d-flex align-items-center gap-2">
+                <h6>
+                  {{ item.description.substr(0, 10) }}
+                  <span class="text-secondary">...</span>
+                </h6>
+              </div>
 
-                <br />
-                <small class="text-muted"
-                  >{{ new Intl.NumberFormat().format(item.price) }} تومان</small
-                >
-                <br />
-                <div class="d-flex align-items-center gap-2">
-                  <i
-                    class="fas fa-clock text-muted "
-                    style="font-size: 10px"
-                  ></i>
-                  <small class="text-muted mt-1" style="font-size: 10px">{{
-                      new Date(item.createDate).toLocaleDateString('fa-IR')
+              <br />
+              <small class="text-muted"
+              >{{ new Intl.NumberFormat().format(item.price) }} تومان</small
+              >
+              <br />
+              <div class="d-flex align-items-center gap-2">
+                <i
+                  class="fas fa-clock text-muted "
+                  style="font-size: 10px"
+                ></i>
+                <small class="text-muted mt-1" style="font-size: 10px">{{
+                    new Date(item.createDate).toLocaleDateString('fa-IR')
 
                   }}</small>
-                </div>
               </div>
-              <div class="col-md-6 d-flex align-items-center justify-content-center justify-content-md-start">
-                <img
-                  v-if="item.photos.length > 0"
-                  :src="'https://banooclubapi.simagar.com/'+ item.photos[0].base64"
-                  class="img-fluid rounded image-custom-height tw-object-contain"
-                  alt=""
-                />
-                <p v-else class="small mt-2">این آگهی عکسی جهت نمایش ندارد</p>
-              </div>
+            </div>
+            <div class="col-md-6 d-flex align-items-center justify-content-center justify-content-md-start">
+              <img
+                v-if="item.photos.length > 0"
+                :src="'https://banooclubapi.simagar.com/'+ item.photos[0].base64"
+                class="img-fluid rounded image-custom-height tw-object-contain"
+                alt=""
+              />
+              <p v-else class="small mt-2">این آگهی عکسی جهت نمایش ندارد</p>
             </div>
           </div>
         </div>
       </div>
+
+
       <div
         v-if="UserAds.length === 0"
         class="col-md-12 bg-white d-flex justify-content-center p-4"

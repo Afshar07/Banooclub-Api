@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer" v-if="forumDetails">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer" v-if="forumDetails">
 
     <div class="modal fade" id="ReportForum" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">

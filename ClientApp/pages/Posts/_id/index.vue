@@ -1,5 +1,5 @@
 <template>
-  <div class=" mcontainer tw-overflow-x-hidden" v-if="!$fetchState.pending">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer tw-overflow-x-hidden" >
     <div class="row">
       <div class="col-md-12 col-lg-8 add_post px-0 custom_padding_for_posts">
         <PostItem :post_details="PostDetails" :inMainPage="false" :inMyPosts="false"/>

@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer tw-shadow containerBox my-5">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer tw-shadow containerBox my-5">
     <div
       class="offcanvas offcanvas-start sidebar-bg"
       tabindex="-1"

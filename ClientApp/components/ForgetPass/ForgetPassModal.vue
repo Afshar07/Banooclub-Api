@@ -22,7 +22,7 @@
               </select>
             </div>
             <div class="col-12">
-              {{PhoneOrEmail}}
+
               <input
                 type="email"
                 class="with-border"

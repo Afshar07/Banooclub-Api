@@ -1,8 +1,8 @@
 <template>
-  <div class="container mcontainer">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer bg-white">
     <div
       class="container-fluid px-0 rounded"
-      v-if="!$fetchState.pending"
+
     >
       <div class="row">
         <div class="col-md-12 p-4">

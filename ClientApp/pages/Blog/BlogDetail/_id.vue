@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer ">
+  <div :class="$fetchState.pending?'loading-skeleton':''"  class="container mcontainer ">
     <!-- Modal -->
     <div class="modal fade" id="AddBlogComment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">

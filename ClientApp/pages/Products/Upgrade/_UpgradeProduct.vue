@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer tw-h-full">
+  <div  :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer tw-h-full">
     <div class="row">
       <h1 class="tw-text-2xl tw-font-semibold">ارتقاء خدمت</h1>
       <ul class="nav nav-pills align-items-end profile_tabs pt-3 nav-fill tw-overflow-x-auto" id="pills-tab" role="tablist">

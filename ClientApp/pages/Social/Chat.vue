@@ -1,5 +1,5 @@
 <template>
-  <div class="row px-5 py-0 p-md-2 p-0 d-flex align-items-center justify-content-center">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="row px-5 py-0 p-md-2 p-0 d-flex align-items-center justify-content-center">
     <div v-if="!ChatSelected" class="col-md-5 lg:tw-border-l tw-shadow" style="height: 800px;overflow-y: scroll">
       <div class="row">
         <div class="col-md-12">

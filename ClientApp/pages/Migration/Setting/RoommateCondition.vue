@@ -1,5 +1,5 @@
 <template>
-  <div class="container px-0 mcontainer">
+  <div  class="container px-0 mcontainer">
     <div class="row">
       <form class="col-12 px-4 accordianStyle">
         <div class="col-md-12 my-4">

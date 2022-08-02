@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid mcontainer px-0">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container-fluid mcontainer px-0">
     <CustomHeader/>
     <div class="tab-content" id="pills-tabContent">
       <div class="tab-pane fade show active" id="services" role="tabpanel" aria-labelledby="services-tab">

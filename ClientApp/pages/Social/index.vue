@@ -1,5 +1,5 @@
 <template>
-  <div class=" mcontainer tw-shadow px-3">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer bg-white tw-shadow px-3">
     <div class="row">
       <div class="col-md-8 add_post custom_padding_for_posts" style="height: 950px;overflow-y: scroll;" @scroll="handleScroll">
         <AddPost @updateMyPosts="updateMyPosts" class="mb-3"/>

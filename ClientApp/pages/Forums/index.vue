@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer">
     <h1 class="tw-text-2xl tw-font-semibold p-3"> انجمن  </h1>
     <div class="row">
 

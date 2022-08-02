@@ -1,5 +1,5 @@
 <template>
-  <div class="mcontainer tw-shadow px-3">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="mcontainer tw-shadow px-3">
     <div class="row p-3 rounded-top">
       <div class="col-md-12">
         <input

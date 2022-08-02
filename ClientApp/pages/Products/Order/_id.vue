@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer  containerBox">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer  containerBox">
 
 
       <div class="px-4 py-5">
@@ -25,10 +25,10 @@
           <span class="font-weight-bold theme-color">{{  Intl.NumberFormat('fa-IR').format(OrderData.sumPrice)  }} تومان</span>
         </div>
 
-
+<!--        v-if="OrderData && OrderData.subOrders && OrderData.subOrders[0].planId !==0 "-->
         <ChargeWalletSideNav :show="displaySideNav" @close="displaySideNav = false"/>
         <div v-if="OrderData.status!==2" class="text-center mt-5 d-flex align-items-center justify-content-center gap-2">
-          <div v-if="OrderData && OrderData.subOrders && OrderData.subOrders[0].planId !==0 " class="d-flex flex-column justify-content-center">
+          <div v-if=" OrderData&&OrderData.subOrders &&OrderData.subOrders[0].title !== 'شارژ کیف پول'"  class="d-flex flex-column justify-content-center">
             <button class="btn btn-warning text-white px-2" :disabled="OrderData.sumPrice>$store.state.WalletAmount" @click="PayByWallet()">پرداخت با کیف پول</button>
             <small class="my-2">موجودی کیف پول شما : {{  Intl.NumberFormat('fa-IR').format($store.state.WalletAmount) }} تومان</small>
             <small v-if="OrderData.sumPrice>$store.state.WalletAmount">موجودی کیف پول شما کافی نمیباشد <a class="text-decoration-none text-primary tw-cursor-pointer" @click="displaySideNav= true">افزایش موجودی</a></small>
@@ -111,7 +111,7 @@ components:{ChargeWalletSideNav},
     },
     async createPayment(){
       let walletCharge = false
-      if(this.OrderData.subOrders[0].planId ===0&&this.OrderData.subOrders[0].serviceId ===0 ){
+      if(this.OrderData.subOrders[0].title === 'شارژ کیف پول' ){
         walletCharge = true
       }
       try {
@@ -120,7 +120,7 @@ components:{ChargeWalletSideNav},
           amount: this.OrderData.sumPrice,
           createDate: "2022-06-13T09:09:35.951Z",
           transId: "",
-          description:walletCharge?'شارژ کیف پول':'ارتقا خدمت',
+          description:walletCharge?'شارژ کیف پول':this.OrderData.description,
           walletCharge:walletCharge,
           status: 0,
           refId: ""

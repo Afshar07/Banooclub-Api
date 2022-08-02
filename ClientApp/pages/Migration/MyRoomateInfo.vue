@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid px-0 mcontainer">
+  <div :class="roomateData===''?'loading-skeleton':''" class="container-fluid px-0 mcontainer">
     <div>
       <div v-if="roomateData!=='Not Set Yet'" class="col-12">
         <div class="col-md-12">

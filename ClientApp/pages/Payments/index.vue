@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer px-2">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer px-2">
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="tw-text-2xl tw-font-semibold py-3">پرداخت ها</h2>
       <div class="d-flex justify-content-center align-items-center">
@@ -57,7 +57,7 @@
           <!-- rows -->
           <tr class="tw-hover" v-for="(item,idx) in AllPayments" :key="idx" >
             <th class="fw-normal">{{ item.paymentId }}</th>
-            <th class="fw-normal">{{item.transId}}</th>
+            <th class="fw-normal" v-tooltip.bottom-start="item.transId">{{item.transId.substr(0,6)}}...</th>
             <th class="fw-normal">{{item.refId}}</th>
             <td v-if="item.userInfo" @click="goToUserProfile(item.userInfo)"> {{ item.userInfo.name + ' ' + item.userInfo.familyName   }}</td>
             <td>{{ new Date(item.createDate).toLocaleTimeString('fa-IR') }}</td>
