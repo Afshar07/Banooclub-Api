@@ -16,11 +16,12 @@ namespace BanooClub.Services.OrderServices
         private readonly IBanooClubEFRepository<OrderItem> orderItemRepository;
         private readonly IBanooClubEFRepository<ServicePack> servicePackRepository;
         private readonly IBanooClubEFRepository<Ads> adsRepository;
+        private readonly IBanooClubEFRepository<Payment> paymentRepository;
         private readonly IHttpContextAccessor _accessor;
 
         public OrderService(IBanooClubEFRepository<Order> orderRepository, IHttpContextAccessor accessor,
             IBanooClubEFRepository<OrderItem> orderItemRepository,
-            IBanooClubEFRepository<Ads> adsRepository,
+            IBanooClubEFRepository<Ads> adsRepository, IBanooClubEFRepository<Payment> paymentRepository,
             IBanooClubEFRepository<ServicePack> servicePackRepository)
         {
             this.orderRepository = orderRepository;
@@ -28,6 +29,7 @@ namespace BanooClub.Services.OrderServices
             this.orderItemRepository = orderItemRepository;
             this.adsRepository = adsRepository;
             this.servicePackRepository = servicePackRepository;
+            this.paymentRepository = paymentRepository;
         }
         public async Task<long> Create(Order inputDto)
         {
@@ -82,6 +84,15 @@ namespace BanooClub.Services.OrderServices
             var SubOrders = orderItemRepository.GetQuery().Where(z => z.OrderId == id).ToList();
 
             order.SubOrders = SubOrders;
+            foreach(var sub in order.SubOrders)
+            {
+                if(sub.ServiceId != null)
+                {
+                    sub.ServiceInfo = servicePackRepository.GetQuery().FirstOrDefault(z => z.ServicePackId == sub.ServiceId);
+                }
+            }
+
+            order.PaymentInfo = paymentRepository.GetQuery().OrderByDescending(x => x.CreateDate).FirstOrDefault(z => z.OrderId == order.OrderId);
 
             return order;
         }

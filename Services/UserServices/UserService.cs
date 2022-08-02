@@ -1097,7 +1097,7 @@ namespace BanooClub.Services.UserServices
             {
                 FollowersCount = userFollowers,
                 PostLikeCount = lastWeekPostLikeCount,
-                PostCommnet= lastWeekPostCommnetcount,
+                PostComment= lastWeekPostCommnetcount,
                 ForumRate= lastWeekFroumsRate,
                 ForumComments= lastWeekforumComments,
                 AllPostLikeCount= allPostLikeCount,
