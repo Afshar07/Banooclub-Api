@@ -89,6 +89,7 @@ export default {
         this.$toast.success("سفارش شما با موفقیت ثبت شد.");
         this.$router.push({path: `/Products/Order/${res.data}`});
         this.WalletAmount = 0
+        this.$emit('close')
 
       }
       catch (error){

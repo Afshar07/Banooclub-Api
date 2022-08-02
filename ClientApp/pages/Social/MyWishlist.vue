@@ -87,18 +87,22 @@ export default {
   },
   data(){
     return{
-      ServicesWishList:null,
-      AdsWishList:null,
+      ServicesWishList:[],
+      AdsWishList:[],
       categories:[]
     }
   },
   async fetch(){
     try {
-   const res =  await this.$repositories.GetWishlist.GetWishlist({
-      userId:this.$auth.user.userInfo.userId
-    })
-      this.ServicesWishList = res.data.serviceWishes
-      this.AdsWishList = res.data.adsWishes
+   const res =  await this.$repositories.GetMyWishList.GetMyWishList()
+      res.data.forEach((item)=>{
+        if(item.type===1){
+          this.ServicesWishList.push(item)
+        }else if(item.type===3){
+          this.AdsWishList.push(item)
+        }
+      })
+
 
     }
     catch (error){
