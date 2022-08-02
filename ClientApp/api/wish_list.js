@@ -15,6 +15,11 @@ export default (context, resources) => ({
     });
     return response;
   },
+  async GetMyWishList(){
+    const response = await context.$axios.post(resources);
+    return response;
+  },
+
   async toggleWishList(params){
     const response = await context.$axios.post(resources,null,{
       params

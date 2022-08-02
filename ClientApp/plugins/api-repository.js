@@ -210,6 +210,7 @@ export default (context, inject) => {
     deleteWishList:createWishListRepository(context,"WishList/Delete"),
     GetWishlist:createWishListRepository(context,'WishList/GetByUserId'),
     toggleWishList:createWishListRepository(context,"WishList/Toggle"),
+    GetMyWishList:createWishListRepository(context,"WishList/GetByWishList"),
     // Wish list repository end
 
     createCommentLike:createServiceCommentRepository(context,'CommentLike/Create'),
@@ -234,7 +235,7 @@ export default (context, inject) => {
     DeliverMessage:CreateChatrepository(context,'Message/DeliverMessage'),
     ReadMessage:CreateChatrepository(context,'Message/ReadMessage'),
     SendMessage:CreateChatrepository(context,'Message/SendMessage'),
-    GetMyWishList:createUserRepository(context,'WishList/GetByWishList'),
+
     GetAllGroups:CreateGroupsRepository(context,'MessageGroup/GetAll')
 
   };
