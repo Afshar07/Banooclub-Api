@@ -85,7 +85,7 @@ namespace BanooClub.Services.WishListServices
                     wish.AdsInfo.Photos = new List<FileData>();
                     foreach (var dbMedia in dbMedias)
                     {
-                        wish.ServiceInfo.Medias.Add(new FileData() { Base64 = dbMedia.PictureUrl, Priority = dbMedia.Priority, UploadType = 1 });
+                        wish.AdsInfo.Photos.Add(new FileData() { Base64 = dbMedia.PictureUrl, Priority = dbMedia.Priority, UploadType = 1 });
                     }
                 }
                 
@@ -114,8 +114,8 @@ namespace BanooClub.Services.WishListServices
         }
         public object GetByUserId(long userId)
         {
-            var dbAdses = wishRepository.GetQuery().Where(z=>z.Type  == WishListType.Ads).ToList();
-            var dbServices = wishRepository.GetQuery().Where(z=>z.Type == WishListType.Service).ToList();
+            var dbAdses = wishRepository.GetQuery().Where(z=>z.Type  == WishListType.Ads && z.UserId == userId).ToList();
+            var dbServices = wishRepository.GetQuery().Where(z=>z.Type == WishListType.Service && z.UserId == userId).ToList();
             foreach(var ads in dbAdses)
             {
                 ads.AdsInfo = adsRepository.GetQuery().FirstOrDefault(z => z.AdsId == ads.ObjectId);
