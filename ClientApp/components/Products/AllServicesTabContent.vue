@@ -3,7 +3,7 @@
     <input
       class="SearchStyle"
       type="text"
-      placeholder="جست‌وجو خدمت"
+      placeholder="جستجو خدمت"
       v-model="searchKey"
     />
     <div class="col-xl-3 col-sm-12 col-md-4" v-for="(service,idx) in allServices" :key="idx">

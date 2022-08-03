@@ -1,11 +1,11 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="mcontainer tw-shadow px-3">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="mcontainer bg-white tw-shadow px-3">
     <div class="row p-3 rounded-top">
       <div class="col-md-12">
         <input
           class="SearchStyle"
           type="text"
-          placeholder="جست‌وجو کاربران"
+          placeholder="جستجو کاربران"
           v-model="searchKey"
         />
       </div>
@@ -14,7 +14,7 @@
         <div class="col-md-12" style="height: 900px;overflow-y: scroll;" @scroll="handleScroll">
           <div v-if="AllUsers.length>0" class="row">
             <div class="col-12 col-lg-6" v-for="(item,index) in AllUsers" :key="index">
-              <UserItem class="my-2" :userDetails="item"/>
+              <UserItem class="my-2 tw-shadow tw-rounded tw-p-2" :userDetails="item"/>
             </div>
             <Spinner style="text-align: center" v-if="AllUsers && AllUsers.length !== AllUsersCount"/>
           </div>

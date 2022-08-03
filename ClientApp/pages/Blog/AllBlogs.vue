@@ -1,45 +1,46 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer tw-shadow p-3 ">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container bg-white mcontainer tw-shadow p-3 ">
     <h1 class="tw-text-2xl tw-font-semibold"> مقالات  </h1>
     <div class="row">
 
       <div class="col-lg-8 tw-flex-shirink-0 p-3">
         <div class="col-md-12 my-3 px-0">
-          <input type="text" class="SearchStyle  px-0 border  " v-model="Search" placeholder="جستجوی مقالات">
+          <input type="text" class="SearchStyle   border  " v-model="Search" placeholder="جستجو مقالات">
         </div>
 
         <div class="tab-content" id="pills-tabContent" v-if="!$fetchState.pending">
           <div class="tab-pane fade show active" id="forum-active-content" role="tabpanel" aria-labelledby="forum-active-tab">
-            <div class="row boxMainContent mx-auto">
-              <ul class="custom_card tw-divide-y tw-divide-gray-100 sm:tw-m-0 tw--mx-5">
+            <div class="  tw-mx-auto">
+              <ul class="custom_card tw-pl-0 tw-mx-auto tw-divide-y tw-divide-gray-100 sm:tw-m-0 ">
                 <li v-for="item in AllBlogs">
                   <nuxt-link class="text-decoration-none" :to="`/Blog/BlogDetail/${item.blogId}/${item.seourl}`">
                     <div class="tw-card lg:tw-card-side bg-base-100 shadow-xl">
+                                <div class="tw-grid tw-grid-cols-5">
+                                  <div class="tw-card-body md:tw-order-1 tw-order-2 md:tw-col-span-3 tw-col-span-5  ">
+                                    <h2 class="tw-card-title tw-text-stone-500 ShortDescriptionIndex">{{ item.title }}</h2>
+                                    <p class="tw-card-text tw-text-stone-400">{{ item.summary }}</p>
+                                    <div class="tw-flex tw-gap-2 ">
+                                      <div class="tw-flex tw-items-center tw-gap-1">
+                                        <small class=" tw-text-stone-400">{{ new Date(item.createDate).toLocaleDateString('fa-IR') }}</small>
+                                        <i class="far fa-clock tw-text-stone-400"></i>
+                                      </div>
+                                      <div class="tw-flex tw-items-center tw-gap-1">
+                                        <small class=" tw-text-stone-400">{{ item.commentsCount }}</small>
+                                        <i class="fas fa-comments tw-text-stone-400"></i>
+                                      </div>
+                                      <div class="tw-flex tw-items-center tw-gap-1">
+                                        <small class=" tw-text-stone-400">{{ item.likeCount }}</small>
+                                        <i v-if="item.myLikeStatus===1"  class="far fa-heart tw-text-stone-400"></i>
+                                        <i v-else  class="fas fa-heart tw-text-red-600"></i>
+                                      </div>
 
-                      <div class="tw-card-body">
-                        <h2 class="tw-card-title tw-text-stone-500 ShortDescriptionIndex">{{ item.title }}</h2>
-                        <p class="tw-card-text tw-text-stone-400">{{ item.summary }}</p>
-                        <div class="tw-flex tw-gap-2 tw-justify-end">
-                          <div class="tw-flex tw-items-center tw-gap-1">
-                            <small class=" tw-text-stone-400">{{ new Date(item.createDate).toLocaleDateString('fa-IR') }}</small>
-                            <i class="far fa-clock tw-text-stone-400"></i>
-                          </div>
-                          <div class="tw-flex tw-items-center tw-gap-1">
-                            <small class=" tw-text-stone-400">{{ item.commentsCount }}</small>
-                            <i class="fas fa-comments tw-text-stone-400"></i>
-                          </div>
-                          <div class="tw-flex tw-items-center tw-gap-1">
-                            <small class=" tw-text-stone-400">{{ item.likeCount }}</small>
-                            <i v-if="item.myLikeStatus===1"  class="far fa-heart tw-text-stone-400"></i>
-                            <i v-else  class="fas fa-heart tw-text-red-600"></i>
-                          </div>
-
-                        </div>
-                      </div>
-                      <div class="tw-relative">
-                        <div v-if="item.tags.length>0" class="tw-badge tw-absolute tw-badge-primary tw-m-3 tw-p-2 tw-left-0">{{ item.tags[0].title }}</div>
-                        <img :src="`https://banooclubapi.simagar.com/${item.fileData}`"  class="tw-rounded tw-m-2 tw-object-contain tw-object-center" width="300px" style="height: 170px!important;">
-                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="tw-relative md:tw-order-2 tw-order-1  md:tw-col-span-2 tw-col-span-5  ">
+                                    <div v-if="item.tags.length>0" class="tw-badge tw-absolute tw-badge-primary tw-m-3 tw-ml-0 tw-p-2 ">{{ item.tags[0].title }}</div>
+                                    <img :src="`https://banooclubapi.simagar.com/${item.fileData}`"  class="tw-rounded  tw-ml-0 tw-object-contain tw-object-center" width="300px" style="height: 170px!important;">
+                                  </div>
+                                </div>
 
                     </div>
                   </nuxt-link>

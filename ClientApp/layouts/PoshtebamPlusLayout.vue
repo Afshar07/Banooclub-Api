@@ -16,18 +16,24 @@
 
 
     <div
-      class="row gaping position-relative col-12 mx-auto tw-overflow-x-hidden bg-white px-0"
+      class=" tw-grid tw-grid-cols-12 gaping  position-relative col-12 mx-auto tw-overflow-x-hidden bg-white px-0"
+      style="min-height: 100vh!important;"
       @click="closingHeader = true"
     >
+      <transition name="CollapseSide">
+        <div :class="decrease_width?'lg:tw-col-span-1':'lg:tw-col-span-2'"  class="  tw-transition-all tw-duration-1000  m-0 p-0">
 
-      <div  class=" col-xl-2  m-0 p-0">
+        </div>
+      </transition>
 
-      </div>
-      <div  class="col-xl-10 m-0 p-0 tw-bg-[#f5f5f5]">
-        <Nuxt
-          @GetFullName="SetFullName($event)"
-        />
-      </div>
+      <transition name="CollapseMain" mode="out-in">
+        <div :class="decrease_width?'  tw-col-span-12 lg:tw-mr-20':'lg:tw-col-span-10 tw-col-span-12'"  class=" tw-duration-1000 tw-transition-all tw-min-h-screen   tw-bg-[#f5f5f5]">
+          <Nuxt
+            @GetFullName="SetFullName($event)"
+          />
+        </div>
+      </transition>
+
 
       <div
         class="scrollTopButton"
@@ -90,7 +96,9 @@ export default {
   },
   methods: {
     toggleWidth() {
+
       this.decrease_width = !this.decrease_width
+
     },
     documentClick(e) {},
     SetFullName(data) {
@@ -125,6 +133,42 @@ export default {
 </script>
 
 <style scoped>
+
+.CollapseMain-enter-active{
+  animation: Collapse 2s ease-in-out;
+
+}
+.CollapseMain-leave-active{
+  animation: Collapse reverse 2s ease-in-out;
+
+}
+.CollapseSide-enter-active{
+  animation: CollapseSideAnimation 2s ease-in-out;
+
+}
+.CollapseSide-leave-active{
+  animation: CollapseSideAnimation reverse 2s ease-in-out;
+
+}
+
+@keyframes CollapseSideAnimation {
+  0%{
+    @apply lg:tw-col-span-2
+  }
+  100%{
+    @apply lg:tw-col-span-1
+  }
+
+}
+@keyframes Collapse {
+  0%{
+    @apply lg:tw-col-span-10 tw-col-span-12
+  }
+  100%{
+@apply tw-col-span-12 lg:tw-mr-20
+}
+
+}
 @media only screen and (max-width: 768px) {
   .custom-padding {
     padding: 0;
@@ -135,6 +179,7 @@ export default {
 }
 .main-background{
   background-color: #f9fafb !important;
+
   font-family: iranSans !important;
 }
 /*@media only screen and (min-width: 1440px) {*/

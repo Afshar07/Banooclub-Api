@@ -34,8 +34,9 @@
          <FollowingIcon style="fill: #0d6efd;width: 24px;height: 24px;" />
        </div>
       </div>
-      <button v-if="!userDetails.IsFollowing" class="btn btn-primary w-100" @click.stop="FollowReq(userDetails.UserId)">دنبال کردن</button>
-      <p v-else class="w-100 mx-3">دنبال شده</p>
+      <button v-if="userDetails.IsFollowing === null && userDetails.Requested === null" class="btn btn-sm btn-primary w-100" @click.stop="FollowReq(userDetails.UserId)">دنبال کردن</button>
+      <button v-if="userDetails.IsFollowing === null && userDetails.Requested !== null" class="btn btn-sm text-white tw-cursor-default btn-warning w-100">درخواست شده</button>
+      <button v-if="userDetails.IsFollowing !== null" class="btn btn-sm btn-success w-100">دنبال شده</button>
     </div>
   </div>
 
@@ -81,6 +82,7 @@ export default {
         } else {
           this.$toast.error("عملیات قابل اجرا نیست");
         }
+        this.$nuxt.refresh()
       } catch (error) {
         console.log(error);
       }

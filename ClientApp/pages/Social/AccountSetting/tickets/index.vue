@@ -1,5 +1,5 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer tw-shadow containerBox my-5">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container bg-white mcontainer tw-shadow containerBox my-5">
     <div
       class="offcanvas offcanvas-start sidebar-bg"
       tabindex="-1"
@@ -91,9 +91,9 @@
             </button>
           </div>
           <input
-            class="searchFriend mb-3"
+            class="SearchStyle mb-3"
             type="text"
-            placeholder="جست‌وجو تیکت"
+            placeholder="جستجو تیکت"
             v-model="searchKey"
           />
           <div class="tw-overflow-x-scroll" v-if="FilteredTickets.length>0">

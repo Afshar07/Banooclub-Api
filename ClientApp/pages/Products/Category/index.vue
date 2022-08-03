@@ -5,7 +5,7 @@
         <input
           class="searchFriend "
           type="text"
-          placeholder="جست‌ و جو دسته بندی"
+          placeholder="جستجو دسته بندی"
           v-model="searchKey"
         />
         <div class="row">

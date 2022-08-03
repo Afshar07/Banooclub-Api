@@ -1,5 +1,5 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer bg-white mb-4" v-if="ticketData">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container bg-white mcontainer bg-white mb-4" v-if="ticketData">
     <h1 class="p-1 h3">موضوع تیکت: {{ ticketData[0].content }}</h1>
     <div class="col-12">
       <div

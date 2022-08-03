@@ -5,7 +5,7 @@
 
       <div class="col-lg-8 tw-flex-shirink-0">
         <div class="col-md-12">
-          <input type="text" class="SearchStyle" v-model="Search" placeholder="جستجوی انجمن ها">
+          <input type="text" class="SearchStyle" v-model="Search" placeholder="جستجو انجمن ها">
         </div>
         <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
           <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" >

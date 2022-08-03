@@ -6,7 +6,7 @@
           type="text"
           class="w-100 border rounded py-2 mb-5"
           v-model.trim="userSearch"
-          placeholder="جست‌وجوی کاربران ..."
+          placeholder="جستجو کاربران ..."
         />
       </div>
       <div class="col-12" v-if="!(userData === null)">

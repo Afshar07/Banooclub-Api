@@ -334,7 +334,7 @@
         @mouseleave="MouseLeaveRightMenu"
         @mouseenter="MouseOverRightMenu"
       >
-        <div class="offcanvas-body px-2 mt-3" style="height: 700px!important;overflow-y: scroll!important;">
+        <div class="offcanvas-body px-2 mt-3" style="height: 750px!important;overflow-y: scroll!important;">
           <div class="d-flex flex-column" style="padding-right: 15px">
 
             <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
@@ -669,12 +669,10 @@
           <!--          >-->
           <!--            <i class="fas fa-stream"></i>-->
           <!--          </button>-->
-          <button v-if="!isChatLayout"
-                  @click="decreaseWidthButton"
-                  class="btn ms-3 ShortCutToggle h-100"
-                  type="button">
-            <MenuIcon style="transform: scale(-1,-1);"/>
-            <!--            <i class="fas fa-stream"></i>-->
+          <button  @click="decreaseWidthButton" class="btn ms-3 ShortCutToggle position-relative h-100" type="button">
+            <i :class="!decrease_width?'tw-text-pink-400  tw-transform tw-rotate-0':'text-secondary  tw-transform tw-rotate-[24deg]'" class="fas fa-thumbtack   tw-transition tw-z-20 tw-z-10 "></i>
+<!--            <MenuIcon class="tw-z-10" style="transform: scale(-1,-1);"/>-->
+
           </button>
           <nuxt-link to="/social">
             بانوکلاب
@@ -689,7 +687,7 @@
         <div v-if="!isChatLayout" class="col-lg-5 col-xl-4 header_search tw-relative">
           <SearchIcon
             class="tw-absolute tw-top-1/2 -tw-translate-y-1/2 -tw-translate-x-1/2 tw-flex tw-items-center tw-pointer-events-none"/>
-          <input v-model="SearchUsers" value="" type="text" class="form-control" placeholder="جست و جو دوستان"
+          <input v-model="SearchUsers" value="" type="text" class="form-control" placeholder="جستجو دوستان"
                  autocomplete="off">
           <div
             class="bg-white p-3 SearchContainer"
@@ -1027,7 +1025,7 @@
               <font-awesome-icon icon="search" color="#999"/>
             </span>
               <input v-model="SearchUsers" value="" type="text" class="form-control search_style"
-                     placeholder="جست و جو دوستان" autocomplete="off">
+                     placeholder="جستجو دوستان" autocomplete="off">
             </form>
             <button
               type="button"
@@ -1854,12 +1852,16 @@ export default {
     MouseOverRightMenu() {
       if (this.decrease_width_button) {
         this.decrease_width = !this.decrease_width
+        this.$emit("toggle_width")
       }
+
     },
     MouseLeaveRightMenu() {
       if (this.decrease_width_button) {
         this.decrease_width = !this.decrease_width
+        this.$emit("toggle_width")
       }
+
     },
     toggleSearchDropDown() {
       this.on_search_click = !this.on_search_click
@@ -2403,11 +2405,15 @@ export default {
 
 .ShortCutToggle {
   transition: 0.2s ease;
+  border:none!important;
+  box-shadow: 2px 6px 50px -6px rgba(255,28,204,0.76);
 }
 
 .ShortCutToggle:hover {
+
   transition: 0.2s ease;
   color: #3948dc;
+  box-shadow: 2px 6px 50px -6px rgba(255,28,204,0.76);
 }
 
 .contactBanner {
@@ -2462,6 +2468,25 @@ export default {
   padding: 0;
   margin: 0;
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 
 .timeline-section {
   background: #fff none repeat scroll 0 0;
