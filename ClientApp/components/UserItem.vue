@@ -64,6 +64,7 @@ export default {
     }
   },
   methods:{
+
     async goToUserProfile(user){
       try {
         this.$router.push({path: `/user/${user.UserName}/posts`});

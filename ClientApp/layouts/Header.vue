@@ -661,27 +661,13 @@
       <div
         class="row headerStyle sticky-top tw-flex tw-flex-row tw-items-center tw-justify-between py-3 position-sticky top-0">
         <div :class="[!isChatLayout ? 'col-xl-4' : 'col-xl-6']" class="col-lg-2 d-flex align-items-center">
-          <!--          <button-->
-          <!--            class="btn ms-3 ShortCutToggle h-100"-->
-          <!--            type="button"-->
-          <!--            @click="ToggleShortCut"-->
-          <!--            @mouseenter="ToggleShortCut"-->
-          <!--          >-->
-          <!--            <i class="fas fa-stream"></i>-->
-          <!--          </button>-->
+
           <button  @click="decreaseWidthButton" class="btn ms-3 ShortCutToggle position-relative h-100" type="button">
             <i :class="!decrease_width?'tw-text-pink-400  tw-transform tw-rotate-0':'text-secondary  tw-transform tw-rotate-[24deg]'" class="fas fa-thumbtack   tw-transition tw-z-20 tw-z-10 "></i>
-<!--            <MenuIcon class="tw-z-10" style="transform: scale(-1,-1);"/>-->
 
           </button>
           <nuxt-link to="/social">
             بانوکلاب
-            <!--            <img-->
-            <!--              src="../assets/images/PoshtebamPlusLogo.png"-->
-            <!--              width="100px"-->
-            <!--              height="40px"-->
-            <!--              alt="PoshtebamPlus Logo"-->
-            <!--            />-->
           </nuxt-link>
         </div>
         <div v-if="!isChatLayout" class="col-lg-5 col-xl-4 header_search tw-relative">
@@ -743,8 +729,8 @@
               <!--                  <i class="far fa-plus-square" style="color: #999" v-tooltip.bottom-start="'افزودن پست'"></i>-->
               <!--                </nuxt-link>-->
               <!--              </div>-->
-              <nuxt-link to="/social/Chat" class="d-flex align-items-center">
-                <div v-tooltip.bottom-start="'مکالمات'"
+              <nuxt-link v-tooltip.bottom-start="'مکالمات'" to="/social/Chat" class="d-flex align-items-center">
+                <div
                      class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
                      ref="Chat">
                   <i
@@ -752,15 +738,6 @@
                     style="color: #999"></i>
                 </div>
               </nuxt-link>
-
-              <!--              <div class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">-->
-              <!--                <nuxt-link to="/migration/alladvertise"-->
-              <!--                ><i-->
-              <!--                  class="fas fa-ad"-->
-              <!--                  style="color: #999"-->
-              <!--                ></i-->
-              <!--                ></nuxt-link>-->
-              <!--              </div>-->
               <nuxt-link to="/social/accountsetting/tickets" class="d-flex align-items-center">
                 <div v-tooltip.bottom-start="'تیکت ها'"
                      class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
@@ -990,16 +967,10 @@
             ></font-awesome-icon>
           </div>
           <div>
-            <a href="/social">
+            <nuxt-link to="/social">
               بانوکلاب
-              <!--              <img-->
-              <!--                data-not-lazy-->
-              <!--                class="headerMobileIcon"-->
-              <!--                width="100px"-->
-              <!--                height="60px"-->
-              <!--                src="../assets/images/PoshtebamPlusLogo.png"-->
-              <!--              />-->
-            </a>
+
+            </nuxt-link>
           </div>
           <font-awesome-icon @click="want_to_search = !want_to_search" icon="search" color="#999"/>
           <div class="p-3" @click="$emit('sidenavToggle')">
@@ -1011,11 +982,6 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
 
-            <!--            <font-awesome-icon-->
-            <!--              icon="sliders-h"-->
-            <!--              size="lg"-->
-            <!--              color="#999"-->
-            <!--            ></font-awesome-icon>-->
           </div>
         </div>
         <div v-else class="px-2">
@@ -1065,12 +1031,7 @@
                         item.name + " " + item.familyName
                       }}</small>
                   </div>
-                  <!--                  <div-->
-                  <!--                    v-if="item.userSetting !== undefined"-->
-                  <!--                    class="fs-6 fw-light text-muted"-->
-                  <!--                  >-->
-                  <!--                    {{ item.userSetting.bio }}-->
-                  <!--                  </div>-->
+
                 </div>
               </div>
             </div>
@@ -1098,15 +1059,7 @@
               </nuxt-link
               >
             </div>
-            <!--            <div class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">-->
-            <!--              <nuxt-link to="/social/accountsetting/myposts"-->
-            <!--              ><i-->
-            <!--                class="far fa-plus-square"-->
-            <!--                style="color: #999"-->
-            <!--                v-tooltip.bottom-start="'افزودن پست'"-->
-            <!--              ></i-->
-            <!--              ></nuxt-link>-->
-            <!--            </div>-->
+
             <div
               class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
               ref="Chat">
@@ -1117,15 +1070,7 @@
               ></i
               ></nuxt-link>
             </div>
-            <!--            <div class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">-->
-            <!--              <nuxt-link to="/migration/alladvertise"-->
-            <!--              ><i-->
-            <!--                class="fas fa-ad"-->
-            <!--                style="color: #999"-->
-            <!--                v-tooltip.bottom-start="'آگهی ها'"-->
-            <!--              ></i-->
-            <!--              ></nuxt-link>-->
-            <!--            </div>-->
+
             <div
               class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
               <nuxt-link to="/social/accountsetting/tickets"
@@ -1382,10 +1327,6 @@
                     <div class="d-flex flex-row justify-content-start">
                       <div class="">
                         <LogOutIcon style="width: 18px; height: 18px"/>
-                        <!--                          <font-awesome-icon-->
-                        <!--                            class="text-danger"-->
-                        <!--                            icon="power-off"-->
-                        <!--                          />-->
                       </div>
                       <div class="userStatusColor text-dark px-2" style="font-size: 14px;font-weight: 500;">
                         خروج
@@ -1395,13 +1336,6 @@
                 </div>
               </div>
             </div>
-            <!--            <div class="custom_header_size d-flex justify-content-center align-items-center " @click="$emit('sidenavToggle')">-->
-            <!--              <font-awesome-icon-->
-            <!--                icon="bars"-->
-            <!--                size="lg"-->
-            <!--                color="#999999"-->
-            <!--              ></font-awesome-icon>-->
-            <!--            </div>-->
           </div>
         </div>
 
