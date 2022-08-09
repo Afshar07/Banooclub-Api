@@ -958,18 +958,14 @@
     <section class="sticky_header d-xl-none d-block w-100">
       <div class="headerStyleMobile py-2">
         <div v-if="!want_to_search" class="px-2 d-flex justify-content-between align-items-center">
-          <div class="p-3" data-bs-toggle="offcanvas" data-bs-target="#test">
-            <font-awesome-icon
-              ref="HiddenCanvas"
-              icon="bars"
-              size="lg"
-              color="#999"
-            ></font-awesome-icon>
-          </div>
-          <div>
+          <div  data-bs-toggle="offcanvas" data-bs-target="#test" class="col-lg-2 d-flex align-items-center">
+
+            <button   class="btn ms-3 ShortCutToggle position-relative h-100" type="button">
+              <i :class="!decrease_width?'tw-text-pink-400  tw-transform tw-rotate-0':'text-secondary  tw-transform tw-rotate-[24deg]'" class="fas fa-thumbtack   tw-transition tw-z-20 tw-z-10 "></i>
+
+            </button>
             <nuxt-link to="/social">
               بانوکلاب
-
             </nuxt-link>
           </div>
           <font-awesome-icon @click="want_to_search = !want_to_search" icon="search" color="#999"/>
@@ -1081,261 +1077,118 @@
               ></i
               ></nuxt-link>
             </div>
-            <div
-              class=" position-relative custom_header_size custom_header_icon rounded-circle d-flex justify-content-center align-items-center mx-1">
-              <font-awesome-icon
-                v-tooltip.bottom-start="'اعلانات'"
-                icon="bell"
-                color="#999999"
-                @click="notificationList"
-              ></font-awesome-icon>
-              <span v-if="Notifications"
-                    class="headerNumberNotification position-absolute d-flex justify-content-center align-items-center rounded-circle"
-              ><strong>{{ Notifications.length }}</strong></span
-              >
-              <div
-                class="listNotification position-absolute"
-                v-if="showNotificationList && Notifications"
-              >
-                <div class="col-12 numberMessageText" v-if="Notifications">
-                  {{ Notifications.length }} نوتیفکیشن جدید
-                </div>
-                <!---lawyer--->
-                <div class="col-12" v-for="(item,idx) in Notifications" :key="idx">
-                  <div
-                    class="d-flex flex-row border-bottom w-100 h-100 overflow-hidden"
-                  >
-                    <div
-                      class="d-flex flex-column text-end position-relative p-2"
-                    >
-                      <div class="senderName">
-                        <small class="text-muted"
-                        ><i class="fas fa-balance-scale"></i
-                        ></small>
-                        <small>{{ item.title }}</small>
-                      </div>
-                      <br/>
-                      <small class="messageText"
-                      ><small>{{ item.body }}</small
-                      >
-                        <nuxt-link
-                          v-if="item.link"
-                          to="/social/accountsetting/editprofilebasic"
-                        >اینجا کلیک کنید
-                        </nuxt-link
-                        >
-                      </small
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="position-relative custom_header_size custom_header_icon rounded-circle d-flex justify-content-center align-items-center mx-1">
-              <font-awesome-icon
-                icon="comment-alt"
-                color="#999999"
-                @click="messageList"
-              ></font-awesome-icon>
-              <span
-                class="headerNumberNotification position-absolute rounded-circle d-flex justify-content-center align-items-center">
-                  <strong>
-                    {{ ChatNotifs.length }}
-                  </strong>
-                </span>
-              <div
-                class="listMessage position-absolute"
-                v-if="showMessageList"
-              >
-                <div class="col-12 numberMessageText">
-                  {{ ChatNotifs.length }} پیام جدید
-                </div>
-                <div class="col-12" v-for="(item,idx) in ChatNotifs" :key="idx">
-                  <div
-                    class="d-flex flex-column text-end position-relative p-2"
-                  >
-                    <div class="senderName">
-                      <small class="text-muted"
-                      ><i class="fas fa-comment"></i
-                      ></small>
-                      <small>مکالمات من</small>
-                    </div>
 
-                    <h4 class="messageTextt">
-                      <small>{{ item }}</small
-                      >
-                      <nuxt-link
-                        tag="small text-primary mx-2"
-                        to="/social/Chat"
-                      >اینجا کلیک کنید
-                      </nuxt-link
-                      >
-                    </h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="position-relative custom_header_size">
-              <img
-                v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
-                class="img-fluid headerPicture tw-object-cover"
-                :src="`https://banooclubapi.simagar.com/media/gallery/profile/${$auth.user.baseData.selfie}`"
-                alt=""
-                @click="profileHeader"
-              />
-              <img
-                v-else
-                class="img-fluid headerPicture  tw-object-cover"
-                :src="userDefault"
-                @click="profileHeader"
-                alt=""
-              />
+              <div  @click="profileHeader" class="position-relative custom_header_size">
+                <img
+                  v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
+                  class="img-fluid headerPicture tw-object-cover"
+                  :src="`https://banooclubapi.simagar.com/media/gallery/profile/${$auth.user.baseData.selfie}`"
+                  alt=""
 
-              <div
-                class="showProfileHeader position-absolute"
-                v-if="showProfileHeader && !closeHeader"
-              >
-                <div class="d-flex flex-column">
-                  <!--                    <div class="userStatus">-->
-                  <!--                      <div class="d-flex flex-row justify-content-between">-->
-                  <!--                        <div class="">آنلاین</div>-->
-                  <!--                        <div class=" "><span class="statusShowingProfile onlineStatus"></span></div>-->
-                  <!--                      </div>-->
-                  <!--                    </div>-->
-                  <!--                    <div class="userStatus">-->
-                  <!--                      <div class="d-flex flex-row justify-content-between">-->
-                  <!--                        <div class="userStatusColor">دور</div>-->
-                  <!--                        <div class=" "><span class="statusShowingProfile awayStatus"></span></div>-->
-                  <!--                      </div>-->
-                  <!--                    </div>-->
-                  <!--                    <div class="userStatus">-->
-                  <!--                      <div class="d-flex flex-row justify-content-between">-->
-                  <!--                        <div class="userStatusColor">آفلاین</div>-->
-                  <!--                        <div class=" "><span class="statusShowingProfile offlineStatus"></span></div>-->
-                  <!--                      </div>-->
-                  <!--                    </div>-->
-                  <!--                    <div class="userStatus">-->
-                  <!--                      <nuxt-link to="/">-->
-                  <!--                        <div class="d-flex flex-row justify-content-start">-->
-                  <!--                          <div class="">-->
-                  <!--                            <font-awesome-icon icon="user" color="007bff"/>-->
-                  <!--                          </div>-->
-                  <!--                          <div class="userStatusColor">نمایش پروفایل</div>-->
-                  <!--                        </div>-->
-                  <!--                      </nuxt-link>-->
-                  <!--                    </div>-->
-                  <!--                    <div class="userStatus">-->
-                  <!--                      <nuxt-link to="/">-->
-                  <!--                        <div class="d-flex flex-row justify-content-start">-->
-                  <!--                          <div class="">-->
-                  <!--                            <font-awesome-icon icon="user-edit" color="#007bff"/>-->
-                  <!--                          </div>-->
-                  <!--                          <div class="userStatusColor">ویرایش پروفایل</div>-->
-                  <!--                        </div>-->
-                  <!--                      </nuxt-link>-->
-                  <!--                    </div>-->
-                  <!--                    <div class="userStatus">-->
-                  <!--                      <nuxt-link to="/">-->
-                  <!--                        <div class="d-flex flex-row justify-content-start">-->
-                  <!--                          <div class="">-->
-                  <!--                            <font-awesome-icon icon="history" color="007bff"/>-->
-                  <!--                          </div>-->
-                  <!--                          <div class="userStatusColor">گزارش فعالیت</div>-->
-                  <!--                        </div>-->
-                  <!--                      </nuxt-link>-->
-                  <!--                    </div>-->
+                />
+                <img
+                  v-else
+                  class="img-fluid headerPicture  tw-object-cover"
+                  :src="userDefault"
 
-                  <div class="userStatus">
-                    <nuxt-link to="/Social">
-                      <div
-                        class="d-flex align-items-center gap-2 flex-row justify-content-start rounded-circle"
-                        @click="goToMyPage"
-                      >
-                        <img
-                          v-if="loggedInfoData.selfie"
-                          class="img-fluid rounded-circle"
-                          style="width: 45px; height: 45px;"
-                          :src="`https://banooclubapi.simagar.com/${loggedInfoData.selfie}`"
-                          alt=""
-                          @click="profileHeader"
-                        />
-                        <img
-                          v-else
-                          class="img-fluid rounded-circle"
-                          style="width: 45px; height: 45px;"
-                          :src="userDefault"
-                          @click="profileHeader"
-                          alt=""
-                        />
-                        <!--                        <i class="fas fa-user"></i>-->
+                  alt=""
+                />
+
+                <div
+                  class="showProfileHeader position-absolute"
+                  v-if="showProfileHeader && !closeHeader"
+                >
+                  <div class="d-flex flex-column">
+                    <div class="userStatus">
+                      <nuxt-link to="/Social">
                         <div
-                          v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
-                          class="d-flex flex-column align-items-end px-2">
+                          class="d-flex align-items-center gap-2 flex-row justify-content-start rounded-circle"
+                          @click="goToMyPage"
+                        >
+                          <img
+                            v-if="loggedInfoData.selfie"
+                            class="img-fluid rounded-circle"
+                            style="width: 45px; height: 45px;"
+                            :src="`https://banooclubapi.simagar.com/${loggedInfoData.selfie}`"
+                            alt=""
+                            @click="profileHeader"
+                          />
+                          <img
+                            v-else
+                            class="img-fluid rounded-circle"
+                            style="width: 45px; height: 45px;"
+                            :src="userDefault"
+                            @click="profileHeader"
+                            alt=""
+                          />
+                          <!--                        <i class="fas fa-user"></i>-->
                           <div
                             v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
-                            class="profile_pic">{{ $auth.user.baseData.name + ' ' + $auth.user.baseData.familyName }}
-                          </div>
-                          <div
-                            v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
-                            class="d-flex profile_username text-primary tw-cursor-pointer"
-                            @click="goToUserProfile($auth.user.baseData)">
-                            {{ $auth.user.baseData.userName }}
-                            @
+                            class="d-flex flex-column align-items-end px-2">
+                            <div
+                              v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
+                              class="profile_pic">{{ $auth.user.baseData.name + ' ' + $auth.user.baseData.familyName }}
+                            </div>
+                            <div
+                              v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
+                              class="d-flex profile_username text-primary tw-cursor-pointer"
+                              @click="goToUserProfile($auth.user.baseData)">
+                              {{ $auth.user.baseData.userName }}
+                              @
+                            </div>
                           </div>
                         </div>
+                      </nuxt-link>
+                    </div>
+                    <div class="userStatus">
+                      <nuxt-link to="/social/accountsetting/editprofilebasic">
+                        <div class="d-flex flex-row justify-content-start">
+                          <div class="">
+                            <!--                            <font-awesome-icon icon="cog" color="black"/>-->
+                            <SettingIcon style="width: 18px; height: 18px;"/>
+                          </div>
+                          <div
+                            class="userStatusColor text-dark px-2"
+                            @click="CloseProfileHeader"
+                            style="font-size: 14px;font-weight: 500;"
+                          >
+                            ویرایش اطلاعات
+                          </div>
+                        </div>
+                      </nuxt-link>
+                    </div>
+                    <div class="userStatus defaultUserStatus">
+                      <div>
+                        <div class="d-flex flex-row justify-content-start align-items-center">
+                          <MoneyIcon fill="#565555" style="width: 18px; height: 18px;"/>
+                          <div
+                            class="userStatusColor text-dark px-2"
+                            style="font-size: 14px;font-weight: 500;"
+                          >
+                            موجودی:
+                            {{ Intl.NumberFormat('fa-IR').format(100000) }}
+                            تومان
+                          </div>
+                          <button @click="openChargeWalletSideNav" class="btn AddReplyBtn text-white">
+                            <PlusIcon fill="#2563eb" style="width: 15px; height: 15px;"/>
+                          </button>
+                        </div>
                       </div>
-                    </nuxt-link>
-                  </div>
-                  <div class="userStatus">
-                    <nuxt-link to="/social/accountsetting/editprofilebasic">
+                    </div>
+
+                    <div class="userStatus" @click="logoutUser">
                       <div class="d-flex flex-row justify-content-start">
                         <div class="">
-                          <!--                            <font-awesome-icon icon="cog" color="black"/>-->
-                          <SettingIcon style="width: 18px; height: 18px;"/>
+                          <LogOutIcon style="width: 18px; height: 18px"/>
                         </div>
-                        <div
-                          class="userStatusColor text-dark px-2"
-                          @click="CloseProfileHeader"
-                          style="font-size: 14px;font-weight: 500;"
-                        >
-                          ویرایش اطلاعات
+                        <div class="userStatusColor text-dark px-2" style="font-size: 14px;font-weight: 500;">
+                          خروج
                         </div>
-                      </div>
-                    </nuxt-link>
-                  </div>
-                  <div class="userStatus defaultUserStatus">
-                    <div>
-                      <div class="d-flex flex-row justify-content-start align-items-center">
-                        <MoneyIcon fill="#565555" style="width: 18px; height: 18px;"/>
-                        <div
-                          class="userStatusColor text-dark px-2"
-                          style="font-size: 14px;font-weight: 500;"
-                        >
-                          موجودی:
-                          {{ Intl.NumberFormat('fa-IR').format(100000) }}
-                          تومان
-                        </div>
-                        <button @click="openChargeWalletSideNav" class="btn AddReplyBtn text-white">
-                          <PlusIcon fill="#2563eb" style="width: 15px; height: 15px;"/>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="userStatus" @click="logoutUser">
-                    <div class="d-flex flex-row justify-content-start">
-                      <div class="">
-                        <LogOutIcon style="width: 18px; height: 18px"/>
-                      </div>
-                      <div class="userStatusColor text-dark px-2" style="font-size: 14px;font-weight: 500;">
-                        خروج
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
           </div>
         </div>
 

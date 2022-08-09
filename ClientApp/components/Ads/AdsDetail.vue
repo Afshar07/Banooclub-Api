@@ -1,28 +1,6 @@
 <template>
   <div>
-<!--    <base-modal v-if="is_show_delete_modal" @close_modal="hideDeleteModal">-->
-<!--      <template v-slot:title>-->
-<!--        <h5 class="text-right px-3">حذف خدمت</h5>-->
-<!--      </template>-->
-<!--      <template v-slot:content>-->
-<!--        <div class="d-flex flex-column">-->
-<!--          <p>آیا از حذف این خدمت اطمینان دارید؟</p>-->
-<!--          <div class="d-flex">-->
-<!--            <button @click="deleteService(service_details.servicePackId)"-->
-<!--                    class="tw-w-1/2 tw-flex tw-items-center tw-justify-center tw-py-2 tw-text-red-500 hover:tw-bg-red-100 hover:tw-text-red-500 tw-rounded-md">-->
-<!--              <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
-<!--                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />-->
-<!--              </svg>-->
-<!--              بله-->
-<!--            </button>-->
-<!--            <button @click="hideDeleteModal"-->
-<!--                    class="tw-w-1/2 tw-flex tw-items-center tw-justify-center tw-py-2 tw-text-green-500 hover:tw-bg-green-100 hover:tw-text-greeb-500 tw-rounded-md">-->
-<!--              خیر-->
-<!--            </button>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </template>-->
-<!--    </base-modal>-->
+
     <div class="custom_card">
       <!-- post header-->
       <div class="tw-flex tw-justify-between tw-items-center lg:tw-p-4 tw-p-2.5">
