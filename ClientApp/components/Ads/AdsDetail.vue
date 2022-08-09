@@ -155,27 +155,27 @@
         <p class="tw-text-gray-600 mt-1">
           {{AdsDetail.description}}
         </p>
-
+        <div v-if="AdsDetail.tag!==null" class="tw-text-gray-600 d-flex flex-column tw-text-sm md:tw-pt-3">
+          <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2 mb-0">هشتگ ها</h2>
+          <div class="d-flex align-items-center gap-2">
+            <span class="text-secondary"  v-for="item in ArrangedTags(AdsDetail.tag)"> #{{ item}} </span>
+          </div>
+        </div>
+        <hr>
+        <!--        <div class="tw-grid md:tw-grid-cols-2 md:tw-gap-4 tw-mb-5 xs:tw-grid-cols-12">-->
+        <!--          <a :href="`tel:${AdsDetail.mobile}`" class="text-decoration-none tw-bg-gray-200 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md my-1">-->
+        <!--            تماس-->
+        <!--          </a>-->
+        <button @click="GoToChat(AdsDetail)" class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
+          چت
+        </button>
         <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2">موقعیت روی نقشه</h2>
-        <div class="my-3" id="map-wrap" style="height: 25vh">
+        <div class="my-3" >
           <client-only>
           <Map v-if="AdsDetail.latitude" :latitude="AdsDetail.latitude" :longitude="AdsDetail.longitude"></Map>
           </client-only>
         </div>
-        <div v-if="AdsDetail.tag!==null" class="tw-text-gray-600 d-flex flex-column tw-text-sm md:tw-pt-3">
-          <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2 mb-0">هشتگ ها</h2>
-                  <div class="d-flex align-items-center gap-2">
-                    <span class="text-secondary"  v-for="item in ArrangedTags(AdsDetail.tag)"> #{{ item}} </span>
-                  </div>
-        </div>
-        <hr>
-<!--        <div class="tw-grid md:tw-grid-cols-2 md:tw-gap-4 tw-mb-5 xs:tw-grid-cols-12">-->
-<!--          <a :href="`tel:${AdsDetail.mobile}`" class="text-decoration-none tw-bg-gray-200 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md my-1">-->
-<!--            تماس-->
-<!--          </a>-->
-<!--          <button class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">-->
-<!--            چت-->
-<!--          </button>-->
+
 <!--          &lt;!&ndash;          <button class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">&ndash;&gt;-->
 <!--          &lt;!&ndash;            افزودن به سبد خرید&ndash;&gt;-->
 <!--          &lt;!&ndash;          </button>&ndash;&gt;-->
@@ -249,6 +249,9 @@ export default {
 
   },
   methods:{
+    GoToChat(item){
+      this.$router.push({path:'/Social/Chat',query:{userId:item.userInfo.userId,Photo:item.userInfo.selfieFileData}})
+    },
     Share(){
       if(navigator.share){
         navigator.share({

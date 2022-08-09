@@ -3,7 +3,7 @@
     <input
       class="searchFriend"
       type="text"
-      placeholder="جست‌وجو خدمت"
+      placeholder="جستجو خدمت"
       v-model="searchKey"
     />
     <div class="row">

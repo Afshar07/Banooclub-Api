@@ -96,6 +96,7 @@ export default {
           followRequestId: reqId,
           Respond: true,
         });
+        this.activeTab = 'followers'
       } catch (error) {
         console.log(error);
       } finally {

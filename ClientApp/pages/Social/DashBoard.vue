@@ -11,7 +11,7 @@
           <div
             class="tw-bg-gradient-to-tr tw-from-pink-400 tw-to-pink-600 tw--mt-10 tw-mb-4 tw-rounded-xl tw-text-white tw-grid tw-items-center tw-w-full tw-h-24 tw-py-4 tw-px-8  shadow-lg-blue ">
             <div class="tw-w-full tw-flex tw-items-center tw-gap-x-4 tw-cursor-pointer  ">
-              <h5 class="tw-text-white tw-text-md tw-cursor-pointer hover:tw-text-black tw-transition ">پرداخت,درآمد</h5>
+              <h5 class="tw-text-white tw-text-md tw-cursor-pointer  tw-transition ">پرداخت / درآمد</h5>
 
             </div>
           </div>

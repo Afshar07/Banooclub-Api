@@ -25,7 +25,7 @@ export default {
         datasets: [
           {
             label: 'جدول رشد دنبال کنندگان',
-            borderColor: '#03a9f4',
+            borderColor: '#de1c61',
             backgroundColor:'transparent',
 
             data: []

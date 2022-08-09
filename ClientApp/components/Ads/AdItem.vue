@@ -178,6 +178,7 @@ export default {
 }
 .card {
   width: 185px;
+  height: 250px;
   background-color: white;
   border-radius: 8px;
   overflow: hidden;

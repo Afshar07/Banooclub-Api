@@ -1,5 +1,5 @@
 <template>
-  <div :class="UserAds===''?'loading-skeleton':''" class="container mcontainer">
+  <div :class="UserAds===''?'loading-skeleton':''" class="container bg-white mcontainer">
     <!-- Modal -->
 
     <div

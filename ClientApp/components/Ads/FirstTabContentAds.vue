@@ -18,7 +18,7 @@
         :visible-slides="5"
         slide-multiple
         :rtl="true"
-        :gap="1"
+        :gap="5"
         :bullets="false"
         :touchable="false"
         :arrows="false"
@@ -100,7 +100,7 @@
           ref="new_carousel"
           class="no-shadow"
           :visible-slides="5"
-          :gap="1"
+          :gap="5"
           slide-multiple
           :rtl="true"
           :bullets="false"
@@ -111,7 +111,7 @@
         >
           <vueper-slide v-for="Ad in Ads.filter(e=> e.planTypes.includes(3))">
             <template #content>
-              <AdItem :AdsDetail="Ad" :category_details="categories"/>
+              <AdItem class="" :AdsDetail="Ad" :category_details="categories"/>
             </template>
           </vueper-slide>
         </vueper-slides>
@@ -142,7 +142,7 @@
           :visible-slides="5"
           slide-multiple
           :rtl="true"
-          :gap="1"
+          :gap="5"
           :touchable="false"
           :bullets="false"
           :arrows="false"
@@ -151,7 +151,7 @@
         >
           <vueper-slide v-for="Ad in Ads.filter( e=>e.planTypes.includes(4))">
             <template #content>
-              <AdItem :AdsDetail="Ad" :category_details="categories"/>
+              <AdItem  :AdsDetail="Ad" :category_details="categories"/>
             </template>
           </vueper-slide>
         </vueper-slides>

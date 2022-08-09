@@ -213,18 +213,17 @@
 
             <div class="col-md-12">
               <div class="labelText">موقعیت روی نقشه</div>
-              <div class="my-3" id="map-wrap" style="height: 50vh">
+              <div class="my-3" id="map-wrap" >
                 <client-only>
                <SetLocation @getGeoLocation="SetLocation"></SetLocation>
                 </client-only>
               </div>
             </div>
-
-            <div class="col-md-12">
-              <div class="my-3 text-center">
+            <div class="col-md-12 d-flex align-items-center justify-content-start">
+              <div class=" text-center">
                 <button
                   type="button"
-                  class="btn btn-sm AddReplyBtn"
+                  class="btn AddReplyBtn"
                   @click="submitCreateAdvertise"
                 >
                   ثبت آگهی

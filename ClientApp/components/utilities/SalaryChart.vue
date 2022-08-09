@@ -25,13 +25,17 @@ export default {
         datasets: [
           {
             label: 'پرداخت ',
-            backgroundColor: '#de1c61',
-            data: []
+            borderColor: '#f98d38',
+            backgroundColor:'transparent',
+            data: [],
+
           },
           {
             label: 'درآمد ',
-            backgroundColor: '#03a9f4',
-            data: []
+            borderColor: '#03a9f4',
+            backgroundColor:'transparent',
+            data: [],
+
           }
         ]
       }
@@ -43,25 +47,27 @@ export default {
       tmpDataset.labels = tmpLabels
       // push Data
       this.ChartData.forEach((item) => {
-        tmpData.push(item.incomeAmount)
+        tmpData.push(item.outcomeAmount)
       })
       tmpDataset.datasets[0].data = tmpData
       tmpData = []
       this.ChartData.forEach((item) => {
-        tmpData.push(item.outcomeAmount)
+        tmpData.push(item.incomeAmount)
       })
       tmpDataset.datasets[1].data = tmpData
       tmpData = []
       this.chartData = tmpDataset
-      console.log(this.chartData)
+      console.log(this.chartOptions)
+
       this.BarChart = new Chart(this.$refs.BarChart, {
-        type: 'bar',
+        type: 'line',
         data: {
           labels: this.chartData.labels,
           datasets: this.chartData.datasets
         },
         options: this.chartOptions
       })
+
 
     }
 
@@ -72,7 +78,14 @@ export default {
       chartData: '',
       BarChart: null,
       chartOptions: {
-
+        plugins: {
+          legend: {
+            display: false,
+            labels: {
+              fontColor: 'red'
+            }
+          },
+        },
         responsive: true,
         maintainAspectRatio: false
       }
@@ -80,3 +93,6 @@ export default {
   }
 }
 </script>
+<style>
+
+</style>
