@@ -85,5 +85,22 @@ let StringArray = CreateArray<string>(['hello','hola','hey'])
 // Type KeyWord => you Can Define Commonly Used types Here To Avoid Duplicating Code. Looks Similar To Interfaces
 // But you Use Interfaces MostlyWith Functions Orr Objects
 
-type StrNum = string | number
-let Daii : StrNum = 2
+// --------------------------------------- At TsTypes File In Project
+
+
+// type StrNum = string | number
+// let Daii : StrNum = 2
+//
+//
+//
+// type StrNum = string | number
+//
+// interface userInterface {
+//   name:StrNum,
+//   age:number
+// }
+//
+//
+// export {
+//   userInterface
+// }
