@@ -31,6 +31,7 @@ namespace BanooClub.Services.MessageServices
             this.mediaRepository = mediaRepository;
             this.userGroupRepository = userGroupRepository;
         }
+       
         public async Task Create(Message inputDto)
         {
             messageRepository.Insert(inputDto);
@@ -50,7 +51,7 @@ namespace BanooClub.Services.MessageServices
                 var MessageRec = new MessageRecipient()
                 {
                     IsDeleted=false,
-                    GroupId=(inputDto.RecipientGroupId ==null || inputDto.RecipientUserId==0) ? null : inputDto.RecipientGroupId,
+                    GroupId=(inputDto.RecipientGroupId ==null || inputDto.RecipientGroupId==0) ? null : inputDto.RecipientGroupId,
                     UserId=(inputDto.RecipientUserId == null || inputDto.RecipientUserId==0) ? null : inputDto.RecipientUserId,
                     IsRead=false,
                     IsDelivered=false,
@@ -142,6 +143,7 @@ namespace BanooClub.Services.MessageServices
             var message = messageRepository.GetQuery().FirstOrDefault(z => z.MessageId == id);
             return message;
         }
+
         public async Task<List<MessageDTO>> GetByUserId()
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated

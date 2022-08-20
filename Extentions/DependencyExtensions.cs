@@ -229,6 +229,7 @@ namespace BanooClub.Extensions
             services.AddTransient<IUserGroupService, UserGroupService>();
             services.AddTransient<IGroupService, GroupService>();
             services.AddTransient<Hub<IMessageService>, MessageService>();
+            services.AddTransient<Hub<IPostService>, PostService>();
             services.AddTransient<IMessageService, MessageService>();
             services.AddTransient<IMessageRecipientService, MessageRecipientService>();
             services.AddTransient<ITicketService, TicketService>();
