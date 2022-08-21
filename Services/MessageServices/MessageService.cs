@@ -31,7 +31,7 @@ namespace BanooClub.Services.MessageServices
             this.mediaRepository = mediaRepository;
             this.userGroupRepository = userGroupRepository;
         }
-       
+        
         public async Task Create(Message inputDto)
         {
             messageRepository.Insert(inputDto);
@@ -66,7 +66,6 @@ namespace BanooClub.Services.MessageServices
             {
                 return 0;
             }
-
         }
 
         public async Task<bool> ReadMessage(long userId)
@@ -94,7 +93,6 @@ namespace BanooClub.Services.MessageServices
             {
                 return false;
             }
-
         }
 
         public async Task DeliverMessage()
