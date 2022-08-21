@@ -50,41 +50,15 @@
       </div>
 
 
-      <nuxt-link :to="`/Products/${AdsDetail.adsId}`" class="text-decoration-none">
+      <nuxt-link :to="`/Migration/AdvertiseDetail/${AdsDetail.adsId}`" class="text-decoration-none">
         <h2 class="tw-text-lg tw-font-medium tw-mt-1 tw-t tw-truncate tw-text-slate-500 product_name tw-text-right mt-2">{{AdsDetail.title}}</h2>
       </nuxt-link>
       <div class="tw-text-xs tw-font-semibold tw-uppercase tw-text-yellow-500 text-end my-3">{{ AdsDetail.adsCategoryParents }}</div>
 
-
-
-
-
-      <div v-if="$route.path === '/Products/MyServices/'" class="my-2">
-        <small v-if="service_details.status===2" class="text-secondary ">خدمت شما در دست بررسی است</small>
-        <small v-if="service_details.status===1" class="text-success ">خدمت شما فعال است</small>
-        <small v-if="service_details.status===3" class="text-warning ">خدمت شما نیاز به بازبینی مجدد دارد</small>
-      </div>
-
-      <div v-if="show_buttons" class="w-100 d-flex flex-column">
-        <button
-          type="button"
-          class="btn w-100 my-1 product_buttons"
-          @click.prevent="$router.push({path: `/Products/Upgrade/${service_details.servicePackId}`, query: { active_tab: 'edit' }})"
-        >
-          ویرایش خدمت
-        </button>
-        <button
-          type="button"
-          class="btn w-100 my-1 product_buttons"
-          @click.prevent="$router.push({path: `/Products/Upgrade/${service_details.servicePackId}`, query: { active_tab: 'upgrade' }})">
-          ارتقاء خدمت
-        </button>
-      </div>
-
     </div>
 
   </div>
-  <!--            router.push({ path: 'register', query: { plan: 'private' } })-->
+
 
 </template>
 

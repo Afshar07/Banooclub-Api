@@ -154,10 +154,7 @@
           </client-only>
         </div>
 
-<!--          &lt;!&ndash;          <button class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">&ndash;&gt;-->
-<!--          &lt;!&ndash;            افزودن به سبد خرید&ndash;&gt;-->
-<!--          &lt;!&ndash;          </button>&ndash;&gt;-->
-<!--        </div>-->
+
         <div>
         </div>
 

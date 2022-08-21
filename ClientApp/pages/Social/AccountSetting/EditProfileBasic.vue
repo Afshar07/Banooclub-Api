@@ -1,9 +1,9 @@
 <template>
-  <div class="container mcontainer">
+  <div class="container mcontainer position-relative">
     <div class="row mx-auto">
       <div class="col-12">
         <h5 class="editAccountSetting text-black d-inline-block">
-          <font-awesome-icon icon="info-circle" color="#088dcd" />
+          <font-awesome-icon icon="info-circle" color="#088dcd"/>
           ویرایش اصلی اطلاعات
         </h5>
       </div>
@@ -312,7 +312,7 @@
                   id="my-file"
                   @change="onFileChange"
                 />
-                <font-awesome-icon icon="plus-square" size="lg" />
+                <font-awesome-icon icon="plus-square" size="lg"/>
               </div>
             </div>
             <div class="col-lg-7 col-md-12">
@@ -348,13 +348,20 @@
         </div>
       </form>
     </div>
+    <div class="tw-fixed tw-bottom-0 tw-left-0 tw-p-10">
+      <CircularProgress :RadialProgress="RadialProgress"></CircularProgress>
+
+    </div>
   </div>
 </template>
 
 <script>
+import CircularProgress from "@/components/CircularProgress";
+
 export default {
   name: "EditProfileBasic",
   layout: "PoshtebamPlusLayout",
+  components: {CircularProgress},
   head() {
     return {
       title: 'ویرایش حساب کاربری',
@@ -362,7 +369,7 @@ export default {
         {
           hid: "description",
           name: "description",
-          content:'ویرایش حساب کاربری',
+          content: 'ویرایش حساب کاربری',
         },
       ],
     }
@@ -382,58 +389,73 @@ export default {
       birthDate: "",
       userInfoData: {},
       gender: null,
-      Relation:0,
+      Relation: 0,
       userTag: "",
       pass: null,
       nationalCart: "",
-      cart:'',
+      cart: '',
       userSettingId: null,
-      AllStates:[],
-      AllCities:[],
-      SelectedStateId:null,
-      SelectedCityId:null
+      AllStates: [],
+      AllCities: [],
+      SelectedStateId: null,
+      SelectedCityId: null,
+
+        requiredFields: ["firstName", "lastName", "mobile", 'birthDate', 'gender', 'bio', 'nationalCart', 'SelectedCityId', 'SelectedStateId', 'userTag'],
+
 
     };
   },
-  watch:{
-    SelectedStateId:function (val,oldVal) {
+  watch: {
+    SelectedStateId: function (val, oldVal) {
 
       this.GetCity()
     }
   },
-  async fetch(){
-    const res = await  this.$repositories.GetAllStates.GetAllStates({
-      pageNumber:0,
-      count:0
+  async fetch() {
+    const res = await this.$repositories.GetAllStates.GetAllStates({
+      pageNumber: 0,
+      count: 0
     })
     this.AllStates = res.data.states
 
   },
   computed: {
+    FilledCount() {
+      let count = 0
+      this.requiredFields.forEach(item => {
+        if(this[item] && this[item]!==''){
+          count++
+        }
+      })
+      return count
+    },
+    RadialProgress() {
+      return Math.round(this.FilledCount * (100 / 10))
+    },
     BaseUrl() {
       return process.env.pic
     },
   },
   methods: {
-    async GetCity(){
+    async GetCity() {
 
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this.$nuxt.$loading.start()
       })
       try {
 
         const res = await this.$repositories.GetAllCities.GetAllCities({
-          pageNumber:1,
-          count:500,
-          stateId:this.SelectedStateId
+          pageNumber: 1,
+          count: 500,
+          stateId: this.SelectedStateId
         })
         console.log(this.AllCities)
         this.AllCities = res.data.cities
         this.$nuxt.$loading.finish()
         this.$nuxt.loading = false;
-      }catch (e) {
+      } catch (e) {
         console.log(e)
-      }finally {
+      } finally {
         this.$nuxt.$loading.finish()
         this.$nuxt.loading = false;
       }
@@ -464,9 +486,9 @@ export default {
               birthDate: this.birthDate,
               kartMelliDoc: this.nationalCart,
               userSettingId: this.userSettingId,
-              relationState:this.Relation,
-              stateId:this.SelectedStateId,
-              cityId:this.SelectedCityId
+              relationState: this.Relation,
+              stateId: this.SelectedStateId,
+              cityId: this.SelectedCityId
             },
             {}
           )
@@ -476,12 +498,11 @@ export default {
               this.$axios.post("Users/Update", {
                   name: this.firstName,
                   familyName: this.lastName,
-                  relationState:1,
-                  userId:this.$auth.user.userInfo.userId,
-                  stateId:this.SelectedStateId,
-                  cityId:this.SelectedCityId
+                  relationState: 1,
+                  userId: this.$auth.user.userInfo.userId,
+                  stateId: this.SelectedStateId,
+                  cityId: this.SelectedCityId
                 }
-
               )
                 .then((res) => {
                   if (res.status === 200) {
@@ -554,6 +575,7 @@ export default {
     margin-right: auto;
   }
 }
+
 .InputUiBox {
   padding: 2rem 0 0 0;
   width: 100px;
@@ -813,6 +835,7 @@ label {
   height: 50px;
   border-radius: 50%;
 }
+
 .activeClass {
   background-color: rgb(241, 241, 241);
   border-right: solid 0.2px blue;
@@ -821,9 +844,11 @@ label {
 .SendFile {
   position: relative;
 }
+
 .ParentsContainer {
   border-right: solid 0.1px rgb(224, 224, 224);
 }
+
 .DetailContainer {
   background-color: rgb(250, 250, 250);
   border-top-right-radius: 30px;
@@ -867,6 +892,7 @@ label {
   background-color: rgb(225, 230, 239);
   border-radius: 10px;
 }
+
 .MyCoursesBtn {
   background-size: 15px;
   background-color: white;
@@ -889,6 +915,7 @@ label {
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
 }
+
 .Panel-BreadCrumb {
   color: black !important;
 }

@@ -132,6 +132,8 @@ export default {
             res.data.forEach((item)=>{
               if(this.ChatData.findIndex(e=> e.MessageId === item.MessageId)>-1){
                 return
+                // let idx = this.ChatData.findIndex(e=> e.MessageId === item.MessageId)
+                // this.ChatData[idx] = item
               }else{
                 this.ChatData.push(item)
               }

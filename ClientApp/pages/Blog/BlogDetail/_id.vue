@@ -21,12 +21,8 @@
       </div>
     </div>
     <div class="row">
-
-      <div class="col-lg-8 tw-flex-shirink-0 tw-shadow">
-        <div class="tab-content" id="pills-tabContent" v-if="!$fetchState.pending">
-          <div class="tab-pane fade show active" id="forum-active-content" role="tabpanel"
-               aria-labelledby="forum-active-tab">
-            <div class="row boxMainContent mx-auto ">
+      <div class="col-md-8  tw-shadow">
+            <div class="row  mx-auto ">
               <div class="tw-card tw-card-compact bg-white rounded tw-w-96 tw-bg-base-100 ">
                 <img v-if="BlogData.fileData!==''" :src="`https://banooclubapi.simagar.com/${BlogData.fileData}`"
                      class="tw-w-full tw-h-full  tw-inset-0 tw-object-cover" alt="Shoes"/>
@@ -34,16 +30,19 @@
                 <div class="tw-card-body">
                   <div class="tw-flex tw-items-center tw-justify-between">
                     <h2 class="tw-card-title">{{ BlogData.title }}</h2>
-
+                    <div @click="Share" class="tw-flex tw-items-center tw-gap-1 tw-cursor-pointer">
+                      <i  class="fas fa-paperclip tw-text-stone-400"></i>
+                    </div>
                     <div @click="LikeBlog" class="tw-flex tw-items-center tw-gap-1 tw-cursor-pointer">
                       <small class=" tw-text-stone-400">{{ BlogData.likeCount }}</small>
                       <i v-if="BlogData.myLikeStatus===1" class="far fa-heart tw-text-stone-400"></i>
                       <i v-else class="fas fa-heart tw-text-red-600"></i>
                     </div>
                   </div>
-                  <div class="d-flex align-items-center  my-2 gap-1">
-                    <span v-for="item in BlogData.tags"
-                          class="tw-badge  tw-badge-primary tw-m-3 tw-p-2 tw-mx-1 tw-left-0">{{ item.title }}</span>
+                  <div class="d-flex align-items-center flex-wrap justify-content-start   my-2 ">
+                    <span v-for="item in BlogData.tags" class="tw-badge  tw-badge-primary tw-my-3 tw-p-2 tw-mx-1 ">
+                      <small> {{ item.title }}</small>
+                     </span>
                   </div>
 
                   <div class="tw-flex tw-justify-start tw-items-center tw-gap-2">
@@ -128,6 +127,7 @@
                     </div>
 
                     <p class="px-5" style="overflow-wrap: anywhere!important;">{{ item.message }}</p>
+                    <small class="text-secondary my-2">{{time_ago(item.createDate)}}</small>
                   </div>
                   <div v-for="(el,idx) in  BlogComments.filter(e=> e.parentId === item.blogCommentId)" :key="idx"
                        class="my-2 tw-grid-cols-1 px-5 tw-border-b">
@@ -148,7 +148,10 @@
                         <!--                          <button data-bs-toggle="modal" data-bs-target="#AddBlogComment" class=" rounded tw-bg-stone-400 tw-text-stone-300 p-2" @click="SetSelectedComment()" > پاسخ</button>-->
                       </div>
 
-                      <p class="px-5" style="overflow-wrap: anywhere!important;">{{ el.message }}</p>
+                          <p class="px-5  " style="overflow-wrap: anywhere!important;">{{ el.message }}</p>
+                          <small class="text-secondary my-2">{{time_ago(el.createDate)}}</small>
+
+
                     </div>
 
                   </div>
@@ -156,12 +159,11 @@
 
               </div>
             </div>
-          </div>
-
-        </div>
-
       </div>
-      <RecentBlogs></RecentBlogs>
+      <div class="col-md-4">
+        <RecentBlogs></RecentBlogs>
+      </div>
+
     </div>
 
   </div>
@@ -188,7 +190,8 @@ export default {
       SelectedComment: null,
       AllBlogs: [],
       seoTitle: '',
-      SeoDescription: ''
+      SeoDescription: '',
+      site_url:'https://banooclub.simagar.com'
 
     }
   },
@@ -206,6 +209,15 @@ export default {
   },
   watch: {},
   methods: {
+    Share(){
+      if(navigator.share){
+        navigator.share({
+          title: this.BlogData.title,
+          url: this.site_url+this.$route.fullPath
+        })
+      }
+
+    },
     LikeBlog() {
       try {
         // blog like type 7
@@ -256,20 +268,79 @@ export default {
         console.log(e)
       }
     },
+    time_ago(time) {
+      switch (typeof time) {
+        case 'number':
+          break;
+        case 'string':
+          time = +new Date(time);
+          break;
+        case 'object':
+          if (time.constructor === Date) time = time.getTime();
+          break;
+        default:
+          time = +new Date();
+      }
+      let time_formats = [
+        [60, 'ثانیه ', 1], // 60
+        [120, '1 دقیقه پیش', 'یک دقیقه پیش'], // 60*2
+        [3600, 'دقیقه ', 60], // 60*60, 60
+        [7200, '1 ساعت پیش', '1 ساعت پیش'], // 60*60*2
+        [86400, 'ساعت ', 3600], // 60*60*24, 60*60
+        [172800, 'دیروز', 'فردا'], // 60*60*24*2
+        [604800, 'روز ', 86400], // 60*60*24*7, 60*60*24
+        [1209600, 'هفته پیش', 'هفته بعد'], // 60*60*24*7*4*2
+        [2419200, 'هفته', 604800], // 60*60*24*7*4, 60*60*24*7
+        [4838400, 'ماه پیش', 'ماه بعد'], // 60*60*24*7*4*2
+        [29030400, 'ماه', 2419200], // 60*60*24*7*4*12, 60*60*24*7*4
+        [58060800, 'سال پیش', 'سال بعد'], // 60*60*24*7*4*12*2
+        [2903040000, 'سال', 29030400], // 60*60*24*7*4*12*100, 60*60*24*7*4*12
+
+      ];
+      let seconds = (+new Date() - time) / 1000,
+        token = 'پیش',
+        list_choice = 1;
+
+      if (seconds == 0) {
+        return 'پیش'
+      }
+      if (seconds < 0) {
+        seconds = Math.abs(seconds);
+        token = 'پیش';
+        list_choice = 2;
+      }
+      let i = 0,
+        format;
+      while (format = time_formats[i++])
+        if (seconds < format[0]) {
+          if (typeof format[2] == 'string')
+            return format[list_choice];
+          else
+            return Math.floor(seconds / format[2]) + ' ' + format[1] + ' ' + token;
+        }
+      return time;
+    },
+
     async SubmitComment() {
       try {
         let parentId = 0
         if (this.SelectedComment !== null) {
           parentId = this.SelectedComment.blogCommentId
         }
-        const res = await this.$repositories.CreateBlogComment.CreateBlogComment({
-          blogId: parseInt(this.$route.params.blogId),
-          message: this.Message,
-          parentId: parentId
-        })
-        this.Message = ''
-        this.$toast.success('نظر شما ثبت شد ')
-        this.GetAllBlogComment();
+
+        if(this.Message===''){
+          this.$toast.error('لطفا متن نظر خود را وارد کنید')
+        }else{
+          const res = await this.$repositories.CreateBlogComment.CreateBlogComment({
+            blogId: parseInt(this.$route.params.blogId),
+            message: this.Message,
+            parentId: parentId
+          })
+          this.Message = ''
+          this.$toast.success('نظر شما ثبت شد ')
+          this.GetAllBlogComment();
+        }
+
       } catch (e) {
         console.log(e)
         this.$toast.success('خطایی رخ داده است')

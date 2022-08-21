@@ -26,8 +26,9 @@
       :isRenderingModal="isRenderingReportingPost"
       @closeModal="closeReportPostModal"
     >
-      <template v-slot:title>گزارش پست</template>
+      <template v-slot:title>ثبت تخلف پست</template>
       <template v-slot:content>
+
         <textarea
           row="100"
           v-model="reportReason"
