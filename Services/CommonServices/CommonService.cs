@@ -30,7 +30,7 @@ namespace BanooClub.Services.CommonServices
         private readonly IBanooClubEFRepository<State> stateRepository;
         private readonly IBanooClubEFRepository<City> cityRepository;
         private readonly IBanooClubEFRepository<FollowRequest> followRequestRepository;
-        public CommonService(ILogService logService,IUserService userService
+        public CommonService(ILogService logService, IUserService userService
             , IBanooClubEFRepository<UserSetting> userSettingRepository
             , IBanooClubEFRepository<Following> followingRepository
             , IBanooClubEFRepository<SocialMedia> socialMediaRepository
@@ -43,7 +43,7 @@ namespace BanooClub.Services.CommonServices
             , IBanooClubEFRepository<State> stateRepository
             , IBanooClubEFRepository<City> cityRepository
             , IBanooClubEFRepository<FollowRequest> followRequestRepository
-            , ITicketService ticketService,IHttpContextAccessor accessor)
+            , ITicketService ticketService, IHttpContextAccessor accessor)
         {
             _logService = logService;
             _userService = userService;
@@ -63,7 +63,7 @@ namespace BanooClub.Services.CommonServices
             this.followRequestRepository = followRequestRepository;
         }
 
-        
+
         public object GetIndexData()
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
@@ -72,36 +72,36 @@ namespace BanooClub.Services.CommonServices
 
             var Last8Viewer = new List<UserBaseData>();
             var Last8Log = _logService.GetByUserId(userId).DistinctBy(x => x.ViewUserId).OrderByDescending(z => z.CreateDate).Take(8).ToList();
-            var RecentActivity = activityRepository.GetQuery().Where(z => z.UserId==userId).OrderByDescending(x => x.CreateDate).Take(7).ToList();
+            var RecentActivity = activityRepository.GetQuery().Where(z => z.UserId == userId).OrderByDescending(x => x.CreateDate).Take(7).ToList();
             foreach (var item in Last8Log)
             {
                 var userInfo = _userService.Get(item.ViewUserId);
                 var obj1 = new UserBaseData()
                 {
-                    UserId=item.ViewUserId,
-                    UserName=userInfo.UserName,
-                    Banner=userInfo.BannerFileData,
-                    Selfie=userInfo.SelfieFileData,
-                    Name=userInfo.Name,
-                    FamilyName=userInfo.FamilyName
+                    UserId = item.ViewUserId,
+                    UserName = userInfo.UserName,
+                    Banner = userInfo.BannerFileData,
+                    Selfie = userInfo.SelfieFileData,
+                    Name = userInfo.Name,
+                    FamilyName = userInfo.FamilyName
                 };
                 Last8Viewer.Add(obj1);
             }
             var dbUserInfo = _userService.Get(userId);
 
-            var dbLastLawyerCertificateMedia = socialMediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId==userId && z.Type == MediaTypes.LawyerCertificate);
-            dbUserInfo.UserSetting.LawyerCertificateDoc= dbLastLawyerCertificateMedia == null ? null : "Media/gallery/LawyerCertificate/" +dbLastLawyerCertificateMedia.PictureUrl;
+            var dbLastLawyerCertificateMedia = socialMediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == userId && z.Type == MediaTypes.LawyerCertificate);
+            dbUserInfo.UserSetting.LawyerCertificateDoc = dbLastLawyerCertificateMedia == null ? null : "Media/gallery/LawyerCertificate/" + dbLastLawyerCertificateMedia.PictureUrl;
 
-            var dbLastNewspaperMedia = socialMediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId==userId && z.Type == MediaTypes.Newspaper);
-            dbUserInfo.UserSetting.NewspaperDoc= dbLastNewspaperMedia == null ? null : "Media/gallery/Newspaper/" +dbLastNewspaperMedia.PictureUrl;
+            var dbLastNewspaperMedia = socialMediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == userId && z.Type == MediaTypes.Newspaper);
+            dbUserInfo.UserSetting.NewspaperDoc = dbLastNewspaperMedia == null ? null : "Media/gallery/Newspaper/" + dbLastNewspaperMedia.PictureUrl;
 
             var dbKartMelliDoc = socialMediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == userId && z.Type == MediaTypes.KartMelliDoc);
-            dbUserInfo.UserSetting.KartMelliDoc =dbKartMelliDoc == null ? null : "Media/gallery/KartMelliDocs/" + dbKartMelliDoc.PictureUrl;
+            dbUserInfo.UserSetting.KartMelliDoc = dbKartMelliDoc == null ? null : "Media/gallery/KartMelliDocs/" + dbKartMelliDoc.PictureUrl;
 
             var dbPassportDoc = socialMediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == userId && z.Type == MediaTypes.PassportDoc);
             dbUserInfo.UserSetting.PassportDoc = dbPassportDoc == null ? null : "Media/gallery/PassportDocs/" + dbPassportDoc.PictureUrl;
 
-            var dbVideoIdentity = socialMediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == userId && z.Type== MediaTypes.VideoIdentity);
+            var dbVideoIdentity = socialMediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == userId && z.Type == MediaTypes.VideoIdentity);
             dbUserInfo.UserSetting.VideoIdentity = dbVideoIdentity == null ? null : "Media/gallery/VideoIdentity/" + dbVideoIdentity.PictureUrl;
 
             #region state & city
@@ -153,18 +153,18 @@ namespace BanooClub.Services.CommonServices
 
             var Last8Viewer = new List<UserBaseData>();
             var Last8Log = _logService.GetByUserId(userId).DistinctBy(x => x.ViewUserId).OrderByDescending(z => z.CreateDate).Take(8).ToList();
-            var RecentActivity = activityRepository.GetQuery().Where(z => z.UserId==userId).OrderByDescending(x => x.CreateDate).Take(7).ToList();
+            var RecentActivity = activityRepository.GetQuery().Where(z => z.UserId == userId).OrderByDescending(x => x.CreateDate).Take(7).ToList();
             foreach (var item in Last8Log)
             {
                 var userInfo = _userService.Get(item.ViewUserId);
                 var obj = new UserBaseData()
                 {
-                    UserId=item.ViewUserId,
-                    UserName=userInfo.UserName,
-                    Banner=userInfo.BannerFileData,
-                    Selfie=userInfo.SelfieFileData,
-                    Name=userInfo.Name,
-                    FamilyName=userInfo.FamilyName
+                    UserId = item.ViewUserId,
+                    UserName = userInfo.UserName,
+                    Banner = userInfo.BannerFileData,
+                    Selfie = userInfo.SelfieFileData,
+                    Name = userInfo.Name,
+                    FamilyName = userInfo.FamilyName
                 };
                 Last8Viewer.Add(obj);
             }
@@ -369,18 +369,18 @@ namespace BanooClub.Services.CommonServices
                 var userId = dbUser.UserId;
                 var Last8Viewer = new List<UserBaseData>();
                 var Last8Log = _logService.GetByUserId(userId).DistinctBy(x => x.ViewUserId).OrderByDescending(z => z.CreateDate).Take(8).ToList();
-                var RecentActivity = activityRepository.GetQuery().Where(z => z.UserId==userId).OrderByDescending(x => x.CreateDate).Take(7).ToList();
+                var RecentActivity = activityRepository.GetQuery().Where(z => z.UserId == userId).OrderByDescending(x => x.CreateDate).Take(7).ToList();
                 foreach (var item in Last8Log)
                 {
                     var userInfo = _userService.Get(item.ViewUserId);
                     var obj = new UserBaseData()
                     {
-                        UserId=item.ViewUserId,
-                        UserName=userInfo.UserName,
-                        Banner=userInfo.BannerFileData,
-                        Selfie=userInfo.SelfieFileData,
-                        Name=userInfo.Name,
-                        FamilyName=userInfo.FamilyName
+                        UserId = item.ViewUserId,
+                        UserName = userInfo.UserName,
+                        Banner = userInfo.BannerFileData,
+                        Selfie = userInfo.SelfieFileData,
+                        Name = userInfo.Name,
+                        FamilyName = userInfo.FamilyName
                     };
                     Last8Viewer.Add(obj);
                 }
