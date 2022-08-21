@@ -18,6 +18,8 @@ namespace BanooClub.Models
         [NotMapped]
         public bool IsReportedByMe { get; set; }
         [NotMapped]
+        public bool IsActiveComment { get; set; }
+        [NotMapped]
         public List<PostComment> Comments { get; set; }
         [NotMapped]
         public User UserInfo { get; set; }

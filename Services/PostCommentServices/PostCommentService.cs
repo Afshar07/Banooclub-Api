@@ -15,19 +15,23 @@ namespace BanooClub.Services.PostCommentServices
     {
         private readonly IBanooClubEFRepository<PostComment> postCommentRepository;
         private readonly IBanooClubEFRepository<Activity> activityRepository;
+        private readonly IBanooClubEFRepository<Post> _postRepository;
         private readonly IUserService userService;
         private readonly IHttpContextAccessor _accessor;
 
         public PostCommentService(IBanooClubEFRepository<PostComment> postCommentRepository
             , IUserService userService,
             IBanooClubEFRepository<Activity> activityRepository,
-            IHttpContextAccessor accessor)
+            IHttpContextAccessor accessor,
+            IBanooClubEFRepository<Post> postRepository)
         {
             this.postCommentRepository = postCommentRepository;
             this.userService = userService;
             this.activityRepository = activityRepository;
             _accessor = accessor;
+            _postRepository = postRepository;
         }
+
         public async Task Create(PostComment inputDto)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
@@ -94,6 +98,25 @@ namespace BanooClub.Services.PostCommentServices
             var comments = postCommentRepository.GetQuery().Where(z => z.PostId == postId && z.ParentId == commnetId).ToList();
             comments.ForEach(z => z.UserInfo = userService.Get(z.UserId));
             return comments;
+        }
+
+        public async Task<byte> ChangePostCommentActivation(long postId)
+        {
+            var userId = _accessor.HttpContext.User?.GetUserId() ?? 0;
+
+            if (!_postRepository.GetQuery()
+                .Any(x => x.PostId == postId && x.UserId == userId))
+                return 0;
+
+            var post = _postRepository.GetQuery()
+                .FirstOrDefault(x => x.PostId == postId);
+
+            if (post == null)
+                return 0;
+
+            post.IsActiveComment = !post.IsActiveComment;
+            await _postRepository.Save();
+            return 1;
         }
     }
 }

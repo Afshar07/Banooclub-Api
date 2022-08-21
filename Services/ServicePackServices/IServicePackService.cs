@@ -17,7 +17,7 @@ namespace BanooClub.Services.ServicePackServices
         Task<object> GetUserServicesByUserName(long lastId, int count, string searchCommand, string userName);
         Task<object> GetDeactiveServices();
         Task<bool> ChangeServiceStatus(long servicePackId, ServicePackStatus status);
-        Task<ServicePack> GetwithView(long servicePackId);
+        Task<object> GetwithView(long servicePackId);
         Task<int> GetMaintainedByServiceId(long serviceId);
         Task<List<ServicePack>> GetAllOrderedService();
         Task<List<ServicePack>> GetOrderedServiceForVendor();

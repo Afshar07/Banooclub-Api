@@ -61,7 +61,21 @@
 		<None Include="ClientApp\.nuxt\utils.js" />
 	</ItemGroup>
 	<ItemGroup>
+		<Folder Include="wwwroot\Media\Gallery\GalleryVideos\" />
+		<Folder Include="wwwroot\Media\Gallery\Group\" />
+		<Folder Include="wwwroot\Media\Gallery\KartMelliDocs\" />
+		<Folder Include="wwwroot\Media\Gallery\LawyerCertificate\" />
+		<Folder Include="wwwroot\Media\Gallery\Newspaper\" />
+		<Folder Include="wwwroot\Media\Gallery\PassportDocs\" />
+		<Folder Include="wwwroot\Media\Gallery\Profile\" />
+		<Folder Include="wwwroot\Media\Gallery\RoomatePhotos\" />
+		<Folder Include="wwwroot\Media\Gallery\Service\" />
+		<Folder Include="wwwroot\Media\Gallery\ServiceCategory\" />
+		<Folder Include="wwwroot\Media\Gallery\Ticket\" />
+		<Folder Include="wwwroot\Media\Gallery\VideoIdentity\" />
 		<Folder Include="wwwroot\Media\Gallery\Banner\" />
+		<Folder Include="wwwroot\Media\Gallery\GalleryImages\" />
+		<Folder Include="wwwroot\Media\Gallery\Blog\" />
 		<Folder Include="wwwroot\Media\Gallery\GalleryImages\" />
 		<Folder Include="wwwroot\Media\Gallery\GalleryVideos\" />
 		<Folder Include="wwwroot\Media\Gallery\AdsPhotos\" />
@@ -69,6 +83,8 @@
 		<Folder Include="wwwroot\Media\Gallery\Group\" />
 		<Folder Include="wwwroot\Media\Gallery\LawyerCertificate\" />
 		<Folder Include="wwwroot\Media\Gallery\Blog\" />
+		<Folder Include="wwwroot\Media\Gallery\AdsPhotos\" />
+		<Folder Include="wwwroot\Media\Gallery\Banner\" />
 		<Folder Include="wwwroot\Media\Gallery\ServiceCategory\" />
 		<Folder Include="wwwroot\Media\Gallery\Service\" />
 		<Folder Include="wwwroot\Media\Gallery\Newspaper\" />

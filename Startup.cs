@@ -2,6 +2,7 @@ using BanooClub.Extensions;
 using BanooClub.Extentions;
 using BanooClub.Hubs;
 using BanooClub.Services.MessageServices;
+using BanooClub.Services.PostServices;
 using BanooClub.Settings;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -135,6 +136,7 @@ namespace BanooClub
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<MessageService>("/chatHub");
+                endpoints.MapHub<PostService>("/chatHub");
             });
         }
     }

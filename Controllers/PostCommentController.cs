@@ -53,6 +53,13 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]"), AllowAnonymous]
+        public async Task<byte> ChangePostCommentActivation(long postId)
+        {
+            return await postCommentService.ChangePostCommentActivation(postId);
+        }
+
+        [HttpPost]
+        [Route("[action]"), AllowAnonymous]
         public Task<PostComment> Get(long postCommentId)
         {
             return postCommentService.Get(postCommentId);

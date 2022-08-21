@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 
@@ -22,6 +23,7 @@ namespace BanooClub.Extentions
             return Convert.ToInt32(identity?.FindFirstValue(ClaimTypes.NameIdentifier));
         }
 
-
+        public static long GetUserId(this ClaimsPrincipal principal) =>
+            long.Parse(principal?.Claims?.FirstOrDefault(x => x.Type is ClaimTypes.NameIdentifier)?.Value ?? "0");
     }
 }
