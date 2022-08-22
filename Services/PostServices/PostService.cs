@@ -101,7 +101,15 @@ namespace BanooClub.Services.PostServices
             var NKs = postNKRepository.GetAll().Result.Select(z => z.Name).ToList();
             if (NKs.Any(z => (inputDto.Description.Contains(z))))
             {
-                inputDto.Status = (int)PostStatus.NotConfirmed;
+                var words = inputDto.Description.Split().ToList();
+
+                foreach (var word in words)
+                {
+                    if (NKs.Any(x => x.Equals(word)))
+                        inputDto.Status = (int)PostStatus.Report;
+
+                    break;
+                }
             }
             var creation = postRepository.Insert(inputDto);
 

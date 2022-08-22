@@ -278,8 +278,10 @@ namespace BanooClub.Services.ServicePackServices
                 }
 
                 #region WishList
+
                 var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == userId && x.ObjectId == servicePack.ServicePackId && x.Type == WishListType.Service)
                 .FirstOrDefault();
+
                 if (dbWishList != null)
                 {
                     servicePack.IsFavourite = true;
@@ -288,6 +290,7 @@ namespace BanooClub.Services.ServicePackServices
                 {
                     servicePack.IsFavourite = false;
                 }
+
                 #endregion
 
                 servicePack.UserInfo = userRepository.GetQuery().FirstOrDefault(z => z.UserId == servicePack.UserId);
@@ -493,13 +496,18 @@ namespace BanooClub.Services.ServicePackServices
         public async Task<object> GetUserServicesByUserName(long lastId, int count, string searchCommand, string userName)
         {
             var userId = userRepository.GetQuery().FirstOrDefault(z => z.UserName == userName).UserId;
+            var currentUserId = _accessor.HttpContext.User?.GetUserId() ?? 0;
 
             if (searchCommand == null)
             {
                 searchCommand = "";
             }
+
             List<ServicePack> servicePacks = new List<ServicePack>();
-            servicePacks = servicePackRepository.GetQuery().Where(z => z.UserId == userId && z.Title.Contains(searchCommand)).OrderByDescending(z => z.UserId).ToList();
+            servicePacks = servicePackRepository.GetQuery()
+                .Where(z => z.UserId == userId && z.Title.Contains(searchCommand))
+                .OrderByDescending(z => z.CreateDate).ToList();
+
             var servicesCount = servicePacks.Count();
 
             if (lastId != 0)
@@ -529,8 +537,6 @@ namespace BanooClub.Services.ServicePackServices
                     servicePack.ViewsCount = 0;
                 }
 
-
-
                 servicePack.UserInfo = userRepository.GetQuery().FirstOrDefault(z => z.UserId == servicePack.UserId);
                 var dbUserMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == servicePack.UserId && z.Type == MediaTypes.Profile);
 
@@ -542,7 +548,7 @@ namespace BanooClub.Services.ServicePackServices
 
                 #region WishList
 
-                var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == userId && x.ObjectId == servicePack.ServicePackId && x.Type == WishListType.Service)
+                var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == currentUserId && x.ObjectId == servicePack.ServicePackId && x.Type == WishListType.Service)
                 .FirstOrDefault();
 
                 if (dbWishList != null)

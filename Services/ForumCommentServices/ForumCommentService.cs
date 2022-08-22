@@ -6,19 +6,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BanooClub.Models.Enums;
 
 namespace BanooClub.Services.ForumCommentServices
 {
     public class ForumCommentService : IForumCommentService
     {
         private readonly IBanooClubEFRepository<ForumComment> forumCommentRepository;
+        private readonly IBanooClubEFRepository<SocialMedia> _mediaRepository;
         private readonly IBanooClubEFRepository<User> userRepository;
         private readonly IHttpContextAccessor _accessor;
-        public ForumCommentService(IBanooClubEFRepository<ForumComment> forumCommentRepository, IBanooClubEFRepository<User> userRepository, IHttpContextAccessor accessor)
+        public ForumCommentService(IBanooClubEFRepository<ForumComment> forumCommentRepository,
+            IBanooClubEFRepository<User> userRepository, IHttpContextAccessor accessor, IBanooClubEFRepository<SocialMedia> mediaRepository)
         {
             this.forumCommentRepository = forumCommentRepository;
             this.userRepository = userRepository;
             _accessor = accessor;
+            _mediaRepository = mediaRepository;
         }
         public async Task<long> Create(ForumComment inputDto)
         {
@@ -89,14 +93,25 @@ namespace BanooClub.Services.ForumCommentServices
 
             var NewList = commentSort.Take(count).ToList();
             List<object> result = new List<object>();
-            foreach(var comment in NewList)
+            foreach (var comment in NewList)
             {
                 var dbUser = userRepository.GetQuery().FirstOrDefault(z => z.UserId == comment.Key);
+
+                if (dbUser != null)
+                {
+                    var media = _mediaRepository.GetQuery()
+                        .FirstOrDefault(x => x.Type == MediaTypes.Profile
+                        && x.ObjectId == dbUser.UserId);
+
+                    dbUser.SelfieFileData = media is null ? "" : media.PictureUrl;
+                }
+
                 var obj = new
                 {
                     UserInfo = dbUser,
                     CommentsCount = comment.myCount
                 };
+
                 result.Add(obj);
             }
             return result;

@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using BanooClub.Models;
-using BanooClub.Services.ForumServices;
-using System.Threading.Tasks;
+﻿using BanooClub.Models;
 using BanooClub.Models.Enums;
+using BanooClub.Services.ForumServices;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace BanooClub.Controllers
 {
@@ -34,17 +33,17 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost]
-        [Route("[action]"),Authorize]
+        [Route("[action]"), Authorize]
         public async Task<Forum> ReportForum(long forumId)
         {
             return await this.forumService.ReportForum(forumId);
         }
 
         [HttpPost]
-        [Route("[action]"),Authorize(Roles ="Admin")]
-        public async Task<Forum> ChangeForumStatus(long forumId,ForumStatus status)
+        [Route("[action]"), Authorize(Roles = "Admin")]
+        public async Task<Forum> ChangeForumStatus(long forumId, ForumStatus status)
         {
-            return await this.forumService.ChangeForumStatus(forumId,status);
+            return await this.forumService.ChangeForumStatus(forumId, status);
         }
 
         [HttpPost]
@@ -63,9 +62,11 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]"), AllowAnonymous]
-        public async Task<object> GetAll(int pageNumber, int count, string searchCommand, bool? noComments, bool? mostRated , bool? mostComments)
+        public async Task<object> GetAll(int pageNumber, int count, string searchCommand, bool? noComments,
+            bool? mostRated, bool? mostComments, long? categoryId, bool? mostViewed)
         {
-            return await forumService.GetAll(pageNumber, count, searchCommand,noComments,mostRated , mostComments);
+            return await forumService.GetAll(pageNumber, count, searchCommand, noComments,
+                mostRated, mostComments, categoryId, mostViewed);
         }
 
         [HttpPost]
@@ -74,11 +75,14 @@ namespace BanooClub.Controllers
         {
             return await forumService.GetMyForums(pageNumber, count, searchCommand);
         }
+
         [HttpPost]
         [Route("[action]"), Authorize(Roles = "Admin")]
-        public async Task<object> GetAllForAdmin(int pageNumber, int count, string searchCommand, bool? noComments, bool? mostRated, bool? mostComments , ForumStatus? status)
+        public async Task<object> GetAllForAdmin(int pageNumber, int count, string searchCommand, bool? noComments,
+            bool? mostRated, bool? mostComments, ForumStatus? status, long? categoryId, bool? mostViewed)
         {
-            return await forumService.GetAllForAdmin(pageNumber, count, searchCommand, noComments, mostRated, mostComments,status);
+            return await forumService.GetAllForAdmin(pageNumber, count, searchCommand, noComments, mostRated,
+                mostComments, status, categoryId, mostViewed);
         }
     }
 }
