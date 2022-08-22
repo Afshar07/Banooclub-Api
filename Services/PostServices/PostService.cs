@@ -16,11 +16,14 @@ using BanooClub.Services.SocialMediaServices;
 using BanooClub.Models.Urls;
 using System.IO;
 using Microsoft.AspNetCore.SignalR;
+using System.Text.RegularExpressions;
 
 namespace BanooClub.Services.PostServices
 {
     public class PostService : Hub<IPostService>, IPostService
     {
+        private const string cacheKey = "BanooClubLastNK";
+
         private readonly IBanooClubEFRepository<Post> postRepository;
         private readonly IBanooClubEFRepository<Following> followingRepository;
         private readonly IBanooClubEFRepository<User> userRepository;
@@ -69,10 +72,8 @@ namespace BanooClub.Services.PostServices
         }
         public async Task Create(Post inputDto)
         {
-            var cacheKey = "BanooClubLastNK";
             string serializedCustomerList;
             var Nks = new List<PostNK>();
-            var PostNksType = distributedCache.GetType();
             var PostNkList = await distributedCache.GetAsync(cacheKey);
             if (PostNkList != null)
             {
@@ -84,36 +85,34 @@ namespace BanooClub.Services.PostServices
                 Nks = await postNKRepository.GetAll();
                 serializedCustomerList = JsonConvert.SerializeObject(Nks);
                 PostNkList = Encoding.UTF8.GetBytes(serializedCustomerList);
-                //var options = new DistributedCacheEntryOptions()
-                //    .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
-                //    .SetSlidingExpiration(TimeSpan.FromMinutes(2));
                 await distributedCache.SetAsync(cacheKey, PostNkList);
             }
 
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+
             inputDto.UserId = userId;
             inputDto.IsDeleted = false;
             inputDto.CreateDate = DateTime.Now;
             inputDto.Status = (int)PostStatus.Published;
             inputDto.UpdateDate = DateTime.Now;
-            var NKs = postNKRepository.GetAll().Result.Select(z => z.Name).ToList();
+
+            var NKs = Nks.Select(z => z.Name).ToList();
             if (NKs.Any(z => (inputDto.Description.Contains(z))))
             {
-                var words = inputDto.Description.Split().ToList();
+                var textWithoutChars = Regex.Replace(inputDto.Description, "[^a-zA-Z0-9_]+", " ");
 
-                foreach (var word in words)
+                foreach (var word in textWithoutChars.Split())
                 {
                     if (NKs.Any(x => x.Equals(word)))
+                    {
                         inputDto.Status = (int)PostStatus.Report;
-
-                    break;
+                        break;
+                    }
                 }
             }
             var creation = postRepository.Insert(inputDto);
-
-
 
             foreach (var item in inputDto.Medias)
             {
@@ -177,13 +176,44 @@ namespace BanooClub.Services.PostServices
                 }
             }
 
-            await _hubContext.Clients.All.SendAsync("PostCreated", inputDto.UserId, $"Post created for user with id {inputDto.UserId}");
+            await _hubContext.Clients.All.SendAsync("PostCreated", inputDto.UserId, $"Post created for user with id {creation.UserId}");
         }
 
 
         public async Task<Post> Update(Post item)
         {
-            await postRepository.Update(item);
+            string serializedCustomerList;
+            var Nks = new List<PostNK>();
+            var PostNkList = await distributedCache.GetAsync(cacheKey);
+            if (PostNkList != null)
+            {
+                serializedCustomerList = Encoding.UTF8.GetString(PostNkList);
+                Nks = JsonConvert.DeserializeObject<List<PostNK>>(serializedCustomerList);
+            }
+            else
+            {
+                Nks = await postNKRepository.GetAll();
+                serializedCustomerList = JsonConvert.SerializeObject(Nks);
+                PostNkList = Encoding.UTF8.GetBytes(serializedCustomerList);
+                await distributedCache.SetAsync(cacheKey, PostNkList);
+            }
+
+            var NKs = Nks.Select(z => z.Name).ToList();
+            if (NKs.Any(z => (item.Description.Contains(z))))
+            {
+                var textWithoutChars = Regex.Replace(item.Description, "[^a-zA-Z0-9_]+", " ");
+
+                foreach (var word in textWithoutChars.Split())
+                {
+                    if (NKs.Any(x => x.Equals(word)))
+                    {
+                        item.Status = (int)PostStatus.Report;
+                        break;
+                    }
+                }
+            }
+
+            await postRepository.Save();
 
 
             var dbLastMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == item.PostId && z.Type == MediaTypes.Post);

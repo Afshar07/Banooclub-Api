@@ -12,11 +12,14 @@ using MoreLinq;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Text;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace BanooClub.Services.ForumServices
 {
     public class ForumService : IForumService
     {
+        private const string cacheKey = "BanooClubLastNK";
+
         private readonly IBanooClubEFRepository<Forum> forumRepository;
         private readonly IBanooClubEFRepository<View> viewRepository;
         private readonly IBanooClubEFRepository<Rating> ratingRepository;
@@ -51,7 +54,6 @@ namespace BanooClub.Services.ForumServices
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
 
-            var cacheKey = "BanooClubLastNK";
             string serializedCustomerList;
             var Nks = new List<PostNK>();
             var PostNkList = await distributedCache.GetAsync(cacheKey);
@@ -71,17 +73,19 @@ namespace BanooClub.Services.ForumServices
             inputDto.IsDeleted = false;
             inputDto.CreateDate = DateTime.Now;
             inputDto.Status = ForumStatus.Active;
-            var NKs = postNKRepository.GetAll().Result.Select(z => z.Name).ToList();
+
+            var NKs = Nks.Select(z => z.Name).ToList();
             if (NKs.Any(z => (inputDto.Description.Contains(z))))
             {
-                var words = inputDto.Description.Split().ToList();
+                var textWithoutChars = Regex.Replace(inputDto.Description, "[^a-zA-Z0-9_]+", " ");
 
-                foreach (var word in words)
+                foreach (var word in textWithoutChars.Split())
                 {
                     if (NKs.Any(x => x.Equals(word)))
+                    {
                         inputDto.Status = ForumStatus.ReportedByRobot;
-
-                    break;
+                        break;
+                    }
                 }
             }
             var creation = forumRepository.Insert(inputDto);
@@ -116,10 +120,8 @@ namespace BanooClub.Services.ForumServices
 
         public async Task<Forum> Update(Forum item)
         {
-            var cacheKey = "BanooClubLastNK";
             string serializedCustomerList;
             var Nks = new List<PostNK>();
-            var PostNksType = distributedCache.GetType();
             var PostNkList = await distributedCache.GetAsync(cacheKey);
             if (PostNkList != null)
             {
@@ -135,12 +137,22 @@ namespace BanooClub.Services.ForumServices
             }
 
             item.Status = ForumStatus.Active;
-            var NKs = postNKRepository.GetAll().Result.Select(z => z.Name).ToList();
+            var NKs = Nks.Select(z => z.Name).ToList();
             if (NKs.Any(z => (item.Description.Contains(z))))
             {
-                item.Status = ForumStatus.ReportedByRobot;
+                var textWithoutChars = Regex.Replace(item.Description, "[^a-zA-Z0-9_]+", " ");
+
+                foreach (var word in textWithoutChars.Split())
+                {
+                    if (NKs.Any(x => x.Equals(word)))
+                    {
+                        item.Status = ForumStatus.ReportedByRobot;
+                        break;
+                    }
+                }
             }
-            await forumRepository.Update(item);
+
+            await forumRepository.Save();
             return item;
         }
 
@@ -235,7 +247,7 @@ namespace BanooClub.Services.ForumServices
             return obj;
         }
 
-        public async Task<object> GetAll(int pageNumber, int count, string searchCommand, bool? noComments, 
+        public async Task<object> GetAll(int pageNumber, int count, string searchCommand, bool? noComments,
             bool? mostRated, bool? mostComments, long? categoryId, bool? mostViewed)
         {
             if (searchCommand == null)
@@ -261,7 +273,7 @@ namespace BanooClub.Services.ForumServices
             if (categoryId != null && categoryId > 0)
                 forums = forums.Where(x => x.ForumCategoryId == categoryId).ToList();
 
-            if(mostViewed != null && mostViewed is true)
+            if (mostViewed != null && mostViewed is true)
             {
                 var views = viewRepository.GetQuery()
                     .Where(x => x.Type == ViewType.Forum)
