@@ -249,12 +249,8 @@ namespace BanooClub.Services.AccountServices
         #endregion
 
         #region SignUp
-        public async Task<IServiceResult<object>> SignUpWithMobileAndMail(System.DateTime? BirthDate, string firstname, string lastName, string mobile, string email, string code, long signUpType, string password,string userName,long UserRole,long? ServiceCategoryId,string IntroducerCode,long? stateId,long? cityId,RelationStatus? relationState)
+        public async Task<IServiceResult<object>> SignUpWithMobileAndMail(System.DateTime? BirthDate, string firstname, string lastName, string mobile, string email, string code, long signUpType, string password,string userName,long? ServiceCategoryId,string IntroducerCode,long? stateId,long? cityId,RelationStatus? relationState)
         {
-            if (UserRole ==2)
-            {
-                UserRole = 1;
-            }
             var EmailUsers = new List<User>();
             var MobileUsers = new List<User>();
             if (!string.IsNullOrEmpty(mobile))
@@ -351,10 +347,10 @@ namespace BanooClub.Services.AccountServices
                             "BEGIN TRY" +
                             " declare @LASTID bigint" +
                             " INSERT INTO[User].Users(Mobile, Name, Type, FamilyName, Email, IsDeleted, Password, Status,FormalId,UserName,ServiceCategoryId,UserCode,IntroducerCode,BirthDate,StateId,CityId,RelationState)" +
-                            $" VALUES('{mobile}', N'{firstname}', {UserRole}, N'{lastName}', '{email}', 0, '{password}', 1,0,N'{userName}',{ServiceCatId},N'{UserCode}',N'{IntroducerCode}','{BirthDate}',{STATEID},{CITYID},{RELATIONSTATE})" +
+                            $" VALUES('{mobile}', N'{firstname}', 3, N'{lastName}', '{email}', 0, '{password}', 1,0,N'{userName}',{ServiceCatId},N'{UserCode}',N'{IntroducerCode}','{BirthDate}',{STATEID},{CITYID},{RELATIONSTATE})" +
                             " SET @LASTID = SCOPE_IDENTITY()" +
-                            " INSERT INTO[User].UserSettings(ActiveRoomate,IsPrivateActivity, VideoIdentityStatus, IsPrivateRoomate, IsPrivateAds, IsPrivateSocial, Flag, Bio, Gender, IsDeleted, BirthDate, UserTag, UserId ,LawyerCertificateStatus,NewspaperStatus )" +
-                            "  VALUES(0,0,1, 0, 0, 0, '', '', 0, 0, GETDATE(), '', @LASTID , 4 , 4)" +
+                            " INSERT INTO[User].UserSettings(ActiveRoomate,IsPrivateActivity, VideoIdentityStatus, IsPrivateRoomate, IsPrivateAds, IsPrivateSocial, Flag, Bio, IsDeleted, BirthDate, UserTag, UserId ,LawyerCertificateStatus,NewspaperStatus )" +
+                            "  VALUES(0,0,1, 0, 0, 0, '', '', 0, GETDATE(), '', @LASTID , 4 , 4)" +
                             " INSERT INTO[Social].ViewHistories(FirstPostId, LastPostId, UserId, UpdateDate, IsDeleted)" +
                             " VALUES(0, 0, @LASTID, GETDATE(), 0)" +
                             " COMMIT TRANSACTION[Tran1]" +
@@ -420,8 +416,7 @@ namespace BanooClub.Services.AccountServices
                         IsDeleted = false,
                         Email = DecriptedMail,
                         Status = 1,
-                        Type = (await _roleRepository.GetQuery().Where(p => p.Name.Equals("Subscriber")).FirstOrDefaultAsync())
-                            .UserTypeId
+                        Type = 3
                     };
                     await _userRepository.InsertAsync(user);
                     _logger.LogInformation($"sign up ----> {DecriptedMail}");
@@ -460,10 +455,10 @@ namespace BanooClub.Services.AccountServices
                 switch (model.Type)
                 {
                     case (int)AuthTypes.Mobile:
-                        var mobileResult = await SignUpWithMobileAndMail(model.BirthDate, model.FirstName, model.LastName, model.Mobile, model.Mail, model.VerifyCode, model.Type, model.Password, model.UserName,model.UserRole,model.ServiceCategoryId,model.IntroducerCode,model.StateId,model.CityId,model.RelationState);
+                        var mobileResult = await SignUpWithMobileAndMail(model.BirthDate, model.FirstName, model.LastName, model.Mobile, model.Mail, model.VerifyCode, model.Type, model.Password, model.UserName,model.ServiceCategoryId,model.IntroducerCode,model.StateId,model.CityId,model.RelationState);
                         return new ServiceResult<object>().Ok(mobileResult.Data);
                     case (int)AuthTypes.Email:
-                        var mailResult = await SignUpWithMobileAndMail(model.BirthDate, model.FirstName, model.LastName, model.Mobile, model.Mail, model.VerifyCode, model.Type, model.Password, model.UserName,model.UserRole, model.ServiceCategoryId, model.IntroducerCode, model.StateId, model.CityId, model.RelationState);
+                        var mailResult = await SignUpWithMobileAndMail(model.BirthDate, model.FirstName, model.LastName, model.Mobile, model.Mail, model.VerifyCode, model.Type, model.Password, model.UserName, model.ServiceCategoryId, model.IntroducerCode, model.StateId, model.CityId, model.RelationState);
                         return new ServiceResult<object>().Ok(mailResult.Data);
                     case (int)AuthTypes.WithoutPassword:
                         var result = await SignUpWithoutCode(model.FirstName, model.LastName, model.EncryptedMail);

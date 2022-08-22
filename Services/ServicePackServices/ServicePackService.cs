@@ -109,7 +109,8 @@ namespace BanooClub.Services.ServicePackServices
                     Description = prperty.Description,
                     IsDeleted = false,
                     Name = prperty.Name,
-                    Price = prperty.Price,
+                    Price = inputDto.IsFree ? 0 : prperty.Price,
+                    IsFree = inputDto.IsFree ? true : prperty.IsFree,
                     ServiceCategoryId = inputDto.ServiceCategoryId,
                     ServiceId = creation.ServicePackId,
                     ServicePropertyId = 0
@@ -316,6 +317,7 @@ namespace BanooClub.Services.ServicePackServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+
             if (searchCommand == null)
             {
                 searchCommand = "";
@@ -409,6 +411,7 @@ namespace BanooClub.Services.ServicePackServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+
             var service = servicePackRepository.GetQuery().FirstOrDefault(z => z.ServicePackId == id);
 
             var dbViewCreation = new View()
@@ -505,7 +508,9 @@ namespace BanooClub.Services.ServicePackServices
 
             List<ServicePack> servicePacks = new List<ServicePack>();
             servicePacks = servicePackRepository.GetQuery()
-                .Where(z => z.UserId == userId && z.Title.Contains(searchCommand))
+                .Where(z => z.UserId == userId
+                && z.Title.Contains(searchCommand) 
+                && z.ExpireDate > DateTime.Now)
                 .OrderByDescending(z => z.CreateDate).ToList();
 
             var servicesCount = servicePacks.Count();
@@ -580,8 +585,15 @@ namespace BanooClub.Services.ServicePackServices
             {
                 searchCommand = "";
             }
+
             List<ServicePack> servicePacks = new List<ServicePack>();
-            servicePacks = servicePackRepository.GetQuery().Where(z => z.UserId == userId && z.Title.Contains(searchCommand)).OrderByDescending(z => z.UserId).ToList();
+
+            servicePacks = servicePackRepository.GetQuery()
+                .Where(z => z.UserId == userId
+                && z.Title.Contains(searchCommand)
+                && z.ExpireDate > DateTime.Now)
+                .OrderByDescending(z => z.CreateDate).ToList();
+
             var servicesCount = servicePacks.Count();
 
             if (lastId != 0)

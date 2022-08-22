@@ -143,12 +143,16 @@ namespace BanooClub.Services.TicketServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+
             var dbUser = _userRepository.GetQuery().FirstOrDefault(z => z.UserId == userId);
             model.UserId = userId;
             model.IsDeleted = false;
             model.IsRead = false;
             model.UserType = dbUser.Type;
             var dbCreation =  _ticketRepository.Insert(model);
+
+            //var sqlCommand = $"Insert Into Common.Tickets "
+
             if (!string.IsNullOrEmpty(model.FileData))
             {
                 var outPut = _mediaService.SaveImage(model.FileData, EntityUrls.TicketDoc);

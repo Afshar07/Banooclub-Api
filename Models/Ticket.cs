@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BanooClub.Models
@@ -21,5 +22,7 @@ namespace BanooClub.Models
         public bool UnRead { get; set; }
         [NotMapped]
         public User UserInfo { get; set; }
+        [NotMapped]
+        public List<long> RecipientIds { get; set; }
     }
 }
