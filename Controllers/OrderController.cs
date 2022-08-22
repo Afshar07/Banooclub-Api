@@ -2,7 +2,6 @@
 using BanooClub.Models.Enums;
 using BanooClub.Services.OrderServices;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -29,9 +28,9 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public List<Order> GetByUserId()
+        public object GetByUserId(short pageNumber, byte count)
         {
-            return orderService.GetByUserId();
+            return orderService.GetByUserId(pageNumber, count);
         }
 
         [HttpPost]

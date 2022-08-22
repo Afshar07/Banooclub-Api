@@ -81,7 +81,6 @@ namespace BanooClub.Services.OrderServices
             await orderRepository.Delete(order);
         }
 
-
         public async Task<Order> Get(long id)
         {
             var order = orderRepository.GetQuery().FirstOrDefault(z => z.OrderId == id);
@@ -89,22 +88,22 @@ namespace BanooClub.Services.OrderServices
             var SubOrders = orderItemRepository.GetQuery().Where(z => z.OrderId == id).ToList();
 
             order.SubOrders = SubOrders;
-            foreach(var sub in order.SubOrders)
+            foreach (var sub in order.SubOrders)
             {
-                if(sub.ServiceId != null)
+                if (sub.ServiceId != null)
                 {
                     sub.ServiceInfo = servicePackRepository.GetQuery().FirstOrDefault(z => z.ServicePackId == sub.ServiceId);
-                    if(sub.ServiceInfo != null)
+                    if (sub.ServiceInfo != null)
                     {
                         sub.ServiceInfo.UserInfo = userRepository.GetQuery().FirstOrDefault(z => z.UserId == sub.ServiceInfo.UserId);
                         var dbVendorMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == sub.ServiceInfo.UserId && z.Type == MediaTypes.Profile);
-                        if(dbVendorMedia != null)
+                        if (dbVendorMedia != null)
                         {
                             sub.ServiceInfo.UserInfo.SelfieFileData = dbVendorMedia != null ? dbVendorMedia.PictureUrl : "";
                         }
                         var ServiceMedias = mediaRepository.GetQuery().Where(z => z.ObjectId == sub.ServiceInfo.ServicePackId && z.Type == MediaTypes.Service).ToList();
                         sub.ServiceInfo.Medias = new List<FileData>();
-                        foreach(var item in ServiceMedias)
+                        foreach (var item in ServiceMedias)
                         {
                             var data = new FileData()
                             {
@@ -122,28 +121,44 @@ namespace BanooClub.Services.OrderServices
 
             return order;
         }
-        public List<Order> GetByUserId()
+
+        public object GetByUserId(short pageNumber, byte count)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                    ? _accessor.HttpContext.User.Identity.GetUserId()
                    : 0;
-            var dbOrders = orderRepository.GetQuery().Where(z => z.UserId == userId).ToList();
+
+            var dbOrders = orderRepository.GetQuery()
+                .Where(z => z.UserId == userId)
+                .Skip((pageNumber - 1) * count)
+                .Take(count)
+                .ToList();
+
             foreach (var dbOrder in dbOrders)
             {
-                if(dbOrder.ServiceId != null && dbOrder.ServiceId != 0)
+                if (dbOrder.ServiceId != null && dbOrder.ServiceId != 0)
                 {
                     dbOrder.ServiceInfo = servicePackRepository.GetQuery().FirstOrDefault(x => x.ServicePackId == dbOrder.ServiceId);
                 }
                 if (dbOrder.AdsId != null && dbOrder.AdsId != 0)
                 {
-                    dbOrder.AdsInfo = adsRepository.GetQuery().FirstOrDefault(z=>z.AdsId == dbOrder.AdsId);
+                    dbOrder.AdsInfo = adsRepository.GetQuery().FirstOrDefault(z => z.AdsId == dbOrder.AdsId);
                 }
 
                 var SubOrders = orderItemRepository.GetQuery().Where(z => z.OrderId == dbOrder.OrderId).ToList();
                 dbOrder.SubOrders = SubOrders;
             }
-            return dbOrders;
+
+            var data = new
+            {
+                Orders = dbOrders,
+                OrderCount = orderRepository.GetQuery()
+                .Where(z => z.UserId == userId).Count()
+            };
+
+            return data;
         }
+
         public async Task<bool> ChangeOrderStatus(long orderId, OrderStatus status)
         {
             try
