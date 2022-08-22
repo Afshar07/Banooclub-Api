@@ -28,48 +28,7 @@
                       </select>
                     </div>
                   </div>
-<!--                  <div-->
-<!--                    v-if="-->
-<!--                categoryId !== null &&-->
-<!--                categories.findIndex((e) => e.ParentId === categoryId) > -1-->
-<!--              "-->
-<!--                    class="col-md-4"-->
-<!--                  >-->
-<!--                    <div class="my-3">-->
-<!--                      <select class="form-control" v-model="categoryId2">-->
-<!--                        <option-->
-<!--                          v-for="(item, index) in categories.filter(-->
-<!--                      (e) => e.ParentId === categoryId-->
-<!--                    )"-->
-<!--                          :value="item.MainAdsCategoryId"-->
-<!--                          :key="index"-->
-<!--                        >-->
-<!--                          {{ item.MainName }}-->
-<!--                        </option>-->
-<!--                      </select>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                  <div-->
-<!--                    v-if="-->
-<!--                categoryId2 !== null &&-->
-<!--                categories.findIndex((e) => e.ParentId === categoryId2) > -1-->
-<!--              "-->
-<!--                    class="col-md-4"-->
-<!--                  >-->
-<!--                    <div class="my-3">-->
-<!--                      <select class="form-control" v-model="categoryId3">-->
-<!--                        <option-->
-<!--                          v-for="(item, index) in categories.filter(-->
-<!--                      (e) => e.ParentId === categoryId2-->
-<!--                    )"-->
-<!--                          :value="item.MainAdsCategoryId"-->
-<!--                          :key="index"-->
-<!--                        >-->
-<!--                          {{ item.MainName }}-->
-<!--                        </option>-->
-<!--                      </select>-->
-<!--                    </div>-->
-<!--                  </div>-->
+
                 </div>
               </div>
             </div>
@@ -193,9 +152,9 @@
               <div class="my-3">
                 <input
                   class="rounded border p-1 w-100"
-                  type="number"
+                  type="text"
                   placeholder="قیمت به تومان"
-                  v-model.trim="price"
+                  v-model="formattedValuePrice"
                 />
               </div>
             </div>
@@ -248,6 +207,31 @@ export default {
   fetchOnServer() {
     return true;
   },
+  computed:{
+    formattedValuePrice: {
+      get: function () {
+        return this.price;
+      },
+      set: function (newValue) {
+        // This setter is getting number, replace all commas with empty str
+        // Then start to separate numbers with ',' from beginning to prevent
+        // from data corruption
+        if (newValue) {
+          this.price = newValue
+            .toString()
+            .replaceAll(",", "")
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          // Remove all characters that are NOT number
+          this.price = this.price.replace(
+            /[a-zA-Z+*!@#$%^&*()_;:'"|<>/?{}\u0600-\u06EC/\-/\.]/g,
+            ""
+          );
+        } else if (!newValue || this.newValue === "") {
+          this.price = null;
+        }
+      },
+    },
+  },
   async fetch() {
     // Get categories
     const allCategories =
@@ -271,6 +255,7 @@ export default {
       ],
     };
   },
+
   data() {
     return {
 
@@ -279,7 +264,7 @@ export default {
       description: "",
       url: null,
       subUrl: [],
-      price: 0,
+      price: null,
       phone: null,
       latitude:0,
       longitude:0,
@@ -291,8 +276,8 @@ export default {
       Status: 0,
       Tags: "",
         AllCities: [],
-        SelectedCityId: 0,
-        SelectedStateId: 0,
+        SelectedCityId: null,
+        SelectedStateId: null,
         AllStates: [],
     };
   },
@@ -384,7 +369,7 @@ this.latitude = lat
           await this.$repositories.createAnAd.createAnAd({
             title: this.title,
             categoryId: this.categoryId ,
-            price: parseInt(this.price) ,
+            price: parseInt(this.price.replaceAll(',','')) ,
             expirationDate: new Date(Date.now()),
             status: 2,
             updateDate: new Date(Date.now()),

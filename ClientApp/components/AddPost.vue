@@ -54,11 +54,12 @@
               tw-border-2 tw-border-dashed tw-flex tw-flex-col tw-h-32 tw-items-center
               tw-justify-center tw-relative tw-w-full tw-rounded-lg">
                 <UploadFileIcon style="width: 48px; height: 48px;"/>
+                <span>آپلود</span>
               </div>
               <input
                 ref="file"
                 type="file"
-                accept="image/*,video/*"
+                accept="image/png,image/jpeg,image/jpg,video/mp4"
                 multiple="multiple"
                 class="form-control-file my-file d-none"
                 id="my-file"
@@ -95,12 +96,23 @@
             <div class="row mt-auto pt-3">
               <textarea
                 row="100"
+                ref="Description"
                 v-model="description"
                 style="color: #808080;"
+                maxlength="300"
                 class="form-control border rounded w-100 with-border my-3"
                 placeholder="توضیحات"
                 id="description"
               ></textarea>
+              <div class="EmojiContainer my-2">
+                <EmojiPicker @SendEmoji="GetEmoji($event)"></EmojiPicker>
+              </div>
+              <div class="d-flex align-items-center gap-1">
+                <small :class="{'text-danger':description.length===300}">{{description.length}}</small>
+                <small>/</small>
+                <small>300</small>
+
+              </div>
               <div class="col-md-6 col-12 my-2">
                 <button type="button" class="button w-100" @click="select_media = false">
                   بازگشت
@@ -127,6 +139,7 @@
 <script>
 import CustomModal from "../components/utilities/CustomModal";
 import PlusIcon from "../components/Icons/PlusIcon";
+import EmojiPicker from "@/components/EmojiPicker";
 import UploadFileIcon from "../components/Icons/UploadFileIcon";
 export default {
   name: "AddPost",
@@ -140,6 +153,7 @@ export default {
   components:{
     CustomModal,
     PlusIcon,
+    EmojiPicker,
     UploadFileIcon
   },
   fetchOnServer() {
@@ -164,11 +178,17 @@ export default {
     }
   },
   methods:{
+    GetEmoji(emoji){
+
+      this.description += emoji.emoji
+      this.$refs.Description.focus()
+    },
     deleteImage(item) {
       const idx = this.BaseImgUrls.findIndex((e) => e === item);
       this.BaseImgUrls.splice(idx, 1);
       this.selected_media.splice(idx,1)
       this.images.splice(idx, 1);
+      this.$refs.file.value = ''
     },
     uploadNewPicture() {
       this.$refs.file.click();
@@ -176,48 +196,93 @@ export default {
     onFileChange(e) {
       const that = this;
       const f = [];
+
+
       that.Uploaded = true;
+
       Array.prototype.forEach.call(this.$refs.file.files, (element) => {
-        f.push(element);
+        // Conditions
+        if(!(element.type==='image/jpeg'||element.type==='image/png'||element.type==='video/mp4')){
+          this.$toast.error('فرمت یکی از فایل های وارد شده نامعتبر است')
+        }else if ((element.type==='image/jpeg'||element.type==='image/png')&& element.type>512000){
+          this.$toast.error('سایز عکس بزرگتر از 512 کیلوبایت است')
+        }else if(element.type==='video/mp4' && element.size > 3000000){
+          this.$toast.error('سایز ویدیو بزرگتر از 3 مگابایت است')
+        }else{
+          f.push(element);
+        }
+
       });
-      f.forEach((element) => {
-        const tmpBaseImgUrls = {
+      if(f.length>0){
+        // Add Media To Show By Type
+
+
+        f.forEach((element) => {
+          const tmpBaseImgUrls = {
+            base64:'',
+            priority:0
+          }
+          if(this.$refs.file.files[0].type.includes("image")){
+            tmpBaseImgUrls.base64 = URL.createObjectURL(element)
+            tmpBaseImgUrls.priority = 2
+          }
+          else {
+            tmpBaseImgUrls.base64 = URL.createObjectURL(element)
+            tmpBaseImgUrls.priority = 3
+          }
+
+          const clone = { ...tmpBaseImgUrls };
+          this.BaseImgUrls.push(clone);
+          const reader = new FileReader();
+          reader.onload = (function (theFile) {
+            return function () {
+              const binaryData = reader.result;
+
+
+              const tmpImage = {
+                base64:'',
+                priority:0
+              }
+              if(tmpBaseImgUrls.priority === 2){
+                tmpImage.base64 = window.btoa(binaryData)
+                tmpImage.priority = 2
+              }
+              else{
+                tmpImage.base64 = window.btoa(binaryData)
+                tmpImage.priority = 3
+              }
+
+              const clone = { ...tmpImage };
+              that.images.push(clone);
+
+            };
+          })(f);
+          reader.readAsBinaryString(element);
+        });
+        // Add To SelectedMedias
+
+
+      }
+
+    },
+    selectInputImages(item,index){
+      if(this.selected_media.findIndex(e=> e.blob === item.base64)>-1){
+        const idx = this.selected_media.findIndex(e=> e.blob === item.base64)
+        this.selected_media.splice(idx,1)
+      }else{
+        const tmpSelectedMedia = {
           base64:'',
-          priority:0
+          blob:'',
+          priority:0,
+          uploadType:0
         }
-        if(this.$refs.file.files[0].type.includes("image")){
-          tmpBaseImgUrls.base64 = URL.createObjectURL(element)
-          tmpBaseImgUrls.priority = 2
-        }
-        else {
-          tmpBaseImgUrls.base64 = URL.createObjectURL(element)
-          tmpBaseImgUrls.priority = 3
-        }
-        const clone = { ...tmpBaseImgUrls };
-        this.BaseImgUrls.push(clone);
-        const reader = new FileReader();
-        reader.onload = (function (theFile) {
-          return function () {
-            const binaryData = reader.result;
-            const tmpImage = {
-              base64:'',
-              priority:0
-            }
-            if(tmpBaseImgUrls.priority === 2){
-              tmpImage.base64 = window.btoa(binaryData)
-              tmpImage.priority = 2
-            }
-            else{
-              tmpImage.base64 = window.btoa(binaryData)
-              tmpImage.priority = 3
-            }
-            const clone = { ...tmpImage };
-            that.images.push(clone);
-            // that.images.push(window.btoa(binaryData));
-          };
-        })(f);
-        reader.readAsBinaryString(element);
-      });
+        tmpSelectedMedia.base64 = this.images[index].base64
+        tmpSelectedMedia.blob = item.base64
+        tmpSelectedMedia.priority = item.priority
+        tmpSelectedMedia.uploadType = 1
+        const clone = { ...tmpSelectedMedia };
+        this.selected_media.push(clone)
+      }
     },
     GetSelectedImageClass(item){
       if(this.selected_media.findIndex(e => e.base64=== item.base64)>-1){
@@ -256,25 +321,7 @@ export default {
         this.selected_media.push(clone)
       }
     },
-    selectInputImages(item,index){
-      if(this.selected_media.findIndex(e=> e.blob === item.base64)>-1){
-        const idx = this.selected_media.findIndex(e=> e.blob === item.base64)
-        this.selected_media.splice(idx,1)
-      }else{
-        const tmpSelectedMedia = {
-          base64:'',
-          blob:'',
-          priority:0,
-          uploadType:0
-        }
-        tmpSelectedMedia.base64 = this.images[index].base64
-        tmpSelectedMedia.blob = item.base64
-        tmpSelectedMedia.priority = item.priority
-        tmpSelectedMedia.uploadType = 1
-        const clone = { ...tmpSelectedMedia };
-        this.selected_media.push(clone)
-      }
-    },
+
     async submitNewPost() {
       if (this.selected_media.length === 0) {
         this.$toast.error("لطفا عکس یا فیلم مورد نظر خود را انتخاب کنید");
@@ -305,7 +352,7 @@ export default {
           })
           const response = await this.$axios.post(`Post/Create`,
             {
-              userId: 0,
+              userId: this.$auth.user.userInfo.userId,
               title:'عنوان پست',
               description:this.description,
               medias:tmpSendMedias,

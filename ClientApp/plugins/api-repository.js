@@ -239,6 +239,7 @@ export default (context, inject) => {
     GetAllGroups:CreateGroupsRepository(context,'MessageGroup/GetAll')
 
   };
+
   inject("repositories", repositories);
 
 };

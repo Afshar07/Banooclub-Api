@@ -1,12 +1,5 @@
 <template>
-<!--  <div>-->
-<!--    <div class="d-flex align-items-start px-2 py-1" style="background-color: #6c757d; border-radius: 10px">-->
-<!--      <div class="mt-1" style="color: white">{{count}}</div>-->
-<!--      <ProfileIcon fill="rgb(245 158 11)"/>-->
-<!--    </div>-->
-<!--    <div class="arrow-down"></div>-->
 
-<!--  </div>-->
   <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
        y="0px"
        viewBox="0 0 328 328" fill="rgb(74 75 78)" style="enable-background:new 0 0 328 328;" xml:space="preserve">

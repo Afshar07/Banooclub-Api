@@ -8,7 +8,7 @@
     />
     <div class="row mx-auto">
       <div class="col-md-4 col-lg-3" v-for="(service,idx) in my_services" :key="idx">
-        <ProductItem @updateServiceDetails="updateServiceDetails" class="my-3" :service_details="service" :show_buttons="true"/>
+        <ProductItem @GetServices="GetServices" @updateServiceDetails="updateServiceDetails" class="my-3" :service_details="service" :show_buttons="true"/>
       </div>
     </div>
     <div class="row mb-3" v-if="!$fetchState.pending && my_services && my_services.length === 0">
@@ -69,6 +69,27 @@ export default {
     }
   },
   methods:{
+    async GetServices(){
+      try {
+        const services = await this.$repositories.getMyServices.getMyServices(
+          {
+            pageNumber:this.pageNumber,
+            count:12,
+            searchCommand:this.searchKey
+          }
+        )
+        this.my_services = services.data.services
+        this.totalPages = []
+        const result = Math.ceil(services.data.servicesCount / 12)
+        for (let i = 1; i <= result; i++) {
+          this.totalPages.push(i);
+        }
+      }
+      catch (error){
+        console.log(error)
+      }
+    },
+
     changePage(id){
       this.pageNumber = id
       this.$fetch()

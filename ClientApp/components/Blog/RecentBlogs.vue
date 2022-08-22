@@ -1,6 +1,6 @@
 <template>
-  <div class="col-lg-4 tw-pt-5">
-    <div>
+
+    <div class="tw-pt-3">
       <h2 class="tw-text-xl tw-font-semibold tw-mb-2"> مقالات اخیر </h2>
       <ul class="tw-space-y-3">
         <li v-for="item in RecentBlog">
@@ -20,7 +20,7 @@
       </ul>
 
     </div>
-  </div>
+
 </template>
 
 <script>

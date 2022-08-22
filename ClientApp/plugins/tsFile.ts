@@ -78,6 +78,7 @@ function CreateArray<T> (ArrItems:T[]) : T[]{
   return  [].concat(ArrItems)
 }
 
+
 let NumArray = CreateArray<number>([1,2,3,5,67,8,2])
 let StringArray = CreateArray<string>(['hello','hola','hey'])
 

@@ -2,10 +2,10 @@
   <div  class="container-fluid mcontainer px-0 ">
     <CustomHeader/>
     <div class="tab-content" id="pills-tabContent">
-      <div class="tab-pane fade show active" id="services" role="tabpanel" aria-labelledby="services-tab">
+      <div class="tab-pane fade " id="services" role="tabpanel" aria-labelledby="services-tab">
         <ServicesTabContent/>
       </div>
-      <div class="tab-pane fade" id="posts-home" role="tabpanel" aria-labelledby="posts-home-tab">
+      <div class="tab-pane fade show active" id="posts-home" role="tabpanel" aria-labelledby="posts-home-tab">
         <PostsTabContent/>
       </div>
       <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">

@@ -21,10 +21,12 @@
               <input
                 v-model="TicketTitle"
                 type="text"
+                maxlength="100"
                 class="SearchStyle with-border"
                 placeholder="عنوان تیکت"
               />
             </div>
+            <InputLimitation :LimitLength="100" :Value="TicketTitle.length"></InputLimitation>
             <div class="col-12 my-3 p-0" @click.stop>
               <select
                 id="categoryType"
@@ -43,8 +45,10 @@
               <textarea
                 v-model="TicketDescription"
                 class="form-control"
+                maxlength="200"
                 placeholder="متن تیکت"
               ></textarea>
+              <InputLimitation class="my-2" :LimitLength="200" :Value="TicketDescription.length"></InputLimitation>
             </div>
             <div class="col-md-12">
               <div class="row">
@@ -65,11 +69,7 @@
                 </div>
               </div>
             </div>
-            <!--            <div class="col-md-12">-->
-            <!--              <button class=" tw-bg-[#ef4444] hover:tw-bg-white hover:tw-text-[#ef4444] tw-border-solid border-1 tw-border-[#ef4444] tw-rounded w-100 tw-transition tw-text-white  tw-p-2" @click="CreateTicket">-->
-            <!--                ثبت-->
-            <!--              </button>-->
-            <!--            </div>-->
+
           </div>
 
         </div>
@@ -103,8 +103,8 @@
                 <thead>
                 <tr>
                   <th>شناسه</th>
-                  <th>نام</th>
                   <th>موضوع</th>
+                  <th>واحد</th>
                   <th>تاریخ</th>
                   <th>وضعیت</th>
                   <th>مشاهده</th>
@@ -160,12 +160,13 @@
 <script>
 import PlusIcon from "../../../../components/Icons/PlusIcon"
 import CustomPagination from  "../../../../components/utilities/CustomPagination"
-
+import InputLimitation from "@/components/InputLimitation";
 export default {
   layout: "PoshtebamPlusLayout",
   name: "tickets",
   components:{
     PlusIcon,
+    InputLimitation,
     CustomPagination
   },
   head(){
@@ -252,17 +253,23 @@ export default {
       this.Uploaded = true;
 
       const f = event.target.files[0];
-      this.BaseImgUrl = URL.createObjectURL(f);
-      const reader = new FileReader();
-      const that = this;
-      reader.onload = (function (theFile) {
-        return function () {
-          const binaryData = reader.result;
-          that.image = window.btoa(binaryData);
-          console.log(that.image)
-        };
-      })(f);
-      reader.readAsBinaryString(f);
+      if(f.size>=512000){
+        this.$toast.error('سایز عکس نمیتواند بزرگتر از 512 کیلوبایت باشد')
+        event.target.value=''
+      }else{
+        this.BaseImgUrl = URL.createObjectURL(f);
+        const reader = new FileReader();
+        const that = this;
+        reader.onload = (function (theFile) {
+          return function () {
+            const binaryData = reader.result;
+            that.image = window.btoa(binaryData);
+            console.log(that.image)
+          };
+        })(f);
+        reader.readAsBinaryString(f);
+      }
+
     },
     RemovePic(){
       this.BaseImgUrl = ''
