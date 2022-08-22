@@ -31,13 +31,7 @@
             </div>
 
 
-              <button
-                type="button"
-                class="btn btn-sm AddReplyBtn"
-                @click="saveRoommateInformation"
-              >
-                ذخیره اطلاعات هم خانه
-              </button>
+
 
           </div>
         </div>
@@ -410,10 +404,10 @@
                         <input
                           type="text"
                           class="form-control"
-                          v-model.trim="RoomMateInfo.dailyRent"
+                          v-model.trim="formattedDailyRent"
                         />
                         <div class="labelText text-nowrap small">
-                          هزار تومان
+                           تومان
                         </div>
                       </div>
                     </div>
@@ -423,11 +417,11 @@
                       <div class="labelText">مبلغ رهن :</div>
                       <div class="d-flex align-items-center gap-2">
                         <input
-                          type="number"
-                          v-model.trim="RoomMateInfo.mortgage"
+                          type="text"
+                          v-model.trim=" formattedMortgage"
                           class="form-control"
                         />
-                        <div class="labelText text-nowrap">هزار تومان</div>
+                        <div class="labelText text-nowrap"> تومان</div>
                       </div>
                     </div>
                   </div>
@@ -520,9 +514,9 @@
                   <div class="labelText mt-3">مشخص کردن مکان روی نقشه:</div>
                   <div class="my-3">
                     <div id="map-wrap" style="height: 50vh">
-                      <client-only>
+
                       <SetLocation  @getGeoLocation="SetLocation"  :defaultMarkerGeoLoc="[RoomMateInfo.latitude,RoomMateInfo.longitude]"  :defaultGeoLoc="[RoomMateInfo.latitude,RoomMateInfo.longitude]" ></SetLocation>
-                      </client-only>
+
                     </div>
                   </div>
                 </div>
@@ -804,6 +798,15 @@
               </div>
             </div>
           </div>
+          <div class="col-md-12 my-3 px-0">
+            <button
+              type="button"
+              class="btn btn-sm AddReplyBtn"
+              @click="saveRoommateInformation"
+            >
+              ذخیره اطلاعات هم خانه
+            </button>
+          </div>
 
         </div>
 
@@ -901,6 +904,7 @@ export default {
       latLang:[]
     };
   },
+
   methods: {
     SetLocation(lat,lang){
       this.RoomMateInfo.latitude = lat
@@ -977,8 +981,8 @@ export default {
             haveFurniture: this.RoomMateInfo.haveFurniture?1:0,
             haveCCTV: this.RoomMateInfo.haveCCTV?1:0,
             haveElevator: this.RoomMateInfo.haveElevator?1:0,
-            dailyRent: this.RoomMateInfo.dailyRent,
-            mortgage: this.RoomMateInfo.mortgage,
+            dailyRent: parseInt(this.RoomMateInfo.dailyRent.replaceAll(',','')) ,
+            mortgage: parseInt(this.RoomMateInfo.mortgage.replaceAll(',','')) ,
             receptionDate: this.RoomMateInfo.receptionDate,
             rentPeriod: this.RoomMateInfo.rentPeriod,
             withElectricity: this.RoomMateInfo.withElectricity?1:0,
@@ -1115,6 +1119,53 @@ export default {
     this.getRoomateInfo();
   },
   computed: {
+    formattedDailyRent: {
+      get: function () {
+        return this.RoomMateInfo.dailyRent;
+      },
+      set: function (newValue) {
+        // This setter is getting number, replace all commas with empty str
+        // Then start to separate numbers with ',' from beginning to prevent
+        // from data corruption
+        if (newValue) {
+          this.RoomMateInfo.dailyRent = newValue
+            .toString()
+            .replaceAll(",", "")
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          // Remove all characters that are NOT number
+          this.RoomMateInfo.dailyRent = this.RoomMateInfo.dailyRent.replace(
+            /[a-zA-Z+*!@#$%^&*()_;:'"|<>/?{}\u0600-\u06EC/\-/\.]/g,
+            ""
+          );
+        } else if (!newValue || this.newValue === "") {
+          this.RoomMateInfo.dailyRent = null;
+        }
+      },
+    },
+    formattedMortgage: {
+      get: function () {
+        return this.RoomMateInfo.mortgage;
+      },
+      set: function (newValue) {
+        // This setter is getting number, replace all commas with empty str
+        // Then start to separate numbers with ',' from beginning to prevent
+        // from data corruption
+        if (newValue) {
+          this.RoomMateInfo.mortgage = newValue
+            .toString()
+            .replaceAll(",", "")
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          // Remove all characters that are NOT number
+          this.RoomMateInfo.mortgage = this.RoomMateInfo.mortgage.replace(
+            /[a-zA-Z+*!@#$%^&*()_;:'"|<>/?{}\u0600-\u06EC/\-/\.]/g,
+            ""
+          );
+        } else if (!newValue || this.newValue === "") {
+          this.RoomMateInfo.mortgage = null;
+        }
+      },
+    },
+
     addressConcat() {
       return this.Address.concat(
         this.countryText,

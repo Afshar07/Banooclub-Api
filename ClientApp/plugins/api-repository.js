@@ -76,7 +76,7 @@ export default (context, inject) => {
     getPost: createPostRepository(context, "Post/Get"),
     getMyPosts: createPostRepository(context, "Post/GetMyPost"),
     deleteAPost: createPostRepository(context, "Post/Delete"),
-
+    ChangePostCommentActivation:createPostRepository(context,'PostComment/ChangePostCommentActivation'),
     // Birthdate repositories start
     getBirthdateList: createBirthdateRepository(context, "Account/BirthDateList"),
     // Post repositories end

@@ -40,14 +40,13 @@
     </div>
     <div class="tw-overflow-x-auto">
       <div class="tw-overflow-x-auto">
-        <table class="tw-table tw-w-full tw-table-zebra" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
+        <table class="tw-table tw-w-full tw-table-auto" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
           <!-- head -->
           <thead>
           <tr>
             <th>شناسه</th>
             <th>شناسه پرداخت</th>
             <th>کد پیگیری</th>
-            <th>نام و نام خانوادگی</th>
             <th>تاریخ</th>
             <th>وضعیت</th>
             <th>مجموع</th>
@@ -59,8 +58,7 @@
             <th class="fw-normal">{{ item.paymentId }}</th>
             <th class="fw-normal" v-tooltip.bottom-start="item.transId">{{item.transId.substr(0,6)}}...</th>
             <th class="fw-normal">{{item.refId}}</th>
-            <td v-if="item.userInfo" @click="goToUserProfile(item.userInfo)"> {{ item.userInfo.name + ' ' + item.userInfo.familyName   }}</td>
-            <td>{{ new Date(item.createDate).toLocaleTimeString('fa-IR') }}</td>
+            <td>{{ new Date(item.createDate).toLocaleDateString('fa-IR') }}</td>
             <td>
               <div class="tw-bg-red-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-if="item.status === -2 || item.status ===-4">
                 <span class="text-white tw-text-xs">لغو شده</span>

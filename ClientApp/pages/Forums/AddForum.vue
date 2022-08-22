@@ -1,5 +1,5 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer p-3">
     <div class="row">
       <h2 class="tw-text-2xl tw-font-semibold pb-3">افزودن انجمن</h2>
       <div class="row">
@@ -24,8 +24,12 @@
             هشتگ های انجمن
           </div>
           <div class="my-3">
-            <input v-on:keyup.enter="addTags" v-model="tag" type="text" class="with-border"
-                   placeholder="هشتگ">
+            <div class="d-flex align-items-center gap-2">
+              <input  v-model="tag" type="text" class="with-border"
+                     placeholder="هشتگ">
+              <button class="btn btn-primary" @click="addTags">ثبت</button>
+            </div>
+
             <div class="d-flex">
               <div class="back_tags p-1 m-1 d-flex" v-for="(tag,index) in tags">
                 <button @click="removeTag(index)">

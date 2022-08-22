@@ -111,7 +111,7 @@
             <div v-if="$route.path==='/social/accountsetting/MyPage'&&post_details.status===1" class="tw-badge tw-badge-success">منتشر شده</div>
             <div v-if="$route.path==='/social/accountsetting/MyPage'&&post_details.status===2" class="tw-badge tw-badge-error">منتشر نشده</div>
             <div v-if="$route.path==='/social/accountsetting/MyPage'&&post_details.status===3" class="tw-badge tw-badge-warning">گزارش شده</div>
-            <button v-if="post_details.userInfo && !(post_details.userInfo.userId === $auth.user.userInfo.userId)" @click="openReportModal" class="tw-flex tw-items-center tw-flex-1 tw-justify-end text-decoration-none text-dark">
+            <button v-if=" $auth.user && $auth.user.userInfo && $auth.user.userInfo.userId &&  post_details.userInfo && !(post_details.userInfo.userId === $auth.user.userInfo.userId)" @click="openReportModal" class="tw-flex tw-items-center tw-flex-1 tw-justify-end text-decoration-none text-dark">
               <div class="tw-p-2 tw-rounded-full tw-text-black">
                 <ExclamationMarkIcon style="width: 22px; height: 22px;"/>
               </div>
@@ -140,7 +140,7 @@
               <li v-if="post_details.userInfo && post_details.userInfo.userId === $auth.user.userInfo.userId">
                 <button @click="changeCommentingStatus" class="tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md tw-w-full">
                   <MessageIcon fill="black" class="tw-ml-1"/>
-                  <div v-if="commentingStatus">
+                  <div v-if="post_details.isActiveComment">
                     فعال کردن نظرات
                   </div>
                   <div v-else>
@@ -199,7 +199,7 @@
             </div>
           </button>
         </div>
-        <div v-if="post_details.comments && !commentingStatus && post_details.comments.length>0"
+        <div v-if="post_details.comments && !post_details.isActiveComment && post_details.comments.length>0"
              class="tw-border-t tw-py-4 tw-space-y-4 dark:tw-border-gray-600"
              style="border-top: 1px solid #e5e7eb;"
         >
@@ -242,7 +242,7 @@
             </div>
           </div>
         </div>
-        <div v-if="!commentingStatus" class=" d-flex">
+        <div v-if="!post_details.isActiveComment" class=" d-flex">
           <input v-model="CommentContent" @click="SetPostComments(post_details)"
                  style="border-radius: 50px; background-color: rgb(243 244 246); height: 40px !important;"
                  value="" type="text" class="form-control mx-1"
@@ -423,13 +423,27 @@ export default {
       }
 
     },
-    changeCommentingStatus(){
-      this.commentingStatus = !this.commentingStatus
+    async changeCommentingStatus(){
+        try {
+          const res = await this.$repositories.ChangePostCommentActivation.ChangePostCommentActivation({
+            postId:this.post_details.postId
+
+          })
+          if(this.post_details.isActiveComment){
+            this.$toast.success("امکان افزودن نظر فعال شد");
+          }else{
+            this.$toast.success("امکان افزودن نظر غیر فعال شد");
+
+          }
+          this.$emit('PostEvent')
+        }catch (e) {
+          console.log(e)
+        }
       if(this.commentingStatus){
-        this.$toast.success("امکان افزودن نظر غیر فعال شد");
+
       }
       else {
-        this.$toast.success("امکان افزودن غیر فعال شد");
+
       }
     },
     addComment() {

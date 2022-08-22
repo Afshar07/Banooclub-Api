@@ -16,38 +16,8 @@
           <div class="d-flex flex-column">
             <div class="lg:tw-mt-0 lg:tw-w-96  tw-mt-10 tw-w-full custom_navs tw-bg-white tw-shadow-lg tw-rounded-lg">
               <div class="d-flex flex-column justify-content-between">
-<!--                <p class="log-title-text" :class="{ TextWhite: userType !== 0 }">-->
-<!--                  از بانو کلاب استفاده میکنید ؟-->
-<!--                  <nuxt-link-->
-<!--                    to="/register"-->
-<!--                    href="#"-->
-<!--                    title=""-->
-<!--                    :class="{ TextWhite: userType !== 0 }"-->
-<!--                  >قوانین را بخوانید-->
-<!--                  </nuxt-link>-->
-<!--                  یا-->
-<!--                  <nuxt-link-->
-<!--                    to="/"-->
-<!--                    href="#"-->
-<!--                    title=""-->
-<!--                    :class="{ TextWhite: userType !== 0 }"-->
-<!--                  >-->
-<!--                    اینجا کلیک کنید-->
-<!--                  </nuxt-link>-->
-<!--                </p>-->
                 <div class="row py-2" v-show="!isOtpSent">
-                  <div
-                    class="col-6 text-center"
-                    :class="registerType == 2 ? 'TabActive' : 'deActiveTab'"
-                    @click="setRegisterMethod(2)"
-                  >
-                    ثبت نام با ایمیل
-                  </div>
-                  <div
-                    class="col-6 border-end text-center"
-                    :class="registerType == 1 ? 'TabActive' : 'deActiveTab'"
-                    @click="setRegisterMethod(1)"
-                  >
+                  <div class="col-6 border-end text-center" :class="registerType == 1 ? 'TabActive' : 'deActiveTab'" @click="setRegisterMethod(1)">
                     ثبت نام با شماره موبایل
                   </div>
                 </div>

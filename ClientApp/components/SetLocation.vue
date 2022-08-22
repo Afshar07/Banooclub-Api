@@ -24,27 +24,30 @@ export default {
     },
   },
   async mounted() {
-    this.map = L.map("map").setView([35.751128, 51.418679], 14);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: "© OpenStreetMap",
-    }).addTo(this.map);
-    // Leaflet has a known issue with wrong marker address
-    // This section is their own provided solution for fixing this issue
-    // Please don't touch it or marker won't be shown on the map
-    delete L.Icon.Default.prototype._getIconUrl;
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
-      iconUrl: require("leaflet/dist/images/marker-icon.png"),
-      shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
-    });
-    // Solution ends here
-    if (this.defaultMarkerGeoLoc) {
-      this.map.setView(this.defaultMarkerGeoLoc, 14);
-      this.marker = L.marker(this.defaultMarkerGeoLoc);
-      this.marker.addTo(this.map);
+    if(this.map===null){
+      this.map = L.map("map").setView([35.751128, 51.418679], 14);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "© OpenStreetMap",
+      }).addTo(this.map);
+      // Leaflet has a known issue with wrong marker address
+      // This section is their own provided solution for fixing this issue
+      // Please don't touch it or marker won't be shown on the map
+      delete L.Icon.Default.prototype._getIconUrl;
+      L.Icon.Default.mergeOptions({
+        iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+        iconUrl: require("leaflet/dist/images/marker-icon.png"),
+        shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
+      });
+      // Solution ends here
+      if (this.defaultMarkerGeoLoc) {
+        this.map.setView(this.defaultMarkerGeoLoc, 14);
+        this.marker = L.marker(this.defaultMarkerGeoLoc);
+        this.marker.addTo(this.map);
+      }
+      this.map.on("click", this.handleMapClick);
     }
-    this.map.on("click", this.handleMapClick);
+
   },
   data() {
     return {
@@ -77,7 +80,7 @@ export default {
 </script>
 <style>
 #map {
-  height: 300px !important;
+  height: 400px !important;
 }
 
 

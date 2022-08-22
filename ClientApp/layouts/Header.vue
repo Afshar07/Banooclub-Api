@@ -883,7 +883,7 @@
                       </nuxt-link>
                     </div>
                     <div class="userStatus">
-                      <nuxt-link to="/social/accountsetting/editprofilebasic">
+                      <nuxt-link to="/Social/AccountSetting/EditProfileBasic">
                         <div class="d-flex flex-row justify-content-start">
                           <div class="">
                             <!--                            <font-awesome-icon icon="cog" color="black"/>-->
@@ -1141,7 +1141,7 @@
                       </nuxt-link>
                     </div>
                     <div class="userStatus">
-                      <nuxt-link to="/social/accountsetting/editprofilebasic">
+                      <nuxt-link to="/Social/AccountSetting/EditProfileBasic">
                         <div class="d-flex flex-row justify-content-start">
                           <div class="">
                             <!--                            <font-awesome-icon icon="cog" color="black"/>-->
@@ -1931,7 +1931,6 @@ export default {
     },
   },
   async mounted() {
-    console.log(this.$auth.user)
     window.addEventListener("scroll", this.updateScroll);
     if (!this.$route.query.id) {
       try {

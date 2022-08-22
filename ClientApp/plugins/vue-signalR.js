@@ -11,55 +11,22 @@ export default ({ app, store }, inject) => {
     .build();
 
   inject("hub", hub);
-
-  // hub.on('Connected', message => {
-  //   console.log('Connected to SignalR Hub.', message)
-  // })
-  //
-  // hub.on('Disconnected', message => {
-  //   console.warn('Disconnected from SignalR Hub.', message)
-  // })
-
   hub.on("SendMessage", (res) => {
     store.commit("sendMessage", res);
     console.log("Message sended by", res);
-    // const { audience, group, action, data } = res
-    // const { action, data } = res
-    // switch (action) {
-    //   case 'bookmark_created':
-    //   case 'bookmark_updated':
-    //     store.commit('addOrUpdateBookmark', data.bookmark)
-    //     break
-    //   case 'bookmark_deleted':
-    //     store.commit('removeBookmark', data.bookmark.id)
-    //     break
-    //   default:
-    //     break
-    // }
+
   });
   hub.on("ReadMessage", (res) => {
     store.commit("sendMessage", res);
-
-    // store.commit("sendMessage", res);
     console.log("Message readed by", res);
-    // const { audience, group, action, data } = res
-    // const { action, data } = res
-    // switch (action) {
-    //   case 'bookmark_created':
-    //   case 'bookmark_updated':
-    //     store.commit('addOrUpdateBookmark', data.bookmark)
-    //     break
-    //   case 'bookmark_deleted':
-    //     store.commit('removeBookmark', data.bookmark.id)
-    //     break
-    //   default:
-    //     break
-    // }
   });
   hub.on("DeliverMessage", (res) => {
     store.commit("sendMessage", res);
-
     console.log(`Message Delivered to ${res}`);
+  });
+  hub.on('PostCreated',(res)=>{
+    store.commit("PostCreate", res);
+    console.log("Post Created By ", res);
   });
 
   hub.start().catch(function (err) {
