@@ -92,7 +92,7 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]"), Authorize(Roles = "Admin,Vendor")]
-        public async Task<ServicePack> GetwithView(long servicePackId)
+        public async Task<object> GetwithView(long servicePackId)
         {
             return await servicePackService.GetwithView(servicePackId);
         }

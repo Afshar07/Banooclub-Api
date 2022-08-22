@@ -80,7 +80,11 @@
 <!--          </div>-->
 <!--        </div>-->
         <div class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2">
-          <div class="sidenavOptionText">نمایش گالری</div>
+          <div v-tooltip="{content:'با فعال کردن این گزینه نمایش گالری شما برای کاربرانی که شما را دنبال نکرده اند قفل میشود'}" class="position-relative tw-cursor-pointer">
+            <i class="fas fa-question-circle tw-text-blue-400 position-absolute bottom-0 end-0 "></i>
+            <div class="sidenavOptionText">قفل نمایش گالری</div>
+          </div>
+
           <div class="">
             <label class="switch">
               <input
@@ -97,7 +101,12 @@
           </div>
         </div>
         <div class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2">
-          <div class="sidenavOptionText">نمایش پست</div>
+          <div v-tooltip="{content:'با فعال کردن این گزینه نمایش پست های شما برای کاربرانی که شما را دنبال نکرده اند قفل میشود'}" class="position-relative tw-cursor-pointer">
+            <i class="fas fa-question-circle tw-text-blue-400 position-absolute bottom-0 end-0 "></i>
+            <div class="sidenavOptionText"> قفل نمایش پست </div>
+
+          </div>
+
           <div class="">
             <label class="switch">
               <input

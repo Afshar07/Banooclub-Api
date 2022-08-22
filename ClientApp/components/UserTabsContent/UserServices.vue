@@ -7,10 +7,10 @@
       v-model="searchKey"
     />
     <div class="row">
-      <div class="col-md-12" style="height: 600px;overflow-y: scroll;" @scroll="handleScroll">
+      <div class="col-md-12" style="height: 600px;overflow-y: scroll;" >
         <div class="row">
           <div class="col-md-4 col-lg-3" v-for="(service,idx) in services" :key="idx">
-            <ProductItem @updateServiceDetails="updateServiceDetails" class="my-3" :service_details="service" :show_buttons="false"/>
+            <ProductItem @GetServices="GetServices" @updateServiceDetails="GetServices" class="my-3" :service_details="service" :show_buttons="false"/>
           </div>
           <Spinner v-if="services && services.length !== serviceCounts"/>
           <div class="row mb-3" v-if="!$fetchState.pending && services && services.length === 0">
@@ -57,6 +57,7 @@ export default {
   },
   async fetch(){
     try {
+
       const services = await this.$repositories.getUserServicesByUserName.getUserServicesByUserName(
         {
           lastId:0,
@@ -74,37 +75,24 @@ export default {
     }
   },
   methods:{
-    async getPostsForInfiniteScroll(id){
+    async GetServices(){
       try {
-        const response = await this.$repositories.getUserServices.getUserServices(
+        const services = await this.$repositories.getUserServicesByUserName.getUserServicesByUserName(
           {
-            lastId:id,
-            count:12
+            lastId:0,
+            count:12,
+            searchCommand:this.searchKey,
+            userName:this.$route.params.slug
           }
-        );
-        const newServices = response.data.services;
-        newServices.forEach((element) => {
-          this.services.push(element)
-        });
-        // console.log('this.postData',this.postData)
-      }catch (error) {
-        console.log(error);
+        )
+        this.services = services.data.services
+        this.serviceCounts = services.data.servicesCount;
+
+      }
+      catch (error){
+        console.log(error)
       }
     },
-
-    handleScroll(event){
-
-      if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight) {
-        const lastServiceId = Object.values(this.services).pop();
-        this.getPostsForInfiniteScroll(lastServiceId.serviceId)
-      }
-
-    },
-
-
-    updateServiceDetails(){
-      this.$fetch();
-    }
   }
 }
 </script>

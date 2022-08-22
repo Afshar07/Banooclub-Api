@@ -148,13 +148,15 @@ export default {
           objectId:item.servicePackId,
           type:1
         })
+        this.$emit('GetServices')
         if(this.service_details.isFavourite){
           this.$toast.success("خدمت از علاقمندی ها حذف شد");
         }
         else{
           this.$toast.success("خدمت به علاقمندی ها اضافه شد");
         }
-        this.$emit('GetServices')
+
+
       }
       catch (error){
         console.log(error)

@@ -86,24 +86,26 @@
           class="col-md-4 my-3"
           v-for="(item,idx) in MyPhotos"
           :key="idx"
-          @click="showSidePanel()"
+
         >
           <div class="position-relative">
 <!--            <a href="#offcanvasExampleeee" data-bs-toggle="offcanvas">-->
-            <button  v-if="item.priority === 1 || item.priority === 2" class="btn tw-w-full tw-h-full ShowMediaModal"  data-bs-toggle="modal" data-bs-target="#MediaModal"  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
-              <span class="position-absolute tw-left-1 deleteIcon m-3" style="top: 0" @click.stop="renderConfirmationModal(item.base64)">
+            <button  v-if="item.priority === 1 || item.priority === 2" class="btn tw-w-full tw-h-full ShowMediaModal"    style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
+              <span class="position-absolute tw-left-1 deleteIcon m-3" style="top: 0" @click.prevent="renderConfirmationModal(item.base64)">
                 <font-awesome-icon icon="trash" color="#ff4d4d" size="lg"/>
               </span>
 
-              <img  @click="SetSelectedMedia(item)" class="tw-w-full tw-h-full" :src="`https://banooclubapi.simagar.com/media/gallery/galleryimages/${item.base64}`"  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
+              <img data-bs-toggle="modal" data-bs-target="#MediaModal"  @click="SetSelectedMedia(item)" class="tw-w-full tw-shadow tw-rounded tw-h-full" :src="`https://banooclubapi.simagar.com/media/gallery/galleryimages/${item.base64}`"  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
             </button>
-            <button  v-else-if="item.priority === 3" class="btn ShowMediaModal w-100 tw-h-full" data-bg-toggle="modal" @click="SetSelectedMedia(item)" data-bs-target="#MediaModal">
+            <button  v-else-if="item.priority === 3" class="btn ShowMediaModal w-100 tw-h-full"   >
 
-                <span class="position-absolute tw-left-1 deleteIcon m-3" style="top: 0" @click.stop="renderConfirmationModal(item.base64)">
+                <span class="position-absolute tw-left-1 deleteIcon m-3" style="top: 0" @click.prevent="renderConfirmationModal(item.base64)">
                 <font-awesome-icon icon="trash" color="#ff4d4d" size="lg"/>
               </span>
               <video
-                class="w-100 tw-h-full"
+                data-bs-toggle="modal" data-bs-target="#MediaModal"
+                @click="SetSelectedMedia(item)"
+                class="w-100 tw-h-full tw-shadow tw-rounded"
                 controls
                 :src="`https://banooclubapi.simagar.com/media/gallery/galleryvideos/${item.base64}`"
               ></video>
@@ -119,10 +121,13 @@
       >
         <template v-slot:title>حذف</template>
         <template v-slot:content>
-          <p>آیا از حذف این مورد اطمینان دارید؟</p>
+          <div class="p-2">
+            <p>آیا از حذف این مورد اطمینان دارید؟</p>
+          </div>
+
         </template>
         <template v-slot:actions>
-          <div class="d-flex align-items-center justify-content-end">
+          <div class="d-flex align-items-center justify-content-end p-2">
             <button
               class="btn btn-danger mx-2"
               @click="closeDeleteConfirmationModal"
@@ -205,9 +210,7 @@ export default {
       this.tempImageName = item.split("/")[item.split("/").length - 1];
     },
 
-    showSidePanel(imageId) {
-      this.$parent.$emit("SideNavPictureVideo", this.MyPhotos);
-    },
+
     async UploadImages() {
       this.$nextTick(() => {
         this.$nuxt.$loading.start();
@@ -251,10 +254,13 @@ export default {
 
       that.Uploaded = true;
       Array.prototype.forEach.call(this.$refs.file.files, (element) => {
-        if (element.size > 512000) {
-          this.$toast.error('اندازه عکس نمیتواند بیشتر از 512 کیلوبایت باشد')
-        }
-        else{
+        if(!(element.type==='image/jpeg'||element.type==='image/png'||element.type==='video/mp4')){
+          this.$toast.error('فرمت یکی از فایل های وارد شده نامعتبر است')
+        }else if ((element.type==='image/jpeg'||element.type==='image/png')&& element.type>512000){
+          this.$toast.error('سایز عکس بزرگتر از 512 کیلوبایت است')
+        }else if(element.type==='video/mp4' && element.size > 3000000){
+          this.$toast.error('سایز ویدیو بزرگتر از 3 مگابایت است')
+        }else{
           f.push(element);
         }
       });

@@ -12,7 +12,7 @@ namespace BanooClub.Services.OrderServices
         Task Delete(long id);
         Task<object> GetAll(int pageNumber, int count, string searchCommand);
         Task<Order> Get(long id);
-        List<Order> GetByUserId();
+        List<Order> GetByUserId(short pageNumber, byte count);
         Task<bool> ChangeOrderStatus(long orderId, OrderStatus status);
     }
 }

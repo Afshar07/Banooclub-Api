@@ -97,6 +97,7 @@ namespace BanooClub.Services.WishListServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+
             var wish = wishRepository.GetQuery().Where(z => z.UserId == userId && z.ObjectId==objectId && z.Type == type).FirstOrDefault();
             if (wish != null)
             {
