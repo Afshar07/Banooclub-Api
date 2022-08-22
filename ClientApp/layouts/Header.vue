@@ -415,11 +415,10 @@
               </nuxt-link>
             </div>
             <div :class="[decrease_width ? '' : ' ']" class="py-1">
-              <div v-if="!decrease_width"
-                   class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div v-if="!decrease_width"  @click="AdsActive=!AdsActive" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <AdsIcon class="svg_icons_size"/>
                 <span class="header_font_sidebar_size">آگهی ها </span>
-                <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
+                <CheveronIcon :class="{ActiveChevron:AdsActive}" class="tw-mr-auto " style="width: 12px; height: 12px"/>
               </div>
               <div v-if="!decrease_width" class="px-3" >
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
@@ -1323,6 +1322,7 @@ export default {
 
   data() {
     return {
+      AdsActive:false,
       displayChargeSideNav: false,
       want_to_search: false,
       on_search_click: false,
@@ -2938,5 +2938,11 @@ ul .subMenuList :hover {
   background-color: white;
   right: -15px !important;
   z-index: 999999 !important;
+}
+
+
+.ActiveChevron{
+  transition: .2s ease;
+  transform: rotate(180deg);
 }
 </style>
