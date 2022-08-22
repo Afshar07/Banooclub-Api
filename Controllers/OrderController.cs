@@ -28,7 +28,7 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public List<Order> GetByUserId(short pageNumber, byte count)
+        public object GetByUserId(short pageNumber, byte count)
         {
             return orderService.GetByUserId(pageNumber, count);
         }

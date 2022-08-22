@@ -122,7 +122,7 @@ namespace BanooClub.Services.OrderServices
             return order;
         }
 
-        public List<Order> GetByUserId(short pageNumber, byte count)
+        public object GetByUserId(short pageNumber, byte count)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                    ? _accessor.HttpContext.User.Identity.GetUserId()
@@ -149,7 +149,14 @@ namespace BanooClub.Services.OrderServices
                 dbOrder.SubOrders = SubOrders;
             }
 
-            return dbOrders;
+            var data = new
+            {
+                Orders = dbOrders,
+                OrderCount = orderRepository.GetQuery()
+                .Where(z => z.UserId == userId).Count()
+            };
+
+            return data;
         }
 
         public async Task<bool> ChangeOrderStatus(long orderId, OrderStatus status)
