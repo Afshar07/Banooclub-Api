@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row p-3">
     <!--      <h2 class="tw-text-2xl tw-font-semibold pb-3">ویرایش خدمت</h2>-->
     <div class="row">
       <div class="col-md-6 col-12 pt-3">
@@ -237,6 +237,27 @@
             </button>
           </div>
         </div>
+      </div>
+      <div class="col-md-12 my-3">
+        <label>ویرایش تخفیف خدمت</label>
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          </tbody>
+        </table>
       </div>
       <div class="col-12 pt-5 tw-text-left">
         <button type="button" class="button mt-auto px-2" @click="updateService">

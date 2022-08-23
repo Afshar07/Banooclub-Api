@@ -12,13 +12,7 @@
           <nuxt-link to="/register" title=""> به اینجا ملحق شوید </nuxt-link>
         </p>
         <div class="row py-2">
-          <div
-            class="col-6 text-center"
-            :class="loginType == 2 ? 'TabActive' : 'deActiveTab'"
-            @click="setLoginMethod(2)"
-          >
-            ورود با ایمیل
-          </div>
+
           <div
             class="col-6 border-end text-center"
             :class="loginType == 1 ? 'TabActive' : 'deActiveTab'"

@@ -54,6 +54,21 @@
                 </select>
               </div>
             </div>
+            <div class="col-md-6">
+              <div class="labelText">شماره موبایل</div>
+              <input type="tel" class="form-control with-border" v-model="PhoneNumber">
+            </div>
+
+
+            <div class="col-md-6">
+              <div class="labelText">وضعیت کالا</div>
+              <div class="my-3">
+                <select v-model="Status" class="form-control w-100">
+                  <option :value="1">نو</option>
+                  <option :value="2">دست دوم</option>
+                </select>
+              </div>
+            </div>
 
 
             <div class="col-md-6">
@@ -142,7 +157,7 @@
                 <input
                   v-model="Tags"
                   type="text"
-                  class="form-control"
+                  class="form-control with-border"
                   placeholder="لباس,تیشرت,شلوار..."
                 />
               </div>
@@ -168,6 +183,24 @@
                 v-model.trim="description"
               ></textarea>
               </div>
+            </div>
+            <div class="col-md-12 my-2">
+
+              <div class="labelText mb-2">معاوضه</div>
+
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  id="togBtn123"
+                  v-model="ExchangeAbility"
+                  :checked="ExchangeAbility"
+                />
+                <div class="slider round">
+                  <span class="on">دارد</span>
+                  <span class="off">ندارد</span>
+                </div>
+              </label>
+
             </div>
 
             <div class="col-md-12">
@@ -265,11 +298,13 @@ export default {
       url: null,
       subUrl: [],
       price: null,
+      ExchangeAbility:false,
       phone: null,
       latitude:0,
       longitude:0,
       mainImage: "",
       subImage: "",
+      PhoneNumber:0,
       photos: [],
       categoryId: null,
 

@@ -18,6 +18,8 @@
         </div>
       </div>
     </div>
+
+
     <div class="tw-flex tw-flex-col tw-items-center ">
       <img v-if=" forum_details.userInfo &&  forum_details.userInfo.selfieFileData===''" src="~/assets/images/products/product_image.jpg" alt="" class="tw-w-12 tw-h-12 tw-rounded-full">
       <img v-else-if="forum_details.userInfo " :src="`https://banooclubapi.simagar.com/media/gallery/profile/${forum_details.userInfo.selfieFileData}`" alt="" class="tw-w-12 tw-h-12 tw-rounded-full">
@@ -27,23 +29,25 @@
         <a  href="#DeleteForum" data-bs-toggle="modal">
           <i class="fas fa-trash tw-text-red-600 hover:tw-text-red-900 hover:tw-transition  tw-cursor-pointer "></i>
         </a>
-        <nuxt-link :to="`/Forums/EditForum/${forum_details.forumId}`">
+
           <i class="fas fa-edit tw-text-blue-600 hover:tw-text-blue-900 hover:tw-transition  tw-cursor-pointer "></i>
-        </nuxt-link>
 
       </div>
 
     </div>
-
     <div class="tw-flex-1 tw-mr-4">
-      <nuxt-link style="color:#666666;" :to="`/Forums/${forum_details.forumId}/`" class="tw-mb-1 text-decoration-none">
+
         <h2 class="tw-text-lg tw-font-semibold tw-line-clamp-1">
           {{forum_details.title}}
         </h2>
-      </nuxt-link>
+
       <p v-if="$route.path!=='/Forums/MyForums/'" class="tw-text-sm d-flex align-items-center tw-text-gray-400 tw-my-2">
         پست شده توسط:
-        <span v-if="forum_details.userInfo" data-href="%40tag-dev.html"> {{ forum_details.userInfo.userName }} </span>
+        <span v-if="forum_details.userInfo" class="text-primary">
+          <nuxt-link class="text-decoration-none" :to="`/user/${forum_details.userInfo.userName}/posts/`">
+               {{ forum_details.userInfo.userName }}
+          </nuxt-link>
+        </span>
 
 
 
@@ -70,10 +74,17 @@
         انجمن شما غیر فعال است
       </p>
     </div>
-    <div class="sm:tw-flex tw-items-center">
-      <span class="tw-text-x mx-1" style="color: rgb(128 128 128)"> {{ forum_details.comments }} </span>
-      <ForumIcon class="svg_icons_size mx-1"/>
+    <div class="tw-flex tw-items-center tw-justify-center">
+      <div class="tw-flex tw-items-center   ">
+        <small class="tw-text-x mx-1" style="color: rgb(128 128 128)"> {{ forum_details.comments }} </small>
+        <ForumIcon class="svg_icons_size mx-1"/>
+      </div>
+      <div class="tw-flex tw-items-center tw-justify-center ">
+        <i class="fas fa-eye tw-text-x   " style="color:rgb(128 128 128) ;width: 24px !important;height: 24px !important;"></i>
+        <small class="tw-text-x " style="color: rgb(128 128 128)"> {{ forum_details.viewsCount }} </small>
+      </div>
     </div>
+
   </div>
 
 </template>

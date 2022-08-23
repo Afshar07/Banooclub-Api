@@ -19,7 +19,7 @@ export default {
           servicePackId:this.$route.params.UpgradeProduct
         })
 
-      this.ChartData = service_view.data.weekViews.data
+      this.ChartData = service_view.data.servicePack.weekViews.data
 
     }catch (e) {
       console.log(e)

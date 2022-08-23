@@ -1,13 +1,13 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer p-3">
     <h1 class="tw-text-2xl tw-font-semibold">انجمن های من</h1>
     <div class="row py-3">
       <div class="col-lg-8 tw-flex-shirink-0">
         <ul class="custom_card tw-divide-y tw-divide-gray-100 sm:tw-m-0 tw--mx-5">
-          <li v-if="my_forums!==null" v-for="Forum in my_forums">
+          <li v-if="my_forums.length>0" v-for="Forum in my_forums">
             <ForumMainItem :forum_details="Forum"/>
           </li>
-          <li class="text-center p-3" v-if="my_forums===null">
+          <li class="text-center p-3" v-if="my_forums.length===0">
             <span class="text-warning">شما انجمن فعال ندارید.</span>
           </li>
         </ul>
@@ -43,7 +43,7 @@ export default {
   },
   data(){
     return{
-      my_forums:null,
+      my_forums:[],
     }
   },
   async fetch(){

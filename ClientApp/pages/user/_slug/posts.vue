@@ -119,6 +119,9 @@
       <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
         <UserPhotos :photos="Photos"/>
       </div>
+      <div class="tab-pane fade" id="Ads" role="tabpanel" aria-labelledby="pills-contact-tab">
+        <UserAds @PageChanged="ChangePage" :Ads="AllAds" :totalPages="totalPages" :activePage="SelectedPageId" />
+      </div>
     </div>
 
 
@@ -142,13 +145,14 @@ import GlobeIcon from "../../../components/Icons/GlobeIcon";
 import HeartIcon from "../../../components/Icons/HeartIcon";
 import HomeIcon from "../../../components/Icons/HomeIcon"
 import AllUsersIcon from "../../../components/Icons/AllUsersIcon"
-
+import UserAds from "@/components/Ads/UserAds";
 export default {
   layout: "PoshtebamPlusLayout",
   name: "MyPosts",
   components: {
     Groups, MyFriends, AboutUser, CustomHeader, PostItem, UserServices, UserPhotos, Spinner, UserFriends, AllUsersIcon,
     HeartIcon,
+    UserAds,
     QuestionIcon,
     GlobeIcon, HomeIcon
   },
@@ -168,7 +172,10 @@ export default {
       Photos: [],
       postCounts: 0,
       userId: 0,
-      userinfo: []
+      userinfo: [],
+      AllAds:[],
+      SelectedPageId:1,
+      totalPages:[]
     }
   },
   async fetch() {
@@ -208,10 +215,28 @@ export default {
         console.log(error);
       }
     }
+    try {
+      const res = this.$repositories.getAdsByUserId.getAdsByUserId({
+        userId:this.userinfo.userId,
+        pageNumber:this.SelectedPageId,
+        count:10
+
+      })
+      this.AllAds = res.data.ads
+      this.totalPages = []
+      const result = Math.ceil(response.data.adsCount / 10)
+      for (let i = 1; i <= result; i++) {
+        this.totalPages.push(i);
+      }
+    }catch (e) {
+      console.log(e)
+    }
   },
 
   methods: {
-
+    ChangePage(id){
+      this.SelectedPageId = id
+    },
     time_ago(time) {
       switch (typeof time) {
         case 'number':

@@ -6,15 +6,16 @@
       placeholder="جستجو خدمت"
       v-model="searchKey"
     />
-    <div class="col-xl-3 col-sm-12 col-md-4" v-for="(service,idx) in allServices" :key="idx">
-      <ProductItem @GetServices="getAllServices()" class="my-3" :service_details="service" :show_buttons="false"/>
+    <div class="col-xl-3 col-sm-12 col-md-4" v-for="(service,idx) in AllServices" :key="idx">
+      <ProductItem @GetServices="Refresh()" class="my-3" :service_details="service" />
     </div>
-    <div class="row mb-3" v-if="allServices && allServices.length === 0">
+    <div class="row mb-3" v-if="AllServices && AllServices.length === 0">
       <div class="col-12 text-warning fw-bold text-center">
         هیچ خدمتی برای نمایش وجود ندارد
       </div>
     </div>
-    <CustomPagination v-if="totalPages.length>1" :pages="totalPages" @PageChanged="changePage($event)"/>
+
+    <CustomPagination v-if="totalpages.length>1" :activePage="1" :totalPages="totalpages" @PageChanged="changePage($event)"/>
 
   </div>
 
@@ -26,13 +27,14 @@ import CustomPagination from "../../components/utilities/CustomPagination"
 
 
 export default {
+  props:['AllServices','totalpages'],
   name: "AllServicesTabContent",
   components: {
     ProductItem,
     CustomPagination
   },
   mounted(){
-    this.getAllServices()
+
   },
   data(){
     return{
@@ -44,45 +46,19 @@ export default {
     }
   },
   watch:{
-    searchKey(){
-      if(this.searchKey.length>=3){
+    searchKey:function (val){
 
-        this.getAllServices()
-      }
-      else if (this.searchKey.length === 0){
-
-        this.getAllServices()
-      }
+      this.$emit('SearchCommandFired',val)
     }
   },
-  methods:{
-    async getAllServices(){
-      try {
-        const services = await this.$repositories.getAllServices.getAllServices(
-          {
-            pageNumber:this.pageNumber,
-            count:12,
-            searchCommand:this.searchKey,
-            status:1,
-
-          }
-        )
-        this.allServices = services.data.services
-        this.totalPages = []
-        const result = Math.ceil( this.allServices.length / 12)
-        for (let i = 1; i <= result; i++) {
-          this.totalPages.push(i);
-        }
-      }
-      catch (error){
-        console.log(error)
-      }
+  methods: {
+    Refresh(){
+      this.$emit('RefetchServices')
     },
     changePage(id){
-      this.pageNumber = id
-      this.$fetch()
+      this.$emit('PageChanged',id)
     }
-  },
+  }
 }
 </script>
 
