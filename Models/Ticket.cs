@@ -12,6 +12,7 @@ namespace BanooClub.Models
         public DateTime CreateDate { get; set; }
         public int Type { get; set; }
         public long UserId { get; set; }
+        public long RecipientUserId { get; set; }
         public bool IsRead { get; set; }
         public long UserType { get; set; }
         public string Title { get; set; }

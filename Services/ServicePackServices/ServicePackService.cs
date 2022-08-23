@@ -240,6 +240,8 @@ namespace BanooClub.Services.ServicePackServices
 
             var objSer = JsonSerializer.Serialize<object>(DeSerializeObj);
             servicePacks = JsonSerializer.Deserialize<List<ServicePack>>(objSer);
+            var servicesCount = servicePacks.Count;
+
             if (status != null)
             {
                 servicePacks = servicePacks.Where(z => z.Status == status).ToList();
@@ -254,7 +256,7 @@ namespace BanooClub.Services.ServicePackServices
             {
                 servicePacks = servicePacks.Where(z => z.Title.Contains(searchCommand)).ToList();
             }
-            var servicesCount = servicePacks.Count();
+
             foreach (var servicePack in servicePacks)
             {
                 var planIds = servicePlanRepository.GetQuery().Where(z => z.ObjectId == servicePack.ServicePackId && z.Type == ServicePlanType.Service).Select(x => x.PlanId).ToList();
@@ -302,6 +304,7 @@ namespace BanooClub.Services.ServicePackServices
                     servicePack.UserInfo.SelfieFileData = dbUserMedia.PictureUrl;
                 }
             }
+
             var obj = new
             {
                 Services = servicePacks,
