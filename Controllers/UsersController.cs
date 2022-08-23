@@ -177,6 +177,13 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost]
+        [Route("[action]"), Authorize(Roles = "Admin")]
+        public List<User> SearchForAdmin(string searchCommand, byte searchType)
+        {
+            return userService.SearchForAdmin(searchCommand, searchType);
+        }
+
+        [HttpPost]
         [Route("[action]"), Authorize]
         public async Task<bool> DeleteMedia (string mediaName)
         {

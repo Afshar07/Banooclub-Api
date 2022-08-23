@@ -84,6 +84,7 @@ using BanooClub.Services.OrderServices;
 using BanooClub.Services.OrderItemServices;
 using BanooClub.Services.ShippingServices;
 using BanooClub.Services.ShippingTypeServices;
+using BanooClub.Services.DashboardServices;
 
 namespace BanooClub.Extensions
 {
@@ -260,7 +261,7 @@ namespace BanooClub.Extensions
             services.AddTransient<IOrderItemService, OrderItemService>();
             services.AddTransient<IShippingService, ShippingService>();
             services.AddTransient<IShippingTypeService, ShippingTypeService>();
-
+            services.AddTransient<IDashboardService, DashboardService>();
 
             services.AddTransient(typeof(IGenerateJwtService), typeof(GenerateJwtService));
             services.AddTransient(typeof(IConfirmationCodeSetting), typeof(ConfirmationCodeSetting));

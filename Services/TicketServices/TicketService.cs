@@ -29,19 +29,19 @@ namespace BanooClub.Services.TicketServices
             , ISocialMediaService mediaService)
         {
             _ticketRepository = ticketRepository;
-            _accessor= accessor;
-            _mediaRepository= mediaRepository;
-            _userRepository= userRepository;
-            _mediaService= mediaService;
-            this.userService= userService;
+            _accessor = accessor;
+            _mediaRepository = mediaRepository;
+            _userRepository = userRepository;
+            _mediaService = mediaService;
+            this.userService = userService;
         }
         public async Task<IServiceResult<Ticket>> FindAsync(long ticketId)
-            => new ServiceResult<Ticket>().Ok(_ticketRepository.GetQuery().First(z=>z.TicketId==ticketId));
+            => new ServiceResult<Ticket>().Ok(_ticketRepository.GetQuery().First(z => z.TicketId == ticketId));
 
         public IServiceResult<object> GetAll(int pageNumber, int count)
         {
             var dbTickets = _ticketRepository.GetQuery().Where(z => z.ParentId == 0).
-                OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
+                OrderByDescending(x => x.CreateDate).Skip((pageNumber - 1) * count).Take(count).ToList();
             var dbTicketCount = _ticketRepository.GetQuery().Where(z => z.ParentId == 0).Count();
             foreach (var parent in dbTickets)
             {
@@ -65,7 +65,7 @@ namespace BanooClub.Services.TicketServices
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
             var dbTickets = _ticketRepository.GetQuery().Where(z => z.UserId == userId && z.ParentId == 0).
-                OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
+                OrderByDescending(x => x.CreateDate).Skip((pageNumber - 1) * count).Take(count).ToList();
             var TicketsCount = _ticketRepository.GetQuery().Where(z => z.UserId == userId && z.ParentId == 0).Count();
             foreach (var parent in dbTickets)
             {
@@ -75,12 +75,12 @@ namespace BanooClub.Services.TicketServices
                 dbAdminChildren.Add(parent);
                 parent.UnRead = dbAdminChildren.Any(z => z.IsRead == false) ? true : false;
             }
-            var dbUserInfo=userService.Get(userId);
+            var dbUserInfo = userService.Get(userId);
             var obj = new
             {
                 UserInfo = dbUserInfo,
                 Tickets = dbTickets,
-                TicketsCount=TicketsCount
+                TicketsCount = TicketsCount
             };
             return new ServiceResult<object>().Ok(obj);
         }
@@ -115,7 +115,7 @@ namespace BanooClub.Services.TicketServices
             }
 
             var dbTickets = _ticketRepository.GetQuery().Where(z => z.ParentId == parentId).ToList();
-            if(dbParentTicket != null)
+            if (dbParentTicket != null)
             {
                 dbTickets.Insert(0, dbParentTicket);
             }
@@ -123,9 +123,9 @@ namespace BanooClub.Services.TicketServices
             {
                 var dbMedia = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == ticket.TicketId && z.Type == MediaTypes.Ticket);
                 ticket.FileData = dbMedia == null ? "" : "media/gallery/Ticket/" + dbMedia.PictureUrl;
-                var dbSelfie = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId==ticket.UserId && z.Type == MediaTypes.Profile);
-                ticket.UserInfo=_userRepository.GetQuery().FirstOrDefault(z=>z.UserId==ticket.UserId);
-                ticket.UserInfo.SelfieFileData= dbSelfie == null ? "" :  dbSelfie.PictureUrl;
+                var dbSelfie = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == ticket.UserId && z.Type == MediaTypes.Profile);
+                ticket.UserInfo = _userRepository.GetQuery().FirstOrDefault(z => z.UserId == ticket.UserId);
+                ticket.UserInfo.SelfieFileData = dbSelfie == null ? "" : dbSelfie.PictureUrl;
                 ticket.UserInfo.Password = null;
             }
             return new ServiceResult<object>().Ok(dbTickets);
@@ -133,45 +133,75 @@ namespace BanooClub.Services.TicketServices
 
         public async Task<IServiceResult> DeleteTicket(long ticketId)
         {
-            var dbTicket =  _ticketRepository.GetQuery().First(z=>z.TicketId==ticketId);
+            var dbTicket = _ticketRepository.GetQuery().First(z => z.TicketId == ticketId);
             await _ticketRepository.Delete(dbTicket);
             return new ServiceResult().Ok();
         }
 
-        public async Task<IServiceResult<long>> CreateTicket(Ticket model)
+        public async Task<IServiceResult<List<long>>> CreateTicket(Ticket model)
         {
-            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
-                    ? _accessor.HttpContext.User.Identity.GetUserId()
-                    : 0;
+            var userId = _accessor.HttpContext.User.GetUserId();
+
+            var tickets = new List<Ticket>();
+
             var dbUser = _userRepository.GetQuery().FirstOrDefault(z => z.UserId == userId);
             model.UserId = userId;
             model.IsDeleted = false;
             model.IsRead = false;
             model.UserType = dbUser.Type;
-            var dbCreation =  _ticketRepository.Insert(model);
-            if (!string.IsNullOrEmpty(model.FileData))
-            {
-                var outPut = _mediaService.SaveImage(model.FileData, EntityUrls.TicketDoc);
-                SocialMedia dbMedia = new SocialMedia()
-                {
-                    IsDeleted = false,
-                    ObjectId = dbCreation.TicketId,
-                    PictureUrl = outPut.ImageName,
-                    Type = MediaTypes.Ticket,
-                    MediaId = 0
-                };
-                await _mediaRepository.InsertAsync(dbMedia);
-            }
-            return new ServiceResult<long>().Ok(dbCreation.TicketId);
-        }
 
+            if (model.Type is 0)
+            {
+                foreach (var item in _userRepository.GetQuery())
+                {
+                    var ticket = new Ticket
+                    {
+                        UserId = userId,
+                        IsDeleted = false,
+                        IsRead = false,
+                        UserType = dbUser.Type,
+                        RecipientUserId = item.UserId
+                    };
+
+                    tickets.Add(ticket);
+                }
+            }
+            else if (model.RecipientIds != null && model.RecipientIds.Any())
+            {
+                foreach (var item in _userRepository.GetQuery().Where(x => model.RecipientIds.Any(z => x.UserId == z)))
+                {
+                    var ticket = new Ticket
+                    {
+                        UserId = userId,
+                        IsDeleted = false,
+                        IsRead = false,
+                        UserType = dbUser.Type,
+                        RecipientUserId = item.UserId
+                    };
+
+                    tickets.Add(ticket);
+                }
+            }
+            else
+            {
+                tickets.Add(model);
+            }
+
+            tickets.ForEach(async x =>
+            {
+                var dbCreation = _ticketRepository.Insert(x);
+                await SetMediaFor(x);
+            });
+
+            return new ServiceResult<List<long>>().Ok(tickets.Select(x => x.TicketId).ToList());
+        }
 
         public IServiceResult<Ticket> GetById(long id)
         {
-            var dbTicket = _ticketRepository.GetQuery().FirstOrDefault(z=>z.TicketId==id);
+            var dbTicket = _ticketRepository.GetQuery().FirstOrDefault(z => z.TicketId == id);
             var dbMedia = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Ticket);
             dbTicket.FileData = dbMedia == null ? "" : "media/gallery/Ticket/" + dbMedia.PictureUrl;
-            dbTicket.UserInfo=userService.Get(dbTicket.UserId);
+            dbTicket.UserInfo = userService.Get(dbTicket.UserId);
             return new ServiceResult<Ticket>().Ok(dbTicket);
         }
 
@@ -189,6 +219,7 @@ namespace BanooClub.Services.TicketServices
             }
             return new ServiceResult<bool>().Ok(true);
         }
+
         public async Task<IServiceResult<bool>> CloseTicket(long parentId)
         {
             var dbParent = _ticketRepository.GetQuery().FirstOrDefault(z => z.TicketId == parentId);
@@ -204,29 +235,29 @@ namespace BanooClub.Services.TicketServices
             return new ServiceResult<bool>().Ok(true);
         }
 
-        public IServiceResult<object> GetTicketsByFilter(long? UserType,int? Type,bool? isRead, int pageNumber, int count,string search)
+        public IServiceResult<object> GetTicketsByFilter(long? UserType, int? Type, bool? isRead, int pageNumber, int count, string search)
         {
             var dbTickets = _ticketRepository.GetQuery();
-            if(UserType != null)
+            if (UserType != null)
             {
-                dbTickets=dbTickets.Where(z => z.UserType == UserType);
+                dbTickets = dbTickets.Where(z => z.UserType == UserType);
             }
-            if(Type != null)
+            if (Type != null)
             {
-                dbTickets=dbTickets.Where(z => z.Type== Type);
+                dbTickets = dbTickets.Where(z => z.Type == Type);
             }
-            if(isRead != null)
+            if (isRead != null)
             {
-                dbTickets=dbTickets.Where(z=>z.IsRead == isRead);
+                dbTickets = dbTickets.Where(z => z.IsRead == isRead);
             }
-            var result = dbTickets.OrderByDescending(x => x.CreateDate).Where(z=>z.Content.Contains(search) || z.Title.Contains(search)).Skip((pageNumber-1)*count).Take(count).ToList();
+            var result = dbTickets.OrderByDescending(x => x.CreateDate).Where(z => z.Content.Contains(search) || z.Title.Contains(search)).Skip((pageNumber - 1) * count).Take(count).ToList();
             foreach (var ticket in result)
             {
                 var dbMedia = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == ticket.TicketId && z.Type == MediaTypes.Ticket);
                 ticket.FileData = dbMedia == null ? "" : "media/gallery/Ticket/" + dbMedia.PictureUrl;
-                var dbSelfie = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId==ticket.UserId && z.Type == MediaTypes.Profile);
-                ticket.UserInfo=_userRepository.GetQuery().FirstOrDefault(z => z.UserId==ticket.UserId);
-                ticket.UserInfo.SelfieFileData= dbSelfie == null ? "" : dbSelfie.PictureUrl;
+                var dbSelfie = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == ticket.UserId && z.Type == MediaTypes.Profile);
+                ticket.UserInfo = _userRepository.GetQuery().FirstOrDefault(z => z.UserId == ticket.UserId);
+                ticket.UserInfo.SelfieFileData = dbSelfie == null ? "" : dbSelfie.PictureUrl;
             }
             var ResultCount = dbTickets.Where(z => z.Content.Contains(search) || z.Title.Contains(search)).Count();
             var obj = new
@@ -236,5 +267,27 @@ namespace BanooClub.Services.TicketServices
             };
             return new ServiceResult<object>().Ok(obj);
         }
+
+        #region Utilities
+
+        private async Task SetMediaFor(Ticket model)
+        {
+            if (!string.IsNullOrWhiteSpace(model.FileData))
+            {
+                var outPut = _mediaService.SaveImage(model.FileData, EntityUrls.TicketDoc);
+                SocialMedia dbMedia = new SocialMedia()
+                {
+                    IsDeleted = false,
+                    ObjectId = model.TicketId,
+                    PictureUrl = outPut.ImageName,
+                    Type = MediaTypes.Ticket,
+                    MediaId = 0
+                };
+
+                await _mediaRepository.InsertAsync(dbMedia);
+            }
+        }
+
+        #endregion
     }
 }

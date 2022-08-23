@@ -784,7 +784,10 @@ namespace BanooClub.Services.PostServices
                 item.LikesCount = likes;
                 item.Comments = comments;
                 var dbLike = postLikeRepository.GetQuery().FirstOrDefault(z => z.UserId == MYselfId && z.PostId == item.PostId);
+                var postReport = postReportRepository.GetQuery().FirstOrDefault(z => z.ReporterUserId == MYselfId && z.PostId == item.PostId);
                 item.IsLikedByMe = false;
+                item.IsReportedByMe = postReport == null ? false : true;
+
                 if (dbLike != null)
                 {
                     item.IsLikedByMe = true;
