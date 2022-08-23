@@ -109,8 +109,8 @@ namespace BanooClub.Services.ServicePackServices
                     Description = prperty.Description,
                     IsDeleted = false,
                     Name = prperty.Name,
-                    Price = inputDto.IsFree ? 0 : prperty.Price,
-                    IsFree = inputDto.IsFree ? true : prperty.IsFree,
+                    Price = (bool)inputDto.IsFree ? 0 : prperty.Price,
+                    IsFree = (bool)inputDto.IsFree ? true : prperty.IsFree,
                     ServiceCategoryId = inputDto.ServiceCategoryId,
                     ServiceId = creation.ServicePackId,
                     ServicePropertyId = 0
