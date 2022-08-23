@@ -10,6 +10,7 @@ namespace BanooClub.Services.ForumServices
         Task<Forum> Update(Forum item);
         Task<Forum> ReportForum(long forumId);
         Task<Forum> ChangeForumStatus(long forumId, ForumStatus status);
+        Task<object> GetByUserId(long userId, byte count, short pageNumber);
 
         Task<object> GetAll(int pageNumber, int count, string searchCommand, bool? noComments, 
             bool? mostRated,bool? mostComments, long? categoryId, bool? mostViewed);

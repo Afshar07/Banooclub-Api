@@ -41,8 +41,8 @@ namespace BanooClub.Controllers
         [Route("[action]"), AllowAnonymous]
         public async Task<object> GetAll(int pageNumber, int count, string search)
         {
-            search = search ==null ? "" : search;
-            return await adsService.GetAll(pageNumber,count,search);
+            search = search == null ? "" : search;
+            return await adsService.GetAll(pageNumber, count, search);
         }
 
         [HttpPost]
@@ -63,30 +63,30 @@ namespace BanooClub.Controllers
         [Route("[action]")]
         public async Task<object> GetMyAds(int pageNumber, int count)
         {
-            return await adsService.GetMyAds( pageNumber, count);
+            return await adsService.GetMyAds(pageNumber, count);
         }
 
         [HttpPost]
         [Route("[action]"), AllowAnonymous]
         public async Task<object> GetByUserId(long userId, int pageNumber, int count)
         {
-            return await adsService.GetByUserId(userId,pageNumber,count);
+            return await adsService.GetByUserId(userId, pageNumber, count);
         }
 
         [HttpPost]
         [Route("[action]"), Authorize(Roles = "Admin")]
-        public async Task<object> GetNotConfirmed(int pageNumber, int count,string search)
+        public async Task<object> GetNotConfirmed(int pageNumber, int count, string search)
         {
-            search = search ==null ? "" : search;
-            return await adsService.GetNotConfirmed(pageNumber,count,search);
+            search = search == null ? "" : search;
+            return await adsService.GetNotConfirmed(pageNumber, count, search);
         }
 
         [HttpPost]
         [Route("[action]"), Authorize(Roles = "Admin")]
-        public async Task<object> GetRejected(int pageNumber, int count,string search)
+        public async Task<object> GetRejected(int pageNumber, int count, string search)
         {
-            search = search ==null ? "" : search;
-            return await adsService.GetRejected(pageNumber,count,search);
+            search = search == null ? "" : search;
+            return await adsService.GetRejected(pageNumber, count, search);
         }
 
         [HttpPost]
@@ -105,9 +105,11 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]"), AllowAnonymous]
-        public async Task<object> GetAdsByFilter(long? priceFrom,long? priceTo,string title,string tag,long? city,long? state,long firstSearchadsId, int count ,long? categoryId)
+        public async Task<object> GetAdsByFilter(long? priceFrom, long? priceTo, string title, string tag, 
+            long? city, long? state, long firstSearchadsId, int count, long? categoryId)
         {
-            return await adsService.GetAdsByFilter(priceFrom,priceTo,title,tag,city,state,firstSearchadsId,count,categoryId);
+            return await adsService.GetAdsByFilter(priceFrom, priceTo, title, tag, 
+                city, state, firstSearchadsId, count, categoryId);
         }
 
         [HttpPost]

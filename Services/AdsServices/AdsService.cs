@@ -697,11 +697,13 @@ namespace BanooClub.Services.AdsServices
             return obj;
         }
 
-        public async Task<object> GetAdsByFilter(long? priceFrom,long? priceTo,string title, string tag,long? city,long? state,long firstSearchadsId, int count,long? categoryId)
+        public async Task<object> GetAdsByFilter(long? priceFrom,long? priceTo,string title, string tag,
+            long? city,long? state,long firstSearchadsId, int count,long? categoryId)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+
             tag = tag ==null ? string.Empty : tag;
             title = title ==null ? string.Empty : title;
             state = state ==null ? 0 : state;
@@ -741,12 +743,15 @@ namespace BanooClub.Services.AdsServices
             {
                 result= result.Where(c => c.Price >= priceFrom);
             }
+
             AdsCount=result.Count();
             if(count == 0)
             {
                 count=AdsCount;
             }
+
             var finalResult=result.Take(count).ToList();
+
             foreach (var ad in finalResult)
             {
                 //ad.AdsCategoryParents = GetAdsParents(ad.CategoryId, "");
@@ -784,11 +789,13 @@ namespace BanooClub.Services.AdsServices
                     ad.IsFavourite = false;
                 }
             }
+
             var obj = new
             {
                 Ads = finalResult,
                 AdsCount = AdsCount,
             };
+
             return obj;
         }
     }

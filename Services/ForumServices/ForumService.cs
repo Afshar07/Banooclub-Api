@@ -475,5 +475,20 @@ namespace BanooClub.Services.ForumServices
 
             return forum;
         }
+
+        public async Task<object> GetByUserId(long userId, byte count, short pageNumber)
+        {
+            var query = forumRepository.GetQuery()
+                .Where(x => x.UserId == userId);
+
+            var data = new
+            {
+                Forums = query.OrderByDescending(x => x.CreateDate)
+                .Skip((pageNumber - 1 ) * count).Take(count),
+                ForumCount = query.Count()
+            };
+
+            return data;
+        }
     }
 }

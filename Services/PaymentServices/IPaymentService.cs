@@ -1,5 +1,4 @@
 ﻿using BanooClub.Models;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BanooClub.Services.PaymentServices
@@ -14,5 +13,6 @@ namespace BanooClub.Services.PaymentServices
         Task<int> ChangePaymentStatus(string orderId, string transId);
         Task<int> PayByWallet(long orderId);
         Task<object> GetMyPayments(int pageNumber, int count);
+        Task<object> GetByUserId(long userId, byte count, short pageNumber);
     }
 }
