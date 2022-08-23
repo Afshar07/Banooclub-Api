@@ -147,6 +147,17 @@
 
           </button>
         </li>
+        <li  class="nav-item" role="presentation m-0" style="margin: 0 !important;">
+          <button class="nav-link customFontSize" id="pill-Ads" data-bs-toggle="pill" data-bs-target="#Ads"
+                  type="button" role="tab" aria-controls="pill-Ads" aria-selected="false">
+            <span v-if="!$route.params.slug">
+               آگهی های من
+            </span>
+            <span class="d-flex" v-else>
+              <span class="px-1">آگهی ها </span>
+            </span>
+          </button>
+        </li>
         <li v-if="!$route.params.slug" class="nav-item" role="presentation m-0" style="margin: 0 !important;">
           <button class="nav-link customFontSize" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
                   type="button" role="tab" aria-controls="pills-profile" aria-selected="false">

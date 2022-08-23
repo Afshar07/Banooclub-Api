@@ -217,42 +217,101 @@
               </label>
             </div>
           </div>
-            <div class="row">
-              <div   v-for="(property,idx) in property_count" :key="idx" class="col-md-12 my-3">
-                <div class="row">
-                  <div class=" col-md-3 col-sm-12">
-                    <label>نام ویژگی</label>
-                    <input :ref="`Title${idx}`" type="text" class="with-border" placeholder="نام ویژگی">
-                  </div>
-                  <div v-show="!IsFreeService" class=" col-md-3 col-sm-12 d-flex flex-column justify-content-end ">
-                          <div class="d-flex align-items-center justify-content-between">
+          <div class="row">
+            <div v-for="(property,idx) in property_count" :key="idx" class="col-md-12 my-3">
+              <div class="row">
+                <div class=" col-md-3 col-sm-12">
+                  <label>نام ویژگی</label>
+                  <input :ref="`Title${idx}`" type="text" class="with-border" placeholder="نام ویژگی">
+                </div>
+                <div v-if="!IsFreeService" class=" col-md-3 col-sm-12 d-flex flex-column justify-content-end   ">
+                  <div class="d-flex align-items-center justify-content-between">
 
 
-                            <small>قیمت ویژگی</small>
-                            <div class="d-flex align-items-center gap-2">
-                              <small>ویژگی رایگان</small>
-                              <input type="checkbox" @click="Disable(idx)" style="width: 20px;height: 20px" class="form-check">
-                            </div>
-                          </div>
+                    <small>قیمت ویژگی</small>
+                    <div class="d-flex align-items-center gap-2">
+                      <small>ویژگی رایگان</small>
+                      <input type="checkbox" @click="Disable(idx)" style="width: 20px;height: 20px" class="form-check">
+                    </div>
+                  </div>
 
-                    <input maxlength="11" :ref="`Price${idx}`" type="number" class="with-border" placeholder="قیمت ویژگی">
-                  </div>
-                  <div  class="col-md-3 d-flex align-items-center">
-                    <i @click="decreasePropertyCount(idx)" class="fa fa-minus-circle text-danger tw-cursor-pointer"></i>
-                  </div>
+                  <input maxlength="11" :ref="`Price${idx}`" type="number" class="with-border" placeholder="قیمت ویژگی">
+                </div>
+                <div class="col-md-3 d-flex align-items-center">
+                  <i @click="decreasePropertyCount(idx)" class="fa fa-minus-circle text-danger tw-cursor-pointer"></i>
                 </div>
               </div>
             </div>
-          <div class="row tw-text-left" v-if="property_count.length>0">
+          </div>
+          <div class="row tw-text-left" v-if="property_count.length>0 ">
             <div class="col-12 pt-3">
               <button @click="addProperty()" type="button" class="button mt-auto px-2">
                 ذخیره ویژگی ها
               </button>
             </div>
           </div>
+
+          <div class="row my-3">
+            <div class="col-md-12">
+              <div class="d-flex align-items-center gap-2">
+                <small>خدمت دارای تخفیف است</small>
+
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    id="togBtn123"
+                    v-model="HaveDiscount"
+                    :checked="HaveDiscount"
+                  />
+                  <div class="slider round">
+                    <span class="on">بله</span>
+                    <span class="off">خیر</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div v-if="HaveDiscount" class="col-md-12 my-2">
+              <div class="row">
+                <div class="col-md-3">
+                  <small>نوع تخفیف : </small>
+                  <select class="form-control" v-model="Discount.type">
+                    <option disabled selected>نوع تخفیف را انتخاب کنید</option>
+                    <option :value="1">درصدی</option>
+                    <option :value="2">عددی</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <small>مقدار تخفیف</small>
+                  <input type="number" class="form-control with-border" v-model="Discount.value" placeholder="مقدار تخفیف را وارد کنید">
+                </div>
+                <div class="col-md-3">
+                  <small>تاریخ اتمام تخفیف</small>
+                  <client-only>
+                    <date-picker
+                      format="YYYY-MM-DD"
+                      display-format="jYYYY-jMM-jDD"
+                      v-model="Discount.expireDate"
+                      type="date"
+                    />
+                  </client-only>
+                </div>
+                <!--                <div class="col-md-3">-->
+                <!--                  <small>تاریخ شروع تخفیف</small>-->
+                <!--                  <client-only>-->
+                <!--                    <date-picker-->
+                <!--                      format="YYYY-MM-DD"-->
+                <!--                      display-format="jYYYY-jMM-jDD"-->
+                <!--                      v-model="Discount.startDate"-->
+                <!--                      type="date"-->
+                <!--                    />-->
+                <!--                  </client-only>-->
+                <!--                </div>-->
+
+              </div>
+
+            </div>
+          </div>
         </div>
-
-
 
 
         <div class="tw-text-left col-12 pt-5">
@@ -307,10 +366,17 @@ export default {
 
   data() {
     return {
+      Discount: {
+        type: 0,
+        value: 0,
+        startDate: '',
+        expireDate: '',
+        refraction: false
+      },
       service_title: '',
       service_category: null,
       service_desc: '',
-      IsFreeService:false,
+      IsFreeService: false,
       service_address: '',
       phone_number1: 0,
       phone_number2: 0,
@@ -319,6 +385,7 @@ export default {
       email: '',
       web_address: '',
       BaseImgUrls: [],
+      HaveDiscount: false,
       BaseVideos: [],
       categories: [],
       expiration_date: "",
@@ -328,7 +395,7 @@ export default {
       tags: [],
       tag: '',
       render_tags: null,
-      StartDate:'',
+      StartDate: '',
       properties: null,
       totalPrice: 0,
       latitude: 0,
@@ -345,19 +412,6 @@ export default {
     removeTag(index) {
       this.tags.splice(index, 1)
     },
-
-    Disable(idx){
-      if(this.$refs['Price' + idx][0].hasAttribute('disabled')){
-        this.$refs['Price' + idx][0].removeAttribute('disabled')
-        this.$refs['Price'+idx][0].setAttribute('value','false')
-      }else{
-        this.$refs['Price' + idx][0].setAttribute('disabled','')
-        this.$refs['Price'+idx][0].setAttribute('value','true')
-      }
-
-
-
-    },
     addTags() {
       if (this.tag === '') {
         this.$toast.error('هشتگ مورد نظر را وارد کنید')
@@ -368,7 +422,20 @@ export default {
       }
       this.$refs.TagsInput.focus()
     },
+    Disable(idx) {
 
+      if (this.$refs['Price' + idx][0].hasAttribute('disabled')) {
+        this.$refs['Price' + idx][0].removeAttribute('disabled')
+        this.$refs['Price' + idx][0].classList.remove('DisabledInput')
+      } else {
+        this.$refs['Price' + idx][0].setAttribute('disabled', '')
+        this.$refs['Price' + idx][0].value = ''
+        this.$refs['Price' + idx][0].classList.add('DisabledInput')
+
+      }
+
+
+    },
     addProperty() {
       let tmplist = []
       let tmpitem = {
@@ -385,6 +452,7 @@ export default {
       })
       this.properties = tmplist
       this.$toast.success("ویژگی ها با موفقیت ثبت شدند");
+      console.log(this.properties)
     },
     deleteImage(item) {
       const idx = this.BaseImgUrls.findIndex((e) => e === item);
@@ -690,6 +758,11 @@ input:checked + .slider:before {
   top: 50%;
   left: 65%;
   font-size: 10px;
+}
+
+.DisabledInput {
+  @apply tw-bg-stone-400
+
 }
 
 input:checked + .slider .on {

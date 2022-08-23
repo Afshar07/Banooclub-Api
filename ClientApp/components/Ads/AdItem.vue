@@ -1,7 +1,7 @@
 <template>
   <div class="card" v-if="AdsDetail" >
     <div class="tw-absolute tw-left-2 tw-top-2 tw-rounded-full tw-flex tw-items-center tw-justify-center customProfileImage" @click="goToServiceProfile(AdsDetail.userInfo.userId)">
-      <nuxt-link    v-if="AdsDetail.userInfo.selfieFileData" :to="`/user/${AdsDetail.userInfo.userName}/posts`">
+      <nuxt-link    v-if="AdsDetail.userInfo && AdsDetail.userInfo.selfieFileData" :to="`/user/${AdsDetail.userInfo.userName}/posts`">
         <img
           class="headerPicture"
           :src="`https://banooclubapi.simagar.com/media/gallery/profile/${AdsDetail.userInfo.selfieFileData}`"
@@ -10,7 +10,7 @@
           style="border-radius: 50%; cursor: pointer;    width: 30px;  height: 30px;box-shadow: 0 0 9px rgb(72 69 72);"
         />
       </nuxt-link>
-      <nuxt-link     v-else :to="`/user/${AdsDetail.userInfo.userName}/posts`">
+      <nuxt-link     v-else-if="AdsDetail.userInfo" :to="`/user/${AdsDetail.userInfo.userName}/posts`">
         <img
 
           class="headerPicture"
@@ -36,12 +36,14 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
         </svg>
       </button>
+
     </div>
     <div  class="card-body p-2 ">
 
-      <div class="tw-flex tw-items-center  tw-left-2  tw-justify-center position-absolute tw-top-[-15px]">
+      <div class="tw-flex tw-items-center mb-3  tw-left-2  tw-justify-center position-absolute tw-top-[-15px]">
 
-        <div class="tw-top-3  tw-border-1 tw-bg-white ServicePrice tw-shadow tw-border-pink-700  tw-font-medium tw-px-2 tw-py-1 tw-left-2  tw-text tw-text-blue-500 ">
+        <div class="tw-top-3  tw-border-1 tw-bg-white tw-relative ServicePrice tw-shadow tw-border-pink-700  tw-font-medium tw-px-2 tw-py-1 tw-left-2  tw-text tw-text-blue-500 ">
+            <i v-if="AdsDetail.planTypes.includes(1)" class="fas fa-fire tw-cursor-pointer text-danger tw-absolute tw-top-0 tw-left-0 tw-shadow" v-tooltip="{content:'آتیش زدم'}"></i>
           {{Intl.NumberFormat('fa-IR').format(AdsDetail.price)}}
           <small class="Toman">تومان</small>
 
@@ -49,9 +51,9 @@
 
       </div>
 
-
+      <br>
       <nuxt-link :to="`/Migration/AdvertiseDetail/${AdsDetail.adsId}`" class="text-decoration-none">
-        <h2 class="tw-text-lg tw-font-medium tw-mt-1 tw-t tw-truncate tw-text-slate-500 product_name tw-text-right mt-2">{{AdsDetail.title}}</h2>
+        <h2 class="tw-text-lg tw-font-medium  tw-truncate tw-text-slate-500 product_name tw-text-right mt-2 ShortDescriptionIndex">{{AdsDetail.title}}</h2>
       </nuxt-link>
       <div class="tw-text-xs tw-font-semibold tw-uppercase tw-text-yellow-500 text-end my-3">{{ AdsDetail.adsCategoryParents }}</div>
 

@@ -52,6 +52,7 @@ export default {
       totalPages:[],
       searchKey:'',
       serviceCounts: 0,
+      lastId:0
 
     }
   },
@@ -60,7 +61,7 @@ export default {
 
       const services = await this.$repositories.getUserServicesByUserName.getUserServicesByUserName(
         {
-          lastId:0,
+          lastId:this.lastId,
           count:12,
           searchCommand:this.searchKey,
           userName:this.$route.params.slug

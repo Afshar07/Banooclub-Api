@@ -1,11 +1,8 @@
 export default (context, resources) => ({
-  async getAllAdsCategory(pageNumber = 1, count = 50) {
+  async getAllAdsCategory(params) {
     try {
       const response = await context.$axios.post(resources, null, {
-        params: {
-          pageNumber,
-          count,
-        },
+        params
       });
       return response;
     } catch (error) {
@@ -43,14 +40,10 @@ export default (context, resources) => ({
       console.log(error);
     }
   },
-  async getAdsByUserId(userId, count = 10, pageNumber = 1) {
+  async getAdsByUserId(params) {
     try {
       const response = await context.$axios.post(resources, null, {
-        params: {
-          userId,
-          count,
-          pageNumber,
-        },
+        params
       });
       return response;
     } catch (error) {

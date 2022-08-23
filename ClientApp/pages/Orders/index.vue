@@ -82,7 +82,7 @@
       </div>
     </div>
       <div class="col-md-12">
-        <CustomPagination v-if="totalPages.length>1" :pages="totalPages" @PageChanged="changePage($event)"/>
+        <CustomPagination v-if="totalPages.length>1" :activePage="SelectedPageNumber" :totalPages="totalPages" @PageChanged="changePage($event)"/>
       </div>
   </div>
 
