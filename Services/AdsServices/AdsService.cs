@@ -409,42 +409,46 @@ namespace BanooClub.Services.AdsServices
             var MYselfId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.UserId == userId && z.Status == (int)AdsStatus.Published).
                 OrderByDescending(x => x.FireDate).Skip((pageNumber-1)*count).Take(count).ToList();
             var AdsCount = adsRepository.GetQuery().Where(z => z.UserId == userId && z.Status == (int)AdsStatus.Published).Count();
             foreach (var ad in dbAds)
             {
-                ad.Photos = new List<FileData>();
-                var dbPhotos = _mediaRepository.GetQuery().Where(z => z.ObjectId == ad.AdsId && z.Type == MediaTypes.AdsPhoto).ToList();
-                foreach (var photo in dbPhotos)
+                if(ad != null)
                 {
-                    if (photo != null)
+                    ad.Photos = new List<FileData>();
+                    var dbPhotos = _mediaRepository.GetQuery().Where(z => z.ObjectId == ad.AdsId && z.Type == MediaTypes.AdsPhoto).ToList();
+                    foreach (var photo in dbPhotos)
                     {
-                        ad.Photos.Add(new FileData()
+                        if (photo != null)
                         {
-                            Base64 = "media/gallery/AdsPhotos/" + photo.PictureUrl,
-                            Priority = (int)photo.Priority
-                        });
-                        
-                    }
-                }
-                ad.UserInfo = userService.Get(userId);
-                ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
-                var dbState = _stateRepository.GetQuery().FirstOrDefault(z => z.StateId == ad.StateId);
-                ad.State = dbState == null ? "" : dbState.Name;
-                var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
-                ad.City = dbCity == null ? "" : dbCity.Name;
+                            ad.Photos.Add(new FileData()
+                            {
+                                Base64 = "media/gallery/AdsPhotos/" + photo.PictureUrl,
+                                Priority = (int)photo.Priority
+                            });
 
-                var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == MYselfId && x.ObjectId == ad.AdsId && x.Type == WishListType.Ads)
-                .FirstOrDefault();
-                if (dbWishList!=null)
-                {
-                    ad.IsFavourite = true;
-                }
-                else
-                {
-                    ad.IsFavourite = false;
+                        }
+                    }
+                    ad.UserInfo = userService.Get(userId);
+                    ad.AdsCategoryParents = GetAdsParents(ad.CategoryId, "");
+                    var dbState = _stateRepository.GetQuery().FirstOrDefault(z => z.StateId == ad.StateId);
+                    ad.State = dbState == null ? "" : dbState.Name;
+                    var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
+                    ad.City = dbCity == null ? "" : dbCity.Name;
+
+                    var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == MYselfId && x.ObjectId == ad.AdsId && x.Type == WishListType.Ads)
+                    .FirstOrDefault();
+                    if (dbWishList != null)
+                    {
+                        ad.IsFavourite = true;
+                    }
+                    else
+                    {
+                        ad.IsFavourite = false;
+                    }
                 }
             }
 

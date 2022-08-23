@@ -32,6 +32,7 @@ namespace BanooClub.Services.ForumServices
         private readonly IRatingService ratingService;
         private readonly IHttpContextAccessor _accessor;
         private readonly IDistributedCache distributedCache;
+       
         public ForumService(IBanooClubEFRepository<Forum> forumRepository, IBanooClubEFRepository<PostNK> postNKRepository, IDistributedCache distributedCache, IBanooClubEFRepository<Like> likeRepository, IBanooClubEFRepository<ForumComment> commentRepository, IBanooClubEFRepository<User> userRepository, IBanooClubEFRepository<Rating> ratingRepository, IBanooClubEFRepository<Tag> tagRepository
             , IHttpContextAccessor accessor, IBanooClubEFRepository<SocialMedia> mediaRepository, IBanooClubEFRepository<View> viewRepository, IRatingService ratingService)
         {
@@ -48,6 +49,7 @@ namespace BanooClub.Services.ForumServices
             this.postNKRepository = postNKRepository;
             _accessor = accessor;
         }
+       
         public async Task<long> Create(Forum inputDto)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
@@ -103,6 +105,7 @@ namespace BanooClub.Services.ForumServices
             }
             return creation.ForumId;
         }
+
         public async Task<Forum> ReportForum(long forumId)
         {
             var dbForum = forumRepository.GetQuery().FirstOrDefault(z => z.ForumId == forumId);
@@ -110,6 +113,7 @@ namespace BanooClub.Services.ForumServices
             var dbUpdate = await forumRepository.Update(dbForum);
             return dbUpdate;
         }
+
         public async Task<Forum> ChangeForumStatus(long forumId, ForumStatus status)
         {
             var dbForum = forumRepository.GetQuery().FirstOrDefault(z => z.ForumId == forumId);
