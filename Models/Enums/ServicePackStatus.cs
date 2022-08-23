@@ -4,6 +4,7 @@
     {
         Active = 1,
         DeActive,
-        Pending
+        Pending,
+        Expired
     }
 }

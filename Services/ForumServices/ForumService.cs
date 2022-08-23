@@ -171,6 +171,10 @@ namespace BanooClub.Services.ForumServices
             }
             if (noComments != null)
             {
+                mostViewed = false;
+                mostComments = false;
+                mostRated = false;
+
                 var dbForumIds = commentRepository.GetQuery().DistinctBy(z => z.ForumId).Select(x => x.ForumId).ToList();
                 if (noComments == true)
                 {
@@ -187,6 +191,9 @@ namespace BanooClub.Services.ForumServices
 
             if (mostViewed != null && mostViewed is true)
             {
+                mostRated = false;
+                mostComments = false;
+
                 var views = viewRepository.GetQuery()
                     .Where(x => x.Type == ViewType.Forum)
                     .Select(x => x.ObjectId);
@@ -202,6 +209,8 @@ namespace BanooClub.Services.ForumServices
 
             if (mostRated != null && mostRated == true)
             {
+                mostComments = false;
+
                 var dbRatingIds = ratingRepository.GetQuery().Where(z => z.Type == RatingType.Forum).OrderByDescending(x => x.Rate).Select(x => x.ObjectId).ToList();
                 forums = forums.OrderBy(d => dbRatingIds.IndexOf(d.ForumId)).ToList();
             }
@@ -259,6 +268,10 @@ namespace BanooClub.Services.ForumServices
             forums = forumRepository.GetQuery().Where(z => z.Title.Contains(searchCommand)).OrderByDescending(z => z.CreateDate).ToList();
             if (noComments != null)
             {
+                mostViewed = false;
+                mostComments = false;
+                mostRated = false;
+
                 var dbForumIds = commentRepository.GetQuery().DistinctBy(z => z.ForumId).Select(x => x.ForumId).ToList();
                 if (noComments == true)
                 {
@@ -275,6 +288,9 @@ namespace BanooClub.Services.ForumServices
 
             if (mostViewed != null && mostViewed is true)
             {
+                mostRated = false;
+                mostComments = false;
+
                 var views = viewRepository.GetQuery()
                     .Where(x => x.Type == ViewType.Forum)
                     .Select(x => x.ObjectId);
@@ -290,6 +306,8 @@ namespace BanooClub.Services.ForumServices
 
             if (mostRated != null && mostRated == true)
             {
+                mostComments = false;
+
                 var dbRatingIds = ratingRepository.GetQuery().Where(z => z.Type == RatingType.Forum).OrderByDescending(x => x.Rate).Select(x => x.ObjectId).ToList();
                 forums = forums.OrderBy(d => dbRatingIds.IndexOf(d.ForumId)).ToList();
             }

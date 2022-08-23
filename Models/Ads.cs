@@ -23,6 +23,8 @@ namespace BanooClub.Models
         public long CityId { get; set; }
         public long StateId { get; set; }
         public DateTime FireDate { get; set; }
+        public bool Exchangeability { get; set; }
+        public long PhoneNumber { get; set; }
         [NotMapped]
         public string City { get; set; }
         [NotMapped]

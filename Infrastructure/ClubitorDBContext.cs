@@ -87,6 +87,7 @@ namespace Infrastructure
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Shipping> Shippings { get; set; }
         public DbSet<ShippingType> ShippingTypes { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
 
 
         public BanooClubDBContext(DbContextOptions<BanooClubDBContext> options) : base(options)
@@ -104,6 +105,7 @@ namespace Infrastructure
             modelbuilder.Entity<Chat>().ToTable("Chats", "Service").HasKey(z => z.ChatId);
             modelbuilder.Entity<ConsultComment>().ToTable("ConsultComments", "Service").HasKey(z => z.ConsultCommentId);
             modelbuilder.Entity<ConsultSchedule>().ToTable("ConsultSchedules", "Service").HasKey(z => z.ConsultScheduleId);
+            modelbuilder.Entity<Discount>().ToTable("Discounts", "Service").HasKey(z => z.DiscountId);
             modelbuilder.Entity<Faq>().ToTable("Faqs", "Service").HasKey(z => z.FaqId);
             modelbuilder.Entity<Formal>().ToTable("Formals", "User").HasKey(z => z.FormalId);
             modelbuilder.Entity<Friendship>().ToTable("Friendships", "Service").HasKey(z => z.FriendshipId);
@@ -199,6 +201,7 @@ namespace Infrastructure
             modelbuilder.Entity<BlogComment>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
             modelbuilder.Entity<Shipping>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
             modelbuilder.Entity<ShippingType>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
+            modelbuilder.Entity<Discount>().Property(b => b.CreateDate).HasDefaultValueSql("getdate()");
             
         }
     }

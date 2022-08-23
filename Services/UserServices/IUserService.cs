@@ -15,6 +15,7 @@ namespace BanooClub.Services.UserServices
         Task<object> GetAllSP();
         User Get(long id);
         List<User> SearchByName(string name);
+        List<User> SearchForAdmin(string searchCommand, byte searchType);
         Task<bool> DeleteMedia(string mediaName);
         Task<bool> UploadPhotoGallery(FileData fileData);
         Task<bool> UploadVideoGallery(FileData fileData);

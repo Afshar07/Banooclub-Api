@@ -360,8 +360,6 @@ namespace BanooClub.Services.UserServices
             return false;
         }
 
-
-
         public async Task<bool> DeleteMedia(string mediaName)
         {
             try
@@ -934,7 +932,6 @@ namespace BanooClub.Services.UserServices
             return dbUser;
         }
 
-
         public List<User> SearchByName(string name)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
@@ -978,7 +975,7 @@ namespace BanooClub.Services.UserServices
             return SerializeObject;
         }
 
-//        public async Task<object> UserDashboards()
+        //        public async Task<object> UserDashboards()
 //        {
 //            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
 //                    ? _accessor.HttpContext.User.Identity.GetUserId()
@@ -1229,7 +1226,6 @@ namespace BanooClub.Services.UserServices
             return FinalObj;
         }
 
-
         public string GetMonthName(int month)
         {
             string result = "";
@@ -1274,6 +1270,39 @@ namespace BanooClub.Services.UserServices
             }
 
             return result;
+        }
+
+        public List<User> SearchForAdmin(string searchCommand, byte searchType)
+        {
+            var userId = _accessor.HttpContext.User.GetUserId();
+
+            var cmd = string.Empty;
+            switch ((SearchTypes)searchType)
+            {
+                case SearchTypes.UserName:
+                    cmd = $"select top 10 * from [User].Users where UserName like '%{searchCommand}%'";
+                    break;
+                case SearchTypes.PhoneNumber:
+                    cmd = $"select top 10 * from [User].Users where Mobile like '%{searchCommand}%'";
+                    break;
+                case SearchTypes.UserId:
+                    cmd = $"select top 10 * from [User].Users where UserId = {long.Parse(searchCommand)}";
+                    break;
+                default:
+                    break;
+            }
+
+            var DeSerializeObj = userRepository.DapperSqlQuery(cmd);
+            var objSer = JsonSerializer.Serialize<object>(DeSerializeObj.Result);
+            var dbUsers = JsonSerializer.Deserialize<List<User>>(objSer);
+            foreach (var user in dbUsers)
+            {
+                user.Password = null;
+                var selfie = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Profile);
+                user.SelfieFileData = selfie == null ? "" : selfie.PictureUrl;
+                user.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == user.UserId);
+            }
+            return dbUsers;
         }
     }
 

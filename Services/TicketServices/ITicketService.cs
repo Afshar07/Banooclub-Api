@@ -12,7 +12,7 @@ namespace BanooClub.Services.TicketServices
         IServiceResult<object> GetAllForCustomer(int pageNumber, int count);
         Task<IServiceResult<object>> GetAllByParentId(long parentId);
         Task<IServiceResult> DeleteTicket(long ticketId);
-        Task<IServiceResult<long>> CreateTicket(Ticket model);
+        Task<IServiceResult<List<long>>> CreateTicket(Ticket model);
         IServiceResult<bool> ChangeTicketStatus(long ticketId);
         IServiceResult<Ticket> GetById(long id);
         Task<IServiceResult<bool>> CloseTicket(long parentId);
