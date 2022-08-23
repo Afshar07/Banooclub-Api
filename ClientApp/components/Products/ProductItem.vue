@@ -84,7 +84,7 @@
           <small v-if="service_details.status===3" class="text-warning ">خدمت شما نیاز به بازبینی مجدد دارد</small>
         </div>
 
-        <div v-if="show_buttons" class="w-100 d-flex flex-column">
+        <div v-if="$route.path==='/Products/MyServices/'" class="w-100 d-flex flex-column">
           <button
             type="button"
             class="btn w-100 my-1 product_buttons"
@@ -117,10 +117,7 @@ export default {
       type: Object,
       required: true
     },
-    show_buttons:{
-      type: Boolean,
-      required: true
-    }
+
   },
   data(){
     return{

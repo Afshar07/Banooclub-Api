@@ -34,9 +34,29 @@
                           <h6 class="tw-font-bold tw-mt-2">فیلتر ها</h6>
                           <div class="accordion tw-mt-[2.3rem]" id="accordionPanelsStayOpenExample">
                             <div class="accordion-item">
+                              <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                                <button class="accordion-button p-2 w-100 d-flex align-items-center justify-content-between"  type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                  <small> دیگر</small>
+                                </button>
+                              </h2>
+                              <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingFour">
+                                <div class="accordion-body">
+                                  <div class="d-flex align-items-center gap-2">
+                                    <input type="checkbox" style="width: 15px;height: 15px" v-model="Ladder"  class=" my-1 p-1 Form-Control border ">
+                                    <div class="d-flex align-items-center gap-2">
+                                      <i class="fas fa-fire text-danger"></i>
+                                      <small>آتیش زدم</small>
+                                    </div>
+
+                                  </div>
+
+                                </div>
+                              </div>
+
+                            </div>
+                            <div class="accordion-item">
                               <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                                 <button class="accordion-button p-2 w-100 d-flex align-items-center justify-content-between"  type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-
                                   <small> قیمت</small>
                                 </button>
                               </h2>
@@ -50,6 +70,7 @@
 
                                 </div>
                               </div>
+
                             </div>
                             <div class="accordion-item">
                               <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
@@ -121,10 +142,10 @@
                         <div class="col-md-12">
                           <AllAdsTabContent :Ads="AllAds" :categories="categories"/>
                         </div>
+                        <div class="col-md-12">
+                          <CustomPagination v-if="totalPages.length>1" :activePage="SelectedPageId" :totalPages="totalPages" @PageChanged="changePage($event)"/>
+                        </div>
                       </div>
-
-
-
                     </div>
                   </div>
                 </div>
@@ -154,12 +175,14 @@
     import RightChevronIcon from "../../components/Icons/RightChevronIcon";
     import LeftChevronIcon from "../../components/Icons/LeftChevronIcon";
     import FirstTabContentAds from "../../components/Ads/FirstTabContentAds";
+    import CustomPagination from "@/components/utilities/CustomPagination";
     import AllAdsTabContent from "../../components/Ads/AllAdsTabContent";
     export default {
 
         name: "index",
         layout: "PoshtebamPlusLayout",
         components:{
+          CustomPagination,
           AllAdsTabContent,
           FirstTabContentAds,
             LeftChevronIcon,
@@ -188,10 +211,13 @@
                 categories:[],
               SelectedCategoryId:0,
               PriceFrom:null,
+              Ladder:false,
               PriceTo:null,
               CityId:0,
+              SelectedPageId:1,
               SelectedStateId:null,
               SelectedCityId:null,
+              totalPages:[],
               AllCities:[
                 {
                   name:'همه شهر ها',
@@ -229,6 +255,10 @@
         }
       },
       methods:{
+        changePage(id){
+          this.SelectedPageId = id
+          this.GetAdd()
+        },
         async GetAdd(){
           try {
             if(this.Search==='' || this.PriceTo!==null || this.PriceFrom!== null){
@@ -294,11 +324,15 @@
                   city:this.SelectedCityId,
                   state:this.SelectedStateId,
                   firstSearchadsId:null,
-                  count:20,
+                  count:10,
                   categoryId:this.SelectedCategoryId
                 })
                   this.AllAds = res.data.ads
-
+              this.totalPages = []
+              const result = Math.ceil( res.data.adsCount / 10)
+              for (let i = 1; i <= result; i++) {
+                this.totalPages.push(i);
+              }
 
                 const allCategories = await this.$repositories.getAllAdsCategory.getAllAdsCategory();
                 this.categories = allCategories.data.adsCategories;

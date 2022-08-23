@@ -39,7 +39,6 @@
         <ServiceProviderLabel v-if="$auth.user && $auth.user.baseData &&$auth.user.baseData.userType===3 "></ServiceProviderLabel>
           <CustomerLabel v-else></CustomerLabel>
       </div>
-
       <div class="tw-flex tw-items-start  tw-flex-col my-2">
         <div class="progress tw-w-full">
           <div class="progress-bar" role="progressbar" aria-label="Example with label" :style="`width: ${FilledCount}%`"
@@ -48,6 +47,18 @@
         </div>
 
       </div>
+
+    </div>
+    <div class="tw-w-full my-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <h6 class=" m-0 p-0 ">کد معرف شما</h6>
+
+        <div  class="d-flex align-items-center gap-2">
+          <small v-if=" userinfo&& userinfo.userInfo" class="text-secondary">{{ userinfo.userInfo.userCode }}</small>
+          <small @click="CopyCode" class="text-secondary tw-w-[30px] tw-h-[30px] tw-flex tw-items-center tw-justify-center tw-cursor-pointer rounded tw-bg-stone-300"><i class="fas fa-clipboard"></i></small>
+        </div>
+      </div>
+
 
     </div>
 
@@ -59,14 +70,14 @@
           <button class="nav-link active" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
                   type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
             دنبال کنندگان
-            <!--            <span class="follower_count"  v-if="userinfo">{{ userinfo.followersCount }}</span>-->
+
           </button>
         </li>
         <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
           <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact"
                   type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
             دنبال شوندگان
-            <!--            <span class="follower_count" v-if="userinfo">{{ userinfo.followingsCount }}</span>-->
+
           </button>
         </li>
       </ul>
@@ -100,7 +111,8 @@ export default {
     CustomerLabel,
   },
   async fetch() {
-    console.log(this.$auth.user)
+
+
     try {
       const birthdate_list = await this.$repositories.getBirthdateList.getBirthdateList();
       this.birthdateList = birthdate_list.data.data;
@@ -109,23 +121,32 @@ export default {
       console.log(error);
     }
   },
+  mounted(){
+    this.getUserInfo()
+  },
   data() {
     return {
       routePage: null,
       friendNameFilter: "",
       birthdateList: [],
-      userinfo: {},
+      userinfo: '',
+
 
 
     };
   },
 
   methods: {
+    CopyCode(){
+      navigator.clipboard.writeText(this.userinfo.userInfo.userCode)
+      this.$toast.info('کپی شد')
+
+    },
     async getUserInfo() {
       try {
         const response = await this.$repositories.getUserByToken.getUserByToken();
-        this.userinfo = response.data.userInfo;
-        console.log('this.userinfo', this.userinfo)
+        this.userinfo = response.data;
+console.log(this.userinfo)
       } catch (error) {
         console.log(error);
       }
@@ -150,18 +171,19 @@ export default {
   computed: {
     FilledCount() {
       let count = 0
-      this.$auth.user.userInfo.name !== '' ? count++ : count - 1
-      this.$auth.user.userInfo.familyName !== '' ? count++ : count - 1
-      this.$auth.user.userInfo.mobile !== '' ? count++ : count - 1
+      if(this.userinfo && this.userinfo.userInfo && this.userinfo.userInfo.userSetting){
+        this.userinfo.userInfo.name !== '' ? count++ : count - 1
+        this.userinfo.userInfo.familyName !== '' ? count++ : count - 1
+        this.userinfo.userInfo.mobile !== '' ? count++ : count - 1
+        this.userinfo.userInfo.userSetting.birthDate !== '' ? count++ : count - 1
+        this.userinfo.userInfo.userSetting.bio !== '' ? count++ : count - 1
+        this.userinfo.userInfo.userSetting.kartMelliDoc !== null ? count++ : count - 1
+        this.userinfo.userInfo.cityId !== null ? count++ : count - 1
+        this.userinfo.userInfo.stateId !== null ? count++ : count - 1
+        this.userinfo.userInfo.userSetting.userTag !== '' ? count++ : count - 1
+        return Math.round(count * (100 / 10))
+      }
 
-        this.$auth.user.userInfo.userSetting.birthDate !== '' ? count++ : count - 1
-      this.$auth.user.userInfo.userSetting.gender !== null ? count++ : count - 1
-      this.$auth.user.userInfo.userSetting.bio !== '' ? count++ : count - 1
-      this.$auth.user.userInfo.kartMelliDoc !== '' ? count++ : count - 1
-      this.$auth.user.userInfo.cityId !== null ? count++ : count - 1
-      this.$auth.user.userInfo.stateId !== null ? count++ : count - 1
-      this.$auth.user.userInfo.userSetting !== '' ? count++ : count - 1
-      return Math.round(count * (100 / 10))
     },
     VuexHeaderData() {
       return this.$store.state.HeaderData;

@@ -270,8 +270,9 @@ export default {
       let _this = this;
       let usersChangeUserRoleRequest = new UsersChangeUserRoleRequest(_this);
       let data = {
+
         userId:this.SelectedUser.userId,
-        typeId:this.SelectedUserType
+        status:this.SelectedUserType
       }
       usersChangeUserRoleRequest.setParams(data);
       await usersChangeUserRoleRequest.fetch(function (content){

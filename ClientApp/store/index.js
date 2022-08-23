@@ -15,7 +15,7 @@ export default {
       SearchedUserStatus: 0,
       role: "",
       token: null,
-
+      TestData:null,
       loggedInfo: {
         status: 0,
         logCounts: 0,
@@ -92,6 +92,9 @@ export default {
     },
     sendMessage(state, resultId) {
       state.SocketUserId = resultId;
+    },
+    PostCreate(state,Test){
+      state.TestData = Test
     },
     SetWalletAmount(state,data){
       state.WalletAmount = data

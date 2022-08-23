@@ -10,16 +10,9 @@
             با دوستان و دنیای اطراف خود با بانو کلاب ارتباط برقرار کنید.
           </p>
         </div>
-        <div class="d-flex flex-column">
+        <div class="d-flex flex-column justify-content-center align-items-center">
           <div class="lg:tw-mt-0 lg:tw-w-96 tw-mt-10 tw-w-full custom_navs tw-bg-white tw-shadow-lg tw-rounded-lg">
-            <div class="d-flex justify-content-between">
-              <div
-                class="text-center col-6 my-0"
-                :class="loginType == 2 ? 'TabActive' : 'deActiveTab'"
-                @click="setLoginMethod(2)"
-              >
-                ورود با ایمیل
-              </div>
+            <div class="d-flex justify-content-center">
               <div
                 class="border-end text-center col-6 my-0"
                 :class="loginType == 1 ? 'TabActive' : 'deActiveTab'"

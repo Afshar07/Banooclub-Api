@@ -5,7 +5,7 @@
           class="col-md-4 my-3"
           v-for="(item,index) in photos"
           :key="index"
-          @click="showSidePanel()"
+
         >
           <div class="position-relative">
             <img

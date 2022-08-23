@@ -180,50 +180,17 @@ class WebServiceRequest {
                      },
                  })
               }
-
                 const isJson = response.headers.get('content-type')?.includes('application/json');
                 const data = isJson ? await response.json() : "success";
                 return data;
-
-
             })
             if (_data) {
                 successCallback(_data)
             } else {
-                // token invalid mode
-                // if (_data.meta.resultCode == 1) {
-                //     //UserHelper.logoutUser()
-                // }
-                //
-                // if (_data.meta.resultCode == WebServiceRequest._RESULT_USER_NOT_ALLOWED) {
-                //     _this.context.error({
-                //         statusCode: 404,
-                //         message: 'Post not found'
-                //     })
-                // }
-                // if (_data.meta.resultCode === 401) {
-                   //   console.log("Login")
-                // }
                 errorCallback(_data)
-
-              /*let messages = '';
-
-              if(_data.message instanceof Object) {
-                for (const [key, value] of Object.entries(_data.message)) {
-                  messages += (value + "<br>");
-                }
-              }else{
-                messages = _data.message;
-              }
-              errorCallback(messages)*/
-
             }
         } catch (e) {
           console.log(e)
-          // if(_this.context != undefined){
-          //   Helper.closeLoadingOverlay(_this.context);
-          //   // _this.context.$toastMessage(_this.context , 'متاسفانه خطایی در سرور رخ داده است.' ,'error');
-          // }
         }
     }
     async sendFormData (successCallback, errorCallback) {

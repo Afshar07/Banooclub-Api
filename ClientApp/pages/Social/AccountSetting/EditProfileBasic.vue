@@ -63,45 +63,7 @@
             />
           </client-only>
         </div>
-        <div class="col-12 mt-3">
-          <!--          <div class="custom_radio">-->
-          <!--            <input type="radio" id="male" name="featured" checked><label for="male">مرد</label>-->
-          <!--            <input type="radio" id="female" name="featured"><label for="female">زن</label>-->
-          <!--          </div>-->
-          <div class="col-md-12 my-3">
-            <span class="text-secondary mb-3">جنسیت</span>
-            <div class="form-check  form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="inlineCheckbox7"
-                value="1"
-                v-model="gender"
-              />
-              <label class="form-check-label" for="inlineCheckbox7">مرد</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="inlineCheckbox8"
-                value="2"
-                v-model="gender"
-              />
-              <label class="form-check-label" for="inlineCheckbox8">زن</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="inlineCheckbox9"
-                value="3"
-                v-model="gender"
-              />
-              <label class="form-check-label" for="inlineCheckbox9">سایر</label>
-            </div>
-          </div>
-        </div>
+
         <div class="col-md-12 my-3 d-flex align-items-center justify-content-around flex-wrap">
           <span class="text-secondary ">وضعیت تاهل</span>
           <div class="form-check form-check-inline">
@@ -195,12 +157,12 @@
             <textarea
               class="form-control border-0 px-0"
               resize="none"
-              placeholder="هشتگ های من"
+              placeholder="هشتگ های من (با علامت کاما, از هم جدا کنید)"
               id="about2"
               v-model.trim="userTag"
               style="height: 150px"
             ></textarea>
-            <label>هشتگ های من</label>
+            <label>هشتگ های من (با علامت کاما, از هم جدا کنید)</label>
           </div>
         </div>
         <div class="col-12 mt-3">
@@ -400,7 +362,7 @@ export default {
       SelectedStateId: null,
       SelectedCityId: null,
 
-        requiredFields: ["firstName", "lastName", "mobile", 'birthDate', 'gender', 'bio', 'nationalCart', 'SelectedCityId', 'SelectedStateId', 'userTag'],
+        requiredFields: ["firstName", "lastName", "mobile", 'birthDate', 'bio', 'nationalCart', 'SelectedCityId', 'SelectedStateId', 'userTag'],
 
 
     };

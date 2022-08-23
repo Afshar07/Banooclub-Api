@@ -12,7 +12,7 @@
 
         </li>
         <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-          <button @click="filter()" class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+          <button  class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
             پیشنهادات
           </button>
         </li>
@@ -22,12 +22,13 @@
       <div class="tab-pane fade show active" id="products-pills-home" role="tabpanel" aria-labelledby="products-pills-home-tab">
         <div class="row boxMainContent mx-auto">
           <div class="col-12 text-center ">
-            <AllServicesTabContent/>
+
+            <AllServicesTabContent @SearchCommandFired="SearchCommand" @PageChanged="ChangePage" @RefetchServices="GetAllServices" :AllServices="AllServices" :totalpages="totalPages"/>
           </div>
         </div>
       </div>
       <div class="tab-pane fade " id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-        <FirstTabContent :best="best" :Services="AllServices" :newest="newest" :categories="categories" :suggestion="suggestion" />
+        <FirstTabContent @RefetchServices="GetAllServices"   :AllServices="AllServices"  :categories="categories"  />
       </div>
     </div>
 
@@ -75,38 +76,48 @@ export default {
     return{
       categories:[],
       AllServices:[],
-      best:[],
-      newest:[],
-      suggestion:[],
-      hasBest:false,
-      hasNewest:false
+      totalPages:[],
+      SelectedPageId:1,
+      Search:''
     }
   },
   methods:{
-    filter(){
-      this.best=[]
-      this.newest=[]
-      this.suggestion=[]
-        this.AllServices.forEach(el=>{
-          if(el.planTypes.includes(5)){
-            this.best.push(el)
+    async GetAllServices(){
+      try {
+        const res = await this.$repositories.getAllServices.getAllServices(
+          {
+            pageNumber:this.SelectedPageId,
+            count:0,
+            searchCommand:this.Search,
+            status:1,
+
           }
-        })
-        this.AllServices.forEach(el=>{
-          if(el.planTypes.includes(4)){
-            this.newest.push(el)
-          }
-        })
-      this.AllServices.forEach(el=>{
-        if(el.planTypes.includes(2)){
-          this.suggestion.push(el)
+        )
+        this.AllServices = res.data.services
+        this.totalPages = []
+        const result = Math.ceil( res.data.servicesCount / 1)
+        for (let i = 1; i <= result; i++) {
+          this.totalPages.push(i);
         }
-      })
+
+      }
+      catch (error){
+        console.log(error)
+      }
+    },
+    ChangePage(id){
+      this.SelectedPageId =id
+      this.GetAllServices()
+    },
+    SearchCommand(SearchString){
+      this.Search = SearchString
+      if(this.Search.length>=3|| this.Search===''){
+        this.GetAllServices()
+      }
+
     }
-
-
-
   },
+
   async fetch(){
     try {
       const allCategories = await this.$repositories.getAllServicesCategory.getAllServicesCategory();
@@ -115,10 +126,12 @@ export default {
     catch (error){
       console.log(error)
     }
+
+
     try {
       const res = await this.$repositories.getAllServices.getAllServices(
         {
-          pageNumber:0,
+          pageNumber:this.SelectedPageId,
           count:0,
           searchCommand:'',
           status:1,
@@ -126,6 +139,13 @@ export default {
         }
       )
       this.AllServices = res.data.services
+      this.totalPages = []
+      const result = Math.ceil( res.data.servicesCount / 1)
+      for (let i = 1; i <= result; i++) {
+        this.totalPages.push(i);
+      }
+
+
     }
     catch (error){
       console.log(error)

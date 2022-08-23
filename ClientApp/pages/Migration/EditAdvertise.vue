@@ -31,6 +31,10 @@
                 </select>
               </div>
             </div>
+            <div class="col-md-6">
+              <div class="labelText">شماره موبایل</div>
+              <input type="tel" class="form-control with-border" v-model="PhoneNumber">
+            </div>
 
           <div class="col-md-12 my-2">
             <div class="labelText">عکس های فعلی آگهی</div>
@@ -165,7 +169,23 @@
               ></textarea>
               </div>
             </div>
+            <div class="col-md-12 my-2">
 
+              <div class="labelText mb-2">معاوضه</div>
+
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  id="togBtn123"
+
+                />
+                <div class="slider round">
+                  <span class="on">دارد</span>
+                  <span class="off">ندارد</span>
+                </div>
+              </label>
+
+            </div>
             <div class="col-md-12">
               <div class="labelText">موقعیت روی نقشه</div>
               <div class="my-3" id="map-wrap" style="height: 50vh">
