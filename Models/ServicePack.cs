@@ -35,6 +35,8 @@ namespace BanooClub.Models
         public bool IsFree { get; set; }
         public int Maintain { get; set; }
         [NotMapped]
+        public Discount Discount { get; set; }
+        [NotMapped]
         public long ViewsCount { get; set; }
         [NotMapped]
         public object WeekViews { get; set; }
