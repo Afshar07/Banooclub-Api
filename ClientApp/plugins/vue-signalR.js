@@ -9,8 +9,16 @@ export default ({ app, store }, inject) => {
     })
     .configureLogging(LogLevel.Information)
     .build();
+  const PostHub = new HubConnectionBuilder()
+    .withUrl("https://banooclubapi.simagar.com/PostHub", {
+      accessTokenFactory: function () {
+        console.log("Getting token for hub");
+      },
+    })
+    .configureLogging(LogLevel.Information)
+    .build();
 
-  inject("hub", hub);
+  inject("hub", hub,PostHub);
   hub.on("SendMessage", (res) => {
     store.commit("sendMessage", res);
     console.log("Message sended by", res);
@@ -24,7 +32,7 @@ export default ({ app, store }, inject) => {
     store.commit("sendMessage", res);
     console.log(`Message Delivered to ${res}`);
   });
-  hub.on('PostCreated',(res)=>{
+  PostHub.on('PostCreated',(res)=>{
     store.commit("PostCreate", res);
     console.log("Post Created By ", res);
   });
@@ -32,12 +40,17 @@ export default ({ app, store }, inject) => {
   hub.start().catch(function (err) {
     return console.error(err);
   });
+  PostHub.start().catch(function (err) {
+    return console.error(err);
+  });
+
 
   // with reconnect capability (async/await, not IE11 compatible)
   async function start() {
     try {
       console.log("Attempting reconnect");
       await hub.start();
+      await PostHub.start();
     } catch (err) {
       console.log(err);
       setTimeout(() => start(), 5000);
@@ -45,6 +58,9 @@ export default ({ app, store }, inject) => {
   }
 
   hub.onclose(async () => {
+    await start();
+  });
+  PostHub.onclose(async () => {
     await start();
   });
 

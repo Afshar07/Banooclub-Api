@@ -1,7 +1,7 @@
 <template>
   <div class="container mcontainer tw-overflow-x-hidden" v-if="!$fetchState.pending">
     <div class="row">
-      <div class="col-md-12 col-lg-8 add_post px-0 custom_padding_for_posts">
+      <div class="col-md-12  add_post px-0 custom_padding_for_posts">
         <AdsDetail :AdsDetail="AdsDetail"/>
       </div>
 <!--      <div class=" col-lg-4">-->

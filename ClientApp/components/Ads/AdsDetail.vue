@@ -118,10 +118,16 @@
       <div class="tw-p-4 tw-space-y-3">
         <div class="d-flex justify-content-between">
           <h1 class="tw-text-2xl tw-font-semibold tw-text-gray-600 tw-pt-2">{{AdsDetail.title}}</h1>
-          <div class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
-            {{Intl.NumberFormat('fa-IR').format(AdsDetail.price)}}
-            تومان
+          <div class="d-flex align-items-center gap-2">
+            <div class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
+              {{Intl.NumberFormat('fa-IR').format(AdsDetail.price)}}
+              تومان
+            </div>
+            <div v-if="AdsDetail.exchangeability" class="tw-bg-sky-400 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
+              قابل معاوضه
+            </div>
           </div>
+
         </div>
         <div class="d-flex mt-0">
           <div class="back_tags p-1 m-1" v-for="(tag,index) in AdsDetail.tags">

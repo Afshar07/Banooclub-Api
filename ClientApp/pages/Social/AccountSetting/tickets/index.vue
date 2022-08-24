@@ -35,7 +35,7 @@
                 placeholder="Select Issue"
                 @click.stop
               >
-                <option  @click.stop :value="0">دسته بندی تیکت</option>
+                <option  @click.stop >دسته بندی تیکت</option>
                 <option  @click.stop :value="1">احراز هویت</option>
                 <option  @click.stop :value="2">پشتیبانی</option>
                 <option  @click.stop :value="3">سایر</option>

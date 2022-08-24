@@ -43,7 +43,7 @@
       <div class="tw-flex tw-items-center mb-3  tw-left-2  tw-justify-center position-absolute tw-top-[-15px]">
 
         <div class="tw-top-3  tw-border-1 tw-bg-white tw-relative ServicePrice tw-shadow tw-border-pink-700  tw-font-medium tw-px-2 tw-py-1 tw-left-2  tw-text tw-text-blue-500 ">
-            <i v-if="AdsDetail.planTypes.includes(1)" class="fas fa-fire tw-cursor-pointer text-danger tw-absolute tw-top-0 tw-left-0 tw-shadow" v-tooltip="{content:'آتیش زدم'}"></i>
+            <i v-if="AdsDetail.planTypes && AdsDetail.planTypes.length>0 &&  AdsDetail.planTypes.includes(1)" class="fas fa-fire tw-cursor-pointer text-danger tw-absolute tw-top-0 tw-left-0 tw-shadow" v-tooltip="{content:'آتیش زدم'}"></i>
           {{Intl.NumberFormat('fa-IR').format(AdsDetail.price)}}
           <small class="Toman">تومان</small>
 
@@ -100,11 +100,12 @@ export default {
           type:3
         })
         if(item.isFavourite){
-          this.$toast.success("آگهی به علاقمندی ها اضافه شد");
 
+          this.$toast.success("آگهی از علاقمندی ها حذف شد");
         }
         else{
-          this.$toast.success("آگهی از علاقمندی ها حذف شد");
+          this.$toast.success("آگهی به علاقمندی ها اضافه شد");
+
         }
         this.$nuxt.refresh()
         this.$fetch()

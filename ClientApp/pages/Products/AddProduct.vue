@@ -66,7 +66,7 @@
           <input v-model="email" type="email" class="with-border" placeholder="ایمیل">
         </div>
         <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
-          <label class="mb-3">تاریخ شروع خدمت</label>
+          <label class="mb-3">تاریخ شروع خدمت (اختیاری)</label>
           <client-only>
             <date-picker
               format="YYYY-MM-DD"
@@ -93,7 +93,7 @@
           </div>
           <div class="my-3">
             <div class="d-flex align-items-center gap-2">
-              <input v-model="tag" type="text" ref="TagsInput" class=" form-control with-border"
+              <input @keydown.enter="addTags" v-model="tag" type="text" ref="TagsInput" class=" form-control with-border"
                      placeholder="ناخن،مو،رنگ...">
 
               <button class="btn btn-primary h-100 " @click="addTags">ثبت</button>
@@ -251,66 +251,7 @@
             </div>
           </div>
 
-          <div class="row my-3">
-            <div class="col-md-12">
-              <div class="d-flex align-items-center gap-2">
-                <small>خدمت دارای تخفیف است</small>
 
-                <label class="switch">
-                  <input
-                    type="checkbox"
-                    id="togBtn123"
-                    v-model="HaveDiscount"
-                    :checked="HaveDiscount"
-                  />
-                  <div class="slider round">
-                    <span class="on">بله</span>
-                    <span class="off">خیر</span>
-                  </div>
-                </label>
-              </div>
-            </div>
-            <div v-if="HaveDiscount" class="col-md-12 my-2">
-              <div class="row">
-                <div class="col-md-3">
-                  <small>نوع تخفیف : </small>
-                  <select class="form-control" v-model="Discount.type">
-                    <option disabled selected>نوع تخفیف را انتخاب کنید</option>
-                    <option :value="1">درصدی</option>
-                    <option :value="2">عددی</option>
-                  </select>
-                </div>
-                <div class="col-md-3">
-                  <small>مقدار تخفیف</small>
-                  <input type="number" class="form-control with-border" v-model="Discount.value" placeholder="مقدار تخفیف را وارد کنید">
-                </div>
-                <div class="col-md-3">
-                  <small>تاریخ اتمام تخفیف</small>
-                  <client-only>
-                    <date-picker
-                      format="YYYY-MM-DD"
-                      display-format="jYYYY-jMM-jDD"
-                      v-model="Discount.expireDate"
-                      type="date"
-                    />
-                  </client-only>
-                </div>
-                <!--                <div class="col-md-3">-->
-                <!--                  <small>تاریخ شروع تخفیف</small>-->
-                <!--                  <client-only>-->
-                <!--                    <date-picker-->
-                <!--                      format="YYYY-MM-DD"-->
-                <!--                      display-format="jYYYY-jMM-jDD"-->
-                <!--                      v-model="Discount.startDate"-->
-                <!--                      type="date"-->
-                <!--                    />-->
-                <!--                  </client-only>-->
-                <!--                </div>-->
-
-              </div>
-
-            </div>
-          </div>
         </div>
 
 
@@ -424,15 +365,15 @@ export default {
     },
     Disable(idx) {
 
-      if (this.$refs['Price' + idx][0].hasAttribute('disabled')) {
-        this.$refs['Price' + idx][0].removeAttribute('disabled')
-        this.$refs['Price' + idx][0].classList.remove('DisabledInput')
-      } else {
-        this.$refs['Price' + idx][0].setAttribute('disabled', '')
-        this.$refs['Price' + idx][0].value = ''
-        this.$refs['Price' + idx][0].classList.add('DisabledInput')
+        if (this.$refs['Price' + idx][0].hasAttribute('disabled')) {
+          this.$refs['Price' + idx][0].removeAttribute('disabled')
+          this.$refs['Price' + idx][0].classList.remove('DisabledInput')
+        } else {
+          this.$refs['Price' + idx][0].setAttribute('disabled', '')
+          this.$refs['Price' + idx][0].value = 0
+          this.$refs['Price' + idx][0].classList.add('DisabledInput')
 
-      }
+        }
 
 
     },
@@ -440,11 +381,19 @@ export default {
       let tmplist = []
       let tmpitem = {
         name: '',
-        price: 0
+        price: 0,
+        isFree:false
       }
       this.property_count.forEach((item, idx) => {
         tmpitem.name = this.$refs[`Title${idx}`][0].value
-        tmpitem.price = this.$refs[`Price${idx}`][0].value
+        if(!this.IsFreeService){
+          tmpitem.price = this.$refs[`Price${idx}`][0].value
+        }else{
+          tmpitem.price =0
+        }
+        if(this.$refs[`Price${idx}`][0].value === '0' ){
+          tmpitem.isFree = true
+        }
         const clone = {...tmpitem}
         tmplist.push(clone)
         tmpitem.name = ''
@@ -560,7 +509,6 @@ export default {
             base64: '',
             priority: 0
           }
-
           let id = 1
           this.photos.forEach((element) => {
             tmpMedia.base64 = element
@@ -570,7 +518,6 @@ export default {
             tmpMedia.base64 = ''
             id = 2
           })
-
           this.Videos.forEach((element) => {
             tmpMedia.base64 = element
             tmpMedia.priority = 3
@@ -614,6 +561,8 @@ export default {
             quantity: parseInt(this.Qty),
             email: this.email,
             fireDate: '2022-06-25T12:04:09.204Z',
+            StartDate:this.StartDate,
+            isFree:this.IsFreeService,
             specified: false,
             specifiedWithExpireDate: false,
             specifiedExpireDateTime: null,

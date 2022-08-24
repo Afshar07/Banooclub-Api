@@ -182,7 +182,7 @@ export default {
     try {
       const response = await this.$repositories.GetUserByUserName.GetUserByUserName({userName: this.$route.params.slug});
       this.userinfo = response.data.userInfo;
-      console.log(this.userinfo)
+
     } catch (error) {
       console.log(error);
     }
@@ -195,7 +195,7 @@ export default {
             count: 3
           }
         )
-        // const medias = await this.$repositories.getUserMedias.getUserMedias({userId:2});
+
         this.postData = posts.data.posts;
         this.postCounts = this.postData.length
 
@@ -216,13 +216,14 @@ export default {
       }
     }
     try {
-      const res = this.$repositories.getAdsByUserId.getAdsByUserId({
+      const res = await  this.$repositories.getAdsByUserId.getAdsByUserId({
         userId:this.userinfo.userId,
         pageNumber:this.SelectedPageId,
         count:10
 
       })
       this.AllAds = res.data.ads
+
       this.totalPages = []
       const result = Math.ceil(response.data.adsCount / 10)
       for (let i = 1; i <= result; i++) {

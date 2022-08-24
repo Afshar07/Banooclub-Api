@@ -9,21 +9,29 @@
       <b-card
           no-body
           class="mb-0">
-<!--      >-->
-<!--        <b-col lg="12" md="12" class="my-2">-->
-<!--          <b-row>-->
-<!--            <b-col lg="12" md="12" class="my-2">-->
-<!--              <b-form-input-->
-<!--                  id="basicInput"-->
-<!--                  v-model="search"-->
-<!--                  placeholder="جستجو بر اساس موضوع تیکت"-->
-<!--              />-->
-<!--            </b-col>-->
+        <b-col lg="12" md="12" class="my-2">
+          <b-row>
+            <b-col lg="10" md="12" class="my-2">
+              <b-form-input
+                  id="basicInput"
+                  v-model="search"
+                  placeholder="جستجو بر اساس نام کاربر "
+              />
+            </b-col>
+            <b-col lg="2" md="12" class="my-2">
+              <v-select
+                  v-model="TicketType"
+                  :clearable="false"
+                  label="option"
+                  class="bg-white"
+                  :options="TicketTypesId"
+                  :reduce="option => option.value"
+              />
+            </b-col>
 
-<!--          </b-row>-->
-<!--        </b-col>-->
+          </b-row>
 
-
+        </b-col>
         <b-table
             ref="refUserListTable"
             class="position-relative"
@@ -39,6 +47,11 @@
 
           <!-- Column: delete -->
 
+          <template #cell(userInfo)="data">
+            <router-link :to="`/apps/users/Detail/${data.item.userInfo.userName}`">
+            <small>{{data.item.userInfo.name+ ' ' + data.item.userInfo.familyName}}</small>
+            </router-link>
+          </template>
           <template #cell(Detail)="data">
               <b-link class="cursor-pointer" :to="`/apps/Ticket/Detail/${data.item.ticketId}`">
                 <feather-icon icon="EyeIcon" size="20" class="text-primary" />
@@ -48,6 +61,18 @@
             <span class="badge pill text-white bg-primary" v-if="data.item.type===1">احراز هویت</span>
             <span class="badge pill text-white bg-primary" v-if="data.item.type===2">پشتیبانی</span>
             <span class="badge pill text-white bg-primary" v-if="data.item.type===3">سایر</span>
+          </template>
+          <template #cell(status)="data">
+
+            <b-badge v-if="data.item.isClosed === false && data.item.isRead === false" variant="secondary">
+              منتظر پاسخ
+            </b-badge>
+            <b-badge v-else-if="data.item.isClosed === false && data.item.isRead === true" variant="success">
+              پاسخ داده شده
+            </b-badge>
+            <b-badge v-else-if="data.item.isClosed == true" variant="danger">
+              بسته شده
+            </b-badge>
           </template>
 
 
@@ -128,8 +153,27 @@ export default {
       showDeleteModal: false,
       currentPage: 1,
       deleteItem: null,
-      perPage: 5,
+      perPage: 10,
       CategoryName:'',
+      TicketTypesId:[
+
+        {
+          option:"احراز هویت",
+          value:1
+        },
+        {
+          option:"پشتیبانی",
+          value:2
+        },
+        {
+          option:"سایر",
+          value:3
+        },
+
+
+
+      ],
+      TicketType:0,
       perPageOptions: [10, 20, 30, 40, 50],
       myTableColumns: [
         {
@@ -141,6 +185,10 @@ export default {
           label: 'موضوع'
         },
         {
+          key: 'userInfo',
+          label: 'توسط'
+        },
+        {
           key: 'type',
           label: 'واحد'
         },
@@ -148,12 +196,17 @@ export default {
           key: 'Detail',
           label: 'مشاهده'
         },
+        {
+          key: 'status',
+          label: 'وضعیت'
+        },
         // { key: 'parentId'},
       ],
 
       pageNumber: 1,
       count: 10,
       search: '',
+
       SelectedTicket: null,
 
 
@@ -189,7 +242,11 @@ export default {
     },
     currentPage: function () {
       this.GetAllTicket()
+    },
+    TicketType:function (){
+      this.GetAllTicket()
     }
+
   },
   methods: {
 
@@ -199,7 +256,8 @@ export default {
       let data = {
         pageNumber: _this.currentPage,
         count: _this.count,
-        search: _this.search
+        searchCommand: _this.search,
+        ticketType:this.TicketType
       }
       getAllTicket.setParams(data)
       await getAllTicket.fetch(function (content) {

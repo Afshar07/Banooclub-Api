@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <CustomPagination v-if="totalpages.length>1" :activePage="1" :totalPages="totalpages" @PageChanged="changePage($event)"/>
+    <CustomPagination v-if="totalpages.length>1" :activePage="SelectedPageId" :totalPages="totalpages" @PageChanged="changePage($event)"/>
 
   </div>
 
@@ -27,7 +27,7 @@ import CustomPagination from "../../components/utilities/CustomPagination"
 
 
 export default {
-  props:['AllServices','totalpages'],
+  props:['AllServices','totalpages','SelectedPageId'],
   name: "AllServicesTabContent",
   components: {
     ProductItem,

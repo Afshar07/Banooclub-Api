@@ -6,7 +6,10 @@ class ChangePostStatus extends WebServiceRequest {
 
     }
     setParams(data){
-        super.setTag(`Post/ChangePostStatusForAdmin?postId=${data.postId}&status=${data.status}`)
+        super.setTag(`Post/ChangePostStatusForAdmin?status=${data.status}`)
+    }
+    setParamsWithBody(data){
+        super.setRequestParamDataObj(data)
     }
 }
 export default ChangePostStatus;

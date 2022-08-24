@@ -54,21 +54,13 @@
                 </select>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12 my-3">
               <div class="labelText">شماره موبایل</div>
               <input type="tel" class="form-control with-border" v-model="PhoneNumber">
             </div>
 
 
-            <div class="col-md-6">
-              <div class="labelText">وضعیت کالا</div>
-              <div class="my-3">
-                <select v-model="Status" class="form-control w-100">
-                  <option :value="1">نو</option>
-                  <option :value="2">دست دوم</option>
-                </select>
-              </div>
-            </div>
+
 
 
             <div class="col-md-6">
@@ -87,10 +79,11 @@
                   />
                   <font-awesome-icon icon="plus-square" size="lg" />
                 </div>
-                <div id="main">
+                <div  v-if="url" id="main" class="position-relative">
+                  <i class="fas fa-times tw-cursor-pointer text-danger position-absolute top-0 end-0" @click="RemoveMainImage" ></i>
                   <img
-                    class="img-fluid"
-                    v-if="url"
+                    class="img-fluid tw-shadow tw-rounded"
+
                     :src="url"
                     style="object-fit: contain"
                     :key="url"
@@ -115,13 +108,13 @@
                   />
                   <font-awesome-icon icon="plus-square" size="lg" />
                 </div>
-                <div id="preview" v-if="subUrl">
+                <div  v-for="(item,idx) in subUrl"   :key="item" id="preview" class="position-relative" v-if="subUrl">
+                  <i class="fas fa-times tw-cursor-pointer  text-danger position-absolute top-0 end-0" @click="RemoveOtherImages(idx)" ></i>
                   <img
-                    class="img-fluid"
-                    v-for="item in subUrl"
+                    class="img-fluid tw-shadow tw-rounded"
                     style="object-fit: contain"
                     :src="item"
-                    :key="item"
+
                   />
                 </div>
               </div>
@@ -307,7 +300,6 @@ export default {
       PhoneNumber:0,
       photos: [],
       categoryId: null,
-
       Status: 0,
       Tags: "",
         AllCities: [],
@@ -352,6 +344,10 @@ this.latitude = lat
     callInputMethodSubImage() {
       document.querySelector(".SubImage").click();
     },
+    RemoveMainImage(){
+      this.mainImage = ''
+      this.url = ''
+    },
     onFileChangeMainImage(e) {
       const file = e.target.files[0];
       this.url = URL.createObjectURL(file);
@@ -368,6 +364,10 @@ this.latitude = lat
         };
       })(file);
       reader.readAsBinaryString(file);
+    },
+    RemoveOtherImages(idx){
+this.subUrl.splice(idx,1)
+      this.photos.splice(idx,1)
     },
     onFileChangeSubImage(e) {
       const file = e.target.files[0];
@@ -411,6 +411,8 @@ this.latitude = lat
             tag: this.Tags,
             condition: this.Status,
             cityId: this.SelectedCityId,
+            phoneNumber:this.PhoneNumber,
+            exchangeability:this.ExchangeAbility,
             stateId: this.SelectedStateId,
             userId: this.$auth.user.userInfo.userId,
             description: this.description,
