@@ -179,7 +179,6 @@ namespace BanooClub.Services.PostServices
             await _hubContext.Clients.All.SendAsync("PostCreated", inputDto.UserId, $"Post created for user with id {creation.UserId}");
         }
 
-
         public async Task<Post> Update(Post item)
         {
             string serializedCustomerList;

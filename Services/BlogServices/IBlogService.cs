@@ -1,4 +1,5 @@
 ﻿using BanooClub.Models;
+using BanooClub.Models.Enums;
 using BanooClub.Services.Common;
 using System;
 using System.Threading.Tasks;
@@ -16,5 +17,6 @@ namespace BanooClub.Services.BlogServices
         Task<IServiceResult<Blog>> GetByName(string blogName);
         Task<IServiceResult<object>> GetAllWithCategory();
         Task<IServiceResult<object>> GetMostPopular(int pageNumber, int count);
+        Task<IServiceResult<bool>> ChangeBlogStatus(BlogStatus status, params long[] ids);
     }
 }

@@ -9,10 +9,5 @@ namespace BanooClub.Hubs
         {
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
-
-        public async Task PostCreated(long userId, string message)   // test
-        {
-            await Clients.All.SendAsync("PostCreated", userId, message);
-        }
     }
 }

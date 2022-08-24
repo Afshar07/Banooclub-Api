@@ -12,6 +12,7 @@ namespace BanooClub.Models
         public string Summary { get; set; }
         public DateTime CreateDate { get; set; }
         public string Title { get; set; }
+        public BlogStatus Status { get; set; }
         public long BlogCategoryId { get; set; }
         public long UserId { get; set; }
         public string? SEOTitle { get; set; }
