@@ -819,5 +819,15 @@ IBanooClubEFRepository<OrderItem> orderItemRepository)
 
             return obj;
         }
+
+        public async Task<object> GetAdsCount()
+        {
+            return new
+            {
+                NumberOfAdsRegisteredToday = adsRepository.GetQuery().Where(x => x.CreateDate >= DateTime.Now.Date).Count(),
+                NumberOfAdsRegisteredLastWeek = adsRepository.GetQuery().Where(x => x.CreateDate >= DateTime.Now.AddDays(-7)).Count(),
+                NumberOfAdsRegisteredLastMonth = adsRepository.GetQuery().Where(x => x.CreateDate >= DateTime.Now.AddDays(-30)).Count()
+            };
+        }
     }
 }

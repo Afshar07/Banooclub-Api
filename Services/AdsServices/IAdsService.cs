@@ -20,6 +20,6 @@ namespace BanooClub.Services.AdsServices
         Task<bool> Ladder(long AdsId);
         Task<object> GetAdsByFilter(long? priceFrom, long? priceTo, string title, string tag,
             long? city, long? state, long firstSearchadsId, int count,long? categoryId, int planType, bool? exchangeability = null);
-
+        Task<object> GetAdsCount();
     }
 }

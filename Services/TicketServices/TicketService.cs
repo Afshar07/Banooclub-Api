@@ -38,14 +38,30 @@ namespace BanooClub.Services.TicketServices
         public async Task<IServiceResult<Ticket>> FindAsync(long ticketId)
             => new ServiceResult<Ticket>().Ok(_ticketRepository.GetQuery().First(z => z.TicketId == ticketId));
 
-        public IServiceResult<object> GetAll(int pageNumber, int count)
+        public IServiceResult<object> GetAll(int pageNumber, int count, string searchCommand, byte ticketType)
         {
-            var dbTickets = _ticketRepository.GetQuery().Where(z => z.ParentId == 0).
-            OrderByDescending(x => x.CreateDate).Skip((pageNumber - 1) * count).Take(count).ToList();
+            var query = _ticketRepository.GetQuery().Where(z => z.ParentId == 0);
+
+            if (!string.IsNullOrWhiteSpace(searchCommand))
+            {
+                var users = _userRepository.GetQuery()
+                    .Where(x => x.Mobile.Contains(searchCommand) || x.UserName.Contains(searchCommand))
+                    .Select(x => x.UserId)
+                    .ToList();
+
+                query = query.Where(x => users.Any(z => x.UserId == z));
+            }
+
+            if (ticketType > 0)
+                query = query.Where(x => x.Type == ticketType);
+
+            var tickets = query.OrderByDescending(x => x.CreateDate)
+                .Skip((pageNumber - 1) * count)
+                .Take(count).ToList();
 
             var dbTicketCount = _ticketRepository.GetQuery().Where(z => z.ParentId == 0).Count();
 
-            foreach (var parent in dbTickets)
+            foreach (var parent in tickets)
             {
                 var dbMedia = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == parent.TicketId && z.Type == MediaTypes.Ticket);
                 parent.FileData = dbMedia == null ? "" : "media/gallery/Ticket/" + dbMedia.PictureUrl;
@@ -56,7 +72,7 @@ namespace BanooClub.Services.TicketServices
             }
             var obj = new
             {
-                Tickets = dbTickets,
+                Tickets = tickets,
                 TicketCount = dbTicketCount,
             };
             return new ServiceResult<object>().Ok(obj);
@@ -268,6 +284,16 @@ namespace BanooClub.Services.TicketServices
                 Tickets = result
             };
             return new ServiceResult<object>().Ok(obj);
+        }
+
+        public IServiceResult<bool> ChangeTicketType(long parentId, byte ticketType)
+        {
+            var parent = _ticketRepository.GetQuery().Where(x => x.TicketId == parentId).FirstOrDefault();
+            if(parent != null)
+                parent.Type = ticketType;
+
+            _ticketRepository.Save();
+            return new ServiceResult<bool>().Ok(true);
         }
 
         #region Utilities
