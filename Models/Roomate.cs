@@ -40,7 +40,6 @@ namespace BanooClub.Models
         public long UserId { get; set; }
         public long? PaymentId { get; set; }
         public int? HaveParking { get; set; }
-        public bool IsConfirmed { get; set; }
         [NotMapped]
         public List<FileData> Photos { get; set; }
         [NotMapped]
