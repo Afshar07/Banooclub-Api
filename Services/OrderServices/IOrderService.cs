@@ -13,6 +13,7 @@ namespace BanooClub.Services.OrderServices
         Task<object> GetAll(int pageNumber, int count, string searchCommand);
         Task<Order> Get(long id);
         object GetByUserId(short pageNumber, byte count);
+        object GetByUserIdForAdmin(short pageNumber, byte count, long userId);
         Task<bool> ChangeOrderStatus(long orderId, OrderStatus status);
     }
 }

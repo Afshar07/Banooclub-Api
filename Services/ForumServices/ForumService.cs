@@ -485,10 +485,21 @@ namespace BanooClub.Services.ForumServices
             var query = forumRepository.GetQuery()
                 .Where(x => x.UserId == userId);
 
+            var forums = query.OrderByDescending(x => x.CreateDate)
+                .Skip((pageNumber - 1) * count).Take(count).ToList();
+
+            forums.ForEach(x =>
+            {
+                x.Rate = ratingRepository.GetQuery().FirstOrDefault(z => z.UserId == userId && z.ObjectId == x.ForumId && z.Type == RatingType.Forum)?.Rate ?? null;
+                x.ViewsCount = viewRepository.GetQuery().FirstOrDefault(z => z.Type == ViewType.Forum && z.ObjectId == x.ForumId)?.Count ?? 0;
+                var dbLikes = likeRepository.GetQuery().Where(z => z.Type == LikeType.Forum && z.ObjectId == x.ForumId && z.Status == LikeStatus.Like).Count();
+                var dbDisLikes = likeRepository.GetQuery().Where(z => z.Type == LikeType.Forum && z.ObjectId == x.ForumId && z.Status == LikeStatus.DisLike).Count();
+                x.Vote = dbLikes - dbDisLikes;
+            });
+
             var data = new
             {
-                Forums = query.OrderByDescending(x => x.CreateDate)
-                .Skip((pageNumber - 1 ) * count).Take(count),
+                Forums = forums,
                 ForumCount = query.Count()
             };
 
