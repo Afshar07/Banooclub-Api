@@ -1,4 +1,5 @@
 ﻿using BanooClub.Models;
+using BanooClub.Models.Enums;
 using BanooClub.Services.BlogServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -114,6 +115,17 @@ namespace BanooClub.Controllers
         public async Task<IActionResult> GetMostPopular(int pageNumber, int count)
         {
             var result = await _crudBlogService.GetMostPopular(pageNumber, count);
+
+            if (result.IsSuccess)
+                return Ok(result.Data);
+
+            return BadRequest(result.ErrorMessage);
+        }
+
+        [HttpPost("ChangeBlogStatus"), Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ChangeBlogStatus(BlogStatus status, params long[] ids)
+        {
+            var result = await _crudBlogService.ChangeBlogStatus(status, ids);
 
             if (result.IsSuccess)
                 return Ok(result.Data);

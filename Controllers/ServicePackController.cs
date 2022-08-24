@@ -65,9 +65,9 @@ namespace BanooClub.Controllers
         [HttpPost]
         [Route("[action]"), AllowAnonymous]
         public async Task<object> GetAll(ServicePackStatus? status, int pageNumber, int count, 
-            string searchCommand, ServiceFilter serviceFilter = ServiceFilter.All)
+            string searchCommand, long categoryId, ServiceFilter serviceFilter = ServiceFilter.All)
         {
-            return await servicePackService.GetAll(pageNumber, count, searchCommand, serviceFilter, status);
+            return await servicePackService.GetAll(pageNumber, count, searchCommand, serviceFilter, status, categoryId);
         }
 
         [HttpPost]

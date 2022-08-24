@@ -28,7 +28,7 @@ namespace BanooClub.Services.BlogServices
         private readonly IBanooClubEFRepository<Like> likeRepository;
         private readonly IUserService _userService;
         private readonly IHttpContextAccessor _accessor;
-        public BlogService(IBanooClubEFRepository<Blog> BlogRepository, IBanooClubEFRepository<Like> likeRepository, IBanooClubEFRepository<User> userRepository,  IBanooClubEFRepository<View> viewRepository, IHttpContextAccessor accessor, IUserService userService, IBanooClubEFRepository<Tag> tagRepository, IBanooClubEFRepository<BlogComment> blogCommentRepository, ISocialMediaService mediaService, IBanooClubEFRepository<BlogCategory> BlogCategoryRepository, IBanooClubEFRepository<SocialMedia> mediaRepository)
+        public BlogService(IBanooClubEFRepository<Blog> BlogRepository, IBanooClubEFRepository<Like> likeRepository, IBanooClubEFRepository<User> userRepository, IBanooClubEFRepository<View> viewRepository, IHttpContextAccessor accessor, IUserService userService, IBanooClubEFRepository<Tag> tagRepository, IBanooClubEFRepository<BlogComment> blogCommentRepository, ISocialMediaService mediaService, IBanooClubEFRepository<BlogCategory> BlogCategoryRepository, IBanooClubEFRepository<SocialMedia> mediaRepository)
         {
             _BlogRepository = BlogRepository;
             _BlogCategoryRepository = BlogCategoryRepository;
@@ -48,15 +48,16 @@ namespace BanooClub.Services.BlogServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
-            var blogs = _BlogRepository.GetQuery();
-            if (date !=null)
+
+            var blogs = _BlogRepository.GetQuery().Where(x => x.Status == BlogStatus.Published);
+            if (date != null)
             {
-                blogs = blogs.Where(z => z.CreateDate.Date ==date.Value.Date);
+                blogs = blogs.Where(z => z.CreateDate.Date == date.Value.Date);
             }
             if (!string.IsNullOrEmpty(categoryName))
             {
                 var categoryId = _BlogCategoryRepository.GetQuery().FirstOrDefault(z => z.SEOURL.Trim().Equals(categoryName.Trim())).BlogCategoryId;
-                blogs=blogs.Where(z => z.BlogCategoryId == categoryId);
+                blogs = blogs.Where(z => z.BlogCategoryId == categoryId);
             }
             if (tagId != 0)
             {
@@ -65,16 +66,16 @@ namespace BanooClub.Services.BlogServices
             }
             if (!string.IsNullOrEmpty(searchByTitle))
             {
-                blogs=blogs.Where(z => z.Title.Contains(searchByTitle));
+                blogs = blogs.Where(z => z.Title.Contains(searchByTitle));
             }
             var dbcounts = blogs.Count();
-            var dbBlogs = blogs.OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
+            var dbBlogs = blogs.OrderByDescending(x => x.CreateDate).Skip((pageNumber - 1) * count).Take(count).ToList();
             foreach (var item in dbBlogs)
             {
                 var dbMedia = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == item.BlogId && z.Type == MediaTypes.Blog);
                 item.FileData = dbMedia == null ? "" : "media/gallery/blog/" + dbMedia.PictureUrl;
                 item.CommentsCount = _blogCommentRepository.GetQuery().Where(z => z.BlogId == item.BlogId).Count();
-                item.UserInfo = userRepository.GetQuery().FirstOrDefault(z=>z.UserId == item.UserId);
+                item.UserInfo = userRepository.GetQuery().FirstOrDefault(z => z.UserId == item.UserId);
                 var blogTags = _tagRepository.GetQuery().Where(z => z.ObjectId == item.BlogId && z.Type == TagType.Blog).ToList();
                 List<Tag> BLOGTAGS = new List<Tag>();
                 //foreach (var blogTag in blogTags)
@@ -123,7 +124,7 @@ namespace BanooClub.Services.BlogServices
 
         public async Task<IServiceResult> DeleteBlog(long id)
         {
-            var Blog = _BlogRepository.GetQuery().FirstOrDefault(z => z.BlogId==id);
+            var Blog = _BlogRepository.GetQuery().FirstOrDefault(z => z.BlogId == id);
 
             await _BlogRepository.Delete(Blog);
             var blogComments = _blogCommentRepository.GetQuery().Where(z => z.BlogId == id).ToList();
@@ -139,7 +140,8 @@ namespace BanooClub.Services.BlogServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
-            model.CreateDate = System.DateTime.Now;
+
+            model.CreateDate = DateTime.Now;
             model.UserId = userId;
             model.SEOURL = model.Title.Trim().Replace(' ', '-');
             model.SEODescription = model.Description;
@@ -170,7 +172,7 @@ namespace BanooClub.Services.BlogServices
                     TagId = 0,
                     Title = tag.Title,
                     Type = TagType.Service
-                    
+
                 });
             }
 
@@ -231,14 +233,14 @@ namespace BanooClub.Services.BlogServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
-            var id = _BlogRepository.GetQuery().FirstOrDefault(z => z.SEOURL.Trim().Equals(blogName.Trim())).BlogId;
+            var id = _BlogRepository.GetQuery().FirstOrDefault(z => z.SEOURL.Trim().Equals(blogName.Trim()) && z.Status == BlogStatus.Published).BlogId;
 
-            var dbView = viewRepository.GetQuery().FirstOrDefault(z => /*z.UserId == userId &&*/ z.Type == ViewType.Blog && z.ObjectId ==id);
+            var dbView = viewRepository.GetQuery().FirstOrDefault(z => /*z.UserId == userId &&*/ z.Type == ViewType.Blog && z.ObjectId == id);
             if (dbView == null)
             {
                 var dbViewCreation = new View()
                 {
-                    IsDeleted=false,
+                    IsDeleted = false,
                     Count = 1,
                     ObjectId = id,
                     Type = ViewType.Blog,
@@ -252,7 +254,7 @@ namespace BanooClub.Services.BlogServices
                 dbView.Count++;
                 await viewRepository.Update(dbView);
             }
-            var dbBlog = _BlogRepository.GetQuery().FirstOrDefault(z => z.BlogId==id);
+            var dbBlog = _BlogRepository.GetQuery().FirstOrDefault(z => z.BlogId == id);
             var dbMedia = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Blog);
             dbBlog.FileData = dbMedia == null ? "" : "media/gallery/blog/" + dbMedia.PictureUrl;
             dbBlog.CommentsCount = _blogCommentRepository.GetQuery().Where(z => z.BlogId == dbBlog.BlogId).ToList().Count();
@@ -287,13 +289,13 @@ namespace BanooClub.Services.BlogServices
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
 
-            var dbView = viewRepository.GetQuery().FirstOrDefault(z => /*z.UserId == userId &&*/ z.Type == ViewType.Blog && z.ObjectId ==id);
+            var dbView = viewRepository.GetQuery().FirstOrDefault(z => /*z.UserId == userId &&*/ z.Type == ViewType.Blog && z.ObjectId == id);
 
             if (dbView == null)
             {
                 var dbViewCreation = new View()
                 {
-                    IsDeleted=false,
+                    IsDeleted = false,
                     Count = 1,
                     ObjectId = id,
                     Type = ViewType.Blog,
@@ -307,7 +309,7 @@ namespace BanooClub.Services.BlogServices
                 dbView.Count++;
                 await viewRepository.Update(dbView);
             }
-            var dbBlog = _BlogRepository.GetQuery().FirstOrDefault(z => z.BlogId==id);
+            var dbBlog = _BlogRepository.GetQuery().FirstOrDefault(z => z.BlogId == id);
             var dbMedia = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Blog);
             dbBlog.FileData = dbMedia == null ? "" : "media/gallery/blog/" + dbMedia.PictureUrl;
             dbBlog.CommentsCount = _blogCommentRepository.GetQuery().Where(z => z.BlogId == dbBlog.BlogId).ToList().Count();
@@ -325,7 +327,7 @@ namespace BanooClub.Services.BlogServices
             if (userId != 0)
             {
                 var dbLike = likeRepository.GetQuery().FirstOrDefault(z => z.UserId == userId && z.Type == LikeType.Blog && z.ObjectId == id);
-                
+
                 if (dbLike != null)
                 {
                     dbBlog.MyLikeStatus = (LikeStatus)dbLike.Status;
@@ -335,7 +337,7 @@ namespace BanooClub.Services.BlogServices
                     dbBlog.MyLikeStatus = null;
                 }
             }
-            dbBlog.LikeCount = likeRepository.GetQuery().Where(z=>z.Type == LikeType.Blog && z.ObjectId == id).Count();
+            dbBlog.LikeCount = likeRepository.GetQuery().Where(z => z.Type == LikeType.Blog && z.ObjectId == id).Count();
 
             return new ServiceResult<Blog>().Ok(dbBlog);
         }
@@ -349,12 +351,12 @@ namespace BanooClub.Services.BlogServices
             var result = views.ToList();
             var blogsCount = result.Count();
             var FinalResult = result.OrderByDescending(z => z.myCount).Skip((pageNumber - 1) * count).Take(count).Select(x => x.Key).ToList();
-            var dbBlogs = _BlogRepository.GetQuery().Where(z => FinalResult.Contains(z.BlogId)).ToList();
+            var dbBlogs = _BlogRepository.GetQuery().Where(z => FinalResult.Contains(z.BlogId) && z.Status == BlogStatus.Published).ToList();
             foreach (var dbBlog in dbBlogs)
             {
                 var dbMedia = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == dbBlog.BlogId && z.Type == MediaTypes.Blog);
                 dbBlog.FileData = dbMedia == null ? "" : "media/gallery/blog/" + dbMedia.PictureUrl;
-                dbBlog.CommentsCount = _blogCommentRepository.GetQuery().Where(z=>z.BlogId == dbBlog.BlogId).Count();
+                dbBlog.CommentsCount = _blogCommentRepository.GetQuery().Where(z => z.BlogId == dbBlog.BlogId).Count();
             }
             var obj = new
             {
@@ -366,7 +368,7 @@ namespace BanooClub.Services.BlogServices
         public async Task<IServiceResult<object>> GetAllWithCategory()
         {
             var categories = await _BlogCategoryRepository.GetAll();
-            var blogs = await _BlogRepository.GetAll();
+            var blogs = _BlogRepository.GetQuery().Where(x => x.Status == BlogStatus.Published).ToList();
             var blogIds = blogs.Select(p => p.BlogId).ToList();
             var medias = _mediaRepository.GetQuery().Where(z => blogIds.Contains(z.ObjectId) && z.Type == MediaTypes.Blog);
 
@@ -387,6 +389,19 @@ namespace BanooClub.Services.BlogServices
                         })
                 });
             return new ServiceResult<object>().Ok(model2);
+        }
+
+        public async Task<IServiceResult<bool>> ChangeBlogStatus(BlogStatus status, params long[] ids)
+        {
+            foreach (var id in ids)
+            {
+                var blog = _BlogRepository.GetQuery().Where(x => x.BlogId == id).FirstOrDefault();
+                if (blog != null)
+                    blog.Status = status;
+            }
+
+            await _BlogRepository.Save();
+            return new ServiceResult<bool>().Ok(true);
         }
     }
 }

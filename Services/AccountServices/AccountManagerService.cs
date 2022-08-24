@@ -250,6 +250,7 @@ namespace BanooClub.Services.AccountServices
         #endregion
 
         #region SignUp
+
         public async Task<IServiceResult<object>> SignUpWithMobileAndMail(System.DateTime? BirthDate, string firstname, string lastName, string mobile, string email, string code, long signUpType, string password,string userName,long? ServiceCategoryId,string IntroducerCode,long? stateId,long? cityId,RelationStatus? relationState)
         {
             var EmailUsers = new List<User>();

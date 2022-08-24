@@ -10,6 +10,7 @@ namespace BanooClub.Services.RoomateServices
         Task<Roomate> Update(Roomate item);
         Task Delete(long id);
         Task<List<Roomate>> GetAll(long? mortgageFrom, long? mortgageTo, long? dailyRentFrom, long? dailyRentTo);
+        Task<List<Roomate>> GetAllForAdmin(long? mortgageFrom, long? mortgageTo, long? dailyRentFrom, long? dailyRentTo);
         Task<object> Get(long id);
         Task<object> GetByUserId(long userId);
         Task<object> GetMyRoomate();
