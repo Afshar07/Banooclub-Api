@@ -46,6 +46,13 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost]
+        [Route("[action]"), Authorize(Roles = "Admin")]
+        public async Task<object> GetAdsCount()
+        {
+            return await adsService.GetAdsCount();
+        }
+
+        [HttpPost]
         [Route("[action]"), AllowAnonymous]
         public async Task<Ads> Get(long id)
         {
@@ -105,11 +112,11 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]"), AllowAnonymous]
-        public async Task<object> GetAdsByFilter(long? priceFrom, long? priceTo, string title, string tag, 
-            long? city, long? state, long firstSearchadsId, int count, long? categoryId)
+        public async Task<object> GetAdsByFilter(long? priceFrom, long? priceTo, string title, string tag,
+            long? city, long? state, long firstSearchadsId, int count, long? categoryId, int planType, bool? exchangeability = null)
         {
-            return await adsService.GetAdsByFilter(priceFrom, priceTo, title, tag, 
-                city, state, firstSearchadsId, count, categoryId);
+            return await adsService.GetAdsByFilter(priceFrom, priceTo, title, tag,
+                city, state, firstSearchadsId, count, categoryId, planType, exchangeability);
         }
 
         [HttpPost]

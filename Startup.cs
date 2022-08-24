@@ -136,7 +136,7 @@ namespace BanooClub
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<MessageService>("/chatHub");
-                endpoints.MapHub<PostService>("/chatHub");
+                endpoints.MapHub<PostService>("/postHub");
             });
         }
     }

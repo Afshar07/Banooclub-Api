@@ -323,12 +323,17 @@ namespace BanooClub.Services.PostServices
             return obj;
         }
 
-        public async Task<bool> Delete(long id)
+        public async Task<bool> Delete(params long[] ids)
         {
             try
             {
-                var post = postRepository.GetQuery().FirstOrDefault(z => z.PostId == id);
-                await postRepository.Delete(post);
+                foreach (var id in ids)
+                {
+                    var post = postRepository.GetQuery().FirstOrDefault(z => z.PostId == id);
+                    if (post != null)
+                        await postRepository.Delete(post);
+                }
+
                 return true;
             }
             catch (Exception ex)
@@ -940,13 +945,18 @@ namespace BanooClub.Services.PostServices
             };
             return obj;
         }
-        public async Task<bool> ChangePostStatusForAdmin(long postId, PostStatus status)
+        public async Task<bool> ChangePostStatusForAdmin(PostStatus status, params long[] ids)
         {
             try
             {
-                var dbPost = postRepository.GetQuery().FirstOrDefault(z => z.PostId == postId);
-                dbPost.Status = (int)status;
-                await postRepository.Update(dbPost);
+                foreach (var postId in ids)
+                {
+                    var dbPost = postRepository.GetQuery().FirstOrDefault(z => z.PostId == postId);
+                    if (dbPost != null)
+                        dbPost.Status = (int)status;
+                }
+
+                await postRepository.Save();
                 return true;
             }
             catch (Exception ex)

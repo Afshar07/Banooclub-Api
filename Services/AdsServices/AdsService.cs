@@ -19,6 +19,8 @@ namespace BanooClub.Services.AdsServices
     public class AdsService : IAdsService
     {
         private readonly IBanooClubEFRepository<Ads> adsRepository;
+        private readonly IBanooClubEFRepository<Order> _orderRepository;
+        private readonly IBanooClubEFRepository<OrderItem> _orderItemRepository;
         private readonly IBanooClubEFRepository<AdsCategory> adsCategoryRepository;
         private readonly IBanooClubEFRepository<SocialMedia> _mediaRepository;
         private readonly IBanooClubEFRepository<UserSetting> userSettingRepository;
@@ -51,7 +53,9 @@ namespace BanooClub.Services.AdsServices
             , IHttpContextAccessor accessor
             , ICityService cityService
             , ICNTRYService CNTRYService
-            , IUserService userService)
+            , IUserService userService
+            , IBanooClubEFRepository<Order> orderRepository,
+IBanooClubEFRepository<OrderItem> orderItemRepository)
         {
             this.adsRepository = adsRepository;
             _mediaService = mediaService;
@@ -69,6 +73,8 @@ namespace BanooClub.Services.AdsServices
             _cityRepository = cityRepository;
             this.wishListRepository = wishListRepository;
             this.PlanRepository = PlanRepository;
+            _orderRepository = orderRepository;
+            _orderItemRepository = orderItemRepository;
         }
         public async Task Create(Ads inputDto)
         {
@@ -625,6 +631,7 @@ namespace BanooClub.Services.AdsServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+
             List<Ads> dbAds = new List<Ads>();
             int AdsCount = 0;
             if (categoryId == 0)
@@ -698,7 +705,7 @@ namespace BanooClub.Services.AdsServices
         }
 
         public async Task<object> GetAdsByFilter(long? priceFrom, long? priceTo, string title, string tag,
-            long? city, long? state, long firstSearchadsId, int count, long? categoryId)
+            long? city, long? state, long firstSearchadsId, int count, long? categoryId, int planType, bool? exchangeability = null)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
@@ -742,6 +749,20 @@ namespace BanooClub.Services.AdsServices
             if (priceFrom != 0 && priceFrom != null)
             {
                 result = result.Where(c => c.Price >= priceFrom);
+            }
+
+            if (exchangeability != null)
+                result = dbAds.Where(z => z.Exchangeability == exchangeability);
+
+            if (planType > 0)
+            {
+                var orders = _orderRepository.GetQuery()
+                    .Where(x => x.AdsId != null && x.IsPayed).ToList();
+
+                var orderItems = _orderItemRepository.GetQuery()
+                    .Where(x => orders.Any(z => x.OrderId == z.OrderId) && x.PlanId == planType).ToList();
+
+                result = dbAds.Where(z => orders.Any(x => x.AdsId == z.AdsId && orderItems.Any(y => y.OrderId == x.OrderId)));
             }
 
             AdsCount = result.Count();
@@ -797,6 +818,16 @@ namespace BanooClub.Services.AdsServices
             };
 
             return obj;
+        }
+
+        public async Task<object> GetAdsCount()
+        {
+            return new
+            {
+                NumberOfAdsRegisteredToday = adsRepository.GetQuery().Where(x => x.CreateDate >= DateTime.Now.Date).Count(),
+                NumberOfAdsRegisteredLastWeek = adsRepository.GetQuery().Where(x => x.CreateDate >= DateTime.Now.AddDays(-7)).Count(),
+                NumberOfAdsRegisteredLastMonth = adsRepository.GetQuery().Where(x => x.CreateDate >= DateTime.Now.AddDays(-30)).Count()
+            };
         }
     }
 }
