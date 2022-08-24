@@ -39,6 +39,7 @@ namespace BanooClub.Services.AccountServices
         private readonly IDecryptService _decryptService;
         private readonly IDistributedCache distributedCache;
         private static Random random = new Random();
+
         public AccountManagerService(IEncryptService encryptService, IGenerateJwtService generateJwtService,
             IDistributedCache cache, ILogger<AccountManagerService> logger, IDateTime dateTime, IDistributedCache distributedCache,
         IBanooClubEFRepository<UserType> roleRepository, IBanooClubEFRepository<User> userRepository, IBanooClubEFRepository<ViewHistory> viewHistoryRepository,

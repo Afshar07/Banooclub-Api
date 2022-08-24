@@ -61,11 +61,11 @@ namespace BanooClub.Services.AdsServices
             this.userService = userService;
             this.userSettingRepository = userSettingRepository;
             this.followingRepository = followingRepository;
-            this.adsCategoryRepository=adsCategoryRepository;
-            this.countryService=countryService;
-            this.cityService=cityService;
+            this.adsCategoryRepository = adsCategoryRepository;
+            this.countryService = countryService;
+            this.cityService = cityService;
             this.servicePlanRepository = servicePlanRepository;
-            _stateRepository =stateRepository;
+            _stateRepository = stateRepository;
             _cityRepository = cityRepository;
             this.wishListRepository = wishListRepository;
             this.PlanRepository = PlanRepository;
@@ -78,8 +78,8 @@ namespace BanooClub.Services.AdsServices
             inputDto.UserId = userId;
             inputDto.IsDeleted = false;
             inputDto.Status = (int)AdsStatus.NotConfirmed;
-            
-            if (inputDto.AdsId > 0 && inputDto !=null)
+
+            if (inputDto.AdsId > 0 && inputDto != null)
             {
                 await Update(inputDto);
             }
@@ -108,24 +108,24 @@ namespace BanooClub.Services.AdsServices
                     }
                 }
                 _activityRepository.Insert(new Activity()
-                    {
-                        CreateDate=DateTime.Now,
-                        IsDeleted=false,
-                        ActivityId=0,
-                        ObjectId=dbAd.AdsId,
-                        UserId=inputDto.UserId,
-                        Type=ActivityTypes.CreateAd
-                    }
+                {
+                    CreateDate = DateTime.Now,
+                    IsDeleted = false,
+                    ActivityId = 0,
+                    ObjectId = dbAd.AdsId,
+                    UserId = inputDto.UserId,
+                    Type = ActivityTypes.CreateAd
+                }
                 );
             }
-            
-            
+
+
         }
         public async Task<bool> Ladder(long AdsId)
         {
             try
             {
-                var dbAd = adsRepository.GetQuery().FirstOrDefault(z => z.AdsId==AdsId);
+                var dbAd = adsRepository.GetQuery().FirstOrDefault(z => z.AdsId == AdsId);
                 dbAd.UpdateDate = DateTime.Now;
                 await adsRepository.Update(dbAd);
                 return true;
@@ -139,7 +139,7 @@ namespace BanooClub.Services.AdsServices
         {
             foreach (var element in item.Photos)
             {
-                if (element.Priority ==0)
+                if (element.Priority == 0)
                 {
                     var photo = _mediaRepository.GetQuery().FirstOrDefault(z => z.PictureUrl == element.Base64);
                     await _mediaRepository.Delete(photo);
@@ -170,7 +170,7 @@ namespace BanooClub.Services.AdsServices
                                     Type = MediaTypes.AdsPhoto,
                                     Priority = element.Priority,
                                     MediaId = 0,
-                                    UpdateDate =DateTime.Now
+                                    UpdateDate = DateTime.Now
                                 };
                                 await _mediaRepository.InsertAsync(dbMedia);
                             }
@@ -186,7 +186,7 @@ namespace BanooClub.Services.AdsServices
                                 Type = MediaTypes.AdsPhoto,
                                 Priority = element.Priority,
                                 MediaId = 0,
-                                UpdateDate =DateTime.Now
+                                UpdateDate = DateTime.Now
                             };
                             await _mediaRepository.InsertAsync(dbMedia);
                         }
@@ -228,12 +228,12 @@ namespace BanooClub.Services.AdsServices
 
             _activityRepository.Insert(new Activity()
             {
-                CreateDate=DateTime.Now,
-                IsDeleted=false,
-                ActivityId=0,
-                ObjectId=item.AdsId,
-                UserId=item.UserId,
-                Type=ActivityTypes.UpdateAd
+                CreateDate = DateTime.Now,
+                IsDeleted = false,
+                ActivityId = 0,
+                ObjectId = item.AdsId,
+                UserId = item.UserId,
+                Type = ActivityTypes.UpdateAd
             }
                 );
             return item;
@@ -245,8 +245,8 @@ namespace BanooClub.Services.AdsServices
                     : 0;
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && (z.Title.Contains(search) || z.Description.Contains(search))).
-                OrderByDescending(x => x.FireDate).Skip((pageNumber-1)*count).Take(count).ToList();
-            var AdsCount=adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && (z.Title.Contains(search) || z.Description.Contains(search))).Count();
+                OrderByDescending(x => x.FireDate).Skip((pageNumber - 1) * count).Take(count).ToList();
+            var AdsCount = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && (z.Title.Contains(search) || z.Description.Contains(search))).Count();
             foreach (var ad in dbAds)
             {
                 ad.Photos = new List<FileData>();
@@ -262,7 +262,7 @@ namespace BanooClub.Services.AdsServices
                         });
                     }
                 }
-                ad.UserInfo=userService.Get(ad.UserId);
+                ad.UserInfo = userService.Get(ad.UserId);
                 //ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
                 var cat = adsCategoryRepository.GetQuery().FirstOrDefault(z => z.AdsCategoryId == ad.CategoryId);
                 ad.AdsCategoryParents = cat == null ? "" : cat.Name;
@@ -272,7 +272,7 @@ namespace BanooClub.Services.AdsServices
                 ad.City = dbCity == null ? "" : dbCity.Name;
                 var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == userId && x.ObjectId == ad.AdsId && x.Type == WishListType.Ads)
                 .FirstOrDefault();
-                if (dbWishList!=null)
+                if (dbWishList != null)
                 {
                     ad.IsFavourite = true;
                 }
@@ -293,8 +293,8 @@ namespace BanooClub.Services.AdsServices
             try
             {
                 var dbAds = adsRepository.GetQuery().FirstOrDefault(z => z.AdsId == id);
-                var dbwishLists = wishListRepository.GetQuery().Where(z=>z.Type == WishListType.Ads && z.ObjectId == id).ToList();
-                foreach(var wish in dbwishLists)
+                var dbwishLists = wishListRepository.GetQuery().Where(z => z.Type == WishListType.Ads && z.ObjectId == id).ToList();
+                foreach (var wish in dbwishLists)
                 {
                     await wishListRepository.Delete(wish);
                 }
@@ -302,12 +302,12 @@ namespace BanooClub.Services.AdsServices
 
                 _activityRepository.Insert(new Activity()
                 {
-                    CreateDate=DateTime.Now,
-                    IsDeleted=false,
-                    ActivityId=0,
-                    ObjectId=id,
-                    UserId=dbAds.UserId,
-                    Type=ActivityTypes.DeleteAd
+                    CreateDate = DateTime.Now,
+                    IsDeleted = false,
+                    ActivityId = 0,
+                    ObjectId = id,
+                    UserId = dbAds.UserId,
+                    Type = ActivityTypes.DeleteAd
                 }
                     );
                 return true;
@@ -316,7 +316,7 @@ namespace BanooClub.Services.AdsServices
             {
                 return false;
             }
-            
+
         }
         public async Task<Ads> Get(long id)
         {
@@ -328,7 +328,7 @@ namespace BanooClub.Services.AdsServices
             var dbPhotos = _mediaRepository.GetQuery().Where(z => z.ObjectId == ad.AdsId && z.Type == MediaTypes.AdsPhoto).ToList();
             foreach (var photo in dbPhotos)
             {
-                if (photo != null )
+                if (photo != null)
                 {
                     if (!string.IsNullOrEmpty(photo.PictureUrl.Trim()))
                     {
@@ -340,7 +340,7 @@ namespace BanooClub.Services.AdsServices
                     }
                 }
             }
-            var dbState = _stateRepository.GetQuery().FirstOrDefault(z=>z.StateId == ad.StateId);
+            var dbState = _stateRepository.GetQuery().FirstOrDefault(z => z.StateId == ad.StateId);
             ad.State = dbState == null ? "" : dbState.Name;
             var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
             ad.City = dbCity == null ? "" : dbCity.Name;
@@ -348,7 +348,7 @@ namespace BanooClub.Services.AdsServices
 
             var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == userId && x.ObjectId == ad.AdsId && x.Type == WishListType.Ads)
                 .FirstOrDefault();
-            if (dbWishList!=null)
+            if (dbWishList != null)
             {
                 ad.IsFavourite = true;
             }
@@ -368,7 +368,7 @@ namespace BanooClub.Services.AdsServices
                     : 0;
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.UserId == userId).
-                OrderByDescending(x => x.FireDate).Skip((pageNumber-1)*count).Take(count).ToList();
+                OrderByDescending(x => x.FireDate).Skip((pageNumber - 1) * count).Take(count).ToList();
             var AdsCount = adsRepository.GetQuery().Where(z => z.UserId == userId).Count();
             foreach (var ad in dbAds)
             {
@@ -386,7 +386,7 @@ namespace BanooClub.Services.AdsServices
                             Base64 = "media/gallery/AdsPhotos/" + photo.PictureUrl,
                             Priority = (int)photo.Priority
                         });
-                        
+
                     }
                 }
 
@@ -395,7 +395,7 @@ namespace BanooClub.Services.AdsServices
                 var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
                 ad.City = dbCity == null ? "" : dbCity.Name;
                 var plans = servicePlanRepository.GetQuery().Where(z => z.ObjectId == ad.AdsId && z.Type == ServicePlanType.Ads).Select(x => x.PlanId).ToList();
-                ad.PlanTypes = PlanRepository.GetQuery().Where(z=>plans.Contains(z.PlanId)).Select(x=>x.Type).ToList();
+                ad.PlanTypes = PlanRepository.GetQuery().Where(z => plans.Contains(z.PlanId)).Select(x => x.Type).ToList();
             }
             var obj = new
             {
@@ -412,57 +412,52 @@ namespace BanooClub.Services.AdsServices
 
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.UserId == userId && z.Status == (int)AdsStatus.Published).
-                OrderByDescending(x => x.FireDate).Skip((pageNumber-1)*count).Take(count).ToList();
+                OrderByDescending(x => x.FireDate).Skip((pageNumber - 1) * count).Take(count).ToList();
             var AdsCount = adsRepository.GetQuery().Where(z => z.UserId == userId && z.Status == (int)AdsStatus.Published).Count();
             foreach (var ad in dbAds)
             {
-                if(ad != null)
+                ad.Photos = new List<FileData>();
+                var dbPhotos = _mediaRepository.GetQuery().Where(z => z.ObjectId == ad.AdsId && z.Type == MediaTypes.AdsPhoto).ToList();
+                foreach (var photo in dbPhotos)
                 {
-                    ad.Photos = new List<FileData>();
-                    var dbPhotos = _mediaRepository.GetQuery().Where(z => z.ObjectId == ad.AdsId && z.Type == MediaTypes.AdsPhoto).ToList();
-                    foreach (var photo in dbPhotos)
+                    if (photo != null)
                     {
-                        if (photo != null)
+                        ad.Photos.Add(new FileData()
                         {
-                            ad.Photos.Add(new FileData()
-                            {
-                                Base64 = "media/gallery/AdsPhotos/" + photo.PictureUrl,
-                                Priority = (int)photo.Priority
-                            });
+                            Base64 = "media/gallery/AdsPhotos/" + photo.PictureUrl,
+                            Priority = (int)photo.Priority
+                        });
+                    }
+                }
+                ad.UserInfo = userService.Get(userId);
+                ad.AdsCategoryParents = GetAdsParents(ad.CategoryId, "");
+                var dbState = _stateRepository.GetQuery().FirstOrDefault(z => z.StateId == ad.StateId);
+                ad.State = dbState == null ? "" : dbState.Name;
+                var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
+                ad.City = dbCity == null ? "" : dbCity.Name;
 
-                        }
-                    }
-                    ad.UserInfo = userService.Get(userId);
-                    ad.AdsCategoryParents = GetAdsParents(ad.CategoryId, "");
-                    var dbState = _stateRepository.GetQuery().FirstOrDefault(z => z.StateId == ad.StateId);
-                    ad.State = dbState == null ? "" : dbState.Name;
-                    var dbCity = _cityRepository.GetQuery().FirstOrDefault(x => x.CityId == ad.CityId);
-                    ad.City = dbCity == null ? "" : dbCity.Name;
-
-                    var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == MYselfId && x.ObjectId == ad.AdsId && x.Type == WishListType.Ads)
-                    .FirstOrDefault();
-                    if (dbWishList != null)
-                    {
-                        ad.IsFavourite = true;
-                    }
-                    else
-                    {
-                        ad.IsFavourite = false;
-                    }
+                var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == MYselfId && x.ObjectId == ad.AdsId && x.Type == WishListType.Ads)
+                .FirstOrDefault();
+                if (dbWishList != null)
+                {
+                    ad.IsFavourite = true;
+                }
+                else
+                {
+                    ad.IsFavourite = false;
                 }
             }
 
-            
             var IsPrivate = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == userId).IsPrivateAds;
             var Followed = false;
             if (IsPrivate == false)
             {
-                if (MYselfId>0)
+                if (MYselfId > 0)
                 {
                     var dbFollowing = followingRepository.GetQuery().FirstOrDefault(z => z.UserId == MYselfId & z.FollowingUserId == userId);
                     if (dbFollowing != null)
                     {
-                        Followed= true;
+                        Followed = true;
                     }
                 }
 
@@ -471,7 +466,7 @@ namespace BanooClub.Services.AdsServices
                     Status = (int)PostVisibility.VisibleAndPublic,
                     FollowButton = Followed == false ? true : false,
                     Ads = dbAds,
-                    AdsCount=AdsCount
+                    AdsCount = AdsCount
                 };
                 return obj;
             }
@@ -517,7 +512,7 @@ namespace BanooClub.Services.AdsServices
         {
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.NotConfirmed && (z.Title.Contains(search) || z.Description.Contains(search))).
-                OrderByDescending(x => x.FireDate).Skip((pageNumber-1)*count).Take(count).ToList();
+                OrderByDescending(x => x.FireDate).Skip((pageNumber - 1) * count).Take(count).ToList();
             var AdsCount = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.NotConfirmed && (z.Title.Contains(search) || z.Description.Contains(search))).Count();
             foreach (var ad in dbAds)
             {
@@ -555,11 +550,11 @@ namespace BanooClub.Services.AdsServices
         {
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Rejected && (z.Title.Contains(search) || z.Description.Contains(search))).
-                OrderByDescending(x => x.FireDate).Skip((pageNumber-1)*count).Take(count).ToList();
+                OrderByDescending(x => x.FireDate).Skip((pageNumber - 1) * count).Take(count).ToList();
             var AdsCount = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Rejected && (z.Title.Contains(search) || z.Description.Contains(search))).Count();
             foreach (var ad in dbAds)
             {
-                ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
+                ad.AdsCategoryParents = GetAdsParents(ad.CategoryId, "");
                 ad.Photos = new List<FileData>();
                 var dbPhotos = _mediaRepository.GetQuery().Where(z => z.ObjectId == ad.AdsId && z.Type == MediaTypes.AdsPhoto).ToList();
                 foreach (var photo in dbPhotos)
@@ -587,11 +582,12 @@ namespace BanooClub.Services.AdsServices
             };
             return obj;
         }
-        public string GetAdsParents(long? adsCategoryId,string CatName)
+        public string GetAdsParents(long? adsCategoryId, string CatName)
         {
-            var dbAdsCat=adsCategoryRepository.GetQuery().First(z=>z.AdsCategoryId == adsCategoryId);
-            CatName = CatName=="" ? dbAdsCat.Name :CatName+ " > " +dbAdsCat.Name;
-            if(dbAdsCat.ParentId != null && dbAdsCat.ParentId != 0)
+            var dbAdsCat = adsCategoryRepository.GetQuery().FirstOrDefault(z => z.AdsCategoryId == adsCategoryId);
+
+            CatName = CatName == "" ? dbAdsCat?.Name : CatName + " > " + dbAdsCat?.Name;
+            if (dbAdsCat != null && dbAdsCat.ParentId != null && dbAdsCat.ParentId != 0)
             {
                 return GetAdsParents(dbAdsCat.ParentId, CatName);
             }
@@ -600,22 +596,22 @@ namespace BanooClub.Services.AdsServices
         public async Task<Ads> ChangeAdsStatus(Ads item)
         {
             var dbAds = adsRepository.GetQuery().FirstOrDefault(z => z.AdsId == item.AdsId);
-            if(dbAds != null)
+            if (dbAds != null)
             {
                 dbAds.UpdateDate = DateTime.Now;
                 dbAds.Status = item.Status;
                 await adsRepository.Update(dbAds);
-                
+
             }
             return dbAds;
 
         }
 
-        public List<long> GetAllSubCatsId(long categoryId,List<long> catIds)
+        public List<long> GetAllSubCatsId(long categoryId, List<long> catIds)
         {
-            var subCats=adsCategoryRepository.GetQuery().Where(z=>z.ParentId == categoryId).ToList();
+            var subCats = adsCategoryRepository.GetQuery().Where(z => z.ParentId == categoryId).ToList();
             subCats.ForEach(z => catIds.Add(z.AdsCategoryId));
-            if(subCats.Count() > 0 )
+            if (subCats.Count() > 0)
             {
                 foreach (var sub in subCats)
                 {
@@ -629,38 +625,38 @@ namespace BanooClub.Services.AdsServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
-            List<Ads> dbAds =new List<Ads>();
+            List<Ads> dbAds = new List<Ads>();
             int AdsCount = 0;
-            if(categoryId == 0)
+            if (categoryId == 0)
             {
-                if(firstSearchadsId !=0)
+                if (firstSearchadsId != 0)
                 {
-                    dbAds=adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && z.AdsId < firstSearchadsId).
+                    dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && z.AdsId < firstSearchadsId).
                     OrderByDescending(x => x.FireDate).Take(count).ToList();
                 }
                 else
                 {
-                    dbAds=adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published).
+                    dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published).
                     OrderByDescending(x => x.FireDate).Take(count).ToList();
                 }
-                AdsCount=adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published).Count();
+                AdsCount = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published).Count();
             }
             else
             {
                 var catIds = GetAllSubCatsId(categoryId, new List<long>() { categoryId });
-                if(firstSearchadsId !=0)
+                if (firstSearchadsId != 0)
                 {
                     dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && catIds.Contains(z.CategoryId) && z.AdsId < firstSearchadsId).
                     OrderByDescending(x => x.FireDate).Take(count).ToList();
                 }
                 else
                 {
-                    dbAds=adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && catIds.Contains(z.CategoryId)).
+                    dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && catIds.Contains(z.CategoryId)).
                     OrderByDescending(x => x.FireDate).Take(count).ToList();
                 }
                 AdsCount = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && catIds.Contains(z.CategoryId)).Count();
             }
-            
+
             foreach (var ad in dbAds)
             {
                 ad.AdsCategoryParents = GetAdsParents(ad.CategoryId, "");
@@ -684,7 +680,7 @@ namespace BanooClub.Services.AdsServices
                 ad.City = dbCity == null ? "" : dbCity.Name;
                 var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == userId && x.ObjectId == ad.AdsId && x.Type == WishListType.Ads)
                 .FirstOrDefault();
-                if (dbWishList!=null)
+                if (dbWishList != null)
                 {
                     ad.IsFavourite = true;
                 }
@@ -701,60 +697,60 @@ namespace BanooClub.Services.AdsServices
             return obj;
         }
 
-        public async Task<object> GetAdsByFilter(long? priceFrom,long? priceTo,string title, string tag,
-            long? city,long? state,long firstSearchadsId, int count,long? categoryId)
+        public async Task<object> GetAdsByFilter(long? priceFrom, long? priceTo, string title, string tag,
+            long? city, long? state, long firstSearchadsId, int count, long? categoryId)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
 
-            tag = tag ==null ? string.Empty : tag;
-            title = title ==null ? string.Empty : title;
-            state = state ==null ? 0 : state;
-            city = city ==null ? 0 : city;
+            tag = tag == null ? string.Empty : tag;
+            title = title == null ? string.Empty : title;
+            state = state == null ? 0 : state;
+            city = city == null ? 0 : city;
             IOrderedQueryable<Ads> dbAds;
             int AdsCount = 0;
-            
-            if (firstSearchadsId !=0)
+
+            if (firstSearchadsId != 0)
             {
-            dbAds=adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && z.AdsId < firstSearchadsId).
-            OrderByDescending(x => x.FireDate);
+                dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && z.AdsId < firstSearchadsId).
+                OrderByDescending(x => x.FireDate);
             }
             else
             {
-            dbAds=adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published).
-            OrderByDescending(x => x.FireDate);
+                dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published).
+                OrderByDescending(x => x.FireDate);
             }
-            
+
             var result = dbAds.Where(z => z.Tag.Contains(tag) && z.Title.Contains(title));
-            if (state !=0)
+            if (state != 0)
             {
-                result=result.Where(z=>z.StateId==state);
+                result = result.Where(z => z.StateId == state);
             }
-            if(city !=0)
+            if (city != 0)
             {
-                result=result.Where(x=>x.CityId==city);
+                result = result.Where(x => x.CityId == city);
             }
-            if(categoryId !=0 && categoryId != null)
+            if (categoryId != 0 && categoryId != null)
             {
-                result = result.Where(z=>z.CategoryId==categoryId);
+                result = result.Where(z => z.CategoryId == categoryId);
             }
-            if (priceTo != 0 && priceTo !=null)
+            if (priceTo != 0 && priceTo != null)
             {
-                result =result.Where(c => c.Price <= priceTo);
+                result = result.Where(c => c.Price <= priceTo);
             }
-            if(priceFrom != 0 && priceFrom != null)
+            if (priceFrom != 0 && priceFrom != null)
             {
-                result= result.Where(c => c.Price >= priceFrom);
-            }
-
-            AdsCount=result.Count();
-            if(count == 0)
-            {
-                count=AdsCount;
+                result = result.Where(c => c.Price >= priceFrom);
             }
 
-            var finalResult=result.Take(count).ToList();
+            AdsCount = result.Count();
+            if (count == 0)
+            {
+                count = AdsCount;
+            }
+
+            var finalResult = result.Take(count).ToList();
 
             foreach (var ad in finalResult)
             {
@@ -784,7 +780,7 @@ namespace BanooClub.Services.AdsServices
 
                 var dbWishList = wishListRepository.GetQuery().Where(x => x.UserId == userId && x.ObjectId == ad.AdsId && x.Type == WishListType.Ads)
                 .FirstOrDefault();
-                if (dbWishList!=null)
+                if (dbWishList != null)
                 {
                     ad.IsFavourite = true;
                 }
