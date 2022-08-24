@@ -70,6 +70,13 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost]
+        [Route("[action]"), AllowAnonymous]
+        public async Task<object> GetByUserId(long userId, byte count, short pageNumber)
+        {
+            return await forumService.GetByUserId(userId, count, pageNumber);
+        }
+
+        [HttpPost]
         [Route("[action]"), Authorize]
         public async Task<object> GetMyForums(int pageNumber, int count, string searchCommand)
         {

@@ -35,6 +35,13 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]")]
+        public object GetByUserIdForAdmin(short pageNumber, byte count, long userId)
+        {
+            return orderService.GetByUserIdForAdmin(pageNumber, count, userId);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
         public Task<Order> Get(long orderId)
         {
             return orderService.Get(orderId);

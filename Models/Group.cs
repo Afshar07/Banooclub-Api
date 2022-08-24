@@ -13,6 +13,8 @@ namespace BanooClub.Models
         [NotMapped]
         public List<long> Members { get; set; }
         [NotMapped]
+        public List<User> UserInfoes { get; set; }
+        [NotMapped]
         public string FileData { get; set; }
     }
 }

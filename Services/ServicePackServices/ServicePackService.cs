@@ -109,8 +109,8 @@ namespace BanooClub.Services.ServicePackServices
                     Description = prperty.Description,
                     IsDeleted = false,
                     Name = prperty.Name,
-                    Price = inputDto.IsFree ? 0 : prperty.Price,
-                    IsFree = inputDto.IsFree ? true : prperty.IsFree,
+                    Price = (bool)inputDto.IsFree ? 0 : prperty.Price,
+                    IsFree = (bool)inputDto.IsFree ? true : prperty.IsFree,
                     ServiceCategoryId = inputDto.ServiceCategoryId,
                     ServiceId = creation.ServicePackId,
                     ServicePropertyId = 0
@@ -203,7 +203,8 @@ namespace BanooClub.Services.ServicePackServices
             return item;
         }
 
-        public async Task<object> GetAll(int pageNumber, int count, string searchCommand, ServiceFilter serviceFilter, ServicePackStatus? status)
+        public async Task<object> GetAll(int pageNumber, int count, string searchCommand,
+            ServiceFilter serviceFilter, ServicePackStatus? status, long categoryId)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                        ? _accessor.HttpContext.User.Identity.GetUserId()
@@ -218,19 +219,44 @@ namespace BanooClub.Services.ServicePackServices
             string cmd = "";
             switch (serviceFilter)
             {
-
                 case ServiceFilter.All:
-                    cmd = "select * from Service.ServicePacks where IsDeleted='false' order by CreateDate desc";
+                    {
+                        if (categoryId > 0)
+                            cmd = "select s.* from [Service].[ServicePacks] s " +
+                                "inner join [Service].[ServiceCategories] c on s.ServiceCategoryId = c.ServiceCategoryId " +
+                                $"where s.IsDeleted='false' And s.ServiceCategoryId = {categoryId} order by CreateDate desc";
+                        else
+                            cmd = "select * from Service.ServicePacks where IsDeleted='false' Inner Join  order by CreateDate desc";
+                    }
                     break;
                 //order by viewCount
                 case ServiceFilter.Suggestion:
-                    cmd = "SELECT [Service].ServicePacks.*, [Common].Views.Count as ViewsCount " +
-                          "FROM [Service].ServicePacks  INNER JOIN " +
-                          "[Common].Views ON [Service].ServicePacks.ServicePackId = [Common].Views.ObjectId where [Service].ServicePacks.IsDeleted='false' order by ViewsCount desc";
+                    {
+                        if (categoryId > 0)
+                            cmd = "SELECT [Service].ServicePacks.*, [Common].Views.Count as ViewsCount " +
+                                  "from [Service].ServicePacks inner join [Service].[ServiceCategories] " +
+                                  "on [Service].ServicePacks.ServiceCategoryId = [Service].[ServiceCategories].ServiceCategoryId " +
+                                  "INNER JOIN [Common].Views ON [Service].ServicePacks.ServicePackId = [Common].Views.ObjectId " +
+                                  " where [Service].ServicePacks.IsDeleted='false' " +
+                                  $"And [Service].ServicePacks.ServiceCategoryId = {categoryId} order by ViewsCount desc ";
+                        else
+                            cmd = "SELECT [Service].ServicePacks.*, [Common].Views.Count as ViewsCount " +
+                                  "FROM [Service].ServicePacks  INNER JOIN " +
+                                  "[Common].Views ON [Service].ServicePacks.ServicePackId = [Common].Views.ObjectId where [Service].ServicePacks.IsDeleted='false' order by ViewsCount desc";
+                    }
                     break;
                 //order by rate
                 case ServiceFilter.Top:
-                    cmd = "select t1.*,rateavg from [Service].ServicePacks t1 " +
+                    if (categoryId > 0)
+                    {
+                        cmd = "select t1.*,rateavg from [Service].ServicePacks t1 " +
+                          "left join (SELECT ObjectId, avg(Rate) as rateavg FROM [Common].Ratings GROUP BY ObjectId) " +
+                          "t2 on t1.ServicePackId = t2.ObjectId " +
+                          "Inner Join [Service].[ServiceCategories] c on c.ServiceCategoryId = t1.ServiceCategoryId " +
+                          $"where t1.IsDeleted='false' And t1.ServiceCategoryId = {categoryId}";
+                    }
+                    else
+                        cmd = "select t1.*,rateavg from [Service].ServicePacks t1 " +
                           "left join (SELECT ObjectId, avg(Rate) as rateavg FROM [Common].Ratings GROUP BY ObjectId) t2 on t1.ServicePackId = t2.ObjectId where t1.IsDeleted='false'";
                     break;
                 default:
@@ -512,7 +538,7 @@ namespace BanooClub.Services.ServicePackServices
             List<ServicePack> servicePacks = new List<ServicePack>();
             servicePacks = servicePackRepository.GetQuery()
                 .Where(z => z.UserId == userId
-                && z.Title.Contains(searchCommand) 
+                && z.Title.Contains(searchCommand)
                 && z.ExpireDate > DateTime.Now)
                 .OrderByDescending(z => z.CreateDate).ToList();
 

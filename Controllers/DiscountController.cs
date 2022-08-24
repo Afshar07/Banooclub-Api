@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace BanooClub.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
+    [Route("api/[controller]")]
     public class DiscountController : ControllerBase
     {
         #region Constructor
@@ -22,14 +23,14 @@ namespace BanooClub.Controllers
         #endregion
 
         [HttpPost]
-        [Route("[action]"), Authorize(Roles = "Admin,ProductManager")]
+        [Route("[action]")]
         public async Task<object> Create([FromBody] DiscountDto inputDto)
         {
             return await _discountService.Create(inputDto);
         }
 
         [HttpPost]
-        [Route("[action]"), Authorize(Roles = "Admin,ProductManager")]
+        [Route("[action]")]
         public async Task Update([FromBody] Discount inputDto)
         {
             await _discountService.Update(inputDto);
@@ -50,7 +51,7 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost]
-        [Route("[action]"), Authorize(Roles = "Admin,ProductManager")]
+        [Route("[action]")]
         public async Task Delete(long id)
         {
             await _discountService.Delete(id);

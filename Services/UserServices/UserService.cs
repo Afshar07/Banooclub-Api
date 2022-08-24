@@ -1300,7 +1300,7 @@ namespace BanooClub.Services.UserServices
                 user.Password = null;
                 var selfie = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Profile);
                 user.SelfieFileData = selfie == null ? "" : selfie.PictureUrl;
-                user.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == user.UserId);
+                user.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == user.UserId);    
             }
             return dbUsers;
         }

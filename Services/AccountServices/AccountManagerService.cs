@@ -39,6 +39,7 @@ namespace BanooClub.Services.AccountServices
         private readonly IDecryptService _decryptService;
         private readonly IDistributedCache distributedCache;
         private static Random random = new Random();
+
         public AccountManagerService(IEncryptService encryptService, IGenerateJwtService generateJwtService,
             IDistributedCache cache, ILogger<AccountManagerService> logger, IDateTime dateTime, IDistributedCache distributedCache,
         IBanooClubEFRepository<UserType> roleRepository, IBanooClubEFRepository<User> userRepository, IBanooClubEFRepository<ViewHistory> viewHistoryRepository,
@@ -249,6 +250,7 @@ namespace BanooClub.Services.AccountServices
         #endregion
 
         #region SignUp
+
         public async Task<IServiceResult<object>> SignUpWithMobileAndMail(System.DateTime? BirthDate, string firstname, string lastName, string mobile, string email, string code, long signUpType, string password,string userName,long? ServiceCategoryId,string IntroducerCode,long? stateId,long? cityId,RelationStatus? relationState)
         {
             var EmailUsers = new List<User>();

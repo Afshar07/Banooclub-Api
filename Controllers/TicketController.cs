@@ -29,9 +29,9 @@ namespace BanooClub.Controllers
             return BadRequest(result.ErrorMessage);
         }
         [HttpPost("GetAll"), Authorize(Roles = "Admin")]
-        public IActionResult GetAll(int pageNumber, int count)
+        public IActionResult GetAll(int pageNumber, int count, string searchCommand, byte ticketType)
         {
-            var result = _ticketService.GetAll(pageNumber,count);
+            var result = _ticketService.GetAll(pageNumber, count, searchCommand, ticketType);
 
             if (result.IsSuccess)
                 return Ok(result.Data);
@@ -42,7 +42,7 @@ namespace BanooClub.Controllers
         [HttpPost("GetAllForCustomer")]
         public IActionResult GetAllForCustomer(int pageNumber, int count)
         {
-            var result = _ticketService.GetAllForCustomer(pageNumber,count);
+            var result = _ticketService.GetAllForCustomer(pageNumber, count);
 
             if (result.IsSuccess)
                 return Ok(result.Data);
@@ -64,7 +64,7 @@ namespace BanooClub.Controllers
         [HttpPost("DeleteTicket")]
         public async Task<IActionResult> DeleteTicket(long ticketId)
         {
-            var result =  _ticketService.DeleteTicket(ticketId).Result;
+            var result = _ticketService.DeleteTicket(ticketId).Result;
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -83,6 +83,17 @@ namespace BanooClub.Controllers
             return BadRequest(result.ErrorMessage);
         }
 
+        [HttpPost("ChangeTicketType"), Authorize(Roles = "Admin")]
+        public IActionResult ChangeTicketType(long parentId, byte ticketType)
+        {
+            var result = _ticketService.ChangeTicketType(parentId, ticketType);
+
+            if (result.IsSuccess)
+                return Ok(result.Data);
+
+            return BadRequest(result.ErrorMessage);
+        }
+
         [HttpPost("CloseTicket"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> CloseTicket(long parentId)
         {
@@ -94,11 +105,11 @@ namespace BanooClub.Controllers
             return BadRequest(result.ErrorMessage);
         }
 
-        [HttpPost("GetTicketsByFilter"), Authorize(Roles ="Admin")]
-        public IActionResult GetTicketsByFilter(long? userType,int? type,bool? isRead, int pageNumber, int count,string search)
+        [HttpPost("GetTicketsByFilter"), Authorize(Roles = "Admin")]
+        public IActionResult GetTicketsByFilter(long? userType, int? type, bool? isRead, int pageNumber, int count, string search)
         {
-            search = search ==null ? "" : search;
-            var result = _ticketService.GetTicketsByFilter(userType,type,isRead,pageNumber,count,search);
+            search = search == null ? "" : search;
+            var result = _ticketService.GetTicketsByFilter(userType, type, isRead, pageNumber, count, search);
 
             if (result.IsSuccess)
                 return Ok(result.Data);

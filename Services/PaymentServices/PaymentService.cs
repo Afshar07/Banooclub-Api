@@ -345,5 +345,20 @@ namespace BanooClub.Services.PaymentServices
             return obj;
         }
 
+        public async Task<object> GetByUserId(long userId, byte count, short pageNumber)
+        {
+            var query = paymentRepository.GetQuery()
+                .Where(x => x.UserId == userId);
+
+            var data = new
+            {
+                Payments = query.OrderByDescending(x => x.CreateDate)
+                .Skip((pageNumber - 1) * count)
+                .Take(count).ToList(),
+                PaymentCount = query.Count()
+            };
+
+            return data;
+        }
     }
 }
