@@ -14,17 +14,20 @@ namespace BanooClub.Services.GroupServices
     {
         private readonly IBanooClubEFRepository<Group> groupRepository;
         private readonly IBanooClubEFRepository<UserGroup> userGroupRepository;
+        private readonly IBanooClubEFRepository<User> _userRepository;
         private readonly ISocialMediaService _mediaService;
         private readonly IBanooClubEFRepository<SocialMedia> _mediaRepository;
         public GroupService(IBanooClubEFRepository<Group> groupRepository
             , IBanooClubEFRepository<UserGroup> userGroupRepository
             , IBanooClubEFRepository<SocialMedia> mediaRepository
-            , ISocialMediaService mediaService)
+            , ISocialMediaService mediaService,
+IBanooClubEFRepository<User> userRepository)
         {
             this.groupRepository = groupRepository;
             this.userGroupRepository = userGroupRepository;
             _mediaRepository = mediaRepository;
             _mediaService = mediaService;
+            _userRepository = userRepository;
         }
         public async Task Create(Group inputDto)
         {
@@ -114,7 +117,9 @@ namespace BanooClub.Services.GroupServices
             foreach (var group in groups)
             {
                 group.Members = userGroupRepository.GetQuery().Where(z => z.GroupId == group.GroupId).Select(x => x.UserId).ToList();
+                group.UserInfoes = SetUserInfoesBy(group.Members);
             }
+
             return groups;
         }
 
@@ -138,5 +143,23 @@ namespace BanooClub.Services.GroupServices
             await groupRepository.Update(group);
             return group.IsActive;
         }
+
+        #region Utilities
+
+        private List<User> SetUserInfoesBy(List<long> members)
+        {
+            var result = new List<User>();
+
+            members.ForEach(x =>
+            {
+                var user = _userRepository.GetQuery().FirstOrDefault(z => z.UserId == x);
+                if (user != null)
+                    result.Add(user);
+            });
+
+            return result;
+        }
+
+        #endregion
     }
 }

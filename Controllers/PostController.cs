@@ -80,9 +80,9 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]"), Authorize]
-        public async Task<bool> Delete(long id)
+        public async Task<bool> Delete(params long[] ids)
         {
-            return await postService.Delete(id);
+            return await postService.Delete(ids);
         }
 
 
@@ -137,9 +137,9 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]"), Authorize(Roles = "Admin")]
-        public async Task<bool> ChangePostStatusForAdmin(long postId, PostStatus status)
+        public async Task<bool> ChangePostStatusForAdmin(PostStatus status, params long[] ids)
         {
-            return await this.postService.ChangePostStatusForAdmin(postId, status);
+            return await this.postService.ChangePostStatusForAdmin(status, ids);
         }
 
         [HttpPost]

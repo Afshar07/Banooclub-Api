@@ -106,10 +106,10 @@ namespace BanooClub.Controllers
         [HttpPost]
         [Route("[action]"), AllowAnonymous]
         public async Task<object> GetAdsByFilter(long? priceFrom, long? priceTo, string title, string tag, 
-            long? city, long? state, long firstSearchadsId, int count, long? categoryId)
+            long? city, long? state, long firstSearchadsId, int count, long? categoryId, int planType, bool? exchangeability = null)
         {
             return await adsService.GetAdsByFilter(priceFrom, priceTo, title, tag, 
-                city, state, firstSearchadsId, count, categoryId);
+                city, state, firstSearchadsId, count, categoryId, planType, exchangeability);
         }
 
         [HttpPost]

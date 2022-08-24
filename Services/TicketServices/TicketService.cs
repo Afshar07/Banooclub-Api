@@ -41,8 +41,10 @@ namespace BanooClub.Services.TicketServices
         public IServiceResult<object> GetAll(int pageNumber, int count)
         {
             var dbTickets = _ticketRepository.GetQuery().Where(z => z.ParentId == 0).
-                OrderByDescending(x => x.CreateDate).Skip((pageNumber - 1) * count).Take(count).ToList();
+            OrderByDescending(x => x.CreateDate).Skip((pageNumber - 1) * count).Take(count).ToList();
+
             var dbTicketCount = _ticketRepository.GetQuery().Where(z => z.ParentId == 0).Count();
+
             foreach (var parent in dbTickets)
             {
                 var dbMedia = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == parent.TicketId && z.Type == MediaTypes.Ticket);

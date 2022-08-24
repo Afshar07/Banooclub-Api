@@ -18,7 +18,8 @@ namespace BanooClub.Services.AdsServices
         Task<object> GetRejected(int pageNumber, int count, string search);
         Task<object> GetAdsByCategory(long categoryId, long firstSearchadsId, int count);
         Task<bool> Ladder(long AdsId);
-        Task<object> GetAdsByFilter(long? priceFrom, long? priceTo, string title, string tag, long? city, long? state, long firstSearchadsId, int count,long? categoryId);
+        Task<object> GetAdsByFilter(long? priceFrom, long? priceTo, string title, string tag,
+            long? city, long? state, long firstSearchadsId, int count,long? categoryId, int planType, bool? exchangeability = null);
 
     }
 }
