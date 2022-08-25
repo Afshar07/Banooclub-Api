@@ -30,14 +30,17 @@
                 <div class="tw-card-body">
                   <div class="tw-flex tw-items-center tw-justify-between">
                     <h2 class="tw-card-title">{{ BlogData.title }}</h2>
-                    <div @click="Share" class="tw-flex tw-items-center tw-gap-1 tw-cursor-pointer">
-                      <i  class="fas fa-paperclip tw-text-stone-400"></i>
+                    <div class="d-flex align-items-center gap-2">
+                      <div @click="Share" class="tw-flex tw-items-center tw-gap-1 tw-cursor-pointer">
+                        <i  class="fas fa-paperclip tw-text-stone-400"></i>
+                      </div>
+                      <div @click="LikeBlog" class="tw-flex tw-items-center tw-gap-1 tw-cursor-pointer">
+                        <small class=" tw-text-stone-400">{{ BlogData.likeCount }}</small>
+                        <i v-if="BlogData.myLikeStatus===1" class="far fa-heart tw-text-stone-400"></i>
+                        <i v-else class="fas fa-heart tw-text-red-600"></i>
+                      </div>
                     </div>
-                    <div @click="LikeBlog" class="tw-flex tw-items-center tw-gap-1 tw-cursor-pointer">
-                      <small class=" tw-text-stone-400">{{ BlogData.likeCount }}</small>
-                      <i v-if="BlogData.myLikeStatus===1" class="far fa-heart tw-text-stone-400"></i>
-                      <i v-else class="fas fa-heart tw-text-red-600"></i>
-                    </div>
+
                   </div>
                   <div class="d-flex align-items-center flex-wrap justify-content-start   my-2 ">
                     <span v-for="item in BlogData.tags" class="tw-badge  tw-badge-primary tw-my-3 tw-p-2 tw-mx-1 ">

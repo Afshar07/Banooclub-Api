@@ -25,7 +25,7 @@
           </div>
         </div>
         <div >
-          <button v-click-outside="showMoreDiv" @click.stop="showMoreDiv"   class="tw-text-2xl hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw-transition tw--mr-1 tw-relative">
+          <button v-click-outside="CloseMoreDiv" @click.stop="showMoreDiv"   class="tw-text-2xl hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw-transition tw--mr-1 tw-relative">
             <svg  xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
             </svg>
@@ -351,6 +351,9 @@ export default {
 
       this.show_more = !this.show_more
     },
+    CloseMoreDiv(){
+      this.show_more =false
+    }
   },
   mounted() {
   },
