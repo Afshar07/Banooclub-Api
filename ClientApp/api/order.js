@@ -17,9 +17,11 @@ export default (context, resources) => ({
       console.log(error);
     }
   },
-  async OrderGetByUserId() {
+  async OrderGetByUserId(params) {
     try {
-      const response = await context.$axios.post(resources);
+      const response = await context.$axios.post(resources,null,{
+        params
+      });
       return response;
     } catch (error) {
       console.log(error);

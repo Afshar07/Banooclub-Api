@@ -126,16 +126,16 @@
       </div>
       <ul class="nav nav-pills align-items-end profile_tabs tw-overflow-x-auto px-3" id="pills-tab" role="tablist" style="z-index: 99;">
         <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-          <button class="nav-link active customFontSize" id="services-tab" data-bs-toggle="pill" data-bs-target="#services"
+          <button class="nav-link  customFontSize" id="services-tab" data-bs-toggle="pill" data-bs-target="#services"
                   type="button" role="tab" aria-controls="services" aria-selected="true">
-            <span v-if="!$route.params.slug">خدمات من</span>
+            <span v-if="!$route.params.slug && $auth.user && $auth.user.baseData && $auth.user.baseData.userType===3">خدمات من</span>
             <span v-else-if="$route.params.slug && getUserDetails && getUserDetails.baseData">خدمات</span>
 
 
           </button>
         </li>
         <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-          <button class="nav-link customFontSize" id="posts-home-tab" data-bs-toggle="pill" data-bs-target="#posts-home"
+          <button class="nav-link active customFontSize" id="posts-home-tab" data-bs-toggle="pill" data-bs-target="#posts-home"
                   type="button" role="tab" aria-controls="posts-home" aria-selected="true">
             <span v-if="!$route.params.slug">پست های من</span>
             <span class="d-flex" v-else-if="$route.params.slug && getUserDetails && getUserDetails.baseData">
@@ -145,6 +145,17 @@
               </svg>
             </span>
 
+          </button>
+        </li>
+        <li  class="nav-item" role="presentation m-0" style="margin: 0 !important;">
+          <button class="nav-link customFontSize" id="pill-Ads" data-bs-toggle="pill" data-bs-target="#Ads"
+                  type="button" role="tab" aria-controls="pill-Ads" aria-selected="false">
+            <span v-if="!$route.params.slug">
+               آگهی های من
+            </span>
+            <span class="d-flex" v-else>
+              <span class="px-1">آگهی ها </span>
+            </span>
           </button>
         </li>
         <li v-if="!$route.params.slug" class="nav-item" role="presentation m-0" style="margin: 0 !important;">
@@ -214,8 +225,7 @@
               class="btn ChangePhotoBtn d-flex align-items-center py-md-2 px-md-3 mx-1"
               @click="callInputMethod"
             >
-              <!--                  <WhiteCropIcon class="ChangePhotoIcon" fill="white" style="height: 20px; width: 20px;"/>-->
-              <!--                        <font-awesome-icon icon="camera" style="font-size: 12px" />-->
+
               <small class="text-white" style="font-size: 10px;">ویرایش عکس جلد</small>
               <form>
                 <input
@@ -233,8 +243,7 @@
               class="btn ChangePhotoBtn d-flex align-items-center py-md-2 px-md-3 mx-1"
               @click="callUserInputMethod"
             >
-              <!--                        <font-awesome-icon icon="camera" style="font-size: 12px" />-->
-              <!--                  <WhiteCropIcon class="ChangePhotoIcon" fill="white" style="height: 20px; width: 20px;"/>-->
+
               <small class="text-white" style="font-size: 10px">ویرایش عکس پروفایل</small>
               <form>
                 <input

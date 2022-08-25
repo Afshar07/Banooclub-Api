@@ -24,6 +24,7 @@ namespace BanooClub.Models
         public string Mobile { get; set; }
         public string Email { get; set; }
         public DateTime FireDate { get; set; }
+        public DateTime? StartDate { get; set; }
         public bool Specified { get; set; }
         public bool SpecifiedWithExpireDate { get; set; }
         public DateTime? SpecifiedExpireDateTime { get; set; }
@@ -31,7 +32,10 @@ namespace BanooClub.Models
         public DateTime? ExpireDate { get; set; }
         public ServicePackStatus Status { get; set; }
         public int Quantity { get; set; }
+        public bool? IsFree { get; set; }
         public int Maintain { get; set; }
+        [NotMapped]
+        public Discount Discount { get; set; }
         [NotMapped]
         public long ViewsCount { get; set; }
         [NotMapped]

@@ -1,5 +1,5 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer" v-if="forumDetails">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer p-3" v-if="forumDetails">
 
     <div class="modal fade" id="ReportForum" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -19,11 +19,11 @@
       </div>
     </div>
     <h1 class="tw-text-2xl tw-font-semibold"> {{ forumDetails.title }} </h1>
-    <div class="d-flex align-items-center gap-2">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
       <p class="tw-text-sm d-flex align-items-center tw-text-gray-400 tw-my-2">
         پست شده توسط:
 
-        <span data-href="%40tag-dev.html">
+        <span v-if="forumDetails.userInfo" data-href="%40tag-dev.html">
           <nuxt-link class="tw-font-semibold tw-px-2 text-decoration-none tw-text-blue-500" :to="`/user/${forumDetails.userInfo.userName}/posts`">
              {{ forumDetails.userInfo.userName }}
           </nuxt-link>
@@ -48,7 +48,7 @@
 
     <div class="row py-3">
       <div class="col-lg-8 tw-flex-shirink-0">
-        <div class="row boxMainContent mx-auto custom_card">
+        <div class="  mx-auto custom_card">
           <div class="d-flex flex-column">
             <div class="d-flex align-items-center row">
               <div class="d-flex flex-column justify-content-center align-items-center col-1">
@@ -98,49 +98,54 @@
             <div v-if="forumDetails.comments.length>0" class="pt-3 tw-font-bold" style="font-weight: 600; font-size: 20px">{{ forumDetails.comments.length }} پاسخ</div>
             <hr v-if="forumDetails.comments.length>0"/>
           </div>
-
-
           <ul class="tw-divide-y tw-divide-gray-100 sm:tw-m-0 tw--mx-5">
             <li v-for="comment in forumDetails.comments">
-              <div class="d-flex align-items-center row">
-                <div class="d-flex flex-column mt-3 justify-content-center align-items-center col-1">
-                  <div class="d-flex flex-column justify-content-center align-items-center ">
-                    <button @click="ForumCommentLike(1,comment.forumCommentId)">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
-                      </svg>
-                    </button>
-                    <div style="color:hsl(210,8%,45%);">{{comment.vote}}</div>
-                    <button @click="ForumCommentLike(2,comment.forumCommentId)">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
-                      </svg>
-                    </button>
+              <div class="row mx-auto">
+                <div class="col-md-1">
+                  <div class="d-flex flex-lg-column flex-row  justify-content-center align-items-center ">
+                      <button @click="ForumCommentLike(1,comment.forumCommentId)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
+                        </svg>
+                      </button>
+                      <div style="color:hsl(210,8%,45%);">{{comment.vote}}</div>
+                      <button @click="ForumCommentLike(2,comment.forumCommentId)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" viewBox="0 0 20 20" fill="hsl(210deg 8% 75%)">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
+                        </svg>
+                      </button>
                   </div>
                 </div>
-                <div class="d-flex flex-column col-11 pb-3">
-                  <p class="tw-mt-3 p-1" style="font-size: 13px">
-                    {{comment.text}}
-                  </p>
-                  <div class="d-flex justify-content-between">
-                    <div class="d-flex px-3 mt-2">
-                      <a target="_blank" :href="`https://telegram.me/share/url?url=${site_url+$route.fullPath}`">
-                        <TelegramIcon style="width: 20px; height: 20px;"/>
-                      </a>
-                      <a target="_blank" :href="`https://api.whatsapp.com/send?text=${site_url+$route.fullPath}`">
-                        <WhatsappIcon  style="width: 20px; height: 20px;"/>
-                      </a>
-                      <a target="_blank" :href="`https://www.facebook.com/sharer.php?u=${site_url+$route.fullPath}`">
-                        <InstagramIcon style="width: 20px; height: 20px;"/>
-                      </a>
-                    </div>
-<!--                    <button type="button" class="button p-2" style="font-size: 12px; height: 28px">-->
-<!--                      دنبال کردن-->
-<!--                    </button>-->
+                <div class="col-md-11">
+                  <div class="d-flex flex-column  pb-3">
+                    <nuxt-link class="text-decoration-none" :to="`/user/${comment.userInfo.userName}/posts`">
+                      <span class="text-primary">@{{comment.userInfo.userName}}</span>
+                    </nuxt-link>
 
+                    <p class="tw-mt-1 p-1" style="font-size: 13px;overflow-wrap: anywhere">
+                      {{comment.text}}
+                    </p>
+<!--                    <div class="d-flex justify-content-between">-->
+<!--                      <div class="d-flex px-3 mt-2">-->
+<!--                        <a target="_blank" :href="`https://telegram.me/share/url?url=${site_url+$route.fullPath}`">-->
+<!--                          <TelegramIcon style="width: 20px; height: 20px;"/>-->
+<!--                        </a>-->
+<!--                        <a target="_blank" :href="`https://api.whatsapp.com/send?text=${site_url+$route.fullPath}`">-->
+<!--                          <WhatsappIcon  style="width: 20px; height: 20px;"/>-->
+<!--                        </a>-->
+<!--                        <a target="_blank" :href="`https://www.facebook.com/sharer.php?u=${site_url+$route.fullPath}`">-->
+<!--                          <InstagramIcon style="width: 20px; height: 20px;"/>-->
+<!--                        </a>-->
+<!--                      </div>-->
+<!--                      &lt;!&ndash;                    <button type="button" class="button p-2" style="font-size: 12px; height: 28px">&ndash;&gt;-->
+<!--                      &lt;!&ndash;                      دنبال کردن&ndash;&gt;-->
+<!--                      &lt;!&ndash;                    </button>&ndash;&gt;-->
+
+<!--                    </div>-->
                   </div>
                 </div>
               </div>
+
             </li>
 
           </ul>

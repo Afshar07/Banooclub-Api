@@ -38,10 +38,10 @@
       </div>
     </div>
     <div class="row">
-      <div    v-for="item in UserAds" :key="item.adsId" class="col-md-4">
+      <div    v-for="item in UserAds" :key="item.adsId" class="col-md-4" >
         <div
           class=" p-3  bg-white AdCard px-2 mb-4 rounded main-shadow"
-          style="cursor: pointer"
+          style="cursor: pointer;height: 300px"
 
         >
           <div class="d-flex align-items-center justify-content-between">
@@ -93,7 +93,7 @@
           <div class="row" @click="ChangeRoute(item.adsId)">
             <div class="col-md-6 pt-4">
               <div class="d-flex align-items-center gap-2">
-                <small>وضعیت </small>
+                <small>وضعیت :  </small>
                 <small v-if="item.status === 1" class="badge bg-success"
                 >منتشر شده</small
                 >
@@ -104,8 +104,12 @@
                 >رد شده
                 </small>
               </div>
+              <div v-if="item.exchangeability" class="my-3">
+                <span class="badge pill bg-info text-white   ">قابل معاوضه</span>
+              </div>
 
-              <br />
+
+
               <nuxt-link
                 class="text-dark text-decoration-none"
                 :to="{
@@ -144,7 +148,7 @@
               <img
                 v-if="item.photos.length > 0"
                 :src="'https://banooclubapi.simagar.com/'+ item.photos[0].base64"
-                class="img-fluid rounded image-custom-height tw-object-contain"
+                class="img-fluid rounded image-custom-height tw-shadow tw-object-contain"
                 alt=""
               />
               <p v-else class="small mt-2">این آگهی عکسی جهت نمایش ندارد</p>

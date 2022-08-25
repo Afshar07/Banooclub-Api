@@ -23,8 +23,8 @@
       </div>
       <div class="card-media tw-h-40">
         <nuxt-link :to="`/Products/${service_details.servicePackId}`">
-          <img :src="`https://banooclubapi.simagar.com/media/gallery/Service/${headerImage}`" :alt="service_details.title"
-               style="object-fit: cover;object-position: center; height: 160px !important;"/>
+          <img v-if="service_details.medias!==null" :src="`https://banooclubapi.simagar.com/media/gallery/Service/${service_details.medias[0].base64}`" :alt="service_details.title" style="object-fit: cover;object-position: center; height: 160px !important;"/>
+          <img v-else src="/nopicture.jpg" :alt="service_details.title" style="object-fit: cover;object-position: center; height: 160px !important;"/>
         </nuxt-link>
         <button @click="toggleWishList(service_details)" class="tw-bg-red-100 tw-absolute tw-right-2 tw-top-2 p-1 tw-rounded-full tw-text-red-500 tw-flex tw-items-center tw-justify-center">
           <svg v-if="service_details && service_details.isFavourite" xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="red" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -39,9 +39,14 @@
 
         <div class="tw-flex tw-items-center  tw-left-2  tw-justify-center position-absolute tw-top-[-15px]">
 
-          <div class="tw-top-3  tw-border-1 tw-bg-white ServicePrice tw-shadow tw-border-pink-700  tw-font-medium tw-px-2 tw-py-1 tw-left-2  tw-text tw-text-blue-500 ">
+          <div v-if="!service_details.isFree" class="tw-top-3  tw-border-1 tw-bg-white ServicePrice tw-shadow tw-border-pink-700  tw-font-medium tw-px-2 tw-py-1 tw-left-2  tw-text tw-text-blue-500 ">
             {{Intl.NumberFormat('fa-IR').format(service_details.totalPrice)}}
             <small class="Toman">تومان</small>
+
+          </div>
+          <div v-if="service_details.isFree" class="tw-top-3  tw-border-1 tw-bg-white ServicePrice tw-shadow tw-border-pink-700  tw-font-medium tw-px-2 tw-py-1 tw-left-2  tw-text tw-text-blue-500 ">
+
+            <small class="Toman">خدمت رایگان</small>
 
           </div>
 
@@ -84,7 +89,7 @@
           <small v-if="service_details.status===3" class="text-warning ">خدمت شما نیاز به بازبینی مجدد دارد</small>
         </div>
 
-        <div v-if="show_buttons" class="w-100 d-flex flex-column">
+        <div v-if="$route.path==='/Products/MyServices/'" class="w-100 d-flex flex-column">
           <button
             type="button"
             class="btn w-100 my-1 product_buttons"
@@ -117,10 +122,7 @@ export default {
       type: Object,
       required: true
     },
-    show_buttons:{
-      type: Boolean,
-      required: true
-    }
+
   },
   data(){
     return{
@@ -148,20 +150,22 @@ export default {
           objectId:item.servicePackId,
           type:1
         })
+        this.$emit('GetServices')
         if(this.service_details.isFavourite){
           this.$toast.success("خدمت از علاقمندی ها حذف شد");
         }
         else{
           this.$toast.success("خدمت به علاقمندی ها اضافه شد");
         }
-        this.$emit('GetServices')
+
+
       }
       catch (error){
         console.log(error)
       }
     },
     filterHeaderImage(priority){
-      if(this.service_details && this.service_details.medias){
+      if(this.service_details && this.service_details.medias!==null){
         this.service_details.medias.filter(item=>{
           if(item.priority == priority){
             this.headerImage = item.base64

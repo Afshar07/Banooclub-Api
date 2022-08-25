@@ -2,10 +2,13 @@
   <div  class="container-fluid mcontainer px-0 ">
     <CustomHeader/>
     <div class="tab-content" id="pills-tabContent">
-      <div class="tab-pane fade show active" id="services" role="tabpanel" aria-labelledby="services-tab">
+      <div class="tab-pane fade " id="services" role="tabpanel" aria-labelledby="services-tab">
         <ServicesTabContent/>
       </div>
-      <div class="tab-pane fade" id="posts-home" role="tabpanel" aria-labelledby="posts-home-tab">
+      <div class="tab-pane fade " id="Ads" role="tabpanel" aria-labelledby="pill-Ads">
+          <MyAdsTabContent @PageChanged="ChangePage" :Ads="AllAds" :totalPages="totalPages" :activePage="SelectedPageId"/>
+      </div>
+      <div class="tab-pane fade show active" id="posts-home" role="tabpanel" aria-labelledby="posts-home-tab">
         <PostsTabContent/>
       </div>
       <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
@@ -27,6 +30,7 @@ import FriendsTabContent from "../../../components/UserTabsContent/FriendsTabCon
 import PhotosTabContent from "../../../components/UserTabsContent/PhotosTabContent";
 import PostsTabContent from "../../../components/UserTabsContent/PostsTabContent";
 import ServicesTabContent from "../../../components/UserTabsContent/ServicesTabContent"
+import MyAdsTabContent from "@/components/Ads/MyAdsTabContent";
 
 export default {
   name: "MyPosts",
@@ -37,6 +41,7 @@ export default {
   },
   components: {
     EditInfoContent,
+    MyAdsTabContent,
     CustomHeader,
     FriendsTabContent,
     PhotosTabContent,
@@ -44,164 +49,59 @@ export default {
     ServicesTabContent
   },
   layout: "PoshtebamPlusLayout",
-  computed: {
-    VuexHeaderData() {
-      return this.$store.state.HeaderData;
-    },
+  async fetch(){
+    try {
+
+      await  this.$axios.post(`Ads/GetMyAds?pageNumber=${this.SelectedPageId}&count=10`, null).then((res) => {
+
+            this.AllAds = res.data.ads;
+            this.totalPages = []
+            const result = Math.ceil(res.data.adsCount / 10)
+            for (let i = 1; i <= result; i++) {
+              this.totalPages.push(i);
+            }
+          });
 
 
-  },
-
-  fetchOnServer() {
-    return true;
+    }catch (e) {
+      console.log(e)
+    }
   },
   data() {
     return {
-      userDefault: require("~/assets/images/defaultUser.png"),
-      DefaultImg: require("~/assets/images/defaultBanner.jpg"),
       userImage: "",
       postData: [],
+      AllAds:[],
+      totalPages:[],
+      SelectedPageId:1,
       showCreatePost: false,
       user_avatar: '',
     };
   },
   methods: {
-
-    submitNewPost() {
-      this.$axios
-        .post(
-          `Post/Create`,
-          {
-            userId: 0,
-            postId: 0,
-            content: this.postContentValue,
-          },
-          {}
-        )
-        .then((response) => {
-          if (response.status === 200) {
-            this.$refs.modalCloseButton.click();
-            this.$fetch();
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      this.showCreatePost = false;
-    },
-
-    postContent(value) {
-      this.postContentValue = value;
-    },
-    changeActivePage(activePage) {
-      if (activePage === "home") {
-        this.activePage = "home";
-      } else if (activePage === "notification") {
-        this.activePage = "notification";
-      } else if (activePage === "inputBox") {
-        this.activePage = "inputBox";
-      } else if (activePage === "learn") {
-        this.activePage = "learn";
-      } else if (activePage === "post") {
-        this.activePage = "post";
-      } else if (activePage === "requirements") {
-        this.activePage = "requirements";
-      } else {
-        this.activePage = "like";
-      }
-    },
-
-    Others() {
-      if (
-        this.$nuxt.$route.path.includes("TimelineVideos") ||
-        this.$nuxt.$route.params.id ||
-        this.$nuxt.$route.path.includes("TimelinePhotos") ||
-        this.$nuxt.$route.path.includes("RoomMateInfo") ||
-        this.$nuxt.$route.path.includes("Advertises") ||
-        this.$nuxt.$route.path.includes("PersonalInfo") ||
-        this.$nuxt.$route.path.includes("UserFollowers") ||
-        this.$nuxt.$route.path.includes("UserFollowings")
-      ) {
-        return true;
-      }
-    },
-
-    async getUserInfo() {
+    async GetAllAds(){
       try {
-        const response = await this.$repositories.getUserByToken.getUserByToken();
-        this.$store.commit("SetUserData", response.data);
-        let MypageData = {};
-        this.userinfo = response.data.userInfo;
-        MypageData.logCounts = response.data.logCounts;
-        MypageData.logCountsDistinct = response.data.logCountsDistinct;
-        MypageData.unreadTicketCount = response.data.unreadTicketCount;
-        MypageData.bio = response.data.userInfo.userSetting.bio;
-        MypageData.userName = response.data.userInfo.userName;
-        MypageData.selfie = response.data.userInfo.selfieFileData;
-        this.imgUserAvatar();
-        this.imageBackground();
-        this.$store.commit("SetUserMypageInfo", MypageData);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    imgUserAvatar() {
-      if (this.userinfo.selfieFileData !== null) {
-        this.userImageApi = `https://banooclubapi.simagar.com/${this.userinfo.selfieFileData}`;
-      }
-    },
-    imageBackground() {
-      if (this.userinfo.bannerFileData !== null) {
-        this.BackgroundApi = `https://banooclubapi.simagar.com/${this.userinfo.bannerFileData}`;
-      }
-    },
 
+        await  this.$axios.post(`Ads/GetMyAds?pageNumber=${this.SelectedPageId}&count=3`, null).then((res) => {
 
-
-
-
-    loggedInfoData() {
-      return this.$store.state.loggedInfo;
-    },
-
-    async GetMyData() {
-      const response = await this.$repositories.getUserByToken.getUserByToken();
-      this.$store.commit("SetUserData", response.data);
-      this.userInfoData = response.data.userInfo;
-      this.firstName = this.userInfoData.name;
-      this.lastName = this.userInfoData.familyName;
-      this.email = this.userInfoData.email;
-      this.mobile = this.userInfoData.mobile;
-      this.countryName = this.userInfoData.userSetting.flag;
-      this.bio = this.userInfoData.userSetting.bio;
-      this.userTag = this.userInfoData.userSetting.userTag;
-      this.gender = this.userInfoData.userSetting.gender;
-      this.birthDate = this.userInfoData.userSetting.birthDate;
-      this.userSettingId = this.userInfoData.userSetting.userSettingId;
-      this.nationalCart = this.userInfoData.userSetting.kartMelliDoc;
-      this.passport = this.userInfoData.userSetting.passportDoc;
-      this.Certificate = this.userInfoData.userSetting.lawyerCertificateDoc;
-      this.NewsPaper = this.userInfoData.userSetting.newspaperDoc;
-    },
-    onPostDelete(value) {
-      this.deletePost(value);
-    },
-    deletePost(postId) {
-      this.$axios
-        .post(`Post/Delete`, null, {
-          params: {
-            id: postId,
-          },
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            this.$fetch();
+          this.AllAds = res.data.ads;
+          this.totalPages = []
+          const result = Math.ceil(res.data.adsCount / 3)
+          for (let i = 1; i <= result; i++) {
+            this.totalPages.push(i);
           }
-        })
-        .catch((error) => {
-          console.log(error);
         });
+
+
+      }catch (e) {
+        console.log(e)
+      }
     },
+    ChangePage(id){
+      this.SelectedPageId = id
+      this.GetAllAds();
+    }
+
 
   },
 };

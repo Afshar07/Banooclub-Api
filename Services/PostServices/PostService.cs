@@ -15,11 +15,15 @@ using System.Threading.Tasks;
 using BanooClub.Services.SocialMediaServices;
 using BanooClub.Models.Urls;
 using System.IO;
+using Microsoft.AspNetCore.SignalR;
+using System.Text.RegularExpressions;
 
 namespace BanooClub.Services.PostServices
 {
-    public class PostService : IPostService
+    public class PostService : Hub<IPostService>, IPostService
     {
+        private const string cacheKey = "BanooClubLastNK";
+
         private readonly IBanooClubEFRepository<Post> postRepository;
         private readonly IBanooClubEFRepository<Following> followingRepository;
         private readonly IBanooClubEFRepository<User> userRepository;
@@ -34,6 +38,7 @@ namespace BanooClub.Services.PostServices
         private readonly IHttpContextAccessor _accessor;
         private readonly IUserService userService;
         private readonly IDistributedCache distributedCache;
+        private readonly IHubContext<PostService> _hubContext;
 
         public PostService(IBanooClubEFRepository<Post> postRepository, IBanooClubEFRepository<Following> followingRepository,
             IBanooClubEFRepository<User> userRepository, IBanooClubEFRepository<PostComment> postCommentRepository
@@ -45,7 +50,7 @@ namespace BanooClub.Services.PostServices
             IBanooClubEFRepository<PostReport> postReportRepository,
             IBanooClubEFRepository<PostNK> postNKRepository,
             ISocialMediaService mediaService,
-            IBanooClubEFRepository<SocialMedia> mediaRepository)
+            IBanooClubEFRepository<SocialMedia> mediaRepository, IHubContext<PostService> hubContext)
         {
             this.userRepository = userRepository;
             this.postRepository = postRepository;
@@ -60,15 +65,15 @@ namespace BanooClub.Services.PostServices
             this.userSettingRepository = userSettingRepository;
             this.viewHistoryRepository = viewHistoryRepository;
             this.mediaRepository = mediaRepository;
+            _hubContext = hubContext;
 
             _accessor = accessor;
+            _hubContext = hubContext;
         }
         public async Task Create(Post inputDto)
         {
-            var cacheKey = "BanooClubLastNK";
             string serializedCustomerList;
             var Nks = new List<PostNK>();
-            var PostNksType = distributedCache.GetType();
             var PostNkList = await distributedCache.GetAsync(cacheKey);
             if (PostNkList != null)
             {
@@ -80,32 +85,38 @@ namespace BanooClub.Services.PostServices
                 Nks = await postNKRepository.GetAll();
                 serializedCustomerList = JsonConvert.SerializeObject(Nks);
                 PostNkList = Encoding.UTF8.GetBytes(serializedCustomerList);
-                //var options = new DistributedCacheEntryOptions()
-                //    .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
-                //    .SetSlidingExpiration(TimeSpan.FromMinutes(2));
                 await distributedCache.SetAsync(cacheKey, PostNkList);
             }
 
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+
             inputDto.UserId = userId;
             inputDto.IsDeleted = false;
             inputDto.CreateDate = DateTime.Now;
             inputDto.Status = (int)PostStatus.Published;
             inputDto.UpdateDate = DateTime.Now;
-            var NKs = postNKRepository.GetAll().Result.Select(z => z.Name).ToList();
+
+            var NKs = Nks.Select(z => z.Name).ToList();
             if (NKs.Any(z => (inputDto.Description.Contains(z))))
             {
-                inputDto.Status = (int)PostStatus.NotConfirmed;
+                var textWithoutChars = Regex.Replace(inputDto.Description, "[^a-zA-Z0-9_]+", " ");
+
+                foreach (var word in textWithoutChars.Split())
+                {
+                    if (NKs.Any(x => x.Equals(word)))
+                    {
+                        inputDto.Status = (int)PostStatus.Report;
+                        break;
+                    }
+                }
             }
             var creation = postRepository.Insert(inputDto);
 
-
-
             foreach (var item in inputDto.Medias)
             {
-                if (item.UploadType==(int)PostUploadType.Base64)
+                if (item.UploadType == (int)PostUploadType.Base64)
                 {
                     if (!string.IsNullOrEmpty(item.Base64))
                     {
@@ -123,7 +134,7 @@ namespace BanooClub.Services.PostServices
                         await mediaRepository.InsertAsync(dbMedia);
                     }
                 }
-                else if (item.UploadType==(int)PostUploadType.Url)
+                else if (item.UploadType == (int)PostUploadType.Url)
                 {
                     if (!string.IsNullOrEmpty(item.Base64))
                     {
@@ -138,7 +149,7 @@ namespace BanooClub.Services.PostServices
                         var media = Directory.EnumerateFiles(galleryMediaUrl, item.Base64).FirstOrDefault();
 
                         string sourcePath = media;
-                        string destPath = EntityUrls.PostMediaUrl+"/" + item.Base64;
+                        string destPath = EntityUrls.PostMediaUrl + "/" + item.Base64;
                         if (media != null)
                         {
                             var find = Directory.EnumerateFiles(EntityUrls.PostMediaUrl, item.Base64).FirstOrDefault();
@@ -163,16 +174,45 @@ namespace BanooClub.Services.PostServices
 
                     }
                 }
-
-
-
             }
-        }
 
+            await _hubContext.Clients.All.SendAsync("PostCreated", inputDto.UserId, $"Post created for user with id {creation.UserId}");
+        }
 
         public async Task<Post> Update(Post item)
         {
-            await postRepository.Update(item);
+            string serializedCustomerList;
+            var Nks = new List<PostNK>();
+            var PostNkList = await distributedCache.GetAsync(cacheKey);
+            if (PostNkList != null)
+            {
+                serializedCustomerList = Encoding.UTF8.GetString(PostNkList);
+                Nks = JsonConvert.DeserializeObject<List<PostNK>>(serializedCustomerList);
+            }
+            else
+            {
+                Nks = await postNKRepository.GetAll();
+                serializedCustomerList = JsonConvert.SerializeObject(Nks);
+                PostNkList = Encoding.UTF8.GetBytes(serializedCustomerList);
+                await distributedCache.SetAsync(cacheKey, PostNkList);
+            }
+
+            var NKs = Nks.Select(z => z.Name).ToList();
+            if (NKs.Any(z => (item.Description.Contains(z))))
+            {
+                var textWithoutChars = Regex.Replace(item.Description, "[^a-zA-Z0-9_]+", " ");
+
+                foreach (var word in textWithoutChars.Split())
+                {
+                    if (NKs.Any(x => x.Equals(word)))
+                    {
+                        item.Status = (int)PostStatus.Report;
+                        break;
+                    }
+                }
+            }
+
+            await postRepository.Save();
 
 
             var dbLastMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == item.PostId && z.Type == MediaTypes.Post);
@@ -278,15 +318,21 @@ namespace BanooClub.Services.PostServices
                 Posts = posts,
                 PostCount = PostCount
             };
+
             return obj;
         }
 
-        public async Task<bool> Delete(long id)
+        public async Task<bool> Delete(params long[] ids)
         {
             try
             {
-                var post = postRepository.GetQuery().FirstOrDefault(z => z.PostId == id);
-                await postRepository.Delete(post);
+                foreach (var id in ids)
+                {
+                    var post = postRepository.GetQuery().FirstOrDefault(z => z.PostId == id);
+                    if (post != null)
+                        await postRepository.Delete(post);
+                }
+
                 return true;
             }
             catch (Exception ex)
@@ -728,7 +774,7 @@ namespace BanooClub.Services.PostServices
                 var dbUserInfo = userRepository.GetQuery().FirstOrDefault(z => z.UserId == item.UserId);
                 dbUserInfo.Password = null;
                 var dbUserMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == dbUserInfo.UserId && z.Type == MediaTypes.Profile);
-                dbUserInfo.SelfieFileData = dbUserMedia ==null ? "" : dbUserMedia.PictureUrl;
+                dbUserInfo.SelfieFileData = dbUserMedia == null ? "" : dbUserMedia.PictureUrl;
                 var likes = postLikeRepository.GetQuery().Where(z => z.PostId == item.PostId).Count();
                 var comments = postCommentRepository.GetQuery().Where(z => z.PostId == item.PostId).ToList();
                 foreach (var cmnt in comments)
@@ -742,7 +788,10 @@ namespace BanooClub.Services.PostServices
                 item.LikesCount = likes;
                 item.Comments = comments;
                 var dbLike = postLikeRepository.GetQuery().FirstOrDefault(z => z.UserId == MYselfId && z.PostId == item.PostId);
-                item.IsLikedByMe =false;
+                var postReport = postReportRepository.GetQuery().FirstOrDefault(z => z.ReporterUserId == MYselfId && z.PostId == item.PostId);
+                item.IsLikedByMe = false;
+                item.IsReportedByMe = postReport == null ? false : true;
+
                 if (dbLike != null)
                 {
                     item.IsLikedByMe = true;
@@ -850,9 +899,9 @@ namespace BanooClub.Services.PostServices
         {
             List<Post> posts = new List<Post>();
             posts = postRepository.GetQuery().Where(z => z.Status == (int)PostStatus.NotConfirmed && z.Description.Contains(search)).
-                OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
+                OrderByDescending(x => x.CreateDate).Skip((pageNumber - 1) * count).Take(count).ToList();
             var PostCount = postRepository.GetQuery().Where(z => z.Status == (int)PostStatus.NotConfirmed && z.Description.Contains(search)).Count();
-            posts.ForEach(z => z.UserInfo= userService.Get(z.UserId));
+            posts.ForEach(z => z.UserInfo = userService.Get(z.UserId));
             foreach (var post in posts)
             {
                 post.Medias = new List<FileData>();
@@ -873,8 +922,8 @@ namespace BanooClub.Services.PostServices
         {
             List<Post> posts = new List<Post>();
             posts = postRepository.GetQuery().Where(z => z.Status == (int)PostStatus.Report).
-                OrderByDescending(x => x.CreateDate).Skip((pageNumber-1)*count).Take(count).ToList();
-            posts.ForEach(z => z.UserInfo= userService.Get(z.UserId));
+                OrderByDescending(x => x.CreateDate).Skip((pageNumber - 1) * count).Take(count).ToList();
+            posts.ForEach(z => z.UserInfo = userService.Get(z.UserId));
             var PostCount = postRepository.GetQuery().Where(z => z.Status == (int)PostStatus.Report).Count();
 
 
@@ -895,13 +944,18 @@ namespace BanooClub.Services.PostServices
             };
             return obj;
         }
-        public async Task<bool> ChangePostStatusForAdmin(long postId, PostStatus status)
+        public async Task<bool> ChangePostStatusForAdmin(PostStatus status, params long[] ids)
         {
             try
             {
-                var dbPost = postRepository.GetQuery().FirstOrDefault(z => z.PostId == postId);
-                dbPost.Status = (int)status;
-                await postRepository.Update(dbPost);
+                foreach (var postId in ids)
+                {
+                    var dbPost = postRepository.GetQuery().FirstOrDefault(z => z.PostId == postId);
+                    if (dbPost != null)
+                        dbPost.Status = (int)status;
+                }
+
+                await postRepository.Save();
                 return true;
             }
             catch (Exception ex)
@@ -971,7 +1025,7 @@ namespace BanooClub.Services.PostServices
             "  from [Social].[Posts] P " +
             //"  left join Social.Medias SM on SM.ObjectId = P.PostId and SM.Type = 16" +
             $"  where(P.Title like N'%{search}%' or P.Description like N'%{search}%') and P.IsDeleted = 0 {completationCmd} " +
-            $"  order by P.PostId Desc OFFSET 0 ROWS FETCH NEXT { count} ROWS ONLY ";
+            $"  order by P.PostId Desc OFFSET 0 ROWS FETCH NEXT {count} ROWS ONLY ";
             var DeSerializeObj = postRepository.DapperSqlQuery(cmd).Result;
 
             var objSer = System.Text.Json.JsonSerializer.Serialize<object>(DeSerializeObj);

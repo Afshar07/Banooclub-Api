@@ -55,6 +55,16 @@
 
             <span v-else class="text-secondary">بدون عکس</span>
           </template>
+          <template #cell(userInfo)="data">
+            <router-link :to="`/apps/users/Detail/${data.item.userInfo.userName}`">
+              <small >{{data.item.userInfo.userName}}</small>
+            </router-link>
+
+          </template>
+          <template #cell(createDate)="data">
+            <small>{{new Date(data.item.createDate).toLocaleDateString('fa-IR')}}</small>
+
+          </template>
 
           <template #cell(action)="data">
 
@@ -161,7 +171,11 @@ export default {
           label: 'تیتر آگهی'
         },
         {
-          key: 'userInfo.userName',
+          key: 'createDate',
+          label: 'تاریخ ایجاد آگهی'
+        },
+        {
+          key: 'userInfo',
           label: 'توسط'
         },
         {

@@ -36,13 +36,18 @@ namespace BanooClub.Controllers
             return result;
         }
 
-
-
         [HttpPost]
         [Route("[action]")]
         public async Task<List<Roomate>> GetAll(long? mortgageFrom, long? mortgageTo, long? dailyRentFrom, long? dailyRentTo)
         {
             return await roomateService.GetAll(mortgageFrom, mortgageTo, dailyRentFrom, dailyRentTo);
+        }
+
+        [HttpPost]
+        [Route("[action]"), Authorize(Roles = "Admin")]
+        public async Task<List<Roomate>> GetAllForAdmin(long? mortgageFrom, long? mortgageTo, long? dailyRentFrom, long? dailyRentTo)
+        {
+            return await roomateService.GetAllForAdmin(mortgageFrom, mortgageTo, dailyRentFrom, dailyRentTo);
         }
 
         [HttpPost]
@@ -59,7 +64,7 @@ namespace BanooClub.Controllers
             return roomateService.GetByUserId(userId);
         }
         [HttpPost]
-        [Route("[action]"),Authorize]
+        [Route("[action]"), Authorize]
         public Task<object> GetMyRoomate()
         {
             return roomateService.GetMyRoomate();
@@ -73,7 +78,7 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost]
-        [Route("[action]"),Authorize]
+        [Route("[action]"), Authorize]
         public async Task<object> ChangeRoomateActivation(bool state)
         {
             return await roomateService.ChangeRoomateActivation(state);

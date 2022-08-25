@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-8 add_post custom_padding_for_posts" style="height: 950px;overflow-y: scroll;" @scroll="handleScroll">
         <AddPost @updateMyPosts="updateMyPosts" class="mb-3"/>
-        <PostItem class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post" :inMainPage="true" :inMyPosts="false"/>
+        <PostItem @PostEvent="GetPosts" class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post" :inMainPage="true" :inMyPosts="false"/>
         <Spinner v-if="postData && postData.length !== postCounts"/>
         <div class="row mb-3" v-if="!$fetchState.pending && postData && postData.length === 0">
           <div class="col-12 text-warning fw-bold text-center">
@@ -126,7 +126,21 @@ const res = await this.$repositories.GetCredit.GetCredit()
         console.log(error);
       }
     },
+async GetPosts(){
+  try {
+    const response = await this.$repositories.getFollowingPosts.getFollowingPosts(
+      {
+        lastId:this.lastId,
+        count:3
+      }
+    );
 
+    this.postData = response.data.posts
+    this.postCounts = response.data.postCount;
+  }catch (error) {
+    console.log(error);
+  }
+},
     handleScroll(event){
 
       if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight) {
@@ -175,7 +189,6 @@ const res = await this.$repositories.GetCredit.GetCredit()
     loggedInfoData() {
       return this.$store.state.loggedInfo;
     },
-
     reset: function () {
       this.image = null;
       this.preview = null;

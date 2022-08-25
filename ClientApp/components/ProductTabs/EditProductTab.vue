@@ -1,5 +1,78 @@
 <template>
-  <div class="row">
+  <div class="row p-3">
+    <div
+      class="modal fade"
+      id="AddDiscount"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">ایجاد تخفیف جدید</h5>
+
+          </div>
+          <div class="modal-body">
+            <div class="row">
+
+
+                  <div class="col-md-12">
+                    <small>نوع تخفیف : </small>
+                    <select class="form-control" v-model="Discount.type">
+                      <option disabled selected>نوع تخفیف را انتخاب کنید</option>
+                      <option :value="1">درصدی</option>
+                      <option :value="2">عددی</option>
+                    </select>
+                  </div>
+                  <div class="col-md-12 my-3">
+                    <small>مقدار تخفیف</small>
+                    <input type="number" maxlength="10" class="form-control with-border" v-model="Discount.value" placeholder="مقدار تخفیف را وارد کنید">
+                  </div>
+                  <div class="col-md-12">
+                    <small>تاریخ اتمام تخفیف</small>
+                    <client-only>
+                      <date-picker
+                        format="YYYY-MM-DD HH:MM"
+                        display-format="jYYYY-jMM-jDD HH:MM"
+                        v-model="Discount.expireDate"
+                        type="date"
+                      />
+                    </client-only>
+                  </div>
+                  <!--                <div class="col-md-3">-->
+                  <!--                  <small>تاریخ شروع تخفیف</small>-->
+                  <!--                  <client-only>-->
+                  <!--                    <date-picker-->
+                  <!--                      format="YYYY-MM-DD"-->
+                  <!--                      display-format="jYYYY-jMM-jDD"-->
+                  <!--                      v-model="Discount.startDate"-->
+                  <!--                      type="date"-->
+                  <!--                    />-->
+                  <!--                  </client-only>-->
+                  <!--                </div>-->
+
+
+
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              بستن
+            </button>
+            <button @click="AddDiscount" type="button" class="button mt-auto px-2" data-bs-dismiss="modal">
+              ایجاد تخفیف
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!--      <h2 class="tw-text-2xl tw-font-semibold pb-3">ویرایش خدمت</h2>-->
     <div class="row">
       <div class="col-md-6 col-12 pt-3">
@@ -34,7 +107,7 @@
           style="color: #808080;"
           class="form-control border rounded w-100"
           placeholder="آدرس خدمت"
-          id="about"
+          id="about2"
         ></textarea>
       </div>
       <div class="col-12 py-3">
@@ -212,37 +285,72 @@
             ویژگی های شما
           </div>
         </div>
+        <div   v-for="(service_property,idx) in serviceDetailProp.properties" :key="idx" class="col-md-12 my-3">
+          <div class="row">
+            <div class="col-md-1 pb-3 d-flex align-items-end">
+              <i  @click="deleteServiceProperty(service_property.servicePropertyId)" class="fa fa-minus-circle text-danger tw-cursor-pointer"></i>
+            </div>
+            <div class=" col-md-3 col-sm-12">
+              <label>نام ویژگی</label>
+              <input v-model="service_property.name" type="text" class="with-border" placeholder="نام ویژگی">
+            </div>
+            <div class=" col-md-3 col-sm-12 d-flex flex-column justify-content-end   ">
+              <div class="d-flex align-items-center justify-content-between">
 
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center px-md-5"
-             v-for="(service_property,idx) in serviceDetailProp.properties" :key="idx">
-            <span class="deleteIcon m-3 pt-3" style="top: 0"
-                  @click="deleteServiceProperty(service_property.servicePropertyId)">
-              <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-red-600" viewBox="0 0 20 20"
-                   fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z"
-                      clip-rule="evenodd"/>
-              </svg>
-            </span>
-          <div class="pt-3 col-md-4 col-lg-5 col-sm-12">
-            <label>نام ویژگی</label>
-            <input  v-model="service_property.name" type="text" class="with-border" placeholder="نام ویژگی">
-          </div>
-          <div class="pt-3 col-md-4 col-lg-5 col-sm-12">
-            <label>قیمت ویژگی</label>
-            <input maxlength="11" v-model="service_property.price" type="number" class="with-border" placeholder="قیمت ویژگی">
-          </div>
-          <div class="pt-5">
-            <button type="button" class="button mt-auto tw-whitespace-nowrap px-2">
-              ویرایش ویژگی
-            </button>
+
+                <small>قیمت ویژگی</small>
+                <div class="d-flex align-items-center gap-2">
+                  <small>ویژگی رایگان</small>
+                  <input type="checkbox" :checked="service_property.isFree"  @click="service_property.isFree=!service_property.isFree" style="width: 20px;height: 20px" class="form-check">
+                </div>
+              </div>
+
+              <input maxlength="11" :disabled="service_property.isFree" v-model="service_property.price" type="number" class="with-border" placeholder="قیمت ویژگی">
+            </div>
+
+            <div class="col-md-3 d-flex align-items-center">
+              <button @click="UpdateProperty(service_property)" type="button" class="button mt-auto tw-whitespace-nowrap px-2">
+                ویرایش ویژگی
+              </button>
+            </div>
           </div>
         </div>
+
       </div>
-      <div class="col-12 pt-5 tw-text-left">
+      <div class="col-12 py-5 tw-text-left">
         <button type="button" class="button mt-auto px-2" @click="updateService">
           به روز رسانی خدمت
         </button>
       </div>
+        <div class="col-md-12 my-3">
+          <button type="button" class="button mt-auto px-2" data-bs-toggle="modal" data-bs-target="#AddDiscount">
+           ایجاد تخفیف برای خدمت
+          </button>
+        </div>
+
+
+      <div class="col-md-12 my-3">
+        <label>ویرایش تخفیف خدمت</label>
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
     </div>
 
 
@@ -283,6 +391,14 @@ export default {
       tag:'',
       property_price:0,
       property_name:'',
+      HaveDiscount:false,
+      Discount: {
+        type: 0,
+        value: 0,
+        startDate: '',
+        expireDate: '',
+        refraction: false
+      },
       serviceDetailProp: null,
       categories: [],
       center: [35.757539, 51.409968],
@@ -301,6 +417,30 @@ export default {
     };
   },
   methods: {
+    AddDiscount(){
+      try {
+        const res = this.$repositories.CreateDiscount.CreateDiscount({
+          expireDate: this.Discount.expireDate,
+          type: this.Discount.type,
+          value: parseInt(this.Discount.value) ,
+          refraction: false,
+          servicePackId: this.service_details.servicePackId,
+          startDate: ""
+
+        })
+        this.$toast.success('تخفیف برای خدمت ساخته شد')
+        this.Discount = {
+          type: 0,
+          value: 0,
+          startDate: '',
+          expireDate: '',
+          refraction: false
+        }
+        this.$nuxt.refresh()
+      }catch (e) {
+        console.log(e)
+      }
+    },
     SetLcoation(lat,lang){
       this.serviceDetailProp.latitude = lat
       this.serviceDetailProp.longitude = lang
@@ -361,6 +501,25 @@ export default {
     },
     increasePropertyCount() {
       this.property_count.push('property')
+    },
+    UpdateProperty(item){
+      try {
+        const res = this.$repositories.updateAServiceProperty.updateAServiceProperty({
+
+          servicePropertyId: item.servicePropertyId,
+          serviceId: item.serviceId,
+          name: item.name,
+          description: item.description,
+          serviceCategoryId: item.serviceCategoryId,
+          price: item.price,
+          isFree: item.isFree,
+          createDate: item.createDate
+        })
+        this.$nuxt.refresh();
+        this.$toast.success('ویژگی با موفقیت ویرایش شد')
+      }catch (e) {
+        console.log(e)
+      }
     },
     deleteServiceProperty(id) {
       this.$repositories.deleteAServiceProperty.deleteAServiceProperty({

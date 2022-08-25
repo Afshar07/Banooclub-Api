@@ -9,7 +9,8 @@ namespace BanooClub.Services.ServicePackServices
     {
         Task<long> Create(ServicePack inputDto);
         Task<ServicePack> Update(ServicePack item);
-        Task<object> GetAll(int pageNumber, int count, string searchCommand, ServiceFilter serviceFilter, ServicePackStatus? status);
+        Task<object> GetAll(int pageNumber, int count, string searchCommand, 
+            ServiceFilter serviceFilter, ServicePackStatus? status, long categoryId);
         Task<object> GetMyServices(int pageNumber, int count, string searchCommand);
         Task<bool> Delete(long id);
         Task<ServicePack> Get(long id);
@@ -17,7 +18,7 @@ namespace BanooClub.Services.ServicePackServices
         Task<object> GetUserServicesByUserName(long lastId, int count, string searchCommand, string userName);
         Task<object> GetDeactiveServices();
         Task<bool> ChangeServiceStatus(long servicePackId, ServicePackStatus status);
-        Task<ServicePack> GetwithView(long servicePackId);
+        Task<object> GetwithView(long servicePackId);
         Task<int> GetMaintainedByServiceId(long serviceId);
         Task<List<ServicePack>> GetAllOrderedService();
         Task<List<ServicePack>> GetOrderedServiceForVendor();

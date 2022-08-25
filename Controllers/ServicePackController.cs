@@ -8,9 +8,9 @@ using BanooClub.Models.Enums;
 
 namespace BanooClub.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
     public class ServicePackController : ControllerBase
     {
         private readonly IServicePackService servicePackService;
@@ -64,9 +64,10 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]"), AllowAnonymous]
-        public async Task<object> GetAll(ServicePackStatus? status, int pageNumber, int count, string searchCommand, ServiceFilter serviceFilter = ServiceFilter.All)
+        public async Task<object> GetAll(ServicePackStatus? status, int pageNumber, int count, 
+            string searchCommand, long categoryId, ServiceFilter serviceFilter = ServiceFilter.All)
         {
-            return await servicePackService.GetAll(pageNumber, count, searchCommand, serviceFilter, status);
+            return await servicePackService.GetAll(pageNumber, count, searchCommand, serviceFilter, status, categoryId);
         }
 
         [HttpPost]
@@ -92,7 +93,7 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]"), Authorize(Roles = "Admin,Vendor")]
-        public async Task<ServicePack> GetwithView(long servicePackId)
+        public async Task<object> GetwithView(long servicePackId)
         {
             return await servicePackService.GetwithView(servicePackId);
         }

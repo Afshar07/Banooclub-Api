@@ -1,71 +1,22 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container bg-white mcontainer bg-white mb-4" v-if="ticketData">
     <h1 class="p-1 h3">موضوع تیکت: {{ ticketData[0].content }}</h1>
-    <div class="col-12">
-      <div
-        v-for="(item,idx) in ticketData"
-        :key="idx"
-        class="card w-75 my-3 parent"
-        :class="
-          item.userType == 1
-            ? 'justify-content-start ms-auto text-end my-ticket'
-            : 'justify-content-end me-auto text-start your-ticket'
-        "
-      >
-        <div class="bubble"></div>
-        <div>
-          <div>
-            <div class="card-body">
-              <div
-                class="col-12 d-flex p-0"
-                :class="
-                  item.userType == 1
-                    ? 'justify-content-start ms-auto text-end'
-                    : 'justify-content-end me-auto text-start'
-                "
-              >
-                <div
-                  class="d-flex flex-column"
-                  :class="
-                    item.userType == 1 ? 'align-items-start' : 'align-items-end'
-                  "
-                >
-                  <strong class="card-text">
-                    <span
-                      v-if="item.userType === 1"
-                      class="badge pill bg-success mb-2 my-badge position-absolute"
-                      style="line-height: 1.5rem"
-                      >من
-                    </span>
-                    <span
-                      v-else
-                      class="badge pill bg-primary mb-2 your-badge position-absolute"
-                      style="line-height: 1.5rem"
-                      >اپراتور
-                    </span>
-                  </strong>
-                  <p class="card-text gap-2 d-flex align-items-center">
-                    <small> <i class="fas  fa-clock"></i></small>
-                    <small class="">{{new Date(item.createDate).toLocaleDateString('fa-IR')}}</small>
-                  </p>
-                </div>
-              </div>
+    <div         v-for="item in ticketData" :key="item.ticketId" class="col-md-12">
+      <div class="TicketCard  w-100  my-3">
+        <span    v-if="item.userType === 3" class="badge pill  " style="background: linear-gradient(to right,rgba(219,60,145,1) 0%,rgba(231,122,122,1) 100%);">توسط شما</span>
+        <span    v-if="item.userType === 2" class="badge pill  " style="background: linear-gradient(to right,rgb(137,231,122) 0%,rgb(60,200,219) 100%);">توسط اپراتور</span>
 
-              <p
-                class="card-text "
-                :class="item.userType == 1 ? 'text-end' : 'text-start'"
-              >
-                {{ item.content }}
-              </p>
-              <img
-                v-if="item.fileData"
-                :src="BaseUrl + item.fileData"
-                class="img-fluid rounded-start"
-              />
-            </div>
-          </div>
-        </div>
+        <p class="my-2">{{item.content}}</p>
+        <a  data-bs-target="#ShowMedia" data-bs-toggle="modal"  v-if="item.fileData" href="" class="d-flex align-items-center text-decoration-none gap-2">
+          <small><i class="fas fa-paperclip"></i></small>
+          <small> مشاهده عکس</small>
+        </a>
+        <small class="text-secondary">{{new Date(item.createDate).toLocaleTimeString('fa-IR')}} </small>
       </div>
+    </div>
+    <div class="col-12">
+
+
 
       <h4>ثبت پاسخ</h4>
       <hr />
@@ -76,8 +27,10 @@
             type="text"
             rows="1"
             class="form-control"
+            maxlength="200"
             placeholder="متن تیکت"
           ></textarea>
+          <InputLimitation v-if="ticketDescription!==null" :LimitLength="200" :Value="ticketDescription.length"></InputLimitation>
         </div>
         <div class="col-md-2 mt-3 mt-md-0">
           <button class="tw-bg-[#2A41E8] hover:tw-bg-white hover:tw-text-[#2A41E8] tw-border-solid border-1 tw-border-[#2A41E8] tw-rounded w-100 tw-transition tw-text-white  tw-p-2" @click="SubmitReply">
@@ -110,8 +63,10 @@
 </template>
 
 <script>
+import InputLimitation from "@/components/InputLimitation";
 export default {
   layout: "PoshtebamPlusLayout",
+  components:{InputLimitation},
   head() {
     return {
       title: 'تیکت ها',
@@ -177,7 +132,7 @@ export default {
         await this.$repositories.createATicket.createATicket({
           parentId: this.$route.params.id,
           content: this.ticketDescription,
-          type: 0,
+          type: this.ticketData[0].type,
           title: this.ticketData[0].title,
           createDate:new Date(Date.now()),
           fileData: this.image,
@@ -202,16 +157,22 @@ export default {
       this.Uploaded = true;
 
       const f = event.target.files[0];
-      this.BaseImgUrl = URL.createObjectURL(f);
-      const reader = new FileReader();
-      const that = this;
-      reader.onload = (function (theFile) {
-        return function () {
-          const binaryData = reader.result;
-          that.image = window.btoa(binaryData);
-        };
-      })(f);
-      reader.readAsBinaryString(f);
+      if(f.size>=512000){
+        this.$toast.error('سایز عکس نمیتواند بزرگتر از 512 کیلوبایت باشد')
+        event.target.value=''
+      }else{
+        this.BaseImgUrl = URL.createObjectURL(f);
+        const reader = new FileReader();
+        const that = this;
+        reader.onload = (function (theFile) {
+          return function () {
+            const binaryData = reader.result;
+            that.image = window.btoa(binaryData);
+          };
+        })(f);
+        reader.readAsBinaryString(f);
+      }
+
     },
     openFileUpload() {
       this.$refs.file.click();
@@ -275,6 +236,14 @@ export default {
   background-color: #F4F4F4;
   color: #b9b9b9;
 }
+.TicketCard{
+  background: #f2f2f2;
+  border-radius: 12px;
+  padding: 20px 25px 22px;
+  line-height: 26px;
+  margin-bottom: 20px;
+}
+
 .your-ticket:after {
   content: "";
   position: absolute;

@@ -3,9 +3,10 @@
     <div class="tw-flex-column">
       <div class="tw-flex tw-justify-between tw-items-center tw-my-6">
         <h2 class="tw-text-2xl tw-font-semibold">پیشنهادات</h2>
-        <nuxt-link :to="`/Products/Category/2`" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
+
+        <nuxt-link  v-if="FilterTypeSuggestion.length>0" :to="`/Products/ProductsFilter/FilterId/2`" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
       </div>
-      <div class="tw-relative">
+      <div   v-if="FilterTypeSuggestion.length>0" class="tw-relative">
         <button
           class="tw-absolute tw-bg-white tw-bottom-1/2 tw-flex tw-items-center tw-justify-center tw-p-2 tw--right-4 tw-rounded-full tw-shadow-md tw-text-xl tw-w-9 tw-z-10"
           @click="$refs.product_carousel.next()">
@@ -17,7 +18,7 @@
           <LeftChevronIcon/>
         </button>
         <vueper-slides
-          v-if="suggestion.length>0"
+
           fixed-height="270px"
           ref="product_carousel"
           class="no-shadow"
@@ -31,33 +32,17 @@
           :infinite="false"
           :breakpoints="{ 425:{visibleSlides: 1,  slideMultiple: 1}, 426: { visibleSlides: 2,  slideMultiple: 2 } , 769: { visibleSlides: 3,  slideMultiple: 2,  gap:0 }}"
         >
-          <vueper-slide v-for="(item,idx) in suggestion" :key="idx">
+          <vueper-slide v-for="(item,idx) in FilterTypeSuggestion " v-if="FilterTypeSuggestion.length>0"  :key="idx">
             <template #content>
-              <ProductItem :service_details="item" :show_buttons="false"/>
+              <ProductItem   @GetServices="Refresh()" :service_details="item" />
+
             </template>
           </vueper-slide>
         </vueper-slides>
-        <vueper-slides
-          v-else-if="Services !== null && Services.length>0 && suggestion.length===0"
-          fixed-height="270px"
-          ref="product_carousel"
-          class="no-shadow"
-          :visible-slides="5"
-          slide-multiple
-          :rtl="true"
-          :gap="1"
-          :bullets="false"
-          :touchable="false"
-          :arrows="false"
-          :infinite="false"
-          :breakpoints="{ 425:{visibleSlides: 1,  slideMultiple: 1}, 426: { visibleSlides: 2,  slideMultiple: 2 } , 769: { visibleSlides: 3,  slideMultiple: 2,  gap:0 }}"
-        >
-          <vueper-slide v-for="(item,idx) in Services" :key="idx">
-            <template #content>
-              <ProductItem :service_details="item" :show_buttons="false"/>
-            </template>
-          </vueper-slide>
-        </vueper-slides>
+
+      </div>
+      <div v-else class="tw-flex tw-items-center tw-justify-center">
+        <span class="text-secondary">داده ای برای نمایش وجود ندارد</span>
       </div>
     </div>
 
@@ -70,7 +55,7 @@
             بر اساس دسته بندی ها محصول خود را پیدا کنید
           </p>
         </div>
-        <nuxt-link :to="`/Products/Category`" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
+        <nuxt-link :to="`/Products/ProductsFilter/Categories/`" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
       </div>
       <div class="tw-relative">
         <button
@@ -111,9 +96,9 @@
     <div class="tw-flex-column">
       <div class="tw-flex tw-justify-between tw-items-center tw-my-6">
         <h2 class="tw-text-2xl tw-font-semibold">جدیدترین ها</h2>
-        <nuxt-link :to="`/Products/Category/4`" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
+        <nuxt-link v-if="FilterNewestType" :to="`/Products/ProductsFilter/FilterId/1`" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
       </div>
-      <div class="tw-relative">
+      <div   v-if="FilterNewestType.length>0" class="tw-relative">
         <button
           class="tw-absolute tw-bg-white -tw-translate-y-1/2 tw-top-1/2 tw-flex tw-items-center tw-justify-center tw-p-2 tw--right-4 tw-rounded-full tw-shadow-md tw-text-xl tw-w-9 tw-z-10"
           @click="$refs.new_carousel.next()">
@@ -125,57 +110,38 @@
           <LeftChevronIcon/>
         </button>
         <vueper-slides
-          v-if="newest.length>0"
-          fixed-height="120px"
-          ref="new_carousel"
-          class="no-shadow"
-          :visible-slides="3"
-          :gap="1"
-          slide-multiple
-          :rtl="true"
-          :bullets="false"
-          :touchable="false"
-          :arrows="false"
-          :infinite="true"
-          :breakpoints="{ 425:{visibleSlides: 1,  slideMultiple: 1}, 426: { visibleSlides: 1,  slideMultiple: 2 } , 769: { visibleSlides: 2,  slideMultiple: 2,  gap:0 }}"
-        >
-          <vueper-slide v-for="(item,idx) in newest" :key="idx">
-            <template #content>
-              <NewItem :service_details="item" :category_details="categories"/>
-            </template>
-          </vueper-slide>
-        </vueper-slides>
-        <vueper-slides
-          v-else-if="Services !== null && Services.length>0 && newest.length===0"
-          fixed-height="120px"
-          ref="new_carousel"
-          class="no-shadow"
-          :visible-slides="3"
-          :gap="1"
-          slide-multiple
-          :rtl="true"
-          :bullets="false"
-          :touchable="false"
-          :arrows="false"
-          :infinite="true"
-          :breakpoints="{ 425:{visibleSlides: 1,  slideMultiple: 1}, 426: { visibleSlides: 1,  slideMultiple: 2 } , 769: { visibleSlides: 2,  slideMultiple: 2,  gap:0 }}"
-        >
-          <vueper-slide v-for="(item,idx) in Services" :key="idx">
-            <template #content>
-              <NewItem :service_details="item" :category_details="categories"/>
-            </template>
-          </vueper-slide>
-        </vueper-slides>
 
+          fixed-height="120px"
+          ref="new_carousel"
+          class="no-shadow"
+          :visible-slides="3"
+          :gap="1"
+          slide-multiple
+          :rtl="true"
+          :bullets="false"
+          :touchable="false"
+          :arrows="false"
+          :infinite="true"
+          :breakpoints="{ 425:{visibleSlides: 1,  slideMultiple: 1}, 426: { visibleSlides: 1,  slideMultiple: 2 } , 769: { visibleSlides: 2,  slideMultiple: 2,  gap:0 }}"
+        >
+          <vueper-slide v-for="(item,idx) in FilterNewestType" :key="idx">
+            <template #content>
+              <NewItem  @GetServices="Refresh()" :service_details="item" :category_details="categories"/>
+            </template>
+          </vueper-slide>
+        </vueper-slides>
+      </div>
+      <div v-else class="tw-flex tw-items-center tw-justify-center">
+        <span class="text-secondary">داده ای برای نمایش وجود ندارد</span>
       </div>
     </div>
 
     <div class="tw-flex-column">
       <div class="tw-flex tw-justify-between tw-items-center tw-my-6 tw-border-b pb-2 my-4">
         <h2 class="tw-text-2xl tw-font-semibold">خدمات برتر</h2>
-        <nuxt-link :to="`/Products/Category/5`" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
+        <nuxt-link v-if="FilterBestType" :to="`/Products/ProductsFilter/FilterId/3`" class="tw-text-blue-500 sm:tw-block tw-hidden text-decoration-none"> مشاهده همه</nuxt-link>
       </div>
-      <div class="tw-flex-column tw-relative">
+      <div v-if="FilterBestType.length>0" class="tw-flex-column tw-relative">
         <button
           class="tw-absolute tw-bg-white tw-bottom-1/2 tw-flex tw-items-center tw-justify-center tw-p-2 tw--right-4 tw-rounded-full tw-shadow-md tw-text-xl tw-w-9 tw-z-10"
           @click="$refs.brands_carousel.next()">
@@ -187,7 +153,6 @@
           <LeftChevronIcon/>
         </button>
         <vueper-slides
-          v-if="best"
           fixed-height="270px"
           ref="brands_carousel"
           class="no-shadow"
@@ -201,33 +166,16 @@
           :infinite="true"
           :breakpoints="{ 425:{visibleSlides: 1,  slideMultiple: 1}, 426: { visibleSlides: 2,  slideMultiple: 2 } , 769: { visibleSlides: 3,  slideMultiple: 2,  gap:0 }}"
         >
-          <vueper-slide v-for="(item,idx) in best" :key="idx">
+          <vueper-slide v-for="(item,idx) in FilterBestType" :key="idx">
             <template #content>
-              <ProductItem :service_details="item" :show_buttons="false"/>
+              <ProductItem  @GetServices="Refresh()" :service_details="item"/>
             </template>
           </vueper-slide>
         </vueper-slides>
-        <vueper-slides
-          v-else-if="Services !== null && Services.length>0 && best.length===0"
-          fixed-height="270px"
-          ref="brands_carousel"
-          class="no-shadow"
-          :visible-slides="5"
-          slide-multiple
-          :rtl="true"
-          :gap="1"
-          :touchable="false"
-          :bullets="false"
-          :arrows="false"
-          :infinite="true"
-          :breakpoints="{ 425:{visibleSlides: 1,  slideMultiple: 1}, 426: { visibleSlides: 2,  slideMultiple: 2 } , 769: { visibleSlides: 3,  slideMultiple: 2,  gap:0 }}"
-        >
-          <vueper-slide v-for="(item,idx) in Services" :key="idx">
-            <template #content>
-              <ProductItem :service_details="item" :show_buttons="false"/>
-            </template>
-          </vueper-slide>
-        </vueper-slides>
+
+      </div>
+      <div v-else class="tw-flex tw-items-center tw-justify-center">
+        <span class="text-secondary">داده ای برای نمایش وجود ندارد</span>
       </div>
     </div>
 
@@ -256,8 +204,36 @@ export default {
     ProductItem,
     CategoryItem
   },
+
+  methods:{
+    Refresh(){
+    this.$emit('RefetchServices')
+    }
+  },
+
+  computed:{
+    FilterTypeSuggestion(){
+      const data = this.AllServices
+          return data.filter((el)=>{
+            return el.planTypes.includes(2)
+          })
+
+    },
+    FilterNewestType(){
+      const data = this.AllServices
+      return data.filter((el)=>{
+        return el.planTypes.includes(4)
+      })
+    },
+    FilterBestType(){
+      const data = this.AllServices
+      return data.filter((el)=>{
+        return el.planTypes.includes(3)
+      })
+    }
+  },
   props:{
-    Services:{
+    AllServices:{
       type:Array,
       required: true
     },
@@ -265,18 +241,6 @@ export default {
       type: Array,
       required: true
     },
-    best:{
-      type: Array,
-      required: true
-    },
-    newest:{
-      type: Array,
-      required: true
-    },
-    suggestion:{
-      type:Array,
-      required: true
-    }
   }
 }
 </script>

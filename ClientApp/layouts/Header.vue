@@ -415,13 +415,12 @@
               </nuxt-link>
             </div>
             <div :class="[decrease_width ? '' : ' ']" class="py-1">
-              <div v-if="!decrease_width"
-                   class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div v-if="!decrease_width"  @click="AdsActive=!AdsActive" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <AdsIcon class="svg_icons_size"/>
                 <span class="header_font_sidebar_size">آگهی ها </span>
-                <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
+                <CheveronIcon :class="{ActiveChevron:AdsActive}" class="tw-mr-auto tw-transition-all " style="width: 12px; height: 12px"/>
               </div>
-              <div v-if="!decrease_width" class="px-3" >
+              <div v-if="!decrease_width" :class="{ActiveMenu:AdsActive}" class=" tw-transition-all px-3 tw-h-0 tw-overflow-hidden" >
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
@@ -473,13 +472,13 @@
             </div>
             <div :class="[decrease_width ? '' : '']" class="py-1">
 
-              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+              <div @click="ServicesActive=!ServicesActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"
                    class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <ProductsIcon class="svg_icons_size tw-text-red-500"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">خدمات </span>
-                <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
+                <CheveronIcon :class="{ActiveChevron:ServicesActive}" class=" tw-transition-all tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div v-if="!decrease_width" class="px-3" >
+              <div :class="{ActiveMenuService:ServicesActive}" v-if="!decrease_width" class="px-3  tw-h-0 tw-overflow-hidden tw-transition-all" >
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
@@ -554,13 +553,13 @@
               </nuxt-link>
             </div>
             <div :class="[decrease_width ? '' : '']" class="py-1">
-              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+              <div  @click="ForumsActive=! ForumsActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"
                    class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <ForumIcon class="svg_icons_size"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">انجمن ها </span>
-                <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
+                <CheveronIcon :class="{ActiveChevron:ForumsActive}"  class="tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div v-if="!decrease_width" class="px-3" >
+              <div :class="{ActiveMenu:ForumsActive}" v-if="!decrease_width" class="px-3 tw-h-0 tw-overflow-hidden" >
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
@@ -600,13 +599,13 @@
               </div>
             </div>
             <div :class="[decrease_width ? '' : ' ']" class=" py-1">
-              <div v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+              <div  @click="RoomateActive=! RoomateActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"
                    class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <BedIcon class="svg_icons_size"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">هم خانه</span>
-                <CheveronIcon class="tw-mr-auto" style="width: 12px; height: 12px"/>
+                <CheveronIcon :class="{ActiveChevron:RoomateActive}" class="tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div v-if="!decrease_width" class="px-3" >
+              <div :class="{ActiveMenu:RoomateActive}" v-if="!decrease_width" class="px-3 tw-h-0 tw-overflow-hidden" >
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     exact-active-class="SingleShortCutActive"
@@ -883,7 +882,7 @@
                       </nuxt-link>
                     </div>
                     <div class="userStatus">
-                      <nuxt-link to="/social/accountsetting/editprofilebasic">
+                      <nuxt-link to="/Social/AccountSetting/EditProfileBasic">
                         <div class="d-flex flex-row justify-content-start">
                           <div class="">
                             <!--                            <font-awesome-icon icon="cog" color="black"/>-->
@@ -1141,7 +1140,7 @@
                       </nuxt-link>
                     </div>
                     <div class="userStatus">
-                      <nuxt-link to="/social/accountsetting/editprofilebasic">
+                      <nuxt-link to="/Social/AccountSetting/EditProfileBasic">
                         <div class="d-flex flex-row justify-content-start">
                           <div class="">
                             <!--                            <font-awesome-icon icon="cog" color="black"/>-->
@@ -1323,6 +1322,11 @@ export default {
 
   data() {
     return {
+      AdsActive:false,
+      ServicesActive:false,
+      ForumsActive:false,
+      RoomateActive:false,
+
       displayChargeSideNav: false,
       want_to_search: false,
       on_search_click: false,
@@ -1931,7 +1935,6 @@ export default {
     },
   },
   async mounted() {
-    console.log(this.$auth.user)
     window.addEventListener("scroll", this.updateScroll);
     if (!this.$route.query.id) {
       try {
@@ -2939,5 +2942,21 @@ ul .subMenuList :hover {
   background-color: white;
   right: -15px !important;
   z-index: 999999 !important;
+}
+
+
+.ActiveChevron{
+  transition: .2s ease;
+  transform: rotate(180deg);
+}
+.ActiveMenu{
+  transition: .2s ease;
+ @apply   tw-h-[150px]
+
+}
+.ActiveMenuService{
+  transition: .2s ease;
+  @apply   tw-h-[170px]
+
 }
 </style>

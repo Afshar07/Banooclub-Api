@@ -77,8 +77,9 @@
             <span v-if="data.item.createDate">{{new Date(data.item.createDate).toLocaleDateString('fa-IR')}}</span>
           </template>
           <template #cell(reporterName)="data">
-
+            <router-link :to="`/apps/users/Detail/${data.item.reporterUserInfo.userName}`">
             <span v-if="data.item.reporterUserInfo">{{data.item.reporterUserInfo.userName}}@</span>
+            </router-link>
           </template>
           <template #cell(delete)="data">
 
@@ -227,7 +228,7 @@ export default {
     async DeletePost(){
       let _this = this
       let postDeleteRequest = new PostDeleteRequest(_this)
-      postDeleteRequest.setId(this.SelectedPost.PostId)
+      postDeleteRequest.setParams([this.SelectedPost.postId])
       await postDeleteRequest.fetch(()=>{
         _this.$toast({
           component: ToastificationContent,
@@ -250,9 +251,9 @@ export default {
 
       let data ={
         status:this.SelectedPostStatus,
-        postId: this.SelectedPost.postId,
       }
       changePostStatus.setParams(data)
+      changePostStatus.setRequestParamDataObj([this.SelectedPost.postId])
       await changePostStatus.fetch(()=>{
         _this.$toast({
           component: ToastificationContent,

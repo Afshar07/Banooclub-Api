@@ -18,12 +18,7 @@ export default [
         resource: 'ProductManager',
         action: 'ProductManager',
       },
-      // {
-      //   title: 'ارتقا آگهی',
-      //   route: 'apps-Upgrade-UpgradeAd',
-      //   resource: 'ProductManager',
-      //   action: 'ProductManager',
-      // },
+
     ],
   },
   {
@@ -51,6 +46,10 @@ export default [
       {
         title: ' همه تیکت ها',
         route: 'apps-Ticket-AllTickets',
+      },
+      {
+        title: ' ساخت تیکت جدید',
+        route: 'apps-Ticket-CreateTicket',
       }
     ]
   },
@@ -114,6 +113,12 @@ export default [
       {
         title: 'نیاز به بازبینی مجدد',
         route: 'apps-Service-Pending',
+        resource: 'ProductManager',
+        action: 'ProductManager',
+      },
+      {
+        title: 'منقضی شده',
+        route: 'apps-Service-Expired',
         resource: 'ProductManager',
         action: 'ProductManager',
       },

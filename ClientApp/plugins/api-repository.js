@@ -29,7 +29,7 @@ import CreateCityRepository from "../api/city";
 import CreateFollowerRepository from "../api/follower"
 import CreateFollowingRepository from "../api/following"
 import CreateGroupsRepository from "../api/Groups"
-
+import CreateDiscountRepository from "../api/Discount"
 export default (context, inject) => {
   const repositories = {
     //   Authentication repositories start
@@ -76,7 +76,7 @@ export default (context, inject) => {
     getPost: createPostRepository(context, "Post/Get"),
     getMyPosts: createPostRepository(context, "Post/GetMyPost"),
     deleteAPost: createPostRepository(context, "Post/Delete"),
-
+    ChangePostCommentActivation:createPostRepository(context,'PostComment/ChangePostCommentActivation'),
     // Birthdate repositories start
     getBirthdateList: createBirthdateRepository(context, "Account/BirthDateList"),
     // Post repositories end
@@ -155,6 +155,13 @@ export default (context, inject) => {
     CreateLike:createForumPackRepository(context,'Like/Create'),
 
     // Ads repository end
+    // Discount repository start
+    CreateDiscount: CreateDiscountRepository(context, "Discount/Create"),
+    UpdateDiscount: CreateDiscountRepository(context, "Discount/Update"),
+    DeleteDiscount: CreateDiscountRepository(context, "Discount/Delete"),
+
+
+    // Discount repository end
 
     // Ticket repository start
     getAllTickets: createTicketRepository(context, "Ticket/GetAllForCustomer"),
@@ -239,6 +246,7 @@ export default (context, inject) => {
     GetAllGroups:CreateGroupsRepository(context,'MessageGroup/GetAll')
 
   };
+
   inject("repositories", repositories);
 
 };

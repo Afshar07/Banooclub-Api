@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace BanooClub.Services.RoomateServices
@@ -102,6 +103,7 @@ namespace BanooClub.Services.RoomateServices
             try
             {
                 var dbRoomates = roomateRepository.GetQuery();
+
                 if (mortgageFrom != 0 && mortgageFrom != null)
                 {
                     dbRoomates = dbRoomates.Where(z => z.Mortgage >= mortgageFrom);
@@ -171,6 +173,7 @@ namespace BanooClub.Services.RoomateServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+
             var roomatDocStatus = roomateDocRepository.GetQuery().FirstOrDefault(z => z.UserId ==userId).Status;
             return roomatDocStatus;
         }
@@ -180,6 +183,7 @@ namespace BanooClub.Services.RoomateServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+
             var userSetting = userSettingRepository.GetQuery().FirstOrDefault(z=>z.UserId == userId);
             userSetting.ActiveRoomate = state;
             await userSettingRepository.Update(userSetting);
@@ -309,6 +313,7 @@ namespace BanooClub.Services.RoomateServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+
             var roomate = roomateRepository.GetQuery().FirstOrDefault(z => z.UserId == userId);
             if (roomate != null)
             {
@@ -344,5 +349,56 @@ namespace BanooClub.Services.RoomateServices
             }
         }
 
+        public async Task<List<Roomate>> GetAllForAdmin(long? mortgageFrom, long? mortgageTo, long? dailyRentFrom, long? dailyRentTo)
+        {
+            try
+            {
+                var dbRoomates = roomateRepository.GetQuery();
+
+                if (mortgageFrom != 0 && mortgageFrom != null)
+                {
+                    dbRoomates = dbRoomates.Where(z => z.Mortgage >= mortgageFrom);
+                }
+                if (mortgageTo != 0 && mortgageTo != null)
+                {
+                    dbRoomates = dbRoomates.Where(z => z.Mortgage <= mortgageTo);
+                }
+
+                if (dailyRentFrom != 0 && dailyRentFrom != null)
+                {
+                    dbRoomates = dbRoomates.Where(z => z.DailyRent >= dailyRentFrom);
+                }
+                if (dailyRentTo != 0 && dailyRentTo != null)
+                {
+                    dbRoomates = dbRoomates.Where(z => z.DailyRent <= dailyRentTo);
+                }
+
+                var finalRoomates = dbRoomates.ToList();
+
+                foreach (var roomate in finalRoomates)
+                {
+                    roomate.IsPrivate = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == roomate.UserId).IsPrivateRoomate;
+                    roomate.Photos = new List<FileData>();
+                    var dbPhotos = _mediaRepository.GetQuery().Where(z => z.ObjectId == roomate.RoomateId && z.Type == MediaTypes.RoomatePhoto).ToList();
+                    foreach (var photo in dbPhotos)
+                    {
+                        if (photo != null)
+                        {
+                            roomate.Photos.Add(new FileData()
+                            {
+                                Base64 = "media/gallery/RoomatePhotos/" + photo.PictureUrl,
+                                Priority = (int)photo.Priority,
+                                UploadType = 1
+                            });
+                        }
+                    }
+                }
+                return finalRoomates;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

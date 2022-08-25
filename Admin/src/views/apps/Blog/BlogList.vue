@@ -13,6 +13,23 @@
           @ok="DeleteBlog"
       >
         <span>آیا از حذف کردن این مقاله اطمینان دارید ؟ </span>
+
+      </b-modal>
+      <b-modal
+          id="modal-View"
+          centered
+          ok-title="تغییر وضعیت"
+          ok-only
+          @ok="ChangeBlogStatus"
+      >
+        <span>تغییر وضعیت به </span>
+        <v-select
+            v-model="SelectedStatus"
+            class="my-3"
+            label="option"
+            :options="BlogStatus"
+            :reduce="option => option.value"
+        />
       </b-modal>
 
       <!-- Table Container Card -->
@@ -65,11 +82,26 @@
             </div>
 
           </template>
+          <template #cell(status)="data">
+            <b-badge v-if="data.item.status===1" variant="success">
+             منتشر شده
+            </b-badge>
+            <b-badge v-if="data.item.status===2" variant="danger">
+              آرشیو شده
+            </b-badge>
+          </template>
 
+          <template #cell(View)="data">
+
+
+              <feather-icon @click="SetSelectedBlog(data.item)" v-b-modal.modal-View icon="EyeIcon" size="20" class="text-primary" />
+
+
+          </template>
           <template #cell(Edit)="data">
 
             <b-link class="cursor-pointer" :to="`/apps/Blog/EditBlog/${data.item.blogId}`">
-              <feather-icon icon="EyeIcon" size="20" class="text-primary" />
+              <feather-icon icon="EditIcon" size="20" class="text-primary" />
             </b-link>
 
           </template>
@@ -134,7 +166,7 @@ import {
   BBadge, BDropdown, BDropdownItem, BPagination, BOverlay, BModal, BFormGroup,BFormSelect
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
-
+import ChangeBlogStatus from "@/libs/Api/Blog/BlogChangeStatus";
 import BlogGetAllRequest from '@/libs/Api/Blog/BlogGetAllReqeust'
 
 import ToastificationContent from '@core/components/toastification/ToastificationContent'
@@ -172,6 +204,17 @@ export default {
       currentPage: 1,
       deleteItem: null,
       perPage: 5,
+      SelectedStatus:0,
+      BlogStatus:[
+        {
+          option:'منتشر شده',
+          value:1
+        }  ,
+        {
+          option:'آرشیو شده',
+          value:2
+        }
+      ],
       perPageOptions: [10, 20, 30, 40, 50],
       myTableColumns: [
         {
@@ -186,7 +229,10 @@ export default {
           key: 'title',
           label: 'نام'
         },
-
+        {
+          key: 'status',
+          label: 'وضعیت'
+        },
         {
           key: 'Delete',
           label: 'حذف'
@@ -194,6 +240,10 @@ export default {
         {
           key: 'Edit',
           label: 'ویرایش'
+        },
+        {
+          key: 'View',
+          label: 'تغییر وضعیت'
         },
         // { key: 'parentId'},
       ],
@@ -219,6 +269,30 @@ export default {
     }
   },
   methods: {
+    async ChangeBlogStatus(){
+      let _this = this
+      let changeBlogStatus = new ChangeBlogStatus(_this)
+      let data ={
+        status:this.SelectedStatus
+      }
+      changeBlogStatus.setParams(data)
+      changeBlogStatus.setParamsWithBody([this.SelectedBlog.blogId])
+      await changeBlogStatus.fetch(()=>{
+        _this.$toast({
+          component: ToastificationContent,
+          position: 'bottom-center',
+          props: {
+            title: `عملیات موفق`,
+            icon: 'CheckIcon',
+            variant: 'success',
+            text: `وضعیت مقاله با موفقیت تغییر یافت`,
+          },
+        })
+        _this.GetAllBlogs()
+      },(e)=>{
+        console.log(e)
+      })
+    },
 
     async  DeleteBlog(){
       let _this = this

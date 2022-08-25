@@ -45,8 +45,8 @@
               <div v-for="(item,idx) in AllComments" :key="idx" class="col-lg-3 col-md-6 my-1">
                 <div class="d-flex flex-lg-row flex-md-column align-items-center justify-content-between   gap-2  BoxShadow p-3"  style="border-radius: 15px">
                   <div class="d-flex align-items-center">
-                    <img class="mx-2" v-if="item.userInfo && item.userInfo.displayName!==null" :src="'https://banooclubapi.simagar.com/media/gallery/Profile/' + item.userInfo.selfieFileData" alt="Comment" width="40px" height="40px">
-                    <img class="mx-2"  v-else src="/nopicture.jpg" alt="Comment" width="40px" height="40px">
+                    <img class="mx-2 rounded-circle shadow" v-if="item.userInfo && item.userInfo.displayName!==null" :src="'https://banooclubapi.simagar.com/media/gallery/Profile/' + item.userInfo.selfieFileData" alt="Comment" width="40px" height="40px">
+                    <img class="mx-2 rounded-circle shadow"  v-else src="/nopicture.jpg" alt="Comment" width="40px" height="40px">
                     <div class="d-flex flex-column align-items-start gap-1">
                       <strong v-if="item.userInfo">{{ item.userInfo.displayName!==null?item.userInfo.displayName:'بدون نام' }}</strong>
                       <small class="text-secondary">{{item.message}}</small>

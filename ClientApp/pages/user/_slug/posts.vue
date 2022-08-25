@@ -2,12 +2,13 @@
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container-fluid mcontainer px-0">
     <CustomHeader/>
     <div class="tab-content" id="pills-tabContent">
-      <div class="tab-pane fade show active" id="services" role="tabpanel" aria-labelledby="services-tab">
+      <div class="tab-pane fade  " id="services" role="tabpanel" aria-labelledby="services-tab">
         <UserServices/>
       </div>
-      <div class="tab-pane fade" id="posts-home" role="tabpanel" aria-labelledby="posts-home-tab">
+      <div class="tab-pane fade show active" id="posts-home" role="tabpanel" aria-labelledby="posts-home-tab">
         <div class="d-flex row">
           <div class="col-md-7 col-sm-12" style="height: 1500px;overflow-y: scroll;" @scroll="handleScroll">
+
             <PostItem class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post"/>
             <Spinner v-if="postData && postData.length !== postCounts"/>
             <div class="row mb-3" v-if="!$fetchState.pending && postData && postData.length === 0">
@@ -20,70 +21,76 @@
                 پست های این کاربر شخصی هستند.
               </div>
             </div>
-            <!--            <div-->
-            <!--              class="row boxMainContent position-relative mx-auto main-background"-->
-            <!--              v-if="this.$store.state.HeaderData.status != 2 ||this.$store.state.SearchedUserStatus != 3">-->
-            <!--              <social-post-->
-            <!--                :post-data="postData"-->
-            <!--                @checkData="onPostDelete"-->
-            <!--                @updateData="updateData"-->
-            <!--              ></social-post>-->
-            <!--            </div>-->
-            <!--            <div v-if="this.$store.state.HeaderData.status === 2" class="row boxMainContent text-warning position-relative bg-white pb-0 p-3">-->
-            <!--              <p class="text-center">-->
-            <!--                صفحه این کاربر خصوصی است برای مشاهده آن درخواست دوستی ارسال کنید.-->
-            <!--                <a href="" @click.prevent="Follow" class="text-decoration-none">ارسال درخواست دوستی</a>-->
-            <!--              </p>-->
-            <!--            </div>-->
-            <!--            <div v-else-if="this.$store.state.HeaderData.status === 3" class="row boxMainContent text-warning position-relative bg-white p-3">-->
-            <!--              <p class="text-center">-->
-            <!--                برای مشاهده صفحه این کاربر ابتدا وارد اکانت خود شوید-->
-            <!--              </p>-->
-            <!--            </div>-->
+
           </div>
           <div class="col-md-5 col-sm-12">
             <div class="widget custom_card p-3">
               <h4 class="tw-text-lg tw-font-semibold"> درباره من </h4>
               <ul class="tw-text-gray-600 space-y-3 tw-mt-3">
-                <li class="tw-flex tw-items-center my-2" v-if="userinfo && (userinfo.cityName !== '' || userinfo.stateName !== '')">
-                  <HomeIcon style="width: 30px; height: 30px;" fill="rgb(75 85 99)" class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
+                <li class="tw-flex tw-items-center my-2"
+                    v-if="userinfo && (userinfo.cityName !== '' || userinfo.stateName !== '')">
+                  <HomeIcon style="width: 30px; height: 30px;" fill="rgb(75 85 99)"
+                            lass="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
                   ساکن
-                  <strong class="px-1">{{userinfo.stateName}} <span v-if="userinfo.cityName !== '' && userinfo.stateName !== ''">,</span> {{userinfo.cityName}}</strong>
+                  <strong class="px-1">{{ userinfo.stateName }} <span
+                    v-if="userinfo.cityName !== '' && userinfo.stateName !== ''">,</span>
+                    {{ userinfo.cityName }}</strong>
                 </li>
-                <li class="tw-flex tw-items-center my-2" v-if="userinfo && userinfo.relationState !== null">
-                  <HeartIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;" class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
+                <li class="tw-flex tw-items-center my-2"  v-if="  userinfo.userSetting&&userinfo.userSetting.birthDate===null&&userinfo.relationState !== null">
+                  <HeartIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"
+                             class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
                   <div v-if="userinfo && userinfo.relationState === 1">
-                    <strong> مجرد  </strong>
+                    <strong> مجرد </strong>
                   </div>
                   <div v-else-if="userinfo && userinfo.relationState === 2">
-                    در <strong> رابطه  </strong>
+                    در <strong> رابطه </strong>
                   </div>
                   <div v-else-if="userinfo && userinfo.relationState === 3">
-                    <strong> متاهل  </strong>
+                    <strong> متاهل </strong>
                   </div>
                   <div v-else-if="userinfo && userinfo.relationState === 4">
-                    <strong> مطلقه  </strong>
+                    <strong> مطلقه </strong>
                   </div>
                   <div v-else-if="userinfo && userinfo.relationState === 5">
-                    <strong> سایر  </strong>
+                    <strong> سایر </strong>
                   </div>
                 </li>
+                <li  class="tw-flex tw-items-center my-2" v-else-if="  userinfo.userSetting&& userinfo.userSetting.birthDate!==null">
+                  <AllUsersIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"  class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
+                  <div >
+                    <strong  v-if="  userinfo.userSetting&& userinfo.userSetting.birthDate!==null"> {{ time_ago(userinfo.userSetting.birthDate) }}  </strong>
+                  </div>
+
+                </li>
+                <li  class="tw-flex tw-items-center my-2" v-if="  userinfo.userSetting">
+                  <ServiceProviderLabel v-if="userinfo.type===3"></ServiceProviderLabel>
+                  <CustomerLabel v-else></CustomerLabel>
+                </li>
                 <li class="tw-flex tw-items-center my-2" v-if="userinfo">
-                  <AllUsersIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;" class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
-                  دنبال شده توسط  <strong v-if="userinfo" class="px-1">{{ userinfo.followersCount }}</strong> نفر
+                  <AllUsersIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"
+                                class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
+                  دنبال شده توسط <strong v-if="userinfo" class="px-1">{{ userinfo.followersCount }}</strong> نفر
+                </li>
+                <li  class="tw-flex tw-items-center my-2" v-if="  userinfo.userSetting">
+                  <QuestionIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;" class="tw-rounded-full tw-w-10 tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"></QuestionIcon>
+
+                  <div >
+                    <p class="m-0 ShortDescriptionIndex"> {{ userinfo.userSetting.bio }}  </p>
+                  </div>
+
                 </li>
               </ul>
               <div class="tw-gap-3 grid tw-grid-cols-2 tw-mt-4">
                 <div class="row">
                   <div
                     class="col-md-6 my-3"
-                    v-for="(item,index) in Photos"
+                    v-for="(item,index) in Photos.slice(0,4)"
                     :key="index"
                   >
                     <div class="position-relative">
                       <img
                         v-if="item.priority === 2"
-                        :src="`https://banooclubapi.simagar.com/${item.base64}`"
+                        :src="`https://banooclubapi.simagar.com/media/gallery/galleryImages/${item.base64}`"
                         style="object-fit: cover;object-position: center; width: 300px;height: 250px"
                         class="rounded"
                         alt=""
@@ -93,35 +100,29 @@
                         class="rounded w-100"
                         style="object-fit: cover;object-position: center;height: 250px"
                         controls
-                        :src="`https://banooclubapi.simagar.com/${item.base64}`"
+                        :src="`https://banooclubapi.simagar.com/media/gallery/galleryVideos/${item.base64}`"
                       ></video>
                       <!--            </a>-->
                     </div>
                   </div>
+                  <div class="col-md-12 d-flex align-items-center justify-content-center">
+                    <a  data-bs-toggle="tab"  class="tw-decoration-0 tw-text-blue-400 tw-cursor-pointer" href="#pills-contact" >مشاهده بیشتر</a>
+                  </div>
                 </div>
-
-                <!--      <div class="d-flex justify-content-around mt-3">-->
-                <!--        <img style="width: 105px; height: 105px;" src="~/assets/images/products/product_image.jpg" alt="" class="tw-rounded-lg">-->
-                <!--        <img style="width: 105px; height: 105px;" src="~/assets/images/products/product_image.jpg" alt="" class="tw-rounded-lg">-->
-                <!--        <img style="width: 105px; height: 105px;" src="~/assets/images/products/product_image.jpg" alt="" class="tw-rounded-lg">-->
-                <!--      </div>-->
-
               </div>
             </div>
-
-            <!--            <MyFriends class="my-3"/>-->
             <Groups class="my-3"/>
           </div>
 
         </div>
-
       </div>
-
       <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-        <UserPhotos :photos="Photos" />
+        <UserPhotos :photos="Photos"/>
+      </div>
+      <div class="tab-pane fade" id="Ads" role="tabpanel" aria-labelledby="pills-contact-tab">
+        <UserAds @PageChanged="ChangePage" :Ads="AllAds" :totalPages="totalPages" :activePage="SelectedPageId" />
       </div>
     </div>
-
 
 
   </div>
@@ -130,7 +131,7 @@
 
 <script>
 import PostItem from "../../../components/PostItem"
-
+import QuestionIcon from "@/components/Icons/QuestionIcon";
 import CustomHeader from "../../../components/CustomHeader";
 import AboutUser from "../../../components/UserPanel/AboutUser";
 import MyFriends from "../../../components/UserPanel/MyFriends";
@@ -144,12 +145,17 @@ import GlobeIcon from "../../../components/Icons/GlobeIcon";
 import HeartIcon from "../../../components/Icons/HeartIcon";
 import HomeIcon from "../../../components/Icons/HomeIcon"
 import AllUsersIcon from "../../../components/Icons/AllUsersIcon"
+import UserAds from "@/components/Ads/UserAds";
 export default {
   layout: "PoshtebamPlusLayout",
   name: "MyPosts",
-  components: {Groups, MyFriends, AboutUser, CustomHeader, PostItem,UserServices, UserPhotos, Spinner, UserFriends, AllUsersIcon,
+  components: {
+    Groups, MyFriends, AboutUser, CustomHeader, PostItem, UserServices, UserPhotos, Spinner, UserFriends, AllUsersIcon,
     HeartIcon,
-    GlobeIcon, HomeIcon },
+    UserAds,
+    QuestionIcon,
+    GlobeIcon, HomeIcon
+  },
   fetchOnServer() {
     return true;
   },
@@ -158,45 +164,48 @@ export default {
   },
 
 
-  data(){
-    return{
-      last_id:0,
-      postData:[],
-      Photos:[],
+  data() {
+    return {
+      ActiveTab:1,
+      last_id: 0,
+      postData: [],
+      Photos: [],
       postCounts: 0,
-      userId:0,
-      userinfo:[]
+      userId: 0,
+      userinfo: [],
+      AllAds:[],
+      SelectedPageId:1,
+      totalPages:[]
     }
   },
   async fetch() {
     try {
-      const response = await this.$repositories.GetUserByUserName.GetUserByUserName({userName:this.$route.params.slug});
+      const response = await this.$repositories.GetUserByUserName.GetUserByUserName({userName: this.$route.params.slug});
       this.userinfo = response.data.userInfo;
 
     } catch (error) {
       console.log(error);
     }
-    if(!this.userinfo.userSetting.isPrivatePost){
+    if (!this.userinfo.userSetting.isPrivatePost) {
       try {
         const posts = await this.$repositories.getPostsByUserName.getPostsByUserName(
           {
-            userName:this.$route.params.slug,
-            lastId:this.last_id,
-            count:3
+            userName: this.$route.params.slug,
+            lastId: this.last_id,
+            count: 3
           }
         )
-        // const medias = await this.$repositories.getUserMedias.getUserMedias({userId:2});
+
         this.postData = posts.data.posts;
         this.postCounts = this.postData.length
 
         // this.medias = medias.data
-      }
-      catch (error) {
+      } catch (error) {
         console.log(error);
       }
     }
 
-    if(!this.userinfo.userSetting.isPrivateGalleryFriend) {
+    if (!this.userinfo.userSetting.isPrivateGalleryFriend) {
       try {
         const gallery = await this.$repositories.getUserMediasByUserName.getUserMediasByUserName({
           userName: this.$route.params.slug
@@ -206,34 +215,95 @@ export default {
         console.log(error);
       }
     }
+    try {
+      const res = await  this.$repositories.getAdsByUserId.getAdsByUserId({
+        userId:this.userinfo.userId,
+        pageNumber:this.SelectedPageId,
+        count:10
+
+      })
+      this.AllAds = res.data.ads
+
+      this.totalPages = []
+      const result = Math.ceil(response.data.adsCount / 10)
+      for (let i = 1; i <= result; i++) {
+        this.totalPages.push(i);
+      }
+    }catch (e) {
+      console.log(e)
+    }
   },
 
   methods: {
+    ChangePage(id){
+      this.SelectedPageId = id
+    },
+    time_ago(time) {
+      switch (typeof time) {
+        case 'number':
+          break;
+        case 'string':
+          time = +new Date(time);
+          break;
+        case 'object':
+          if (time.constructor === Date) time = time.getTime();
+          break;
+        default:
+          time = +new Date();
+      }
+      let time_formats = [
+        [60, 'ثانیه ', 1], // 60
+        [120, '1 دقیقه ', 'یک دقیقه '], // 60*2
+        [3600, 'دقیقه ', 60], // 60*60, 60
+        [7200, '1 ساعت ', '1 ساعت '], // 60*60*2
+        [86400, 'ساعت ', 3600], // 60*60*24, 60*60
+        [172800, 'دیروز', 'فردا'], // 60*60*24*2
+        [604800, 'روز ', 86400], // 60*60*24*7, 60*60*24
+        [1209600, 'هفته ', 'هفته '], // 60*60*24*7*4*2
+        [2419200, 'هفته', 604800], // 60*60*24*7*4, 60*60*24*7
+        [4838400, 'ماه ', 'ماه '], // 60*60*24*7*4*2
+        [29030400, 'ماه', 2419200], // 60*60*24*7*4*12, 60*60*24*7*4
+        [58060800, 'سال ', 'سال '], // 60*60*24*7*4*12*2
+        [2903040000, 'سال', 29030400], // 60*60*24*7*4*12*100, 60*60*24*7*4*12
 
+      ];
+      let seconds = (+new Date() - time) / 1000,
+        token = '',
+        list_choice = 1;
 
-    handleScroll(event){
+      if (seconds == 0) {
+        return ''
+      }
+      if (seconds < 0) {
+        seconds = Math.abs(seconds);
+        token = '';
+        list_choice = 2;
+      }
+      let i = 0,
+        format;
+      while (format = time_formats[i++])
+        if (seconds < format[0]) {
+          if (typeof format[2] == 'string')
+            return format[list_choice];
+          else
+            return Math.floor(seconds / format[2]) + ' ' + format[1] + ' ' + token;
+        }
+      return time;
+    },
+    handleScroll(event) {
 
       if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight) {
         const lastPostId = Object.values(this.postData).pop();
         this.getPostsForInfiniteScroll(lastPostId.postId)
       }
-
-      // if (event.target.scrollHeight) {
-      //   console.log('event.target.scrollHeight',event.target.scrollHeight)
-      //   console.log(event.target.scrollTop)
-      //   //this is stupid but it works temprory
-      //   if (event.target.scrollTop === event.target.scrollHeight - 969) {
-      //
-      //   }
-      // }
     },
-    async getPostsForInfiniteScroll(id){
+    async getPostsForInfiniteScroll(id) {
       try {
         const response = await this.$repositories.getPostsByUserId.getPostsByUserId(
           {
-            userId:this.$route.params.id,
-            lastId:id,
-            count:3
+            userId: this.$route.params.id,
+            lastId: id,
+            count: 3
           }
         );
         const newPosts = response.data.posts;
@@ -241,12 +311,10 @@ export default {
           this.postData.push(element)
         });
         // console.log('this.postData',this.postData)
-      }catch (error) {
+      } catch (error) {
         console.log(error);
       }
     },
-
-
     async Follow() {
       try {
         const response =
@@ -262,7 +330,6 @@ export default {
         console.log(error);
       }
     },
-
     onPostDelete(value) {
       this.deletePost(value);
     },
@@ -315,7 +382,6 @@ export default {
     padding-right: 4rem;
   }
 }
-
 
 
 .profile_tabs nav-item {
@@ -414,7 +480,6 @@ img {
     margin-bottom: 20px;
     /*padding: 25px;*/
   }
-
 
 
   .BannerPhoto {

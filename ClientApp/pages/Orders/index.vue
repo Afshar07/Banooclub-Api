@@ -14,7 +14,7 @@
     </div>
     <div class="tw-overflow-x-auto">
       <div class="tw-overflow-x-auto">
-        <table class="tw-table tw-w-full tw-table-zebra" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
+        <table class="tw-table tw-w-full tw-table-compact tw-table-zebra" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
           <!-- head -->
           <thead>
           <tr>
@@ -47,7 +47,7 @@
             <th v-else-if="item.adsInfo===null && item.serviceInfo===null" class="fw-normal">
               <small> - </small>
             </th>
-            <td>{{ new Date(item.createDate).toLocaleTimeString('fa-IR') }}</td>
+            <td>{{ new Date(item.createDate).toLocaleDateString('fa-IR') }}</td>
             <td>
               <div class="tw-bg-red-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-if="item.status === 3">
                 <span class="text-white tw-text-xs">لغو شده</span>
@@ -81,6 +81,9 @@
         </table>
       </div>
     </div>
+      <div class="col-md-12">
+        <CustomPagination v-if="totalPages.length>1" :activePage="SelectedPageNumber" :totalPages="totalPages" @PageChanged="changePage($event)"/>
+      </div>
   </div>
 
 
@@ -90,13 +93,14 @@
 import PlusIcon from "../../components/Icons/PlusIcon";
 import {data} from "autoprefixer";
 import ChargeWalletSideNav from "../../components/ChargeWalletSideNav";
-
+import CustomPagination from "@/components/utilities/CustomPagination";
 export default {
   name: "index",
   layout: "PoshtebamPlusLayout",
   components: {
     ChargeWalletSideNav,
-    PlusIcon
+    PlusIcon,
+    CustomPagination
   },
   head() {
     return {
@@ -112,11 +116,37 @@ export default {
     return {
       displayChargeSideNav:false,
       AllOrders:[],
-      SelectedPageNumber:1
+      SelectedPageNumber:1,
+      totalPages:[]
 
     }
   },
+  watch:{
+    SelectedPageNumber:function (){
+      this.GetAllOrders()
+    }
+  },
   methods:{
+    async GetAllOrders(){
+      try {
+        const res = await this.$repositories.OrderGetByUserId.OrderGetByUserId({
+          pageNumber:this.SelectedPageNumber,
+          count:10
+
+        })
+        this.AllOrders = res.data.orders
+        this.totalPages = []
+        const result = Math.ceil(res.data.orderCount / 10)
+        for (let i = 1; i <= result; i++) {
+          this.totalPages.push(i);
+        }
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    changePage(id){
+      this.SelectedPageNumber = id
+    },
     RouteToOrder(item){
       if(item && item.subOrders&& item.subOrders[0].serviceId!==null){
         this.$router.push({
@@ -133,8 +163,17 @@ export default {
   },
   async fetch(){
     try {
-      const res = await this.$repositories.OrderGetByUserId.OrderGetByUserId()
-      this.AllOrders = res.data
+      const res = await this.$repositories.OrderGetByUserId.OrderGetByUserId({
+        pageNumber:this.SelectedPageNumber,
+        count:10
+
+      })
+      this.AllOrders = res.data.orders
+      this.totalPages = []
+      const result = Math.ceil(res.data.orderCount / 10)
+      for (let i = 1; i <= result; i++) {
+        this.totalPages.push(i);
+      }
     }catch (e) {
       console.log(e)
     }
@@ -169,5 +208,25 @@ th.fw-normal {
 }
 td{
   background-color: #80808021 !important;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 </style>

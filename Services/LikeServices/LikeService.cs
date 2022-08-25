@@ -24,6 +24,7 @@ namespace BanooClub.Services.LikeServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+
             inputDto.UserId = userId;
             var dbCommentLike = likeRepository.GetQuery().FirstOrDefault(z => z.UserId == userId && z.ObjectId == inputDto.ObjectId && z.Type == inputDto.Type);
             if (dbCommentLike == null)
@@ -58,7 +59,6 @@ namespace BanooClub.Services.LikeServices
                 await likeRepository.Update(dbCommentLike);
                 return LikeResponse.Success;
             }
-
         }
 
         public async Task<Like> Update(Like item)

@@ -1,5 +1,5 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''"  class=" mcontainer bg-white  px-2">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer bg-white  px-2">
     <div class="row" style="padding-left: 0">
       <h1 class="tw-text-2xl tw-font-semibold pb-3">افزودن خدمت</h1>
       <div class="row" style="padding-left: 0">
@@ -13,7 +13,7 @@
           <select v-model="service_category" class="form-select" aria-label="Default select example"
                   :class="{BorderRed:service_category===null,BorderGreen:service_category!==null}">
             <option :value="null">دسته بندی خدمت</option>
-            <option v-for="(service_category,idx) in categories" :key="idx"  :value="service_category.serviceCategoryId">
+            <option v-for="(service_category,idx) in categories" :key="idx" :value="service_category.serviceCategoryId">
               {{ service_category.title }}
             </option>
           </select>
@@ -42,7 +42,7 @@
         </div>
         <div class="col-12 py-3" style="padding-left: 0">
           <div class="labelText">موقعیت روی نقشه</div>
-          <SetLocation @getGeoLocation="SetGeoLocation()"></SetLocation>
+          <SetLocation @getGeoLocation="SetGeoLocation"></SetLocation>
         </div>
         <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
           <label>ظرفیت</label>
@@ -53,7 +53,7 @@
           <input maxlength="11" v-model="phone_number1" type="number" class="with-border" placeholder="شماره تلفن">
         </div>
         <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
-          <label>شماره تلفن 2</label>
+          <label>موبایل</label>
           <input maxlength="11" v-model="phone_number2" type="number" class="with-border" placeholder="شماره تلفن">
         </div>
         <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
@@ -61,17 +61,20 @@
           <input maxlength="11" v-model="mobile" type="number" class="with-border" placeholder="شماره همراه"
                  :class="{BorderRed:mobile===0,BorderGreen:mobile!==0}">
         </div>
-        <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
+        <div class="col-md-12 col-sm-12 pt-3" style="padding-left: 0">
           <label>ایمیل</label>
           <input v-model="email" type="email" class="with-border" placeholder="ایمیل">
         </div>
         <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
-          <div class="labelText">
-            آدرس وب سایت
-          </div>
-          <div class="my-3">
-            <input type="text" v-model="web_address" class="with-border" placeholder="www.example.com">
-          </div>
+          <label class="mb-3">تاریخ شروع خدمت (اختیاری)</label>
+          <client-only>
+            <date-picker
+              format="YYYY-MM-DD"
+              display-format="jYYYY-jMM-jDD"
+              v-model="StartDate"
+              type="date"
+            />
+          </client-only>
         </div>
         <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
           <label class="mb-3">تاریخ انقضاء خدمت</label>
@@ -84,15 +87,20 @@
             />
           </client-only>
         </div>
-
         <div class="col-12 pt-3" style="padding-left: 0">
           <div class="labelText">
             هشتگ های خدمت
           </div>
           <div class="my-3">
-            <input v-on:keyup.enter="addTags" v-model="tag" type="text" class="with-border"
-                   placeholder="ناخن،مو،رنگ...">
-            <div class="d-flex">
+            <div class="d-flex align-items-center gap-2">
+              <input @keydown.enter="addTags" v-model="tag" type="text" ref="TagsInput" class=" form-control with-border"
+                     placeholder="ناخن،مو،رنگ...">
+
+              <button class="btn btn-primary h-100 " @click="addTags">ثبت</button>
+            </div>
+
+
+            <div class="d-flex align-items-center flex-wrap gap-2 justify-content-start my-2">
               <div class="back_tags p-1 m-1 d-flex" v-for="(tag,index) in tags" :key="index">
                 <button @click="removeTag(index)">
                   <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-3 tw-w-3 tw-pl-1" fill="none" viewBox="0 0 24 24"
@@ -103,6 +111,8 @@
                 {{ tag }}
               </div>
             </div>
+
+
           </div>
         </div>
         <div class="col-12 pt-3" style="padding-left: 0">
@@ -180,41 +190,71 @@
 
         </div>
         <div class="col-12 pt-3" style="padding-left: 0">
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="labelText">
-              افزودن ویژگی خدمت (بعد از تکمیل اطلاعات ویژگی ها را ذخیره کنید)
-            </div>
-            <button @click="increasePropertyCount" class="btn AddReplyBtn text-white">
-              <PlusIcon fill="#2563eb" style="width: 40px; height: 40px;"/>
-            </button>
-          </div>
 
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-center px-lg-5"
-               v-for="(property,idx) in property_count" :key="idx">
-            <span class="deleteIcon m-3 pt-3" style="top: 0" @click="decreasePropertyCount(idx)">
-              <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-red-600" viewBox="0 0 20 20"
-                   fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z"
-                      clip-rule="evenodd"/>
-              </svg>
-            </span>
-            <div class="pt-3 col-md-6 col-sm-12">
-              <label>نام ویژگی</label>
-              <input :ref="`Title${idx}`" type="text" class="with-border" placeholder="نام ویژگی">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-wrap align-items-center gap-2">
+              <div class="labelText">
+                افزودن ویژگی خدمت (بعد از تکمیل اطلاعات ویژگی ها را ذخیره کنید)
+              </div>
+              <button @click="increasePropertyCount" class="btn AddReplyBtn text-white">
+                <PlusIcon fill="#2563eb" style="width: 40px; height: 40px;"/>
+              </button>
             </div>
-            <div class="pt-3 col-md-6 col-sm-12">
-              <label>قیمت ویژگی</label>
-              <input maxlength="11" :ref="`Price${idx}`" type="number" class="with-border" placeholder="قیمت ویژگی">
+            <div class="d-flex align-items-center gap-2">
+              <small>خدمت رایگان است</small>
+
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  id="togBtn12"
+                  v-model="IsFreeService"
+                  :checked="IsFreeService"
+                />
+                <div class="slider round">
+                  <span class="on">بله</span>
+                  <span class="off">خیر</span>
+                </div>
+              </label>
             </div>
           </div>
-          <div class="row tw-text-left" v-if="property_count.length>0">
+          <div class="row">
+            <div v-for="(property,idx) in property_count" :key="idx" class="col-md-12 my-3">
+              <div class="row">
+                <div class=" col-md-3 col-sm-12">
+                  <label>نام ویژگی</label>
+                  <input :ref="`Title${idx}`" type="text" class="with-border" placeholder="نام ویژگی">
+                </div>
+                <div v-if="!IsFreeService" class=" col-md-3 col-sm-12 d-flex flex-column justify-content-end   ">
+                  <div class="d-flex align-items-center justify-content-between">
+
+
+                    <small>قیمت ویژگی</small>
+                    <div class="d-flex align-items-center gap-2">
+                      <small>ویژگی رایگان</small>
+                      <input type="checkbox" @click="Disable(idx)" style="width: 20px;height: 20px" class="form-check">
+                    </div>
+                  </div>
+
+                  <input maxlength="11" :ref="`Price${idx}`" type="number" class="with-border" placeholder="قیمت ویژگی">
+                </div>
+                <div class="col-md-3 d-flex align-items-center">
+                  <i @click="decreasePropertyCount(idx)" class="fa fa-minus-circle text-danger tw-cursor-pointer"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row tw-text-left" v-if="property_count.length>0 ">
             <div class="col-12 pt-3">
               <button @click="addProperty()" type="button" class="button mt-auto px-2">
                 ذخیره ویژگی ها
               </button>
             </div>
           </div>
+
+
         </div>
+
+
         <div class="tw-text-left col-12 pt-5">
           <button type="button" class="button mt-auto px-2" @click="submitCreateService">
             ثبت نهایی
@@ -238,7 +278,7 @@ import SetLocation from "../../components/SetLocation";
 
 export default {
   name: "AddProduct",
-  components: {PlusIcon, UploadFileIcon,SetLocation},
+  components: {PlusIcon, UploadFileIcon, SetLocation},
   layout: "PoshtebamPlusLayout",
   fetchOnServer: false,
   head() {
@@ -267,17 +307,26 @@ export default {
 
   data() {
     return {
+      Discount: {
+        type: 0,
+        value: 0,
+        startDate: '',
+        expireDate: '',
+        refraction: false
+      },
       service_title: '',
       service_category: null,
       service_desc: '',
+      IsFreeService: false,
       service_address: '',
       phone_number1: 0,
       phone_number2: 0,
-      Qty:0,
+      Qty: 0,
       mobile: 0,
       email: '',
       web_address: '',
       BaseImgUrls: [],
+      HaveDiscount: false,
       BaseVideos: [],
       categories: [],
       expiration_date: "",
@@ -287,39 +336,64 @@ export default {
       tags: [],
       tag: '',
       render_tags: null,
+      StartDate: '',
       properties: null,
       totalPrice: 0,
-      latitude : 0,
-      longitude :0
+      latitude: 0,
+      longitude: 0
     };
   },
   methods: {
-    SetGeoLocation(lat,lang){
-   this.latitude = lat
+
+    SetGeoLocation(lat, lang) {
+      this.latitude = lat
       this.longitude = lang
+
     },
     removeTag(index) {
       this.tags.splice(index, 1)
     },
     addTags() {
-      if(this.tag === ''){
+      if (this.tag === '') {
         this.$toast.error('هشتگ مورد نظر را وارد کنید')
-      }
-      else{
+      } else {
         this.tags.push(this.tag)
         this.tag = ''
-      }
-    },
 
+      }
+      this.$refs.TagsInput.focus()
+    },
+    Disable(idx) {
+
+        if (this.$refs['Price' + idx][0].hasAttribute('disabled')) {
+          this.$refs['Price' + idx][0].removeAttribute('disabled')
+          this.$refs['Price' + idx][0].classList.remove('DisabledInput')
+        } else {
+          this.$refs['Price' + idx][0].setAttribute('disabled', '')
+          this.$refs['Price' + idx][0].value = 0
+          this.$refs['Price' + idx][0].classList.add('DisabledInput')
+
+        }
+
+
+    },
     addProperty() {
       let tmplist = []
       let tmpitem = {
         name: '',
-        price: 0
+        price: 0,
+        isFree:false
       }
       this.property_count.forEach((item, idx) => {
         tmpitem.name = this.$refs[`Title${idx}`][0].value
-        tmpitem.price = this.$refs[`Price${idx}`][0].value
+        if(!this.IsFreeService){
+          tmpitem.price = this.$refs[`Price${idx}`][0].value
+        }else{
+          tmpitem.price =0
+        }
+        if(this.$refs[`Price${idx}`][0].value === '0' ){
+          tmpitem.isFree = true
+        }
         const clone = {...tmpitem}
         tmplist.push(clone)
         tmpitem.name = ''
@@ -327,6 +401,7 @@ export default {
       })
       this.properties = tmplist
       this.$toast.success("ویژگی ها با موفقیت ثبت شدند");
+      console.log(this.properties)
     },
     deleteImage(item) {
       const idx = this.BaseImgUrls.findIndex((e) => e === item);
@@ -414,17 +489,17 @@ export default {
         this.$toast.error("لطفا دسته بندی خدمت را مشخص کنید");
       } else if (this.mobile === 0) {
         this.$toast.error("لطفا شماره مستقیم تماس خود را وارد کنید");
-      } else if (this.mobile !== 0 && this.mobile.length>11) {
+      } else if (this.mobile !== 0 && this.mobile.length > 11) {
         this.$toast.error("فرمت وارد شده برای شماره مستقیم تماس درست نیست");
-      } else if (this. phone_number1 !== 0 && this. phone_number1.length>11) {
+      } else if (this.phone_number1 !== 0 && this.phone_number1.length > 11) {
         this.$toast.error("فرمت وارد شده برای شماره تلفن اول درست نیست");
-      } else if (this. phone_number2 !== 0 && this. phone_number2.length>11) {
+      } else if (this.phone_number2 !== 0 && this.phone_number2.length > 11) {
         this.$toast.error("فرمت وارد شده برای شماره تلفن دوم درست نیست");
       } else if (this.email !== '' && !this.email.includes('@')) {
         this.$toast.error("ایمیل وارد شده معتبر نیست");
       } else if (this.photos.length === 0) {
         this.$toast.error("حداقل یک عکس به عنوان عکس اصلی وارد کنید");
-      }else if (this.properties === null) {
+      } else if (this.properties === null) {
         this.$toast.error("حداقل یک ویژگی وارد کنید");
       } else {
         this.$nuxt.$loading.start();
@@ -434,7 +509,6 @@ export default {
             base64: '',
             priority: 0
           }
-
           let id = 1
           this.photos.forEach((element) => {
             tmpMedia.base64 = element
@@ -444,7 +518,6 @@ export default {
             tmpMedia.base64 = ''
             id = 2
           })
-
           this.Videos.forEach((element) => {
             tmpMedia.base64 = element
             tmpMedia.priority = 3
@@ -471,36 +544,38 @@ export default {
             result += parseInt(element.price)
           })
           this.totalPrice = result
-            const res = await this.$repositories.createAService.createAService({
-              title: this.service_title,
-              userId:0,
-              serviceCategoryId: this.service_category,
-              description: this.service_desc,
-              seoTitle: '',
-              seoDescription: '',
-              address: this.service_address,
-              latitude: this.latitude,
-              longitude: this.longitude,
-              webAddress: this.web_address,
-              phoneNumber1: this.phone_number1,
-              phoneNumber2: this.phone_number2,
-              mobile: this.mobile,
-              quantity:parseInt(this.Qty),
-              email: this.email,
-              fireDate: '2022-06-25T12:04:09.204Z',
-              specified: false,
-              specifiedWithExpireDate: false,
-              specifiedExpireDateTime: null,
-              totalPrice: this.totalPrice,
-              expireDate: this.expiration_date,
-              properties:this.properties,
-              medias: tmpMedias,
-              tags:tmptags
-            });
-            this.$nuxt.$loading.finish();
-            this.$nuxt.loading = false;
-            this.$toast.success("ثبت خدمت با موفقیت انجام شد.");
-            this.$router.push({path: `/Products/Upgrade/${res.data}`, query: { active_tab: 'preview' }});
+          const res = await this.$repositories.createAService.createAService({
+            title: this.service_title,
+            userId: 0,
+            serviceCategoryId: this.service_category,
+            description: this.service_desc,
+            seoTitle: '',
+            seoDescription: '',
+            address: this.service_address,
+            latitude: this.latitude,
+            longitude: this.longitude,
+            webAddress: this.web_address,
+            phoneNumber1: this.phone_number1,
+            phoneNumber2: this.phone_number2,
+            mobile: this.mobile,
+            quantity: parseInt(this.Qty),
+            email: this.email,
+            fireDate: '2022-06-25T12:04:09.204Z',
+            StartDate:this.StartDate,
+            isFree:this.IsFreeService,
+            specified: false,
+            specifiedWithExpireDate: false,
+            specifiedExpireDateTime: null,
+            totalPrice: this.totalPrice,
+            expireDate: this.expiration_date,
+            properties: this.properties,
+            medias: tmpMedias,
+            tags: tmptags
+          });
+          this.$nuxt.$loading.finish();
+          this.$nuxt.loading = false;
+          this.$toast.success("ثبت خدمت با موفقیت انجام شد.");
+          this.$router.push({path: `/Products/Upgrade/${res.data}`, query: {active_tab: 'preview'}});
         } catch (error) {
           console.log(error);
           this.$nuxt.$loading.finish();
@@ -560,6 +635,107 @@ export default {
 
 .BorderGreen {
   border: solid 1px green !important;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 90px;
+  height: 34px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #999;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #088dcd;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(55px);
+  -ms-transform: translateX(55px);
+  transform: translateX(55px);
+}
+
+/*------ ADDED CSS ---------*/
+.on {
+  display: none;
+}
+
+.on {
+  color: white;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 35%;
+  font-size: 10px;
+}
+
+.off {
+  color: white;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 65%;
+  font-size: 10px;
+}
+
+.DisabledInput {
+  @apply tw-bg-stone-400
+
+}
+
+input:checked + .slider .on {
+  display: block;
+}
+
+input:checked + .slider .off {
+  display: none;
+}
+
+/*--------- END --------*/
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.sidenavOptionText {
+  font-size: 14px;
+  color: #999;
+  padding-top: 8px;
 }
 </style>
 

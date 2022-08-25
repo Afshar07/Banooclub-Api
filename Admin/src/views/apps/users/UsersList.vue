@@ -59,7 +59,13 @@
         >
 
           <!-- Column: delete -->
+          <template #cell(userName)="data">
 
+            <router-link :to="`/apps/users/Detail/${data.item.userName}`">
+              <small>{{data.item.userName}}</small>
+            </router-link>
+
+          </template>
 
           <template #cell(type)="data">
 
@@ -77,6 +83,7 @@
 
 
           </template>
+
           <template #cell(edit)="data">
 
 
@@ -148,9 +155,10 @@
 
                 </div>
                 <div class="col-md-3 ">
+                  <router-link :to="`/apps/users/Detail/${data.item.userInfo.userName}`">
                   <span  class="text-secondary">نام کاربری: </span>
                   <span>{{SelectedUser.userName}}</span>
-
+                  </router-link>
                 </div>
                 <div class="col-md-6 my-25 ">
                   <span  class="text-secondary">شماره موبایل : </span>
@@ -270,8 +278,9 @@ export default {
       let _this = this;
       let usersChangeUserRoleRequest = new UsersChangeUserRoleRequest(_this);
       let data = {
+
         userId:this.SelectedUser.userId,
-        typeId:this.SelectedUserType
+        status:this.SelectedUserType
       }
       usersChangeUserRoleRequest.setParams(data);
       await usersChangeUserRoleRequest.fetch(function (content){

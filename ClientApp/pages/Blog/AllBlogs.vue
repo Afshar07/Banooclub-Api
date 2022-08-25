@@ -1,9 +1,9 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container bg-white mcontainer tw-shadow p-3 ">
     <h1 class="tw-text-2xl tw-font-semibold"> مقالات  </h1>
-    <div class="row">
+    <div class="row p-3">
 
-      <div class="col-lg-8 tw-flex-shirink-0 p-3">
+      <div class="col-lg-8 tw-flex-shirink-0 ">
         <div class="col-md-12 my-3 px-0">
           <input type="text" class="SearchStyle   border  " v-model="Search" placeholder="جستجو مقالات">
         </div>
@@ -54,7 +54,10 @@
         </div>
         <Pagination v-if="totalPages.length>1" :pages="totalPages" @PageChanged="GetAllBlog($event)"></Pagination>
       </div>
-      <RecentBlogs></RecentBlogs>
+      <div class="col-md-4">
+        <RecentBlogs></RecentBlogs>
+      </div>
+
     </div>
 
   </div>

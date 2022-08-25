@@ -31,7 +31,20 @@
     >
       <template v-slot:title>گزارش پست</template>
       <template v-slot:content>
+        <div class="d-flex align-items-center p-3 justify-content-between">
+          <div v-for="item in PostReports" :key="item.ReportId" class="d-flex align-items-center gap-2">
+            <input type="radio" class="form-check" v-model="reportReason" :value="item.ReportDescription" name="Reports">
+            <small>{{ item.ReportDescription }}</small>
+          </div>
+
+        </div>
+
+        <div class="d-flex align-items-center gap-2 p-3">
+          <input type="checkbox" style="    height: 10px;width: 15px;" v-model="CustomDescription" :value="true" name="Reports">
+          <small>توضیحات</small>
+        </div>
         <textarea
+          v-if="CustomDescription"
           row="100"
           v-model="reportReason"
           style="color: #808080;"
@@ -41,7 +54,7 @@
         ></textarea>
       </template>
       <template v-slot:actions>
-        <div class="d-flex align-items-center justify-content-end">
+        <div class="d-flex align-items-center justify-content-end p-3">
           <button
             class="btn btn-danger mx-2"
             @click="closeReportPostModal"
@@ -94,9 +107,11 @@
           </div>
         </div>
         <div>
-          <div class="d-flex">
-            <button v-if="post_details.userInfo && !(post_details.userInfo.userId === $auth.user.userInfo.userId)" @click="openReportModal"
-                    class="tw-flex tw-items-center tw-flex-1 tw-justify-end text-decoration-none text-dark">
+          <div class="d-flex align-items-center">
+            <div v-if="$route.path==='/social/accountsetting/MyPage'&&post_details.status===1" class="tw-badge tw-badge-success">منتشر شده</div>
+            <div v-if="$route.path==='/social/accountsetting/MyPage'&&post_details.status===2" class="tw-badge tw-badge-error">منتشر نشده</div>
+            <div v-if="$route.path==='/social/accountsetting/MyPage'&&post_details.status===3" class="tw-badge tw-badge-warning">گزارش شده</div>
+            <button v-if=" $auth.user && $auth.user.userInfo && $auth.user.userInfo.userId &&  post_details.userInfo && !(post_details.userInfo.userId === $auth.user.userInfo.userId)" @click="openReportModal" class="tw-flex tw-items-center tw-flex-1 tw-justify-end text-decoration-none text-dark">
               <div class="tw-p-2 tw-rounded-full tw-text-black">
                 <ExclamationMarkIcon style="width: 22px; height: 22px;"/>
               </div>
@@ -105,6 +120,7 @@
                     @click.stop="showMoreDiv">
               <MoreIcon/>
             </button>
+
           </div>
           <div v-if="show_more" class="tw-z-10 tw-absolute tw-left-0 tw-bg-white tw-w-56 tw-shadow-md tw-mx-auto tw-p-2 tw-rounded-md tw-text-gray-500 tw-text-base tw-border tw-border-gray-100">
             <ul class="tw-pl-0 mb-0">
@@ -124,7 +140,7 @@
               <li v-if="post_details.userInfo && post_details.userInfo.userId === $auth.user.userInfo.userId">
                 <button @click="changeCommentingStatus" class="tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md tw-w-full">
                   <MessageIcon fill="black" class="tw-ml-1"/>
-                  <div v-if="commentingStatus">
+                  <div v-if="post_details.isActiveComment">
                     فعال کردن نظرات
                   </div>
                   <div v-else>
@@ -183,7 +199,7 @@
             </div>
           </button>
         </div>
-        <div v-if="post_details.comments && !commentingStatus && post_details.comments.length>0"
+        <div v-if="post_details.comments && !post_details.isActiveComment && post_details.comments.length>0"
              class="tw-border-t tw-py-4 tw-space-y-4 dark:tw-border-gray-600"
              style="border-top: 1px solid #e5e7eb;"
         >
@@ -226,7 +242,7 @@
             </div>
           </div>
         </div>
-        <div v-if="!commentingStatus" class=" d-flex">
+        <div v-if="!post_details.isActiveComment" class=" d-flex">
           <input v-model="CommentContent" @click="SetPostComments(post_details)"
                  style="border-radius: 50px; background-color: rgb(243 244 246); height: 40px !important;"
                  value="" type="text" class="form-control mx-1"
@@ -268,12 +284,27 @@ export default {
       show_more: false,
       CommentContent: "",
       SelectedPostComments: [],
+      CustomDescription:false,
       SelectedPostId: 0,
       commentingStatus:false,
       site_url: 'pplus.simagar.com',
       reportReason:'',
       reportedPostId:0,
-      reportedPostUserId:0
+      reportedPostUserId:0,
+      PostReports:[
+        {
+          ReportId:1,
+          ReportDescription:"استفاده از الفاظ رکیک و محتوای غیر اخلاقی"
+        },
+        {
+          ReportId:2,
+          ReportDescription:"آزار لفظی و مزاحمت"
+        },
+        {
+          ReportId:3,
+          ReportDescription:"کاربر غیر واقعی و متخذی"
+        },
+      ]
     }
   },
   computed:{
@@ -346,7 +377,8 @@ export default {
             if (response.status === 200) {
               this.$toast.success("ثبت گزارش با موفقیت انجام شد.");
               this.isRenderingReportingPost = false
-              this.$nuxt.refresh()
+              this.$emit('PostEvent')
+              // this.$nuxt.refresh()
             }
           })
           .catch((error) => {
@@ -391,13 +423,27 @@ export default {
       }
 
     },
-    changeCommentingStatus(){
-      this.commentingStatus = !this.commentingStatus
+    async changeCommentingStatus(){
+        try {
+          const res = await this.$repositories.ChangePostCommentActivation.ChangePostCommentActivation({
+            postId:this.post_details.postId
+
+          })
+          if(this.post_details.isActiveComment){
+            this.$toast.success("امکان افزودن نظر فعال شد");
+          }else{
+            this.$toast.success("امکان افزودن نظر غیر فعال شد");
+
+          }
+          this.$emit('PostEvent')
+        }catch (e) {
+          console.log(e)
+        }
       if(this.commentingStatus){
-        this.$toast.success("امکان افزودن نظر غیر فعال شد");
+
       }
       else {
-        this.$toast.success("امکان افزودن غیر فعال شد");
+
       }
     },
     addComment() {
@@ -420,7 +466,9 @@ export default {
               if (response.status === 200) {
                 this.CommentContent = "";
                 this.$toast.success("نظر شما ثبت شد");
-                this.$nuxt.refresh();
+                this.$emit('PostEvent')
+
+                // this.$nuxt.refresh();
               }
             })
         }
@@ -435,10 +483,12 @@ export default {
         id
       })
       this.$toast.success("پست شما با موفقیت حذف شد");
-      this.$refs[`ShowMore${id}`].classList.remove('d-block')
-      this.$refs[`ShowMore${id}`].classList.add('d-none')
-      this.closeDeleteConfirmationModal()
-      this.$nuxt.refresh()
+      // this.$refs[`ShowMore${id}`].classList.remove('d-block')
+      // this.$refs[`ShowMore${id}`].classList.add('d-none')
+      this.$emit('')
+      this.isRenderingDeleteConfirmation = false;
+      this.$emit('PostEvent')
+      // this.$nuxt.refresh()
 
     },
     SetPostComments(item) {
@@ -454,7 +504,8 @@ export default {
         })
         .then((response) => {
           if (response.status === 200) {
-            this.$nuxt.refresh();
+            this.$emit('PostEvent')
+            // this.$nuxt.refresh();
           }
         })
         .catch((error) => {

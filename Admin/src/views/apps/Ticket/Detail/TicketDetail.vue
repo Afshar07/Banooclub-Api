@@ -9,29 +9,25 @@
           class="body-content-overlay"
 
       />
-
+      <b-modal
+          id="modal-edit"
+          centered
+          ok-only
+          ok-title="بستن"
+          @ok="ChangeTicketType"
+      >
+        <span>تغییر واحد پشتیبانی به  </span>
+        <v-select
+            v-model="ticketType"
+            :clearable="false"
+            label="option"
+            class="bg-white my-2"
+            :options="TicketTypesId"
+            :reduce="option => option.value"
+        />
+      </b-modal>
       <!-- Main Area -->
       <section class="chat-app-window w-100">
-
-        <!-- Start Chat Logo -->
-        <!--      <div-->
-        <!--        v-if="!activeChat.contact"-->
-        <!--        class="start-chat-area"-->
-        <!--      >-->
-        <!--        <div class="mb-1 start-chat-icon">-->
-        <!--          <feather-icon-->
-        <!--            icon="MessageSquareIcon"-->
-        <!--            size="56"-->
-        <!--          />-->
-        <!--        </div>-->
-        <!--        <h4-->
-        <!--          class="sidebar-toggle start-chat-text"-->
-        <!--          @click="startConversation"-->
-        <!--        >-->
-        <!--          Start Conversation-->
-        <!--        </h4>-->
-        <!--      </div>-->
-
         <!-- Chat Content -->
         <div
 
@@ -43,17 +39,6 @@
 
               <!-- Avatar & Name -->
               <div class="d-flex align-items-center">
-
-                <!-- Toggle Icon -->
-                <!--              <div class="sidebar-toggle d-block d-lg-none mr-1">-->
-                <!--                <feather-icon-->
-                <!--                  icon="MenuIcon"-->
-                <!--                  class="cursor-pointer"-->
-                <!--                  size="21"-->
-                <!--                  @click="mqShallShowLeftSidebar = true"-->
-                <!--                />-->
-                <!--              </div>-->
-
                 <b-avatar
                     v-if="Tickets!== null && Tickets[0].userInfo"
                     size="36"
@@ -67,10 +52,42 @@
                     src="@/assets/images/logo/logo-jadid.png"
                     class="mr-1 cursor-pointer badge-minimal"
                 />
-<!--                <h6 class="mb-0">-->
-<!--                  {{ user.name }} {{ user.familyName }}-->
-<!--                </h6>-->
               </div>
+              <div class="d-flex  flex-lg-row flex-column align-items-center gap-2">
+                <div class="d-flex align-items-center">
+                  <b-button
+                      v-b-modal.modal-edit
+
+                      variant="primary"
+                  >
+                    تغییر واحد پشتیبانی تیکت
+                  </b-button>
+
+                </div>
+                <div class="d-flex mx-25 align-items-center">
+                  <b-button
+                      @click="CloseTicket"
+
+                      variant="danger"
+                  >
+                   بستن تیکت
+                  </b-button>
+
+                </div>
+                <div class="d-flex  align-items-center ">
+                  <b-button
+                      variant="primary"
+                  >
+                    <router-link class="text-white " to="/apps/Ticket/AllTickets">
+                      بازگشت
+                    </router-link>
+
+                  </b-button>
+
+                </div>
+
+              </div>
+
             </header>
           </div>
 
@@ -80,8 +97,6 @@
               :settings="perfectScrollbarSettings"
               class="user-chats scroll-area"
           >
-
-
             <chat-log
                 v-if="admin!==null && Tickets!== null && Tickets[0].userInfo"
                 v-for="Ticket in Tickets"
@@ -123,10 +138,10 @@ import {
   ref, onUnmounted, nextTick,
 } from '@vue/composition-api'
 import {
-  BAvatar, BDropdown, BDropdownItem, BForm, BInputGroup, BFormInput, BButton,BOverlay
+  BAvatar, BDropdown, BDropdownItem, BForm, BInputGroup, BFormInput, BButton,BOverlay,
 } from 'bootstrap-vue'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-// import { formatDate } from '@core/utils/filter'
+import ClsoeTicket from "@/libs/Api/Ticket/ClsoeTicket";
 import { $themeBreakpoints } from '@themeConfig'
 import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
 import ChatLeftSidebar from '../../chat/ChatLeftSidebar.vue'
@@ -135,13 +150,14 @@ import ChatActiveChatContentDetailsSidedbar from '../../chat/ChatActiveChatConte
 import ChatLog from '../../chat/ChatLog.vue'
 import useChat from '../../chat/useChat'
 
-
+import vSelect from "vue-select";
 import TicketGetAllByParentIdRequest from "@/libs/Api/Ticket/TicketGetAllByParentIdRequest";
 import TicketCreateRequest from "@/libs/Api/Ticket/TicketCreateRequest";
 import UsersGetByTokenRequest from "@/libs/Api/Users/UsersGetByTokenRequest";
-
+import ChangeTicketType from "@/libs/Api/Ticket/ChangeTicketType";
 import { mapGetters } from "vuex";
 import UsersGetRequest from '@/libs/Api/Users/UsersGetRequest'
+import ToastificationContent from "@core/components/toastification/ToastificationContent";
 
 export default {
   data(){
@@ -151,6 +167,25 @@ export default {
       Tickets:null,
       admin:null,
       refreshTicket:null,
+      TicketTypesId:[
+
+        {
+          option:"احراز هویت",
+          value:1
+        },
+        {
+          option:"پشتیبانی",
+          value:2
+        },
+        {
+          option:"سایر",
+          value:3
+        },
+
+
+
+      ],
+      ticketType:0,
       content:'',
     }
   },
@@ -172,6 +207,56 @@ export default {
   },
 
   methods:{
+    async CloseTicket(){
+      let _this = this
+      let  clsoeTicket = new  ClsoeTicket(_this)
+      let data = {
+        parentId:this.Tickets[0].ticketId,
+      }
+      clsoeTicket.setParams(data)
+      await clsoeTicket.fetch((content)=>{
+        _this.$toast({
+          component: ToastificationContent,
+          position: 'bottom-center',
+          props: {
+            title: `عملیات موفق`,
+            icon: 'CheckIcon',
+            variant: 'success',
+            text: `واحد پشتیبانی تیکت تغییر یافت`,
+          },
+        })
+        _this.$router.push('/apps/Ticket/AllTickets')
+
+      },(e)=>{
+        console.log(e)
+      })
+    },
+    async ChangeTicketType(){
+
+      let _this = this
+      let  changeTicketType = new  ChangeTicketType(_this)
+      let data = {
+        parentId:this.Tickets[0].ticketId,
+        ticketType:_this.ticketType
+      }
+      changeTicketType.setParams(data)
+      await changeTicketType.fetch((content)=>{
+        _this.$toast({
+          component: ToastificationContent,
+          position: 'bottom-center',
+          props: {
+            title: `عملیات موفق`,
+            icon: 'CheckIcon',
+            variant: 'success',
+            text: `واحد پشتیبانی تیکت تغییر یافت`,
+          },
+        })
+        _this.$router.push('/apps/Ticket/AllTickets')
+
+      },(e)=>{
+        console.log(e)
+      })
+    },
     async GetAllByParentId(){
       let _this = this
       let  ticketGetAllByParentIdRequest = new  TicketGetAllByParentIdRequest(_this)
@@ -192,7 +277,8 @@ export default {
             type: this.Tickets[0].type,
             title: this.Tickets[0].title,
             createDate:new Date(Date.now()),
-
+        recipientIds:[],
+        recipientUserId:this.Tickets[0].userId
       }
       ticketCreateRequest.setRequestParamDataObj(data)
       await ticketCreateRequest.fetch(()=>{
@@ -236,6 +322,7 @@ export default {
     BDropdown,
     BDropdownItem,
     BForm,
+    vSelect,
     BInputGroup,
     BFormInput,
     BButton,

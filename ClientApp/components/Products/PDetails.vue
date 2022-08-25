@@ -22,7 +22,6 @@
         </div>
       </template>
     </base-modal>
-
     <!-- Modal -->
     <div class="modal fade" id="MediaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -83,7 +82,7 @@
           </div>
         </div>
         <div>
-            <button v-click-outside="showMoreDiv" @click.stop="showMoreDiv" class="tw-text-2xl hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw-transition tw--mr-1 tw-relative">
+            <button v-click-outside="showMoreDiv" @click.stop="OpenShowMore" class="tw-text-2xl hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw-transition tw--mr-1 tw-relative">
               <svg  xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
               </svg>
@@ -206,9 +205,12 @@
       <div class="tw-p-4 tw-space-y-3">
         <div class="d-flex justify-content-between">
           <h1 class="tw-text-2xl tw-font-semibold tw-text-gray-600 tw-pt-2">{{service_details.title}}</h1>
-          <div class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
+          <div v-if="!service_details.isFree" class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
             {{Intl.NumberFormat('fa-IR').format(service_details.totalPrice)}}
             تومان
+          </div>
+          <div v-if="service_details.isFree" class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
+            خدمات رایگان
           </div>
         </div>
         <div class="d-flex mt-3 flex-wrap">
@@ -264,7 +266,8 @@
               {{ property.name }}
               -
               {{Intl.NumberFormat('fa-IR').format(property.price)}}
-              تومان
+              <small v-if="!service_details.isFree" class="Toman">تومان</small>
+
             </div>
           </div>
         </div>
@@ -279,7 +282,7 @@
           <button v-if="service_details.maintain>0" @click="CreateOrder(service_details)" class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
             پرداخت
           </button>
-          <button v-else  class="tw-bg-stone-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
+          <button v-else  class="tw-bg-stone-600  tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
             ظرفیت تکمیل
           </button>
         </div>
@@ -685,7 +688,10 @@ export default {
       }
     },
     showMoreDiv(){
-      this.show_more = !this.show_more
+      this.show_more = false
+    },
+    OpenShowMore(){
+      this.show_more=!this.show_more
     },
     disableCommenting(){
       if(this.others_can_add_comments){

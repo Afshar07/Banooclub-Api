@@ -2,11 +2,11 @@
   <div class="col-12 p-0 m-0" style="overflow-x: hidden">
     <div class="col-12 mt-3">
       <div class="col-md-12 my-3">
-        <select-user-type @getUserRole="setUserRole"></select-user-type>
+<!--        <select-user-type @getUserRole="setUserRole"></select-user-type>-->
       </div>
       <div
-        class="row SignupForm"
-        :class="{ SignUpFormActive: payload.userRole }"
+        class="row SignupForm SignUpFormActive"
+
       >
         <div class="form-floating text-end">
           <input
@@ -152,11 +152,6 @@
               شرایط و ضوابط را قبول دارم
             </span>
             <br />
-<!--            <nuxt-link to="/">-->
-<!--              <span class="privacyAccept text-black"-->
-<!--                >قبلا ثبت نام کرده اید ؟ اینجا کلیک کنید-->
-<!--              </span>-->
-<!--            </nuxt-link>-->
           </div>
         </div>
 
@@ -171,47 +166,7 @@
           </button>
 
         </div>
-<!--        <div class="col-md-12 d-flex align-items-start gap-1 ">-->
-
-<!--          <button-->
-<!--            @click="sendOtpCode"-->
-<!--            type="button"-->
-<!--            class="mb-3 tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full"-->
-<!--          >-->
-<!--            ارسال مجدد کد-->
-<!--          </button>-->
-
-<!--        </div>-->
-
-<!--        <div class="col-md-12 d-flex align-items-center gap-2">-->
-<!--          <client-only>-->
-<!--            <div v-if="!CodeSent" >-->
-<!--              <client-only>-->
-<!--                <countdown @finish="CodeSent =! CodeSent" :end-time="new Date().getTime() + localCounter">-->
-<!--             <span slot-scope="{ timeObj }" class=" px-3 gap-2 rounded " >-->
-<!--               <div class="d-flex ">-->
-<!--                 <small>{{`${timeObj.m}`}}</small>-->
-<!--               <small>:</small>-->
-<!--               <small>{{`${timeObj.s}`}}</small>-->
-<!--               </div>-->
-<!--             </span>-->
-<!--                </countdown>-->
-<!--              </client-only>-->
-<!--            </div>-->
-<!--          </client-only>-->
-<!--        </div>-->
-<!--        <div v-if="CodeSent" class="col-md-12 my-3">-->
-<!--          <button-->
-<!--            type="button"-->
-<!--            class="tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full mt-3"-->
-<!--            @click="sendOtpCode"-->
-<!--          >-->
-<!--            ارسال کد-->
-<!--          </button>-->
-<!--      </div>-->
-
         <div class="col-md-12 d-flex align-items-start gap-1 ">
-
           <button
             @click="sendSignUpRequest"
             :disabled="isButtonDisabled"
@@ -222,43 +177,7 @@
           >
             ثبت نام
           </button>
-
         </div>
-
-        <!-- <div
-          class="col-md-6 d-flex align-items-center"
-          v-if="!ShowSendAgainBtn"
-        >
-          <client-only>
-            <countdown
-              ref="Counter"
-              @finish="renderSendAgainBtn"
-              :end-time="Time"
-            >
-              <span
-                slot-scope="{ timeObj }"
-                class="d-flex align-items-center gap-2 rounded"
-              >
-                <div class="d-flex flex-column justify-content-center mb-2">
-                  <span class="text-white text-center">
-                    <strong>{{ `${timeObj.s}` }}</strong></span
-                  >
-                </div>
-
-                <div class="d-flex flex-column justify-content-center mb-2">
-                  <span class="text-white text-center">
-                    <strong>:</strong></span
-                  >
-                </div>
-                <div class="d-flex flex-column justify-content-center mb-2">
-                  <span class="text-white text-center">
-                    <strong>{{ `${timeObj.m}` }}</strong>
-                  </span>
-                </div>
-              </span>
-            </countdown>
-          </client-only>
-        </div> -->
       </div>
     </div>
   </div>

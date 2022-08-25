@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-white rounded BoxShadow p-3" style="height: 500px!important;">
-      <canvas ref="LineChart" class="w-100 " style="height: 500px!important;"></canvas>
+  <div class="bg-white rounded BoxShadow p-3" style="height: 300px!important;">
+      <canvas ref="LineChart" class="w-100 " style="height: 300px!important;"></canvas>
 
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
           servicePackId:this.$route.params.UpgradeProduct
         })
 
-      this.ChartData = service_view.data.weekViews.data
+      this.ChartData = service_view.data.servicePack.weekViews.data
 
     }catch (e) {
       console.log(e)

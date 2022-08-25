@@ -201,7 +201,7 @@ export default {
       showDeleteModal: false,
       currentPage: 1,
       deleteItem: null,
-      perPage: 5,
+      perPage: 10,
       CategoryName:'',
       perPageOptions: [10, 20, 30, 40, 50],
       myTableColumns: [

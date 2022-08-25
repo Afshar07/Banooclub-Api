@@ -125,7 +125,12 @@
             <small>{{ data.item.userInfo.name + ' ' + data.item.userInfo.familyName   }}</small>
 
           </template>
+          <template #cell(userName)="data">
 
+            <router-link :to="`/apps/users/Detail/${data.item.userInfo.userName}`">
+              <span v-if="data.item.userInfo">{{data.item.userInfo.userName}}@</span>
+            </router-link>
+          </template>
         </b-table>
         <div class="mx-2 mb-2">
           <b-row>
@@ -221,6 +226,10 @@ export default {
         {
           key: 'userInfo',
           label: 'نام و نام خانوادگی'
+        },
+        {
+          key: 'userName',
+          label: 'نام کاربری'
         },
         {
           key: 'createDate',

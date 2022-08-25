@@ -12,9 +12,6 @@
             @input="setInputValue"
             @keydown.prevent.enter="submitLogin"
           />
-          <!--        <label for="">-->
-          <!--          {{ inputPlaceholder }}-->
-          <!--        </label>-->
         </div>
       </div>
       <div class="col-12 mt-3 position-relative">
@@ -37,21 +34,7 @@
             <font-awesome-icon icon="eye" v-if="fieldPassword === 'password'" />
             <font-awesome-icon icon="eye-slash" v-if="fieldPassword === 'text'" />
           </button>
-          <!--        <label for="password">رمز عبور</label>-->
         </div>
-<!--        <div class="col-12 mt-0 mt-3">-->
-<!--          <div class="form-check d-flex align-items-center">-->
-<!--            <input-->
-<!--              class="form-check-input"-->
-<!--              type="checkbox"-->
-<!--              value=""-->
-<!--              id="acceptCondition"-->
-<!--            />-->
-<!--            <label class="form-check-label check-box" for="acceptCondition"></label>-->
-<!--            <span class="rememberMe px-2 pb-1">همیشه من را به یاد داشته باش</span>-->
-<!--          </div>-->
-<!--        </div>-->
-
         <button
           type="button"
           class="tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full mt-3"

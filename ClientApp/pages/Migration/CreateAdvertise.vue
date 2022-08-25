@@ -28,48 +28,7 @@
                       </select>
                     </div>
                   </div>
-<!--                  <div-->
-<!--                    v-if="-->
-<!--                categoryId !== null &&-->
-<!--                categories.findIndex((e) => e.ParentId === categoryId) > -1-->
-<!--              "-->
-<!--                    class="col-md-4"-->
-<!--                  >-->
-<!--                    <div class="my-3">-->
-<!--                      <select class="form-control" v-model="categoryId2">-->
-<!--                        <option-->
-<!--                          v-for="(item, index) in categories.filter(-->
-<!--                      (e) => e.ParentId === categoryId-->
-<!--                    )"-->
-<!--                          :value="item.MainAdsCategoryId"-->
-<!--                          :key="index"-->
-<!--                        >-->
-<!--                          {{ item.MainName }}-->
-<!--                        </option>-->
-<!--                      </select>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                  <div-->
-<!--                    v-if="-->
-<!--                categoryId2 !== null &&-->
-<!--                categories.findIndex((e) => e.ParentId === categoryId2) > -1-->
-<!--              "-->
-<!--                    class="col-md-4"-->
-<!--                  >-->
-<!--                    <div class="my-3">-->
-<!--                      <select class="form-control" v-model="categoryId3">-->
-<!--                        <option-->
-<!--                          v-for="(item, index) in categories.filter(-->
-<!--                      (e) => e.ParentId === categoryId2-->
-<!--                    )"-->
-<!--                          :value="item.MainAdsCategoryId"-->
-<!--                          :key="index"-->
-<!--                        >-->
-<!--                          {{ item.MainName }}-->
-<!--                        </option>-->
-<!--                      </select>-->
-<!--                    </div>-->
-<!--                  </div>-->
+
                 </div>
               </div>
             </div>
@@ -95,6 +54,13 @@
                 </select>
               </div>
             </div>
+            <div class="col-md-12 my-3">
+              <div class="labelText">شماره موبایل</div>
+              <input type="tel" class="form-control with-border" v-model="PhoneNumber">
+            </div>
+
+
+
 
 
             <div class="col-md-6">
@@ -113,10 +79,11 @@
                   />
                   <font-awesome-icon icon="plus-square" size="lg" />
                 </div>
-                <div id="main">
+                <div  v-if="url" id="main" class="position-relative">
+                  <i class="fas fa-times tw-cursor-pointer text-danger position-absolute top-0 end-0" @click="RemoveMainImage" ></i>
                   <img
-                    class="img-fluid"
-                    v-if="url"
+                    class="img-fluid tw-shadow tw-rounded"
+
                     :src="url"
                     style="object-fit: contain"
                     :key="url"
@@ -141,13 +108,13 @@
                   />
                   <font-awesome-icon icon="plus-square" size="lg" />
                 </div>
-                <div id="preview" v-if="subUrl">
+                <div  v-for="(item,idx) in subUrl"   :key="item" id="preview" class="position-relative" v-if="subUrl">
+                  <i class="fas fa-times tw-cursor-pointer  text-danger position-absolute top-0 end-0" @click="RemoveOtherImages(idx)" ></i>
                   <img
-                    class="img-fluid"
-                    v-for="item in subUrl"
+                    class="img-fluid tw-shadow tw-rounded"
                     style="object-fit: contain"
                     :src="item"
-                    :key="item"
+
                   />
                 </div>
               </div>
@@ -183,7 +150,7 @@
                 <input
                   v-model="Tags"
                   type="text"
-                  class="form-control"
+                  class="form-control with-border"
                   placeholder="لباس,تیشرت,شلوار..."
                 />
               </div>
@@ -193,9 +160,9 @@
               <div class="my-3">
                 <input
                   class="rounded border p-1 w-100"
-                  type="number"
+                  type="text"
                   placeholder="قیمت به تومان"
-                  v-model.trim="price"
+                  v-model="formattedValuePrice"
                 />
               </div>
             </div>
@@ -209,6 +176,24 @@
                 v-model.trim="description"
               ></textarea>
               </div>
+            </div>
+            <div class="col-md-12 my-2">
+
+              <div class="labelText mb-2">معاوضه</div>
+
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  id="togBtn123"
+                  v-model="ExchangeAbility"
+                  :checked="ExchangeAbility"
+                />
+                <div class="slider round">
+                  <span class="on">دارد</span>
+                  <span class="off">ندارد</span>
+                </div>
+              </label>
+
             </div>
 
             <div class="col-md-12">
@@ -248,6 +233,31 @@ export default {
   fetchOnServer() {
     return true;
   },
+  computed:{
+    formattedValuePrice: {
+      get: function () {
+        return this.price;
+      },
+      set: function (newValue) {
+        // This setter is getting number, replace all commas with empty str
+        // Then start to separate numbers with ',' from beginning to prevent
+        // from data corruption
+        if (newValue) {
+          this.price = newValue
+            .toString()
+            .replaceAll(",", "")
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          // Remove all characters that are NOT number
+          this.price = this.price.replace(
+            /[a-zA-Z+*!@#$%^&*()_;:'"|<>/?{}\u0600-\u06EC/\-/\.]/g,
+            ""
+          );
+        } else if (!newValue || this.newValue === "") {
+          this.price = null;
+        }
+      },
+    },
+  },
   async fetch() {
     // Get categories
     const allCategories =
@@ -271,6 +281,7 @@ export default {
       ],
     };
   },
+
   data() {
     return {
 
@@ -279,20 +290,21 @@ export default {
       description: "",
       url: null,
       subUrl: [],
-      price: 0,
+      price: null,
+      ExchangeAbility:false,
       phone: null,
       latitude:0,
       longitude:0,
       mainImage: "",
       subImage: "",
+      PhoneNumber:0,
       photos: [],
       categoryId: null,
-
       Status: 0,
       Tags: "",
         AllCities: [],
-        SelectedCityId: 0,
-        SelectedStateId: 0,
+        SelectedCityId: null,
+        SelectedStateId: null,
         AllStates: [],
     };
   },
@@ -332,6 +344,10 @@ this.latitude = lat
     callInputMethodSubImage() {
       document.querySelector(".SubImage").click();
     },
+    RemoveMainImage(){
+      this.mainImage = ''
+      this.url = ''
+    },
     onFileChangeMainImage(e) {
       const file = e.target.files[0];
       this.url = URL.createObjectURL(file);
@@ -348,6 +364,10 @@ this.latitude = lat
         };
       })(file);
       reader.readAsBinaryString(file);
+    },
+    RemoveOtherImages(idx){
+this.subUrl.splice(idx,1)
+      this.photos.splice(idx,1)
     },
     onFileChangeSubImage(e) {
       const file = e.target.files[0];
@@ -384,13 +404,15 @@ this.latitude = lat
           await this.$repositories.createAnAd.createAnAd({
             title: this.title,
             categoryId: this.categoryId ,
-            price: parseInt(this.price) ,
+            price: parseInt(this.price.replaceAll(',','')) ,
             expirationDate: new Date(Date.now()),
             status: 2,
             updateDate: new Date(Date.now()),
             tag: this.Tags,
             condition: this.Status,
             cityId: this.SelectedCityId,
+            phoneNumber:this.PhoneNumber,
+            exchangeability:this.ExchangeAbility,
             stateId: this.SelectedStateId,
             userId: this.$auth.user.userInfo.userId,
             description: this.description,

@@ -56,6 +56,16 @@
 
 
           </template>
+          <template #cell(userInfo)="data">
+            <router-link :to="`/apps/users/Detail/${data.item.userInfo.userName}`">
+         <small >{{data.item.userInfo.userName}}</small>
+            </router-link>
+
+          </template>
+          <template #cell(createDate)="data">
+            <small>{{new Date(data.item.createDate).toLocaleDateString('fa-IR')}}</small>
+
+          </template>
 
           <template #cell(action)="data">
 
@@ -114,6 +124,9 @@
               </b-pagination>
 
             </b-col>
+            <div class="col-md-3">
+              <AdsCountData v-if="AdsCountData" :AdsData="AdsCountData"></AdsCountData>
+            </div>
 
           </b-row>
         </div>
@@ -131,11 +144,11 @@ import {
   BBadge, BDropdown, BDropdownItem, BPagination, BOverlay, BModal, BFormGroup
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
-
+import GetAdsCount from "@/libs/Api/ads/GetAdsCount";
 import GetAllAds from '@/libs/Api/ads/GetAllAds'
 import ChangeStatus from '@/libs/Api/ads/ChangeStatus'
 import ToastificationContent from '@core/components/toastification/ToastificationContent'
-
+import AdsCountData from "@/views/components/AdsCountData";
 export default {
   title: 'لیست آگهی های تایید شده  - پنل ادمین بانو کلاب',
   name: 'UsersList',
@@ -144,6 +157,7 @@ export default {
       Ads: null,
       totalCount: null,
       showDeleteModal: false,
+      AdsCountData:null,
       currentPage: 1,
       deleteItem: null,
       perPage: 5,
@@ -162,7 +176,11 @@ export default {
           label: 'تیتر آگهی'
         },
         {
-          key: 'userInfo.userName',
+          key: 'createDate',
+          label: 'تاریخ ثبت آگهی'
+        },
+        {
+          key: 'userInfo',
           label: 'توسط'
         },
         {
@@ -181,6 +199,7 @@ export default {
   },
   async created() {
     await this.getAllAds()
+    await this.GetAdsCount()
   },
   components: {
 
@@ -195,6 +214,7 @@ export default {
     BAvatar,
     BLink,
     BBadge,
+    AdsCountData,
     BDropdown,
     BDropdownItem,
     BPagination,
@@ -211,6 +231,15 @@ export default {
     }
   },
   methods: {
+    async GetAdsCount(){
+      let _this = this
+      let getAdsCount = new GetAdsCount(_this)
+      await getAdsCount.fetch((content)=>{
+          this.AdsCountData = content
+      },(e)=>{
+        console.log(e)
+      })
+    },
     SetSelectedAd(item) {
       this.SelectedAd = item
     },

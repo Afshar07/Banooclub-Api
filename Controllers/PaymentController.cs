@@ -41,6 +41,13 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost]
+        [Route("[action]"), Authorize(Roles = "Admin,Accountent")]
+        public async Task<object> GetByUserId(long userId, byte count, short pageNumber)
+        {
+            return await paymentService.GetByUserId(userId, count, pageNumber);
+        }
+
+        [HttpPost]
         [Route("[action]"), Authorize]
         public async Task<object> GetMyPayments(int pageNumber, int count)
         {

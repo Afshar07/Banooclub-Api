@@ -1,15 +1,16 @@
 <template>
   <div class="col-lg-4 tw-pt-5">
     <div>
+      <button class="btn btn-primary my-2 tw-w-full btn-sm" @click="$router.push('/Forums/AddForum/')">ایجاد انجمن جدید</button>
       <h2 class="tw-text-xl tw-font-semibold tw-mb-2"> مشارکت کنندگان برتر </h2>
       <p> افرادی که بیشترین بحث را در گفتگوها شروع کردند. </p>
       <br>
       <ul class="tw-space-y-3">
         <li v-for="item in TopCommenters">
           <div class="tw-flex tw-items-center my-2">
-            <img v-if="item.userInfo && item.userInfo.selfieFileData!==null" :src="`https://banooclubapi.simagar.com/media/gallery/profile/${item.userInfo.selfieFileData}`" alt="" class="tw-w-8 tw-h-8 tw-rounded-full">
-            <img v-else src="/nopicture.jpg" class="tw-w-8 tw-h-8 tw-rounded-full" alt="">
-            <nuxt-link :to="`/user/${item.userInfo.userName}/posts`" class="tw-font-semibold tw-px-2 text-decoration-none tw-text-blue-500">
+            <img v-if="item.userInfo && item.userInfo.selfieFileData.includes('.')" :src="`https://banooclubapi.simagar.com/media/gallery/profile/${item.userInfo.selfieFileData}`" alt="" class=" tw-shadow tw-w-8 tw-h-8 tw-rounded-full">
+            <img v-else src="/nopicture.jpg" class=" tw-shadow tw-w-8 tw-h-8 tw-rounded-full" alt="">
+            <nuxt-link  v-if="item.userInfo" :to="`/user/${item.userInfo.userName}/posts`" class="tw-font-semibold tw-px-2 text-decoration-none tw-text-blue-500  ">
               {{item.userInfo.userName}}
             </nuxt-link>
             <div class="tw-flex tw-items-center">

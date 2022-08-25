@@ -10,6 +10,7 @@ namespace BanooClub.Models
         public string Description { get; set; }
         public long ServiceCategoryId { get; set; }
         public long Price { get; set; }
+        public bool? IsFree { get; set; }
         public DateTime CreateDate { get; set; }
     }
 }
