@@ -172,14 +172,8 @@ namespace BanooClub.Services.TicketServices
             {
                 foreach (var item in _userRepository.GetQuery())
                 {
-                    var ticket = new Ticket
-                    {
-                        UserId = userId,
-                        IsDeleted = false,
-                        IsRead = false,
-                        UserType = dbUser.Type,
-                        RecipientUserId = item.UserId
-                    };
+                    var ticket = AdaptFrom(model);
+                    ticket.RecipientUserId = item.UserId;
 
                     tickets.Add(ticket);
                 }
@@ -188,14 +182,8 @@ namespace BanooClub.Services.TicketServices
             {
                 foreach (var item in _userRepository.GetQuery().Where(x => model.RecipientIds.Any(z => x.UserId == z)))
                 {
-                    var ticket = new Ticket
-                    {
-                        UserId = userId,
-                        IsDeleted = false,
-                        IsRead = false,
-                        UserType = dbUser.Type,
-                        RecipientUserId = item.UserId
-                    };
+                    var ticket = AdaptFrom(model);
+                    ticket.RecipientUserId = item.UserId;
 
                     tickets.Add(ticket);
                 }
@@ -205,10 +193,10 @@ namespace BanooClub.Services.TicketServices
                 tickets.Add(model);
             }
 
-            tickets.ForEach(async x =>
+            tickets.ForEach(x =>
             {
                 var dbCreation = _ticketRepository.Insert(x);
-                await SetMediaFor(x);
+                SetMediaFor(x);
             });
 
             return new ServiceResult<List<long>>().Ok(tickets.Select(x => x.TicketId).ToList());
@@ -289,7 +277,7 @@ namespace BanooClub.Services.TicketServices
         public IServiceResult<bool> ChangeTicketType(long parentId, byte ticketType)
         {
             var parent = _ticketRepository.GetQuery().Where(x => x.TicketId == parentId).FirstOrDefault();
-            if(parent != null)
+            if (parent != null)
                 parent.Type = ticketType;
 
             _ticketRepository.Save();
@@ -298,7 +286,7 @@ namespace BanooClub.Services.TicketServices
 
         #region Utilities
 
-        private async Task SetMediaFor(Ticket model)
+        private void SetMediaFor(Ticket model)
         {
             if (!string.IsNullOrWhiteSpace(model.FileData))
             {
@@ -312,8 +300,31 @@ namespace BanooClub.Services.TicketServices
                     MediaId = 0
                 };
 
-                await _mediaRepository.InsertAsync(dbMedia);
+                _mediaRepository.Insert(dbMedia);
             }
+        }
+
+        private static Ticket AdaptFrom(Ticket input)
+        {
+            return new Ticket
+            {
+                IsClosed = input.IsClosed,
+                IsDeleted = input.IsDeleted,
+                IsRead = input.IsRead,
+                UnRead = input.UnRead,
+                ParentId = input.ParentId,
+                RecipientIds = input.RecipientIds,
+                Content = input.Content,
+                CreateDate = input.CreateDate,
+                FileData = input.FileData,
+                TicketId = input.TicketId,
+                Title = input.Title,
+                Type = input.Type,
+                UserType = input.UserType,
+                UserId = input.UserId,
+                RecipientUserId = input.RecipientUserId,
+                UserInfo = input.UserInfo
+            };
         }
 
         #endregion

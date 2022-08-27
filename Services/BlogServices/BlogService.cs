@@ -226,8 +226,6 @@ namespace BanooClub.Services.BlogServices
             return new ServiceResult<Blog>().Ok(model);
         }
 
-
-
         public async Task<IServiceResult<Blog>> GetByName(string blogName)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
@@ -402,6 +400,58 @@ namespace BanooClub.Services.BlogServices
 
             await _BlogRepository.Save();
             return new ServiceResult<bool>().Ok(true);
+        }
+
+        public IServiceResult<object> GetAllArchived(short pageNumber, byte count, string searchCommand, long categoryId)
+        {
+            var userId = _accessor.HttpContext.User?.GetUserId() ?? 0;
+
+            var blogs = _BlogRepository.GetQuery().Where(x => x.Status == BlogStatus.Archived);
+            var dbBlogs = blogs.OrderByDescending(x => x.CreateDate).Skip((pageNumber - 1) * count).Take(count).ToList();
+            foreach (var item in dbBlogs)
+            {
+                var dbMedia = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == item.BlogId && z.Type == MediaTypes.Blog);
+                item.FileData = dbMedia == null ? "" : "media/gallery/blog/" + dbMedia.PictureUrl;
+                item.CommentsCount = _blogCommentRepository.GetQuery().Where(z => z.BlogId == item.BlogId).Count();
+                item.UserInfo = userRepository.GetQuery().FirstOrDefault(z => z.UserId == item.UserId);
+                var blogTags = _tagRepository.GetQuery().Where(z => z.ObjectId == item.BlogId && z.Type == TagType.Blog).ToList();
+                List<Tag> BLOGTAGS = new List<Tag>();
+
+                item.Tags = blogTags;
+
+                var dbViews = viewRepository.GetQuery().FirstOrDefault(z => z.ObjectId == item.BlogId && z.Type == ViewType.Blog);
+                if (dbViews != null)
+                {
+                    item.ViewsCount = dbViews.Count;
+                }
+                else
+                {
+                    item.ViewsCount = 0;
+                }
+
+                if (userId != 0)
+                {
+                    var dbLike = likeRepository.GetQuery().FirstOrDefault(z => z.UserId == userId && z.Type == LikeType.Blog && z.ObjectId == item.BlogId);
+
+                    if (dbLike != null)
+                    {
+                        item.MyLikeStatus = (LikeStatus)dbLike.Status;
+                    }
+                    else
+                    {
+                        item.MyLikeStatus = null;
+                    }
+                }
+                item.LikeCount = likeRepository.GetQuery().Where(z => z.Type == LikeType.Blog && z.ObjectId == item.BlogId).Count();
+            }
+
+            var obj = new
+            {
+                Blogs = dbBlogs,
+                BlogsCount = blogs.Count()
+            };
+
+            return new ServiceResult<object>().Ok(obj);
         }
     }
 }

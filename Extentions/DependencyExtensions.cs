@@ -85,6 +85,7 @@ using BanooClub.Services.OrderItemServices;
 using BanooClub.Services.ShippingServices;
 using BanooClub.Services.ShippingTypeServices;
 using BanooClub.Services.DashboardServices;
+using BanooClub.Services.DiscountServices;
 
 namespace BanooClub.Extensions
 {
@@ -175,6 +176,7 @@ namespace BanooClub.Extensions
             services.AddScoped<IBanooClubEFRepository<BlogComment>, BanooClubEfRepository<BlogComment>>();
             services.AddScoped<IBanooClubEFRepository<Shipping>, BanooClubEfRepository<Shipping>>();
             services.AddScoped<IBanooClubEFRepository<ShippingType>, BanooClubEfRepository<ShippingType>>();
+            services.AddScoped<IBanooClubEFRepository<Discount>, BanooClubEfRepository<Discount>>();
             
 
         }
@@ -262,6 +264,7 @@ namespace BanooClub.Extensions
             services.AddTransient<IShippingService, ShippingService>();
             services.AddTransient<IShippingTypeService, ShippingTypeService>();
             services.AddTransient<IDashboardService, DashboardService>();
+            services.AddTransient<IDiscountService, DiscountService>();
 
             services.AddTransient(typeof(IGenerateJwtService), typeof(GenerateJwtService));
             services.AddTransient(typeof(IConfirmationCodeSetting), typeof(ConfirmationCodeSetting));
