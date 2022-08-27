@@ -17,6 +17,10 @@ namespace BanooClub.Models
         public DateTime CreateDate { get; set; }
         [NotMapped]
         public User UserInfo { get; set; }
+        [NotMapped]
+        public string BlogTitle { get; set; }
+        [NotMapped]
+        public string BlogSEOURL { get; set; }
     }
     public class BlogCommentDTO
     {
