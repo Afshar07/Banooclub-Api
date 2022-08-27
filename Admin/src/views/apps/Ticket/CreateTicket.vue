@@ -144,7 +144,7 @@ export default {
   mounted(){
 this.GetAllUsers()
   },
-
+  title: ' ساخت تیکت جدید  - پنل ادمین بانو کلاب',
   methods:{
     async CreateTicket(){
 
@@ -196,7 +196,17 @@ this.GetAllUsers()
         }
         ticketCreateRequest.setParams(data)
         await ticketCreateRequest.fetch((content)=>{
-          console.log(content)
+          _this.$toast({
+            component: ToastificationContent,
+            position: 'bottom-center',
+            props: {
+              title: `عملیات موفق`,
+              icon: 'checkIcon',
+              variant: 'success',
+              text: `تیکت با موفقیت ساخته شد.`,
+            },
+          })
+          _this.$router.push('/apps/Ticket/AllTickets')
         },(e)=>{
           console.log(e)
         })

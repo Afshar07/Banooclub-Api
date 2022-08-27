@@ -142,6 +142,12 @@ export default [
         resource: 'Accountent',
         action: 'Accountent',
       },
+      {
+        title: 'لیست سفارشات',
+        route: 'apps-Financial-AllOrders',
+        resource: 'Accountent',
+        action: 'Accountent',
+      },
 
     ],
   },
@@ -215,6 +221,12 @@ export default [
       {
         title: 'لیست مقالات',
         route: 'apps-Blog-BlogList',
+        resource: 'Blogger',
+        action: 'Blogger',
+      },
+      {
+        title: 'آرشیو',
+        route: 'apps-Blog-BlogArchived',
         resource: 'Blogger',
         action: 'Blogger',
       },

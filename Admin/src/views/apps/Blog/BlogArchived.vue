@@ -66,7 +66,7 @@
         >
           <template #cell(createDate)="data">
 
-              <span>{{ new Date(data.item.createDate).toLocaleDateString('fa-IR') }}</span>
+            <span>{{ new Date(data.item.createDate).toLocaleDateString('fa-IR') }}</span>
 
 
           </template>
@@ -84,7 +84,7 @@
           </template>
           <template #cell(status)="data">
             <b-badge v-if="data.item.status===1" variant="success">
-             منتشر شده
+              منتشر شده
             </b-badge>
             <b-badge v-if="data.item.status===2" variant="danger">
               آرشیو شده
@@ -94,7 +94,7 @@
           <template #cell(View)="data">
 
 
-              <feather-icon @click="SetSelectedBlog(data.item)" v-b-modal.modal-View icon="EyeIcon" size="20" class="text-primary" />
+            <feather-icon @click="SetSelectedBlog(data.item)" v-b-modal.modal-View icon="EyeIcon" size="20" class="text-primary" />
 
 
           </template>
@@ -167,8 +167,7 @@ import {
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 import ChangeBlogStatus from "@/libs/Api/Blog/BlogChangeStatus";
-import BlogGetAllRequest from '@/libs/Api/Blog/BlogGetAllReqeust'
-
+import BlogGetAllArchived from "@/libs/Api/Blog/GetAllArchived";
 import ToastificationContent from '@core/components/toastification/ToastificationContent'
 import BlogDeleteRequest from '@/libs/Api/Blog/BlogDeleteRequest'
 
@@ -194,7 +193,7 @@ export default {
     BFormSelect,
     vSelect,
   },
-  title: 'لیست مقالات  - پنل ادمین بانو کلاب',
+  title: 'لیست مقالات آرشیو شده  - پنل ادمین بانو کلاب',
   name: 'UsersList',
   data() {
     return {
@@ -322,15 +321,15 @@ export default {
 
     async GetAllBlogs() {
       let _this = this
-      let blogGetAllRequest = new BlogGetAllRequest(_this)
+      let blogGetAllArchived = new BlogGetAllArchived(_this)
       let data = {
         pageNumber: _this.currentPage,
         count: _this.count,
         search: _this.search,
         tagId:_this.tagId
       }
-      blogGetAllRequest.setParams(data)
-      await blogGetAllRequest.fetch(function (content) {
+      blogGetAllArchived.setParams(data)
+      await blogGetAllArchived.fetch(function (content) {
         _this.Blogs = content.blogs
         _this.totalCount = content.blogsCount
       }, function (error) {

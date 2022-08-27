@@ -37,7 +37,7 @@
     </div>
     <div class="tw-flex-1 tw-mr-4">
 
-        <h2 class="tw-text-lg tw-font-semibold tw-line-clamp-1">
+        <h2 class="tw-text-lg tw-font-semibold tw-line-clamp-1 tw-cursor-pointer" @click="GoToForumDetail(forum_details)">
           {{forum_details.title}}
         </h2>
 
@@ -117,6 +117,11 @@ export default {
        console.log(e)
      }
 
+    },
+    GoToForumDetail(Forum){
+     this.$router.push({
+       path:`/Forums/${Forum.forumId}/`
+     })
     },
     time_ago(time) {
       switch (typeof time) {

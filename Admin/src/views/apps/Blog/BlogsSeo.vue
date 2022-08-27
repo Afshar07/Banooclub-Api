@@ -221,7 +221,7 @@ export default {
     BFormSelect,
     vSelect,
   },
-  title: 'لیست دسته بندی آگهی ها  - پنل ادمین بانو کلاب',
+  title: 'سئو مقالات  - پنل ادمین بانو کلاب',
   name: 'UsersList',
   data() {
     return {

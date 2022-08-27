@@ -112,7 +112,7 @@ export default {
   mounted(){
     this.getAllUsers()
   },
-
+  title: 'ساخت گروه جدید  - پنل ادمین بانو کلاب',
   methods:{
     RemovePic(){
       this.BaseImgUrl = ''

@@ -200,7 +200,7 @@ import ServicePlanUpdateRequest from '@/libs/Api/Plans/ServicePlansUpdate'
 import ToastificationContent from '@core/components/toastification/ToastificationContent'
 
 export default {
-  title: ' پلن های ارتقا خدمت  - پنل ادمین بانو کلاب',
+  title: ' پلن های ارتقا آگهی  - پنل ادمین بانو کلاب',
   name: 'UsersList',
   data() {
     return {

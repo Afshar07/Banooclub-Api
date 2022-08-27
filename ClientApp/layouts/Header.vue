@@ -204,25 +204,41 @@
               </div>
             </div>
           </div>
-          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
-            <nuxt-link
-              exact-active-class="SingleShortCutActive"
-              to="/Payments/"
-              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
-            >
+          <div :class="[decrease_width ? '' : '']" class="py-1">
+
+            <div @click="FinancialActive=!FinancialActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+                 class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
               <MoneyIcon fill="#ef4444" class="svg_icons_size"/>
-              <span v-if="!decrease_width" class="header_font_sidebar_size">پرداخت ها</span>
-            </nuxt-link>
-          </div>
-          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
-            <nuxt-link
-              exact-active-class="SingleShortCutActive"
-              to="/Orders/"
-              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
-            >
-              <OrderIcon fill="rgb(245 158 11)" class="svg_icons_size text-warning"/>
-              <span v-if="!decrease_width" class="header_font_sidebar_size">سفارشات</span>
-            </nuxt-link>
+              <span v-if="!decrease_width" class="header_font_sidebar_size">مالی</span>
+              <CheveronIcon :class="{ActiveChevron:FinancialActive}" class=" tw-transition-all tw-mr-auto" style="width: 12px; height: 12px"/>
+            </div>
+            <div :class="{ActiveMenuService:FinancialActive}" v-if="!decrease_width" class="px-3  tw-h-0 tw-overflow-hidden tw-transition-all" >
+              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <nuxt-link
+                  exact-active-class="SingleShortCutActive"
+                  to="/Payments/"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                >
+                  <ProductsIcon v-if="decrease_width" class="svg_icons_size tw-text-red-500"/>
+                  <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
+                  <span v-if="!decrease_width" class="font_sidebar_size">پرداخت ها</span>
+                </nuxt-link>
+              </div>
+              <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3"
+                   class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <nuxt-link
+                  exact-active-class="SingleShortCutActive"
+                  to="/Orders/"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                >
+                  <PlusIcon class="svg_icons_size" v-if="decrease_width" fill="rgb(245 158 11)"/>
+                  <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
+                  <span v-if="!decrease_width" class="font_sidebar_size">سفارشات</span>
+                </nuxt-link>
+              </div>
+            </div>
           </div>
           <div :class="[decrease_width ? '' : '']" class="py-1">
             <div  @click="ForumsActive=! ForumsActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"
@@ -530,26 +546,43 @@
                 </div>
               </div>
             </div>
-            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
-              <nuxt-link
-                exact-active-class="SingleShortCutActive"
-                to="/Payments/"
-                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
-              >
+            <div :class="[decrease_width ? '' : '']" class="py-1">
+
+              <div @click="FinancialActive=!FinancialActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+                   class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <MoneyIcon fill="#ef4444" class="svg_icons_size"/>
-                <span v-if="!decrease_width" class="header_font_sidebar_size">پرداخت ها</span>
-              </nuxt-link>
+                <span v-if="!decrease_width" class="header_font_sidebar_size">مالی</span>
+                <CheveronIcon :class="{ActiveChevron:FinancialActive}" class=" tw-transition-all tw-mr-auto" style="width: 12px; height: 12px"/>
+              </div>
+              <div :class="{ActiveMenuService:FinancialActive}" v-if="!decrease_width" class="px-3  tw-h-0 tw-overflow-hidden tw-transition-all" >
+                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    exact-active-class="SingleShortCutActive"
+                    to="/Payments/"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                  >
+                    <ProductsIcon v-if="decrease_width" class="svg_icons_size tw-text-red-500"/>
+                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
+                    <span v-if="!decrease_width" class="font_sidebar_size">پرداخت ها</span>
+                  </nuxt-link>
+                </div>
+                <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3"
+                     class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    exact-active-class="SingleShortCutActive"
+                    to="/Orders/"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                  >
+                    <PlusIcon class="svg_icons_size" v-if="decrease_width" fill="rgb(245 158 11)"/>
+                    <CircleIcon v-if="!decrease_width" style="width: 10px; height: 10px;"/>
+                    <span v-if="!decrease_width" class="font_sidebar_size">سفارشات</span>
+                  </nuxt-link>
+                </div>
+              </div>
             </div>
-            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
-              <nuxt-link
-                exact-active-class="SingleShortCutActive"
-                to="/Orders/"
-                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
-              >
-                <OrderIcon fill="rgb(245 158 11)" class="svg_icons_size text-warning"/>
-                <span v-if="!decrease_width" class="header_font_sidebar_size">سفارشات</span>
-              </nuxt-link>
-            </div>
+
             <div :class="[decrease_width ? '' : '']" class="py-1">
               <div  @click="ForumsActive=! ForumsActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"
                    class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
@@ -1207,6 +1240,7 @@ export default {
       RoomateActive:false,
       displayChargeSideNav: false,
       want_to_search: false,
+      FinancialActive:false,
       decrease_width_button: false,
       showProfileHeader: false,
       numberMessage: [1, 2, 3, 4, 5],
@@ -1917,12 +1951,12 @@ a {
 }
 .ActiveMenu{
   transition: .2s ease;
- @apply   tw-h-[150px]
+ @apply   tw-h-full
 
 }
 .ActiveMenuService{
   transition: .2s ease;
-  @apply   tw-h-[170px]
+  @apply   tw-h-full
 
 }
 </style>

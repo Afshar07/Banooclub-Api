@@ -339,7 +339,7 @@ namespace BanooClub.Services.AccountServices
                         }
                         var STATEID = stateId != null ? $"{stateId}" : "NULL";
                         var CITYID = cityId != null ? $"{cityId}" : "NULL";
-                        var RELATIONSTATE = relationState != null ? $"{relationState}" : "NULL";
+                        var RELATIONSTATE = relationState != null ? $"{(int)relationState}" : "NULL";
 
                         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                         var UserCode = new string(Enumerable.Repeat(chars, 8)

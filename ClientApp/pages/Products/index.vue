@@ -23,7 +23,7 @@
         <div class="row boxMainContent mx-auto">
           <div class="col-12 text-center ">
 
-            <AllServicesTabContent @SearchCommandFired="SearchCommand" @PageChanged="ChangePage" @RefetchServices="GetAllServices" :SelectedPageId="SelectedPageId" :AllServices="AllServices" :totalpages="totalPages"/>
+            <AllServicesTabContent @CategoryChanged="SetSelectedCategoryId" @SearchCommandFired="SearchCommand" @PageChanged="ChangePage" :Categories="categories" @RefetchServices="GetAllServices" :SelectedPageId="SelectedPageId" :AllServices="AllServices" :totalpages="totalPages"/>
           </div>
         </div>
       </div>
@@ -79,10 +79,15 @@ export default {
       totalPages:[],
       AllServicesFirstTab:[],
       SelectedPageId:1,
-      Search:''
+      Search:'',
+      SelectedCategoryId:0
     }
   },
   methods:{
+    SetSelectedCategoryId(id){
+      this.SelectedCategoryId = id
+      this.GetAllServices()
+    },
     async GetAllServices(){
       try {
         const res = await this.$repositories.getAllServices.getAllServices(
@@ -91,6 +96,7 @@ export default {
             count:10  ,
             searchCommand:this.Search,
             status:1,
+            categoryId:this.SelectedCategoryId
 
           }
         )
@@ -120,6 +126,7 @@ export default {
   },
 
   async fetch(){
+
     try {
       const allCategories = await this.$repositories.getAllServicesCategory.getAllServicesCategory();
       this.categories = allCategories.data.serviceCategories;

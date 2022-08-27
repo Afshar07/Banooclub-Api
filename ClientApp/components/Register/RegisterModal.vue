@@ -2,39 +2,37 @@
   <transition name="modal">
     <div v-if="is_modal_open" class="tw-modal tw-modal-open tw-bg-transparent" @click="closeRegisterModal">
       <div class="tw-container tw-mx-auto tw-w-11/12 tw-z-[99999]">
-        <div style="overflow-x: hidden!important;" class=" tw-bg-white tw-modal-box tw-max-w-max tw-p-0 tw-w-full tw-mx-auto tw-rounded-xl tw-shadow-2xl tw-p-0" @click.stop>
+        <div style="overflow-x: hidden!important;"
+             class=" tw-bg-white tw-modal-box tw-max-w-max tw-p-0 tw-w-full tw-mx-auto tw-rounded-xl tw-shadow-2xl tw-p-0"
+             @click.stop>
           <div class="modal_header tw-flex tw-items-center tw-justify-between tw-border-b">
             <div class="tw-px-7 tw-py-5">
               <h2 class="lg:tw-text-2xl tw-text-xl tw-font-semibold tw-mb-1 tw-text-gray-600">ثبت نام</h2>
             </div>
             <button class="tw-p-2 tw-bg-gray-100 tw-rounded-full tw-m-3" type="button" @click="closeRegisterModal">
-              <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-gray-500" fill="none"
+                   viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
               </svg>
             </button>
           </div>
           <div class="d-flex flex-column">
             <div class="lg:tw-mt-0 lg:tw-w-96  tw-mt-10 tw-w-full custom_navs tw-bg-white tw-shadow-lg tw-rounded-lg">
               <div class="d-flex flex-column justify-content-between">
-                <div class="row py-2" v-show="!isOtpSent">
-                  <div class="col-6 border-end text-center" :class="registerType == 1 ? 'TabActive' : 'deActiveTab'" @click="setRegisterMethod(1)">
+                <div class="row py-2">
+                  <div class="col-12 d-flex align-items-center justify-content-center TabActive  border-end text-center">
                     ثبت نام با شماره موبایل
                   </div>
                 </div>
                 <form>
                   <get-otp
-                    @OtpSent="setOtpSentStatus"
-                    @getMail="setMail"
                     @getNumber="setNumber"
                     @setCounter="setCounter($event)"
-                    :registerType="registerType"
                     @getCodeFields="getCodeField($event)"
                   ></get-otp>
                   <register-form
-                    @returnToRegister="returnToRegister"
                     :counterNumber="local_counter"
                     :code_field="code_field"
-                    @getUserRole="setUserType"
                     @getSignUpPayload="setSignUpPayload"
                     @close_register_modal="closeRegisterModal"
                   ></register-form>
@@ -67,33 +65,23 @@
 
 import GetOtp from "../../components/Register/GetOtp";
 import RegisterForm from "../../components/Register/RegisterForm.vue";
+
 export default {
   name: "RegisterModal",
   components: {RegisterForm, GetOtp},
-  data(){
-    return{
-      code_field:null,
-      loginType: 1,
-      local_counter:0,
-      categories:[],
+  data() {
+    return {
+      code_field: null,
+      local_counter: 0,
+      categories: [],
       service_category: null,
-      isOtpSent: false,
       Time: null,
-      registerType: 1,
       payload: {
         mobile: "",
         mail: "",
-        firstName: null,
-        lastName: null,
-        password: null,
-        verifyCode: null,
-        encryptedMail: "string",
         type: 1,
-        userName: null,
-        userRole: 0,
       },
       userType: 0,
-
     }
   },
   async fetch() {
@@ -107,50 +95,25 @@ export default {
     // Get categories
 
   },
-  computed: {
-    GetBgClass() {
-      switch (this.userType) {
-        case "1":
-          return "lightBlue";
 
-        case "4":
-          return "lightBlue2";
-        case "3":
-          return "lightBlue3";
-      }
-    },
-    checkEqualPasswordMobile() {
-      return this.passwordMobile === this.repeatPasswordMobile;
-    },
-    checkEqualPasswordEmail() {
-      return this.passwordEmail === this.repeatPasswordEmail;
-    },
-  },
-
-  props:{
-    is_modal_open:{
+  props: {
+    is_modal_open: {
       type: Boolean,
       required: true,
       default: false
     }
   },
-  emits:['close_modal'],
-  methods:{
-    returnToRegister(){
-      this.isOtpSent = false
-    },
-    setCounter(counter){
+  emits: ['close_modal'],
+  methods: {
+
+    setCounter(counter) {
       this.local_counter = counter
-
-
     },
-    getCodeField(code_field){
+    getCodeField(code_field) {
       this.code_field = code_field
     },
-    setLoginMethod(type) {
-      this.loginType = type;
-    },
     async sendSignUpRequest() {
+
       const that = this
       try {
         this.$nuxt.$loading.start();
@@ -178,23 +141,13 @@ export default {
           this.$toast.error("نام کاربری قبلا ثبت نام کرده است.");
         } else if (response.data === 11) {
           this.$toast.error("اکانت شما غیرفعال شده است.");
-        }else{
+        } else {
           this.$emit("close_register_modal");
           this.$auth.strategy.token.set(response.data.token)
           this.$auth.setUser(response.data.user)
           this.$router.push('/social')
         }
-        // this.$store.dispatch("login", {
-        //   payload: response.data,
-        // });
 
-        // console.log('b man resid')
-        // this.$router.replace('/social')
-        // this.$nuxt.refresh();
-        // console.log('b man resid')
-
-
-        // this.$router.push("/social");
       } catch (error) {
         console.error(error);
       } finally {
@@ -202,31 +155,24 @@ export default {
       }
     },
     setSignUpPayload(payload) {
-      for (let i in payload) {
-        this.payload[i] = payload[i];
-      }
+      Object.keys(payload).forEach(key => {
+        this.payload[key] = payload[key]
+      })
+
       this.sendSignUpRequest();
     },
-    setMail(mail) {
-      this.payload.mail = mail;
-      this.payload.type = 2;
-      this.payload.mobile = "";
-    },
+
     setNumber(mobile) {
       this.payload.mobile = mobile;
       this.payload.type = 1;
       this.payload.mail = "";
     },
-    setUserType(userType) {
-      this.userType = userType;
+    setUserType() {
+      this.userType = 3;
     },
-    setRegisterMethod(type) {
-      this.registerType = type;
-    },
-    setOtpSentStatus() {
-      this.isOtpSent = true;
-    },
-    closeRegisterModal(){
+
+
+    closeRegisterModal() {
       this.$emit('close_register_modal')
     }
   }

@@ -20,7 +20,7 @@
 
                   <div class="col-md-12">
                     <small>نوع تخفیف : </small>
-                    <select class="form-control" v-model="Discount.type">
+                    <select class="form-control" placeholder="نوع تخفیف را انتخاب کنید" v-model="Discount.type">
                       <option disabled selected>نوع تخفیف را انتخاب کنید</option>
                       <option :value="1">درصدی</option>
                       <option :value="2">عددی</option>
@@ -66,9 +66,88 @@
             >
               بستن
             </button>
-            <button @click="AddDiscount" type="button" class="button mt-auto px-2" data-bs-dismiss="modal">
+            <button @click="AddDiscount" type="button" class="btn btn-success mt-auto px-2" data-bs-dismiss="modal">
               ایجاد تخفیف
             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="serviceDetailProp.discount!==null"
+      class="modal fade"
+      id="EditDiscount"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabe2l">ایجاد تخفیف جدید</h5>
+
+          </div>
+          <div class="modal-body">
+            <div class="row">
+
+
+              <div class="col-md-12">
+                <small>نوع تخفیف : </small>
+                <select class="form-control" v-model="serviceDetailProp.discount.type">
+                  <option disabled selected>نوع تخفیف را انتخاب کنید</option>
+                  <option :value="1">درصدی</option>
+                  <option :value="2">عددی</option>
+                </select>
+              </div>
+              <div class="col-md-12 my-3">
+                <small>مقدار تخفیف</small>
+                <input type="number" maxlength="10" class="form-control with-border" v-model="serviceDetailProp.discount.value" placeholder="مقدار تخفیف را وارد کنید">
+              </div>
+              <div class="col-md-12">
+                <small>تاریخ اتمام تخفیف</small>
+                <client-only>
+                  <date-picker
+                    format="YYYY-MM-DD HH:MM"
+                    display-format="jYYYY-jMM-jDD HH:MM"
+                    v-model="serviceDetailProp.discount.expireDate"
+                    type="date"
+                  />
+                </client-only>
+              </div>
+              <!--                <div class="col-md-3">-->
+              <!--                  <small>تاریخ شروع تخفیف</small>-->
+              <!--                  <client-only>-->
+              <!--                    <date-picker-->
+              <!--                      format="YYYY-MM-DD"-->
+              <!--                      display-format="jYYYY-jMM-jDD"-->
+              <!--                      v-model="Discount.startDate"-->
+              <!--                      type="date"-->
+              <!--                    />-->
+              <!--                  </client-only>-->
+              <!--                </div>-->
+
+
+
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button @click="UpdateDiscount" type="button" class="btn btn-success mt-auto px-2" data-bs-dismiss="modal">
+              بروزرسانی
+            </button>
+            <button @click="DeleteDiscount" type="button" class="btn btn-danger mt-auto px-2" data-bs-dismiss="modal">
+              حذف
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              بستن
+            </button>
+
+
           </div>
         </div>
       </div>
@@ -255,27 +334,35 @@
           </button>
         </div>
 
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center px-lg-5"
-             v-for="(property,idx) in property_count" :key="idx">
-            <span class="deleteIcon m-3 pt-3" style="top: 0" @click="decreasePropertyCount(idx)">
-              <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-red-600" viewBox="0 0 20 20"
-                   fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z"
-                      clip-rule="evenodd"/>
-              </svg>
-            </span>
-          <div class="pt-3 col-md-4 col-lg-5 col-sm-12">
-            <label>نام ویژگی</label>
-            <input v-model="property_name" type="text" class="with-border" placeholder="نام ویژگی">
-          </div>
-          <div class="pt-3 col-md-4 col-lg-5 col-sm-12">
-            <label>قیمت ویژگی</label>
-            <input v-model="property_price" maxlength="11" :ref="`Price${idx}`" type="number" class="with-border" placeholder="قیمت ویژگی">
-          </div>
-          <div class="pt-5">
-            <button @click="createProperty" type="button" class="button mt-auto tw-whitespace-nowrap">
-              ثبت ویژگی
-            </button>
+        <div v-for="(property,idx) in property_count" :key="idx" class="col-md-12 my-3">
+          <div class="row">
+            <div class="col-md-1 d-flex align-items-center">
+              <i @click="decreasePropertyCount(idx)" class="fa fa-minus-circle text-danger tw-cursor-pointer"></i>
+            </div>
+
+            <div class=" col-md-3 col-sm-12">
+              <label>نام ویژگی</label>
+              <input :ref="`Title${idx}`" type="text" class="with-border" placeholder="نام ویژگی">
+            </div>
+            <div  class=" col-md-3 col-sm-12 d-flex flex-column justify-content-end   ">
+              <div class="d-flex align-items-center justify-content-between">
+
+
+                <small>قیمت ویژگی</small>
+                <div class="d-flex align-items-center gap-2">
+                  <small>ویژگی رایگان</small>
+                  <input type="checkbox" @click="Disable(idx)" style="width: 20px;height: 20px" class="form-check">
+                </div>
+              </div>
+
+              <input maxlength="11" :ref="`Price${idx}`" type="number" class="with-border" placeholder="قیمت ویژگی">
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+              <button @click="createProperty" type="button" class="button mt-auto tw-whitespace-nowrap">
+                ثبت ویژگی
+              </button>
+            </div>
+
           </div>
         </div>
       </div>
@@ -318,34 +405,44 @@
 
       </div>
       <div class="col-12 py-5 tw-text-left">
-        <button type="button" class="button mt-auto px-2" @click="updateService">
-          به روز رسانی خدمت
-        </button>
-      </div>
-        <div class="col-md-12 my-3">
-          <button type="button" class="button mt-auto px-2" data-bs-toggle="modal" data-bs-target="#AddDiscount">
-           ایجاد تخفیف برای خدمت
+        <div class="d-flex align-items-center justify-content-between">
+          <button type="button" class="btn btn-success mt-auto px-2" @click="updateService">
+            به روز رسانی خدمت
           </button>
+          <button v-if="serviceDetailProp.discount===null" type="button" class="btn btn-info text-white mt-auto px-2" data-bs-toggle="modal" data-bs-target="#AddDiscount">
+            ایجاد تخفیف برای خدمت
+          </button>
+
+
         </div>
 
+      </div>
 
-      <div class="col-md-12 my-3">
+
+
+      <div v-if="serviceDetailProp.discount!==null" class="col-md-12 my-3">
         <label>ویرایش تخفیف خدمت</label>
-        <table class="table">
+        <table class="table table-sm table-striped">
           <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">شناسه</th>
+            <th scope="col">نوع</th>
+            <th scope="col">مقدار</th>
+            <th scope="col">تاریخ انقضا</th>
+            <th scope="col">عملیات</th>
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
+          <tr >
+            <th scope="row">{{serviceDetailProp.discount.discountId}}</th>
+            <td>
+              <span v-if="serviceDetailProp.discount.type===1" class="badge pill text-white bg-info">درصدی</span>
+              <span v-if="serviceDetailProp.discount.type===2" class="badge pill text-white bg-info">عددی</span>
+
+            </td>
+            <td>{{ serviceDetailProp.discount.value }}</td>
+            <td>{{ new Date(serviceDetailProp.discount.expireDate).toLocaleDateString('fa-IR')  }}</td>
+            <td><button  data-bs-target="#EditDiscount" data-bs-toggle="modal" class="btn btn-info btn-sm text-white">ویرایش</button></td>
           </tr>
           </tbody>
         </table>
@@ -417,6 +514,36 @@ export default {
     };
   },
   methods: {
+    DeleteDiscount(){
+      try {
+        const res = this.$repositories.DeleteDiscount.DeleteDiscount({
+          id:this.serviceDetailProp.discount.discountId,
+        })
+        this.$toast.success('تخفیف با موفقیت حذف شد')
+
+        this.$emit('DiscountChanged')
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    UpdateDiscount(){
+      try {
+        const res = this.$repositories.UpdateDiscount.UpdateDiscount({
+          discountId:this.serviceDetailProp.discount.discountId,
+          expireDate: this.serviceDetailProp.discount.expireDate,
+          type: this.serviceDetailProp.discount.type,
+          value: parseInt(this.serviceDetailProp.discount.value) ,
+          refraction: false,
+          servicePackId: this.serviceDetailProp.discount.servicePackId,
+          startDate: ""
+
+        })
+        this.$toast.success('تخفیف با موفقیت بروزرسانی شد')
+        this.$emit('DiscountChanged')
+      }catch (e) {
+        console.log(e)
+      }
+    },
     AddDiscount(){
       try {
         const res = this.$repositories.CreateDiscount.CreateDiscount({
@@ -436,7 +563,7 @@ export default {
           expireDate: '',
           refraction: false
         }
-        this.$nuxt.refresh()
+        this.$emit('DiscountChanged')
       }catch (e) {
         console.log(e)
       }
@@ -495,7 +622,6 @@ export default {
         }
       }
     },
-
     decreasePropertyCount(index) {
       this.property_count.splice(index, 1)
     },

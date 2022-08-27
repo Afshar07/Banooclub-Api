@@ -187,6 +187,7 @@ export default {
       NewTag:''
     }
   },
+  title: 'ویرایش مقاله  - پنل ادمین بانو کلاب',
   mounted() {
     let admin = JSON.parse(localStorage.getItem('userData'))
     this.adminId = admin.data.user.userId

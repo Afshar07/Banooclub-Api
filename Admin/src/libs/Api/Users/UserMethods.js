@@ -29,7 +29,7 @@ class GetOrdersByUserId extends WebServiceRequest {
         super(context)
     }
     setParams(data){
-        super.setTag(`Order/GetByUserId?userId=${data.userId}&pageNumber=${data.pageNumber}&count=${data.count}`)
+        super.setTag(`Order/GetByUserIdForAdmin?userId=${data.userId}&pageNumber=${data.pageNumber}&count=${data.count}`)
     }
 }
 class GetPaymentsByUserId extends WebServiceRequest {

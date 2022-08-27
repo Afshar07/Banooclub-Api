@@ -146,7 +146,7 @@ import ChangeStatus from '@/libs/Api/ads/ChangeStatus'
 import ToastificationContent from '@core/components/toastification/ToastificationContent'
 
 export default {
-  title: 'لیست آگهی های تایید شده  - پنل ادمین بانو کلاب',
+  title: 'لیست آگهی های تایید نشده  - پنل ادمین بانو کلاب',
   name: 'UsersList',
   data() {
     return {

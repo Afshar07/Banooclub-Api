@@ -1,11 +1,28 @@
 <template>
   <div class="row">
-    <input
-      class="SearchStyle"
-      type="text"
-      placeholder="جستجو خدمت"
-      v-model="searchKey"
-    />
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-9 d-flex align-items-center ">
+          <input
+            class="SearchStyle"
+            type="text"
+            placeholder="جستجو خدمت"
+            v-model="searchKey"
+          />
+        </div>
+        <div class="col-md-3">
+          <v-select
+            v-model="SelectedCategoryId"
+            :options="Categories"
+            placeholder="جستجو بر اساس دسته بندی"
+            label="title"
+            :reduce="title=> title.serviceCategoryId"
+          />
+        </div>
+
+      </div>
+    </div>
+
     <div class="col-xl-3 col-sm-12 col-md-4" v-for="(service,idx) in AllServices" :key="idx">
       <ProductItem @GetServices="Refresh()" class="my-3" :service_details="service" />
     </div>
@@ -27,7 +44,7 @@ import CustomPagination from "../../components/utilities/CustomPagination"
 
 
 export default {
-  props:['AllServices','totalpages','SelectedPageId'],
+  props:['AllServices','totalpages','SelectedPageId','Categories'],
   name: "AllServicesTabContent",
   components: {
     ProductItem,
@@ -41,6 +58,7 @@ export default {
       allServices:null,
       searchKey:'',
       pageNumber:0,
+      SelectedCategoryId:null,
       totalPages:[]
 
     }
@@ -49,9 +67,13 @@ export default {
     searchKey:function (val){
 
       this.$emit('SearchCommandFired',val)
-    }
+    },
+    SelectedCategoryId:function (val){
+      this.$emit('CategoryChanged',val)
+    },
   },
   methods: {
+
     Refresh(){
       this.$emit('RefetchServices')
     },

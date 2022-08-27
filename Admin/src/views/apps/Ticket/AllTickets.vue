@@ -52,6 +52,11 @@
             <small>{{data.item.userInfo.name+ ' ' + data.item.userInfo.familyName}}</small>
             </router-link>
           </template>
+          <template #cell(recipientUserName)="data">
+            <router-link :to="`/apps/users/Detail/${data.item.recipientUserName}`">
+              <small>{{data.item.recipientUserName}}</small>
+            </router-link>
+          </template>
           <template #cell(Detail)="data">
               <b-link class="cursor-pointer" :to="`/apps/Ticket/Detail/${data.item.ticketId}`">
                 <feather-icon icon="EyeIcon" size="20" class="text-primary" />
@@ -187,6 +192,10 @@ export default {
         {
           key: 'userInfo',
           label: 'توسط'
+        },
+        {
+          key: 'recipientUserName',
+          label: 'به'
         },
         {
           key: 'type',
