@@ -24,7 +24,7 @@
     </div>
     <div class="tab-content tw-h-full" id="pills-tabContent" v-if="!$fetchState.pending">
       <div  class="tab-pane fade  " :class="{'show active':ActiveTab===1}" id="products-pills-home" role="tabpanel" aria-labelledby="products-pills-home-tab">
-        <EditProductTab v-if="ActiveTab===1"  :service_details="ServiceDetails"/>
+        <EditProductTab @DiscountChanged="GetService" v-if="ActiveTab===1"  :service_details="ServiceDetails"/>
       </div>
       <div class="tab-pane fade tw-h-full" :class="{'show active':ActiveTab===2}" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
         <UpgradeProductTab v-if="ActiveTab===2"/>
@@ -84,6 +84,23 @@ export default {
     }
     catch (error){
       console.log(error)
+    }
+  },
+  methods:{
+    async GetService(){
+
+      try {
+        const service_details = await this.$repositories.getAService.getAService(
+          {
+            servicePackId:this.$route.params.UpgradeProduct
+          }
+        )
+        this.ServiceDetails = service_details.data
+        this.$nuxt.refresh()
+      }
+      catch (error){
+        console.log(error)
+      }
     }
   }
 

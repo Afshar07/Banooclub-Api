@@ -205,8 +205,12 @@
       <div class="tw-p-4 tw-space-y-3">
         <div class="d-flex justify-content-between">
           <h1 class="tw-text-2xl tw-font-semibold tw-text-gray-600 tw-pt-2">{{service_details.title}}</h1>
-          <div v-if="!service_details.isFree" class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
+          <div  :class="{'tw-line-through':service_details.TotalDiscountPrice}" v-if="!service_details.isFree" class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
             {{Intl.NumberFormat('fa-IR').format(service_details.totalPrice)}}
+            تومان
+          </div>
+          <div  v-if="service_details&& service_details.TotalDiscountPrice" class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
+            {{Intl.NumberFormat('fa-IR').format(service_details.TotalDiscountPrice)}}
             تومان
           </div>
           <div v-if="service_details.isFree" class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
@@ -508,6 +512,23 @@ export default {
     }
   },
   async fetch(){
+    if (this.service_details) {
+      if (this.service_details.discount !== null) {
+        let PriceDiscount = this.service_details.discount
+        let discountValue = PriceDiscount.value
+        if (PriceDiscount.type === 1) {
+          let value = this.service_details.totalPrice * discountValue / 100
+          this.$set(this.service_details, 'TotalDiscountPrice', this.service_details.totalPrice - value)
+
+
+          // If Discount Is Numeric Type
+        } else {
+          this.$set(this.service_details, 'TotalDiscountPrice', this.service_details.totalPrice - discountValue)
+        }
+        console.log(this.service_details)
+      }
+
+    }
     try {
       const service_rates = await this.$repositories.getARate.getARate(
         {
@@ -541,7 +562,7 @@ export default {
           planId: 0,
           count: 1,
           vendorUserId: item.userInfo.userId,
-          price: item.totalPrice,
+          price: !this.service_details.TotalDiscountPrice ? item.totalPrice :this.service_details.TotalDiscountPrice ,
           title:item.title,
           serviceId:item.servicePackId
         }

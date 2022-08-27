@@ -131,7 +131,7 @@ export default {
   mounted(){
   this.GetAllForumCategory()
   },
-
+  title: ' ساخت انجمن جدید  - پنل ادمین بانو کلاب',
   methods:{
     RemoveTag(idx){
       this.newTags.splice(idx,1)

@@ -74,7 +74,7 @@ export default {
     vSelect,
 
   },
-  title: 'لیست  انجمن ها  - پنل ادمین بانو کلاب',
+  title: 'صفحه کاربر  - پنل ادمین بانو کلاب',
   name: 'UsersList',
 
   data() {

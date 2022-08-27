@@ -162,7 +162,7 @@ export default {
     BFormSelect,
     vSelect,
   },
-  title: 'لیست دسته بندی آگهی ها  - پنل ادمین بانو کلاب',
+  title: 'دیدگاه مقالات  - پنل ادمین بانو کلاب',
   name: 'UsersList',
   data() {
     return {

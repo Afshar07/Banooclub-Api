@@ -15,9 +15,6 @@
         </div>
       </div>
     </div>
-<!--    <div class="col-12 d-flex align-items-center justify-content-center mt-4">-->
-<!--      <recaptcha @success="setCaptchaSuccess" />-->
-<!--    </div>-->
     <div class="col-12 mt-3 text-center">
       <button
         type="button"
@@ -33,84 +30,25 @@
 
 <script>
 export default {
-  emits: ["OtpSent", "getNumber", "getMail","setCounter","getCodeFields"],
+  emits: [, "getNumber",  "setCounter", "getCodeFields"],
   props: {
-    registerType: {
-      type: Number,
-      default: 1,
-    },
+
   },
-  watch: {
-    registerType: {
-      handler(val) {
-        this.mobile = null;
-        this.mail = null;
-      },
-    },
-  },
+
   data() {
     return {
-      captcha: true,
       mobile: null,
-      mail: null,
-      counter:22000
+      counter: 22000
     };
   },
   methods: {
     sendOtpCode() {
-      // Handle both otp codes here
-      if (this.registerType == 1) {
         this.sendMobileOtpCode();
-      } else {
-        this.sendEmailOtpCode();
-      }
     },
     setInputValue(event) {
       // Handle both login with mobile/email in one component
-      if (this.registerType == 1) {
         this.mobile = event.target.value;
-        this.mail = "string";
-        this.$emit("getCodeFields",this.mobile);
-
-      } else {
-        this.mail = event.target.value;
-        this.mobile = "string";
-        this.$emit("getCodeFields",this.mail);
-
-      }
-
-    },
-    async sendEmailOtpCode() {
-      try {
-        this.$nuxt.$loading.start();
-
-        if (!this.mail) {
-          this.$toast.error("لطفا ایمیل خود را وارد کنید");
-        } else {
-          const response =
-            await this.$repositories.sendOtpToEmail.sendOtpToEmail(this.mail);
-          if (response.data.message === "Confirmation code has not expired") {
-            this.$toast.error("کد تایید منقضی نشده است");
-            this.$emit("setCounter",this.counter);
-            this.$emit("OtpSent");
-          } else if (response.data.hasUser === 1) {
-            this.$toast.error("کاربری با این ایمیل قبلا ثبت نام کرده است");
-            // this.$emit("OtpSent");
-            this.$emit("setCounter",this.counter);
-          } else {
-            this.$emit("setCounter",this.counter);
-            this.$toast.success("کد تایید برای شما ارسال شد");
-
-            this.$emit("OtpSent");
-            this.$emit("getMail", this.mail);
-            // this.Time = new Date().getTime() + 250000;
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        this.$nuxt.$loading.finish();
-      }
+        this.$emit("getCodeFields", this.mobile);
     },
     async sendMobileOtpCode() {
       try {
@@ -126,22 +64,18 @@ export default {
             );
           if (response.data.message === "Confirmation code has not expired") {
             this.$toast.error("کد تایید منقضی نشده است");
-            this.$emit("OtpSent");
-            this.$emit("setCounter",this.counter);
+
+            this.$emit("setCounter", this.counter);
           } else if (response.data.hasUser === 1) {
-            this.$emit("setCounter",this.counter);
+            this.$emit("setCounter", this.counter);
             this.$toast.error(
               "کاربری با این شماره موبایل قبلا ثبت نام کرده است"
             );
-            // this.$emit("OtpSent");
-
           } else {
-            this.$emit("setCounter",this.counter);
+            this.$emit("setCounter", this.counter);
             this.$toast.success("کد تایید برای شما ارسال شد");
-            this.$emit("OtpSent");
             this.$emit("getNumber", this.mobile);
 
-            // this.Time = new Date().getTime() + 250000;
           }
         }
       } catch (error) {
@@ -150,16 +84,13 @@ export default {
         this.$nuxt.$loading.finish();
       }
     },
-    setCaptchaSuccess() {
-      this.captcha = true;
-    },
   },
   computed: {
     inputPlaceholder() {
-      return this.registerType === 1 ? "شماره موبایل" : "ایمیل";
+      return  "شماره موبایل";
     },
     getInputValue() {
-      return this.registerType === 1 ? this.mobile : this.mail;
+      return  this.mobile;
     },
   },
 };
@@ -184,10 +115,12 @@ export default {
   background-color: #1fb6ff !important;
   transition: 1s ease;
 }
+
 .lightBlue2 {
   background-color: #71d3ff !important;
   transition: 1s ease;
 }
+
 .lightBlue3 {
   background-color: #21b4fc !important;
   transition: 1s ease;
@@ -196,6 +129,7 @@ export default {
 .lightBlue p small h2 h1 span {
   color: white !important;
 }
+
 .viewPassword {
   top: 0.75rem;
   left: 0;
@@ -316,26 +250,26 @@ input:focus {
   padding: 7px 30px;
   cursor: pointer;
   -webkit-transition: background-color 0.28s ease, color 0.28s ease,
-    -webkit-box-shadow 0.28s ease;
+  -webkit-box-shadow 0.28s ease;
   transition: background-color 0.28s ease, color 0.28s ease,
-    -webkit-box-shadow 0.28s ease;
+  -webkit-box-shadow 0.28s ease;
   transition: background-color 0.28s ease, color 0.28s ease,
-    box-shadow 0.28s ease;
+  box-shadow 0.28s ease;
   transition: background-color 0.28s ease, color 0.28s ease,
-    box-shadow 0.28s ease, -webkit-box-shadow 0.28s ease;
+  box-shadow 0.28s ease, -webkit-box-shadow 0.28s ease;
   overflow: hidden;
   -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
 .submitRegisterButton:hover {
   background-color: #088dcd;
   -webkit-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14),
-    0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
+  0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12),
-    0 3px 5px -1px rgba(0, 0, 0, 0.2);
+  0 3px 5px -1px rgba(0, 0, 0, 0.2);
 }
 
 .submitRegisterButton:active::before,
@@ -344,7 +278,7 @@ input:focus {
   transition: opacity 0.28s ease 364ms, -webkit-transform 1.12s ease;
   transition: transform 1.12s ease, opacity 0.28s ease 364ms;
   transition: transform 1.12s ease, opacity 0.28s ease 364ms,
-    -webkit-transform 1.12s ease;
+  -webkit-transform 1.12s ease;
   -webkit-transform: translate(-50%, -50%) scale(1);
   transform: translate(-50%, -50%) scale(1);
   opacity: 0;

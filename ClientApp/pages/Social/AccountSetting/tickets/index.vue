@@ -128,8 +128,8 @@
                     <div class="tw-bg-green-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="item.isClosed == false && item.isRead == true">
                       <span class="text-white tw-text-xs">پاسخ داده شده</span>
                     </div>
-                    <div class="tw-bg-gray-400 tw-rounded d-inline-flex justify-content-center align-items-center p-1" style="border: 1px solid black" v-else-if="item.isClosed == true">
-                      <span class="tw-text-xs" style="color:#36454F;">بسته شده</span>
+                    <div class="tw-bg-stone-300  tw-rounded d-inline-flex justify-content-center align-items-center p-1" style="border: 1px solid black" v-else-if="item.isClosed == true">
+                      <span class="tw-text-xs tw-text-white" style="color:#36454F;">بسته شده</span>
                     </div>
                   </th>
                   <th class="fw-normal">

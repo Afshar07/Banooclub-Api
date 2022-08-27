@@ -125,6 +125,11 @@ export default [
     name: 'apps-Financial-AllPayments',
     component: () => import('@/views/apps/Financial/AllPayments.vue'),
   },
+  {
+    path: '/apps/Financial/AllOrders',
+    name: 'apps-Financial-AllOrders',
+    component: () => import('@/views/apps/Financial/AllOrders.vue'),
+  },
   // *===============================================---*
   // *--------- Upgrade ---- ---------------------------------------*
   // *===============================================---*
@@ -199,6 +204,11 @@ export default [
     path: '/apps/Blog/BlogList',
     name: 'apps-Blog-BlogList',
     component: () => import('@/views/apps/Blog/BlogList.vue'),
+  },
+  {
+    path: '/apps/Blog/BlogArchived',
+    name: 'apps-Blog-BlogArchived',
+    component: () => import('@/views/apps/Blog/BlogArchived.vue'),
   },
   {
     path: '/apps/Blog/BlogsSeo',

@@ -142,7 +142,7 @@ export default {
             verifyCode: "string",
             encryptedMail: "string",
             // userName: "string",
-            userRole: 0,
+            userRole: 3,
             type: this.loginType,
           },
         });

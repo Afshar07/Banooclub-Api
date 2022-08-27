@@ -225,7 +225,7 @@ export default {
     BFormSelect,
     vSelect,
   },
-  title: 'خدمات تایید نشده  - پنل ادمین بانو کلاب',
+  title: 'خدمات منقضی شده  - پنل ادمین بانو کلاب',
   name: 'UsersList',
   data() {
     return {

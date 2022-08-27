@@ -24,9 +24,16 @@
 
 <script>
 export default {
-  props:['UserData'],
+  props:{
+    UserData:{
+      // Object That Handles Both Group And User Data In SideBar
+      type:Object,
+      required:true
+    }
+  },
   name: "ProfileItem",
   methods:{
+    // Method That Routes To User Profile Page
     async goToUserProfile(user){
       try {
         this.$router.push({path: `/user/${user.userName}/posts`});

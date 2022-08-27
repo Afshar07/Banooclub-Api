@@ -214,7 +214,7 @@ import ToastificationContent from '@core/components/toastification/Toastificatio
 import BlogCategoryUpdateSeoRequest from '@/libs/Api/Blog/BlogCategoryUpdateSeoRequest'
 
 export default {
-  title: 'لیست دسته بندی مقالات  - پنل ادمین بانو کلاب',
+  title: 'سئو دسته بندی مقالات  - پنل ادمین بانو کلاب',
   name: 'UsersList',
   data() {
     return {

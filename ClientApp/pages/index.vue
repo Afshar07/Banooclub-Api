@@ -1,11 +1,13 @@
 <template>
   <div>
-    <div v-if="register_modal_is_open" class="tw-z-[99] tw-fixed tw-w-screen tw-h-screen tw-top-0 tw-left-0 tw-bg-gray-200 tw-bg-opacity-80"></div>
+    <div v-if="register_modal_is_open"
+         class="tw-z-[99] tw-fixed tw-w-screen tw-h-screen tw-top-0 tw-left-0 tw-bg-gray-200 tw-bg-opacity-80"></div>
     <div class="lg:tw-flex tw-max-w-5xl tw-min-h-screen tw-mx-auto tw-p-6 tw-py-10">
       <div class="tw-flex tw-flex-col tw-items-center lg:tw-flex-row lg:tw-space-x-10">
 
         <div class="lg:tw-mb-12 tw-flex-1 lg:tw-text-left tw-text-center">
-          <p class="tw-font-medium lg:tw-mx-0 md:tw-text-2xl tw-mt-6 tw-mx-auto sm:tw-w-3/4 tw-text-xl tw-text-right" style="color:rgb(102 102 102);">
+          <p class="tw-font-medium lg:tw-mx-0 md:tw-text-2xl tw-mt-6 tw-mx-auto sm:tw-w-3/4 tw-text-xl tw-text-right"
+             style="color:rgb(102 102 102);">
             بانو کلاب،
             با دوستان و دنیای اطراف خود با بانو کلاب ارتباط برقرار کنید.
           </p>
@@ -14,14 +16,15 @@
           <div class="lg:tw-mt-0 lg:tw-w-96 tw-mt-10 tw-w-full custom_navs tw-bg-white tw-shadow-lg tw-rounded-lg">
             <div class="d-flex justify-content-center">
               <div
-                class="border-end text-center col-6 my-0"
-                :class="loginType == 1 ? 'TabActive' : 'deActiveTab'"
-                @click="setLoginMethod(1)"
+                class="border-end text-center col-6 my-0 TabActive"
+
+
               >
                 ورود با شماره موبایل
               </div>
             </div>
-            <LoginForm :login-type="loginType" @open_register_modal="openRegisterModal()" @close_register_modal="closeRegisterModal()"/>
+            <LoginForm :login-type="loginType" @open_register_modal="openRegisterModal()"
+                       @close_register_modal="closeRegisterModal()"/>
 
           </div>
 
@@ -42,18 +45,15 @@ export default {
   name: "Login",
   loading: false,
   auth: "guest",
-  head(){
-    return{
-      title:'ثبت نام'
+  head() {
+    return {
+      title: 'ثبت نام'
     }
   },
-  components: {RegisterModal, LoginBanner, LoginForm },
+  components: {RegisterModal, LoginBanner, LoginForm},
   data() {
     return {
-      login_field:'',
-      is_modal_open: false,
-      register_modal_is_open:false,
-      isActive: null,
+      register_modal_is_open: false,
       loginType: 1,
     };
   },
@@ -64,74 +64,15 @@ export default {
     });
   },
   methods: {
-    closeRegisterModal(){
+    closeRegisterModal() {
       this.register_modal_is_open = false
 
     },
-    openRegisterModal(){
+    openRegisterModal() {
       this.register_modal_is_open = true
     },
-    showPassword() {
-      this.fieldPassword =
-        this.fieldPassword === "password" ? "text" : "password";
-      this.isActive = this.isActive === "active" ? "" : "active";
-    },
-    closeModal(){
-      this.is_modal_open = false
-    },
-    setLoginMethod(type) {
-      this.loginType = type;
-    },
-    async submitLogin() {
-      try {
-        this.$nuxt.$loading.start();
-        const response = await this.$auth.loginWith("local", {
-          data: {
-            mobile: this.mobile,
-            mail: this.mail,
-            firstName: "string",
-            lastName: "string",
-            password: this.password,
-            verifyCode: "string",
-            encryptedMail: "string",
-            // userName: "string",
-            userRole: 0,
-            type: this.loginType,
-          },
-        });
-        if (response.data.status === 3) {
-          this.$toast.error("نام کاربری یا رمز عبور اشتباه است.");
-        } else if (response.data.status === 4) {
-          this.$toast.error(
-            "کد ارسال شده منتقضی شده است،لطفا دوباره امتحان کنید."
-          );
-        } else if (response.data.status === 5) {
-          this.$toast.error("کد وارد شده اشتباه است.");
-        } else if (response.data.status === 6) {
-          this.$toast.error("کاربری با این نام کاربری وجود ندارد.");
-        } else if (response.data.status === 7) {
-          this.$auth.setUser(response.data.data.user);
-        } else if (response.data.status === 8) {
-          this.$toast.error("قبلا کاربری با این نام کاربری ثبت نام کرده است.");
-        } else if (response.data.status === 9) {
-          this.$toast.error("پسورد شما ایمن نیست.");
-        } else if (response.data.status === 10) {
-          this.$toast.error("نام کاربری قبلا ثبت نام کرده است.");
-        } else if (response.data.status === 11) {
-          this.$toast.error("اکانت شما غیرفعال شده است.");
-        }
 
-        if (response.data.data.user.role === "Admin") {
-          this.$router.push({ path: "/social" });
-        } else {
-          this.$router.push({ path: "/social" });
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        this.$nuxt.$loading.finish();
-      }
-    },
+
   },
 };
 </script>
@@ -275,26 +216,26 @@ textarea.with-border:focus {
   padding: 7px 30px;
   cursor: pointer;
   -webkit-transition: background-color 0.28s ease, color 0.28s ease,
-    -webkit-box-shadow 0.28s ease;
+  -webkit-box-shadow 0.28s ease;
   transition: background-color 0.28s ease, color 0.28s ease,
-    -webkit-box-shadow 0.28s ease;
+  -webkit-box-shadow 0.28s ease;
   transition: background-color 0.28s ease, color 0.28s ease,
-    box-shadow 0.28s ease;
+  box-shadow 0.28s ease;
   transition: background-color 0.28s ease, color 0.28s ease,
-    box-shadow 0.28s ease, -webkit-box-shadow 0.28s ease;
+  box-shadow 0.28s ease, -webkit-box-shadow 0.28s ease;
   overflow: hidden;
   -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
 .submitRegisterButton:hover {
   background-color: #088dcd;
   -webkit-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14),
-    0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
+  0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12),
-    0 3px 5px -1px rgba(0, 0, 0, 0.2);
+  0 3px 5px -1px rgba(0, 0, 0, 0.2);
 }
 
 .submitRegisterButton:active::before,
@@ -303,7 +244,7 @@ textarea.with-border:focus {
   transition: opacity 0.28s ease 364ms, -webkit-transform 1.12s ease;
   transition: transform 1.12s ease, opacity 0.28s ease 364ms;
   transition: transform 1.12s ease, opacity 0.28s ease 364ms,
-    -webkit-transform 1.12s ease;
+  -webkit-transform 1.12s ease;
   -webkit-transform: translate(-50%, -50%) scale(1);
   transform: translate(-50%, -50%) scale(1);
   opacity: 0;

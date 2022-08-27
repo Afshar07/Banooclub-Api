@@ -2,12 +2,8 @@
   <div class="col-12 p-0 m-0" style="overflow-x: hidden">
     <div class="col-12 mt-3">
       <div class="col-md-12 my-3">
-<!--        <select-user-type @getUserRole="setUserRole"></select-user-type>-->
       </div>
-      <div
-        class="row SignupForm SignUpFormActive"
-
-      >
+      <div class="row SignupForm SignUpFormActive">
         <div class="form-floating text-end">
           <input
             type="text"
@@ -18,7 +14,6 @@
             lang="fa"
             @input="validateUsername"
           />
-<!--          <label class="fa-pull-right" for="firstName">نام کاربری</label>-->
           <div class="text-danger fw-bold mt-2" v-if="!isUsernameAvailable">
             این نام کاربری قبلا ثبت شده است.
           </div>
@@ -35,7 +30,7 @@
               lang="fa"
               v-model.trim="payload.firstName"
             />
-<!--            <label class="fa-pull-right" for="firstName">نام</label>-->
+            <!--            <label class="fa-pull-right" for="firstName">نام</label>-->
           </div>
         </div>
         <div class="col-12 mt-3">
@@ -49,7 +44,7 @@
               lang="fa"
               v-model.trim="payload.lastName"
             />
-<!--            <label class="fa-pull-right" for="lastName">نام خانوادگی</label>-->
+            <!--            <label class="fa-pull-right" for="lastName">نام خانوادگی</label>-->
           </div>
         </div>
         <div class="col-12 mt-3">
@@ -61,7 +56,7 @@
           </select>
         </div>
         <div class="col-12 mt-3">
-          <input v-model="payload.verification_code" type="text" placeholder="کد معرف" class="with-border">
+          <input v-model="payload.introducerCode" type="text" placeholder="کد معرف" class="with-border">
         </div>
         <div class="col-12 mt-3 position-relative">
           <div class="form-floating text-end">
@@ -86,7 +81,7 @@
                 v-if="fieldPassword === 'text'"
               />
             </button>
-<!--            <label for="password">رمز عبور</label>-->
+
           </div>
         </div>
         <div class="col-12 mt-3 position-relative">
@@ -113,7 +108,7 @@
                 v-if="fieldPassword === 'text'"
               />
             </button>
-<!--            <label for="passwordRepeat">تکرار رمز عبور</label>-->
+            <!--            <label for="passwordRepeat">تکرار رمز عبور</label>-->
             <div class="text-danger fw-bold mt-4" v-if="!isPasswordsMatch">
               رمز تطابق ندارد
             </div>
@@ -132,7 +127,7 @@
               placeholder="کد تایید"
               v-model.trim="payload.verifyCode"
             />
-<!--            <label for="otp">کد تایید</label>-->
+            <!--            <label for="otp">کد تایید</label>-->
           </div>
         </div>
         <div class="col-12 my-2">
@@ -151,19 +146,12 @@
             <span class="privacyAccept text-muted">
               شرایط و ضوابط را قبول دارم
             </span>
-            <br />
+            <br/>
           </div>
         </div>
 
         <div class="col-md-12 d-flex align-items-start gap-1 ">
 
-          <button
-            @click="returnToRegister"
-            type="button"
-            class="mb-3 tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full"
-          >
-            تغییر روش ثبت نام
-          </button>
 
         </div>
         <div class="col-md-12 d-flex align-items-start gap-1 ">
@@ -171,7 +159,7 @@
             @click="sendSignUpRequest"
             :disabled="isButtonDisabled"
             type="button"
-            class="tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md
+            class="bg-success tw-font-semibold tw-p-3 tw-rounded-md
             tw-text-center tw-text-white tw-w-full"
             :class="[isButtonDisabled?'disable_button':'']"
           >
@@ -185,16 +173,17 @@
 
 <script>
 import SelectUserType from "./SelectUserType.vue";
+
 export default {
-  emits: ["getUserRole", "getSignUpPayload","close_register_modal","returnToRegister"],
-  props:['counterNumber','code_field'],
+  emits: ["getSignUpPayload", "close_register_modal", "returnToRegister"],
+  props: ['counterNumber', 'code_field'],
   components: {
     SelectUserType,
   },
   async fetch() {
 
-    if(this.counterNumber){
-     this.localCounter = this.counterNumber
+    if (this.counterNumber) {
+      this.localCounter = this.counterNumber
     }
 
     try {
@@ -210,19 +199,18 @@ export default {
 
   data() {
     return {
-      localCounter:0,
-      categories:[],
-      CodeSent:false,
-
+      localCounter: 0,
+      categories: [],
+      CodeSent: false,
       payload: {
         userName: null,
         firstName: null,
         lastName: null,
         password: null,
         verifyCode: null,
-        userRole: 0,
-        serviceCategoryId:0,
-        introducerCodeL:null
+        userRole: 3,
+        introducerCode: null,
+        serviceCategoryId: 0,
       },
       passwordRepeat: null,
       fieldPassword: "password",
@@ -232,68 +220,35 @@ export default {
     };
   },
   methods: {
-    returnToRegister(){
+    returnToRegister() {
       this.$emit("returnToRegister");
     },
 
     sendOtpCode() {
       // Handle both otp codes here
-      if (this.set_reg_type == 1) {
         this.sendMobileOtpCode();
-      } else {
-        this.sendEmailOtpCode();
-      }
-    },
-    async sendEmailOtpCode() {
-      try {
-        this.$nuxt.$loading.start();
-
-        // if (!this.captcha) {
-        //   this.$toast.error("لطفا کپچا را تکمیل کنید");
-        // } else {
-          const response =
-            await this.$repositories.sendOtpToEmail.sendOtpToEmail(this.code_field);
-          if (response.data.message === "Confirmation code has not expired") {
-            this.$toast.error("کد تایید منقضی نشده است");
-          } else if (response.data.hasUser === 1) {
-            this.$toast.error("کاربری با این ایمیل قبلا ثبت نام کرده است");
-          } else {
-            this.$toast.success("کد تایید برای شما ارسال شد");
-            this.$emit("OtpSent");
-            this.$emit("getMail", this.code_field);
-            // this.Time = new Date().getTime() + 250000;
-          }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        this.$nuxt.$loading.finish();
-      }
     },
     async sendMobileOtpCode() {
       try {
         this.$nuxt.$loading.start();
+        const response =
+          await this.$repositories.sendOtpToMobile.sendOtpToMobile(
+            this.code_field
+          );
+        if (response.data.message === "Confirmation code has not expired") {
+          this.$toast.error("کد تایید منقضی نشده است");
+        } else if (response.data.hasUser === 1) {
+          this.$toast.error(
+            "کاربری با این شماره موبایل قبلا ثبت نام کرده است"
+          );
+        } else {
+          this.$toast.success("کد تایید برای شما ارسال شد");
+          this.$emit("OtpSent");
+          this.$emit("getNumber", this.code_field);
 
-        // if (this.mobile.length < 11) {
-        //   this.$toast.error("شماره موبایل وارد شده معتبر نیست");
-        // }  else {
-          const response =
-            await this.$repositories.sendOtpToMobile.sendOtpToMobile(
-              this.code_field
-            );
-          if (response.data.message === "Confirmation code has not expired") {
-            this.$toast.error("کد تایید منقضی نشده است");
-          } else if (response.data.hasUser === 1) {
-            this.$toast.error(
-              "کاربری با این شماره موبایل قبلا ثبت نام کرده است"
-            );
-          } else {
-            this.$toast.success("کد تایید برای شما ارسال شد");
-            this.$emit("OtpSent");
-            this.$emit("getNumber", this.code_field);
 
-            // this.Time = new Date().getTime() + 250000;
-          }
-        // }
+        }
+
       } catch (error) {
         console.log(error);
       } finally {
@@ -316,33 +271,9 @@ export default {
 
       }
     },
-    // startTimer(duration, display) {
-    //   let timer = duration,
-    //     minutes,
-    //     seconds;
-    //   setInterval(function () {
-    //     minutes = parseInt(timer / 60, 10);
-    //     seconds = parseInt(timer % 60, 10);
-
-    //     minutes = minutes < 10 ? "0" + minutes : minutes;
-    //     seconds = seconds < 10 ? "0" + seconds : seconds;
-
-    //     display.textContent = minutes + ":" + seconds;
-
-    //     if (--timer < 0) {
-    //       timer = duration;
-    //     }
-    //   }, 1000);
-    // },
-    renderSendAgainBtn() {
-      this.ShowSendAgainBtn = true;
-    },
     showPassword() {
       this.fieldPassword =
         this.fieldPassword === "password" ? "text" : "password";
-    },
-    setUserRole(type) {
-      this.payload.userRole = type;
     },
     async validateUsername(event) {
       this.payload.userName = event.target.value;
@@ -381,9 +312,10 @@ export default {
 </script>
 
 <style scoped>
-.disable_button{
+.disable_button {
   background-color: #0000ff4d;
 }
+
 .SignupForm {
   height: 0px;
   overflow-y: scroll;
@@ -403,10 +335,12 @@ export default {
   background-color: #1fb6ff !important;
   transition: 1s ease;
 }
+
 .lightBlue2 {
   background-color: #71d3ff !important;
   transition: 1s ease;
 }
+
 .lightBlue3 {
   background-color: #21b4fc !important;
   transition: 1s ease;
@@ -415,6 +349,7 @@ export default {
 .lightBlue p small h2 h1 span {
   color: white !important;
 }
+
 .viewPassword {
   top: 0.4rem;
   left: 0;
@@ -496,10 +431,12 @@ input:focus {
 .form-floating > .form-control:focus > label {
   color: #088dcd !important;
 }
+
 .form-control:focus {
   border-bottom: 0.06rem solid #c4c4c4 !important;
   box-shadow: none !important;
 }
+
 .form-floating > .form-control:focus,
 .form-floating > .form-control:focus:not(:placeholder-shown) {
   padding-bottom: 10px !important;
@@ -536,26 +473,26 @@ input:focus {
   padding: 7px 30px;
   cursor: pointer;
   -webkit-transition: background-color 0.28s ease, color 0.28s ease,
-    -webkit-box-shadow 0.28s ease;
+  -webkit-box-shadow 0.28s ease;
   transition: background-color 0.28s ease, color 0.28s ease,
-    -webkit-box-shadow 0.28s ease;
+  -webkit-box-shadow 0.28s ease;
   transition: background-color 0.28s ease, color 0.28s ease,
-    box-shadow 0.28s ease;
+  box-shadow 0.28s ease;
   transition: background-color 0.28s ease, color 0.28s ease,
-    box-shadow 0.28s ease, -webkit-box-shadow 0.28s ease;
+  box-shadow 0.28s ease, -webkit-box-shadow 0.28s ease;
   overflow: hidden;
   -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
 .submitRegisterButton:hover {
   background-color: #088dcd;
   -webkit-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14),
-    0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
+  0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12),
-    0 3px 5px -1px rgba(0, 0, 0, 0.2);
+  0 3px 5px -1px rgba(0, 0, 0, 0.2);
 }
 
 .submitRegisterButton:active::before,
@@ -564,7 +501,7 @@ input:focus {
   transition: opacity 0.28s ease 364ms, -webkit-transform 1.12s ease;
   transition: transform 1.12s ease, opacity 0.28s ease 364ms;
   transition: transform 1.12s ease, opacity 0.28s ease 364ms,
-    -webkit-transform 1.12s ease;
+  -webkit-transform 1.12s ease;
   -webkit-transform: translate(-50%, -50%) scale(1);
   transform: translate(-50%, -50%) scale(1);
   opacity: 0;
