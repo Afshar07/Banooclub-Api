@@ -11,16 +11,18 @@ namespace BanooClub.Services.BlogCommentServices
     public class BlogCommentService : IBlogCommentService
     {
         private readonly IBanooClubEFRepository<BlogComment> _BlogCommentRepository;
+        private readonly IBanooClubEFRepository<Blog> _blogRepository;
         private readonly IBanooClubEFRepository<SocialMedia> _MediaRepository;
         private readonly IUserService _userService;
         private readonly IBanooClubEFRepository<User> _userRepository;
 
-        public BlogCommentService(IBanooClubEFRepository<BlogComment> BlogCommentRepository, IBanooClubEFRepository<SocialMedia> mediaRepository, IBanooClubEFRepository<User> userRepository, IUserService userService)
+        public BlogCommentService(IBanooClubEFRepository<BlogComment> BlogCommentRepository, IBanooClubEFRepository<SocialMedia> mediaRepository, IBanooClubEFRepository<User> userRepository, IUserService userService, IBanooClubEFRepository<Blog> blogRepository)
         {
             _BlogCommentRepository = BlogCommentRepository;
             _userService = userService;
             _userRepository = userRepository;
             _MediaRepository = mediaRepository;
+            _blogRepository = blogRepository;
         }
 
         public async Task<IServiceResult<object>> GetAll(int pageNumber, int count, string searchCommand, bool? IsActive)
@@ -40,6 +42,14 @@ namespace BanooClub.Services.BlogCommentServices
                 dbBlogComments = dbBlogComments.Skip((pageNumber - 1) * count).Take(count).ToList();
             }
 
+            var blogs = _blogRepository.GetQuery()
+                .Select(x => new
+                {
+                    x.BlogId,
+                    x.Title,
+                    x.SEOURL
+                }).ToList();
+
             foreach (var blogComment in dbBlogComments)
             {
                 var dbUser = _userRepository.GetQuery().FirstOrDefault(z => z.UserId == blogComment.UserId);
@@ -49,7 +59,11 @@ namespace BanooClub.Services.BlogCommentServices
                     dbUser.SelfieFileData = dbMedia == null ? "" : dbMedia.PictureUrl;
                     blogComment.UserInfo = dbUser;
                 }
+
+                blogComment.BlogTitle = blogs?.FirstOrDefault(x => x.BlogId == blogComment.BlogId)?.Title;
+                blogComment.BlogSEOURL = blogs?.FirstOrDefault(x => x.BlogId == blogComment.BlogId)?.SEOURL;
             }
+
             var obj = new
             {
                 Comments = dbBlogComments,
@@ -61,7 +75,7 @@ namespace BanooClub.Services.BlogCommentServices
 
         public async Task<IServiceResult> DeleteBlogComment(long id)
         {
-            var BlogComment = _BlogCommentRepository.GetQuery().FirstOrDefault(z => z.BlogCommentId==id);
+            var BlogComment = _BlogCommentRepository.GetQuery().FirstOrDefault(z => z.BlogCommentId == id);
 
             await _BlogCommentRepository.Delete(BlogComment);
 
@@ -87,10 +101,10 @@ namespace BanooClub.Services.BlogCommentServices
 
         public IServiceResult<object> GetAllAsyncByBlogId(long blogId)
         {
-            var dbComments = _BlogCommentRepository.GetQuery().Where(z => z.BlogId==blogId).ToList();
+            var dbComments = _BlogCommentRepository.GetQuery().Where(z => z.BlogId == blogId).ToList();
             foreach (var comment in dbComments)
             {
-                comment.UserInfo =_userService.Get(comment.UserId);
+                comment.UserInfo = _userService.Get(comment.UserId);
             }
             return new ServiceResult<object>().Ok(dbComments);
         }

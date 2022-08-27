@@ -9,6 +9,7 @@ namespace BanooClub.Services.BlogServices
     public interface IBlogService
     {
         IServiceResult<object> GetAll(string categoryName, long? tagId, string searchByTitle, int pageNumber, int count, DateTime? date);
+        IServiceResult<object> GetAllArchived(short pageNumber, byte count, string searchCommand, long categoryId);
         Task<IServiceResult> DeleteBlog(long id);
         Task<IServiceResult<long>> CreateBlog(Blog model);
         Task<IServiceResult<Blog>> UpdateBlog(Blog model);

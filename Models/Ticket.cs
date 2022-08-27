@@ -25,5 +25,7 @@ namespace BanooClub.Models
         public User UserInfo { get; set; }
         [NotMapped]
         public List<long> RecipientIds { get; set; }
+        [NotMapped]
+        public string RecipientUserName { get; set; }
     }
 }

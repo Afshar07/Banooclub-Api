@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BanooClub.Models.Enums;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BanooClub.Models
@@ -15,6 +16,8 @@ namespace BanooClub.Models
         public string TransId { get; set; }
         public string RefId { get; set; }
         public bool? WalletCharge { get; set; }
+        public PaymentStatus PaymentStatus { get; set; }
+
         [NotMapped]
         public User UserInfo { get; set; }
         [NotMapped]

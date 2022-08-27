@@ -33,6 +33,7 @@ namespace BanooClub.Services.ServicePackServices
         private readonly IBanooClubEFRepository<Plan> planRepository;
         private readonly IBanooClubEFRepository<Order> orderRepository;
         private readonly IBanooClubEFRepository<OrderItem> orderItemRepository;
+        private readonly IBanooClubEFRepository<Discount> _discountRepository;
 
         private readonly IRatingService ratingService;
         private readonly ISocialMediaService mediaService;
@@ -48,10 +49,12 @@ namespace BanooClub.Services.ServicePackServices
             IBanooClubEFRepository<OrderItem> orderItemRepository,
             IBanooClubEFRepository<Plan> planRepository,
             IBanooClubEFRepository<Rating> ratingRepository
-            , IHttpContextAccessor accessor, IBanooClubEFRepository<ServiceProperty> propertyRepository, IBanooClubEFRepository<View> viewRepository, IBanooClubEFRepository<User> userRepository,
+            , IHttpContextAccessor accessor, IBanooClubEFRepository<ServiceProperty> propertyRepository,
+            IBanooClubEFRepository<View> viewRepository, IBanooClubEFRepository<User> userRepository,
             ISocialMediaService mediaService,
             IWishListService wishListService,
-            IBanooClubEFRepository<Tag> tagRepository)
+            IBanooClubEFRepository<Tag> tagRepository
+            , IBanooClubEFRepository<Discount> discountRepository)
         {
             this.servicePackRepository = servicePackRepository;
             this.viewRepository = viewRepository;
@@ -72,6 +75,7 @@ namespace BanooClub.Services.ServicePackServices
             this.planRepository = planRepository;
             this.orderItemRepository = orderItemRepository;
             this.orderRepository = orderRepository;
+            _discountRepository = discountRepository;
             _accessor = accessor;
         }
 
@@ -226,7 +230,7 @@ namespace BanooClub.Services.ServicePackServices
                                 "inner join [Service].[ServiceCategories] c on s.ServiceCategoryId = c.ServiceCategoryId " +
                                 $"where s.IsDeleted='false' And s.ServiceCategoryId = {categoryId} order by CreateDate desc";
                         else
-                            cmd = "select * from Service.ServicePacks where IsDeleted='false' Inner Join  order by CreateDate desc";
+                            cmd = "select * from Service.ServicePacks where IsDeleted='false' order by CreateDate desc";
                     }
                     break;
                 //order by viewCount
@@ -329,6 +333,8 @@ namespace BanooClub.Services.ServicePackServices
                 {
                     servicePack.UserInfo.SelfieFileData = dbUserMedia.PictureUrl;
                 }
+
+                servicePack.Discount = _discountRepository.GetQuery().FirstOrDefault(x => x.ServicePackId == servicePack.ServicePackId);
             }
 
             var obj = new
@@ -405,6 +411,8 @@ namespace BanooClub.Services.ServicePackServices
                 }
 
                 #endregion
+
+                servicePack.Discount = _discountRepository.GetQuery().FirstOrDefault(x => x.ServicePackId == servicePack.ServicePackId);
             }
             var obj = new
             {
@@ -442,6 +450,9 @@ namespace BanooClub.Services.ServicePackServices
                     : 0;
 
             var service = servicePackRepository.GetQuery().FirstOrDefault(z => z.ServicePackId == id);
+            if (service != null)
+                service.Discount = _discountRepository.GetQuery()
+                    .FirstOrDefault(x => x.ServicePackId == service.ServicePackId);
 
             var dbViewCreation = new View()
             {
@@ -596,6 +607,8 @@ namespace BanooClub.Services.ServicePackServices
 
                 #endregion
 
+                servicePack.Discount = _discountRepository.GetQuery()
+                    .FirstOrDefault(x => x.ServicePackId == servicePack.ServicePackId);
             }
 
             var obj = new
@@ -676,6 +689,8 @@ namespace BanooClub.Services.ServicePackServices
                 }
                 #endregion
 
+                servicePack.Discount = _discountRepository.GetQuery()
+                    .FirstOrDefault(x => x.ServicePackId == servicePack.ServicePackId);
             }
             var obj = new
             {
@@ -689,6 +704,13 @@ namespace BanooClub.Services.ServicePackServices
         public async Task<object> GetDeactiveServices()
         {
             var servicePacks = servicePackRepository.GetQuery().Where(z => z.Status == ServicePackStatus.DeActive).ToList();
+
+            foreach (var servicePack in servicePacks)
+            {
+                servicePack.Discount = _discountRepository.GetQuery()
+                    .FirstOrDefault(x => x.ServicePackId == servicePack.ServicePackId);
+            }
+
             return servicePacks;
         }
 
@@ -710,10 +732,12 @@ namespace BanooClub.Services.ServicePackServices
         public async Task<int> GetMaintainedByServiceId(long serviceId)
         {
             var dbService = servicePackRepository.GetQuery().FirstOrDefault(z => z.ServicePackId == serviceId);
+
             if (dbService != null)
             {
                 return dbService.Maintain;
             }
+
             return 0;
         }
 
@@ -721,6 +745,13 @@ namespace BanooClub.Services.ServicePackServices
         {
             var orderItems = orderItemRepository.GetQuery().Where(z => z.ServiceId != null && z.ServiceId != 0).Select(x => x.ServiceId).Distinct().ToList();
             var services = servicePackRepository.GetQuery().Where(z => orderItems.Contains(z.ServicePackId)).ToList();
+
+            foreach (var servicePack in services)
+            {
+                servicePack.Discount = _discountRepository.GetQuery()
+                    .FirstOrDefault(x => x.ServicePackId == servicePack.ServicePackId);
+            }
+
             return services;
         }
 
@@ -731,6 +762,13 @@ namespace BanooClub.Services.ServicePackServices
                     : 0;
             var orderItems = orderItemRepository.GetQuery().Where(z => z.ServiceId != null && z.ServiceId != 0 && z.VendorUserId == userId).Select(x => x.ServiceId).Distinct().ToList();
             var services = servicePackRepository.GetQuery().Where(z => orderItems.Contains(z.ServicePackId)).ToList();
+
+            foreach (var servicePack in services)
+            {
+                servicePack.Discount = _discountRepository.GetQuery()
+                    .FirstOrDefault(x => x.ServicePackId == servicePack.ServicePackId);
+            }
+
             return services;
         }
 
@@ -864,6 +902,9 @@ namespace BanooClub.Services.ServicePackServices
             var dbServiceCat = categoryRepository.GetQuery().FirstOrDefault(Z => Z.ServiceCategoryId == service.ServiceCategoryId);
             service.CatName = dbServiceCat == null ? "" : dbServiceCat.Title;
 
+            service.Discount = _discountRepository.GetQuery()
+                .FirstOrDefault(x => x.ServicePackId == service.ServicePackId);
+
             var data = new
             {
                 ServicePack = service,
@@ -872,6 +913,5 @@ namespace BanooClub.Services.ServicePackServices
 
             return data;
         }
-
     }
 }
