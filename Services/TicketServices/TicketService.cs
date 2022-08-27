@@ -69,12 +69,18 @@ namespace BanooClub.Services.TicketServices
                 dbCustomerChildren.Add(parent);
                 parent.UnRead = dbCustomerChildren.Any(z => z.IsRead == false) ? true : false;
                 parent.UserInfo = userService.Get(parent.UserId);
+
+                if (parent.RecipientUserId != null && parent.RecipientUserId != 0)
+                    parent.RecipientUserName = _userRepository.GetQuery()
+                        .FirstOrDefault(x => x.UserId == parent.RecipientUserId)?.UserName;
             }
+
             var obj = new
             {
                 Tickets = tickets,
                 TicketCount = dbTicketCount,
             };
+
             return new ServiceResult<object>().Ok(obj);
         }
         public IServiceResult<object> GetAllForCustomer(int pageNumber, int count)
