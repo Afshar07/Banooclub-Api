@@ -82,7 +82,8 @@ namespace BanooClub.Services.TicketServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
-            var dbTickets = _ticketRepository.GetQuery().Where(z => z.UserId == userId && z.ParentId == 0).
+
+            var dbTickets = _ticketRepository.GetQuery().Where(z => (z.UserId == userId && z.ParentId == 0) || z.RecipientUserId == userId).
                 OrderByDescending(x => x.CreateDate).Skip((pageNumber - 1) * count).Take(count).ToList();
             var TicketsCount = _ticketRepository.GetQuery().Where(z => z.UserId == userId && z.ParentId == 0).Count();
             foreach (var parent in dbTickets)
