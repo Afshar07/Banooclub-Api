@@ -3,9 +3,10 @@ import WebServiceRequest from '../../Api/WebServiceRequest'
 class PostDeleteRequest extends WebServiceRequest {
     constructor (context) {
         super(context)
+        super.setTag('Post/Delete')
     }
-    setId(id){
-        super.setTag('Post/Delete?id='+id)
+    setParams(data){
+        super.setRequestParamDataObj(data)
     }
 }
 export default PostDeleteRequest;

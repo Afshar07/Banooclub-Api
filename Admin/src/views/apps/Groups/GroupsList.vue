@@ -101,6 +101,13 @@
             </div>
 
           </template>
+          <template #cell(View)="data">
+
+
+              <feather-icon @click="SetSelectedGroup(data.item)" icon="EyeIcon" size="20" class="text-primary" />
+
+
+          </template>
 
           <template #cell(status)="data">
 
@@ -114,6 +121,34 @@
           </template>
 
         </b-table>
+        <div v-if="SelectedGroup" class=" my-3 col-md-12">
+          لیست کاربران گروه
+          <b-table
+              ref="refUserListTable"
+              class="position-relative"
+              :items="SelectedGroup.userInfoes"
+              responsive
+              :fields="UserTableColumns"
+              primary-key="id"
+              show-empty
+              bordered
+              striped
+              empty-text="موردی موجود نیست!"
+          >
+
+            <!-- Column: delete -->
+
+
+
+
+
+            <template #cell(name)="data">
+
+             <small>{{data.item.name + ' ' + data.item.familyName }}</small>
+            </template>
+
+          </b-table>
+        </div>
         <div class="mx-2 mb-2">
           <b-row>
             <!-- Pagination -->
@@ -185,6 +220,20 @@ export default {
       deleteItem: null,
       perPage: 10,
       perPageOptions: [10, 20, 30, 40, 50],
+      UserTableColumns:[
+        {
+          key: 'userId',
+          label: 'شناسه'
+        },
+        {
+          key: 'userName',
+          label: ' نام کاربری'
+        },
+        {
+          key: 'name',
+          label: 'نام'
+        },
+      ],
       myTableColumns: [
         {
           key: 'groupId',
@@ -213,6 +262,10 @@ export default {
         {
           key: 'Delete',
           label: 'حذف'
+        },
+        {
+          key: 'View',
+          label: 'مشاهده کاربران'
         },
       ],
       pageNumber: 1,

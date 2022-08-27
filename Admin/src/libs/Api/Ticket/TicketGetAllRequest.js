@@ -5,7 +5,7 @@ class TicketGetAll extends WebServiceRequest {
         super(context)
     }
     setParams(data){
-        super.setTag('Ticket/GetAll?pageNumber='+data.pageNumber+'&count='+data.count+'')
+        super.setTag('Ticket/GetAll?pageNumber='+data.pageNumber+'&count='+data.count+'&searchCommand='+data.searchCommand+'&ticketType='+data.ticketType)
     }
 }
 export default TicketGetAll;

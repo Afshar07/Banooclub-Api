@@ -8,9 +8,9 @@ using BanooClub.Models.Enums;
 
 namespace BanooClub.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
     public class ServicePackController : ControllerBase
     {
         private readonly IServicePackService servicePackService;

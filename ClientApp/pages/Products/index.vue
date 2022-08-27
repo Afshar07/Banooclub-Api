@@ -23,12 +23,12 @@
         <div class="row boxMainContent mx-auto">
           <div class="col-12 text-center ">
 
-            <AllServicesTabContent @SearchCommandFired="SearchCommand" @PageChanged="ChangePage" @RefetchServices="GetAllServices" :AllServices="AllServices" :totalpages="totalPages"/>
+            <AllServicesTabContent @SearchCommandFired="SearchCommand" @PageChanged="ChangePage" @RefetchServices="GetAllServices" :SelectedPageId="SelectedPageId" :AllServices="AllServices" :totalpages="totalPages"/>
           </div>
         </div>
       </div>
       <div class="tab-pane fade " id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-        <FirstTabContent @RefetchServices="GetAllServices"   :AllServices="AllServices"  :categories="categories"  />
+        <FirstTabContent @RefetchServices="GetAllServices"   :AllServices="AllServicesFirstTab"  :categories="categories"  />
       </div>
     </div>
 
@@ -77,6 +77,7 @@ export default {
       categories:[],
       AllServices:[],
       totalPages:[],
+      AllServicesFirstTab:[],
       SelectedPageId:1,
       Search:''
     }
@@ -87,7 +88,7 @@ export default {
         const res = await this.$repositories.getAllServices.getAllServices(
           {
             pageNumber:this.SelectedPageId,
-            count:0,
+            count:10  ,
             searchCommand:this.Search,
             status:1,
 
@@ -95,7 +96,7 @@ export default {
         )
         this.AllServices = res.data.services
         this.totalPages = []
-        const result = Math.ceil( res.data.servicesCount / 1)
+        const result = Math.ceil( res.data.servicesCount / 10)
         for (let i = 1; i <= result; i++) {
           this.totalPages.push(i);
         }
@@ -132,7 +133,7 @@ export default {
       const res = await this.$repositories.getAllServices.getAllServices(
         {
           pageNumber:this.SelectedPageId,
-          count:0,
+          count:10,
           searchCommand:'',
           status:1,
 
@@ -140,7 +141,29 @@ export default {
       )
       this.AllServices = res.data.services
       this.totalPages = []
-      const result = Math.ceil( res.data.servicesCount / 1)
+      const result = Math.ceil( res.data.servicesCount / 10)
+      for (let i = 1; i <= result; i++) {
+        this.totalPages.push(i);
+      }
+
+
+    }
+    catch (error){
+      console.log(error)
+    }
+    try {
+      const res = await this.$repositories.getAllServices.getAllServices(
+        {
+          pageNumber:this.SelectedPageId,
+          count:10000,
+          searchCommand:'',
+          status:1,
+
+        }
+      )
+      this.AllServicesFirstTab = res.data.services
+      this.totalPages = []
+      const result = Math.ceil( res.data.servicesCount / 10)
       for (let i = 1; i <= result; i++) {
         this.totalPages.push(i);
       }

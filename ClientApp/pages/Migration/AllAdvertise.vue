@@ -4,157 +4,187 @@
       <h1 class="tw-text-2xl tw-font-semibold">آگهی ها</h1>
 
     </div>
-    <div class="tab-content" id="pills-tabContent" >
+    <div class="tab-content" id="pills-tabContent">
 
-        <div class="row boxMainContent mx-auto">
-          <div class="col-12  px-0">
-            <div class="row mx-auto">
-              <div class="col-md-12">
-                <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
-                  <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" @click="ActiveTab=1">
-                    <button class="nav-link active" id="products-pills-home-tab" data-bs-toggle="pill"
-                           type="button" role="tab" aria-controls="products-pills-home" aria-selected="true">
-                      همه آگهی ها
-                    </button>
-                  </li>
-                  <li class="nav-item" role="presentation m-0" style="margin: 0 !important;"  @click="ActiveTab=2">
-                    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"  type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
-                      پیشنهادات
+      <div class="row boxMainContent mx-auto">
+        <div class="col-12  px-0">
+          <div class="row mx-auto">
+            <div class="col-md-12">
+              <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" @click="ActiveTab=1">
+                  <button class="nav-link active" id="products-pills-home-tab" data-bs-toggle="pill"
+                          type="button" role="tab" aria-controls="products-pills-home" aria-selected="true">
+                    همه آگهی ها
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" @click="ActiveTab=2">
+                  <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" type="button" role="tab"
+                          aria-controls="pills-profile" aria-selected="false">
+                    پیشنهادات
 
-                    </button>
-                  </li>
-                </ul>
-              </div>
-              <div v-if="ActiveTab===1" class="tab-pane fade show active row" id="products-pills-home" role="tabpanel" aria-labelledby="products-pills-home-tab">
+                  </button>
+                </li>
+              </ul>
+            </div>
+            <div v-if="ActiveTab===1" class="tab-pane fade show active row" id="products-pills-home" role="tabpanel"
+                 aria-labelledby="products-pills-home-tab">
               <div class="col-md-12">
-                  <div class="row">
-                    <div class="col-md-3 mt-3">
-                      <div class="row">
-                        <div class="col-md-12">
-                          <h6 class="tw-font-bold tw-mt-2">فیلتر ها</h6>
-                          <div class="accordion tw-mt-[2.3rem]" id="accordionPanelsStayOpenExample">
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="panelsStayOpen-headingFour">
-                                <button class="accordion-button p-2 w-100 d-flex align-items-center justify-content-between"  type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                  <small> دیگر</small>
-                                </button>
-                              </h2>
-                              <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingFour">
-                                <div class="accordion-body">
+                <div class="row">
+                  <div class="col-md-3 mt-3">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h6 class="tw-font-bold tw-mt-2">فیلتر ها</h6>
+                        <div class="accordion tw-mt-[2.3rem]" id="accordionPanelsStayOpenExample">
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                              <button
+                                class="accordion-button p-2 w-100 d-flex align-items-center justify-content-between"
+                                type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne"
+                                aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                <small> دیگر</small>
+                              </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse show"
+                                 aria-labelledby="panelsStayOpen-headingFour">
+                              <div class="accordion-body">
+                                <div class="d-flex align-items-center gap-2">
+                                  <input type="checkbox" style="width: 15px;height: 15px" v-model="Ladder"
+                                         class=" my-1 p-1 Form-Control border ">
                                   <div class="d-flex align-items-center gap-2">
-                                    <input type="checkbox" style="width: 15px;height: 15px" v-model="Ladder"  class=" my-1 p-1 Form-Control border ">
-                                    <div class="d-flex align-items-center gap-2">
-                                      <i class="fas fa-fire text-danger"></i>
-                                      <small>آتیش زدم</small>
-                                    </div>
-
+                                    <i class="fas fa-fire text-danger"></i>
+                                    <small>آتیش زدم</small>
                                   </div>
 
                                 </div>
-                              </div>
-
-                            </div>
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                <button class="accordion-button p-2 w-100 d-flex align-items-center justify-content-between"  type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                  <small> قیمت</small>
-                                </button>
-                              </h2>
-                              <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                                <div class="accordion-body">
+                                <div class="d-flex align-items-center gap-2">
+                                  <input type="checkbox" style="width: 15px;height: 15px" v-model="Exchange"
+                                         class=" my-1 p-1 Form-Control border ">
                                   <div class="d-flex align-items-center gap-2">
-                                    <input type="tel" v-model="PriceFrom" placeholder="مثلا از 100000 تومان" class=" my-1 p-1 Form-Control border ">
-                                    <small>-</small>
-                                    <input type="tel" v-model="PriceTo" placeholder="مثلا تا 200000 تومان" class=" my-1 p-1 Form-Control border ">
+                                    <i class="fas fa-hands text-info"></i>
+                                    <small>قابل معاوضه</small>
                                   </div>
 
                                 </div>
-                              </div>
-
-                            </div>
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                                <button class="accordion-button p-2" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-
-                                  <small> دسته بندی</small>
-                                </button>
-                              </h2>
-                              <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                                <div class="accordion-body">
-                                  <select  v-model="SelectedCategoryId" class=" Form-Control border">
-                                    <option  :value="0" selected>
-                                      همه دسته بندی ها
-                                    </option>
-                                    <option v-for="item in categories" :value="item.adsCategoryId">
-                                      {{item.name}}
-                                    </option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                                <button class="accordion-button p-2" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                  <small> شهر و استان</small>
-                                </button>
-                              </h2>
-                              <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                                <div class="accordion-body">
-
-                                  <v-select
-                                    @input="GetCity"
-                                    :options="AllStates"
-                                    label="name"
-                                    dir="rtl"
-
-                                    placeholder="استان"
-                                    v-model="SelectedStateId"
-                                    :reduce="(name) => name.stateId"
-
-                                  ></v-select>
 
 
-
-                                  <v-select
-                                    @input="GetCity"
-                                    :options="AllCities"
-                                    label="name"
-                                    dir="rtl"
-                                    class="my-2"
-                                    placeholder="شهر"
-                                    v-model="SelectedCityId"
-                                    :reduce="(name) => name.cityId"
-
-                                  ></v-select>
-                                </div>
                               </div>
                             </div>
 
                           </div>
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                              <button
+                                class="accordion-button p-2 w-100 d-flex align-items-center justify-content-between"
+                                type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne"
+                                aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                <small> قیمت</small>
+                              </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                                 aria-labelledby="panelsStayOpen-headingOne">
+                              <div class="accordion-body">
+                                <div class="d-flex align-items-center gap-2">
+                                  <input type="tel" v-model="PriceFrom" placeholder="مثلا از 100000 تومان"
+                                         class=" my-1 p-1 Form-Control border ">
+                                  <small>-</small>
+                                  <input type="tel" v-model="PriceTo" placeholder="مثلا تا 200000 تومان"
+                                         class=" my-1 p-1 Form-Control border ">
+                                </div>
+
+                              </div>
+                            </div>
+
+                          </div>
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                              <button class="accordion-button p-2" type="button" data-bs-toggle="collapse"
+                                      data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true"
+                                      aria-controls="panelsStayOpen-collapseOne">
+
+                                <small> دسته بندی</small>
+                              </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show"
+                                 aria-labelledby="panelsStayOpen-headingOne">
+                              <div class="accordion-body">
+                                <select v-model="SelectedCategoryId" class=" Form-Control border">
+                                  <option :value="0" selected>
+                                    همه دسته بندی ها
+                                  </option>
+                                  <option v-for="item in categories" :value="item.adsCategoryId">
+                                    {{ item.name }}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                              <button class="accordion-button p-2" type="button" data-bs-toggle="collapse"
+                                      data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true"
+                                      aria-controls="panelsStayOpen-collapseOne">
+                                <small> شهر و استان</small>
+                              </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show"
+                                 aria-labelledby="panelsStayOpen-headingOne">
+                              <div class="accordion-body">
+
+                                <v-select
+                                  @input="GetCity"
+                                  :options="AllStates"
+                                  label="name"
+                                  dir="rtl"
+
+                                  placeholder="استان"
+                                  v-model="SelectedStateId"
+                                  :reduce="(name) => name.stateId"
+
+                                ></v-select>
+
+
+                                <v-select
+                                  @input="GetCity"
+                                  :options="AllCities"
+                                  label="name"
+                                  dir="rtl"
+                                  class="my-2"
+                                  placeholder="شهر"
+                                  v-model="SelectedCityId"
+                                  :reduce="(name) => name.cityId"
+
+                                ></v-select>
+                              </div>
+                            </div>
+                          </div>
+
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-9">
-                      <div class="row">
-                        <div class="col-md-12 mt-3">
-                          <input type="search" v-model="Search" class="SearchStyle"  placeholder="جستجو در میان آگهی ها">
-                        </div>
-                        <div class="col-md-12">
-                          <AllAdsTabContent :Ads="AllAds" :categories="categories"/>
-                        </div>
-                        <div class="col-md-12">
-                          <CustomPagination v-if="totalPages.length>1" :activePage="SelectedPageId" :totalPages="totalPages" @PageChanged="changePage($event)"/>
-                        </div>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="row">
+                      <div class="col-md-12 mt-3">
+                        <input type="search" v-model="Search" class="SearchStyle" placeholder="جستجو در میان آگهی ها">
+                      </div>
+                      <div class="col-md-12">
+                        <AllAdsTabContent :Ads="AllAds" :categories="categories"/>
+                      </div>
+                      <div v-if="AllAdsCount!==AllAds.length"
+                           class="col-md-12 d-flex align-items-center justify-content-center">
+                        <button class="btn btn-primary" @click="GetAdd">مشاهده بیشتر</button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div   v-if="ActiveTab===2" class="tab-pane show active row" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                <div class="col-md-12">
-                    <FirstTabContentAds   :Ads="AllAds" :categories="categories"/>
-                  </div>
-                </div>
+            </div>
+            <div v-if="ActiveTab===2" class="tab-pane show active row" id="pills-profile" role="tabpanel"
+                 aria-labelledby="pills-profile-tab">
+              <div class="col-md-12">
+                <FirstTabContentAds :Ads="AllAds" :categories="categories"/>
+              </div>
+            </div>
 
           </div>
         </div>
@@ -169,259 +199,278 @@
 </template>
 
 <script>
-    import ProductItem from "../../components/Products/ProductItem";
-    import ChevronRightIcon from "../../components/Icons/RightChevronIcon";
-    import ChevronLeftIcon from "../../components/Icons/LeftChevronIcon";
-    import RightChevronIcon from "../../components/Icons/RightChevronIcon";
-    import LeftChevronIcon from "../../components/Icons/LeftChevronIcon";
-    import FirstTabContentAds from "../../components/Ads/FirstTabContentAds";
-    import CustomPagination from "@/components/utilities/CustomPagination";
-    import AllAdsTabContent from "../../components/Ads/AllAdsTabContent";
-    export default {
+import ProductItem from "../../components/Products/ProductItem";
+import ChevronRightIcon from "../../components/Icons/RightChevronIcon";
+import ChevronLeftIcon from "../../components/Icons/LeftChevronIcon";
+import RightChevronIcon from "../../components/Icons/RightChevronIcon";
+import LeftChevronIcon from "../../components/Icons/LeftChevronIcon";
+import FirstTabContentAds from "../../components/Ads/FirstTabContentAds";
+import CustomPagination from "@/components/utilities/CustomPagination";
+import AllAdsTabContent from "../../components/Ads/AllAdsTabContent";
 
-        name: "index",
-        layout: "PoshtebamPlusLayout",
-        components:{
-          CustomPagination,
-          AllAdsTabContent,
-          FirstTabContentAds,
-            LeftChevronIcon,
-            RightChevronIcon,
-            ChevronLeftIcon,
-            ChevronRightIcon,
-            ProductItem,
-        },
-      head() {
-        return {
+export default {
 
-          title: 'همه آگهی ها',
-          meta: [
-            {
-              hid: "description",
-              name: "description",
-              content:'همه آگهی ها',
-            },
-          ],
-        };
-      },
-        data(){
-            return{
-              ActiveTab:1,
-                AllAds:null,
-                categories:[],
-              SelectedCategoryId:0,
-              PriceFrom:null,
-              Ladder:false,
-              PriceTo:null,
-              CityId:0,
-              SelectedPageId:1,
-              SelectedStateId:null,
-              SelectedCityId:null,
-              totalPages:[],
-              AllCities:[
-                {
-                  name:'همه شهر ها',
-                  cityId:0
-                }
-              ],
-              AllStates:[
-                {
+  name: "index",
+  layout: "PoshtebamPlusLayout",
+  components: {
+    CustomPagination,
+    AllAdsTabContent,
+    FirstTabContentAds,
+    LeftChevronIcon,
+    RightChevronIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    ProductItem,
+  },
+  head() {
+    return {
 
-                  name:'همه استان ها',
-                  stateId:0
-                }
-              ],
-              Search:''
-            }
+      title: 'همه آگهی ها',
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: 'همه آگهی ها',
         },
-      watch:{
-        Search:function (val,oldVal){
-          this.GetAdd();
-        },
-        PriceFrom:function (val,oldVal){
-          this.GetAdd();
-        },
-        PriceTo:function (val,oldVal){
-          this.GetAdd();
-        },
-        SelectedCategoryId:function (val,oldVal){
-          this.GetAdd();
-        },
-        SelectedStateId:function (val,oldVal){
-          this.GetAdd();
-        },
-        SelectedCityId:function (val,oldVal){
-          this.GetAdd();
+      ],
+    };
+  },
+  data() {
+    return {
+      ActiveTab: 1,
+      AllAds: null,
+      categories: [],
+      SelectedCategoryId: 0,
+      PriceFrom: null,
+      Ladder: false,
+      PriceTo: null,
+      CityId: 0,
+      SelectedPageId: 1,
+      SelectedStateId: null,
+      Exchange: false,
+      AllAdsCount: 0,
+      SelectedCityId: null,
+      totalPages: [],
+      AllCities: [
+        {
+          name: 'همه شهر ها',
+          cityId: 0
         }
-      },
-      methods:{
-        changePage(id){
-          this.SelectedPageId = id
-          this.GetAdd()
-        },
-        async GetAdd(){
-          try {
-            if(this.Search==='' || this.PriceTo!==null || this.PriceFrom!== null){
-              this.$nextTick(()=>{
-                this.$nuxt.$loading.start();
-              })
-            }
+      ],
+      AllStates: [
+        {
 
-            const res = await this.$repositories.GetAllAds.GetAllAds({
-              priceFrom:this.PriceFrom,
-              priceTo:this.PriceTo,
-              title:this.Search,
-              tag:null,
-              city:this.SelectedCityId,
-              state:this.SelectedStateId,
-              firstSearchadsId:null,
-              count:20,
-              categoryId:this.SelectedCategoryId
-            })
-            this.AllAds = res.data.ads
-            this.$nuxt.$loading.finish();
-            this.$nuxt.loading = false;
-          }
-          catch (error){
-            console.log(error)
-          }finally {
-            this.$nuxt.$loading.finish();
-            this.$nuxt.loading = false;
-          }
-        },
-       async GetCity(){
-
-          this.$nextTick(()=>{
-            this.$nuxt.$loading.start()
-          })
-          try {
-            const res = await this.$repositories.GetAllCities.GetAllCities({
-              pageNumber:1,
-              count:500,
-              stateId:this.SelectedStateId
-
-            })
-           res.data.cities.forEach((item)=>{
-             this.AllCities.push(item)
-           })
-            this.$nuxt.$loading.finish()
-            this.$nuxt.loading = false;
-          }catch (e) {
-            console.log(e)
-          }finally {
-            this.$nuxt.$loading.finish()
-            this.$nuxt.loading = false;
-          }
+          name: 'همه استان ها',
+          stateId: 0
         }
-      },
-        async fetch(){
-            try {
-                const res = await this.$repositories.GetAllAds.GetAllAds({
-                  priceFrom:this.PriceFrom,
-                  priceTo:this.PriceTo,
-                  title:this.Search,
-                  tag:null,
-                  city:this.SelectedCityId,
-                  state:this.SelectedStateId,
-                  firstSearchadsId:null,
-                  count:10,
-                  categoryId:this.SelectedCategoryId
-                })
-                  this.AllAds = res.data.ads
-              this.totalPages = []
-              const result = Math.ceil( res.data.adsCount / 10)
-              for (let i = 1; i <= result; i++) {
-                this.totalPages.push(i);
-              }
-
-                const allCategories = await this.$repositories.getAllAdsCategory.getAllAdsCategory();
-                this.categories = allCategories.data.adsCategories;
-
-            }
-            catch (error){
-                console.log(error)
-            }
-
-            try {
-              const res = await  this.$repositories.GetAllStates.GetAllStates()
-              res.data.states.forEach((item)=>{
-                this.AllStates.push(item)
-              })
-
-
-            }catch (e) {
-              console.log(e)
-            }
-        },
-
+      ],
+      Search: ''
     }
+  },
+  watch: {
+    Search: function (val, oldVal) {
+      this.GetAdd();
+    },
+    PriceFrom: function (val, oldVal) {
+      this.GetAdd();
+    },
+    PriceTo: function (val, oldVal) {
+      this.GetAdd();
+    },
+    SelectedCategoryId: function (val, oldVal) {
+      this.GetAdd();
+    },
+    SelectedStateId: function (val, oldVal) {
+      this.GetAdd();
+    },
+    SelectedCityId: function (val, oldVal) {
+      this.GetAdd();
+    },
+    exchangeability:function (){
+      this.GetAdd()
+    },
+    Ladder:function (){
+      this.GetAdd()
+    }
+  },
+  methods: {
+    changePage(id) {
+      this.SelectedPageId = id
+      this.GetAdd()
+    },
+    async GetAdd() {
+      try {
+        if (this.Search === '' || this.PriceTo !== null || this.PriceFrom !== null) {
+          this.$nextTick(() => {
+            this.$nuxt.$loading.start();
+          })
+        }
+
+        const res = await this.$repositories.GetAllAds.GetAllAds({
+          priceFrom: this.PriceFrom,
+          priceTo: this.PriceTo,
+          title: this.Search,
+          tag: null,
+          city: this.SelectedCityId,
+          state: this.SelectedStateId,
+          firstSearchadsId: this.AllAds[this.AllAds.length - 1].adsId,
+          count: 10,
+          categoryId: this.SelectedCategoryId,
+          planType: this.Ladder ? 1 : null,
+          exchangeability: this.Exchange
+        })
+        res.data.ads.forEach((item) => {
+          this.AllAds.push(item)
+        })
+
+        this.AllAdsCount = res.data.adsCount
+        this.$nuxt.$loading.finish();
+        this.$nuxt.loading = false;
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.$nuxt.$loading.finish();
+        this.$nuxt.loading = false;
+      }
+    },
+    async GetCity() {
+
+      this.$nextTick(() => {
+        this.$nuxt.$loading.start()
+      })
+      try {
+        const res = await this.$repositories.GetAllCities.GetAllCities({
+          pageNumber: 1,
+          count: 500,
+          stateId: this.SelectedStateId
+
+        })
+        res.data.cities.forEach((item) => {
+          this.AllCities.push(item)
+        })
+        this.$nuxt.$loading.finish()
+        this.$nuxt.loading = false;
+      } catch (e) {
+        console.log(e)
+      } finally {
+        this.$nuxt.$loading.finish()
+        this.$nuxt.loading = false;
+      }
+    }
+  },
+  async fetch() {
+    try {
+      const res = await this.$repositories.GetAllAds.GetAllAds({
+        priceFrom: this.PriceFrom,
+        priceTo: this.PriceTo,
+        title: this.Search,
+        tag: null,
+        city: this.SelectedCityId,
+        state: this.SelectedStateId,
+        firstSearchadsId: null,
+        count: 10,
+        categoryId: this.SelectedCategoryId
+      })
+      this.AllAds = res.data.ads
+      this.totalPages = []
+      const result = Math.ceil(res.data.adsCount / 10)
+      for (let i = 1; i <= result; i++) {
+        this.totalPages.push(i);
+      }
+
+      const allCategories = await this.$repositories.getAllAdsCategory.getAllAdsCategory();
+      this.categories = allCategories.data.adsCategories;
+
+    } catch (error) {
+      console.log(error)
+    }
+
+    try {
+      const res = await this.$repositories.GetAllStates.GetAllStates()
+      res.data.states.forEach((item) => {
+        this.AllStates.push(item)
+      })
+
+
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+}
 </script>
 
 
 <style>
-  @media (min-width: 1024px) {
-    .mcontainer {
-      max-width: 1000px;
-      padding: 30px 0px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+@media (min-width: 1024px) {
+  .mcontainer {
+    max-width: 1000px;
+    padding: 30px 0px;
+    margin-left: auto;
+    margin-right: auto;
   }
-  @media (max-width: 1024px) {
-    .mcontainer {
-      max-width: 1000px;
-      padding: 25px 0px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
-  /*@media (max-width: 375px) {*/
-  /*  .vueperslide.vueperslide--active.vueperslide--visible{*/
-  /*    margin-left: 3% !important;*/
-  /*  }*/
-  /*  .vueperslide.vueperslide--visible{*/
-  /*    margin-left: 3% !important;*/
-  /*  }*/
-  /*  .vueperslide{*/
-  /*    margin-left: 3% !important;*/
-  /*  }*/
-  /*}*/
-  .nav-pills .nav-link {
-    border-bottom: 3px solid transparent ;
-  }
-  .nav-link {
-    font-weight: 500;
-    color: #8c8d90 !important;
-    font-weight: 500;
-    padding: 5px 9px 15px;
-  }
-  .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
-    color: #0d6efd !important;
-    background-color: transparent;
-    font-weight: 500;
-    border-bottom: 3px solid #0d6efd !important;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  .accordion-button::after{
-    content: ''!important;
-    background-image: none!important;
-  }
-  .accordion-button:not(.collapsed) {
-    color: white!important;
-    background-color: #3b82f6;
-    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
-  }
-.Form-Control{
-  height: 30px!important;
-  font-size: 12px!important;
 }
 
-.vs__search{
-  height: 20px!important;
-  font-size: 12px!important;
-  color: grey!important;
+@media (max-width: 1024px) {
+  .mcontainer {
+    max-width: 1000px;
+    padding: 25px 0px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/*@media (max-width: 375px) {*/
+/*  .vueperslide.vueperslide--active.vueperslide--visible{*/
+/*    margin-left: 3% !important;*/
+/*  }*/
+/*  .vueperslide.vueperslide--visible{*/
+/*    margin-left: 3% !important;*/
+/*  }*/
+/*  .vueperslide{*/
+/*    margin-left: 3% !important;*/
+/*  }*/
+/*}*/
+.nav-pills .nav-link {
+  border-bottom: 3px solid transparent;
+}
+
+.nav-link {
+  font-weight: 500;
+  color: #8c8d90 !important;
+  font-weight: 500;
+  padding: 5px 9px 15px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #0d6efd !important;
+  background-color: transparent;
+  font-weight: 500;
+  border-bottom: 3px solid #0d6efd !important;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.accordion-button::after {
+  content: '' !important;
+  background-image: none !important;
+}
+
+.accordion-button:not(.collapsed) {
+  color: white !important;
+  background-color: #3b82f6;
+  box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+}
+
+.Form-Control {
+  height: 30px !important;
+  font-size: 12px !important;
+}
+
+.vs__search {
+  height: 20px !important;
+  font-size: 12px !important;
+  color: grey !important;
 
 }
 </style>

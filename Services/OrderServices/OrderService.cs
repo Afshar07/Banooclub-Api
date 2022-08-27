@@ -67,6 +67,25 @@ namespace BanooClub.Services.OrderServices
             List<Order> orders = new List<Order>();
             orders = orderRepository.GetQuery().Where(z => z.OrderId.ToString().Contains(searchCommand)).Skip((pageNumber - 1) * count).Take(count).ToList();
             var ordersCount = orderRepository.GetQuery().Where(z => z.OrderId.ToString().Contains(searchCommand)).Count();
+
+            foreach (var dbOrder in orders)
+            {
+                if (dbOrder.ServiceId != null && dbOrder.ServiceId != 0)
+                {
+                    dbOrder.ServiceInfo = servicePackRepository.GetQuery().FirstOrDefault(x => x.ServicePackId == dbOrder.ServiceId);
+                }
+                if (dbOrder.AdsId != null && dbOrder.AdsId != 0)
+                {
+                    dbOrder.AdsInfo = adsRepository.GetQuery().FirstOrDefault(z => z.AdsId == dbOrder.AdsId);
+                }
+
+                var SubOrders = orderItemRepository.GetQuery().Where(z => z.OrderId == dbOrder.OrderId).ToList();
+                dbOrder.SubOrders = SubOrders;
+
+                dbOrder.UserInfo = userRepository.GetQuery()
+                    .FirstOrDefault(x => x.UserId == dbOrder.UserId);
+            }
+
             var obj = new
             {
                 Orders = orders,
@@ -147,6 +166,9 @@ namespace BanooClub.Services.OrderServices
 
                 var SubOrders = orderItemRepository.GetQuery().Where(z => z.OrderId == dbOrder.OrderId).ToList();
                 dbOrder.SubOrders = SubOrders;
+
+                dbOrder.UserInfo = userRepository.GetQuery()
+                    .FirstOrDefault(x => x.UserId == dbOrder.UserId);
             }
 
             var data = new
@@ -176,6 +198,39 @@ namespace BanooClub.Services.OrderServices
             {
                 return false;
             }
+        }
+
+        public object GetByUserIdForAdmin(short pageNumber, byte count, long userId)
+        {
+            var dbOrders = orderRepository.GetQuery()
+                .Where(z => z.UserId == userId)
+                .Skip((pageNumber - 1) * count)
+                .Take(count)
+                .ToList();
+
+            foreach (var dbOrder in dbOrders)
+            {
+                if (dbOrder.ServiceId != null && dbOrder.ServiceId != 0)
+                {
+                    dbOrder.ServiceInfo = servicePackRepository.GetQuery().FirstOrDefault(x => x.ServicePackId == dbOrder.ServiceId);
+                }
+                if (dbOrder.AdsId != null && dbOrder.AdsId != 0)
+                {
+                    dbOrder.AdsInfo = adsRepository.GetQuery().FirstOrDefault(z => z.AdsId == dbOrder.AdsId);
+                }
+
+                var SubOrders = orderItemRepository.GetQuery().Where(z => z.OrderId == dbOrder.OrderId).ToList();
+                dbOrder.SubOrders = SubOrders;
+            }
+
+            var data = new
+            {
+                Orders = dbOrders,
+                OrderCount = orderRepository.GetQuery()
+                .Where(z => z.UserId == userId).Count()
+            };
+
+            return data;
         }
     }
 }

@@ -25,7 +25,7 @@
           </div>
         </div>
         <div >
-          <button v-click-outside="showMoreDiv" @click.stop="showMoreDiv"   class="tw-text-2xl hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw-transition tw--mr-1 tw-relative">
+          <button v-click-outside="CloseMoreDiv" @click.stop="showMoreDiv"   class="tw-text-2xl hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw-transition tw--mr-1 tw-relative">
             <svg  xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
             </svg>
@@ -118,10 +118,16 @@
       <div class="tw-p-4 tw-space-y-3">
         <div class="d-flex justify-content-between">
           <h1 class="tw-text-2xl tw-font-semibold tw-text-gray-600 tw-pt-2">{{AdsDetail.title}}</h1>
-          <div class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
-            {{Intl.NumberFormat('fa-IR').format(AdsDetail.price)}}
-            تومان
+          <div class="d-flex align-items-center gap-2">
+            <div class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
+              {{Intl.NumberFormat('fa-IR').format(AdsDetail.price)}}
+              تومان
+            </div>
+            <div v-if="AdsDetail.exchangeability" class="tw-bg-sky-400 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
+              قابل معاوضه
+            </div>
           </div>
+
         </div>
         <div class="d-flex mt-0">
           <div class="back_tags p-1 m-1" v-for="(tag,index) in AdsDetail.tags">
@@ -345,6 +351,9 @@ export default {
 
       this.show_more = !this.show_more
     },
+    CloseMoreDiv(){
+      this.show_more =false
+    }
   },
   mounted() {
   },

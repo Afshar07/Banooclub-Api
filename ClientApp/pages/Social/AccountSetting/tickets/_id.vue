@@ -132,7 +132,7 @@ export default {
         await this.$repositories.createATicket.createATicket({
           parentId: this.$route.params.id,
           content: this.ticketDescription,
-          type: 0,
+          type: this.ticketData[0].type,
           title: this.ticketData[0].title,
           createDate:new Date(Date.now()),
           fileData: this.image,

@@ -55,6 +55,8 @@ interface User {
   Age:string | number,
   IsEmployed?:boolean
 }
+
+// Adding Question Mark Makes That Variable NullAble
 interface FunctionInterface {
   (x:number| string,y:number) : void
 }

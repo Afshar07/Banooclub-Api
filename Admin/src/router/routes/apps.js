@@ -39,6 +39,11 @@ export default [
     component: () => import('@/views/apps/Ticket/AllTickets'),
   },
   {
+    path: '/apps/Ticket/CreateTicket',
+    name: 'apps-Ticket-CreateTicket',
+    component: () => import('@/views/apps/Ticket/CreateTicket'),
+  },
+  {
     path: '/apps/Ticket/Detail/:id',
     name: 'apps-Ticket-Detail',
     component: () => import('@/views/apps/Ticket/Detail/TicketDetail.vue'),
@@ -53,6 +58,13 @@ export default [
     name: 'apps-users-UsersList',
     component: () => import('@/views/apps/users/UsersList.vue'),
   },
+
+  {
+    path: '/apps/users/Detail/:id',
+    name: 'apps-users-Detail',
+    component: () => import('@/views/apps/users/Detail/UserDetail.vue'),
+  },
+
 
   // *===============================================---*
   // *--------- Ads ---- ---------------------------------------*
@@ -89,6 +101,11 @@ export default [
     path: '/apps/Service/ServicesListNotConfirmed',
     name: 'apps-Service-notConfirmed',
     component: () => import('@/views/apps/Service/ServicesListNotConfirmed.vue'),
+  },
+  {
+    path: '/apps/Service/ServicesExpired',
+    name: 'apps-Service-Expired',
+    component: () => import('@/views/apps/Service/ServicesExpired.vue'),
   },
   {
     path: '/apps/Service/Pending',

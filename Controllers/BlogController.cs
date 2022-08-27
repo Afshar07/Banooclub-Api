@@ -132,5 +132,16 @@ namespace BanooClub.Controllers
 
             return BadRequest(result.ErrorMessage);
         }
+
+        [HttpPost("GetAllArchived"), Authorize(Roles = "Admin")]
+        public IActionResult GetAllArchived(short pageNumber, byte count, string searchCommand, long categoryId)
+        {
+            var result = _crudBlogService.GetAllArchived(pageNumber, count, searchCommand, categoryId);
+
+            if (result.IsSuccess)
+                return Ok(result.Data);
+
+            return BadRequest(result.ErrorMessage);
+        }
     }
 }

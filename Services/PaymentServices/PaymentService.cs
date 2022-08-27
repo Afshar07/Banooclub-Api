@@ -360,5 +360,25 @@ namespace BanooClub.Services.PaymentServices
 
             return data;
         }
+
+        public async Task<byte> ChangePaymentStatus(long paymentId, PaymentStatus status)
+        {
+            var payment = paymentRepository.GetQuery()
+                .FirstOrDefault(x => x.PaymentId == paymentId);
+
+            if (payment is null)
+                return 0;
+
+            payment.PaymentStatus = status;
+            await paymentRepository.Save();
+
+            var order = orderRepository.GetQuery()
+                .FirstOrDefault(x => x.OrderId == payment.OrderId);
+
+            order.IsPayed = true;
+            await orderRepository.Save();
+
+            return 1;
+        }
     }
 }

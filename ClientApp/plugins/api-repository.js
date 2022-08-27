@@ -29,7 +29,7 @@ import CreateCityRepository from "../api/city";
 import CreateFollowerRepository from "../api/follower"
 import CreateFollowingRepository from "../api/following"
 import CreateGroupsRepository from "../api/Groups"
-
+import CreateDiscountRepository from "../api/Discount"
 export default (context, inject) => {
   const repositories = {
     //   Authentication repositories start
@@ -155,6 +155,13 @@ export default (context, inject) => {
     CreateLike:createForumPackRepository(context,'Like/Create'),
 
     // Ads repository end
+    // Discount repository start
+    CreateDiscount: CreateDiscountRepository(context, "Discount/Create"),
+    UpdateDiscount: CreateDiscountRepository(context, "Discount/Update"),
+    DeleteDiscount: CreateDiscountRepository(context, "Discount/Delete"),
+
+
+    // Discount repository end
 
     // Ticket repository start
     getAllTickets: createTicketRepository(context, "Ticket/GetAllForCustomer"),

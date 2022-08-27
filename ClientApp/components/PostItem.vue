@@ -109,7 +109,7 @@
         <div>
           <div class="d-flex align-items-center">
             <div v-if="$route.path==='/social/accountsetting/MyPage'&&post_details.status===1" class="tw-badge tw-badge-success">منتشر شده</div>
-            <div v-if="$route.path==='/social/accountsetting/MyPage'&&post_details.status===2" class="tw-badge tw-badge-error">منتشر نشده</div>
+            <div v-if="$route.path==='/social/accountsetting/MyPage'&&post_details.status===2" class="tw-badge tw-badge-error">گزارش شده</div>
             <div v-if="$route.path==='/social/accountsetting/MyPage'&&post_details.status===3" class="tw-badge tw-badge-warning">گزارش شده</div>
             <button v-if=" $auth.user && $auth.user.userInfo && $auth.user.userInfo.userId &&  post_details.userInfo && !(post_details.userInfo.userId === $auth.user.userInfo.userId)" @click="openReportModal" class="tw-flex tw-items-center tw-flex-1 tw-justify-end text-decoration-none text-dark">
               <div class="tw-p-2 tw-rounded-full tw-text-black">

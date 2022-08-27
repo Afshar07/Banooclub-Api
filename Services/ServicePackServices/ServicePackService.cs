@@ -226,7 +226,7 @@ namespace BanooClub.Services.ServicePackServices
                                 "inner join [Service].[ServiceCategories] c on s.ServiceCategoryId = c.ServiceCategoryId " +
                                 $"where s.IsDeleted='false' And s.ServiceCategoryId = {categoryId} order by CreateDate desc";
                         else
-                            cmd = "select * from Service.ServicePacks where IsDeleted='false' Inner Join  order by CreateDate desc";
+                            cmd = "select * from Service.ServicePacks where IsDeleted='false' order by CreateDate desc";
                     }
                     break;
                 //order by viewCount

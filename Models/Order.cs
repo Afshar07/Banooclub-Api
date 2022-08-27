@@ -24,5 +24,7 @@ namespace BanooClub.Models
         public Ads AdsInfo { get; set; }
         [NotMapped]
         public Payment PaymentInfo { get; set; }
+        [NotMapped]
+        public User UserInfo { get; set; }
     }
 }

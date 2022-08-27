@@ -1,4 +1,5 @@
 ﻿using BanooClub.Models;
+using BanooClub.Models.Enums;
 using BanooClub.Services.PaymentServices;
 using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
@@ -66,6 +67,14 @@ namespace BanooClub.Controllers
         public async Task<int> ChangePaymentStatus(string orderId, string transId)
         {
             return await paymentService.ChangePaymentStatus(orderId, transId);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        [Authorize(Roles = "Admin")]
+        public async Task<byte> ChangePaymentStatus(long paymentId, PaymentStatus status)
+        {
+            return await paymentService.ChangePaymentStatus(paymentId, status);
         }
 
         [HttpPost]

@@ -22,7 +22,6 @@
         </div>
       </template>
     </base-modal>
-
     <!-- Modal -->
     <div class="modal fade" id="MediaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -206,9 +205,12 @@
       <div class="tw-p-4 tw-space-y-3">
         <div class="d-flex justify-content-between">
           <h1 class="tw-text-2xl tw-font-semibold tw-text-gray-600 tw-pt-2">{{service_details.title}}</h1>
-          <div class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
+          <div v-if="!service_details.isFree" class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
             {{Intl.NumberFormat('fa-IR').format(service_details.totalPrice)}}
             تومان
+          </div>
+          <div v-if="service_details.isFree" class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
+            خدمات رایگان
           </div>
         </div>
         <div class="d-flex mt-3 flex-wrap">
@@ -264,7 +266,8 @@
               {{ property.name }}
               -
               {{Intl.NumberFormat('fa-IR').format(property.price)}}
-              تومان
+              <small v-if="!service_details.isFree" class="Toman">تومان</small>
+
             </div>
           </div>
         </div>
@@ -279,7 +282,7 @@
           <button v-if="service_details.maintain>0" @click="CreateOrder(service_details)" class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
             پرداخت
           </button>
-          <button v-else  class="tw-bg-stone-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
+          <button v-else  class="tw-bg-stone-600  tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
             ظرفیت تکمیل
           </button>
         </div>

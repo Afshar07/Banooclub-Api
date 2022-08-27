@@ -124,7 +124,12 @@
                 </div>
 
               </template>
+              <template #cell(userInfo)="data">
+                <router-link :to="`/apps/users/Detail/${data.item.userInfo.userName}`">
+                  <span v-if="data.item.userInfo">{{data.item.userInfo.userName}}@</span>
+                </router-link>
 
+              </template>
               <template #cell(View)="data">
 
                 <b-link class="cursor-pointer"  v-b-modal.modal-View @click="SetSelectedForum(data.item)">
@@ -189,7 +194,12 @@
                 </div>
 
               </template>
+              <template #cell(userInfo)="data">
+                <router-link :to="`/apps/users/Detail/${data.item.userInfo.userName}`">
+                  <span v-if="data.item.userInfo">{{data.item.userInfo.userName}}@</span>
+                </router-link>
 
+              </template>
               <template #cell(View)="data">
 
                 <b-link class="cursor-pointer"  v-b-modal.modal-View @click="SetSelectedForum(data.item)">
@@ -253,7 +263,12 @@
                 </div>
 
               </template>
+              <template #cell(userInfo)="data">
+                <router-link :to="`/apps/users/Detail/${data.item.userInfo.userName}`">
+                  <span v-if="data.item.userInfo">{{data.item.userInfo.userName}}@</span>
+                </router-link>
 
+              </template>
               <template #cell(View)="data">
 
                 <b-link class="cursor-pointer"  v-b-modal.modal-View @click="SetSelectedForum(data.item)">
@@ -306,7 +321,12 @@
 
               </template>
               <!-- Column: delete -->
+              <template #cell(userInfo)="data">
+                <router-link :to="`/apps/users/Detail/${data.item.userInfo.userName}`">
+                  <span v-if="data.item.userInfo">{{data.item.userInfo.userName}}@</span>
+                </router-link>
 
+              </template>
               <template #cell(Delete)="data">
 
                 <div class="cursor-pointer d-flex flex-row"
@@ -459,6 +479,10 @@ export default {
         {
           key: 'title',
           label: 'نام'
+        },
+        {
+          key: 'userInfo',
+          label: 'نام کاربری'
         },
 
         {

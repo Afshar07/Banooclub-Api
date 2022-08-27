@@ -31,30 +31,31 @@
                 </select>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
               <div class="labelText">شماره موبایل</div>
-              <input type="tel" class="form-control with-border" v-model="PhoneNumber">
+              <input type="tel" class="form-control with-border" v-model="AdDetail.phoneNumber">
             </div>
 
-          <div class="col-md-12 my-2">
-            <div class="labelText">عکس های فعلی آگهی</div>
-            <div v-if="AdDetail.photos.length>0" class="row">
-              <div
-                class="py-3 col-lg-1 col-md-3 px-1 tw-h-40 d-flex photos position-relative"
-                v-for="(image,index) in AdDetail.photos"
-                :key="index"
-              >
-                <img class="tw-rounded-lg tw-h-32" width="100%" :src="`https://banooclubapi.simagar.com/${image.base64}`"
-                     style="object-fit: contain" :class="{BorderGreen:index===0}"/>
-                <span class="position-absolute deleteIcon m-3" style="top: 15px" @click="DeleteImage(image,index)">
+            <div class="col-md-12 my-2">
+              <div class="labelText">عکس های فعلی آگهی</div>
+              <div v-if="AdDetail.photos.length>0" class="row">
+                <div
+                  class="py-3 col-lg-1 col-md-3 px-1 tw-h-40 d-flex photos position-relative"
+                  v-for="(image,index) in AdDetail.photos"
+                  :key="index"
+                >
+                  <img class="tw-rounded-lg tw-h-32" width="100%"
+                       :src="`https://banooclubapi.simagar.com/${image.base64}`"
+                       style="object-fit: contain" :class="{BorderGreen:index===0}"/>
+                  <span class="position-absolute deleteIcon m-3" style="top: 15px" @click="DeleteImage(image,index)">
                 <font-awesome-icon icon="trash" color="#ff4d4d" size="sm"/>
               </span>
+                </div>
+              </div>
+              <div v-else class="row my-2">
+                <span>این آگهی عکس ندارد</span>
               </div>
             </div>
-            <div v-else class="row my-2">
-              <span>این آگهی عکس ندارد</span>
-            </div>
-          </div>
             <div class="col-md-6">
               <div class="labelText">عکس اصلی آگهی</div>
               <div class="d-flex flex-row gap-3 my-3">
@@ -69,7 +70,7 @@
                     id="MainImage"
                     @change="onFileChangeMainImage"
                   />
-                  <font-awesome-icon icon="plus-square" size="lg" />
+                  <font-awesome-icon icon="plus-square" size="lg"/>
                 </div>
                 <div id="main">
                   <img
@@ -98,7 +99,7 @@
                     id="SubImage"
                     @change="onFileChangeSubImage"
                   />
-                  <font-awesome-icon icon="plus-square" size="lg" />
+                  <font-awesome-icon icon="plus-square" size="lg"/>
                 </div>
                 <div id="preview" v-if="subUrl">
                   <img
@@ -177,7 +178,8 @@
                 <input
                   type="checkbox"
                   id="togBtn123"
-
+                  v-model="AdDetail.exchangeability"
+                  :checked="AdDetail.exchangeability"
                 />
                 <div class="slider round">
                   <span class="on">دارد</span>
@@ -190,7 +192,9 @@
               <div class="labelText">موقعیت روی نقشه</div>
               <div class="my-3" id="map-wrap" style="height: 50vh">
                 <client-only>
-                  <SetLocation @getGeoLocation="SetLocation" :defaultMarkerGeoLoc="[AdDetail.latitude,AdDetail.longitude]"  :defaultGeoLoc="[AdDetail.latitude,AdDetail.longitude]"></SetLocation>
+                  <SetLocation @getGeoLocation="SetLocation"
+                               :defaultMarkerGeoLoc="[AdDetail.latitude,AdDetail.longitude]"
+                               :defaultGeoLoc="[AdDetail.latitude,AdDetail.longitude]"></SetLocation>
                 </client-only>
               </div>
             </div>
@@ -212,7 +216,6 @@
     </div>
 
 
-
   </div>
 
 </template>
@@ -220,10 +223,11 @@
 <script>
 
 import SetLocation from '../../components/SetLocation'
+
 export default {
   name: "CreateAdvertise",
   layout: "PoshtebamPlusLayout",
-components:{SetLocation},
+  components: {SetLocation},
   fetchOnServer() {
     return true;
   },
@@ -234,30 +238,28 @@ components:{SetLocation},
     this.categories = allCategories.data.adsCategories;
 
     try {
-      const res = await  this.$repositories.GetAllStates.GetAllStates()
+      const res = await this.$repositories.GetAllStates.GetAllStates()
       this.AllStates = res.data.states
-    }catch (e){
+    } catch (e) {
       console.log(e)
     }
 
     try {
       const res = await this.$repositories.getAnAd.getAnAd({
-        id:this.$route.query.adId
+        id: this.$route.query.adId
       })
       this.AdDetail = res.data
 
 
-    }catch (e){
+    } catch (e) {
       console.log(e)
     }
-
-
 
 
   },
   data() {
     return {
-      AdDetail:null,
+      AdDetail: null,
       categories: [],
       title: "",
       description: "",
@@ -277,7 +279,7 @@ components:{SetLocation},
       SelectedCityId: 0,
       SelectedStateId: 0,
       AllStates: [],
-      DeleteImageList:[]
+      DeleteImageList: []
     };
   },
   head() {
@@ -288,44 +290,44 @@ components:{SetLocation},
         {
           hid: "description",
           name: "description",
-          content:'ویرایش آگهی',
+          content: 'ویرایش آگهی',
         },
       ],
     };
   },
   methods: {
-    SetLocation(lat,lang){
-        this.AdDetail.latitude = lat
+    SetLocation(lat, lang) {
+      this.AdDetail.latitude = lat
       this.AdDetail.longitude = lang
     },
-    DeleteImage(image,Idx){
+    DeleteImage(image, Idx) {
 
       let tmpImage = {
-        base64:image.base64,
-        priority:0
+        base64: image.base64,
+        priority: 0
       }
       this.DeleteImageList.push(tmpImage)
       // tmpImage.base64 = ''
-     this.AdDetail.photos.splice(Idx,1)
+      this.AdDetail.photos.splice(Idx, 1)
     },
 
-    async GetCity(){
-      this.$nextTick(()=>{
+    async GetCity() {
+      this.$nextTick(() => {
         this.$nuxt.$loading.start()
       })
       try {
         const res = await this.$repositories.GetAllCities.GetAllCities({
-          pageNumber:1,
-          count:500,
-          stateId:this.AdDetail.stateId
+          pageNumber: 1,
+          count: 500,
+          stateId: this.AdDetail.stateId
 
         })
         this.AllCities = res.data.cities
         this.$nuxt.$loading.finish()
         this.$nuxt.loading = false;
-      }catch (e) {
+      } catch (e) {
         console.log(e)
-      }finally {
+      } finally {
         this.$nuxt.$loading.finish()
         this.$nuxt.loading = false;
       }
@@ -381,27 +383,27 @@ components:{SetLocation},
       } else if (!this.AdDetail.latitude) {
         this.$toast.error("لطفا موقعیت مکانی آگهی را مشخص کنید");
       } else {
-        this.$nextTick(()=>{
+        this.$nextTick(() => {
           this.$nuxt.$loading.start();
         })
 
         try {
-            this.DeleteImageList.forEach((item)=>{
-              this.photos.push(item)
-            })
+          this.DeleteImageList.forEach((item) => {
+            this.photos.push(item)
+          })
 
           await this.$repositories.UpdateAd.UpdateAd({
-            adsId:this.AdDetail.adsId,
+            adsId: this.AdDetail.adsId,
             title: this.AdDetail.title,
             categoryId: this.AdDetail.categoryId,
-            price: parseInt(this.AdDetail.price) ,
+            price: parseInt(this.AdDetail.price),
             expirationDate: this.AdDetail.expirationDate,
-            createDate:new Date(Date.now()),
-            status:this.AdDetail.status,
+            createDate: new Date(Date.now()),
+            status: this.AdDetail.status,
             updateDate: new Date(Date.now()),
             tag: this.AdDetail.tag,
             condition: this.AdDetail.condition,
-            cityId: this.SelectedCityId!==0? this.SelectedCityId : this.AdDetail.cityId,
+            cityId: this.SelectedCityId !== 0 ? this.SelectedCityId : this.AdDetail.cityId,
             stateId: this.AdDetail.stateId,
             userId: this.$auth.user.userInfo.userId,
             description: this.AdDetail.description,
@@ -412,7 +414,7 @@ components:{SetLocation},
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
           this.$toast.success("آگهی با موفقیت بروزرسانی شد");
-          this.$router.push({ path: "/Migration/MyAdvertise" });
+          this.$router.push({path: "/Migration/MyAdvertise"});
         } catch (error) {
           console.log(error);
         }
@@ -431,6 +433,7 @@ components:{SetLocation},
     margin-right: auto;
   }
 }
+
 @media (max-width: 1024px) {
   .mcontainer {
     max-width: 1000px;
@@ -439,11 +442,13 @@ components:{SetLocation},
     margin-right: auto;
   }
 }
+
 .AddReplyBtn {
   background-color: #3a49df;
   color: white;
   transition: 0.2s ease;
 }
+
 .centerContent {
   margin: 0 auto;
   padding-right: 2rem;

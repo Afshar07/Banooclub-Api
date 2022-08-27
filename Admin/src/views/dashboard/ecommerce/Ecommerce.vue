@@ -1,160 +1,63 @@
 <template>
+<div>
 
-  <b-card style="min-height: 80vh" class="logo-card">
 
-    <div class="bg-logo"></div>
-    <h1 class="text-primary welcome-text">به پنل ادمین بانو کلاب خوش آمدید.</h1>
+  <section id="dashboard-ecommerce">
+    <b-row class="match-height">
+      <b-col
+          xl="12"
+          md="12"
+      >
+        <Dashboard :data="DashBoardData" />
+      </b-col>
+    </b-row>
 
-  </b-card>
+  </section>
+</div>
 
-<!--  <section id="dashboard-ecommerce">-->
-<!--    <b-row class="match-height">-->
-<!--      <b-col-->
-<!--        xl="4"-->
-<!--        md="6"-->
-<!--      >-->
-<!--        <ecommerce-medal :data="data.congratulations" />-->
-<!--      </b-col>-->
-<!--      <b-col-->
-<!--        xl="8"-->
-<!--        md="6"-->
-<!--      >-->
-<!--        <ecommerce-statistics :data="data.statisticsItems" />-->
-<!--      </b-col>-->
-<!--    </b-row>-->
-
-<!--    <b-row class="match-height">-->
-<!--      <b-col lg="4">-->
-<!--        <b-row class="match-height">-->
-<!--          &lt;!&ndash; Bar Chart - Orders &ndash;&gt;-->
-<!--          <b-col-->
-<!--            lg="6"-->
-<!--            md="3"-->
-<!--            cols="6"-->
-<!--          >-->
-<!--            <ecommerce-order-chart :data="data.statisticsOrder" />-->
-<!--          </b-col>-->
-<!--          &lt;!&ndash;/ Bar Chart - Orders &ndash;&gt;-->
-<!--          <b-col-->
-<!--            lg="6"-->
-<!--            md="3"-->
-<!--            cols="6"-->
-<!--          >-->
-<!--            <ecommerce-profit-chart :data="data.statisticsProfit" />-->
-<!--          </b-col>-->
-<!--          <b-col-->
-<!--            lg="12"-->
-<!--            md="6"-->
-<!--          >-->
-<!--            <ecommerce-earnings-chart :data="data.earningsChart" />-->
-<!--          </b-col>-->
-<!--        </b-row>-->
-<!--      </b-col>-->
-
-<!--      &lt;!&ndash; Revenue Report Card &ndash;&gt;-->
-<!--      <b-col lg="8">-->
-<!--        <ecommerce-revenue-report :data="data.revenue" />-->
-<!--      </b-col>-->
-<!--      &lt;!&ndash;/ Revenue Report Card &ndash;&gt;-->
-<!--    </b-row>-->
-
-<!--    <b-row class="match-height">-->
-<!--      &lt;!&ndash; Company Table Card &ndash;&gt;-->
-<!--      <b-col lg="8">-->
-<!--        <ecommerce-company-table :table-data="data.companyTable" />-->
-<!--      </b-col>-->
-<!--      &lt;!&ndash;/ Company Table Card &ndash;&gt;-->
-
-<!--      &lt;!&ndash; Developer Meetup Card &ndash;&gt;-->
-<!--      <b-col-->
-<!--        lg="4"-->
-<!--        md="6"-->
-<!--      >-->
-<!--        <ecommerce-meetup :data="data.meetup" />-->
-<!--      </b-col>-->
-<!--      &lt;!&ndash;/ Developer Meetup Card &ndash;&gt;-->
-
-<!--      &lt;!&ndash; Browser States Card &ndash;&gt;-->
-<!--      <b-col-->
-<!--        lg="4"-->
-<!--        md="6"-->
-<!--      >-->
-<!--        <ecommerce-browser-states />-->
-<!--      </b-col>-->
-<!--      &lt;!&ndash;/ Browser States Card &ndash;&gt;-->
-
-<!--      &lt;!&ndash; Goal Overview Card &ndash;&gt;-->
-<!--      <b-col-->
-<!--        lg="4"-->
-<!--        md="6"-->
-<!--      >-->
-<!--        <ecommerce-goal-overview :data="data.goalOverview" />-->
-<!--      </b-col>-->
-<!--      &lt;!&ndash;/ Goal Overview Card &ndash;&gt;-->
-
-<!--      &lt;!&ndash; Transaction Card &ndash;&gt;-->
-<!--      <b-col-->
-<!--        lg="4"-->
-<!--        md="6"-->
-<!--      >-->
-<!--        <ecommerce-transactions :data="data.transactionData" />-->
-<!--      </b-col>-->
-<!--      &lt;!&ndash;/ Transaction Card &ndash;&gt;-->
-<!--    </b-row>-->
-<!--  </section>-->
 </template>
 
 <script>
 import { BRow, BCol , BCard } from 'bootstrap-vue'
 
 import { getUserData } from '@/auth/utils'
-import EcommerceMedal from './EcommerceMedal.vue'
-import EcommerceStatistics from './EcommerceStatistics.vue'
-import EcommerceRevenueReport from './EcommerceRevenueReport.vue'
-import EcommerceOrderChart from './EcommerceOrderChart.vue'
-import EcommerceProfitChart from './EcommerceProfitChart.vue'
-import EcommerceEarningsChart from './EcommerceEarningsChart.vue'
-import EcommerceCompanyTable from './EcommerceCompanyTable.vue'
-import EcommerceMeetup from './EcommerceMeetup.vue'
-import EcommerceBrowserStates from './EcommerceBrowserStates.vue'
-import EcommerceGoalOverview from './EcommerceGoalOverview.vue'
-import EcommerceTransactions from './EcommerceTransactions.vue'
+import GetDashBoard from "@/libs/Api/Users/GetDashBoard";
+import Dashboard from "@/views/components/Dashboard";
 
+import ToastificationContent from "@core/components/toastification/ToastificationContent";
 
 export default {
   components: {
     BRow,
     BCol,
     BCard,
+    Dashboard,
 
-    EcommerceMedal,
-    EcommerceStatistics,
-    EcommerceRevenueReport,
-    EcommerceOrderChart,
-    EcommerceProfitChart,
-    EcommerceEarningsChart,
-    EcommerceCompanyTable,
-    EcommerceMeetup,
-    EcommerceBrowserStates,
-    EcommerceGoalOverview,
-    EcommerceTransactions,
   },
   data() {
     return {
-      data: {},
+
+        DashBoardData:null
+
     }
   },
-  created() {
-    // data
-    this.$http.get('/ecommerce/data')
-      .then(response => {
-        this.data = response.data
 
-        // ? Your API will return name of logged in user or you might just directly get name of logged in user
-        // ? This is just for demo purpose
-        const userData = getUserData()
-        // this.data.congratulations.name = userData.fullName.split(' ')[0] || userData.username
-      })
+  async created() {
+
+    let _this = this;
+    let getDashBoard = new GetDashBoard(_this);
+    let data = {
+    }
+    getDashBoard.setParams(data);
+    await getDashBoard.fetch(function (content){
+   _this.DashBoardData = content
+
+
+    },function (error){
+      console.log(error)
+    })
+
+
   },
 }
 </script>

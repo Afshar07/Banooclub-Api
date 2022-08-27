@@ -76,7 +76,7 @@
           <!-- Column: delete -->
           <template #cell(medias)="data">
 
-            <img v-if="data.item.medias.length>0" :src="`https://banooclubapi.simagar.com/media/gallery/post/${data.item.medias[0].base64}`" style="object-fit: contain;object-position: center" width="50px" height="50px" alt="">
+            <img v-if=" data.item.medias && data.item.medias.length>0" :src="`https://banooclubapi.simagar.com/media/gallery/post/${data.item.medias[0].base64}`" style="object-fit: contain;object-position: center" width="50px" height="50px" alt="">
 
           </template>
           <template #cell(createDate)="data">
@@ -84,8 +84,10 @@
             <span>{{new Date(data.item.createDate).toLocaleDateString('fa-IR')}}</span>
           </template>
           <template #cell(userInfo)="data">
+            <router-link :to="`/apps/users/Detail/${data.item.userInfo.userName}`">
+              <span v-if="data.item.userInfo">{{data.item.userInfo.userName}}@</span>
+            </router-link>
 
-            <span v-if="data.item.userInfo">{{data.item.userInfo.userName}}@</span>
           </template>
           <template #cell(delete)="data">
 
@@ -182,7 +184,6 @@ export default {
       myTableColumns : [
         { key: 'postId',label:'شناسه'},
         { key: 'medias',label:'عکس اصلی پست'},
-        { key: 'title',label:'موضوع پست'},
         { key: 'createDate',label:'تاریخ'},
         { key: 'userInfo',label:'توسط'},
         { key: 'delete',label:'حذف'},
@@ -220,7 +221,7 @@ export default {
     async DeletePost(){
 let _this = this
       let postDeleteRequest = new PostDeleteRequest(_this)
-      postDeleteRequest.setId(this.SelectedPost.postId)
+      postDeleteRequest.setParams([this.SelectedPost.postId])
         await postDeleteRequest.fetch(()=>{
           _this.$toast({
             component: ToastificationContent,
@@ -243,9 +244,9 @@ let _this = this
 
       let data ={
         status:this.SelectedPostStatus,
-        postId: this.SelectedPost.postId,
       }
       changePostStatus.setParams(data)
+      changePostStatus.setRequestParamDataObj([this.SelectedPost.postId])
       await changePostStatus.fetch(()=>{
         _this.$toast({
           component: ToastificationContent,

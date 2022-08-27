@@ -182,7 +182,6 @@ export default {
       myTableColumns : [
         { key: 'postId',label:'شناسه'},
         { key: 'medias',label:'عکس اصلی پست'},
-        { key: 'title',label:'موضوع پست'},
         { key: 'createDate',label:'تاریخ'},
         { key: 'userInfo',label:'توسط'},
         { key: 'delete',label:'حذف'},
@@ -220,7 +219,7 @@ export default {
     async DeletePost(){
       let _this = this
       let postDeleteRequest = new PostDeleteRequest(_this)
-      postDeleteRequest.setId(this.SelectedPost.postId)
+      postDeleteRequest.setParams([this.SelectedPost.postId])
       await postDeleteRequest.fetch(()=>{
         _this.$toast({
           component: ToastificationContent,
@@ -243,9 +242,9 @@ export default {
 
       let data ={
         status:this.SelectedPostStatus,
-        postId: this.SelectedPost.postId,
       }
       changePostStatus.setParams(data)
+      changePostStatus.setRequestParamDataObj([this.SelectedPost.postId])
       await changePostStatus.fetch(()=>{
         _this.$toast({
           component: ToastificationContent,

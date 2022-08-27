@@ -1,126 +1,73 @@
 <template>
-  <li class="nav-item nav-search">
+  <li class="nav-item nav-search d-flex">
 
-    <!-- Icon -->
-    <a
-      href="javascript:void(0)"
-      class="nav-link nav-link-search"
-      @click="showSearchBar = true"
-    >
-      <feather-icon
-        icon="SearchIcon"
-        size="21"
-      />
-    </a>
-
+    <v-select
+        v-model="SearchTypeId"
+        :options="SearchTypes"
+        label="label"
+        :reduce="label => label.status"
+        @input="showSearchBar = true"
+        input-id="user-status"
+    />
     <!-- Input -->
     <div
-      class="search-input"
-      :class="{'open': showSearchBar}"
+        class="search-input"
+        :class="{'open': showSearchBar}"
     >
       <div class="search-input-icon">
-        <feather-icon icon="SearchIcon" />
+        <feather-icon icon="SearchIcon"/>
       </div>
-      <!-- <input type="text" placeholder="Explore Vuexy...." class="form-control-input"> -->
-      <!-- @keyup.esc="escPressed" -->
-      <!-- @keyup.enter="suggestionSelected" -->
+
       <b-form-input
-        v-if="showSearchBar"
-        v-model="searchQuery"
-        placeholder="Explore Vuexy"
-        autofocus
-        autocomplete="off"
-        @keyup.up="increaseIndex(false)"
-        @keyup.down="increaseIndex"
-        @keyup.esc="showSearchBar = false; resetsearchQuery()"
-        @keyup.enter="suggestionSelected"
-        @blur.stop="showSearchBar = false; resetsearchQuery()"
+          v-if="showSearchBar"
+          v-model="searchQuery"
+          placeholder="جستجو کاربران"
+          autofocus
+          autocomplete="off"
+          @keyup.up="increaseIndex(false)"
+          @keyup.down="increaseIndex"
+          @keyup.esc="showSearchBar = false; resetsearchQuery()"
+          @keyup.enter="suggestionSelected"
       />
+
       <div
-        class="search-input-close"
-        @click="showSearchBar = false; resetsearchQuery()"
+          class="search-input-close"
+          @click="showSearchBar = false; resetsearchQuery()"
       >
-        <feather-icon icon="XIcon" />
+        <feather-icon icon="XIcon"/>
       </div>
 
       <!-- Suggestions List -->
       <vue-perfect-scrollbar
-        :settings="perfectScrollbarSettings"
-        class="search-list search-list-main scroll-area overflow-hidden"
-        :class="{'show': searchQuery}"
-        tagname="ul"
+          :settings="perfectScrollbarSettings"
+          class="search-list search-list-main scroll-area overflow-hidden"
+          :class="{'show': searchQuery}"
+          tagname="ul"
       >
-        <li
-          v-for="(suggestion_list, grp_name, grp_index) in filteredData"
-          :key="grp_index"
-          class="suggestions-groups-list"
-        >
+        <ul>
+          <li
+              v-if="SearchedUsers.length>0"
+          v-for="(item,idx) in SearchedUsers"
+          :key="idx"
+              class="suggestions-groups-list p-2 UserItem"
+          @click="RouteToUserPage(item)"
+          >
+            <div class=" d-flex align-items-center ">
+              <img v-if="item.selfieFileData" class="rounded-circle" style="width: 50px;height: 50px" :src="`https://banooclubapi.simagar.com/media/gallery/profile/${item.selfieFileData}`" alt="">
 
-          <!-- Group Header -->
-          <p class="suggestion-group-title">
-            <span>
-              {{ title(grp_name) }}
-            </span>
-          </p>
+          <feather-icon v-else icon="UserIcon"></feather-icon>
+              <div class="d-flex mx-4 align-items-start flex-column">
+                <strong>{{item.name + ' ' + item.familyName}}</strong>
+                <span>@{{item.userName }}</span>
 
-          <!-- Suggestion List of each group -->
-          <ul>
-            <li
-              v-for="(suggestion, index) in suggestion_list"
-              :key="index"
-              class="suggestion-group-suggestion cursor-pointer"
-              :class="{'suggestion-current-selected': currentSelected === `${grp_index}.${index}`}"
-              @mouseenter="currentSelected = `${grp_index}.${index}`"
-              @mousedown.prevent="suggestionSelected(grp_name, suggestion)"
-            >
-              <b-link
-                v-if="grp_name === 'pages'"
-                class="p-0"
-              >
-                <feather-icon
-                  :icon="suggestion.icon"
-                  class="mr-75"
-                />
-                <span class="align-middle">{{ suggestion.title }}</span>
-              </b-link>
-              <template v-else-if="grp_name === 'files'">
-                <div class="d-flex align-items-center">
-                  <b-img
-                    :src="suggestion.icon"
-                    class="mr-1"
-                    height="32"
-                  />
-                  <div>
-                    <p>{{ suggestion.file_name }}</p>
-                    <small>by {{ suggestion.from }}</small>
-                  </div>
-                  <small class="ml-auto">{{ suggestion.size }}</small>
-                </div>
-              </template>
-              <template v-else-if="grp_name === 'contacts'">
-                <div class="d-flex align-items-center">
-                  <b-avatar
-                    :src="suggestion.img"
-                    class="mr-1"
-                    size="32"
-                  />
-                  <div>
-                    <p>{{ suggestion.name }}</p>
-                    <small>{{ suggestion.email }}</small>
-                  </div>
-                  <small class="ml-auto">{{ suggestion.time }}</small>
-                </div>
-              </template>
-            </li>
+              </div>
+            </div>
+          </li>
+          <li v-else>
+            <span class="text-secondary">موردی پیدا نشد</span>
+          </li>
+        </ul>
 
-            <li
-              v-if="!suggestion_list.length && searchQuery"
-              class="suggestion-group-suggestion no-results"
-            >
-              <p>No Results Found.</p>
-            </li>
-          </ul>
-        </li>
       </vue-perfect-scrollbar>
     </div>
   </li>
@@ -130,21 +77,78 @@
 import {
   BFormInput, BLink, BImg, BAvatar,
 } from 'bootstrap-vue'
-import { ref, watch } from '@vue/composition-api'
+import {ref, watch} from '@vue/composition-api'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import useAutoSuggest from '@core/components/app-auto-suggest/useAutoSuggest'
-import { title } from '@core/utils/filter'
+import {title} from '@core/utils/filter'
 import router from '@/router'
 import store from '@/store'
+import UsersAdminSearchRequest from "@/libs/Api/Users/UsersAdminSearchRequest";
 import searchAndBookmarkData from '../search-and-bookmark-data'
+import vSelect from "vue-select";
 
 export default {
   components: {
     BFormInput,
+    vSelect,
     BLink,
     BImg,
     BAvatar,
     VuePerfectScrollbar,
+  },
+  data() {
+    return {
+      searchQuery: '',
+      SearchTypes: [
+        {
+          label: 'جستجو بر اساس',
+          status: 0
+        },
+        {
+          label: 'نام کاربری',
+          status: 1
+        },
+        {
+          label: 'شماره تلفن',
+          status: 2
+        },
+        {
+          label: 'شناسه کاربری',
+          status: 3
+        },
+      ],
+      SearchTypeId: 0,
+      SearchedUsers:[]
+    }
+  },
+
+  watch:{
+    searchQuery:function (val){
+      this.SearchUsers()
+    }
+  },
+
+  methods: {
+    RouteToUserPage(item){
+      this.$router.push(`/apps/users/Detail/${item.userName}`)
+      this.showSearchBar = false
+      this.searchQuery = ''
+    },
+    async SearchUsers() {
+      let _this = this
+      let usersAdminSearchRequest = new UsersAdminSearchRequest()
+      let data={
+        search:this.searchQuery,
+        searchType:this.SearchTypeId
+      }
+      usersAdminSearchRequest.setParams(data)
+      await usersAdminSearchRequest.fetch((content)=>{
+        _this.SearchedUsers = content
+
+      },(e)=>{
+        console.log(e)
+      })
+    }
   },
   setup() {
     const showSearchBar = ref(false)
@@ -166,7 +170,8 @@ export default {
           /* eslint-enable */
         }
       }
-      if (grpName === 'pages') router.push(suggestion.route).catch(() => {})
+      if (grpName === 'pages') router.push(suggestion.route).catch(() => {
+      })
       // eslint-disable-next-line no-use-before-define
       resetsearchQuery()
       showSearchBar.value = false
@@ -176,7 +181,7 @@ export default {
       searchQuery,
       resetsearchQuery,
       filteredData,
-    } = useAutoSuggest({ data: searchAndBookmarkData, searchLimit: 4 })
+    } = useAutoSuggest({data: searchAndBookmarkData, searchLimit: 4})
 
     watch(searchQuery, val => {
       store.commit('app/TOGGLE_OVERLAY', Boolean(val))
@@ -218,7 +223,7 @@ export default {
         if (activeGrpTotalItems - 1 > itemIndex) {
           currentSelected.value = `${grpIndex}.${Number(itemIndex) + 1}`
 
-        // If active item grp is not last in grp list
+          // If active item grp is not last in grp list
         } else if (grpIndex < grpArr.length - 1) {
           for (let i = Number(grpIndex) + 1; i < grpArr.length; i++) {
             // If navigating group have items => Then move in that group
@@ -233,7 +238,7 @@ export default {
         if (Number(itemIndex)) {
           currentSelected.value = `${grpIndex}.${Number(itemIndex) - 1}`
 
-        // If active item grp  is not first in grp list
+          // If active item grp  is not first in grp list
         } else if (Number(grpIndex)) {
           for (let i = Number(grpIndex) - 1; i >= 0; i--) {
             // If navigating group have items => Then move in that group
@@ -269,12 +274,12 @@ export default {
 @import '~@core/scss/base/bootstrap-extended/include';
 @import '~@core/scss/base/components/variables-dark';
 
-ul
-{
+ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 p {
   margin: 0;
 }
@@ -291,7 +296,11 @@ p {
   background-color: white;
   width: 100%;
 } */
-
+.UserItem:hover{
+  cursor: pointer;
+  background-color: #cccccc;
+  transition: .2s ease;
+}
 .suggestion-group-title {
   font-weight: 500;
   padding: .75rem 1rem .25rem;
