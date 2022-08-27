@@ -72,7 +72,7 @@ namespace BanooClub.Controllers
         [HttpPost]
         [Route("[action]")]
         [Authorize(Roles = "Admin")]
-        public async Task<byte> ChangePaymentStatus(long paymentId, PaymentStatus status)
+        public async Task<byte> ChangePaymentStatusForAdmin(long paymentId, PaymentStatus status)
         {
             return await paymentService.ChangePaymentStatus(paymentId, status);
         }
