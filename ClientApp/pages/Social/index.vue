@@ -1,10 +1,13 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer bg-white tw-shadow px-3">
     <div class="row">
+
       <div class="col-md-8 add_post custom_padding_for_posts" style="height: 950px;overflow-y: scroll;" @scroll="handleScroll">
+
         <AddPost @updateMyPosts="updateMyPosts" class="mb-3"/>
         <PostItem @PostEvent="GetPosts" class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post" :inMainPage="true" :inMyPosts="false"/>
         <Spinner v-if="postData && postData.length !== postCounts"/>
+
         <div class="row mb-3" v-if="!$fetchState.pending && postData && postData.length === 0">
           <div class="col-12 text-warning fw-bold text-center">
             هیچ پستی برای نمایش وجود ندارد
@@ -25,7 +28,7 @@ import SideBar from "../../layouts/SideBar";
 import CustomModal from "../../components/utilities/CustomModal";
 import AddPost from "../../components/AddPost";
 import Spinner from "../../components/Spinner"
-
+import CustomInput from "@/components/CustomInput";
 
 export default {
   head() {
@@ -40,7 +43,7 @@ export default {
       ],
     }
   },
-  components: {SideBar, CustomModal, AddPost, Spinner},
+  components: {SideBar, CustomModal, AddPost, Spinner,CustomInput},
   // mounted() {
   //   window.addEventListener('scroll', this.scrollTrue);
   // },
@@ -53,6 +56,7 @@ export default {
       showModal:false,
       description:'',
       is_show_post_modal:false,
+      DataString:'',
       is_show_add_post:false,
       galleries:null,
       select_media:false,

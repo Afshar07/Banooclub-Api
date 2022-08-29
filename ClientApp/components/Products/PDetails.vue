@@ -553,7 +553,7 @@ export default {
 
     },
     async CreateOrder(item){
-
+    console.log(this.service_details.TotalDiscountPrice)
       this.$nuxt.$loading.start();
       try {
         let tmpSubOrders = []
@@ -572,7 +572,7 @@ export default {
           orderId: 0,
           isPayed: false,
           description: item.title,
-          sumPrice: item.totalPrice,
+          sumPrice:!this.service_details.TotalDiscountPrice ? item.totalPrice :this.service_details.TotalDiscountPrice ,
           serviceId:0,
           adsId:0,
           userId: 0,
