@@ -1,5 +1,5 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer bg-white tw-shadow px-3">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer   px-3">
     <div class="row">
 
       <div class="col-md-8 add_post custom_padding_for_posts" style="height: 950px;overflow-y: scroll;" @scroll="handleScroll">
@@ -14,7 +14,7 @@
           </div>
         </div>
       </div>
-      <div class=" col-md-4">
+      <div class=" col-md-4 px-0">
         <SideBar /></div>
     </div>
 
@@ -33,12 +33,12 @@ import CustomInput from "@/components/CustomInput";
 export default {
   head() {
     return {
-      title: 'صفحه من',
+      title: 'پروفایل من',
       meta: [
         {
           hid: "description",
           name: "description",
-          content: 'صفحه من',
+          content: 'پروفایل من',
         },
       ],
     }
@@ -206,6 +206,10 @@ async GetPosts(){
 };
 </script>
 <style scoped>
+
+.mcontainer{
+  @apply  tw-bg-[#faf7ff] !important;
+}
 .selected_image{
   border: 3px solid rgb(37 99 235);
 }

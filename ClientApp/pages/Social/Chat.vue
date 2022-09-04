@@ -32,7 +32,7 @@
          style="height: 800px;overflow-y: scroll">
       <div class="row">
         <div class="col-md-12">
-          <h1 class="h3 mt-3">مکالمات من </h1>
+          <h1 class="h3 mt-3">چت من من </h1>
         </div>
         <div class="col-md-12 border-bottom pb-2 my-2">
           <input type="search" v-model="Search" class="SearchStyle" placeholder="جستجو">
@@ -85,7 +85,7 @@ export default {
   },
   head() {
     return {
-      title: 'مکالمات من'
+      title: 'چت من من'
     }
   },
   computed: {

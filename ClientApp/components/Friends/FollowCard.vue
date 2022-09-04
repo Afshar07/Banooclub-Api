@@ -1,6 +1,7 @@
 <template>
   <div class="row" v-if="followList">
-    <div class="col-md-6 my-2" v-for="(item, index) in followList" :key="index">
+
+    <div class="col-md-3 my-2" v-for="(item, index) in followList" :key="index">
       <div class="friendBox">
         <div @click="goToUserProfile(item.userInfo)" style="cursor: pointer">
           <div class="d-flex justify-content-around align-items-center flex-column flex-md-row">

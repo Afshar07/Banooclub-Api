@@ -56,12 +56,12 @@
       <template v-slot:actions>
         <div class="d-flex align-items-center justify-content-end p-3">
           <button
-            class="btn btn-danger mx-2"
+            class="tw-bg-[#fc5399] rounded p-2 text-white mx-2"
             @click="closeReportPostModal"
           >
             انصراف
           </button>
-          <button class="btn btn-primary mx-2" @click="reportPostSubmit(reportedPostId, reportedPostUserId)">
+          <button class=" tw-bg-[#e7b0fe] rounded p-2 text-white mx-2" @click="reportPostSubmit(reportedPostId, reportedPostUserId)">
             ثبت گزارش
           </button>
         </div>
@@ -73,21 +73,21 @@
           <div class="d-flex flex-column" @click="goToServiceProfile(post_details.userInfo)">
             <img
               v-if="(post_details.userInfo && post_details.userInfo.selfieFileData && inMyPosts)"
-              class="IMG-FLUID myPicture"
+              class="IMG-FLUID myPicture tw-rounded"
               :src="`https://banooclubapi.simagar.com/media/gallery/Profile/${post_details.userInfo.selfieFileData}`"
               alt=""
               style="width: 40px; height: 40px;border-radius: 50%; object-fit: contain; cursor: pointer"
             />
             <img
               v-else-if="post_details.userInfo && post_details.userInfo.selfieFileData && !inMyPosts"
-              class="IMG-FLUID myPicture"
+              class="IMG-FLUID myPicture tw-rounded"
               :src="`https://banooclubapi.simagar.com/media/gallery/Profile/${post_details.userInfo.selfieFileData}`"
               alt=""
               style="width: 40px; height: 40px;border-radius: 50%; object-fit: contain; cursor: pointer"
             />
             <img
               v-else-if="!post_details.userInfo || !post_details.userInfo.selfieFileData"
-              class="IMG-FLUID myPicture"
+              class="IMG-FLUID myPicture tw-rounded"
               src="../assets/images/defaultUser.png"
               alt=""
               style="width: 40px; height: 40px;cursor: pointer"
@@ -107,16 +107,16 @@
           </div>
         </div>
         <div>
-          <div class="d-flex align-items-center">
-            <div v-if="$route.path==='/social/accountsetting/MyPage'&&post_details.status===1" class="tw-badge tw-badge-success">منتشر شده</div>
-            <div v-if="$route.path==='/social/accountsetting/MyPage'&&post_details.status===2" class="tw-badge tw-badge-error">گزارش شده</div>
-            <div v-if="$route.path==='/social/accountsetting/MyPage'&&post_details.status===3" class="tw-badge tw-badge-warning">گزارش شده</div>
+          <div class="d-flex align-items-center mx-3">
+            <div v-if="$route.path==='/social/accountsetting/MyPage'&&post_details.status===1" class="tw-badge tw-border-none tw-bg-[#12fa69] tw-text-white">منتشر شده</div>
+            <div v-if="$route.path==='/social/accountsetting/MyPage'&&post_details.status===2" class="tw-badge tw-border-none tw-bg-[#e81f87] tw-text-white">گزارش شده</div>
+            <div v-if="$route.path==='/social/accountsetting/MyPage'&&post_details.status===3" class="tw-badge tw-border-none tw-badge-warning">گزارش شده</div>
             <button v-if=" $auth.user && $auth.user.userInfo && $auth.user.userInfo.userId &&  post_details.userInfo && !(post_details.userInfo.userId === $auth.user.userInfo.userId)" @click="openReportModal" class="tw-flex tw-items-center tw-flex-1 tw-justify-end text-decoration-none text-dark">
-              <div class="tw-p-2 tw-rounded-full tw-text-black">
+              <div v-tooltip="{content:'گزارش پست'}" class="tw-p-2 tw-rounded-full tw-text-black">
                 <ExclamationMarkIcon style="width: 22px; height: 22px;"/>
               </div>
             </button>
-            <button v-click-outside="hideMoreDiv" class="tw-text-2xl hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw-transition tw--mr-1 tw-relative"
+            <button v-click-outside="hideMoreDiv" class="tw-text-2xl mx-3 hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw-transition tw--mr-1 tw-relative"
                     @click.stop="showMoreDiv">
               <MoreIcon/>
             </button>
@@ -130,13 +130,7 @@
                   اشتراک گذاری
                 </button>
               </li>
-              <!--            <li v-if="post_details.userInfo.userId === $auth.user.userInfo.userId">-->
-              <!--              <nuxt-link to="#"-->
-              <!--                         class="tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">-->
-              <!--                <EditIcon style="width: 19px; height: 19px;" class="tw-ml-1"/>-->
-              <!--                ویرایش پست-->
-              <!--              </nuxt-link>-->
-              <!--            </li>-->
+
               <li v-if="post_details.userInfo && post_details.userInfo.userId === $auth.user.userInfo.userId">
                 <button @click="changeCommentingStatus" class="tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md tw-w-full">
                   <MessageIcon fill="black" class="tw-ml-1"/>
@@ -194,8 +188,10 @@
           <button v-if="post_details.userInfo && !(post_details.userInfo.userId === $auth.user.userInfo.userId)" @click="likePost(post_details.postId, post_details.userId)"
                   class="tw-flex tw-items-center tw-space-x-2 text-decoration-none text-dark">
             <div class="tw-p-2 tw-rounded-full  tw-text-black d-flex align-items-center">
-              <LikeIcon v-if="post_details.isLikedByMe" style="width: 20px; height: 20px" fill_color="red"/>
-              <DisLikeIcon v-else style="width: 20px; height: 20px"/>
+              <img v-if="post_details.isLikedByMe" src="/like-small.png" style="width: 20px; height: 20px" alt="">
+              <img v-else src="/dislike-small.png" style="width: 20px; height: 20px" alt="">
+
+
             </div>
           </button>
         </div>
@@ -244,7 +240,7 @@
         </div>
         <div v-if="!post_details.isActiveComment" class=" d-flex">
           <input v-model="CommentContent" @click="SetPostComments(post_details)"
-                 style="border-radius: 50px; background-color: rgb(243 244 246); height: 40px !important;"
+                 style="border-radius: 50px; background-color: #fcf5ff; height: 40px !important;"
                  value="" type="text" class="form-control mx-1"
                  placeholder="نظر خود را وارد کنید...">
           <button style="font-weight: 600" class="px-2 button mx-1"

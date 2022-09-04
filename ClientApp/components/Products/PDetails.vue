@@ -54,15 +54,18 @@
             <img v-else :src="userDefault" alt="profile_image"
                  class="tw-bg-gray-200 tw-border tw-border-white tw-rounded-full tw-w-10 tw-h-10">
           </nuxt-link>
-          <div class="d-flex flex-column tw-font-semibold tw-capitalize tw-mr-4">
+          <div class="d-flex flex-column   tw-mr-4">
             <h2 class="text-primary tw-cursor-pointer text-decoration-none service_name" @click="goToUserProfile(service_details.userInfo)">@{{ service_details.userInfo.userName }}</h2>
             <div class="d-flex">
               <div class="d-flex justify-content-start align-items-center">
                 <AllUsersIcon fill="#374151" style="width: 15px; height: 15px;"/>
                 <div class="text-gray-700 tw-flex tw-items-center px-2">
-                  {{
-                    time_ago(service_details.createDate)
-                  }}
+                  <span>
+                     {{
+                      time_ago(service_details.createDate)
+                    }}
+                  </span>
+
                 </div>
               </div>
               <div class="d-flex justify-content-start align-items-center">
@@ -71,10 +74,13 @@
                   <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
                 </svg>
                 <div class="text-gray-700 tw-flex tw-items-center px-2">
-                  {{
-                    service_details.viewsCount
-                  }}
+                  <span>
+                      {{
+                      service_details.viewsCount
+                    }}
                   بازدید
+                  </span>
+
                 </div>
               </div>
             </div>
@@ -230,16 +236,11 @@
 
         <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2">آدرس</h2>
         <p class="mt-1 tw-text-gray-600">{{service_details.address}}</p>
-        <div class="my-3" id="map-wrap" style="height: 25vh">
+        <div class="my-5" id="map-wrap" >
           <client-only>
             <Map :latitude="service_details.latitude" :longitude="service_details.longitude"></Map>
           </client-only>
         </div>
-
-        <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2 mb-1">آدرس وب سایت</h2>
-        <a v-if="service_details.webAddress!==''" :href="service_details.webAddress" target="_blank" class="tw-text-gray-600">
-          {{service_details.webAddress}}
-        </a>
         <div class="tw-flex tw-items-center tw-gap-2">
           <h2 class="tw-text-base tw-font-bold tw-text-gray-600 tw-pt-2 ">ظرفیت باقی مانده :</h2>
           <span   class="tw-text-gray-600">
@@ -266,34 +267,34 @@
         <div class="tw-text-gray-600 d-flex flex-column tw-text-sm md:tw-pt-3">
           <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2 mb-0">ویژگی ها</h2>
           <div class="d-flex flex-wrap mt-1 row">
-            <div v-for="property in service_details.properties" class="tw-font-semibold tw-text-yellow-500 pt-1 col-md-6 col-12">
+            <div v-for="property in service_details.properties" class="tw-font-semibold tw-text-[#fd3ab8] pt-1 col-md-6 col-12">
               {{ property.name }}
               -
-              {{Intl.NumberFormat('fa-IR').format(property.price)}}
-              <small v-if="!service_details.isFree" class="Toman">تومان</small>
+              {{property.price!==0?Intl.NumberFormat('fa-IR').format(property.price):'رایگان'}}
+              <small v-if="!(service_details.isFree ||property.price===0) " class="Toman">تومان</small>
 
             </div>
           </div>
         </div>
         <hr>
-        <div class="tw-grid md:tw-grid-cols-2 md:tw-gap-4 tw-mb-5 xs:tw-grid-cols-12">
-          <a :href="`tel:${service_details.mobile}`" class="text-decoration-none tw-bg-gray-200 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md my-1">
+        <div class="d-flex align-items-center justify-content-between  gap-3">
+          <a :href="`tel:${service_details.mobile}`" class="text-decoration-none hover:tw-text-white tw-bg-[#ff6f9e] tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-text-white tw-justify-center tw-px-4 tw-rounded-md my-1">
             تماس
           </a>
-          <button @click="GoToChat(service_details)" class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
+          <button @click="GoToChat(service_details)" class=" tw-bg-[#ff6f9e] tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
             چت
           </button>
-          <button v-if="service_details.maintain>0" @click="CreateOrder(service_details)" class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
+          <button v-if="service_details.maintain>0" @click="CreateOrder(service_details)" class="tw-bg-[#85ffdd]  tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-[#f5447d] my-1">
             پرداخت
           </button>
-          <button v-else  class="tw-bg-stone-600  tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
+          <button v-else  class="tw-bg-[#85ffdd]  tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-[#f5447d] my-1">
             ظرفیت تکمیل
           </button>
         </div>
         <div>
           <client-only>
             <div class="d-flex align-items-center">
-              <vue-star-rating :star-size="20" v-model="service_rates_show[0]" :show-rating="false" :read-only="true"	></vue-star-rating>
+              <vue-star-rating  :star-size="20" v-model="service_rates_show[0]" :show-rating="false" :read-only="true"	></vue-star-rating>
               <div class="tw-tooltip tw-w-full px-2" :data-tip="rates.oneStar + '%'">
                 <progress class="tw-progress tw-progress-warning w-56 mt-3" :value="(rates.oneStar*100)/100" max="100"></progress>
               </div>
@@ -443,7 +444,7 @@
 
         <div v-if="others_can_add_comments" class="tw-bg-gray-100 tw-flex tw-items-center tw-rounded-full tw-relative tw-border-t">
           <input  v-model="service_comment" :placeholder="want_to_reply?place_holder:'نظر خود را وارد کنید'" class="tw-bg-transparent tw-max-h-10 tw-shadow-none tw-px-5">
-      <button class="btn btn-primary " @click="addComment"> <strong>ثبت</strong>  </button>
+      <button class="p-2 rounded text-white tw-cursor-pointer tw-bg-[#e2a7ff] " @click="addComment"> <strong>ثبت</strong>  </button>
         </div>
 
       </div>

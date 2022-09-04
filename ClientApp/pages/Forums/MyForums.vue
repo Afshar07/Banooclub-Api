@@ -1,6 +1,6 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer p-3">
-    <h1 class="tw-text-2xl tw-font-semibold">انجمن های من</h1>
+    <h1 class="tw-text-2xl tw-font-semibold">تالار های من</h1>
     <div class="row py-3">
       <div class="col-lg-8 tw-flex-shirink-0">
         <ul class="custom_card tw-divide-y tw-divide-gray-100 sm:tw-m-0 tw--mx-5">
@@ -8,7 +8,7 @@
             <ForumMainItem :forum_details="Forum"/>
           </li>
           <li class="text-center p-3" v-if="my_forums.length===0">
-            <span class="text-warning">شما انجمن فعال ندارید.</span>
+            <span class="text-warning">شما تالار فعال ندارید.</span>
           </li>
         </ul>
       </div>
@@ -31,12 +31,12 @@ export default {
   head() {
     return {
 
-      title: 'انجمن های من',
+      title: 'تالار های من',
       meta: [
         {
           hid: "description",
           name: "description",
-          content:'انجمن های من',
+          content:'تالار های من',
         },
       ],
     };

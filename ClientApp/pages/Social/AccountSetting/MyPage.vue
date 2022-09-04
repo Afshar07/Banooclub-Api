@@ -1,20 +1,20 @@
 <template>
-  <div  class="container-fluid mcontainer px-0 ">
-    <CustomHeader/>
-    <div class="tab-content" id="pills-tabContent">
-      <div class="tab-pane fade " id="services" role="tabpanel" aria-labelledby="services-tab">
+  <div  class="container-fluid mcontainer tw-bg-[#faf7ff] px-0 ">
+    <CustomHeader @SetActiveTab="GetActiveTab"/>
+    <div class="tab-content tw-bg-[#faf7ff] py-3" id="pills-tabContent">
+      <div v-if="ActiveTab===2"  class="tab-pane tw-bg-[#faf7ff] fade show active" id="services" role="tabpanel" aria-labelledby="services-tab">
         <ServicesTabContent/>
       </div>
-      <div class="tab-pane fade " id="Ads" role="tabpanel" aria-labelledby="pill-Ads">
+      <div v-if="ActiveTab===3" class="tab-pane fade tw-bg-[#faf7ff] show active " id="Ads" role="tabpanel" aria-labelledby="pill-Ads">
           <MyAdsTabContent @PageChanged="ChangePage" :Ads="AllAds" :totalPages="totalPages" :activePage="SelectedPageId"/>
       </div>
-      <div class="tab-pane fade show active" id="posts-home" role="tabpanel" aria-labelledby="posts-home-tab">
+      <div v-if="ActiveTab===1" class="tab-pane tw-bg-[#faf7ff] fade show active " id="posts-home" role="tabpanel" aria-labelledby="posts-home-tab">
         <PostsTabContent/>
       </div>
-      <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+      <div v-if="ActiveTab===4" class="tab-pane fade tw-bg-[#faf7ff] show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
         <FriendsTabContent/>
       </div>
-      <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+      <div v-if="ActiveTab===5" class="tab-pane fade tw-bg-[#faf7ff] show active" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
         <PhotosTabContent/>
       </div>
     </div>
@@ -36,7 +36,7 @@ export default {
   name: "MyPosts",
   head(){
     return{
-      title: 'بانوکلاب - صفحه من'
+      title: 'بانوکلاب - پروفایل من'
     }
   },
   components: {
@@ -76,9 +76,13 @@ export default {
       SelectedPageId:1,
       showCreatePost: false,
       user_avatar: '',
+      ActiveTab:1
     };
   },
   methods: {
+    GetActiveTab(id){
+      this.ActiveTab = id
+    },
     async GetAllAds(){
       try {
 
@@ -121,7 +125,7 @@ export default {
 
 @media only screen and (max-width: 1024px) {
   #pills-tabContent {
-    margin-top: 1rem;
+
     padding-left: 1rem;
     padding-right: 1rem;
     margin-bottom: 2rem;
@@ -130,7 +134,7 @@ export default {
 
 @media only screen and (min-width: 1024px) {
   #pills-tabContent {
-    margin-top: 2rem;
+
     padding-left: 4rem;
     padding-right: 4rem;
   }

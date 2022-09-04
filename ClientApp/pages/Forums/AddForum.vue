@@ -1,16 +1,16 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer p-3">
     <div class="row">
-      <h2 class="tw-text-2xl tw-font-semibold pb-3">افزودن انجمن</h2>
+      <h2 class="tw-text-2xl tw-font-semibold pb-3">افزودن تالار</h2>
       <div class="row">
         <div class="col-6 pt-3">
-          <label>نام انجمن *</label>
-          <input v-model="forum_title" type="text" class="with-border " style="height: 30px!important;" placeholder="نام انجمن"
+          <label>نام تالار *</label>
+          <input v-model="forum_title" type="text" class="with-border " style="height: 30px!important;" placeholder="نام تالار"
                  :class="{BorderRed:forum_title==='',BorderGreen:forum_title!==''}">
         </div>
 
         <div class="col-6 pt-3">
-          <label>دسته بندی انجمن *</label>
+          <label>دسته بندی تالار *</label>
           <v-select
             :options="Categories"
             v-model="SelectedCategoryId"
@@ -21,7 +21,7 @@
         </div>
         <div class="col-12 pt-3">
           <div class="labelText">
-            هشتگ های انجمن
+            هشتگ های تالار
           </div>
           <div class="my-3">
             <div class="d-flex align-items-center gap-2">
@@ -46,12 +46,12 @@
 
 
         <div class="col-12 py-3">
-          <label>توضیحات انجمن</label>
+          <label>توضیحات تالار</label>
           <textarea
             v-model="forum_desc"
             row="100"
             class="form-control border rounded w-100"
-            placeholder="توضیحات انجمن"
+            placeholder="توضیحات تالار"
             id="about"
           ></textarea>
         </div>
@@ -89,12 +89,12 @@ export default {
   head() {
     return {
 
-      title: 'افزودن انجمن',
+      title: 'افزودن تالار',
       meta: [
         {
           hid: "description",
           name: "description",
-          content:'افزودن انجمن',
+          content:'افزودن تالار',
         },
       ],
     };
@@ -114,11 +114,11 @@ export default {
   methods: {
     async createForum() {
       if (this.forum_title === '') {
-        this.$toast.error('نام انجمن را وارد کنید')
+        this.$toast.error('نام تالار را وارد کنید')
       } else if (this.forum_desc === '') {
-        this.$toast.error("لطفا توضیحات انجمن را مشخص کنید");
+        this.$toast.error("لطفا توضیحات تالار را مشخص کنید");
       } else if(this.SelectedCategoryId===0){
-        this.$toast.error("لطفا دسته بندی انجمن را انتخاب کنید");
+        this.$toast.error("لطفا دسته بندی تالار را انتخاب کنید");
       }else {
         let tmptags = []
         let tmptag = {
@@ -147,7 +147,7 @@ export default {
           })
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
-          this.$toast.success('انجمن با موفقیت ساخته شد')
+          this.$toast.success('تالار با موفقیت ساخته شد')
           this.$router.push({
             path: '/Forums/'
           })

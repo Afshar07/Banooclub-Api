@@ -52,14 +52,14 @@
 
         <div v-if="!service_details.isFree "
              :class="{'tw-line-through':service_details.TotalDiscountPrice}"
-             class="tw-top-3  tw-border-1 tw-bg-white ServicePrice tw-shadow tw-border-pink-700  tw-font-medium tw-px-2 tw-py-1 tw-left-2  tw-text tw-text-blue-500 ">
+             class="tw-top-3  tw-border-1  ServicePrice tw-shadow tw-bg-[#9cf5ff]  tw-font-medium tw-px-2 tw-py-1 tw-left-2    tw-text-[#db3cd6] ">
           {{ Intl.NumberFormat('fa-IR').format(service_details.totalPrice) }}
           <small class="Toman">تومان</small>
 
         </div>
         <div
           v-if="service_details&& service_details.TotalDiscountPrice"
-          class="tw-top-3  tw-border-1 tw-bg-white ServicePrice tw-shadow tw-mx-3 tw-border-pink-700  tw-font-medium tw-px-2 tw-py-1 tw-left-2  tw-text tw-text-blue-500 ">
+          class="tw-top-3  tw-border-1  ServicePrice tw-shadow tw-mx-3 tw-bg-[#9cf5ff]   tw-font-medium tw-px-2 tw-py-1 tw-left-2  tw-text-[#db3cd6] ">
           {{ Intl.NumberFormat('fa-IR').format(parseInt(service_details.TotalDiscountPrice)) }}
           <small class="Toman">تومان</small>
 
@@ -109,35 +109,26 @@
         <small v-if="service_details.status===3" class="text-warning ">خدمت شما نیاز به بازبینی مجدد دارد</small>
       </div>
 
-      <div v-if="$route.path==='/Products/MyServices/'" class="w-100 d-flex flex-column">
-        <button
-          type="button"
-          class="btn w-100 my-1 product_buttons"
-          @click.prevent="$router.push({path: `/Products/Upgrade/${service_details.servicePackId}`, query: { active_tab: 'edit' }})"
-        >
-          ویرایش خدمت
+      <div v-if="$route.path==='/Products/MyServices/'||$route.path==='/social/accountsetting/MyPage'" class="w-100 d-flex align-items-center justify-content-between">
+        <i v-tooltip="{content:'ویرایش'}" @click.prevent="$router.push({path: `/Products/Upgrade/${service_details.servicePackId}`, query: { active_tab: 'edit' }})" class=" tw-cursor-pointer fas fa-edit tw-text-[#949494]"></i>
+        <i v-tooltip="{content:'ارتقا'}" @click.prevent="$router.push({path: `/Products/Upgrade/${service_details.servicePackId}`, query: { active_tab: 'upgrade' }})" class=" tw-cursor-pointer fas fa-rocket tw-text-[#949494]"></i>
+        <button  @click="Share(service_details)">
+
+        <ShareAltIcon v-tooltip="{content:'اشتراک گذاری'}" class=" tw-cursor-pointer tw-fill-[#949494]"></ShareAltIcon>
         </button>
-        <button
-          type="button"
-          class="btn w-100 my-1 product_buttons"
-          @click.prevent="$router.push({path: `/Products/Upgrade/${service_details.servicePackId}`, query: { active_tab: 'upgrade' }})">
-          ارتقاء خدمت
-        </button>
+
       </div>
 
     </div>
   </div>
-
-  <!--            router.push({ path: 'register', query: { plan: 'private' } })-->
-
 </template>
 
 <script>
 import HeartIcon from "../Icons/HeartIcon";
-
+import ShareAltIcon from "@/components/Icons/ShareAltIcon";
 export default {
   name: "Product",
-  components: {HeartIcon},
+  components: {HeartIcon,ShareAltIcon},
   props: {
     service_details: {
       type: Object,
@@ -150,6 +141,7 @@ export default {
     return {
       headerImage: '',
       userDefault: require("~/assets/images/defaultUser.png"),
+      site_url: 'https://banooclub.simagar.com',
 
     }
   },
@@ -174,6 +166,15 @@ export default {
     }
   },
   methods: {
+    Share(item){
+      if(navigator.share){
+        navigator.share({
+          title: item.title,
+          url: this.site_url+this.$route.fullPath
+        })
+      }
+
+    },
     goToServiceProfile(userId) {
 
       if (this.$auth.user.userInfo.userId === userId) {
@@ -267,13 +268,11 @@ export default {
 }
 
 .ServicePrice {
-
   border-radius: 7px;
-  color: #787878;
   font-size: 12px;
   font-weight: bolder;
-  background-color: #ffe6e6;
-  box-shadow: 0px 0px 16px rgb(229 173 237);
+  box-shadow: 0 0 7px 1px #e5aded;
+  @apply tw-bg-[#9cf5ff]  tw-text-[#db3cd6] !important;
 }
 
 </style>

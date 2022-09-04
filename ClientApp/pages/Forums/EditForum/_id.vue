@@ -1,16 +1,16 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer">
     <div class="row">
-      <h2 class="tw-text-2xl tw-font-semibold pb-3">افزودن انجمن</h2>
+      <h2 class="tw-text-2xl tw-font-semibold pb-3">افزودن تالار</h2>
       <div class="row">
         <div class="col-12 pt-3">
-          <label>نام انجمن *</label>
-          <input v-model="ForumData.title" type="text" class="with-border" placeholder="نام انجمن"
+          <label>نام تالار *</label>
+          <input v-model="ForumData.title" type="text" class="with-border" placeholder="نام تالار"
                  :class="{BorderRed:ForumData.title==='',BorderGreen:ForumData.title!==''}">
         </div>
         <div class="col-12 pt-3">
           <div class="labelText">
-            هشتگ های انجمن
+            هشتگ های تالار
           </div>
           <div class="my-3">
             <div class="d-flex align-items-center gap-2">
@@ -37,12 +37,12 @@
 
 
         <div class="col-12 py-3">
-          <label>توضیحات انجمن</label>
+          <label>توضیحات تالار</label>
           <textarea
             v-model="ForumData.description"
             row="100"
             class="form-control border rounded w-100"
-            placeholder="توضیحات انجمن"
+            placeholder="توضیحات تالار"
             id="about"
           ></textarea>
         </div>
@@ -77,12 +77,12 @@ export default {
   head() {
     return {
 
-      title: 'ویرایش انجمن',
+      title: 'ویرایش تالار',
       meta: [
         {
           hid: "description",
           name: "description",
-          content:'ویرایش انجمن',
+          content:'ویرایش تالار',
         },
       ],
     };
@@ -106,9 +106,9 @@ export default {
   methods: {
     async UpdateForum() {
       if (this.ForumData.title === '') {
-        this.$toast.error('نام انجمن را وارد کنید')
+        this.$toast.error('نام تالار را وارد کنید')
       } else if (this.ForumData.description === '') {
-        this.$toast.error("لطفا توضیحات انجمن را مشخص کنید");
+        this.$toast.error("لطفا توضیحات تالار را مشخص کنید");
       } else {
         try {
           this.$nextTick(() => {
@@ -130,7 +130,7 @@ export default {
           })
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
-          this.$toast.success('انجمن با موفقیت بروزرسانی شد')
+          this.$toast.success('تالار با موفقیت بروزرسانی شد')
           this.$router.push({
             path: '/Forums/'
           })

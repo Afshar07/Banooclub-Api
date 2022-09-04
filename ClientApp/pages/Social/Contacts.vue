@@ -40,12 +40,12 @@ export default {
   layout: "PoshtebamPlusLayout",
   head() {
     return {
-      title: 'پیدا کردن دوست',
+      title: 'دوست یاب',
       meta: [
         {
           hid: "description",
           name: "description",
-          content: 'پیدا کردن دوست',
+          content: 'دوست یاب',
         },
       ],
     }

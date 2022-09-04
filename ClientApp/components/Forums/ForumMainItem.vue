@@ -5,11 +5,11 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">حذف انجمن</h5>
+            <h5 class="modal-title" id="exampleModalLabel">حذف تالار</h5>
 
           </div>
           <div class="modal-body">
-           <span>آیا از حذف این انجمن اظمینان دارید ؟ </span>
+           <span>آیا از حذف این تالار اظمینان دارید ؟ </span>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">خیر</button>
@@ -62,16 +62,16 @@
         {{forum_details.description}}
       </p>
       <p v-if=" $route.path!=='/Forums/' && forum_details.status ===3" class="tw-leading-6 tw-text-red-600 tw-line-clamp-2 tw-mt-3">
-        انجمن شما به دلیل وجود کلمات نا مناسب توسط ربات سایت گزارش داده شده و در دست بررسی میباشد.
+        تالار شما به دلیل وجود کلمات نا مناسب توسط ربات سایت گزارش داده شده و در دست بررسی میباشد.
       </p>
       <p v-if=" $route.path!=='/Forums/' && forum_details.status ===4" class="tw-leading-6 tw-text-red-600 tw-line-clamp-2 tw-mt-3">
-        انجمن شما به دلیل وجود کلمات نا مناسب توسط کاربران سایت گزارش داده شده و در دست بررسی میباشد.
+        تالار شما به دلیل وجود کلمات نا مناسب توسط کاربران سایت گزارش داده شده و در دست بررسی میباشد.
       </p>
       <p v-if=" $route.path!=='/Forums/' && forum_details.status ===1" class="tw-leading-6 tw-text-green-500 tw-line-clamp-2 tw-mt-3">
-      انجمن شما فعال است
+      تالار شما فعال است
       </p>
       <p v-if=" $route.path!=='/Forums/' && forum_details.status ===2" class="tw-leading-6 tw-text-red-600 tw-line-clamp-2 tw-mt-3">
-        انجمن شما غیر فعال است
+        تالار شما غیر فعال است
       </p>
     </div>
     <div class="tw-flex tw-items-center tw-justify-center">
@@ -111,7 +111,7 @@ export default {
        const res = await this.$repositories.DeleteForum.DeleteForum({
          id:this.forum_details.forumId
        })
-       this.$toast.success('انجمن با موفقیت حذف شد')
+       this.$toast.success('تالار با موفقیت حذف شد')
        this.$nuxt.refresh();
      }catch (e){
        console.log(e)

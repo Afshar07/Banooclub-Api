@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-4">
+  <div class="grid grid-cols-4 my-3">
     <p class="col-span-2 text-gray-500 mb-1">نقشه</p>
     <div class="w-full col-span-4" id="map"></div>
   </div>
