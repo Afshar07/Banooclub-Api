@@ -9,6 +9,7 @@ using BanooClub.Services.SocialMediaServices;
 using BanooClub.Services.UserServices;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -705,7 +706,7 @@ IBanooClubEFRepository<OrderItem> orderItemRepository)
         }
 
         public async Task<object> GetAdsByFilter(long? priceFrom, long? priceTo, string title, string tag,
-            long? city, long? state, long firstSearchadsId, int count, long? categoryId, int planType, bool? exchangeability = null)
+            long? city, long? state, int count, long? categoryId, int planType, DateTime? lastItemFireDate = null, bool? exchangeability = null)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
@@ -715,19 +716,13 @@ IBanooClubEFRepository<OrderItem> orderItemRepository)
             title = title == null ? string.Empty : title;
             state = state == null ? 0 : state;
             city = city == null ? 0 : city;
-            IOrderedQueryable<Ads> dbAds;
-            int AdsCount = 0;
 
-            if (firstSearchadsId != 0)
-            {
-                dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && z.AdsId < firstSearchadsId).
-                OrderByDescending(x => x.FireDate);
-            }
-            else
-            {
-                dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published).
-                OrderByDescending(x => x.FireDate);
-            }
+            IOrderedQueryable<Ads> dbAds = adsRepository.GetQuery()
+                    .AsNoTracking()
+                    .Where(z => z.Status == (int)AdsStatus.Published)
+                    .OrderByDescending(x => x.FireDate);
+
+            int AdsCount = 0;
 
             var result = dbAds.Where(z => z.Tag.Contains(tag) && z.Title.Contains(title));
             if (state != 0)
@@ -752,26 +747,27 @@ IBanooClubEFRepository<OrderItem> orderItemRepository)
             }
 
             if (exchangeability != null)
-                result = dbAds.Where(z => z.Exchangeability == exchangeability);
+                result = result.Where(z => z.Exchangeability == exchangeability);
 
             if (planType > 0)
             {
-                var orders = _orderRepository.GetQuery()
-                    .Where(x => x.AdsId != null && x.IsPayed).ToList();
+                var orderIds = _orderItemRepository.GetQuery()
+                    .AsNoTracking()
+                    .Where(x => x.PlanId == planType)
+                    .Select(z => z.OrderId)
+                    .ToList();
 
-                var orderItems = _orderItemRepository.GetQuery()
-                    .Where(x => orders.Any(z => x.OrderId == z.OrderId) && x.PlanId == planType).ToList();
+                var adsIds = _orderRepository.GetQuery()
+                    .AsNoTracking()
+                    .Where(x => x.AdsId != null && x.IsPayed && orderIds.Contains(x.OrderId))
+                    .Select(z => z.AdsId)
+                    .ToList();
 
-                result = dbAds.Where(z => orders.Any(x => x.AdsId == z.AdsId && orderItems.Any(y => y.OrderId == x.OrderId)));
+                result = result.Where(z => adsIds.Contains(z.AdsId));
             }
 
             AdsCount = result.Count();
-            if (count == 0)
-            {
-                count = AdsCount;
-            }
-
-            var finalResult = result.Take(count).ToList();
+            var finalResult = lastItemFireDate != null ? result.Where(x => x.FireDate < lastItemFireDate.Value).Take(count).ToList() : result.Take(count).ToList();
 
             foreach (var ad in finalResult)
             {

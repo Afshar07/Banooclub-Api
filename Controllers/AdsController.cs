@@ -3,6 +3,7 @@ using BanooClub.Services.AdsServices;
 using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -113,10 +114,10 @@ namespace BanooClub.Controllers
         [HttpPost]
         [Route("[action]"), AllowAnonymous]
         public async Task<object> GetAdsByFilter(long? priceFrom, long? priceTo, string title, string tag,
-            long? city, long? state, long firstSearchadsId, int count, long? categoryId, int planType, bool? exchangeability = null)
+            long? city, long? state, int count, long? categoryId, int planType, DateTime? lastItemFireDate = null, bool? exchangeability = null)
         {
             return await adsService.GetAdsByFilter(priceFrom, priceTo, title, tag,
-                city, state, firstSearchadsId, count, categoryId, planType, exchangeability);
+                city, state,count, categoryId, planType, lastItemFireDate: lastItemFireDate, exchangeability: exchangeability);
         }
 
         [HttpPost]
