@@ -1,5 +1,5 @@
 ﻿using BanooClub.Models;
-using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
 
 namespace BanooClub.Services.AdsServices
@@ -19,7 +19,7 @@ namespace BanooClub.Services.AdsServices
         Task<object> GetAdsByCategory(long categoryId, long firstSearchadsId, int count);
         Task<bool> Ladder(long AdsId);
         Task<object> GetAdsByFilter(long? priceFrom, long? priceTo, string title, string tag,
-            long? city, long? state, long firstSearchadsId, int count,long? categoryId, int planType, bool? exchangeability = null);
+            long? city, long? state, int count, long? categoryId, int planType, DateTime? lastItemFireDate = null, bool? exchangeability = null);
         Task<object> GetAdsCount();
     }
 }

@@ -109,7 +109,6 @@ namespace Infrastructure
         {
             return this.dbContext.Set<T>().Count();
         }
-
     }
 }
 
