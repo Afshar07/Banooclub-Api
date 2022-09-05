@@ -32,38 +32,32 @@
         </div>
       </div>
     </div>
-    <div class="tw-w-full my-3">
-      <div class="d-flex align-items-center justify-content-between">
-        <h6 class=" m-0 p-0 ">درصد تکمیل اطلاعات پروفایل</h6>
-
-        <ServiceProviderLabel v-if="$auth.user && $auth.user.baseData &&$auth.user.baseData.userType===3 "></ServiceProviderLabel>
-          <CustomerLabel v-else></CustomerLabel>
-      </div>
-      <div class="tw-flex tw-items-start  tw-flex-col my-2">
-        <div class="progress tw-w-full">
-          <div class="progress-bar" role="progressbar" aria-label="Example with label" :style="`width: ${FilledCount}%`"
-               aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ FilledCount }}%
-          </div>
+    <div class="tw-w-full my-3 tw-bg-white p-3 tw-rounded">
+      <div class="tw-grid tw-grid-cols-2 ">
+        <div class="tw-flex tw-items-start  tw-flex-col my-2">
+          <div class="tw-radial-progress tw-text-[#fc5399]" :style="`--value:${FilledCount}`" >{{ FilledCount }}%</div>
         </div>
-
-      </div>
-
-    </div>
-    <div class="tw-w-full my-3">
-      <div class="d-flex align-items-center justify-content-between">
-        <h6 class=" m-0 p-0 ">کد معرف شما</h6>
-
-        <div  class="d-flex align-items-center gap-2">
-          <small v-if=" userinfo&& userinfo.userInfo" class="text-secondary">{{ userinfo.userInfo.userCode }}</small>
-          <small @click="CopyCode" class="text-secondary tw-w-[30px] tw-h-[30px] tw-flex tw-items-center tw-justify-center tw-cursor-pointer rounded tw-bg-stone-300"><i class="fas fa-clipboard"></i></small>
+        <div class="tw-flex tw-flex-col">
+          <small class="text-center tw-text-[#b44aff]">تکمیل پروفایل باعث بیشتر دیده شدن میشود</small>
+          <button class="tw-bg-[#fc5399] tw-rounded tw-text-white p-2">
+            <nuxt-link class="text-decoration-none hover:tw-text-white tw-text-white" to="/Social/AccountSetting/EditProfileBasic">تکمیل پروفایل</nuxt-link>
+            </button>
         </div>
       </div>
-
-
+    </div>
+    <div class="tw-w-full my-3 p-3 tw-rounded bg-white">
+      <div class="tw-flex tw-items-center tw-justify-start tw-flex-col">
+        <small class="text-center tw-text-[#b44aff]">دوستان خود را دعوت کنید</small>
+        <input v-if=" userinfo&& userinfo.userInfo" v-model="userinfo.userInfo.userCode" value="" type="text" class="SearchStyle tw-text-[#b44aff] my-2" disabled
+               autocomplete="off">
+        <button  @click="CopyCode" class="tw-bg-[#fc5399] tw-rounded tw-text-white p-2">کپی لینک</button>
+      </div>
     </div>
 
-    <h3 class="tw-text-xl tw-font-semibold">مخاطبان</h3>
-    <div>
+
+
+    <div class="bg-white p-2 rounded">
+      <h3 class="tw-text-xl tw-font-semibold">مخاطبان</h3>
       <ul class="nav nav-pills align-items-end profile_tabs" id="pills-tab" role="tablist"
           style="border-bottom: 1px solid #e5e7eb">
         <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">

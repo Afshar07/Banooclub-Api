@@ -27,7 +27,7 @@
       </transition>
 
       <transition name="CollapseMain" mode="out-in">
-        <div :class="decrease_width?'  tw-col-span-12 lg:tw-mr-20':'lg:tw-col-span-10 tw-col-span-12'"  class=" tw-duration-1000 tw-transition-all tw-min-h-screen   tw-bg-[#f5f5f5]">
+        <div :class="decrease_width?'  tw-col-span-12 lg:tw-mr-20':'lg:tw-col-span-10 tw-col-span-12'"  class=" tw-duration-1000 tw-transition-all tw-min-h-screen   tw-bg-[#faf7ff]">
           <Nuxt
             @GetFullName="SetFullName($event)"
           />

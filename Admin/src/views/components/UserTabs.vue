@@ -16,7 +16,7 @@
     </b-tab>
     <b-tab @click="EmitComponent('OrdersTab')" title="سفارشات">
     </b-tab>
-    <b-tab @click="EmitComponent('ForumsTab')" title="انجمن ها">
+    <b-tab @click="EmitComponent('ForumsTab')" title="تالار ها">
     </b-tab>
     <b-tab @click="EmitComponent('RoomateTab')" active title="آگهی هم خانه">
     </b-tab>

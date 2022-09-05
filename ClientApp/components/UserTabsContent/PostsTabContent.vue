@@ -13,6 +13,7 @@
       </div>
       <div class="col-md-5 col-sm-12">
         <AboutMe/>
+        <SideBar></SideBar>
 <!--        <MyFriends class="my-3"/>-->
         <Groups class="my-3"/>
       </div>
@@ -31,11 +32,12 @@ import PostItem from "../../components/PostItem";
 import Spinner from "../../components/Spinner"
 
 
-
+import SideBar from "@/layouts/SideBar";
 export default {
   name: "PostsTabContent",
   components:{
     Groups,
+    SideBar,
     MyFriends,
     AboutMe,
     PlusIcon,

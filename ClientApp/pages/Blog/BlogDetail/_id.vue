@@ -14,17 +14,17 @@
                    placeholder="متن نظر خود را وارد کنید">
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">بستن</button>
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal" @click="SubmitComment">ثبت</button>
+            <button type="button" class="bg-purple text-white rounded p-2" data-bs-dismiss="modal">بستن</button>
+            <button type="button" class="bg-pink text-white rounded p-2" data-bs-dismiss="modal" @click="SubmitComment">ثبت</button>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-8  tw-shadow">
+      <div v-if="BlogData" class="col-md-8  tw-shadow">
             <div class="row  mx-auto ">
               <div class="tw-card tw-card-compact bg-white rounded tw-w-96 tw-bg-base-100 ">
-                <img v-if="BlogData.fileData!==''" :src="`https://banooclubapi.simagar.com/${BlogData.fileData}`"
+                <img v-if="BlogData && BlogData.fileData && BlogData.fileData!==''" :src="`https://banooclubapi.simagar.com/${BlogData.fileData}`"
                      class="tw-w-full tw-h-full  tw-inset-0 tw-object-cover" alt="Shoes"/>
                 <img v-else src="/nopicture.jpg" width="80px" height="80px" class="rounded-circle" alt="">
                 <div class="tw-card-body">
@@ -103,7 +103,7 @@
                   <input v-model="Message" placeholder="نظر خود را وارد کنید" class=" form-control tw-col-span-10"
                          type="text" style="border:solid 1px grey!important;"/>
                   <button @click="SubmitComment"
-                          class=" tw-col-span-2 rounded  tw-bg-stone-400 tw-text-stone-300 hover:tw-text-white hover:tw-bg-stone-500 tw-cursor-pointer p-2">
+                          class=" tw-col-span-2 rounded  tw-bg-[#85ffdd] tw-text-[#f5447d]   tw-cursor-pointer p-2">
                     ثبت
                   </button>
                 </div>
@@ -124,7 +124,7 @@
                         </div>
                       </div>
                       <button data-bs-toggle="modal" data-bs-target="#AddBlogComment"
-                              class=" rounded hover:tw-text-white hover:tw-bg-stone-500 tw-cursor-pointer tw-bg-stone-400 tw-text-stone-300 p-2"
+                              class=" rounded hover:tw-text-white tw-cursor-pointer tw-bg-[#ff6f9e] tw-text-white p-2"
                               @click="SetSelectedComment(item)"> پاسخ
                       </button>
                     </div>

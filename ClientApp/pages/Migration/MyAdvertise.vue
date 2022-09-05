@@ -1,7 +1,6 @@
 <template>
   <div :class="UserAds===''?'loading-skeleton':''" class="container bg-white mcontainer">
     <!-- Modal -->
-
     <div
       class="modal fade"
       id="DeleteModal"
@@ -38,10 +37,25 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-md-12 my-3">
+        <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+          <div class="d-flex align-items-center gap-2">
+            <img src="/girl-icon-ads.png" class="tw-w-[7rem] tw-h-20" alt="">
+            <div class="d-flex align-items-center flex-column">
+              <strong class="text-purple">آگهی های من</strong>
+              <strong class="text-pink">My AdvertiseMents</strong>
+            </div>
+          </div>
+
+          <button v-tooltip="{content:'ثبت آگهی'}" @click="$router.push('/Migration/CreateAdvertise')" class="btn AddReplyBtn text-white">
+            <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+          </button>
+        </div>
+      </div>
       <div    v-for="item in UserAds" :key="item.adsId" class="col-md-4" >
         <div
           class=" p-3  bg-white AdCard px-2 mb-4 rounded main-shadow"
-          style="cursor: pointer;height: 300px"
+          style="cursor: pointer;height: 265px"
 
         >
           <div class="d-flex align-items-center justify-content-between">
@@ -49,7 +63,7 @@
               <a @click.prevent="EditAd(item.adsId)">
                 <small
                 ><i
-                  class="fas fa-edit text-primary"
+                  class="fas fa-edit tw-text-[#399fff]"
                   v-tooltip="{ content: 'ویرایش' }"
                 ></i
                 ></small>
@@ -61,30 +75,30 @@
               >
                 <small>
                   <i
-                    class="fas fa-trash text-danger"
+                    class="fas fa-trash tw-text-[#ff408c]"
                     v-tooltip="{ content: 'حذف' }"
                   ></i>
                 </small>
               </a>
-              <nuxt-link :to="`/Migration/UpgradeAd/${item.adsId}`">
-                <small><i class="fas fa-arrow-up text-warning"></i></small>
+              <nuxt-link v-tooltip="{content:'ارتقا'}" :to="`/Migration/UpgradeAd/${item.adsId}`">
+                <small><i class="fas fa-rocket tw-text-[#39ff7a] "></i></small>
               </nuxt-link>
             </div>
             <div   class=" tw-stack  tw-right-0 tw-cursor-pointer  hover:tw-flex hover:tw-flex-col hover:tw-gap-2 tw-transition ">
               <div v-if="item.planTypes.includes(2)"
-                   class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
+                   class="tw--top-3  tw-bg-[#ffe175] tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text-[#2533e1]">
                 پیشنهادات
               </div>
               <div v-if="item.planTypes.includes(1)"
-                   class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
+                   class="tw--top-3  tw-bg-[#ffe175] tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text-[#2533e1]">
                 نردبان
               </div>
               <div v-if="item.planTypes.includes(4)"
-                   class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
+                   class="tw--top-3  tw-bg-[#ffe175] tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text-[#2533e1]">
                 جدید ترین ها
               </div>
               <div v-if="item.planTypes.includes(3)"
-                   class="tw--top-3  tw-bg-yellow-100 tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text tw-text-yellow-500 tw-">
+                   class="tw--top-3  tw-bg-[#ffe175] tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text-[#2533e1]">
                 برترین ها
               </div>
             </div>
@@ -94,7 +108,7 @@
             <div class="col-md-6 pt-4">
               <div class="d-flex align-items-center gap-2">
                 <small>وضعیت :  </small>
-                <small v-if="item.status === 1" class="badge bg-success"
+                <small v-if="item.status === 1" class="badge tw-bg-[#10eb62]"
                 >منتشر شده</small
                 >
                 <small v-if="item.status === 2" class="badge bg-secondary"
@@ -104,12 +118,6 @@
                 >رد شده
                 </small>
               </div>
-              <div v-if="item.exchangeability" class="my-3">
-                <span class="badge pill bg-info text-white   ">قابل معاوضه</span>
-              </div>
-
-
-
               <nuxt-link
                 class="text-dark text-decoration-none"
                 :to="{
@@ -133,22 +141,29 @@
               >{{ new Intl.NumberFormat().format(item.price) }} تومان</small
               >
               <br />
-              <div class="d-flex align-items-center gap-2">
-                <i
-                  class="fas fa-clock text-muted "
-                  style="font-size: 10px"
-                ></i>
-                <small class="text-muted mt-1" style="font-size: 10px">{{
-                    new Date(item.createDate).toLocaleDateString('fa-IR')
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-2">
+                  <i
+                    class="fas fa-clock text-muted "
+                    style="font-size: 10px"
+                  ></i>
+                  <small class="text-muted mt-1" style="font-size: 10px">{{
+                      new Date(item.createDate).toLocaleDateString('fa-IR')
 
-                  }}</small>
+                    }}</small>
+                </div>
+                <div v-if="item.exchangeability" class="my-3">
+                  <span class="badge pill bg-info text-white   ">قابل معاوضه</span>
+                </div>
+
               </div>
+
             </div>
             <div class="col-md-6 d-flex align-items-center justify-content-center justify-content-md-start">
               <img
                 v-if="item.photos.length > 0"
                 :src="'https://banooclubapi.simagar.com/'+ item.photos[0].base64"
-                class="img-fluid rounded image-custom-height tw-shadow tw-object-contain"
+                class="tw-w-full tw-h-[7rem] rounded tw-object-cover"
                 alt=""
               />
               <p v-else class="small mt-2">این آگهی عکسی جهت نمایش ندارد</p>

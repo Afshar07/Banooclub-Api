@@ -2031,6 +2031,24 @@ select.bs-select-hidden, select.selectpicker {
   background-color: white!important;
   min-height: 100vh!important;
 }
+.NewBg{
+  @apply  tw-bg-[#faf7ff] !important;
+}
+
+.text-purple{
+  color:#b44aff;
+}
+.text-pink{
+  color:#fc5399;
+
+}
+.bg-pink{
+  background-color:#fc5399 ;
+}
+
+.bg-purple{
+  background-color:#b44aff ;
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -2044,11 +2062,11 @@ input[type="number"] {
 
 .SearchStyle{
   height: 44px!important;
-  color: #393939!important;
+  color: #737373FF !important;
   padding: 0 30px 0 40px!important;
 
   outline: 0!important;
-  background: #f0f2f5!important;
+  background: #EEEEEEFF !important;
   border: 1px solid white!important;
   border-radius: 2rem!important;
 
@@ -9840,11 +9858,17 @@ html.dark,
 }
 
 
+input:checked + .slider {
+  background-color: #fb3587!important;
+}
 
+input:focus + .slider {
+  box-shadow: 0 0 1px #fb3587!important;
+}
 
 /*man*/
 .custom_header_icon{
-  background-color: #eef1f5;
+  background-color: #fcf5ff;
 }
 .custom_header_size{
   width: 38px !important;
@@ -9967,6 +9991,8 @@ li.nav-item{
 .loading-skeleton h1::placeholder, .loading-skeleton h2::placeholder, .loading-skeleton h3::placeholder, .loading-skeleton h4::placeholder, .loading-skeleton h5::placeholder, .loading-skeleton h6::placeholder, .loading-skeleton p::placeholder, .loading-skeleton li::placeholder, .loading-skeleton .btn::placeholder, .loading-skeleton span::placeholder, .loading-skeleton small::placeholder, .loading-skeleton i::placeholder, .loading-skeleton a::placeholder, .loading-skeleton strong::placeholder, .loading-skeleton label::placeholder, .loading-skeleton .form-control::placeholder {
   color: transparent;
 }
+
+
 @keyframes loading-skeleton {
   from {
     opacity: 0.4;
@@ -9977,6 +10003,7 @@ li.nav-item{
 }
 .loading-skeleton {
   pointer-events: none;
+  border-radius: 10px!important;
   animation: loading-skeleton 1s infinite alternate;
 }
 .loading-skeleton img {

@@ -1,5 +1,5 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="row px-2 py-3">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="row px-2  py-3">
     <input
       class="SearchStyle"
       type="text"
@@ -7,6 +7,15 @@
       v-model="searchKey"
     />
     <div class="row mx-auto">
+      <div @click="$router.push('/Products/AddProduct/')" class="col-md-4 tw-cursor-pointer col-lg-3 my-3">
+        <div class="card h-100 w-100  d-flex align-items-center justify-content-center tw-bg-stone-700">
+          <div class="d-flex align-items-center justify-content-center flex-column">
+            <i class="fas fa-plus text-secondary"></i>
+            <span class="text-secondary">ثبت خدمت</span>
+          </div>
+
+        </div>
+      </div>
       <div class="col-md-4 col-lg-3" v-for="(service,idx) in my_services" :key="idx">
         <ProductItem @GetServices="GetServices" @updateServiceDetails="updateServiceDetails" class="my-3" :service_details="service" :show_buttons="true"/>
       </div>
@@ -110,5 +119,13 @@ export default {
   padding: 5px 10px;
   width: 100%;
   margin-bottom: 20px;
+}
+.card {
+  /*width: 185px;*/
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  -webkit-box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
 }
 </style>

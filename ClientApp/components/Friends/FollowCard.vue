@@ -1,77 +1,40 @@
 <template>
   <div class="row" v-if="followList">
-    <div class="col-md-6 my-2" v-for="(item, index) in followList" :key="index">
-      <div class="friendBox">
-        <div @click="goToUserProfile(item.userInfo)" style="cursor: pointer">
-          <div class="d-flex justify-content-around align-items-center flex-column flex-md-row">
-            <div @click="goToUserProfile(item.userInfo)">
-              <img
-                alt="User Avatar"
-                :src="isARequestCard ? requestUserAvatar(item) : userAvatar(item)"
-                class=" custom-image"
-              />
-            </div>
-            <div @click="goToUserProfile(item.userInfo)" class="d-flex flex-column py-3 friendName">
-              <p style="font-weight: 600;color: #666666;font-size: 1rem; margin-bottom: 0 !important;" class="text-primary tw-cursor-pointer" >
-                {{
-                  isARequestCard ? item.followerInfo.name : item.userInfo.name
-                }}
+    <div @click="goToUserProfile(item.userInfo)" class="col-md-3 tw-cursor-pointer my-2 p-3"
+         v-for="(item, index) in followList" :key="index">
+      <div class="rounded shadow border d-flex flex-column justify-content-center align-items-center ">
+            <div class="Card-Img tw-w-full tw-h-[10rem] relative">
+              <img :src="isARequestCard ? requestUserAvatar(item) : userAvatar(item)" class="custom-image tw-absolute -tw-translate-y-1/4  tw-top-1/4  -tw-translate-x-1/2 tw-left-1/2 " alt="">
+              <img alt="User Avatar" :src="isARequestCard ? requestUserBanner(item) : userBanner(item)" class="tw-w-full tw-h-full tw-object-cover  "/>
 
-                {{
-                  isARequestCard
-                    ? item.followerInfo.familyName
-                    : item.userInfo.familyName
-                }}
-              </p>
-              <div class="friendCaption" >
-                <p class="mb-0" v-if="!isARequestCard && item.userInfo.bio" style="margin-bottom: 0 !important;">
-                  {{ item.userInfo.bio }}
-                </p>
-              </div>
             </div>
-            <div @click="goToUserProfile(item.userInfo)" class="friendCaption" >
-              <p class="mb-0" v-if="!isARequestCard && item.userInfo.followingsCount" style="margin-bottom: 0 !important;">
-                {{ item.userInfo.followingsCount }}
-                دنبال کننده
-              </p>
-              <p class="mb-0" v-if="!isARequestCard && item.userInfo.followingsCount" style="margin-bottom: 0 !important;">
-                {{ item.userInfo.followersCount }}
-                دنبال شونده
-              </p>
-            </div>
-            <div
-              class="d-flex align-items-center justify-content-center my-auto"
-            >
-              <button
-                v-if="!isARequestCard"
-                type="button"
-                style="border-radius: .375rem"
-                class="btn btn-danger tw-w-full"
-                @click.stop="unfollowUser(item)"
-              >
-                حذف
-              </button>
-              <div class="w-100 d-flex flex-column" v-if="isARequestCard">
-                <button
-                  type="button"
-                  class="btn btn-success w-100 my-1"
-                  @click.stop="acceptFollowReq(item.followRequestId)"
-                >
-                  قبول درخواست
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-danger w-100 my-1"
-                  @click.stop="rejectFollowReq(item.followRequestId)"
-                >
-                  رد درخواست
-                </button>
-              </div>
-            </div>
+        <div class="d-flex align-items-center py-3 friendName">
+          <strong class="text-primary tw-cursor-pointer">
+            {{isARequestCard ? item.followerInfo.name : item.userInfo.name}}
+            {{isARequestCard ? item.followerInfo.familyName : item.userInfo.familyName }}
+          </strong>
+        </div>
+        <div class="d-flex align-items-center gap-2 my-3">
+          <small v-if="!isARequestCard && item.userInfo.followingsCount"> {{ item.userInfo.followingsCount }}</small>
+          <FollowerIcon style="fill: #0d6efd;width: 24px;height: 24px;"/>
+          <FollowingIcon style="fill: #0d6efd;width: 24px;height: 24px;"/>
+          <small v-if="!isARequestCard && item.userInfo.followingsCount" >     {{ item.userInfo.followersCount }}</small>
+        </div>
+        <div class="d-flex align-items-center justify-content-center mb-2">
+          <button v-if="!isARequestCard" type="button" style="border-radius: .375rem" class="bg-pink rounded p-2 text-white" @click.stop="unfollowUser(item)">
+            حذف
+          </button>
+          <div class="w-100 d-flex align-items-center gap-2 mb-2" v-if="isARequestCard">
+            <button type="button" class="bg-pink rounded p-2 text-white" @click.stop="acceptFollowReq(item.followRequestId)">
+              قبول درخواست
+            </button>
+            <button type="button" class="bg-purple rounded p-2 text-white" @click.stop="rejectFollowReq(item.followRequestId)">
+              رد درخواست
+            </button>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
   </div>
   <div v-else>
@@ -80,8 +43,11 @@
 </template>
 
 <script>
+import FollowerIcon from "@/components/Icons/FollowerIcon";
+import FollowingIcon from "@/components/Icons/FollowingIcon";
 export default {
   emits: ["unfollow", "acceptReq", "rejectReq"],
+  components:{FollowerIcon,FollowingIcon},
   props: {
     followList: {
       type: Array,
@@ -92,16 +58,16 @@ export default {
       type: Boolean,
       default: false,
     },
-    is_follower:{
+    is_follower: {
       type: Boolean,
       default: false,
     }
   },
   methods: {
-    async goToUserProfile(user){
+    async goToUserProfile(user) {
       try {
         this.$router.push({path: `/user/${user.userName}/posts`});
-      }catch (e){
+      } catch (e) {
         console.log(e)
       }
     },
@@ -114,9 +80,24 @@ export default {
     unfollowUser(user) {
       this.$emit("unfollow", user);
     },
+
     userAvatar(user) {
       if (user.userInfo.selfieFileData) {
         return `https://banooclubapi.simagar.com/media/gallery/profile/${user.userInfo.selfieFileData}`;
+      } else {
+        return "/defaultUser.png";
+      }
+    },
+    userBanner(user) {
+      if (user.userInfo.bannerFileData) {
+        return `https://banooclubapi.simagar.com/media/gallery/banner/${user.userInfo.bannerFileData}`;
+      } else {
+        return "/defaultUser.png";
+      }
+    },
+    requestUserBanner(user){
+      if (user.followerInfo.bannerFileData) {
+        return `https://banooclubapi.simagar.com/media/gallery/banner/${user.followerInfo.bannerFileData}`;
       } else {
         return "/defaultUser.png";
       }
@@ -128,18 +109,7 @@ export default {
         return "/defaultUser.png";
       }
     },
-    // profileLinkGenerator(user) {
-    //
-    //   // TODO: Modify this to work with all cards
-    //   if(this.is_follower){
-    //     this.$router.push({ path: `/user/${user.followerUserId}/posts` });
-    //   }
-    //   else {
-    //     this.$router.push({ path: `/user/${user.userInfo.userId}/posts` });
-    //
-    //   }
-    //
-    // },
+
   },
 };
 </script>
@@ -154,41 +124,11 @@ export default {
   /*min-width: 60px;*/
   /*max-width: 60px;*/
 }
+
 a {
   text-decoration: none;
   color: none;
 }
-@media only screen and (max-width: 768px) {
-  .friendBox {
-    background: #fff none repeat scroll 0 0;
-    border: 1px solid #eaf1f6;
-    padding: 10px;
-    /*width: 100%;*/
-    transition: all 0.15s linear 0s;
-    margin-bottom: 0;
-    margin-top: 35px;
-    border-radius: 8px;
-  }
-}
-@media only screen and (min-width: 769px) {
-  .friendBox {
-    background: #fff none repeat scroll 0 0;
-    border: 1px solid #eaf1f6;
-    padding: 10px;
-    /*width: 100%;*/
-    transition: all 0.15s linear 0s;
-    margin-bottom: 0;
-    /*margin-top: 35px;*/
-    border-radius: 8px;
-
-  }
-}
-
-.friendBox:hover {
-  box-shadow: 0 8px 8px #e1e8ec;
-  border-color: transparent;
-}
-
 .friendName {
   font-size: 16px;
   text-transform: capitalize;
@@ -199,25 +139,5 @@ a {
   color: inherit;
 }
 
-.friendCaption {
-  color: #088dcd;
-  font-size: 13px;
-  text-transform: capitalize;
-}
-@media (max-width: 576px) {
-  .friendBox {
-    padding: 20px;
-  }
 
-  .friendName {
-    font-size: 16px;
-    margin-bottom: 0.25rem;
-    line-height: 1.2;
-  }
-
-  .buttonList {
-    padding: 10px;
-    font-size: 14px;
-  }
-}
 </style>

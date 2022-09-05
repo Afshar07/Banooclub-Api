@@ -80,7 +80,7 @@ export default {
 </script>
 <style>
 #map {
-  height: 400px !important;
+  height: 300px !important;
 }
 
 

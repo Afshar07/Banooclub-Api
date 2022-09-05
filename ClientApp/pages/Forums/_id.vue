@@ -5,7 +5,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">گزارش انجمن</h5>
+            <h5 class="modal-title" id="exampleModalLabel">گزارش تالار</h5>
 
           </div>
           <div class="modal-body">
@@ -41,7 +41,7 @@
         </span>
       </p>
       <a data-bs-toggle="modal" href="#ReportForum" class=" tw-no-underline tw-text-sm  tw-cursor-pointer tw-my-2  px-3">
-        <span class="badge pill text-white bg-danger">      گزارش انجمن</span>
+        <span class="badge pill text-white bg-danger">      گزارش تالار</span>
 
       </a>
     </div>
@@ -172,7 +172,7 @@ export default {
   layout: "PoshtebamPlusLayout",
   head(){
     return{
-      title: this.forumDetails?this.forumDetails.title:'انجمن'
+      title: this.forumDetails?this.forumDetails.title:'تالار'
     }
   },
   async fetch() {
@@ -232,7 +232,7 @@ export default {
         if(res.data ===3){
           this.$toast.success('نمره شما ثبت شد')
         }else if(res.data ===1 ||res.data===2 ){
-          this.$toast.error('شما به این انجمن نمره داده اید')
+          this.$toast.error('شما به این تالار نمره داده اید')
         }
         this.$nuxt.refresh();
       }catch (e) {
@@ -254,7 +254,7 @@ export default {
         if(res.data ===3){
           this.$toast.success('نمره شما ثبت شد')
         }else if(res.data ===1 ||res.data===2 ){
-          this.$toast.error('شما به این انجمن نمره داده اید')
+          this.$toast.error('شما به این تالار نمره داده اید')
         }
 
         this.$nuxt.refresh();

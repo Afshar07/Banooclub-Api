@@ -26,7 +26,7 @@ export default {
           {
             label: 'جدول رشد دنبال کنندگان',
             borderColor: '#de1c61',
-            backgroundColor:'transparent',
+            backgroundColor:'rgba(222,22,97,0.31)',
 
             data: []
           }

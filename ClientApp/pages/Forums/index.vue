@@ -1,12 +1,12 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer">
-    <h1 class="tw-text-2xl tw-font-semibold p-3"> انجمن </h1>
+    <h1 class="tw-text-2xl tw-font-semibold p-3"> تالار </h1>
     <div class="row">
 
       <div class="col-lg-8 tw-flex-shirink-0">
         <div class="row">
           <div class="col-md-8 d-flex align-items-center">
-            <input type="text" class="SearchStyle" v-model="Search" placeholder="جستجو انجمن ها">
+            <input type="text" class="SearchStyle" v-model="Search" placeholder="جستجو تالار ها">
           </div>
           <div class="col-md-4 my-3">
             <v-select
@@ -125,7 +125,7 @@ export default {
   },
   head() {
     return {
-      title: 'انجمن'
+      title: 'تالار'
     }
   },
   watch: {

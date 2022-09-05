@@ -150,7 +150,7 @@
             </b-media-aside>
             <b-media-body class="my-auto">
               <h4 class="font-weight-bolder mb-0">
-                انجمن های گزارش شده توسط ربات
+                تالار های گزارش شده توسط ربات
               </h4>
               <b-card-text class="font-small-3 mb-0">
                 {{data.forumsReportedByBots }}
@@ -180,7 +180,7 @@
             </b-media-aside>
             <b-media-body class="my-auto">
               <h4 class="font-weight-bolder mb-0">
-                 انجمن در انتظار تایید
+                 تالار در انتظار تایید
               </h4>
               <b-card-text class="font-small-3 mb-0">
                 {{data.forumsAwaitingConfirmCount}}

@@ -39,48 +39,8 @@
       <div v-if="show" class="sidenav">
         <div class="row mb-3">حریم خصوصی</div>
         {{ $store.state.loggedInfo.isPrivate }}
-
-<!--        <div-->
-<!--          class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2"-->
-<!--        >-->
-<!--          <div class="sidenavOptionText">نمایش پروفایل</div>-->
-<!--          <div class="">-->
-<!--            <label class="switch">-->
-<!--              <input-->
-<!--                type="checkbox"-->
-<!--                id="togBtn5"-->
-<!--                @input="isPrivateMethod"-->
-<!--                v-model="isPrivate"-->
-<!--              />-->
-<!--              <div class="slider round">-->
-<!--                <span class="on">بله</span>-->
-<!--                <span class="off">خیر</span>-->
-<!--              </div>-->
-<!--            </label>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div-->
-<!--          class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2"-->
-<!--        >-->
-<!--          <div class="sidenavOptionText">نمایش شبکه اجتماعی</div>-->
-<!--          <div class="">-->
-<!--            <label class="switch">-->
-<!--              <input-->
-<!--                type="checkbox"-->
-<!--                id="togBtn12"-->
-<!--                @input="isPrivateSocialMethod"-->
-<!--                v-model="isPrivateSocial"-->
-<!--                :disabled="!isPrivate ? false : true"-->
-<!--              />-->
-<!--              <div class="slider round">-->
-<!--                <span class="on">بله</span>-->
-<!--                <span class="off">خیر</span>-->
-<!--              </div>-->
-<!--            </label>-->
-<!--          </div>-->
-<!--        </div>-->
         <div class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2">
-          <div v-tooltip="{content:'با فعال کردن این گزینه نمایش گالری شما برای کاربرانی که شما را دنبال نکرده اند قفل میشود'}" class="position-relative tw-cursor-pointer">
+          <div v-tooltip="{trigger :'click hover focus',content:'با فعال کردن این گزینه نمایش گالری شما برای کاربرانی که شما را دنبال نکرده اند قفل میشود'}" class="position-relative tw-cursor-pointer">
             <i class="fas fa-question-circle tw-text-blue-400 position-absolute bottom-0 end-0 "></i>
             <div class="sidenavOptionText">قفل نمایش گالری</div>
           </div>
@@ -89,7 +49,7 @@
             <label class="switch">
               <input
                 type="checkbox"
-                id="togBtn12"
+                id="togBt3n12"
                 @input="isPrivateGalleryFriendMethod"
                 :checked="PrivateGalleryFriendMethod"
               />
@@ -101,7 +61,7 @@
           </div>
         </div>
         <div class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2">
-          <div v-tooltip="{content:'با فعال کردن این گزینه نمایش پست های شما برای کاربرانی که شما را دنبال نکرده اند قفل میشود'}" class="position-relative tw-cursor-pointer">
+          <div v-tooltip="{trigger :'click hover focus', content:'با فعال کردن این گزینه نمایش پست های شما برای کاربرانی که شما را دنبال نکرده اند قفل میشود'}" class="position-relative tw-cursor-pointer">
             <i class="fas fa-question-circle tw-text-blue-400 position-absolute bottom-0 end-0 "></i>
             <div class="sidenavOptionText"> قفل نمایش پست </div>
 
@@ -421,11 +381,11 @@ export default {
 }
 
 input:checked + .slider {
-  background-color: #088dcd;
+  background-color: #fb3587;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
+  box-shadow: 0 0 1px #fb3587;
 }
 
 input:checked + .slider:before {

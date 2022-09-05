@@ -1,7 +1,7 @@
 <template>
   <div class="col-lg-4 tw-pt-5">
     <div>
-      <button class="btn btn-primary my-2 tw-w-full btn-sm" @click="$router.push('/Forums/AddForum/')">ایجاد انجمن
+      <button class="btn btn-primary my-2 tw-w-full btn-sm" @click="$router.push('/Forums/AddForum/')">ایجاد تالار
         جدید
       </button>
       <h2 class="tw-text-xl tw-font-semibold tw-mb-2"> مشارکت کنندگان برتر </h2>

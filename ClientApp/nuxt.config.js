@@ -98,10 +98,14 @@ module.exports = {
       );
     },
   },
+<<<<<<< HEAD
   //server: {
   //  host: "0.0.0.0",
   //  port: 3000,
   //},
+=======
+
+>>>>>>> 1a7aded5382834cd3880a0002480c6e024e3a3c6
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     "@nuxtjs/recaptcha",

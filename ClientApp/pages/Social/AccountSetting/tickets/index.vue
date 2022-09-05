@@ -1,5 +1,5 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container bg-white mcontainer tw-shadow containerBox my-5">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container NewBg mcontainer  containerBox my-5">
     <div
       class="offcanvas offcanvas-start sidebar-bg"
       tabindex="-1"
@@ -80,48 +80,87 @@
         </div>
       </div>
     </div>
-
     <div class="row">
-      <div class="row mb-3 p-4 mx-auto col-12">
-        <div class="col-12">
-          <div class="col-md-12 my-3 mt-2 d-flex flex-row justify-content-between align-items-center ">
-            <h1 class="tw-text-2xl tw-font-semibold">تیکت ها</h1>
-            <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" class="btn AddReplyBtn text-white">
-              <PlusIcon fill="#2563eb" style="width: 30px; height: 30px;"/>
-            </button>
-          </div>
+      <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+        <div class="d-flex align-items-center gap-2">
+        <img src="/girl-icon-ticket.png" class="tw-w-[7rem] tw-h-20" alt="">
+        <div class="d-flex align-items-center flex-column">
+          <h1 class="text-purple h5">تیکت ها </h1>
+          <h1 class="text-pink h5">Tickets</h1>
+        </div>
+        </div>
+        <button v-tooltip="{content:'ثبت تیکت'}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" class="btn AddReplyBtn text-white">
+          <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+        </button>
+      </div>
+
+      <div class="col-md-12 my-3">
           <input
-            class="SearchStyle mb-3"
+            class="SearchStyle "
             type="text"
             placeholder="جستجو تیکت"
             v-model="searchKey"
           />
+      </div>
+
           <div class="tw-overflow-x-scroll" v-if="FilteredTickets.length>0">
-            <div class="tw-overflow-x-scroll">
-              <table class="tw-table tw-w-full tw-overflow-x-scroll tw-table-zebra table-compact" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
-                <!-- head -->
+            <div class="tw-overflow-x-scroll ">
+              <table class="tw-items-center  tw-w-full tw-table-compact   tw-bg-white p-3 rounded tw-border-collapse">
                 <thead>
                 <tr>
-                  <th>شناسه</th>
-                  <th>موضوع</th>
-                  <th>واحد</th>
-                  <th>تاریخ</th>
-                  <th>وضعیت</th>
-                  <th>مشاهده</th>
+                  <th
+                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-left">
+                    شناسه
+                  </th>
+                  <th
+                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-left">
+                    موضوع
+                  </th>
+                  <th
+                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-left">
+                    واحد
+                  </th>
+                  <th
+                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-left">
+                    تاریخ
+                  </th>
+                  <th
+                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-left">
+                    وضعیت
+                  </th>
+                  <th
+                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-left">
+                    مشاهده
+                  </th>
                 </tr>
                 </thead>
                 <tbody>
-                <!-- rows -->
-                <tr class="tw-hover" v-for="(item, index) in FilteredTickets" :key="index" style="cursor: default">
-                  <th class="fw-normal"> {{ item.ticketId }}</th>
-                  <th class="fw-normal">{{ item.title.substr(0, 7) }}</th>
-                  <th class="fw-normal">
+                <tr v-for="(item, index) in FilteredTickets" :key="index">
+                  <th
+                    class="tw-border-b tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
+                    {{ item.ticketId }}
+                  </th>
+
+                  <td
+                    class="tw-border-b  tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
+                    {{ item.title.substr(0, 7) }}
+                  </td>
+
+                  <td
+                    class="tw-border-b tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
                     <span v-if="item.type === 0">احراز هویت</span>
                     <span v-if="item.type === 1">پشتیبانی</span>
                     <span v-if="item.type === 2">سایر</span>
-                  </th>
-                  <th class="fw-normal"> {{ item.createDate | moment("jYYYY/jM/jD HH:mm") }}</th>
-                  <th class="fw-normal">
+                  </td>
+
+                  <td
+                    class="tw-border-b tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
+                    {{ new Date(item.createDate).toLocaleTimeString('fa-IR') }}
+                  </td>
+
+                  <td
+                    class="tw-border-b tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
+
                     <div class="tw-bg-red-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-if="item.isClosed == false && item.isRead == false">
                       <span class="text-white tw-text-xs">منتظر پاسخ</span>
                     </div>
@@ -131,18 +170,19 @@
                     <div class="tw-bg-stone-300  tw-rounded d-inline-flex justify-content-center align-items-center p-1" style="border: 1px solid black" v-else-if="item.isClosed == true">
                       <span class="tw-text-xs tw-text-white" style="color:#36454F;">بسته شده</span>
                     </div>
-                  </th>
-                  <th class="fw-normal">
+                  </td>
+
+                  <th
+                    class="tw-border-b tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-flex tw-items-center tw-justify-end">
                     <svg @click="ticketRouteGenerator(item)" style="cursor: pointer" xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="none" viewBox="0 0 24 24" stroke="green" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
                   </th>
                 </tr>
+
                 </tbody>
               </table>
-              <CustomPagination v-if="totalPages.length>1 && searchKey === ''" :pages="totalPages" @PageChanged="changePage($event)"/>
-
             </div>
           </div>
           <div class="row mb-3" v-else>
@@ -150,10 +190,7 @@
               هیچ تیکتی برای نمایش وجود ندارد
             </div>
           </div>
-
-        </div>
       </div>
-    </div>
   </div>
 </template>
 

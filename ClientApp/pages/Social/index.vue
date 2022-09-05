@@ -1,17 +1,20 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer bg-white tw-shadow px-3">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer   px-3">
     <div class="row">
+
       <div class="col-md-8 add_post custom_padding_for_posts" style="height: 950px;overflow-y: scroll;" @scroll="handleScroll">
+
         <AddPost @updateMyPosts="updateMyPosts" class="mb-3"/>
         <PostItem @PostEvent="GetPosts" class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post" :inMainPage="true" :inMyPosts="false"/>
         <Spinner v-if="postData && postData.length !== postCounts"/>
+
         <div class="row mb-3" v-if="!$fetchState.pending && postData && postData.length === 0">
           <div class="col-12 text-warning fw-bold text-center">
             هیچ پستی برای نمایش وجود ندارد
           </div>
         </div>
       </div>
-      <div class=" col-md-4">
+      <div class=" col-md-4 px-0">
         <SideBar /></div>
     </div>
 
@@ -25,22 +28,22 @@ import SideBar from "../../layouts/SideBar";
 import CustomModal from "../../components/utilities/CustomModal";
 import AddPost from "../../components/AddPost";
 import Spinner from "../../components/Spinner"
-
+import CustomInput from "@/components/CustomInput";
 
 export default {
   head() {
     return {
-      title: 'صفحه من',
+      title: 'پروفایل من',
       meta: [
         {
           hid: "description",
           name: "description",
-          content: 'صفحه من',
+          content: 'پروفایل من',
         },
       ],
     }
   },
-  components: {SideBar, CustomModal, AddPost, Spinner},
+  components: {SideBar, CustomModal, AddPost, Spinner,CustomInput},
   // mounted() {
   //   window.addEventListener('scroll', this.scrollTrue);
   // },
@@ -53,6 +56,7 @@ export default {
       showModal:false,
       description:'',
       is_show_post_modal:false,
+      DataString:'',
       is_show_add_post:false,
       galleries:null,
       select_media:false,
@@ -202,6 +206,10 @@ async GetPosts(){
 };
 </script>
 <style scoped>
+
+.mcontainer{
+  @apply  tw-bg-[#faf7ff] !important;
+}
 .selected_image{
   border: 3px solid rgb(37 99 235);
 }

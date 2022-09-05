@@ -25,14 +25,14 @@ export default {
         datasets: [
           {
             label: 'پرداخت ',
-            borderColor: '#f98d38',
+            borderColor: '#2aebc9',
             backgroundColor:'transparent',
             data: [],
 
           },
           {
             label: 'درآمد ',
-            borderColor: '#03a9f4',
+            borderColor: '#fc5399',
             backgroundColor:'transparent',
             data: [],
 

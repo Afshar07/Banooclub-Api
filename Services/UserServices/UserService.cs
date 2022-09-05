@@ -90,7 +90,7 @@ namespace BanooClub.Services.UserServices
             _encryptService = encryptService;
             _followRequestRepository = followRequestRepository;
             this.postRepository = postRepository;
-            
+
         }
         public async Task Create(User inputDto)
         {
@@ -121,7 +121,7 @@ namespace BanooClub.Services.UserServices
             }
             var outPut = new OutPutSaveImage
             {
-                ImageName="",
+                ImageName = "",
                 IsSuccess = false
             };
 
@@ -136,7 +136,7 @@ namespace BanooClub.Services.UserServices
             }
             else if (!string.IsNullOrEmpty(fileData.Base64))
             {
-                outPut= _mediaService.SaveImageNew(fileData.Base64, url, fileData.Priority);
+                outPut = _mediaService.SaveImageNew(fileData.Base64, url, fileData.Priority);
                 if (dbLastMedia != null)
                 {
                     dbLastMedia.PictureUrl = outPut.ImageName;
@@ -170,7 +170,7 @@ namespace BanooClub.Services.UserServices
                     Type = MediaTypes.GalleryImages,
                     MediaId = 0,
                     UpdateDate = DateTime.Now,
-                    Priority=fileData.Priority
+                    Priority = fileData.Priority
                 };
                 await _mediaRepository.InsertAsync(dbMedia);
                 return true;
@@ -184,7 +184,7 @@ namespace BanooClub.Services.UserServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                    ? _accessor.HttpContext.User.Identity.GetUserId()
                    : 0;
-            var dbMedia = _mediaRepository.GetQuery().Where(z => (z.Type == MediaTypes.GalleryImages || z.Type==MediaTypes.GalleryVideos) && z.ObjectId == userId).ToList();
+            var dbMedia = _mediaRepository.GetQuery().Where(z => (z.Type == MediaTypes.GalleryImages || z.Type == MediaTypes.GalleryVideos) && z.ObjectId == userId).ToList();
             List<FileData> result = new List<FileData>();
             foreach (var media in dbMedia)
             {
@@ -230,7 +230,7 @@ namespace BanooClub.Services.UserServices
                         PictureUrl = outPut.ImageName,
                         Type = MediaTypes.Banner,
                         MediaId = 0,
-                        UpdateDate =DateTime.Now
+                        UpdateDate = DateTime.Now
                     };
 
                     if (dbLastBanner != null)
@@ -296,7 +296,7 @@ namespace BanooClub.Services.UserServices
             dbUser.FamilyName = string.IsNullOrEmpty(item.FamilyName) ? dbUser.FamilyName : item.FamilyName;
             dbUser.CityId = item.CityId == null ? dbUser.CityId : item.CityId;
             dbUser.StateId = item.StateId == null ? dbUser.StateId : item.StateId;
-            dbUser.RelationState =  item.RelationState == null ? dbUser.RelationState : item.RelationState;
+            dbUser.RelationState = item.RelationState == null ? dbUser.RelationState : item.RelationState;
 
             if (!string.IsNullOrEmpty(item.Password))
             {
@@ -319,18 +319,18 @@ namespace BanooClub.Services.UserServices
                     return new ServiceResult<User>().Failure("Password Is not correct");
                 }
             }
-            dbUser.Status=item.Status ==0 ? dbUser.Status : item.Status;
+            dbUser.Status = item.Status == 0 ? dbUser.Status : item.Status;
             await userRepository.Update(dbUser);
 
 
             _activityRepository.Insert(new Activity()
             {
-                ActivityId=0,
-                CreateDate=DateTime.Now,
-                IsDeleted=false,
-                ObjectId=userId,
-                Type=ActivityTypes.UpdateProfile,
-                UserId=userId
+                ActivityId = 0,
+                CreateDate = DateTime.Now,
+                IsDeleted = false,
+                ObjectId = userId,
+                Type = ActivityTypes.UpdateProfile,
+                UserId = userId
             });
 
 
@@ -352,7 +352,7 @@ namespace BanooClub.Services.UserServices
                     PictureUrl = outPut.ImageName,
                     Type = MediaTypes.GalleryImages,
                     MediaId = 0,
-                    UpdateDate =DateTime.Now
+                    UpdateDate = DateTime.Now
                 };
                 await _mediaRepository.InsertAsync(dbMedia);
                 return true;
@@ -375,7 +375,7 @@ namespace BanooClub.Services.UserServices
                     return true;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
             }
@@ -386,11 +386,11 @@ namespace BanooClub.Services.UserServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
-            var medias=_mediaRepository.GetQuery().Where(z=>z.Type==MediaTypes.GalleryImages && z.ObjectId==userId).Select(x=>x.PictureUrl).ToList();
+            var medias = _mediaRepository.GetQuery().Where(z => z.Type == MediaTypes.GalleryImages && z.ObjectId == userId).Select(x => x.PictureUrl).ToList();
             List<string> result = new List<string>();
-            foreach(var media in medias)
+            foreach (var media in medias)
             {
-                var NEWMedia=media;
+                var NEWMedia = media;
                 result.Add(NEWMedia);
             }
             return result;
@@ -401,7 +401,7 @@ namespace BanooClub.Services.UserServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
-            var medias = _mediaRepository.GetQuery().Where(z => z.Type==MediaTypes.GalleryVideos && z.ObjectId==userId).Select(x => x.PictureUrl).ToList();
+            var medias = _mediaRepository.GetQuery().Where(z => z.Type == MediaTypes.GalleryVideos && z.ObjectId == userId).Select(x => x.PictureUrl).ToList();
             List<string> result = new List<string>();
             foreach (var media in medias)
             {
@@ -420,7 +420,7 @@ namespace BanooClub.Services.UserServices
 
             if (IsPrivate == false)
             {
-                var medias = _mediaRepository.GetQuery().Where(z => z.Type==MediaTypes.GalleryImages && z.ObjectId==userId).Select(x => x.PictureUrl).ToList();
+                var medias = _mediaRepository.GetQuery().Where(z => z.Type == MediaTypes.GalleryImages && z.ObjectId == userId).Select(x => x.PictureUrl).ToList();
                 List<string> result = new List<string>();
                 foreach (var media in medias)
                 {
@@ -441,7 +441,7 @@ namespace BanooClub.Services.UserServices
                     var dbFollowing = followingRepository.GetQuery().FirstOrDefault(z => z.UserId == userId & z.FollowingUserId == MYselfId);
                     if (dbFollowing != null)
                     {
-                        var medias = _mediaRepository.GetQuery().Where(z => z.Type==MediaTypes.GalleryImages && z.ObjectId==userId).Select(x => x.PictureUrl).ToList();
+                        var medias = _mediaRepository.GetQuery().Where(z => z.Type == MediaTypes.GalleryImages && z.ObjectId == userId).Select(x => x.PictureUrl).ToList();
                         List<string> result = new List<string>();
                         foreach (var media in medias)
                         {
@@ -485,7 +485,7 @@ namespace BanooClub.Services.UserServices
 
             if (IsPrivate == false)
             {
-                var medias = _mediaRepository.GetQuery().Where(z => z.Type==MediaTypes.GalleryVideos && z.ObjectId==userId).Select(x => x.PictureUrl).ToList();
+                var medias = _mediaRepository.GetQuery().Where(z => z.Type == MediaTypes.GalleryVideos && z.ObjectId == userId).Select(x => x.PictureUrl).ToList();
                 List<string> result = new List<string>();
                 foreach (var media in medias)
                 {
@@ -506,7 +506,7 @@ namespace BanooClub.Services.UserServices
                     var dbFollowing = followingRepository.GetQuery().FirstOrDefault(z => z.UserId == userId & z.FollowingUserId == MYselfId);
                     if (dbFollowing != null)
                     {
-                        var medias = _mediaRepository.GetQuery().Where(z => z.Type==MediaTypes.GalleryVideos && z.ObjectId==userId).Select(x => x.PictureUrl).ToList();
+                        var medias = _mediaRepository.GetQuery().Where(z => z.Type == MediaTypes.GalleryVideos && z.ObjectId == userId).Select(x => x.PictureUrl).ToList();
                         List<string> result = new List<string>();
                         foreach (var media in medias)
                         {
@@ -565,7 +565,7 @@ namespace BanooClub.Services.UserServices
 
         public async Task<IServiceResult<User>> UpdateUserByAdmin(User item)
         {
-            
+
             var dbUser = userRepository.GetQuery().FirstOrDefault(z => z.UserId == item.UserId);
 
 
@@ -658,7 +658,7 @@ namespace BanooClub.Services.UserServices
             dbUser.FamilyName = string.IsNullOrEmpty(item.FamilyName) ? dbUser.FamilyName : item.FamilyName;
             dbUser.CityId = item.CityId == null ? dbUser.CityId : item.CityId;
             dbUser.StateId = item.StateId == null ? dbUser.StateId : item.StateId;
-            dbUser.RelationState =  item.RelationState == null ? dbUser.RelationState : item.RelationState;
+            dbUser.RelationState = item.RelationState == null ? dbUser.RelationState : item.RelationState;
             if (!string.IsNullOrEmpty(item.Password))
             {
                 var dbCurrentFromUser = _encryptService.Encrypt(item.CurrentPassword).Data;
@@ -680,18 +680,18 @@ namespace BanooClub.Services.UserServices
                     return new ServiceResult<User>().Failure("Password Is not correct");
                 }
             }
-            dbUser.Status=item.Status ==0 ? dbUser.Status : item.Status;
+            dbUser.Status = item.Status == 0 ? dbUser.Status : item.Status;
             await userRepository.Update(dbUser);
 
 
             _activityRepository.Insert(new Activity()
             {
-                ActivityId=0,
-                CreateDate=DateTime.Now,
-                IsDeleted=false,
-                ObjectId=item.UserId,
-                Type=ActivityTypes.UpdateProfile,
-                UserId=item.UserId
+                ActivityId = 0,
+                CreateDate = DateTime.Now,
+                IsDeleted = false,
+                ObjectId = item.UserId,
+                Type = ActivityTypes.UpdateProfile,
+                UserId = item.UserId
             });
 
 
@@ -699,11 +699,11 @@ namespace BanooClub.Services.UserServices
             return new ServiceResult<User>().Ok(dbUser);
         }
 
-        public object GetAll(int pageNumber, int count,string search)
+        public object GetAll(int pageNumber, int count, string search)
         {
             List<User> users = new List<User>();
-            users = userRepository.GetQuery().Where(z=>z.Type!=2 && (z.Name.Contains(search) || z.FamilyName.Contains(search) || z.UserName.Contains(search))).Skip((pageNumber-1)*count).Take(count).ToList();
-            var usersCount=userRepository.GetQuery().Where(z=>z.Type !=2 && (z.Name.Contains(search) || z.FamilyName.Contains(search) || z.UserName.Contains(search))).Count();
+            users = userRepository.GetQuery().Where(z => z.Type != 2 && (z.Name.Contains(search) || z.FamilyName.Contains(search) || z.UserName.Contains(search))).Skip((pageNumber - 1) * count).Take(count).ToList();
+            var usersCount = userRepository.GetQuery().Where(z => z.Type != 2 && (z.Name.Contains(search) || z.FamilyName.Contains(search) || z.UserName.Contains(search))).Count();
             users.ForEach(z => z.Password = null);
             users.ForEach(z => z.UserSetting = userSettingRepository.GetQuery().AsNoTracking().FirstOrDefault(x => x.UserId == z.UserId));
             users.ForEach(z => z.SelfieFileData = _mediaRepository.GetQuery().
@@ -744,7 +744,7 @@ namespace BanooClub.Services.UserServices
 
             if (IsPrivate == false)
             {
-                var medias = _mediaRepository.GetQuery().Where(z => (z.Type == MediaTypes.GalleryImages || z.Type== MediaTypes.GalleryVideos) && z.ObjectId == userId).ToList();
+                var medias = _mediaRepository.GetQuery().Where(z => (z.Type == MediaTypes.GalleryImages || z.Type == MediaTypes.GalleryVideos) && z.ObjectId == userId).ToList();
                 List<FileData> result = new List<FileData>();
                 foreach (var media in medias)
                 {
@@ -753,7 +753,7 @@ namespace BanooClub.Services.UserServices
                     //{
                     //    url = "media/gallery/GalleryVideos/";
                     //}
-                    var NEWMedia =  media.PictureUrl;
+                    var NEWMedia = media.PictureUrl;
                     var obj1 = new FileData() { Base64 = NEWMedia, Priority = media.Priority, UploadType = 1 };
                     result.Add(obj1);
                 }
@@ -782,7 +782,7 @@ namespace BanooClub.Services.UserServices
                             //{
                             //    url = "media/gallery/GalleryVideos/";
                             //}
-                            var NEWMedia =  media.PictureUrl;
+                            var NEWMedia = media.PictureUrl;
                             var obj2 = new FileData() { Base64 = NEWMedia, Priority = media.Priority, UploadType = 1 };
                             result.Add(obj2);
                         }
@@ -816,7 +816,7 @@ namespace BanooClub.Services.UserServices
         public User GetByUserName(string userName)
         {
             var dbUser = userRepository.GetQuery().FirstOrDefault(z => z.UserName == userName);
-            if(dbUser != null)
+            if (dbUser != null)
             {
                 var id = dbUser.UserId;
                 var dbFollowingsCount = followingRepository.GetQuery().Where(z => z.UserId == dbUser.UserId).Count();
@@ -827,13 +827,13 @@ namespace BanooClub.Services.UserServices
                 var dbBanner = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Banner);
                 if (dbBanner != null)
                 {
-                    dbUser.BannerFileData =  dbBanner.PictureUrl;
+                    dbUser.BannerFileData = dbBanner.PictureUrl;
                 }
 
                 var dbProfile = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Profile);
                 if (dbProfile != null)
                 {
-                    dbUser.SelfieFileData =  dbProfile.PictureUrl;
+                    dbUser.SelfieFileData = dbProfile.PictureUrl;
                 }
                 dbUser.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == id);
 
@@ -866,7 +866,7 @@ namespace BanooClub.Services.UserServices
             var dbBanner = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Banner);
             if (dbBanner != null)
             {
-                dbUser.BannerFileData =  dbBanner.PictureUrl;
+                dbUser.BannerFileData = dbBanner.PictureUrl;
             }
 
             var dbProfile = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Profile);
@@ -886,7 +886,7 @@ namespace BanooClub.Services.UserServices
                 .FirstOrDefault(z => z.ObjectId == dbUser.UserSetting.UserSettingId
                 && z.Type == MediaTypes.PassportDoc);
 
-            dbUser.UserSetting.PassportDoc = passportImage == null ? "" :  passportImage.PictureUrl;
+            dbUser.UserSetting.PassportDoc = passportImage == null ? "" : passportImage.PictureUrl;
 
             dbUser.Password = null;
             return dbUser;
@@ -920,13 +920,13 @@ namespace BanooClub.Services.UserServices
                 .FirstOrDefault(z => z.ObjectId == dbUser.UserSetting.UserSettingId
                 && z.Type == MediaTypes.KartMelliDoc);
 
-            dbUser.UserSetting.KartMelliDoc = KartMelliImage == null ? "" :  KartMelliImage.PictureUrl;
+            dbUser.UserSetting.KartMelliDoc = KartMelliImage == null ? "" : KartMelliImage.PictureUrl;
 
             var passportImage = _mediaRepository.GetQuery()
                 .FirstOrDefault(z => z.ObjectId == dbUser.UserSetting.UserSettingId
                 && z.Type == MediaTypes.PassportDoc);
 
-            dbUser.UserSetting.PassportDoc = passportImage == null ? "" :passportImage.PictureUrl;
+            dbUser.UserSetting.PassportDoc = passportImage == null ? "" : passportImage.PictureUrl;
 
             dbUser.Password = null;
             return dbUser;
@@ -946,7 +946,7 @@ namespace BanooClub.Services.UserServices
             {
                 user.Password = null;
                 var selfie = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Profile);
-                user.SelfieFileData = selfie == null ? "" :  selfie.PictureUrl;
+                user.SelfieFileData = selfie == null ? "" : selfie.PictureUrl;
                 user.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == user.UserId);
             }
             return dbUsers;
@@ -957,172 +957,172 @@ namespace BanooClub.Services.UserServices
             var mySelfId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
-            
-            var completationCmd = userId ==0 ? "" : $"and U.UserId < {userId}";
+
+            var completationCmd = userId == 0 ? "" : $"and U.UserId < {userId}";
             string cmd = $"select SF.UserId as IsFollowing ,SFR.FollowingUserId as Requested, U.UserId , U.Name , U.FamilyName , U.UserName , SM.PictureUrl , US.Bio , U.Type , (select Count(*) from Social.Followers where UserId = U.userId) as FollowersCount , (select Count(*) from Social.Followings where UserId = U.userId) as FollowingsCount " +
-            "  from[User].Users U "+
-            "  join[User].UserSettings US on U.UserId = US.UserId "+
+            "  from[User].Users U " +
+            "  join[User].UserSettings US on U.UserId = US.UserId " +
             "  join Social.Medias SM on SM.ObjectId = U.UserId " +
-            $" left join Social.Followings SF on SF.FollowingUserId = U.UserId and SF.UserId = {mySelfId}"+
-            $" left join Social.FollowRequests SFR on SFR.FollowingUserId = U.UserId and SFR.FollowerUserId = {mySelfId}"+
-            $"  where(U.Name like N'%{search}%' or U.FamilyName like N'%{search}%' or U.UserName like N'%{search}%') and SM.Type =2 {completationCmd} "+
-            $"  order by U.userId Desc OFFSET 0 ROWS FETCH NEXT { count} ROWS ONLY ";
+            $" left join Social.Followings SF on SF.FollowingUserId = U.UserId and SF.UserId = {mySelfId}" +
+            $" left join Social.FollowRequests SFR on SFR.FollowingUserId = U.UserId and SFR.FollowerUserId = {mySelfId}" +
+            $"  where(U.Name like N'%{search}%' or U.FamilyName like N'%{search}%' or U.UserName like N'%{search}%') and SM.Type =2 {completationCmd} " +
+            $"  order by U.userId Desc OFFSET 0 ROWS FETCH NEXT {count} ROWS ONLY ";
             var dbUsers = userRepository.DapperSqlQuery(cmd).Result;
             var SerializeObject = JsonSerializer.Serialize<object>(dbUsers);
 
-            
+
 
             return SerializeObject;
         }
 
         //        public async Task<object> UserDashboards()
-//        {
-//            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
-//                    ? _accessor.HttpContext.User.Identity.GetUserId()
-//                    : 0;
+        //        {
+        //            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+        //                    ? _accessor.HttpContext.User.Identity.GetUserId()
+        //                    : 0;
 
-//            var offset = DateTime.Now.AddDays(-6);
+        //            var offset = DateTime.Now.AddDays(-6);
 
-//            var userFollowers = followerRepository.GetQuery().Where(x => x.UserId == userId && x.CreateDate >= offset).Count();
+        //            var userFollowers = followerRepository.GetQuery().Where(x => x.UserId == userId && x.CreateDate >= offset).Count();
 
-//            //پست های این شخص
-//            List<Post> userPosts = new List<Post>();
-//            userPosts = postRepository.GetQuery().Where(x => x.UserId == userId).ToList();
-//            //تعداد لایک هایی که پست های این شخص خورده
-//            int lastWeekPostLikeCount = 0;
-//            int lastWeekPostCommnetcount = 0;
+        //            //پست های این شخص
+        //            List<Post> userPosts = new List<Post>();
+        //            userPosts = postRepository.GetQuery().Where(x => x.UserId == userId).ToList();
+        //            //تعداد لایک هایی که پست های این شخص خورده
+        //            int lastWeekPostLikeCount = 0;
+        //            int lastWeekPostCommnetcount = 0;
 
-//            int allPostLikeCount = 0;
+        //            int allPostLikeCount = 0;
 
-//            foreach (var post in userPosts)
-//            {
-//                #region lastWeekPostLikeCount
-//                int likesCount = postLikeRepository.GetQuery().Count(z => z.PostId == post.PostId && z.CreateDate >= offset);
-//                lastWeekPostLikeCount += likesCount;
-//                #endregion
+        //            foreach (var post in userPosts)
+        //            {
+        //                #region lastWeekPostLikeCount
+        //                int likesCount = postLikeRepository.GetQuery().Count(z => z.PostId == post.PostId && z.CreateDate >= offset);
+        //                lastWeekPostLikeCount += likesCount;
+        //                #endregion
 
-//                #region allPostLikeCount
-//                int allLikesCount = postLikeRepository.GetQuery().Count(z => z.PostId == post.PostId);
-//                allPostLikeCount += allLikesCount;
-//                #endregion
+        //                #region allPostLikeCount
+        //                int allLikesCount = postLikeRepository.GetQuery().Count(z => z.PostId == post.PostId);
+        //                allPostLikeCount += allLikesCount;
+        //                #endregion
 
-//                #region lastWeekPostCommnetcount
-//                int commnetCount = postCommentRepository.GetQuery().Count(z => z.ParentId == 0 && z.PostId == post.PostId && z.CreateDate >= offset);
-//                lastWeekPostCommnetcount += commnetCount;
-//                #endregion
-//            }
+        //                #region lastWeekPostCommnetcount
+        //                int commnetCount = postCommentRepository.GetQuery().Count(z => z.ParentId == 0 && z.PostId == post.PostId && z.CreateDate >= offset);
+        //                lastWeekPostCommnetcount += commnetCount;
+        //                #endregion
+        //            }
 
 
-//            //فروم های این شخص
-//            List<Forum> userforums = new List<Forum>();
-//            userforums = forumRepository.GetQuery().Where(z => z.UserId == userId).ToList();
-//            //
-//            double lastWeekFroumsRate = 0;
-//            double allFroumsRate = 0;
-//            int lastWeekforumComments = 0;
+        //            //فروم های این شخص
+        //            List<Forum> userforums = new List<Forum>();
+        //            userforums = forumRepository.GetQuery().Where(z => z.UserId == userId).ToList();
+        //            //
+        //            double lastWeekFroumsRate = 0;
+        //            double allFroumsRate = 0;
+        //            int lastWeekforumComments = 0;
 
-//            foreach (var item in userforums)
-//            {
-//                //امتیاز هفته آخر فروم کاربر
-//                var lastweekdbRate = await ratingService.GetLastWeekByObjectIdAndType(item.ForumId, RatingType.Forum);
-//                var lastweekRate = lastweekdbRate.Data.Average;
-//                lastWeekFroumsRate += lastweekRate;
+        //            foreach (var item in userforums)
+        //            {
+        //                //امتیاز هفته آخر فروم کاربر
+        //                var lastweekdbRate = await ratingService.GetLastWeekByObjectIdAndType(item.ForumId, RatingType.Forum);
+        //                var lastweekRate = lastweekdbRate.Data.Average;
+        //                lastWeekFroumsRate += lastweekRate;
 
-//                //امتیاز فروم
-//                var alldbRate = await ratingService.GetLastWeekByObjectIdAndType(item.ForumId, RatingType.Forum);
-//                var allRate = lastweekdbRate.Data.Average;
-//                allFroumsRate += allRate;
+        //                //امتیاز فروم
+        //                var alldbRate = await ratingService.GetLastWeekByObjectIdAndType(item.ForumId, RatingType.Forum);
+        //                var allRate = lastweekdbRate.Data.Average;
+        //                allFroumsRate += allRate;
 
-//                //تعداد کامنت های فروم در هفته آخر
-//                var lastWeekDbforumComments = forumCommentRepository.GetQuery().Count(z => z.ForumId == item.ForumId && z.CreateDate >= offset);
-//                lastWeekforumComments += lastWeekDbforumComments;
-//            }
+        //                //تعداد کامنت های فروم در هفته آخر
+        //                var lastWeekDbforumComments = forumCommentRepository.GetQuery().Count(z => z.ForumId == item.ForumId && z.CreateDate >= offset);
+        //                lastWeekforumComments += lastWeekDbforumComments;
+        //            }
 
-//            // سرویس های کاربر
-//            List<ServicePack> userServicePacks = new List<ServicePack>();
-//            userServicePacks = servicePackRepository.GetQuery().Where(z => z.UserId == userId).ToList();
+        //            // سرویس های کاربر
+        //            List<ServicePack> userServicePacks = new List<ServicePack>();
+        //            userServicePacks = servicePackRepository.GetQuery().Where(z => z.UserId == userId).ToList();
 
-//            long lastWeekIncome = 0;
-            
-//            foreach (var service in userServicePacks)
-//            {
-//                //پرداخت هایی که به ازای این سرویس در هفته آخر انجام شده
+        //            long lastWeekIncome = 0;
 
-//                //var orderItemList = orderItemRepository.GetQuery().Where(z => z.ServiceId == service.ServicePackId);
-//                //foreach (var item in orderItemList)
-//                //{
-//                //    var income = orderRepository.GetQuery().Where(z => z.ServiceId == item.ServicePackId && z.CreateDate>=offset).Sum(x => x.SumPrice);
-//                //    lastWeekIncome += income;
-//                //}
+        //            foreach (var service in userServicePacks)
+        //            {
+        //                //پرداخت هایی که به ازای این سرویس در هفته آخر انجام شده
 
-////                string incomeCmd = " SELECT        SUM([Order].Orders.SumPrice) Price " +
-////" FROM[Order].OrderItems INNER JOIN " +
-////             " [Order].Orders ON[Order].OrderItems.OrderId = [Order].Orders.OrderId " +
-////$" WHERE([Order].OrderItems.ServiceId = {service.ServicePackId} and [Order].Orders.IsPayed = 1 " +
-////" and( " +
+        //                //var orderItemList = orderItemRepository.GetQuery().Where(z => z.ServiceId == service.ServicePackId);
+        //                //foreach (var item in orderItemList)
+        //                //{
+        //                //    var income = orderRepository.GetQuery().Where(z => z.ServiceId == item.ServicePackId && z.CreateDate>=offset).Sum(x => x.SumPrice);
+        //                //    lastWeekIncome += income;
+        //                //}
 
-////" CAST([Order].Orders.CreateDate as date) between " +
-////" CAST(DATEADD(dd, -7, GETDATE()) as date) and " +
-////" CAST(GETDATE() AS DATE) " +
-////" ) " +
-////" ) ";
- 
+        ////                string incomeCmd = " SELECT        SUM([Order].Orders.SumPrice) Price " +
+        ////" FROM[Order].OrderItems INNER JOIN " +
+        ////             " [Order].Orders ON[Order].OrderItems.OrderId = [Order].Orders.OrderId " +
+        ////$" WHERE([Order].OrderItems.ServiceId = {service.ServicePackId} and [Order].Orders.IsPayed = 1 " +
+        ////" and( " +
 
-//                //var incomes = await orderRepository.DapperSqlQuery(incomeCmd);
-//                //var incomesSerializeObject = JsonSerializer.Serialize<object>(incomes);
-//                //var serializedincomes = JsonSerializer.Deserialize<IncomeDto>(incomesSerializeObject);
-//                //lastWeekIncome += serializedincomes.Price;
+        ////" CAST([Order].Orders.CreateDate as date) between " +
+        ////" CAST(DATEADD(dd, -7, GETDATE()) as date) and " +
+        ////" CAST(GETDATE() AS DATE) " +
+        ////" ) " +
+        ////" ) ";
 
-//            }
 
-//            //پرداخت های هفته آخر کاربر
-//            double lastWeekPayed = paymentRepository.GetQuery()
-//                .Where(z => z.UserId == userId && z.CreateDate>=offset && z.Status==0)
-//                .Sum(x=>x.Amount);
+        //                //var incomes = await orderRepository.DapperSqlQuery(incomeCmd);
+        //                //var incomesSerializeObject = JsonSerializer.Serialize<object>(incomes);
+        //                //var serializedincomes = JsonSerializer.Deserialize<IncomeDto>(incomesSerializeObject);
+        //                //lastWeekIncome += serializedincomes.Price;
 
-//            // پلن هایی که کاربر خریده به تفکیک تعداد
-//            string cmd = " SELECT            [Order].Orders.ServiceId, " +
-//                         " [Order].OrderItems.PlanId, count( [Order].OrderItems.PlanId) PlanCount,Plans.Title " +
-//                         " FROM Payment.Payments INNER JOIN " +
-//                          " [Order].Orders ON Payment.Payments.UserId = [Order].Orders.UserId INNER JOIN " +
-//                          " [Order].OrderItems ON[Order].Orders.OrderId = [Order].OrderItems.OrderId " +
-//                          " inner JOIN Plans ON Plans.PlanId =[Order].OrderItems.PlanId " +
-//                          $" WHERE ([Order].Orders.UserId = {userId}) " +
-//                          " group by [Order].OrderItems.PlanId,[Order].Orders.ServiceId,Plans.Title ";
+        //            }
 
-//            var purchasedPlans = await orderRepository.DapperSqlQuery(cmd);
-//            var SerializeObject = JsonSerializer.Serialize<object>(purchasedPlans);
-//            var serializedPurchasedPlans = JsonSerializer.Deserialize<List<PurchasedPlansByUserDto>>(SerializeObject);
+        //            //پرداخت های هفته آخر کاربر
+        //            double lastWeekPayed = paymentRepository.GetQuery()
+        //                .Where(z => z.UserId == userId && z.CreateDate>=offset && z.Status==0)
+        //                .Sum(x=>x.Amount);
 
-//            var Obj = new
-//            {
-//                FollowersCount = userFollowers,
-//                PostLikeCount = lastWeekPostLikeCount,
-//                PostComment= lastWeekPostCommnetcount,
-//                ForumRate= lastWeekFroumsRate,
-//                ForumComments= lastWeekforumComments,
-//                AllPostLikeCount= allPostLikeCount,
-//                AllForumRate= allFroumsRate,
-//                //LastWeekIncome= lastWeekIncome,
-//                LastWeekPayed= lastWeekPayed,
-//                //PurchasedPlans = serializedPurchasedPlans
-//            };
+        //            // پلن هایی که کاربر خریده به تفکیک تعداد
+        //            string cmd = " SELECT            [Order].Orders.ServiceId, " +
+        //                         " [Order].OrderItems.PlanId, count( [Order].OrderItems.PlanId) PlanCount,Plans.Title " +
+        //                         " FROM Payment.Payments INNER JOIN " +
+        //                          " [Order].Orders ON Payment.Payments.UserId = [Order].Orders.UserId INNER JOIN " +
+        //                          " [Order].OrderItems ON[Order].Orders.OrderId = [Order].OrderItems.OrderId " +
+        //                          " inner JOIN Plans ON Plans.PlanId =[Order].OrderItems.PlanId " +
+        //                          $" WHERE ([Order].Orders.UserId = {userId}) " +
+        //                          " group by [Order].OrderItems.PlanId,[Order].Orders.ServiceId,Plans.Title ";
 
-//            return Obj;
+        //            var purchasedPlans = await orderRepository.DapperSqlQuery(cmd);
+        //            var SerializeObject = JsonSerializer.Serialize<object>(purchasedPlans);
+        //            var serializedPurchasedPlans = JsonSerializer.Deserialize<List<PurchasedPlansByUserDto>>(SerializeObject);
 
-//        }
+        //            var Obj = new
+        //            {
+        //                FollowersCount = userFollowers,
+        //                PostLikeCount = lastWeekPostLikeCount,
+        //                PostComment= lastWeekPostCommnetcount,
+        //                ForumRate= lastWeekFroumsRate,
+        //                ForumComments= lastWeekforumComments,
+        //                AllPostLikeCount= allPostLikeCount,
+        //                AllForumRate= allFroumsRate,
+        //                //LastWeekIncome= lastWeekIncome,
+        //                LastWeekPayed= lastWeekPayed,
+        //                //PurchasedPlans = serializedPurchasedPlans
+        //            };
+
+        //            return Obj;
+
+        //        }
         public async Task<object> UserDashboards()
         {
-            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
-                    ? _accessor.HttpContext.User.Identity.GetUserId()
-                    : 0;
+            var userId = _accessor.HttpContext.User?.GetUserId() ?? 0;
+
             var DateTimeNow = DateTime.Now;
             var DateTimeLastWeek = DateTime.Now.AddDays(-7);
             var DateTimeLastMonth = DateTime.Now.AddMonths(-1);
+            var last5DaysDate = DateTime.Now.AddDays(-5);
 
-            var WeekfollowersCount = followerRepository.GetQuery().Where(z=>z.UserId == userId && z.CreateDate > DateTimeLastWeek).Count();
-            var userPostIds = postRepository.GetQuery().Where(z=>z.UserId == userId).Select(x=>x.PostId).ToList();
-            var userForumIds = forumRepository.GetQuery().Where(z=>z.UserId == userId).Select(x=>x.ForumId).ToList();
+            var WeekfollowersCount = followerRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate > DateTimeLastWeek).Count();
+            var userPostIds = postRepository.GetQuery().Where(z => z.UserId == userId).Select(x => x.PostId).ToList();
+            var userForumIds = forumRepository.GetQuery().Where(z => z.UserId == userId).Select(x => x.ForumId).ToList();
             var UsersServicesIds = servicePackRepository.GetQuery().Where(z => z.UserId == userId).Select(x => x.ServicePackId).ToList();
 
             var weekPostLikesCount = postLikeRepository.GetQuery().Where(z => userPostIds.Contains(z.PostId) && z.CreateDate > DateTimeLastWeek).Count();
@@ -1130,16 +1130,22 @@ namespace BanooClub.Services.UserServices
             var WeekForumRatesCount = ratingRepository.GetQuery().Where(z => userForumIds.Contains(z.ObjectId) && z.Type == RatingType.Forum && z.CreateDate > DateTimeLastWeek).Count();
             var WeekForumCommentsCount = forumCommentRepository.GetQuery().Where(z => userForumIds.Contains(z.ForumId) && z.CreateDate > DateTimeLastWeek).Count();
 
-            var UserLastMonthOutCome = paymentRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate > DateTimeLastMonth).Sum(z=>z.Amount);
+            var UserLastMonthOutCome = paymentRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate > DateTimeLastMonth).Sum(z => z.Amount);
+            var userLast5DaysOutCome = paymentRepository.GetQuery().Where(x => x.UserId == userId && x.CreateDate > last5DaysDate).Sum(x => x.Amount);
 
-            var ServicesOrderItemsOrderIds = orderItemRepository.GetQuery().Where(x=>x.ServiceId != null && UsersServicesIds.Contains((long)x.ServiceId)).Select(z => z.OrderId).ToList();
+            var ServicesOrderItemsOrderIds = orderItemRepository.GetQuery().Where(x => x.ServiceId != null && UsersServicesIds.Contains((long)x.ServiceId)).Select(z => z.OrderId).ToList();
             var lastMonthIncomeAmount = paymentRepository.GetQuery().Where(z => ServicesOrderItemsOrderIds.Contains(z.OrderId) && z.CreateDate > DateTimeLastMonth && z.Status == 0).Sum(x => x.Amount);
+            var last5DaysIncomeAmount = paymentRepository.GetQuery().Where(z => ServicesOrderItemsOrderIds.Contains(z.OrderId) && z.CreateDate > last5DaysDate && z.Status == 0).Sum(x => x.Amount);
 
             var LastMonthOrdersCount = orderRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate > DateTimeLastMonth).ToList();
+            var Last5DaysOrdersCount = orderRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate > last5DaysDate).ToList();
             var LastMonthPayedOrdersCount = LastMonthOrdersCount.Where(z => z.IsPayed == true).Count();
-            var LastMonthNotPayedOrdersCount = LastMonthOrdersCount.Where(z=>z.IsPayed == false).Count();
+            var Last5DaysPayedOrdersCount = Last5DaysOrdersCount.Where(z => z.IsPayed == true).Count();
+            var LastMonthNotPayedOrdersCount = LastMonthOrdersCount.Where(z => z.IsPayed == false).Count();
+            var Last5DaysNotPayedOrdersCount = Last5DaysOrdersCount.Where(z => z.IsPayed == false).Count();
 
             var LastMonthWalletChargeAmount = paymentRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate > DateTimeLastMonth && z.WalletCharge == true).Sum(x => x.Amount);
+            var Last5DaysWalletChargeAmount = paymentRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate > last5DaysDate && z.WalletCharge == true).Sum(x => x.Amount);
 
             PersianCalendar persianCalandar = new PersianCalendar();
             var DateInSystemDateTime = DateTime.Now;
@@ -1148,7 +1154,7 @@ namespace BanooClub.Services.UserServices
             int day = persianCalandar.GetDayOfMonth(DateInSystemDateTime);
             var FirstDayOfThisMonth = DateInSystemDateTime.AddDays(-day);
 
-            var dbPayedOrdersAmount = orderRepository.GetQuery().Where(z =>z.UserId == userId && z.CreateDate >= FirstDayOfThisMonth && z.IsPayed == true).Sum(x => x.SumPrice);
+            var dbPayedOrdersAmount = orderRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate >= FirstDayOfThisMonth && z.IsPayed == true).Sum(x => x.SumPrice);
             var dbIncomeOrdersAmount = paymentRepository.GetQuery().Where(z => ServicesOrderItemsOrderIds.Contains(z.OrderId) && z.CreateDate > FirstDayOfThisMonth && z.Status == 0).Sum(x => x.Amount);
             //var dbOrderCountFirstMonth = orderRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate >= FirstDayOfThisMonth).Count();
 
@@ -1165,10 +1171,10 @@ namespace BanooClub.Services.UserServices
             };
             IncomeOutComeYearReport.Add(obj);
 
-            
+
             for (int i = 1; i < 12; i++)
             {
-                var ThisMonth = FirstDayOfThisMonth.AddMonths(-(i-1));
+                var ThisMonth = FirstDayOfThisMonth.AddMonths(-(i - 1));
                 var LastMonthDate = FirstDayOfThisMonth.AddMonths(-(i));
 
                 //var dbOrdersCount = orderRepository.GetQuery().Where(z => z.CreateDate <= ThisMonth && z.CreateDate >= LastMonthDate).Count();
@@ -1187,12 +1193,13 @@ namespace BanooClub.Services.UserServices
                 };
                 IncomeOutComeYearReport.Add(obj1);
             }
+
             List<object> LastMonthFollowersChart = new List<object>();
             for (int i = 0; i < 30; i++)
             {
                 var CustomDate = DateInSystemDateTime.AddDays(-i);
 
-                var dailyFollowersCount = followerRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate.Date == CustomDate.Date).Count(); 
+                var dailyFollowersCount = followerRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate.Date == CustomDate.Date).Count();
 
                 int year = persianCalandar.GetYear(CustomDate);
                 int month = persianCalandar.GetMonth(CustomDate);
@@ -1206,6 +1213,24 @@ namespace BanooClub.Services.UserServices
                 LastMonthFollowersChart.Add(obj12);
             }
 
+            List<object> Last5DaysFollowersChart = new List<object>();
+            for (int i = 0; i < 5; i++)
+            {
+                var CustomDate = DateInSystemDateTime.AddDays(-i);
+
+                var dailyFollowersCount = followerRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate.Date == CustomDate.Date).Count();
+
+                int year = persianCalandar.GetYear(CustomDate);
+                int month = persianCalandar.GetMonth(CustomDate);
+                int day1 = persianCalandar.GetDayOfMonth(CustomDate);
+                var PersianDate = $"{year}/{month}/{day1}";
+                var obj12 = new
+                {
+                    PersianDate = PersianDate,
+                    FollowersCount = dailyFollowersCount
+                };
+                Last5DaysFollowersChart.Add(obj12);
+            }
 
             var FinalObj = new
             {
@@ -1215,14 +1240,20 @@ namespace BanooClub.Services.UserServices
                 WeekForumRate = WeekForumRatesCount,
                 WeekForumComments = WeekForumCommentsCount,
                 UserLastMonthOutcomeAmount = UserLastMonthOutCome,
+                UserLast5DaysOutcomeAmount = userLast5DaysOutCome,
                 UserLastMonthIncomeAmount = lastMonthIncomeAmount,
+                UserLast5DaysIncomeAmount = last5DaysIncomeAmount,
                 LastMonthPayedOrdersCount = LastMonthPayedOrdersCount,
+                Last5DaysPayedOrdersCount = Last5DaysPayedOrdersCount,
                 LastMonthNotPayedOrdersCount = LastMonthNotPayedOrdersCount,
+                Last5DaysNotPayedOrdersCount = Last5DaysNotPayedOrdersCount,
                 LastMonthWalletChargeAmount = LastMonthWalletChargeAmount,
+                Last5DaysWalletChargeAmount = Last5DaysWalletChargeAmount,
                 YearIOReports = IncomeOutComeYearReport,
-                MonthFollowersChart = LastMonthFollowersChart
+                MonthFollowersChart = LastMonthFollowersChart,
+                Last5DaysFollowersChart = Last5DaysFollowersChart
             };
-            
+
             return FinalObj;
         }
 
@@ -1300,7 +1331,7 @@ namespace BanooClub.Services.UserServices
                 user.Password = null;
                 var selfie = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Profile);
                 user.SelfieFileData = selfie == null ? "" : selfie.PictureUrl;
-                user.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == user.UserId);    
+                user.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == user.UserId);
             }
             return dbUsers;
         }

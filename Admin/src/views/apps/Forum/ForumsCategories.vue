@@ -209,7 +209,7 @@ import ForumCategoryCreateRequest from '@/libs/Api/Forum/ForumCategoryCreateRequ
 import ToastificationContent from '@core/components/toastification/ToastificationContent'
 
 export default {
-  title: 'لیست دسته بندی انجمن   - پنل ادمین بانو کلاب',
+  title: 'لیست دسته بندی تالار   - پنل ادمین بانو کلاب',
   name: 'UsersList',
   data() {
     return {

@@ -4,7 +4,6 @@
       <div>
         <h4 class="tw-text-lg tw-font-semibold"> گروه ها </h4>
       </div>
-      <nuxt-link to="#" class="tw-text-blue-600 text-decoration-none"> دیدن همه</nuxt-link>
     </div>
     <div>
       <GroupsItem v-for="(item,idx) in Groups" :item="item" :key="idx"/>
@@ -16,6 +15,7 @@
 
 <script>
 import GroupsItem from "./GroupsItem";
+
 export default {
   name: "Groups",
   components: {GroupsItem},
@@ -27,15 +27,15 @@ export default {
   methods:{
 
   },
-  // async fetch(){
-  //   try {
-  //     const res =await this.$repositories.GetAllGroups.GetAllGroups()
-  //         this.Groups = res.data
-  //     console.log(this.Groups)
-  //   }catch (e){
-  //     console.log(e)
-  //   }
-  // },
+  async fetch(){
+    try {
+      const res =await this.$repositories.GetAllGroups.GetAllGroups()
+          this.Groups = res.data
+      console.log(this.Groups)
+    }catch (e){
+      console.log(e)
+    }
+  },
 }
 </script>
 

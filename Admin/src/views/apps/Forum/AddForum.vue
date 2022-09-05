@@ -3,31 +3,31 @@
     <b-row>
       <b-col md="6">
         <b-form-group
-            label="نام انجمن"
+            label="نام تالار"
             label-for="mc-first-name"
         >
           <b-form-input
               id="mc-first-name"
-              placeholder="نام انجمن"
+              placeholder="نام تالار"
               v-model="ForumName"
           />
         </b-form-group>
       </b-col>
       <b-col md="6">
         <b-form-group
-            label="توضیحات انجمن"
+            label="توضیحات تالار"
             label-for="mc-last-name"
         >
           <b-form-input
               id="mc-last-name"
-              placeholder="توضیحات انجمن"
+              placeholder="توضیحات تالار"
               v-model="ForumDescription"
           />
         </b-form-group>
       </b-col>
       <b-col md="6">
         <b-form-group
-            label="دسته بندی انجمن"
+            label="دسته بندی تالار"
             label-for="mc-last-name"
         >
           <v-select
@@ -44,7 +44,7 @@
 
       <b-col md="6">
         <b-form-group
-            label="برچسب انجمن (پس از افزودن دکمه enter را بفشارید)"
+            label="برچسب تالار (پس از افزودن دکمه enter را بفشارید)"
             label-for="mc-last-name"
         >
           <b-form-input
@@ -131,7 +131,7 @@ export default {
   mounted(){
   this.GetAllForumCategory()
   },
-  title: ' ساخت انجمن جدید  - پنل ادمین بانو کلاب',
+  title: ' ساخت تالار جدید  - پنل ادمین بانو کلاب',
   methods:{
     RemoveTag(idx){
       this.newTags.splice(idx,1)
@@ -170,7 +170,7 @@ export default {
             title: `عملیات موفق`,
             icon: 'CheckIcon',
             variant: 'success',
-            text: `انجمن با موفقیت ساخته شد`,
+            text: `تالار با موفقیت ساخته شد`,
           },
         })
         this.$router.push('/apps/Forum/ForumsList')
