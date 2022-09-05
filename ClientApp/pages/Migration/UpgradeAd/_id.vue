@@ -3,12 +3,21 @@
     <div class="row">
       <div class="col-md-1"></div>
       <div class="col-md-10 col-sm-12">
+        <div class="col-md-12 p-4">
+          <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+            <div class="d-flex align-items-center gap-2">
+              <img src="/girl-icon-ads-ertegha.png" class="tw-w-[7rem] tw-h-20" alt="">
+              <div class="d-flex align-items-center flex-column">
+                <strong class="text-purple">ارتقا آگهی</strong>
+                <strong class="text-pink">Boost AdvertiseMents</strong>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="d-flex flex-column">
           <div class="d-flex flex-column overflow-scroll px-1">
-            <UpgradeItem :upgradeItem="plan" v-for="(plan,idx) in plans" :key="idx" class="my-3 upgrade_item" @addOrder="addOrder($event)" @deleteOrder="deleteOrder($event)" />
+            <UpgradeItem v-tooltip="SetToolTip(plan)" :upgradeItem="plan" v-for="(plan,idx) in plans" :key="idx" class="my-3  upgrade_item" @addOrder="addOrder($event)" @deleteOrder="deleteOrder($event)" />
           </div>
-          <!--        <CustomPagination v-if="totalPages.length>1" :pages="totalPages" @PageChanged="changePage($event)"/>-->
-
           <div class="col-12 pt-3 mt-auto">
             <div class="d-flex justify-content-between align-items-center">
               <div>
@@ -31,7 +40,8 @@
 </template>
 
 <script>
-import UpgradeItem from "../../../components/Products/UpgradeItem";
+import UpgradeItem from "../../../components/Ads/UpgradeItem";
+
 import CustomPagination from "../../../components/utilities/CustomPagination"
 
 export default {
@@ -80,6 +90,15 @@ export default {
 
   },
   methods:{
+    SetToolTip(plan){
+      if(plan.type===1){
+        return {content:'با انتخاب آتیش زدم آگهی شما نشانه دار میشود تا کاربران متوجه شوند شما در فروش این آگهی عجله دارید'}
+      }else if (plan.type===3){
+        return {content:'با انتخاب برترین آگهی شما به قسمت برترین ها میرود'}
+      }else if (plan.type===2){
+        return {content:'با انتخاب پیشنهادات آگهی شما به قسمت پیشنهادات میرود'}
+      }
+    },
     async CreateOrder(){
       this.$nuxt.$loading.start();
       try {

@@ -1,7 +1,19 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container bg-white p-3 mcontainer">
     <div class="row">
-      <h1 class="tw-text-2xl tw-font-semibold">علاقه مندیها</h1>
+      <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/girl-icon-alaghemandi.png" class="tw-w-[7rem] tw-h-20" alt="">
+          <div class="d-flex align-items-center flex-column">
+            <strong class="text-purple">علاقه مندی من</strong>
+            <strong class="text-pink">My Favorites</strong>
+          </div>
+        </div>
+
+        <button v-tooltip="{content:'ثبت آگهی'}" @click="$router.push('/Migration/CreateAdvertise')" class="btn AddReplyBtn text-white">
+          <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+        </button>
+      </div>
       <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
           <button class="nav-link active" id="products-pills-home-tab" data-bs-toggle="pill"

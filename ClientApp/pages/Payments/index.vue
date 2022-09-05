@@ -1,14 +1,24 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer px-2">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container NewBg mcontainer px-2">
     <div class="d-flex justify-content-between align-items-center">
-      <h2 class="tw-text-2xl tw-font-semibold py-3">پرداخت ها</h2>
-      <div class="d-flex justify-content-center align-items-center">
-        <span style="color: rgb(103, 103, 103)">موجودی کیف پول:
-          {{Intl.NumberFormat('fa-IR').format($store.state.WalletAmount)}}
-          تومان</span>
-        <button @click="displayChargeSideNav = true" class="btn AddReplyBtn text-white">
-          <PlusIcon fill="#2563eb" style="width: 20px; height: 20px;"/>
-        </button>
+      <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/girl-icon-mali.png" class="tw-w-[7rem] tw-h-20" alt="">
+          <div class="d-flex align-items-center flex-column">
+            <strong class="text-purple">پرداخت ها</strong>
+            <strong class="text-pink">Payments</strong>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <div class="d-flex flex-column">
+             <span class="text-purple">موجودی کیف پول:</span>
+             <span class="text-pink">{{ Intl.NumberFormat('fa-IR').format($store.state.WalletAmount) }}تومان</span>
+          </div>
+          <button @click="displayChargeSideNav = true" v-tooltip="{content:'شارژ کیف پول'}"
+                  class="btn AddReplyBtn text-white">
+            <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+          </button>
+        </div>
       </div>
     </div>
     <ChargeWalletSideNav :show="displayChargeSideNav" @close="displayChargeSideNav = false"/>
@@ -38,9 +48,9 @@
 
       </div>
     </div>
-    <div class="tw-overflow-x-auto">
-      <div class="tw-overflow-x-auto">
-        <table class="tw-table tw-w-full tw-table-auto" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
+
+      <div class="tw-overflow-x-auto bg-white p-2 py-3 rounded my-3">
+        <table class="tw-table tw-w-full tw-table-auto tw-rounded" >
           <!-- head -->
           <thead>
           <tr>
@@ -54,41 +64,46 @@
           </thead>
           <tbody>
           <!-- rows -->
-          <tr class="tw-hover" v-for="(item,idx) in AllPayments" :key="idx" >
+          <tr class="tw-hover" v-for="(item,idx) in AllPayments" :key="idx">
             <th class="fw-normal">{{ item.paymentId }}</th>
-            <th class="fw-normal" v-tooltip.bottom-start="item.transId">{{item.transId.substr(0,6)}}...</th>
-            <th class="fw-normal">{{item.refId}}</th>
+            <th class="fw-normal" v-tooltip.bottom-start="item.transId">{{ item.transId.substr(0, 6) }}...</th>
+            <th class="fw-normal">{{ item.refId }}</th>
             <td>{{ new Date(item.createDate).toLocaleDateString('fa-IR') }}</td>
             <td>
-              <div class="tw-bg-red-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-if="item.status === -2 || item.status ===-4">
+              <div class="tw-bg-red-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1"
+                   v-if="item.status === -2 || item.status ===-4">
                 <span class="text-white tw-text-xs">لغو شده</span>
               </div>
-              <div class="tw-bg-green-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="item.status === 0">
+              <div class="tw-bg-green-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1"
+                   v-else-if="item.status === 0">
                 <span class="text-white tw-text-xs">پرداخت شده</span>
               </div>
-              <div class="tw-bg-gray-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="item.status === -122">
+              <div class="tw-bg-gray-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1"
+                   v-else-if="item.status === -122">
                 <span class="text-white tw-text-xs">در انتظار پرداخت</span>
               </div>
-              <div class="tw-bg-yellow-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="item.status === -49">
+              <div class="tw-bg-yellow-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1"
+                   v-else-if="item.status === -49">
                 <span class="text-white tw-text-xs">تراکنش تکراری</span>
               </div>
-              <div class="tw-bg-blue-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="item.status === -3">
+              <div class="tw-bg-blue-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1"
+                   v-else-if="item.status === -3">
                 <span class="text-white tw-text-xs">در انتظار پاسخ</span>
               </div>
 
 
-
             </td>
             <td>
-              {{Intl.NumberFormat('fa-IR').format(item.amount)}}
+              {{ Intl.NumberFormat('fa-IR').format(item.amount) }}
               تومان
             </td>
           </tr>
           </tbody>
         </table>
-        <CustomPagination class="my-3"  :activePage="SelectedPageNumber" :totalPages="totalPages" @PageChanged="changePage($event)"/>
+        <CustomPagination class="my-3" :activePage="SelectedPageNumber" :totalPages="totalPages"
+                          @PageChanged="changePage($event)"/>
       </div>
-    </div>
+
   </div>
 
 
@@ -119,31 +134,31 @@ export default {
 
   data() {
     return {
-      displayChargeSideNav:false,
-      AllPayments:[],
-      SelectedPageNumber:1,
-      totalPages:[]
+      displayChargeSideNav: false,
+      AllPayments: [],
+      SelectedPageNumber: 1,
+      totalPages: []
 
     }
   },
-  methods:{
-    async goToUserProfile(user){
+  methods: {
+    async goToUserProfile(user) {
       try {
         this.$router.push({path: `/user/${user.userName}/posts`});
-      }catch (e){
+      } catch (e) {
         console.log(e)
       }
     },
-    changePage(id){
-        this.SelectedPageNumber = id
+    changePage(id) {
+      this.SelectedPageNumber = id
       this.GetMyPayments()
     },
 
-   async GetMyPayments(){
+    async GetMyPayments() {
       try {
         const res = await this.$repositories.GetMyPayments.GetMyPayments({
-          pageNumber:this.SelectedPageNumber,
-          count:10
+          pageNumber: this.SelectedPageNumber,
+          count: 10
         })
         this.AllPayments = res.data.payments
         this.totalPages = []
@@ -151,18 +166,18 @@ export default {
         for (let i = 1; i <= result; i++) {
           this.totalPages.push(i);
         }
-      }catch (e) {
+      } catch (e) {
         console.log(e)
       }
     },
   },
 
 
-  async fetch(){
+  async fetch() {
     try {
       const res = await this.$repositories.GetMyPayments.GetMyPayments({
-        pageNumber:this.SelectedPageNumber,
-        count:10
+        pageNumber: this.SelectedPageNumber,
+        count: 10
       })
       this.AllPayments = res.data.payments
       this.totalPages = []
@@ -170,7 +185,7 @@ export default {
       for (let i = 1; i <= result; i++) {
         this.totalPages.push(i);
       }
-    }catch (e) {
+    } catch (e) {
       console.log(e)
     }
   }
@@ -187,6 +202,7 @@ export default {
     margin-right: auto;
   }
 }
+
 @media (max-width: 1024px) {
   .mcontainer {
     max-width: 1000px;
@@ -195,14 +211,17 @@ export default {
     margin-right: auto;
   }
 }
+
 .tw-table :where(thead, tfoot) :where(th, td) {
   background-color: #80808021 !important;
 
 }
+
 th.fw-normal {
   background-color: #80808021 !important;
 }
-td{
+
+td {
   background-color: #80808021 !important;
 }
 

@@ -1,14 +1,22 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer bg-white  px-2">
-    <div class="row" style="padding-left: 0">
-      <h1 class="tw-text-2xl tw-font-semibold pb-3">افزودن خدمت</h1>
-      <div class="row" style="padding-left: 0">
-        <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
-          <label>نام خدمت *</label>
-          <input v-model="service_title" type="text" class="with-border" placeholder="نام خدمت"
+  <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer NewBg  px-2">
+
+      <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/girl-icon-khadamat-afzodan.png" class="tw-w-[7rem] tw-h-20" alt="">
+          <div class="d-flex align-items-center flex-column">
+            <strong class="text-purple"> ثبت خدمت</strong>
+            <strong class="text-pink">Submit A Service</strong>
+          </div>
+        </div>
+      </div>
+      <div class="row my-3 bg-white px-3 rounded " style="padding-left: 0">
+        <div class="col-md-6 col-sm-12 mt-3 " style="padding-left: 0">
+          <label>عنوان خدمت *</label>
+          <input v-model="service_title" type="text" class="with-border" placeholder="آموزش اکستنشن مژه"
                  :class="{BorderRed:service_title==='',BorderGreen:service_title!==''}">
         </div>
-        <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
+        <div class="col-md-6 col-sm-12 mt-3 " style="padding-left: 0">
           <label>دسته بندی خدمت *</label>
           <select v-model="service_category" class="form-select" aria-label="Default select example"
                   :class="{BorderRed:service_category===null,BorderGreen:service_category!==null}">
@@ -25,7 +33,7 @@
             row="100"
             style="color: #808080;"
             class="form-control border rounded w-100 with-border"
-            placeholder="توضیحات خدمت"
+            placeholder="در مورد خدمت توضیح دهید"
             id="description"
           ></textarea>
         </div>
@@ -49,18 +57,19 @@
           <input maxlength="11" v-model="Qty" type="number" class="with-border" placeholder="ظرفیت خدمت">
         </div>
         <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
+          <label>شماره مستقیم تماس *</label>
+          <input maxlength="11" v-model="mobile" type="number" class="with-border" placeholder="شماره همراه با صفر"
+                 :class="{BorderRed:mobile===null,BorderGreen:mobile!==0}">
+        </div>
+        <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
           <label>شماره تلفن 1</label>
           <input maxlength="11" v-model="phone_number1" type="number" class="with-border" placeholder="شماره تلفن">
         </div>
         <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
-          <label>موبایل</label>
+          <label>شماره تلفن 2</label>
           <input maxlength="11" v-model="phone_number2" type="number" class="with-border" placeholder="شماره تلفن">
         </div>
-        <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
-          <label>شماره مستقیم تماس *</label>
-          <input maxlength="11" v-model="mobile" type="number" class="with-border" placeholder="شماره همراه"
-                 :class="{BorderRed:mobile===0,BorderGreen:mobile!==0}">
-        </div>
+
         <div class="col-md-12 col-sm-12 pt-3" style="padding-left: 0">
           <label>ایمیل</label>
           <input v-model="email" type="email" class="with-border" placeholder="ایمیل">
@@ -93,8 +102,7 @@
           </div>
           <div class="my-3">
             <div class="d-flex align-items-center gap-2">
-              <input @keydown.enter="addTags" v-model="tag" type="text" ref="TagsInput" class=" form-control with-border"
-                     placeholder="ناخن،مو،رنگ...">
+              <input @keydown.enter="addTags" v-model="tag" type="text" ref="TagsInput" class=" form-control with-border">
 
               <button class="btn btn-primary h-100 " @click="addTags">ثبت</button>
             </div>
@@ -123,8 +131,8 @@
           <div class="d-flex row">
             <div class="py-3 col-lg-2 col-md-3 px-3">
               <div @click="uploadNewPicture"
-                   class="tw-bg-gray-100 tw-border-2 tw-border-dashed tw-flex tw-flex-col tw-h-32 tw-items-center tw-justify-center tw-relative tw-rounded-lg">
-                <UploadFileIcon style="width: 48px; height: 48px;"/>
+                   class="tw-bg-[#f9f9f9] tw-border-2 tw-border-dashed tw-flex tw-flex-col tw-h-32 tw-items-center tw-justify-center tw-relative tw-rounded-lg">
+                <UploadFileIcon class="tw-fill-[#85ffdd]" style="width: 48px; height: 48px;"/>
               </div>
               <input
                 ref="picture_file"
@@ -156,10 +164,10 @@
           </div>
           <div class="d-flex flex-row row">
             <div class="col-lg-2 col-md-6 py-3 px-3">
-              <div @click="uploadNewVideo" class="tw-bg-gray-100
+              <div @click="uploadNewVideo" class="tw-bg-[#f9f9f9]
               tw-border-2 tw-border-dashed tw-flex tw-flex-col tw-h-32 tw-items-center
               tw-justify-center tw-relative tw-rounded-lg">
-                <UploadFileIcon style="width: 48px; height: 48px;"/>
+                <UploadFileIcon class="tw-fill-[#85ffdd]" style="width: 48px; height: 48px;"/>
               </div>
               <input
                 ref="VideoFile"
@@ -197,7 +205,7 @@
                 افزودن ویژگی خدمت (بعد از تکمیل اطلاعات ویژگی ها را ذخیره کنید)
               </div>
               <button @click="increasePropertyCount" class="btn AddReplyBtn text-white">
-                <PlusIcon fill="#2563eb" style="width: 40px; height: 40px;"/>
+                <PlusIcon fill="#fc5399" style="width: 40px; height: 40px;"/>
               </button>
             </div>
             <div class="d-flex align-items-center gap-2">
@@ -263,7 +271,7 @@
       </div>
 
 
-    </div>
+
 
 
   </div>
@@ -319,10 +327,10 @@ export default {
       service_desc: '',
       IsFreeService: false,
       service_address: '',
-      phone_number1: 0,
-      phone_number2: 0,
+      phone_number1: null,
+      phone_number2: null,
       Qty: 0,
-      mobile: 0,
+      mobile: null,
       email: '',
       web_address: '',
       BaseImgUrls: [],
@@ -487,13 +495,13 @@ export default {
         this.$toast.error("لطفا نام خدمت را وارد کنید");
       } else if (this.service_category === null) {
         this.$toast.error("لطفا دسته بندی خدمت را مشخص کنید");
-      } else if (this.mobile === 0) {
+      } else if (this.mobile === null) {
         this.$toast.error("لطفا شماره مستقیم تماس خود را وارد کنید");
-      } else if (this.mobile !== 0 && this.mobile.length > 11) {
+      } else if (this.mobile.length > 11) {
         this.$toast.error("فرمت وارد شده برای شماره مستقیم تماس درست نیست");
-      } else if (this.phone_number1 !== 0 && this.phone_number1.length > 11) {
+      } else if (this.phone_number1 !== null && this.phone_number1.length > 11) {
         this.$toast.error("فرمت وارد شده برای شماره تلفن اول درست نیست");
-      } else if (this.phone_number2 !== 0 && this.phone_number2.length > 11) {
+      } else if (this.phone_number2 !== null && this.phone_number2.length > 11) {
         this.$toast.error("فرمت وارد شده برای شماره تلفن دوم درست نیست");
       } else if (this.email !== '' && !this.email.includes('@')) {
         this.$toast.error("ایمیل وارد شده معتبر نیست");

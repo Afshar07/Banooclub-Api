@@ -5,7 +5,7 @@
       v-if="!$fetchState.pending"
     >
       <div class="row">
-        <div class="col-md-12 p-4">
+
           <div class="col-md-12 p-4">
             <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
               <div class="d-flex align-items-center gap-2">
@@ -17,7 +17,7 @@
               </div>
             </div>
           </div>
-        </div>
+
         <div class="col-md-12">
           <div class="row p-3 px-5">
             <div class="col-md-6">
