@@ -1,8 +1,19 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container tw-shadow bg-white p-3 mcontainer">
-    <div class="row">
-      <h1 class="tw-text-2xl tw-font-semibold">آگهی ها</h1>
+    <div class="row my-3">
+        <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+          <div class="d-flex align-items-center gap-2">
+            <img src="/girl-icon-ads.png" class="tw-w-[7rem] tw-h-20" alt="">
+            <div class="d-flex align-items-center flex-column">
+              <strong class="text-purple">آگهی ها</strong>
+              <strong class="text-pink">AdvertiseMents</strong>
+            </div>
+          </div>
 
+          <button v-tooltip="{content:'ثبت آگهی'}" @click="$router.push('/Migration/CreateAdvertise')" class="btn AddReplyBtn text-white">
+            <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+          </button>
+        </div>
     </div>
     <div class="tab-content" id="pills-tabContent">
 
@@ -30,37 +41,39 @@
                  aria-labelledby="products-pills-home-tab">
               <div class="col-md-12">
                 <div class="row">
-                  <div class="col-md-3 mt-3">
+                  <div class="col-md-3  mt-3">
                     <div class="row">
                       <div class="col-md-12">
-                        <h6 class="tw-font-bold tw-mt-2">فیلتر ها</h6>
                         <div class="accordion tw-mt-[2.3rem]" id="accordionPanelsStayOpenExample">
                           <div class="accordion-item">
                             <h2 class="accordion-header" id="panelsStayOpen-headingFour">
                               <button
-                                class="accordion-button p-2 w-100 d-flex align-items-center justify-content-between"
+                                class="accordion-button p-2 w-100   "
                                 type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne"
                                 aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                <small> دیگر</small>
+                                <div class="tw-w-full tw-flex tw-items-center tw-justify-between">
+
+                                <small> فیلتر ها</small>
+                                <FilterIcon class="tw-fill-white"></FilterIcon>
+                                </div>
                               </button>
                             </h2>
-                            <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse show"
+                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
                                  aria-labelledby="panelsStayOpen-headingFour">
                               <div class="accordion-body">
-                                <div class="d-flex align-items-center gap-2">
-                                  <input type="checkbox" style="width: 15px;height: 15px" v-model="Ladder"
-                                         class=" my-1 p-1 Form-Control border ">
+                                <div class="d-flex  gap-2">
+                                  <SlideCheckBox v-model="Ladder" :UniqueId="1"></SlideCheckBox>
                                   <div class="d-flex align-items-center gap-2">
-                                    <i class="fas fa-fire text-danger"></i>
+                                    <FireIcon class="tw-fill-red-500 tw-w-6 tw-h-6"></FireIcon>
+
                                     <small>آتیش زدم</small>
                                   </div>
 
                                 </div>
-                                <div class="d-flex align-items-center gap-2">
-                                  <input type="checkbox" style="width: 15px;height: 15px" v-model="Exchange"
-                                         class=" my-1 p-1 Form-Control border ">
+                                <div class="d-flex align-items-end my-2  gap-2">
+                                  <SlideCheckBox v-model="Exchange" :UniqueId="2"></SlideCheckBox>
                                   <div class="d-flex align-items-center gap-2">
-                                    <i class="fas fa-hands text-info"></i>
+                                    <ExChangeIcon class="tw-fill-sky-500 tw-w-6 tw-h-6"></ExChangeIcon>
                                     <small>قابل معاوضه</small>
                                   </div>
 
@@ -72,16 +85,16 @@
 
                           </div>
                           <div class="accordion-item">
-                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingSeven">
                               <button
                                 class="accordion-button p-2 w-100 d-flex align-items-center justify-content-between"
-                                type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne"
-                                aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeven"
+                                aria-expanded="true" aria-controls="panelsStayOpen-collapseSeven">
                                 <small> قیمت</small>
                               </button>
                             </h2>
-                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
-                                 aria-labelledby="panelsStayOpen-headingOne">
+                            <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse show"
+                                 aria-labelledby="panelsStayOpen-headingSeven">
                               <div class="accordion-body">
                                 <div class="d-flex align-items-center gap-2">
                                   <input type="tel" v-model="PriceFrom" placeholder="مثلا از 100000 تومان"
@@ -148,7 +161,7 @@
                                   :options="AllCities"
                                   label="name"
                                   dir="rtl"
-                                  class="my-2"
+                                  class="my-3"
                                   placeholder="شهر"
                                   v-model="SelectedCityId"
                                   :reduce="(name) => name.cityId"
@@ -167,12 +180,12 @@
                       <div class="col-md-12 mt-3">
                         <input type="search" v-model="Search" class="SearchStyle" placeholder="جستجو در میان آگهی ها">
                       </div>
-                      <div class="col-md-12">
+                      <div class="col-md-12"  style="height: 1000px; overflow-y: scroll">
                         <AllAdsTabContent :Ads="AllAds" :categories="categories"/>
-                      </div>
-                      <div v-if="AllAdsCount!==AllAds.length"
+                      <div
                            class="col-md-12 d-flex align-items-center justify-content-center">
                         <button class="btn btn-primary" @click="GetAdd">مشاهده بیشتر</button>
+                      </div>
                       </div>
                     </div>
                   </div>
@@ -207,7 +220,11 @@ import LeftChevronIcon from "../../components/Icons/LeftChevronIcon";
 import FirstTabContentAds from "../../components/Ads/FirstTabContentAds";
 import CustomPagination from "@/components/utilities/CustomPagination";
 import AllAdsTabContent from "../../components/Ads/AllAdsTabContent";
-
+import PlusIcon from "@/components/Icons/PlusIcon";
+import SlideCheckBox from "@/components/SlideCheckBox";
+import FilterIcon from "@/components/Icons/FilterIcon";
+import FireIcon from "@/components/Icons/FireIcon";
+import ExChangeIcon from "@/components/Icons/ExChangeIcon";
 export default {
 
   name: "index",
@@ -216,11 +233,16 @@ export default {
     CustomPagination,
     AllAdsTabContent,
     FirstTabContentAds,
+    FireIcon,
+    SlideCheckBox,
+    ExChangeIcon,
     LeftChevronIcon,
     RightChevronIcon,
     ChevronLeftIcon,
+    FilterIcon,
     ChevronRightIcon,
     ProductItem,
+    PlusIcon,
   },
   head() {
     return {
@@ -286,7 +308,7 @@ export default {
     SelectedCityId: function (val, oldVal) {
       this.GetAdd();
     },
-    exchangeability:function (){
+    Exchange:function (){
       this.GetAdd()
     },
     Ladder:function (){
@@ -460,6 +482,10 @@ export default {
   color: white !important;
   background-color: #3b82f6;
   box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+}
+
+.accordion-button{
+  @apply tw-bg-[#fc5399] !important;
 }
 
 .Form-Control {

@@ -188,24 +188,24 @@ export default [
 
 
   {
-    title: 'انجمن ها',
+    title: 'تالار ها',
     icon: 'CopyIcon',
     children: [
       {
-        title: ' لیست انجمن ها',
+        title: ' لیست تالار ها',
         route: 'apps-Forum-ForumsList',
         resource: 'Accountent',
         action: 'Accountent',
       },
 
       {
-        title: 'دسته بندی  انجمن',
+        title: 'دسته بندی  تالار',
         route: 'apps-Forum-ForumsCategories',
         resource: 'Accountent',
         action: 'Accountent',
       },
       {
-        title: 'افزودن انجمن',
+        title: 'افزودن تالار',
         route: 'apps-Forum-AddForum',
         resource: 'Accountent',
         action: 'Accountent',

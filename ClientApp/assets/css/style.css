@@ -2031,6 +2031,9 @@ select.bs-select-hidden, select.selectpicker {
   background-color: white!important;
   min-height: 100vh!important;
 }
+.NewBg{
+  @apply  tw-bg-[#faf7ff] !important;
+}
 
 .text-purple{
   color:#b44aff;
@@ -2038,6 +2041,13 @@ select.bs-select-hidden, select.selectpicker {
 .text-pink{
   color:#fc5399;
 
+}
+.bg-pink{
+  background-color:#fc5399 ;
+}
+
+.bg-purple{
+  background-color:#b44aff ;
 }
 
 input::-webkit-outer-spin-button,
@@ -2052,11 +2062,11 @@ input[type="number"] {
 
 .SearchStyle{
   height: 44px!important;
-  color: #393939!important;
+  color: #737373FF !important;
   padding: 0 30px 0 40px!important;
 
   outline: 0!important;
-  background: #f0f2f5!important;
+  background: #EEEEEEFF !important;
   border: 1px solid white!important;
   border-radius: 2rem!important;
 

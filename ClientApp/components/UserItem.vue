@@ -1,42 +1,44 @@
 <template>
-  <div class="d-flex align-items-center justify-content-between">
-    <div class="d-flex align-items-center">
-      <img
-        v-if="userDetails.PictureUrl"
-        :src="BaseUrl + 'media/gallery/profile/'+userDetails.PictureUrl"
-        class="userImage"
-        alt=""
-      />
-      <img
-        v-else
-        src="/defaultUser.png"
-        class="userImage"
-        alt=""
-      />
-      <div class="d-flex flex-column mx-4">
-        <h5 @click="goToUserProfile(userDetails)" class="mb-0" style="cursor: pointer; font-size: 16px">
-          <strong>{{ userDetails.Name + " " + userDetails.FamilyName }}</strong>
-        </h5>
-        <h6 class="mb-0" style="font-size: 15px">
-          <small class="text-primary tw-cursor-pointer" @click="goToUserProfile(userDetails)">{{ userDetails.UserName }}@</small>
-        </h6>
-      </div>
-
+  <div class="d-flex flex-column align-items-center justify-content-between">
+    <div class="Card-Img tw-w-full tw-h-[10rem] relative">
+      <img v-if="userDetails.PictureUrl" :src="BaseUrl + 'media/gallery/profile/'+userDetails.PictureUrl"
+           class="userImage custom-image tw-absolute -tw-translate-y-1/4  tw-top-1/4  -tw-translate-x-1/2 tw-left-1/2 "
+           alt=""/>
+      <img v-else src="/defaultUser.png" class="userImage" alt=""/>
+      <!--      <img alt="User Avatar" :src="BaseUrl + '/media/gallery/banner/' + userDetails.bannerFileData" class="tw-w-full tw-h-full tw-object-cover  "/>-->
     </div>
-    <div class="d-flex mt-4 mt-md-0 justify-content-center align-items-center mx-2">
-      <div class="d-flex flex-column flex-md-row  align-items-center tw-ml-3" >
+    <div class="d-flex flex-column align-items-center my-3">
+      <h5 @click="goToUserProfile(userDetails)" class="mb-0 tw-cursor-pointer tw-text-[16px]">
+        <strong>{{ userDetails.Name + " " + userDetails.FamilyName }}</strong>
+      </h5>
+      <h6 class="mb-0 tw-text-[15px]">
+        <small class="text-primary tw-cursor-pointer" @click="goToUserProfile(userDetails)">{{
+            userDetails.UserName
+          }}@</small>
+      </h6>
+    </div>
+    <div class="d-flex flex-column gap-3 my-3   justify-content-center align-items-center ">
+      <div class="d-flex   align-items-center gap-3">
         <div class="d-flex">
-          <div class="px-2">{{userDetails.FollowersCount}}</div>
-          <FollowerIcon style="fill: #0d6efd;width: 24px;height: 24px;" />
+          <div class="px-2">{{ userDetails.FollowersCount }}</div>
+          <FollowerIcon style="fill: #0d6efd;width: 24px;height: 24px;"/>
         </div>
-       <div class="d-flex">
-         <div class="px-2">{{userDetails.FollowingsCount}}</div>
-         <FollowingIcon style="fill: #0d6efd;width: 24px;height: 24px;" />
-       </div>
+        <div class="d-flex">
+          <FollowingIcon style="fill: #0d6efd;width: 24px;height: 24px;"/>
+          <div class="px-2">{{ userDetails.FollowingsCount }}</div>
+
+        </div>
       </div>
-      <button v-if="userDetails.IsFollowing === null && userDetails.Requested === null" class="btn btn-sm btn-primary w-100" @click.stop="FollowReq(userDetails.UserId)">دنبال کردن</button>
-      <button v-if="userDetails.IsFollowing === null && userDetails.Requested !== null" class="btn btn-sm text-white tw-cursor-default btn-warning w-100">درخواست شده</button>
-      <button v-if="userDetails.IsFollowing !== null" class="btn btn-sm btn-success w-100">دنبال شده</button>
+      <button v-if="userDetails.IsFollowing === null && userDetails.Requested === null"
+              class=" bg-pink p-2 rounded tw-cursor-pointer text-white w-100"
+              @click.stop="FollowReq(userDetails.UserId)">دنبال کردن
+      </button>
+      <button v-if="userDetails.IsFollowing === null && userDetails.Requested !== null"
+              class=" bg-purple p-2  rounded tw-cursor-pointer text-white  w-100">درخواست شده
+      </button>
+      <button v-if="userDetails.IsFollowing !== null" class=" bg-purple p-2  rounded tw-cursor-pointer text-white  w-100">
+        دنبال شده
+      </button>
     </div>
   </div>
 
@@ -45,9 +47,10 @@
 <script>
 import FollowerIcon from "../components/Icons/FollowerIcon"
 import FollowingIcon from "../components/Icons/FollowingIcon"
+
 export default {
   name: "UserItem",
-  components:{
+  components: {
     FollowerIcon,
     FollowingIcon
   },
@@ -57,18 +60,18 @@ export default {
     },
   },
 
-  props:{
-    userDetails:{
-      type:Object,
+  props: {
+    userDetails: {
+      type: Object,
       required: true
     }
   },
-  methods:{
+  methods: {
 
-    async goToUserProfile(user){
+    async goToUserProfile(user) {
       try {
         this.$router.push({path: `/user/${user.UserName}/posts`});
-      }catch (e){
+      } catch (e) {
         console.log(e)
       }
     },
@@ -106,7 +109,7 @@ export default {
 </script>
 
 <style scoped>
-.userImage{
+.userImage {
   object-fit: cover;
   border-radius: 50%;
   width: 60px;

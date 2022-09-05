@@ -237,9 +237,9 @@
         <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2">آدرس</h2>
         <p class="mt-1 tw-text-gray-600">{{service_details.address}}</p>
         <div class="my-5" id="map-wrap" >
-          <client-only>
+
             <Map :latitude="service_details.latitude" :longitude="service_details.longitude"></Map>
-          </client-only>
+
         </div>
         <div class="tw-flex tw-items-center tw-gap-2">
           <h2 class="tw-text-base tw-font-bold tw-text-gray-600 tw-pt-2 ">ظرفیت باقی مانده :</h2>

@@ -12,7 +12,7 @@
           cancelTitle="خیر"
           @ok="DeleteForum"
       >
-        <span>آیا از حذف کردن این انجمن اطمینان دارید ؟ </span>
+        <span>آیا از حذف کردن این تالار اطمینان دارید ؟ </span>
       </b-modal>
       <b-modal
           id="modal-View"
@@ -24,7 +24,7 @@
         <div v-if="SelectedForum!==null" class="row">
           <div class="col-md-12">
             <div class="d-flex align-items-center gap-2">
-              <span class="text-secondary">نام انجمن : </span>
+              <span class="text-secondary">نام تالار : </span>
               <span>{{SelectedForum.title}}</span>
             </div>
           </div>
@@ -75,7 +75,7 @@
             <template active #title>
               <div @click="status =1">
                 <feather-icon icon="CheckIcon"  />
-                <span>انجمن های فعال</span>
+                <span>تالار های فعال</span>
               </div>
 
             </template>
@@ -85,7 +85,7 @@
                   <b-form-input
                       id="basicInput"
                       v-model="search"
-                      placeholder="جستجو بر اساس تیتر انجمن"
+                      placeholder="جستجو بر اساس تیتر تالار"
                   />
                 </b-col>
 
@@ -144,7 +144,7 @@
             <template #title >
               <div @click="status=2">
                 <feather-icon icon="MinusIcon"   />
-                <span>انجمن های تایید نشده</span>
+                <span>تالار های تایید نشده</span>
               </div>
 
             </template>
@@ -155,7 +155,7 @@
                   <b-form-input
                       id="basicInput2"
                       v-model="search"
-                      placeholder="جستجو بر اساس تیتر انجمن"
+                      placeholder="جستجو بر اساس تیتر تالار"
                   />
                 </b-col>
 
@@ -224,7 +224,7 @@
                   <b-form-input
                       id="basicInput3"
                       v-model="search"
-                      placeholder="جستجو بر اساس تیتر انجمن"
+                      placeholder="جستجو بر اساس تیتر تالار"
                   />
                 </b-col>
 
@@ -293,7 +293,7 @@
                   <b-form-input
                       id="basicInput4"
                       v-model="search"
-                      placeholder="جستجو بر اساس تیتر انجمن"
+                      placeholder="جستجو بر اساس تیتر تالار"
                   />
                 </b-col>
 
@@ -442,7 +442,7 @@ export default {
     BTab,
     vSelect,
   },
-  title: 'لیست  انجمن ها  - پنل ادمین بانو کلاب',
+  title: 'لیست  تالار ها  - پنل ادمین بانو کلاب',
   name: 'UsersList',
 
   data() {
@@ -537,7 +537,7 @@ export default {
             title: `عملیات موفق`,
             icon: 'CheckIcon',
             variant: 'success',
-            text: `وضعیت انجمن با موفقیت تغییر یافت`,
+            text: `وضعیت تالار با موفقیت تغییر یافت`,
           },
         })
      _this.GetAllForum()
@@ -561,7 +561,7 @@ export default {
             title: `عملیات موفق`,
             icon: 'CheckIcon',
             variant: 'success',
-            text: `انجمن حذف شد.`,
+            text: `تالار حذف شد.`,
           },
         })
         _this.GetAllForum();

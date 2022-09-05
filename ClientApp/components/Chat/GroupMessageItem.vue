@@ -50,7 +50,7 @@ export default {
 
 <style scoped>
 .my_message_item {
-  background-color: #2a41e8;
+  background-color: #9c68ff;
   border-radius: 6px;
   color: white;
 }
@@ -64,7 +64,7 @@ export default {
 }
 
 .your_message_item {
-  background-color: #f3f3f3;
+  background-color: #ffa3b9;
   border-radius: 6px;
   color: #333;
 }

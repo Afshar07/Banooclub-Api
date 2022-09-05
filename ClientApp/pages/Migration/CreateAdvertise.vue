@@ -6,14 +6,22 @@
     >
       <div class="row">
         <div class="col-md-12 p-4">
-          <h4><strong>ثبت آگهی</strong></h4>
+          <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+            <div class="d-flex align-items-center gap-2">
+              <img src="/girl-icon-ads-afzodan.png" class="tw-w-[7rem] tw-h-20" alt="">
+              <div class="d-flex align-items-center flex-column">
+                <strong class="text-purple">ثبت آگهی</strong>
+                <strong class="text-pink">Add AdvertiseMents</strong>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="col-md-12">
-          <div class="row p-3">
+          <div class="row p-3 px-5">
             <div class="col-md-12">
               <div class="row">
                 <div class="col-md-4">
-                  <div class="labelText">دسته بندی</div>
+                  <div class="labelText">دسته بندی*</div>
 
                   <div class="col-md-12 px-0">
                     <div class="my-3">
@@ -32,31 +40,30 @@
                 </div>
               </div>
             </div>
-
             <div class="col-md-6">
-              <div class="labelText">عنوان آگهی</div>
+              <div class="labelText">عنوان آگهی*</div>
               <div class="my-3">
                 <input
-                  class="border w-100 rounded p-1"
+                  class="border BgInput w-100 rounded p-1"
                   maxlength="50"
                   type="text"
                   v-model.trim="title"
-                  placeholder="عنوان آگهی ..."
+                  placeholder="مثال: لباس شب مجلسی"
                 />
               </div>
             </div>
             <div class="col-md-6">
-              <div class="labelText">وضعیت کالا</div>
+              <div class="labelText">وضعیت کالا*</div>
               <div class="my-3">
-                <select v-model="Status" class="form-control w-100">
+                <select v-model="Status" class="form-control BgInput w-100">
                   <option :value="1">نو</option>
                   <option :value="2">دست دوم</option>
                 </select>
               </div>
             </div>
             <div class="col-md-12 my-3">
-              <div class="labelText">شماره موبایل</div>
-              <input type="tel" class="form-control with-border" v-model="PhoneNumber">
+              <div class="labelText">شماره موبایل*</div>
+              <input type="tel" placeholder="با صفر اول وارد کنید" class="form-control BgInput with-border" v-model="PhoneNumber">
             </div>
 
 
@@ -67,7 +74,7 @@
               <div class="labelText">عکس اصلی آگهی</div>
               <div class="d-flex flex-row gap-3 my-3">
                 <div
-                  class="border rounded text-center justify-content-center align-items-center InputUiBox"
+                  class="border rounded text-center d-flex justify-content-center align-items-center InputUiBox"
                   @click="callInputMethodMainImage"
                 >
                   <input
@@ -77,7 +84,7 @@
                     id="MainImage"
                     @change="onFileChangeMainImage"
                   />
-                  <font-awesome-icon icon="plus-square" size="lg" />
+                  <UploadIcon class="tw-fill-[#b44aff]"></UploadIcon>
                 </div>
                 <div  v-if="url" id="main" class="position-relative">
                   <i class="fas fa-times tw-cursor-pointer text-danger position-absolute top-0 end-0" @click="RemoveMainImage" ></i>
@@ -95,7 +102,7 @@
               <div class="labelText">عکس های فرعی آگهی</div>
               <div class="d-flex flex-row gap-3 my-3">
                 <div
-                  class="border rounded text-center justify-content-center align-items-center InputUiBox"
+                  class="border rounded text-center d-flex justify-content-center align-items-center InputUiBox"
                   @click="callInputMethodSubImage"
                 >
                   <input
@@ -106,7 +113,7 @@
                     id="SubImage"
                     @change="onFileChangeSubImage"
                   />
-                  <font-awesome-icon icon="plus-square" size="lg" />
+                  <UploadIcon class="tw-fill-[#b44aff]"></UploadIcon>
                 </div>
                 <div  v-for="(item,idx) in subUrl"   :key="item" id="preview" class="position-relative" v-if="subUrl">
                   <i class="fas fa-times tw-cursor-pointer  text-danger position-absolute top-0 end-0" @click="RemoveOtherImages(idx)" ></i>
@@ -125,8 +132,8 @@
                 :options="AllStates"
                 label="name"
                 dir="rtl"
-                class="selectWidth w-100"
-                placeholder="استان"
+                class="selectWidth BgInput w-100"
+                placeholder="استان*"
                 v-model="SelectedStateId"
                 :reduce="(name) => name.stateId"
 
@@ -137,8 +144,8 @@
                 :options="AllCities"
                 label="name"
                 dir="rtl"
-                class="selectWidth w-100"
-                placeholder="شهر"
+                class="selectWidth BgInput w-100"
+                placeholder="شهر*"
                 v-model="SelectedCityId"
                 :reduce="(name) => name.cityId"
 
@@ -150,18 +157,17 @@
                 <input
                   v-model="Tags"
                   type="text"
-                  class="form-control with-border"
+                  class="form-control BgInput with-border"
                   placeholder="لباس,تیشرت,شلوار..."
                 />
               </div>
             </div>
             <div class="col-md-6">
-              <div class="labelText">قیمت</div>
+              <div class="labelText">قیمت (تومان)*</div>
               <div class="my-3">
                 <input
-                  class="rounded border p-1 w-100"
+                  class="rounded BgInput border p-1 w-100"
                   type="text"
-                  placeholder="قیمت به تومان"
                   v-model="formattedValuePrice"
                 />
               </div>
@@ -170,34 +176,35 @@
               <div class="labelText">توضیحات آگهی</div>
               <div class="my-3">
               <textarea
-                class="border rounded form-control"
+                class="border BgInput rounded form-control"
                 rows="1"
-                placeholder="توضیحات آگهی"
+                placeholder="در مورد ویژگی های کالا توضیح دهید"
                 v-model.trim="description"
               ></textarea>
               </div>
             </div>
             <div class="col-md-12 my-2">
 
-              <div class="labelText mb-2">معاوضه</div>
+              <div class="labelText mb-2">با کالایی دیگر معاوضه میکنم*</div>
 
               <label class="switch">
                 <input
+
                   type="checkbox"
                   id="togBtn123"
                   v-model="ExchangeAbility"
                   :checked="ExchangeAbility"
                 />
                 <div class="slider round">
-                  <span class="on">دارد</span>
-                  <span class="off">ندارد</span>
+                  <span class="on">بله</span>
+                  <span class="off">خیر</span>
                 </div>
               </label>
 
             </div>
 
             <div class="col-md-12">
-              <div class="labelText">موقعیت روی نقشه</div>
+              <div class="labelText">موقعیت حدودی روی نقشه*</div>
               <div class="my-3" id="map-wrap" >
                 <client-only>
                <SetLocation @getGeoLocation="SetLocation"></SetLocation>
@@ -227,9 +234,11 @@
 </template>
 
 <script>
+import UploadIcon from "@/components/Icons/UploadIcon";
 export default {
   name: "CreateAdvertise",
   layout: "PoshtebamPlusLayout",
+  components:{UploadIcon},
   fetchOnServer() {
     return true;
   },
@@ -394,8 +403,6 @@ this.subUrl.splice(idx,1)
         this.$toast.error("لطفا عنوان آگهی را مشخص کنید");
       } else if (this.price === 0) {
         this.$toast.error("لطفا قیمت را مشخص کنید");
-      } else if (this.photos === null) {
-        this.$toast.error("لطفا تصاویر را بارگذاری کنید");
       }  else if (this.latitude === 0) {
         this.$toast.error("لطفا موقعیت مکانی آگهی را مشخص کنید");
       } else {
@@ -433,6 +440,9 @@ this.subUrl.splice(idx,1)
 </script>
 
 <style scoped>
+.BgInput{
+
+}
 @media (min-width: 1024px) {
   .mcontainer {
     max-width: 1000px;
@@ -450,7 +460,7 @@ this.subUrl.splice(idx,1)
   }
 }
 .AddReplyBtn {
-  background-color: #3a49df;
+  background-color: #d277ff;
   color: white;
   transition: 0.2s ease;
 }
@@ -471,7 +481,7 @@ input::placeholder {
 }
 
 .InputUiBox {
-  padding: 2rem 0 0 0;
+
   width: 100px;
   height: 100px;
   cursor: pointer;

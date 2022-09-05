@@ -6,24 +6,34 @@
     >
       <div class="row">
         <div class="col-md-12 p-4">
-          <h4><strong>ویرایش آگهی</strong></h4>
+          <div class="col-md-12 p-4">
+            <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+              <div class="d-flex align-items-center gap-2">
+                <img src="/girl-icon-ads-edit.png" class="tw-w-[7rem] tw-h-20" alt="">
+                <div class="d-flex align-items-center flex-column">
+                  <strong class="text-purple">ویرایش آگهی</strong>
+                  <strong class="text-pink">Edit AdvertiseMents</strong>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="col-md-12">
-          <div class="row p-3">
+          <div class="row p-3 px-5">
             <div class="col-md-6">
-              <div class="labelText">عنوان آگهی</div>
+              <div class="labelText">عنوان آگهی*</div>
               <div class="my-3">
                 <input
                   class="border w-100 rounded p-1"
                   maxlength="50"
                   type="text"
                   v-model.trim="AdDetail.title"
-                  placeholder="عنوان آگهی ..."
+                  placeholder="مثال: لباس شب مجلسی"
                 />
               </div>
             </div>
             <div class="col-md-6">
-              <div class="labelText">وضعیت کالا</div>
+              <div class="labelText">وضعیت کالا*</div>
               <div class="my-3">
                 <select v-model="AdDetail.status" class="form-control w-100">
                   <option :value="1">نو</option>
@@ -32,8 +42,8 @@
               </div>
             </div>
             <div class="col-md-12">
-              <div class="labelText">شماره موبایل</div>
-              <input type="tel" class="form-control with-border" v-model="AdDetail.phoneNumber">
+              <div class="labelText">شماره موبایل*</div>
+              <input type="tel" placeholder="با صفر اول وارد کنید" class="form-control with-border" v-model="AdDetail.phoneNumber">
             </div>
 
             <div class="col-md-12 my-2">
@@ -60,7 +70,7 @@
               <div class="labelText">عکس اصلی آگهی</div>
               <div class="d-flex flex-row gap-3 my-3">
                 <div
-                  class="border rounded text-center justify-content-center align-items-center InputUiBox"
+                  class="border rounded d-flex text-center justify-content-center align-items-center InputUiBox"
                   @click="callInputMethodMainImage"
                 >
                   <input
@@ -70,7 +80,7 @@
                     id="MainImage"
                     @change="onFileChangeMainImage"
                   />
-                  <font-awesome-icon icon="plus-square" size="lg"/>
+                  <UploadIcon class="tw-fill-[#b44aff]"></UploadIcon>
                 </div>
                 <div id="main">
                   <img
@@ -88,7 +98,7 @@
               <div class="labelText">عکس های فرعی آگهی</div>
               <div class="d-flex flex-row gap-3 my-3">
                 <div
-                  class="border rounded text-center justify-content-center align-items-center InputUiBox"
+                  class="border rounded d-flex text-center justify-content-center align-items-center InputUiBox"
                   @click="callInputMethodSubImage"
                 >
                   <input
@@ -99,7 +109,7 @@
                     id="SubImage"
                     @change="onFileChangeSubImage"
                   />
-                  <font-awesome-icon icon="plus-square" size="lg"/>
+                  <UploadIcon class="tw-fill-[#b44aff]"></UploadIcon>
                 </div>
                 <div id="preview" v-if="subUrl">
                   <img
@@ -119,7 +129,7 @@
                 label="name"
                 dir="rtl"
                 class="selectWidth w-100"
-                placeholder="استان"
+                placeholder="استان*"
                 v-model="AdDetail.stateId"
                 :reduce="(name) => name.stateId"
 
@@ -131,7 +141,7 @@
                 label="name"
                 dir="rtl"
                 class="selectWidth w-100"
-                placeholder="شهر"
+                placeholder="شهر*"
                 v-model="SelectedCityId"
                 :reduce="(name) => name.cityId"
 
@@ -149,12 +159,11 @@
               </div>
             </div>
             <div class="col-md-6">
-              <div class="labelText">قیمت</div>
+              <div class="labelText">قیمت (تومان)*</div>
               <div class="my-3">
                 <input
                   class="rounded border p-1 w-100"
                   type="number"
-                  placeholder="قیمت به تومان"
                   v-model.trim="AdDetail.price"
                 />
               </div>
@@ -172,7 +181,7 @@
             </div>
             <div class="col-md-12 my-2">
 
-              <div class="labelText mb-2">معاوضه</div>
+              <div class="labelText mb-2">با کالایی دیگر معاوضه میکنم*</div>
 
               <label class="switch">
                 <input
@@ -189,8 +198,8 @@
 
             </div>
             <div class="col-md-12">
-              <div class="labelText">موقعیت روی نقشه</div>
-              <div class="my-3" id="map-wrap" style="height: 50vh">
+              <div class="labelText">موقعیت حدودی روی نقشه*</div>
+              <div class="my-3" id="map-wrap" >
                 <client-only>
                   <SetLocation @getGeoLocation="SetLocation"
                                :defaultMarkerGeoLoc="[AdDetail.latitude,AdDetail.longitude]"
@@ -199,14 +208,14 @@
               </div>
             </div>
 
-            <div class="col-md-12">
-              <div class="my-3 text-center">
+            <div class="col-md-12 d-flex align-items-center justify-content-start">
+              <div class=" text-center">
                 <button
                   type="button"
-                  class="btn btn-sm AddReplyBtn"
+                  class="btn AddReplyBtn"
                   @click="UpdateAdvertise"
                 >
-                  بروزرسانی آگهی
+                  ثبت آگهی
                 </button>
               </div>
             </div>
@@ -223,11 +232,11 @@
 <script>
 
 import SetLocation from '../../components/SetLocation'
-
+import UploadIcon from "@/components/Icons/UploadIcon";
 export default {
   name: "CreateAdvertise",
   layout: "PoshtebamPlusLayout",
-  components: {SetLocation},
+  components: {SetLocation,UploadIcon},
   fetchOnServer() {
     return true;
   },
@@ -444,7 +453,7 @@ export default {
 }
 
 .AddReplyBtn {
-  background-color: #3a49df;
+  background-color: #d277ff;
   color: white;
   transition: 0.2s ease;
 }
@@ -466,7 +475,7 @@ input::placeholder {
 }
 
 .InputUiBox {
-  padding: 2rem 0 0 0;
+
   width: 100px;
   height: 100px;
   cursor: pointer;

@@ -1,9 +1,17 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container bg-white mcontainer tw-shadow p-3 ">
-    <h1 class="tw-text-2xl tw-font-semibold"> مقالات  </h1>
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container NewBg mcontainer  p-3 ">
     <div class="row p-3">
-
       <div class="col-lg-8 tw-flex-shirink-0 ">
+        <div class="">
+          <div class="tw-w-full bg-white p-3 d-flex align-items-center gap-3  rounded ">
+            <img src="/girl-icon-maghale.png" class="tw-w-[7rem] tw-h-20" alt="">
+            <div class="d-flex align-items-center flex-column">
+              <h1 class="text-purple h5">مقالات</h1>
+              <h1 class="text-pink h5">Articles</h1>
+            </div>
+
+          </div>
+        </div>
         <div class="col-md-12 my-3 px-0">
           <input type="text" class="SearchStyle   border  " v-model="Search" placeholder="جستجو مقالات">
         </div>
@@ -31,7 +39,7 @@
                                       <div class="tw-flex tw-items-center tw-gap-1">
                                         <small class=" tw-text-stone-400">{{ item.likeCount }}</small>
                                         <i v-if="item.myLikeStatus===1"  class="far fa-heart tw-text-stone-400"></i>
-                                        <i v-else  class="fas fa-heart tw-text-red-600"></i>
+                                        <i v-else  class="fas fa-heart tw-text-[#ff4791]"></i>
                                       </div>
 
                                     </div>
@@ -179,5 +187,6 @@ export default {
   color: white;
   background-color: #00adef;
 }
+
 
 </style>

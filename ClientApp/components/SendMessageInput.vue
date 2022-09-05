@@ -1,6 +1,6 @@
 <template>
   <div class="col-md-12 p-0  bg-white  SendMessageContainer">
-    <div class="input-group  p-2" style="direction: ltr!important;">
+    <div class="input-group  " style="direction: ltr!important;">
       <span class="input-group-text " @click="sendMessage" id="basic-addon1">ارسال</span>
       <textarea v-model="MessageBody" class="form-control tw-z-10 " placeholder="پیام خود را وارد کنید..."
                 style="resize: none!important;" rows="1"></textarea>
@@ -34,7 +34,7 @@ export default {
   z-index: 9999999999999999999999999999!important;
 }
 .input-group-text {
-  background-color: #0870a0;
+  background-color: #ffa3b9;
   color: white;
   cursor: pointer;
 }

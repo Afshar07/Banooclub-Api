@@ -28,11 +28,10 @@
       </div>
     </div>
     <!--Mobile Main Chat-->
-    <div v-if="!ChatSelected" class="  d-lg-none d-block col-md-5 lg:tw-border-l bg-white tw-shadow"
-         style="height: 800px;overflow-y: scroll">
+    <div v-if="!ChatSelected" class="  d-lg-none d-block col-md-5 lg:tw-border-l bg-white tw-shadow" style="height: 800px;overflow-y: scroll">
       <div class="row">
         <div class="col-md-12">
-          <h1 class="h3 mt-3">چت من من </h1>
+          <h1 class="h3 mt-3">چت من </h1>
         </div>
         <div class="col-md-12 border-bottom pb-2 my-2">
           <input type="search" v-model="Search" class="SearchStyle" placeholder="جستجو">
@@ -85,7 +84,7 @@ export default {
   },
   head() {
     return {
-      title: 'چت من من'
+      title: 'چت  من'
     }
   },
   computed: {

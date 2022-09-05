@@ -13,7 +13,7 @@
       <div class="row">
         <div class="col-md-12" style="height: 900px;overflow-y: scroll;" @scroll="handleScroll">
           <div v-if="AllUsers.length>0" class="row">
-            <div class="col-12 col-lg-6" v-for="(item,index) in AllUsers" :key="index">
+            <div class="col-md-3 col-12" v-for="(item,index) in AllUsers" :key="index">
               <UserItem class="my-2 tw-shadow tw-rounded tw-p-2" :userDetails="item"/>
             </div>
             <Spinner style="text-align: center" v-if="AllUsers && AllUsers.length !== AllUsersCount"/>
