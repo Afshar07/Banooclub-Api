@@ -24,19 +24,24 @@
                     ثبت نام با شماره موبایل
                   </div>
                 </div>
-                <form>
+
                   <get-otp
+                    v-if="ActiveComponent===1"
                     @getNumber="setNumber"
                     @setCounter="setCounter($event)"
                     @getCodeFields="getCodeField($event)"
                   ></get-otp>
+                  <GetIntroducerCode v-if="ActiveComponent===2" ref="IntCode" @SendIntCode="SetIntroducerCode"></GetIntroducerCode>
+                  <SelectAvatar @SendAvatarPic="SetAvatarPic" v-if="ActiveComponent===3"></SelectAvatar>
+                  <SelectBanner @SendBannerPic="SetBannerPic" v-if="ActiveComponent===4"></SelectBanner>
                   <register-form
+                    v-if="ActiveComponent===5"
                     :counterNumber="local_counter"
                     :code_field="code_field"
                     @getSignUpPayload="setSignUpPayload"
                     @close_register_modal="closeRegisterModal"
                   ></register-form>
-                </form>
+
                 <div class="col-12 my-3">
                   <nuxt-link
                     to="Login"
@@ -65,14 +70,17 @@
 
 import GetOtp from "../../components/Register/GetOtp";
 import RegisterForm from "../../components/Register/RegisterForm.vue";
-
+import SelectAvatar from "@/components/SelectAvatar";
+import SelectBanner from "@/components/SelectBanner";
+import GetIntroducerCode from "@/components/GetIntroducerCode";
 export default {
   name: "RegisterModal",
-  components: {RegisterForm, GetOtp},
+  components: {RegisterForm,SelectBanner, GetIntroducerCode,GetOtp,SelectAvatar},
   data() {
     return {
       code_field: null,
       local_counter: 0,
+      ActiveComponent:1,
       categories: [],
       service_category: null,
       Time: null,
@@ -154,18 +162,32 @@ export default {
         this.$nuxt.$loading.finish();
       }
     },
-    setSignUpPayload(payload) {
+    SetIntroducerCode(payload){
       Object.keys(payload).forEach(key => {
         this.payload[key] = payload[key]
       })
-
-      this.sendSignUpRequest();
+      this.ActiveComponent=3
+    },
+    setSignUpPayload(payload) {
+      this.$refs.IntCode.SendIntroducerCode();
+      Object.keys(payload).forEach(key => {
+        this.payload[key] = payload[key]
+      })
+        console.log(this.payload)
+      // this.sendSignUpRequest();
     },
 
+    SetAvatarPic(){
+      this.ActiveComponent=4
+    },
+    SetBannerPic(){
+      this.ActiveComponent=5
+    },
     setNumber(mobile) {
       this.payload.mobile = mobile;
       this.payload.type = 1;
       this.payload.mail = "";
+      this.ActiveComponent = 2
     },
     setUserType() {
       this.userType = 3;

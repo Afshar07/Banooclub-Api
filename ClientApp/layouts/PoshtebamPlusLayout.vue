@@ -20,19 +20,19 @@
       style="min-height: 100vh!important;"
       @click="closingHeader = true"
     >
-      <transition name="CollapseSide">
-        <div :class="decrease_width?'lg:tw-col-span-1':'lg:tw-col-span-2'"  class="  tw-transition-all tw-duration-1000  m-0 p-0">
+
+        <div :class="decrease_width?'lg:tw-col-span-1':'lg:tw-col-span-2'"  class="tw-transition-all tw-duration-100    m-0 p-0">
 
         </div>
-      </transition>
 
-      <transition name="CollapseMain" mode="out-in">
-        <div :class="decrease_width?'  tw-col-span-12 lg:tw-mr-20':'lg:tw-col-span-10 tw-col-span-12'"  class=" tw-duration-1000 tw-transition-all tw-min-h-screen   tw-bg-[#faf7ff]">
+
+
+        <div :class="decrease_width?'  tw-col-span-12 ':'lg:tw-col-span-10 tw-col-span-12'"  class=" tw-transition-all tw-duration-1000  tw-min-h-screen   tw-bg-[#faf7ff]">
           <Nuxt
             @GetFullName="SetFullName($event)"
           />
         </div>
-      </transition>
+
 
 
       <div

@@ -5,7 +5,7 @@
         <div v-if="ActiveTab===1" class="d-flex align-items-center gap-2">
           <img src="/girl-icon-khadamat-edit.png" class="tw-w-[7rem] tw-h-20" alt="">
           <div class="d-flex align-items-center flex-column">
-            <strong class="text-purple"> ویرایش خدمت </strong>
+            <h1 class="text-purple h6"> ویرایش خدمت </h1>
             <strong class="text-pink">Edit Service</strong>
           </div>
         </div>

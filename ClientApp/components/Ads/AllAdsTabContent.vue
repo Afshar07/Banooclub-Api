@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-3 tw-justify-center tw-mx-auto  ">
-      <AdItem class="tw-my-3 tw-mx-auto"  v-for="item in Ads" :AdsDetail="item" />
+      <AdItem class="tw-my-3 tw-mx-auto"   v-for="item in Ads" :AdsDetail="item"  />
     </div>
 
   </div>
@@ -21,7 +21,6 @@ export default {
   },
   components: {
     AdItem,
-
   },
 
   props:{

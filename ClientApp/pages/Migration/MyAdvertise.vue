@@ -42,7 +42,7 @@
           <div class="d-flex align-items-center gap-2">
             <img src="/girl-icon-ads.png" class="tw-w-[7rem] tw-h-20" alt="">
             <div class="d-flex align-items-center flex-column">
-              <strong class="text-purple">آگهی های من</strong>
+              <h1 class="text-purple h6">آگهی های من</h1>
               <strong class="text-pink">My AdvertiseMents</strong>
             </div>
           </div>
@@ -188,9 +188,11 @@
 </template>
 
 <script>
+import PlusIcon from "@/components/Icons/PlusIcon";
 export default {
   layout: "PoshtebamPlusLayout",
   name: "Advertises",
+  components:{PlusIcon},
   data() {
     return {
       UserAds: "",

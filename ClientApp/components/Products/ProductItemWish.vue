@@ -3,8 +3,8 @@
     <div class="card-media tw-h-40">
       <div class="card-media-overly"></div>
       <nuxt-link :to="`/Products/${service_details.serviceInfo.servicePackId}`">
-        <img v-if="service_details.serviceInfo && service_details.serviceInfo.medias!==null" :src="`https://banooclubapi.simagar.com/media/gallery/service/${service_details.serviceInfo.medias[0].base64}`" >
-        <img v-else :src="`/nopicture.jpg`" >
+        <img v-if="service_details.serviceInfo && service_details.serviceInfo.medias!==null" :src="`https://banooclubapi.simagar.com/media/gallery/service/${service_details.serviceInfo.medias[0].base64}`"  alt="">
+        <img v-else :src="`/nopicture.jpg`"  alt="">
       </nuxt-link>
 
     </div>
@@ -12,10 +12,9 @@
 
       <div class="tw-flex tw-items-center  tw-left-2  tw-justify-center position-absolute tw-top-[-15px]">
 
-        <div class="tw-top-3  tw-border-1 tw-bg-white ServicePrice tw-shadow tw-border-pink-700  tw-font-medium tw-px-2 tw-py-1 tw-left-2  tw-text tw-text-blue-500 ">
+        <div class="tw-top-3  tw-border-1  tw-rounded-full tw-shadow tw-bg-[#9cf5ff]  tw-font-medium tw-px-2 tw-py-1 tw-left-2  tw-text-[#db3cd6]">
           {{Intl.NumberFormat('fa-IR').format(service_details.serviceInfo.totalPrice)}}
           <small class="Toman">تومان</small>
-
         </div>
 
       </div>

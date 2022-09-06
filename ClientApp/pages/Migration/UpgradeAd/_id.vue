@@ -8,7 +8,7 @@
             <div class="d-flex align-items-center gap-2">
               <img src="/girl-icon-ads-ertegha.png" class="tw-w-[7rem] tw-h-20" alt="">
               <div class="d-flex align-items-center flex-column">
-                <strong class="text-purple">ارتقا آگهی</strong>
+                <h1 class="text-purple h6">ارتقا آگهی</h1>
                 <strong class="text-pink">Boost AdvertiseMents</strong>
               </div>
             </div>

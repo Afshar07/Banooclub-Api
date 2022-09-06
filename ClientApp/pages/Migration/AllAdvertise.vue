@@ -5,7 +5,7 @@
           <div class="d-flex align-items-center gap-2">
             <img src="/girl-icon-ads.png" class="tw-w-[7rem] tw-h-20" alt="">
             <div class="d-flex align-items-center flex-column">
-              <strong class="text-purple">آگهی ها</strong>
+              <h1 class="text-purple h6">آگهی ها</h1>
               <strong class="text-pink">AdvertiseMents</strong>
             </div>
           </div>
@@ -180,11 +180,10 @@
                       <div class="col-md-12 mt-3">
                         <input type="search" v-model="Search" class="SearchStyle" placeholder="جستجو در میان آگهی ها">
                       </div>
-                      <div class="col-md-12"  style="height: 1000px; overflow-y: scroll">
+                      <div @scroll="handleScroll" class="col-md-12"  style="height: 1000px; overflow-y: scroll">
                         <AllAdsTabContent :Ads="AllAds" :categories="categories"/>
-                      <div
-                           class="col-md-12 d-flex align-items-center justify-content-center">
-                        <button class="btn btn-primary" @click="GetAdd">مشاهده بیشتر</button>
+                      <div class="col-md-12 d-flex align-items-center justify-content-center">
+                        <Spinner></Spinner>
                       </div>
                       </div>
                     </div>
@@ -225,6 +224,7 @@ import SlideCheckBox from "@/components/SlideCheckBox";
 import FilterIcon from "@/components/Icons/FilterIcon";
 import FireIcon from "@/components/Icons/FireIcon";
 import ExChangeIcon from "@/components/Icons/ExChangeIcon";
+import Spinner from "@/components/Spinner";
 export default {
 
   name: "index",
@@ -233,6 +233,7 @@ export default {
     CustomPagination,
     AllAdsTabContent,
     FirstTabContentAds,
+    Spinner,
     FireIcon,
     SlideCheckBox,
     ExChangeIcon,
@@ -320,14 +321,15 @@ export default {
       this.SelectedPageId = id
       this.GetAdd()
     },
+    handleScroll(event){
+
+      if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight) {
+        this.GetAdd()
+      }
+    },
+
     async GetAdd() {
       try {
-        if (this.Search === '' || this.PriceTo !== null || this.PriceFrom !== null) {
-          this.$nextTick(() => {
-            this.$nuxt.$loading.start();
-          })
-        }
-
         const res = await this.$repositories.GetAllAds.GetAllAds({
           priceFrom: this.PriceFrom,
           priceTo: this.PriceTo,
@@ -335,16 +337,13 @@ export default {
           tag: null,
           city: this.SelectedCityId,
           state: this.SelectedStateId,
-          firstSearchadsId: this.AllAds[this.AllAds.length - 1].adsId,
+          lastItemFireDate: this.AllAds[this.AllAds.length - 1].fireDate,
           count: 10,
           categoryId: this.SelectedCategoryId,
           planType: this.Ladder ? 1 : null,
           exchangeability: this.Exchange
         })
-        res.data.ads.forEach((item) => {
-          this.AllAds.push(item)
-        })
-
+        this.AllAds = res.data.ads
         this.AllAdsCount = res.data.adsCount
         this.$nuxt.$loading.finish();
         this.$nuxt.loading = false;

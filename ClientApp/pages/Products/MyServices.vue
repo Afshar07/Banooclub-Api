@@ -4,7 +4,7 @@
       <div class="d-flex align-items-center gap-2">
         <img src="/girl-icon-khadamat.png" class="tw-w-[7rem] tw-h-20" alt="">
         <div class="d-flex align-items-center flex-column">
-          <strong class="text-purple"> خدمات من</strong>
+          <h1 class="text-purple h6"> خدمات من</h1>
           <strong class="text-pink">My Services</strong>
         </div>
       </div>
@@ -49,6 +49,7 @@ export default {
         },
       ],
     }
+
   },
   data(){
     return{

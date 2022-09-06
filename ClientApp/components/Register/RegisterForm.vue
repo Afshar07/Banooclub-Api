@@ -55,9 +55,7 @@
             </option>
           </select>
         </div>
-        <div class="col-12 mt-3">
-          <input v-model="payload.introducerCode" type="text" placeholder="کد معرف" class="with-border">
-        </div>
+
         <div class="col-12 mt-3 position-relative">
           <div class="form-floating text-end">
             <input
@@ -209,7 +207,6 @@ export default {
         password: null,
         verifyCode: null,
         userRole: 3,
-        introducerCode: null,
         serviceCategoryId: 0,
       },
       passwordRepeat: null,
@@ -268,7 +265,6 @@ export default {
         this.$toast.error("کد تایید را وارد کنید.");
       } else {
         this.$emit("getSignUpPayload", this.payload);
-
       }
     },
     showPassword() {

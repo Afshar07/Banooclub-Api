@@ -4,7 +4,7 @@
       <div class="d-flex align-items-center gap-2">
         <img src="/girl-icon-forum.png" class="tw-w-[7rem] tw-h-20" alt="">
         <div class="d-flex align-items-center flex-column">
-          <strong class="text-purple">تالار  گفتگو</strong>
+          <h1 class="text-purple h6">تالار  گفتگو</h1>
           <strong class="text-pink">Forum</strong>
         </div>
       </div>

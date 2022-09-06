@@ -11,7 +11,7 @@
               <div class="d-flex align-items-center gap-2">
                 <img src="/girl-icon-ads-edit.png" class="tw-w-[7rem] tw-h-20" alt="">
                 <div class="d-flex align-items-center flex-column">
-                  <strong class="text-purple">ویرایش آگهی</strong>
+                  <h1 class="text-purple h6">ویرایش آگهی</h1>
                   <strong class="text-pink">Edit AdvertiseMents</strong>
                 </div>
               </div>

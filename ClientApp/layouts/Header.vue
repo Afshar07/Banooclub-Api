@@ -311,7 +311,9 @@
             <strong class="text-secondary border-start my-3 px-2">قوانین و مقررات</strong>
             <strong class="text-secondary border-start my-3 px-2">درباره</strong>
             <strong class="text-secondary border-start px-2">تماس با ما</strong>
-            <strong class="text-secondary border-start px-2">تالار گفتگو</strong>
+            <nuxt-link class="text-decoration-none" to="/Forums/">
+              <strong class="text-secondary border-start px-2">تالار گفتگو</strong>
+            </nuxt-link>
           </div>
         </div>
       </div>
@@ -384,13 +386,13 @@
                 <span v-if="!decrease_width" class="header_font_sidebar_size">علاقه مندی من</span>
               </nuxt-link>
             </div>
-            <div :class="[decrease_width ? '' : '']" class="py-1">
+            <div class="py-1">
 
-              <div @click="ServicesActive=!ServicesActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"
-                   class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div @click="ServicesActive=!ServicesActive"
+                   class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <ProductsIcon class="svg_icons_size tw-fill-[#19faf4]"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">خدمات </span>
-                <CheveronIcon :class="{ActiveChevron:ServicesActive}" class=" tw-transition-all tw-mr-auto" style="width: 12px; height: 12px"/>
+                <CheveronIcon v-if="!decrease_width" :class="{ActiveChevron:ServicesActive}" class=" tw-transition-all tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
               <div :class="{ActiveMenuService:ServicesActive}" v-if="!decrease_width" class="px-3  tw-h-0 tw-overflow-hidden tw-transition-all" >
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
@@ -440,10 +442,10 @@
               </div>
             </div>
             <div :class="[decrease_width ? '' : ' ']" class="py-1">
-              <div v-if="!decrease_width"  @click="AdsActive=!AdsActive" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div   @click="AdsActive=!AdsActive" class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <AdsIcon class="svg_icons_size tw-fill-[#9739fc]"/>
-                <span class="header_font_sidebar_size">آگهی کالا</span>
-                <CheveronIcon :class="{ActiveChevron:AdsActive}" class="tw-mr-auto tw-transition-all " style="width: 12px; height: 12px"/>
+                <span v-if="!decrease_width" class="header_font_sidebar_size">آگهی کالا</span>
+                <CheveronIcon v-if="!decrease_width" :class="{ActiveChevron:AdsActive}" class="tw-mr-auto tw-transition-all " style="width: 12px; height: 12px"/>
               </div>
               <div v-if="!decrease_width" :class="{ActiveMenu:AdsActive}" class=" tw-transition-all px-3 tw-h-0 tw-overflow-hidden" >
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
@@ -481,11 +483,11 @@
             </div>
             <div :class="[decrease_width ? '' : '']" class="py-1">
 
-              <div @click="FinancialActive=!FinancialActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"
-                   class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div @click="FinancialActive=!FinancialActive"  :class="[decrease_width ? '' : '']"
+                   class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <MoneyIcon fill="#fc9739" class="svg_icons_size"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">مالی</span>
-                <CheveronIcon :class="{ActiveChevron:FinancialActive}" class=" tw-transition-all tw-mr-auto" style="width: 12px; height: 12px"/>
+                <CheveronIcon v-if="!decrease_width" :class="{ActiveChevron:FinancialActive}" class=" tw-transition-all tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
               <div :class="{ActiveMenuService:FinancialActive}" v-if="!decrease_width" class="px-3  tw-h-0 tw-overflow-hidden tw-transition-all" >
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
@@ -523,11 +525,11 @@
               </nuxt-link>
             </div>
             <div :class="[decrease_width ? '' : '']" class="py-1">
-              <div  @click="ForumsActive=! ForumsActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"
-                    class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div  @click="ForumsActive=! ForumsActive"  :class="[decrease_width ? '' : '']"
+                    class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <ForumIcon class="svg_icons_size tw-fill-[#3f30ff]"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">تالار گفتگو</span>
-                <CheveronIcon :class="{ActiveChevron:ForumsActive}"  class="tw-mr-auto" style="width: 12px; height: 12px"/>
+                <CheveronIcon  v-if="!decrease_width" :class="{ActiveChevron:ForumsActive}"  class="tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
               <div :class="{ActiveMenu:ForumsActive}" v-if="!decrease_width" class="px-3 tw-h-0 tw-overflow-hidden" >
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
@@ -584,12 +586,12 @@
                 <span v-if="!decrease_width" class="header_font_sidebar_size">دوست یاب</span>
               </nuxt-link>
             </div>
-            <div :class="[decrease_width ? '' : ' ']" class=" py-1">
-              <div  @click="RoomateActive=! RoomateActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"
-                   class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+            <div class=" py-1">
+              <div  @click="RoomateActive=! RoomateActive"  :class="[decrease_width ? '' : '']"
+                   class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
                 <BedIcon class="svg_icons_size"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">هم خانه</span>
-                <CheveronIcon :class="{ActiveChevron:RoomateActive}" class="tw-mr-auto" style="width: 12px; height: 12px"/>
+                <CheveronIcon v-if="!decrease_width" :class="{ActiveChevron:RoomateActive}" class="tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
               <div :class="{ActiveMenu:RoomateActive}" v-if="!decrease_width" class="px-3 tw-h-0 tw-overflow-hidden" >
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
@@ -625,12 +627,14 @@
                 </div>
               </div>
             </div>
-            <div class="d-flex align-items-center  flex-wrap justify-content-start p-2">
+            <div v-if="!decrease_width" class="d-flex align-items-center  flex-wrap justify-content-start p-2">
               <strong class="text-secondary border-start my-3 px-2">راهنما</strong>
               <strong class="text-secondary border-start my-3 px-2">قوانین و مقررات</strong>
               <strong class="text-secondary border-start my-3 px-2">درباره</strong>
               <strong class="text-secondary border-start px-2">تماس با ما</strong>
+              <nuxt-link class="text-decoration-none" to="/Forums/">
               <strong class="text-secondary border-start px-2">تالار گفتگو</strong>
+              </nuxt-link>
             </div>
           </div>
         </div>
