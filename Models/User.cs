@@ -24,6 +24,8 @@ namespace BanooClub.Models
         public long? StateId { get; set; }
         public long? CityId { get; set; }
         public RelationStatus? RelationState { get; set; }
+        public string Avatar { get; set; }
+        public string DefaultBanner { get; set; }
 
         [NotMapped]
         public int FollowersCount { get; set; }
@@ -62,7 +64,8 @@ namespace BanooClub.Models
         public long? StateId { get; set; }
         public long? CityId { get; set; }
         public RelationStatus? RelationState { get; set; }
-
+        public string? Avatar { get; set; }
+        public string? Banner { get; set; }
     }
     public class UserAndUserSetting
     {

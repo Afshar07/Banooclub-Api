@@ -493,14 +493,23 @@ namespace BanooClub.Services.ServicePackServices
             service.Tags = tagRepository.GetQuery().Where(z => z.Type == TagType.Service && z.ObjectId == id).ToList();
             service.UserInfo = userRepository.GetQuery().FirstOrDefault(z => z.UserId == service.UserId);
 
-            foreach(var ownerId in service.OwnerUserIds)
+            if(service.OwnerUserIds != null)
             {
-                var ownerUser = userRepository.GetQuery()
-                    .AsQueryable()
-                    .SingleOrDefault(x => x.UserId == ownerId);
+                service.OwnerUserInfos = new List<User>();
 
-                if (ownerUser != null)
-                    service.OwnerUserInfos.Add(ownerUser);
+                foreach (var ownerId in service.OwnerUserIds)
+                {
+                    var ownerUser = userRepository.GetQuery()
+                        .AsQueryable()
+                        .SingleOrDefault(x => x.UserId == ownerId);
+
+                    if (ownerUser != null)
+                    {
+                        service.OwnerUserInfos.Add(ownerUser);
+                    }
+                }
+
+                SetAvatarAndBannerForUser(service.OwnerUserInfos?.ToArray());
             }
 
             if (service.CityId != null && service.CityId != 0)
@@ -519,10 +528,20 @@ namespace BanooClub.Services.ServicePackServices
 
             var dbUserMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == service.UserId && z.Type == MediaTypes.Profile);
             service.UserInfo.Password = null;
-            if (dbUserMedia != null)
-            {
-                service.UserInfo.SelfieFileData = dbUserMedia.PictureUrl;
-            }
+            SetAvatarAndBannerForUser(service.UserInfo);
+
+            var selfie = mediaRepository.GetQuery()
+                        .FirstOrDefault(z => z.ObjectId == service.UserInfo.UserId && z.Type == MediaTypes.Profile);
+
+            var banner = mediaRepository.GetQuery()
+                .FirstOrDefault(z => z.ObjectId == service.UserInfo.UserId && z.Type == MediaTypes.Banner);
+
+            service.UserInfo.SelfieFileData = selfie == null ? $"{Defaults.Avatars}/{service.UserInfo.Avatar}"
+                : $"Media/Gallery/Profile/{selfie.PictureUrl}";
+
+            service.UserInfo.BannerFileData = banner == null ? $"{Defaults.Banners}/{service.UserInfo.DefaultBanner}"
+                : $"Media/Gallery/Profile/{banner.PictureUrl}";
+
             var dbComments = commentRepository.GetQuery().Where(z => z.ServiceId == id).ToList();
             //dbComments.ForEach(z => z.Children = dbComments.Where(x => x.ParentId == z.ServiceCommentId).ToList());
             foreach (var cmnt in dbComments)
@@ -967,5 +986,31 @@ namespace BanooClub.Services.ServicePackServices
 
             return data;
         }
+
+        #region Utilites
+
+        private void SetAvatarAndBannerForUser(params User[]? users)
+        {
+            if (users != null && users.Any())
+            {
+                var list = users.ToList();
+                list.ForEach(user =>
+                {
+                    var selfie = mediaRepository.GetQuery()
+                        .FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Profile);
+
+                    var banner = mediaRepository.GetQuery()
+                        .FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Banner);
+
+                    user.SelfieFileData = selfie == null ? $"{Defaults.Avatars}/{user.Avatar}"
+                        : $"Media/Gallery/Profile/{selfie.PictureUrl}";
+
+                    user.BannerFileData = banner == null ? $"{Defaults.Banners}/{user.DefaultBanner}"
+                        : $"Media/Gallery/Profile/{banner.PictureUrl}";
+                });
+            }
+        }
+
+        #endregion
     }
 }
