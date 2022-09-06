@@ -495,6 +495,8 @@ namespace BanooClub.Services.ServicePackServices
 
             if(service.OwnerUserIds != null)
             {
+                service.OwnerUserInfos = new List<User>();
+
                 foreach (var ownerId in service.OwnerUserIds)
                 {
                     var ownerUser = userRepository.GetQuery()
@@ -503,7 +505,6 @@ namespace BanooClub.Services.ServicePackServices
 
                     if (ownerUser != null)
                     {
-                        service.OwnerUserInfos = new List<User>();
                         service.OwnerUserInfos.Add(ownerUser);
                     }
                 }

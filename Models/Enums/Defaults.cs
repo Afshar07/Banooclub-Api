@@ -55,4 +55,4 @@ namespace BanooClub.Models.Enums
                 "defaultBanner22.jpg",
             };
     }
-}
+} 
