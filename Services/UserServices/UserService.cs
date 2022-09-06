@@ -1113,12 +1113,12 @@ namespace BanooClub.Services.UserServices
         //        }
         public async Task<object> UserDashboards()
         {
-            var userId = _accessor.HttpContext.User?.GetUserId() ?? 0;
-
+            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                    ? _accessor.HttpContext.User.Identity.GetUserId()
+                    : 0;
             var DateTimeNow = DateTime.Now;
             var DateTimeLastWeek = DateTime.Now.AddDays(-7);
             var DateTimeLastMonth = DateTime.Now.AddMonths(-1);
-            var last5DaysDate = DateTime.Now.AddDays(-5);
 
             var WeekfollowersCount = followerRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate > DateTimeLastWeek).Count();
             var userPostIds = postRepository.GetQuery().Where(z => z.UserId == userId).Select(x => x.PostId).ToList();
@@ -1131,21 +1131,15 @@ namespace BanooClub.Services.UserServices
             var WeekForumCommentsCount = forumCommentRepository.GetQuery().Where(z => userForumIds.Contains(z.ForumId) && z.CreateDate > DateTimeLastWeek).Count();
 
             var UserLastMonthOutCome = paymentRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate > DateTimeLastMonth).Sum(z => z.Amount);
-            var userLast5DaysOutCome = paymentRepository.GetQuery().Where(x => x.UserId == userId && x.CreateDate > last5DaysDate).Sum(x => x.Amount);
 
             var ServicesOrderItemsOrderIds = orderItemRepository.GetQuery().Where(x => x.ServiceId != null && UsersServicesIds.Contains((long)x.ServiceId)).Select(z => z.OrderId).ToList();
             var lastMonthIncomeAmount = paymentRepository.GetQuery().Where(z => ServicesOrderItemsOrderIds.Contains(z.OrderId) && z.CreateDate > DateTimeLastMonth && z.Status == 0).Sum(x => x.Amount);
-            var last5DaysIncomeAmount = paymentRepository.GetQuery().Where(z => ServicesOrderItemsOrderIds.Contains(z.OrderId) && z.CreateDate > last5DaysDate && z.Status == 0).Sum(x => x.Amount);
 
             var LastMonthOrdersCount = orderRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate > DateTimeLastMonth).ToList();
-            var Last5DaysOrdersCount = orderRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate > last5DaysDate).ToList();
             var LastMonthPayedOrdersCount = LastMonthOrdersCount.Where(z => z.IsPayed == true).Count();
-            var Last5DaysPayedOrdersCount = Last5DaysOrdersCount.Where(z => z.IsPayed == true).Count();
             var LastMonthNotPayedOrdersCount = LastMonthOrdersCount.Where(z => z.IsPayed == false).Count();
-            var Last5DaysNotPayedOrdersCount = Last5DaysOrdersCount.Where(z => z.IsPayed == false).Count();
 
             var LastMonthWalletChargeAmount = paymentRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate > DateTimeLastMonth && z.WalletCharge == true).Sum(x => x.Amount);
-            var Last5DaysWalletChargeAmount = paymentRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate > last5DaysDate && z.WalletCharge == true).Sum(x => x.Amount);
 
             PersianCalendar persianCalandar = new PersianCalendar();
             var DateInSystemDateTime = DateTime.Now;
@@ -1193,7 +1187,6 @@ namespace BanooClub.Services.UserServices
                 };
                 IncomeOutComeYearReport.Add(obj1);
             }
-
             List<object> LastMonthFollowersChart = new List<object>();
             for (int i = 0; i < 30; i++)
             {
@@ -1213,12 +1206,15 @@ namespace BanooClub.Services.UserServices
                 LastMonthFollowersChart.Add(obj12);
             }
 
-            List<object> Last5DaysFollowersChart = new List<object>();
-            for (int i = 0; i < 5; i++)
+
+            List<object> LastMonthFollowersChartSeperate5Days = new List<object>();
+            for (int i = 5; i <= 30; i += 5)
             {
                 var CustomDate = DateInSystemDateTime.AddDays(-i);
 
-                var dailyFollowersCount = followerRepository.GetQuery().Where(z => z.UserId == userId && z.CreateDate.Date == CustomDate.Date).Count();
+                var fiveDaysFollowersCount = followerRepository.GetQuery()
+                    .Where(z => z.UserId == userId && z.CreateDate.Date >= CustomDate.Date 
+                    && z.CreateDate.Date <= CustomDate.Date.AddDays(5)).Count();
 
                 int year = persianCalandar.GetYear(CustomDate);
                 int month = persianCalandar.GetMonth(CustomDate);
@@ -1227,9 +1223,9 @@ namespace BanooClub.Services.UserServices
                 var obj12 = new
                 {
                     PersianDate = PersianDate,
-                    FollowersCount = dailyFollowersCount
+                    FollowersCount = fiveDaysFollowersCount
                 };
-                Last5DaysFollowersChart.Add(obj12);
+                LastMonthFollowersChartSeperate5Days.Add(obj12);
             }
 
             var FinalObj = new
@@ -1240,18 +1236,13 @@ namespace BanooClub.Services.UserServices
                 WeekForumRate = WeekForumRatesCount,
                 WeekForumComments = WeekForumCommentsCount,
                 UserLastMonthOutcomeAmount = UserLastMonthOutCome,
-                UserLast5DaysOutcomeAmount = userLast5DaysOutCome,
                 UserLastMonthIncomeAmount = lastMonthIncomeAmount,
-                UserLast5DaysIncomeAmount = last5DaysIncomeAmount,
                 LastMonthPayedOrdersCount = LastMonthPayedOrdersCount,
-                Last5DaysPayedOrdersCount = Last5DaysPayedOrdersCount,
                 LastMonthNotPayedOrdersCount = LastMonthNotPayedOrdersCount,
-                Last5DaysNotPayedOrdersCount = Last5DaysNotPayedOrdersCount,
                 LastMonthWalletChargeAmount = LastMonthWalletChargeAmount,
-                Last5DaysWalletChargeAmount = Last5DaysWalletChargeAmount,
                 YearIOReports = IncomeOutComeYearReport,
                 MonthFollowersChart = LastMonthFollowersChart,
-                Last5DaysFollowersChart = Last5DaysFollowersChart
+                MonthFollowersChartSeperate5Days = LastMonthFollowersChartSeperate5Days
             };
 
             return FinalObj;

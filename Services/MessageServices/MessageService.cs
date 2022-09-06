@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BanooClub.Services.MessageServices
 {
-    public class MessageService : Hub<IMessageService> , IMessageService
+    public class MessageService : Hub<IMessageService>, IMessageService
     {
         private readonly IBanooClubEFRepository<Message> messageRepository;
         private readonly IBanooClubEFRepository<MessageRecipient> messageRecipientRepository;
@@ -31,7 +31,7 @@ namespace BanooClub.Services.MessageServices
             this.mediaRepository = mediaRepository;
             this.userGroupRepository = userGroupRepository;
         }
-        
+
         public async Task Create(Message inputDto)
         {
             messageRepository.Insert(inputDto);
@@ -45,18 +45,18 @@ namespace BanooClub.Services.MessageServices
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
                 inputDto.MessageId = 0;
-                inputDto.IsDeleted=false;
+                inputDto.IsDeleted = false;
                 inputDto.CreateDate = DateTime.Now;
                 var dbMessage = messageRepository.Insert(inputDto);
                 var MessageRec = new MessageRecipient()
                 {
-                    IsDeleted=false,
-                    GroupId=(inputDto.RecipientGroupId ==null || inputDto.RecipientGroupId==0) ? null : inputDto.RecipientGroupId,
-                    UserId=(inputDto.RecipientUserId == null || inputDto.RecipientUserId==0) ? null : inputDto.RecipientUserId,
-                    IsRead=false,
-                    IsDelivered=false,
-                    MessageId=dbMessage.MessageId,
-                    MessageRecipientId=0
+                    IsDeleted = false,
+                    GroupId = (inputDto.RecipientGroupId == null || inputDto.RecipientGroupId == 0) ? null : inputDto.RecipientGroupId,
+                    UserId = (inputDto.RecipientUserId == null || inputDto.RecipientUserId == 0) ? null : inputDto.RecipientUserId,
+                    IsRead = false,
+                    IsDelivered = false,
+                    MessageId = dbMessage.MessageId,
+                    MessageRecipientId = 0
                 };
                 var MSG = messageRecipientRepository.Insert(MessageRec);
                 await hubContext.Clients.All.SendAsync("SendMessage", inputDto.UserId);
@@ -73,7 +73,7 @@ namespace BanooClub.Services.MessageServices
             var myselfId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
-            var beforeRead = messageRecipientRepository.GetQuery().Where(z => z.UserId == myselfId && z.IsRead ==true).Count();
+            var beforeRead = messageRecipientRepository.GetQuery().Where(z => z.UserId == myselfId && z.IsRead == true).Count();
             var cmd = "update Social.MessageRecipients set IsRead = 1 " +
                 " where MessageId in " +
                 " (select M.MessageId from Social.Messages M join Social.MessageRecipients MR on MR.MessageId = M.MessageId" +
@@ -82,7 +82,7 @@ namespace BanooClub.Services.MessageServices
             try
             {
                 var MR = await messageRepository.DapperSqlQuery(cmd);
-                var afterRead = messageRecipientRepository.GetQuery().Where(z => z.UserId == myselfId && z.IsRead ==true).Count();
+                var afterRead = messageRecipientRepository.GetQuery().Where(z => z.UserId == myselfId && z.IsRead == true).Count();
                 if (afterRead != beforeRead)
                 {
                     await hubContext.Clients.All.SendAsync("ReadMessage", myselfId);
@@ -102,10 +102,10 @@ namespace BanooClub.Services.MessageServices
                 var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
-                var dbBeforDeliver = messageRecipientRepository.GetQuery().Where(z => z.UserId == userId && z.IsDelivered ==true).Count();
+                var dbBeforDeliver = messageRecipientRepository.GetQuery().Where(z => z.UserId == userId && z.IsDelivered == true).Count();
                 string cmd = $"update Social.MessageRecipients set IsDelivered = 1 where UserId = {userId}";
                 await messageRecipientRepository.DapperSqlQuery(cmd);
-                var dbAfterDeliver = messageRecipientRepository.GetQuery().Where(z => z.UserId == userId && z.IsDelivered ==true).Count();
+                var dbAfterDeliver = messageRecipientRepository.GetQuery().Where(z => z.UserId == userId && z.IsDelivered == true).Count();
                 if (dbAfterDeliver != dbBeforDeliver)
                 {
                     await hubContext.Clients.All.SendAsync("DeliverMessage", userId);
@@ -147,62 +147,63 @@ namespace BanooClub.Services.MessageServices
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
-            string cmd = "select * from (select distinct 0 as GroupId, M.IsForwarded, "+
-                " (select Count(M.MessageId) from Social.Messages M join Social.MessageRecipients MR on M.MessageId=MR.MessageId where M.UserId =SenderU.UserId and MR.IsRead =0) as NotReadCount, "+
-                $" CASE WHEN SenderU.UserId = {userId} THEN RecieverU.UserId ELSE SenderU.UserId END as UserId , "+
-                $" CASE WHEN SenderU.UserId = {userId} THEN RecieverU.Name +' '+ RecieverU.FamilyName ELSE SenderU.Name +' '+ SenderU.FamilyName END as UserName, "+
-                " M.Subject ,M.CreateDate ,MR.IsRead, "+
-                $" CASE WHEN SenderU.UserId = {userId} THEN SMReciever.PictureUrl ELSE SMSender.PictureUrl END as UserPhoto "+
-                " from Social.MessageRecipients MR "+
-                "  join social.Messages M on MR.MessageId = M.MessageId "+
-                "  join[User].users SenderU on SenderU.UserId = M.UserId "+
-                "  join[User].Users RecieverU on RecieverU.UserId = MR.UserId "+
-                "  join Social.Medias SMSender on SMSender.ObjectId = M.UserId "+
-                "  join Social.Medias SMReciever on SMReciever.ObjectId = MR.UserId "+
-                "  where M.MessageId in (select max(M.MessageId) as messageId from Social.MessageRecipients MR "+
-                "  join social.Messages M on MR.MessageId = M.MessageId "+
-                "  join [User].users U on U.UserId = M.UserId "+
-                $" where MR.UserId = {userId} or M.UserId = {userId} "+
-                "  group by U.UserId) and SMSender.Type = 2  and SMReciever.Type =2 "+
-                "  union "+
+            string cmd = "select * from (select distinct 0 as GroupId, M.IsForwarded, " +
+                " (select Count(M.MessageId) from Social.Messages M join Social.MessageRecipients MR on M.MessageId=MR.MessageId where M.UserId =SenderU.UserId and MR.IsRead =0) as NotReadCount, " +
+                $" CASE WHEN SenderU.UserId = {userId} THEN RecieverU.UserId ELSE SenderU.UserId END as UserId , " +
+                $" CASE WHEN SenderU.UserId = {userId} THEN RecieverU.Name +' '+ RecieverU.FamilyName ELSE SenderU.Name +' '+ SenderU.FamilyName END as FullName, " + 
+                $" CASE WHEN SenderU.UserId = {userId} THEN RecieverU.UserName ELSE SenderU.UserName END as UserName, " +
+                " M.Subject ,M.CreateDate ,MR.IsRead, " +
+                $" CASE WHEN SenderU.UserId = {userId} THEN SMReciever.PictureUrl ELSE SMSender.PictureUrl END as UserPhoto " +
+                " from Social.MessageRecipients MR " +
+                "  join social.Messages M on MR.MessageId = M.MessageId " +
+                "  join[User].users SenderU on SenderU.UserId = M.UserId " +
+                "  join[User].Users RecieverU on RecieverU.UserId = MR.UserId " +
+                "  join Social.Medias SMSender on SMSender.ObjectId = M.UserId " +
+                "  join Social.Medias SMReciever on SMReciever.ObjectId = MR.UserId " +
+                "  where M.MessageId in (select max(M.MessageId) as messageId from Social.MessageRecipients MR " +
+                "  join social.Messages M on MR.MessageId = M.MessageId " +
+                "  join [User].users U on U.UserId = M.UserId " +
+                $" where MR.UserId = {userId} or M.UserId = {userId} " +
+                "  group by U.UserId) and SMSender.Type = 2  and SMReciever.Type =2 " +
+                "  union " +
                 "  select distinct G.GroupId, M.IsForwarded, " +
-                "  (select Count(M.MessageId) from Social.Messages M join Social.MessageRecipients MR on M.MessageId=MR.MessageId where MR.GroupId = G.GroupId and MR.IsRead =0) as NotReadCount, "+
-                " U.UserId as UserId, U.Name + ' ' + U.FamilyName as UserName,M.Subject,M.CreateDate,MR.IsRead , SMSender.PictureUrl as UserPhoto from Social.UserGroups UG "+
-                "  join Social.Groups G on G.GroupId = UG.GroupId "+
-                "  join Social.MessageRecipients MR on MR.GroupId=G.GroupId "+
-                "  join Social.Messages M on M.MessageId=MR.MessageId "+
-                "  join [User].Users U on U.UserId=M.UserId "+
-                "  join Social.Medias SMSender on SMSender.ObjectId = M.UserId "+
-                "  join Social.Medias SMReciever on SMReciever.ObjectId = G.GroupId "+
-                "  where M.MessageId in (select max(M.MessageId) as messageId from Social.MessageRecipients MR "+
-                "  join social.Messages M on MR.MessageId = M.MessageId "+
-                "  join [User].users U on U.UserId = M.UserId "+
-                $"   where M.UserId = {userId} "+
+                "  (select Count(M.MessageId) from Social.Messages M join Social.MessageRecipients MR on M.MessageId=MR.MessageId where MR.GroupId = G.GroupId and MR.IsRead =0) as NotReadCount, " +
+                " U.UserId as UserId, U.Name + ' ' + U.FamilyName as FullName, U.UserName as UserName,M.Subject,M.CreateDate,MR.IsRead , SMSender.PictureUrl as UserPhoto from Social.UserGroups UG " +
+                "  join Social.Groups G on G.GroupId = UG.GroupId " +
+                "  join Social.MessageRecipients MR on MR.GroupId=G.GroupId " +
+                "  join Social.Messages M on M.MessageId=MR.MessageId " +
+                "  join [User].Users U on U.UserId=M.UserId " +
+                "  join Social.Medias SMSender on SMSender.ObjectId = M.UserId " +
+                "  join Social.Medias SMReciever on SMReciever.ObjectId = G.GroupId " +
+                "  where M.MessageId in (select max(M.MessageId) as messageId from Social.MessageRecipients MR " +
+                "  join social.Messages M on MR.MessageId = M.MessageId " +
+                "  join [User].users U on U.UserId = M.UserId " +
+                $"   where M.UserId = {userId} " +
                 "  group by U.UserId) and SMReciever.Type = 11  and SMSender.Type = 2) as Result " +
                 "  order By Result.CreateDate Desc ";
 
-            string NEWCmd = "select * from (select u.UserId,(u.Name + ' ' + u.FamilyName) as UserName,m.Subject as Subject,m.createDate as CreateDate,SM.PictureUrl as UserPhoto, "+
-                " (select count(*) from Social.Messages m "+
-                " join Social.MessageRecipients mr on m.MessageId = mr.MessageId "+
-                $" where (mr.UserId = {userId}) and(m.UserId = tbl1.UserId or mr.UserId = tbl1.UserId) and mr.IsRead = 0) as UnReadCount "+
-                " from( "+
-                " select UserId, MAX(MessageId) as MessageId from( "+
-                " (select mr.UserId, MAX(m.MessageId) as MessageId from Social.Messages m "+
-                " join Social.MessageRecipients mr on m.MessageId = mr.MessageId "+
-                $" where m.UserId = {userId} "+
-                " group by mr.UserId) "+
-                " union "+
-                " (select m.UserId, MAX(m.MessageId) as MessageId from Social.Messages m "+
-                " join Social.MessageRecipients mr on m.MessageId = mr.MessageId "+
-                $" where mr.UserId = {userId} "+
-                " group by m.UserId)) as tbl "+
-                " group by UserId) tbl1 "+
-                " join Social.Messages m on tbl1.MessageId = m.MessageId "+
+            string NEWCmd = "select * from (select u.UserId,(u.Name + ' ' + u.FamilyName) as FullName,m.Subject as Subject,m.createDate as CreateDate,SM.PictureUrl as UserPhoto, " +
+                " (select count(*) from Social.Messages m " +
+                " join Social.MessageRecipients mr on m.MessageId = mr.MessageId " +
+                $" where (mr.UserId = {userId}) and(m.UserId = tbl1.UserId or mr.UserId = tbl1.UserId) and mr.IsRead = 0) as UnReadCount " +
+                " from( " +
+                " select UserId, MAX(MessageId) as MessageId from( " +
+                " (select mr.UserId, MAX(m.MessageId) as MessageId from Social.Messages m " +
+                " join Social.MessageRecipients mr on m.MessageId = mr.MessageId " +
+                $" where m.UserId = {userId} " +
+                " group by mr.UserId) " +
+                " union " +
+                " (select m.UserId, MAX(m.MessageId) as MessageId from Social.Messages m " +
+                " join Social.MessageRecipients mr on m.MessageId = mr.MessageId " +
+                $" where mr.UserId = {userId} " +
+                " group by m.UserId)) as tbl " +
+                " group by UserId) tbl1 " +
+                " join Social.Messages m on tbl1.MessageId = m.MessageId " +
                 " join[User].[Users] u on u.UserId = tbl1.UserId " +
                 " join Social.Medias SM on SM.ObjectId = u.UserId where Sm.Type= 2) as Result" +
                 " order By Result.CreateDate Desc ";
 
-            string FinalCmd = "select * from (select 0 as GroupId , u.UserId,(u.Name + ' ' + u.FamilyName) as UserName,m.Subject as Subject,m.createDate as CreateDate,SM.PictureUrl as UserPhoto, " +
+            string FinalCmd = "select * from (select 0 as GroupId , u.UserId,(u.Name + ' ' + u.FamilyName) as FullName, u.UserName as UserName,m.Subject as Subject,m.createDate as CreateDate,SM.PictureUrl as UserPhoto, " +
                 " (select count(*) from Social.Messages m " +
                 " join Social.MessageRecipients mr on m.MessageId = mr.MessageId " +
                 $" where (mr.UserId = {userId}) and(m.UserId = tbl1.UserId or mr.UserId = tbl1.UserId) and mr.IsRead = 0) as UnReadCount " +
@@ -224,12 +225,13 @@ namespace BanooClub.Services.MessageServices
                 " order By Result.CreateDate Desc ";
 
 
-            string groupchatcmd = "select * from (select distinct 0 as GroupId, M.IsForwarded, "+
+            string groupchatcmd = "select * from (select distinct 0 as GroupId, M.IsForwarded, " +
 
                 "(select Count(M.MessageId) from Social.Messages M join Social.MessageRecipients MR on M.MessageId = MR.MessageId where M.UserId = SenderU.UserId and MR.IsRead = 0) as NotReadCount, " +
                  $" CASE WHEN SenderU.UserId =  {userId} THEN RecieverU.UserId ELSE SenderU.UserId END as UserId , " +
-                 $" CASE WHEN SenderU.UserId =  {userId} THEN RecieverU.Name + ' ' + RecieverU.FamilyName ELSE SenderU.Name + ' ' + SenderU.FamilyName END as UserName,  " +
-                 " M.Subject ,M.CreateDate ,MR.IsRead "+
+                 $" CASE WHEN SenderU.UserId =  {userId} THEN RecieverU.Name + ' ' + RecieverU.FamilyName ELSE SenderU.Name + ' ' + SenderU.FamilyName END as FullName,  " +
+                 $" CASE WHEN SenderU.UserId =  {userId} THEN RecieverU.UserName ELSE SenderU.UserName END as UserName,  " +
+                 " M.Subject ,M.CreateDate ,MR.IsRead " +
                   //, CASE WHEN SenderU.UserId = 21 THEN SMReciever.PictureUrl ELSE SMSender.PictureUrl END as UserPhoto
 
 
@@ -252,8 +254,8 @@ namespace BanooClub.Services.MessageServices
 
                   " select distinct G.GroupId, M.IsForwarded,  " +
                   " (select Count(M.MessageId) from Social.Messages M join Social.MessageRecipients MR on M.MessageId = MR.MessageId where MR.GroupId = G.GroupId and MR.IsRead = 0) as NotReadCount,  " +
-                  " U.UserId as UserId, U.Name + ' ' + U.FamilyName as UserName,M.Subject,M.CreateDate,MR.IsRead " +
-                  //, SMSender.PictureUrl as UserPhoto
+                  " U.UserId as UserId, U.Name + ' ' + U.FamilyName as FullName, U.UserName as UserName,M.Subject,M.CreateDate,MR.IsRead " +
+                                                                                                                      //, SMSender.PictureUrl as UserPhoto
 
                   " from Social.UserGroups UG " +
                   " join Social.Groups G on G.GroupId = UG.GroupId " +
@@ -296,13 +298,13 @@ namespace BanooClub.Services.MessageServices
                     if (LastMessageId != 0)
                     {
                         var lastMessage = messageRepository.GetQuery().FirstOrDefault(z => z.MessageId == LastMessageId);
-                        var res = new MessageDTO() { CreateDate = lastMessage.CreateDate, GroupId = group.GroupId, Subject = lastMessage.Subject, UserId = 0, UnReadCount = 0, UserName = group.Name, UserPhoto =groupM };
+                        var res = new MessageDTO() { CreateDate = lastMessage.CreateDate, GroupId = group.GroupId, Subject = lastMessage.Subject, UserId = 0, UnReadCount = 0, UserName = group.Name, UserPhoto = groupM };
                         serializedMessage.Add(res);
                     }
                     else
                     {
 
-                        serializedMessage.Add(new MessageDTO() { CreateDate = group.CreateDate, GroupId =group.GroupId, Subject = "", UnReadCount= 0, UserId = 0, UserName = group.Name, UserPhoto = groupM });
+                        serializedMessage.Add(new MessageDTO() { CreateDate = group.CreateDate, GroupId = group.GroupId, Subject = "", UnReadCount = 0, UserId = 0, UserName = group.Name, UserPhoto = groupM });
                     }
 
                 }
@@ -318,7 +320,7 @@ namespace BanooClub.Services.MessageServices
             var MyselfId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
-            var completationCmd = messageId ==0 ? "" : $"and M.MessageId < {messageId}";
+            var completationCmd = messageId == 0 ? "" : $"and M.MessageId < {messageId}";
             string cmd = "select M.UserId as CreatorUserId, M.MessageId , M.MessageBody , M.Subject , M.IsForwarded , M.CreateDate , M.ParentMessageId , MR.IsRead ,MR.IsDelivered " +
                 " from Social.Messages M " +
                 " join Social.MessageRecipients MR on M.MessageId = MR.MessageId " +
@@ -336,11 +338,11 @@ namespace BanooClub.Services.MessageServices
             var MyselfId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
-            var completationCmd = messageId ==0 ? "" : $"and M.MessageId < {messageId}";
+            var completationCmd = messageId == 0 ? "" : $"and M.MessageId < {messageId}";
             string cmd = "select M.UserId as CreatorUserId, M.MessageId , M.MessageBody , M.Subject , M.IsForwarded , M.CreateDate , M.ParentMessageId , MR.IsRead , MR.IsDelivered ,SM.PictureUrl UserPhoto" +
                 " from Social.Messages M " +
                 " join Social.MessageRecipients MR on M.MessageId = MR.MessageId " +
-                " left join Social.Medias SM on SM.ObjectId = M.UserId and SM.Type = 2"+
+                " left join Social.Medias SM on SM.ObjectId = M.UserId and SM.Type = 2" +
                 $" where MR.GroupId = {groupId}" +
                 $" {completationCmd} " +
                 $" order by M.CreateDate Desc OFFSET 0 ROWS FETCH NEXT {count} ROWS ONLY ";

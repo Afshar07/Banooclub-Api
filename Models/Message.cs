@@ -24,6 +24,7 @@ namespace BanooClub.Models
         public long? GroupId { get; set; }
         public long? UserId { get; set; }
         public string Subject { get; set; }
+        public string FullName { get; set; }
         public string UserName { get; set; }
         public DateTime CreateDate { get; set; }
         public string UserPhoto { get; set; }

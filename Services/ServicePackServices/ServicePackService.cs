@@ -34,6 +34,8 @@ namespace BanooClub.Services.ServicePackServices
         private readonly IBanooClubEFRepository<Order> orderRepository;
         private readonly IBanooClubEFRepository<OrderItem> orderItemRepository;
         private readonly IBanooClubEFRepository<Discount> _discountRepository;
+        private readonly IBanooClubEFRepository<City> _cityRepository;
+        private readonly IBanooClubEFRepository<State> _stateRepository;
 
         private readonly IRatingService ratingService;
         private readonly ISocialMediaService mediaService;
@@ -54,7 +56,7 @@ namespace BanooClub.Services.ServicePackServices
             ISocialMediaService mediaService,
             IWishListService wishListService,
             IBanooClubEFRepository<Tag> tagRepository
-            , IBanooClubEFRepository<Discount> discountRepository)
+            , IBanooClubEFRepository<Discount> discountRepository, IBanooClubEFRepository<City> cityRepository, IBanooClubEFRepository<State> stateRepository)
         {
             this.servicePackRepository = servicePackRepository;
             this.viewRepository = viewRepository;
@@ -77,6 +79,8 @@ namespace BanooClub.Services.ServicePackServices
             this.orderRepository = orderRepository;
             _discountRepository = discountRepository;
             _accessor = accessor;
+            _cityRepository = cityRepository;
+            _stateRepository = stateRepository;
         }
 
         public async Task<long> Create(ServicePack inputDto)
@@ -488,6 +492,31 @@ namespace BanooClub.Services.ServicePackServices
             }
             service.Tags = tagRepository.GetQuery().Where(z => z.Type == TagType.Service && z.ObjectId == id).ToList();
             service.UserInfo = userRepository.GetQuery().FirstOrDefault(z => z.UserId == service.UserId);
+
+            foreach(var ownerId in service.OwnerUserIds)
+            {
+                var ownerUser = userRepository.GetQuery()
+                    .AsQueryable()
+                    .SingleOrDefault(x => x.UserId == ownerId);
+
+                if (ownerUser != null)
+                    service.OwnerUserInfos.Add(ownerUser);
+            }
+
+            if (service.CityId != null && service.CityId != 0)
+            {
+                service.CityName = _cityRepository.GetQuery()
+                    .AsNoTracking()
+                    .SingleOrDefault(x => x.CityId == service.CityId)?.Name;
+            }
+
+            if (service.StateId != null && service.StateId != 0)
+            {
+                service.StateName = _stateRepository.GetQuery()
+                    .AsNoTracking()
+                    .SingleOrDefault(x => x.StateId == service.StateId)?.Name;
+            }
+
             var dbUserMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == service.UserId && z.Type == MediaTypes.Profile);
             service.UserInfo.Password = null;
             if (dbUserMedia != null)
@@ -862,6 +891,31 @@ namespace BanooClub.Services.ServicePackServices
             }
             service.Tags = tagRepository.GetQuery().Where(z => z.Type == TagType.Service && z.ObjectId == id).ToList();
             service.UserInfo = userRepository.GetQuery().FirstOrDefault(z => z.UserId == service.UserId);
+
+            foreach (var ownerId in service.OwnerUserIds)
+            {
+                var ownerUser = userRepository.GetQuery()
+                    .AsQueryable()
+                    .SingleOrDefault(x => x.UserId == ownerId);
+
+                if (ownerUser != null)
+                    service.OwnerUserInfos.Add(ownerUser);
+            }
+
+            if (service.CityId != null && service.CityId != 0)
+            {
+                service.CityName = _cityRepository.GetQuery()
+                    .AsNoTracking()
+                    .SingleOrDefault(x => x.CityId == service.CityId)?.Name;
+            }
+
+            if (service.StateId != null && service.StateId != 0)
+            {
+                service.StateName = _stateRepository.GetQuery()
+                    .AsNoTracking()
+                    .SingleOrDefault(x => x.StateId == service.StateId)?.Name;
+            }
+
             var dbUserMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == service.UserId && z.Type == MediaTypes.Profile);
             service.UserInfo.Password = null;
             if (dbUserMedia != null)
