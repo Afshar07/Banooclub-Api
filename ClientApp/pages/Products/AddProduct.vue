@@ -225,8 +225,8 @@
               </label>
             </div>
           </div>
-          <div class="row">
-            <div v-for="(property,idx) in property_count" :key="idx" class="col-md-12 my-3">
+          <div class="row" style="height: 200px;overflow-y: scroll">
+            <div v-for="(property,idx) in property_count" :key="idx" class="col-md-12 my-3" >
               <div class="row">
                 <div class=" col-md-3 col-sm-12">
                   <label>نام ویژگی</label>
@@ -251,20 +251,26 @@
               </div>
             </div>
           </div>
-          <div class="row tw-text-left" v-if="property_count.length>0 ">
-            <div class="col-12 pt-3">
-              <button @click="addProperty()" type="button" class="button mt-auto px-2">
+          <div class="row">
+            <div v-if="property_count.length>0 " class="col-md-6 d-flex flex-column gap-3">
+              <div class="tw-w-full d-flex align-items-center justify-content-between ">
+                <span>جمع ویژگی ها :</span>
+                <span> {{ totalPrice }} <small> تومان</small></span>
+              </div>
+              <div class="tw-w-full d-flex align-items-center justify-content-between ">
+                <span class="text-purple">جمع کل خدمت :</span>
+                <span class="text-purple">{{ totalPrice }} <small>تومان</small></span>
+              </div>
+              <div class="d-flex justify-content-center my-3">
+              <button @click="addProperty()" type="button" class="p-2 rounded text-white bg-pink tw-cursor-pointer">
                 ذخیره ویژگی ها
               </button>
+              </div>
             </div>
           </div>
-
-
         </div>
-
-
-        <div class="tw-text-left col-12 pt-5">
-          <button type="button" class="button mt-auto px-2" @click="submitCreateService">
+        <div class="d-flex align-items-center justify-content-center col-12 py-3 border-top ">
+          <button type="button" class="tw-bg-[#d277ff] text-white rounded p-2 tw-cursor-pointer" @click="submitCreateService">
             ثبت نهایی
           </button>
         </div>
@@ -334,6 +340,7 @@ export default {
       email: '',
       web_address: '',
       BaseImgUrls: [],
+
       HaveDiscount: false,
       BaseVideos: [],
       categories: [],
@@ -409,7 +416,12 @@ export default {
       })
       this.properties = tmplist
       this.$toast.success("ویژگی ها با موفقیت ثبت شدند");
-      console.log(this.properties)
+      let result = 0
+      this.properties.forEach((element) => {
+        result += parseInt(element.price)
+      })
+      this.totalPrice = result
+
     },
     deleteImage(item) {
       const idx = this.BaseImgUrls.findIndex((e) => e === item);
@@ -547,11 +559,7 @@ export default {
 
           })
 
-          let result = 0
-          this.properties.forEach((element) => {
-            result += parseInt(element.price)
-          })
-          this.totalPrice = result
+
           const res = await this.$repositories.createAService.createAService({
             title: this.service_title,
             userId: 0,

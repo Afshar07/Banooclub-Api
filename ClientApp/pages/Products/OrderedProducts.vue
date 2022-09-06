@@ -1,8 +1,16 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer px-2 h-100">
-    <div class="d-flex justify-content-between align-items-center">
-      <h2 class="tw-text-2xl tw-font-semibold py-3">خدمات سفارش داده شده</h2>
-    </div>
+
+      <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/girl-icon-khadamat.png" class="tw-w-[7rem] tw-h-20" alt="">
+          <div class="d-flex align-items-center flex-column">
+            <strong class="text-purple"> خدمات خریداری شده</strong>
+            <strong class="text-pink">Purchased Services</strong>
+          </div>
+        </div>
+      </div>
+
     <div class="tw-overflow-x-auto">
       <div class="tw-overflow-x-auto">
         <table class="tw-table tw-w-full tw-table-zebra"
@@ -10,12 +18,12 @@
           <!-- head -->
           <thead>
           <tr>
-            <th>شناسه</th>
-            <th>نام خدمت</th>
-            <th>ظرفیت باقی مانده</th>
-            <th>تاریخ انقضا خدمت</th>
-            <th>وضعیت خدمت</th>
-            <th>عملیات</th>
+            <th class="tw-text-teal-500">شناسه</th>
+            <th class="tw-text-teal-500">نام خدمت</th>
+            <th class="tw-text-teal-500">ظرفیت باقی مانده</th>
+            <th class="tw-text-teal-500">تاریخ انقضا خدمت</th>
+            <th class="tw-text-teal-500">وضعیت خدمت</th>
+            <th class="tw-text-teal-500">عملیات</th>
           </tr>
           </thead>
           <tbody>
@@ -56,7 +64,7 @@
 <!--              </div>-->
 
               <div
-                class="tw-bg-blue-500 tw-rounded tw-cursor-pointer d-inline-flex justify-content-center align-items-center p-1"
+                class="bg-pink tw-rounded tw-cursor-pointer d-inline-flex justify-content-center align-items-center p-1"
                 @click="GetServiceDetail(item)">
 
                 <span class="text-white tw-text-xs">مشاهده جزئیات </span>
@@ -71,20 +79,20 @@
     </div>
 
     <div v-if="ServiceMembers!==null" class="d-flex mt-3 justify-content-between align-items-center">
-      <h3 class="tw-text-xl tw-font-semibold py-3">کاربرانی که این خدمت را سفارش داده اند</h3>
+      <h3 class="tw-text-xl text-purple tw-font-semibold py-3">کاربرانی که این خدمت را سفارش داده اند</h3>
     </div>
     <div v-if="ServiceMembers!==null" class="tw-overflow-x-auto">
       <div class="tw-overflow-x-auto">
-        <table class="tw-table tw-w-full tw-table-zebra"
-               style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
+        <table class="tw-table tw-w-full TableBg tw-rounded  tw-table-zebra"
+              >
           <!-- head -->
           <thead>
           <tr>
-            <th>شناسه کاربر</th>
-            <th>نام و نام خانوادگی</th>
-            <th>نام کاربری</th>
-            <th>شماره تماس</th>
-            <th>عملیات</th>
+            <th class="tw-text-teal-500">شناسه کاربر</th>
+            <th class="tw-text-teal-500">نام و نام خانوادگی</th>
+            <th class="tw-text-teal-500">نام کاربری</th>
+            <th class="tw-text-teal-500">شماره تماس</th>
+            <th class="tw-text-teal-500">عملیات</th>
           </tr>
           </thead>
           <tbody>
@@ -103,7 +111,7 @@
             </th>
             <td>
               <div
-                class="tw-bg-blue-500 tw-rounded tw-cursor-pointer d-inline-flex justify-content-center align-items-center p-1"
+                class="bg-purple tw-rounded tw-cursor-pointer d-inline-flex justify-content-center align-items-center p-1"
                 @click="SetSelectedUser(item)">
                 <span class="text-white tw-text-xs">مشاهده جزئیات کاربر </span>
               </div>
@@ -133,7 +141,7 @@
           <span  class="text-secondary">نام کاربری: </span>
           <nuxt-link class=" tw-transition tw-text-blue-500 text-decoration-none" :to="`/user/${SelectedUser.userName}/posts`">@{{SelectedUser.userName}}</nuxt-link>
         </div>
-        <div class="col-md-3 my-3">
+        <div class="col-md-3 ">
           <span  class="text-secondary">شماره موبایل : </span>
           <span v-if="SelectedUser.mobile!=='' || SelectedUser.mobile!==null">{{SelectedUser.mobile}}</span>
           <span v-else>-</span>
@@ -248,5 +256,9 @@ th.fw-normal {
 
 td {
   background-color: #80808021 !important;
+}
+
+.TableBg{
+  @apply tw-bg-[#ffd5e6] !important;
 }
 </style>
