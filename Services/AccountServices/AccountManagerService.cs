@@ -83,7 +83,7 @@ namespace BanooClub.Services.AccountServices
                 return new ServiceResult<object>().Ok(result);
             }
 
-            if(user.Status != 1)
+            if (user.Status != 1)
             {
                 var result = new
                 {
@@ -251,7 +251,7 @@ namespace BanooClub.Services.AccountServices
 
         #region SignUp
 
-        public async Task<IServiceResult<object>> SignUpWithMobileAndMail(System.DateTime? BirthDate, string firstname, string lastName, string mobile, string email, string code, long signUpType, string password,string userName,long? ServiceCategoryId,string IntroducerCode,long? stateId,long? cityId,RelationStatus? relationState)
+        public async Task<IServiceResult<object>> SignUpWithMobileAndMail(string? defaultAvatar, string? defaultBanner, System.DateTime? BirthDate, string firstname, string lastName, string mobile, string email, string code, long signUpType, string password, string userName, long? ServiceCategoryId, string IntroducerCode, long? stateId, long? cityId, RelationStatus? relationState)
         {
             var EmailUsers = new List<User>();
             var MobileUsers = new List<User>();
@@ -267,14 +267,14 @@ namespace BanooClub.Services.AccountServices
             if (!(MobileUsers.Any() || EmailUsers.Any()))
             {
                 var confirmCode = new byte[] { };
-                if(signUpType == (int)AuthTypes.Mobile)
+                if (signUpType == (int)AuthTypes.Mobile)
                 {
                     confirmCode = await _cache.GetAsync(mobile);
                 }
-                if(signUpType == (int)AuthTypes.Email)
+                if (signUpType == (int)AuthTypes.Email)
                 {
-                    confirmCode=await _cache.GetAsync(email);
-                } 
+                    confirmCode = await _cache.GetAsync(email);
+                }
                 if (!(confirmCode is null))
                 {
                     if (Encoding.UTF8.GetString(confirmCode) == code)
@@ -324,14 +324,14 @@ namespace BanooClub.Services.AccountServices
                         #endregion
 
 
-                        if(IntroducerCode == null || IntroducerCode =="")
+                        if (IntroducerCode == null || IntroducerCode == "")
                         {
                             IntroducerCode = null;
                         }
                         var ServiceCatId = "";
-                        if(ServiceCategoryId == null)
+                        if (ServiceCategoryId == null)
                         {
-                            ServiceCatId ="NULL";
+                            ServiceCatId = "NULL";
                         }
                         else
                         {
@@ -345,11 +345,14 @@ namespace BanooClub.Services.AccountServices
                         var UserCode = new string(Enumerable.Repeat(chars, 8)
                             .Select(s => s[random.Next(s.Length)]).ToArray());
 
+                        string userAvatar = SetFileOrDefaultForUser(defaultAvatar, Defaults.GetDefaultAvatars());
+                        string userBanner = SetFileOrDefaultForUser(defaultBanner, Defaults.GetDefaultBanners());
+
                         var cmd = "BEGIN TRANSACTION [Tran1]" +
                             "BEGIN TRY" +
                             " declare @LASTID bigint" +
-                            " INSERT INTO[User].Users(Mobile, Name, Type, FamilyName, Email, IsDeleted, Password, Status,FormalId,UserName,ServiceCategoryId,UserCode,IntroducerCode,BirthDate,StateId,CityId,RelationState)" +
-                            $" VALUES('{mobile}', N'{firstname}', 3, N'{lastName}', '{email}', 0, '{password}', 1,0,N'{userName}',{ServiceCatId},N'{UserCode}',N'{IntroducerCode}','{BirthDate}',{STATEID},{CITYID},{RELATIONSTATE})" +
+                            " INSERT INTO[User].Users(Avatar, DefaultBanner, Mobile, Name, Type, FamilyName, Email, IsDeleted, Password, Status,FormalId,UserName,ServiceCategoryId,UserCode,IntroducerCode,BirthDate,StateId,CityId,RelationState)" +
+                            $" VALUES('{userAvatar}', {userBanner}, '{mobile}', N'{firstname}', 3, N'{lastName}', '{email}', 0, '{password}', 1,0,N'{userName}',{ServiceCatId},N'{UserCode}',N'{IntroducerCode}','{BirthDate}',{STATEID},{CITYID},{RELATIONSTATE})" +
                             " SET @LASTID = SCOPE_IDENTITY()" +
                             " INSERT INTO[User].UserSettings(ActiveRoomate,IsPrivateActivity, VideoIdentityStatus, IsPrivateRoomate, IsPrivateAds, IsPrivateSocial, Flag, Bio, IsDeleted, BirthDate, UserTag, UserId ,LawyerCertificateStatus,NewspaperStatus )" +
                             "  VALUES(0,0,1, 0, 0, 0, '', '', 0, GETDATE(), '', @LASTID , 4 , 4)" +
@@ -397,6 +400,7 @@ namespace BanooClub.Services.AccountServices
             }
             return new ServiceResult<object>().Ok((int)SignStatus.UserExists);
         }
+
         public async Task<IServiceResult<object>> SignUpWithoutCode(string firstname, string lastName, string encryptedMail)
         {
             var decriptContents = _decryptService.DecryptMail(encryptedMail).Data;
@@ -452,15 +456,15 @@ namespace BanooClub.Services.AccountServices
             {
                 return new ServiceResult<object>().Ok((int)SignStatus.PassFormatNotMatched);
             }
-            if(await CheckUserName(model.UserName))
+            if (await CheckUserName(model.UserName))
             {
                 switch (model.Type)
                 {
                     case (int)AuthTypes.Mobile:
-                        var mobileResult = await SignUpWithMobileAndMail(model.BirthDate, model.FirstName, model.LastName, model.Mobile, model.Mail, model.VerifyCode, model.Type, model.Password, model.UserName,model.ServiceCategoryId,model.IntroducerCode,model.StateId,model.CityId,model.RelationState);
+                        var mobileResult = await SignUpWithMobileAndMail(model.Avatar, model.Banner, model.BirthDate, model.FirstName, model.LastName, model.Mobile, model.Mail, model.VerifyCode, model.Type, model.Password, model.UserName, model.ServiceCategoryId, model.IntroducerCode, model.StateId, model.CityId, model.RelationState);
                         return new ServiceResult<object>().Ok(mobileResult.Data);
                     case (int)AuthTypes.Email:
-                        var mailResult = await SignUpWithMobileAndMail(model.BirthDate, model.FirstName, model.LastName, model.Mobile, model.Mail, model.VerifyCode, model.Type, model.Password, model.UserName, model.ServiceCategoryId, model.IntroducerCode, model.StateId, model.CityId, model.RelationState);
+                        var mailResult = await SignUpWithMobileAndMail(model.Avatar, model.Banner, model.BirthDate, model.FirstName, model.LastName, model.Mobile, model.Mail, model.VerifyCode, model.Type, model.Password, model.UserName, model.ServiceCategoryId, model.IntroducerCode, model.StateId, model.CityId, model.RelationState);
                         return new ServiceResult<object>().Ok(mailResult.Data);
                     case (int)AuthTypes.WithoutPassword:
                         var result = await SignUpWithoutCode(model.FirstName, model.LastName, model.EncryptedMail);
@@ -488,7 +492,7 @@ namespace BanooClub.Services.AccountServices
             }
             else
             {
-                userNames = _userRepository.GetQuery().Select(z=>z.UserName).ToList();
+                userNames = _userRepository.GetQuery().Select(z => z.UserName).ToList();
                 serializedCustomerList = JsonConvert.SerializeObject(userNames);
                 UserNameList = Encoding.UTF8.GetBytes(serializedCustomerList);
                 await distributedCache.SetAsync(cacheKey, UserNameList);
@@ -540,28 +544,28 @@ namespace BanooClub.Services.AccountServices
         {
             try
             {
-                string cmd = $"Delete [User].Users where UserId = {userId} "+
-                  $" Delete[User].UserSettings where UserId = {userId} "+
-                   $" Delete Social.ViewHistories where UserId = {userId} "+
-                   $" Delete Social.RoomateDocs Where UserId = {userId} "+
-                   $" Delete Social.PostComments where UserId = {userId} "+
-                   $" Delete Social.PostLikes where UserId = {userId} "+
-                   $" Delete Social.Messages where UserId = {userId} "+
-                   $" Delete Social.Posts where UserId = {userId} "+
-                   $" Delete Social.Reviews where UserId = {userId} "+
-                   $" Delete Social.FollowRequests where FollowerUserId = {userId} and FollowingUserId = {userId} "+
-                   $" Delete Social.Followings where FollowingUserId = {userId} "+
-                   $" Delete Social.Followers where FollowerUserId = {userId} "+
-                   $" Delete Social.AccountSettings where UserId = {userId} "+
-                   $" Delete Social.Activities where UserId = {userId} "+
-                   $" Delete Social.MessageRecipients where UserId = {userId} "+
-                   $" Delete Common.Tickets where UserId = {userId} "+
-                   $" Delete Common.Logs where UserId = {userId} "+
-                   $" Delete Common.WishLists where UserId = {userId} "+
-                   $" Delete Common.PostReports where ReporterUserId =1 and UserId = {userId} "+
-                   $" Delete Service.Roomates where UserId = {userId} "+
-                   $" Delete Service.Ads where UserId = {userId} "+
-                   $" Delete Service.AdsComments where UserId = {userId} "+
+                string cmd = $"Delete [User].Users where UserId = {userId} " +
+                  $" Delete[User].UserSettings where UserId = {userId} " +
+                   $" Delete Social.ViewHistories where UserId = {userId} " +
+                   $" Delete Social.RoomateDocs Where UserId = {userId} " +
+                   $" Delete Social.PostComments where UserId = {userId} " +
+                   $" Delete Social.PostLikes where UserId = {userId} " +
+                   $" Delete Social.Messages where UserId = {userId} " +
+                   $" Delete Social.Posts where UserId = {userId} " +
+                   $" Delete Social.Reviews where UserId = {userId} " +
+                   $" Delete Social.FollowRequests where FollowerUserId = {userId} and FollowingUserId = {userId} " +
+                   $" Delete Social.Followings where FollowingUserId = {userId} " +
+                   $" Delete Social.Followers where FollowerUserId = {userId} " +
+                   $" Delete Social.AccountSettings where UserId = {userId} " +
+                   $" Delete Social.Activities where UserId = {userId} " +
+                   $" Delete Social.MessageRecipients where UserId = {userId} " +
+                   $" Delete Common.Tickets where UserId = {userId} " +
+                   $" Delete Common.Logs where UserId = {userId} " +
+                   $" Delete Common.WishLists where UserId = {userId} " +
+                   $" Delete Common.PostReports where ReporterUserId =1 and UserId = {userId} " +
+                   $" Delete Service.Roomates where UserId = {userId} " +
+                   $" Delete Service.Ads where UserId = {userId} " +
+                   $" Delete Service.AdsComments where UserId = {userId} " +
                    $" Delete Service.UserComments where UserId = {userId}";
 
                 await _userRepository.DapperSqlQuery(cmd);
@@ -576,13 +580,13 @@ namespace BanooClub.Services.AccountServices
             {
                 return new ServiceResult().Failure("something went wrong !!!");
             }
-            
+
 
         }
         public async Task<IServiceResult<object>> SendConfirmationCode(string phoneNumber)
         {
             var hasUser = (await _userRepository.GetQuery().Where(u => u.Mobile.Equals(phoneNumber)).AnyAsync()) ? 1 : 0;
-            if(hasUser ==0)
+            if (hasUser == 0)
             {
                 if (await _cache.GetAsync(phoneNumber) is null)
                 {
@@ -657,17 +661,17 @@ namespace BanooClub.Services.AccountServices
             return new ServiceResult<object>().Ok(new { hasUser, message = "Confirmation code has not expired" });
         }
 
-        public async Task<IServiceResult<object>> ForgotPassword(AuthTypes type,string PhoneOrEmail)
+        public async Task<IServiceResult<object>> ForgotPassword(AuthTypes type, string PhoneOrEmail)
         {
             string PassWord = "";
-            User dbUser =new User();
-            if(type == AuthTypes.Email)
+            User dbUser = new User();
+            if (type == AuthTypes.Email)
             {
                 dbUser = _userRepository.GetQuery().FirstOrDefault(z => z.Email == PhoneOrEmail);
             }
-            if (type==AuthTypes.Mobile)
+            if (type == AuthTypes.Mobile)
             {
-                dbUser=_userRepository.GetQuery().FirstOrDefault(z => z.Mobile == PhoneOrEmail);
+                dbUser = _userRepository.GetQuery().FirstOrDefault(z => z.Mobile == PhoneOrEmail);
             }
             if (dbUser == null)
             {
@@ -679,7 +683,7 @@ namespace BanooClub.Services.AccountServices
             }
             PassWord = _decryptService.Decrypt(dbUser.Password).Data;
 
-            if (type==AuthTypes.Email)
+            if (type == AuthTypes.Email)
             {
                 MimeMessage message = new MimeMessage();
                 MailboxAddress from = new MailboxAddress("BanooClub", "info@BanooClub.simagar.com");
@@ -723,7 +727,7 @@ namespace BanooClub.Services.AccountServices
             {
                 Status = (int)SignStatus.Success
             };
-            return new ServiceResult<object>().Ok(Obj1);    
+            return new ServiceResult<object>().Ok(Obj1);
 
         }
         public string creatRandomPassword()
@@ -771,7 +775,7 @@ namespace BanooClub.Services.AccountServices
         }
         public async Task<IServiceResult<object>> BirthDateList()
         {
-            var result = _userRepository.GetQuery().Where(x => x.BirthDate.Value.Day == System.DateTime.Now.Day && x.BirthDate.Value.Month==System.DateTime.Now.Month).ToList();
+            var result = _userRepository.GetQuery().Where(x => x.BirthDate.Value.Day == System.DateTime.Now.Day && x.BirthDate.Value.Month == System.DateTime.Now.Month).ToList();
             var Obj = new
             {
                 Data = result
@@ -780,6 +784,24 @@ namespace BanooClub.Services.AccountServices
 
         }
 
-        
+        #region Utilities
+
+        private static string SetFileOrDefaultForUser(string? userSelectionFile, IList<string> defaultFiles)
+        {
+            var userFile = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(userSelectionFile))
+                userFile = defaultFiles.FirstOrDefault(x => x.Equals(userSelectionFile));
+            else
+            {
+                // we have 22 images with extension ".jpg" for banners and 16 images with extension ".png" for avatars
+                var maxValue = defaultFiles.FirstOrDefault().Contains(".jpg") ? 22 : 16;
+                userFile = defaultFiles[random.Next(0, maxValue)];
+            }
+
+            return userFile;
+        }
+
+        #endregion
     }
 }

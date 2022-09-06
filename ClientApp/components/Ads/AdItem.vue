@@ -1,5 +1,5 @@
 <template>
-  <div class="card" v-if="AdsDetail">
+  <div class="card" v-if="AdsDetail" @click="$router.push(`/Migration/AdvertiseDetail/${AdsDetail.adsId}`)">
     <div
       class="tw-absolute tw-left-2 tw-top-2 tw-rounded-full tw-flex tw-items-center tw-justify-center customProfileImage"
       @click="goToServiceProfile(AdsDetail.userInfo.userId)">

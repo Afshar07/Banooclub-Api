@@ -12,7 +12,7 @@
 
       <div class="tw-flex tw-items-center  tw-left-2  tw-justify-center position-absolute tw-top-[-15px]">
 
-        <div class="tw-top-3  tw-border-1 tw-bg-white ServicePrice tw-shadow tw-border-pink-700  tw-font-medium tw-px-2 tw-py-1 tw-left-2  tw-text tw-text-blue-500 ">
+        <div class="tw-top-3  tw-border-1 tw-bg-[#9cf5ff] tw-relative tw-rounded-full tw-shadow   tw-font-medium tw-px-2 tw-py-1 tw-left-2   tw-text-[#db3cd6] ">
           {{Intl.NumberFormat('fa-IR').format(AdsDetail.adsInfo.price)}}
           <small class="Toman">تومان</small>
 

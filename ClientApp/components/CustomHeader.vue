@@ -1,5 +1,49 @@
 <template>
   <div class="m-0 p-0 row col-12 bg-white header_in_add_post" style="border: 1px solid #ebe9e6;border-radius: 1rem;height: 450px">
+
+    <input type="checkbox" id="my-modal-4" class="tw-modal-toggle" />
+    <label for="my-modal-4" class="tw-modal cursor-pointer">
+      <label class="tw-modal-box tw-max-w-3xl relative" for="">
+        <div class="tw-w-full">
+          <div class="tw-w-full tw-flex tw-items-center tw-justify-center">
+          <img src="/defaultBanner.jpg" class="tw-w-20 tw-h-20 tw-rounded-full tw-object-cover" alt="">
+          </div>
+          <div   @click="callInputMethod" class="tw-w-full tw-cursor-pointer tw-bg-stone-200 tw-rounded tw-border-dashed tw-border-2 tw-flex tw-items-center tw-justify-center tw-h-20 my-4">
+            <UploadIcon  class="tw-fill-pink-400"></UploadIcon>
+          </div>
+          <div class="tw-w-full tw-flex tw-items-center tw-flex-wrap tw-gap-2 tw-justify-start ">
+            <img v-for="i in 8" src="/defaultBanner.jpg" class="tw-w-20 tw-h-20 my-2 tw-rounded-full hover:tw-transform hover:tw-scale-110 tw-transition-all tw-cursor-pointer tw-rounded tw-object-cover"  alt="">
+
+          </div>
+
+
+          <div class="tw-w-full my-2 tw-flex tw-items-center tw-justify-center">
+            <button class="bg-purple rounded text-white tw-w-1/4 p-2 tw-cursor-pointer"> تایید</button>
+          </div>
+        </div>
+      </label>
+    </label>
+    <input type="checkbox" id="my-modal-5" class="tw-modal-toggle" />
+    <label for="my-modal-5" class="tw-modal cursor-pointer">
+      <label class="tw-modal-box tw-max-w-3xl relative" for="">
+     <div class="tw-w-full">
+         <img src="/defaultBanner.jpg" class="tw-w-full tw-h-20 tw-rounded tw-object-cover" alt="">
+       <div  @click="callUserInputMethod"  class="tw-w-full tw-bg-stone-200 tw-rounded tw-border-dashed tw-border-2 tw-flex tw-items-center tw-justify-center tw-h-20 my-4">
+         <UploadIcon  class="tw-fill-pink-400"></UploadIcon>
+       </div>
+       <div class="tw-w-full tw-flex tw-items-center tw-flex-wrap tw-justify-start ">
+         <img v-for="i in 8" src="/defaultBanner.jpg" class="tw-w-1/4 tw-h-20 my-2 hover:tw-transform hover:tw-scale-110 tw-transition-all tw-cursor-pointer tw-rounded tw-object-cover"  alt="">
+
+       </div>
+
+       <!--              @click="callUserInputMethod"-->
+       <div class="tw-w-full my-2 tw-flex tw-items-center tw-justify-center">
+         <button class="bg-purple rounded text-white tw-w-1/4 p-2 tw-cursor-pointer"> تایید</button>
+       </div>
+     </div>
+      </label>
+    </label>
+    <!-- Modal -->
     <div class="m-0 p-0 row col-12">
       <div class="m-0 p-0 row col-md-12 mb-md-4 d-md-block" :class="isChatLayout ? 'd-none' : 'd-block'">
         <div class="w-100 col-12 BannerPhoto d-flex flex-lg-column justify-content-end"
@@ -178,39 +222,42 @@
             </button>
           </div>
           <div class="add-btn" v-if="!$route.params.slug">
+
             <button
               style="cursor: pointer;background-color: #e2a7ff"
+              type="button"
               class="btn ChangePhotoBtn d-flex align-items-center py-md-2 px-md-3 mx-1"
-              @click="callInputMethod"
             >
 
-              <small class="text-white" style="font-size: 10px;">ویرایش عکس جلد</small>
-              <form>
+              <label for="my-modal-5" class="m-0">
+                <small class="text-white" style="font-size: 10px;">ویرایش عکس جلد</small>
+              </label>
+
+
                 <input
                   ref="file"
                   class="InputEditPhoto d-none"
                   type="file"
                   @change="InputEditPhoto"
                 />
-              </form>
+
             </button>
           </div>
           <div class="add-btn" v-if="!$route.params.slug">
             <button
               style="cursor: pointer;background-color: #e2a7ff"
               class="btn ChangePhotoBtn d-flex align-items-center py-md-2 px-md-3 mx-1"
-              @click="callUserInputMethod"
             >
-
-              <small class="text-white" style="font-size: 10px">ویرایش عکس پروفایل</small>
-              <form>
+              <label for="my-modal-4" class="m-0 tw-w-full tw-h-full">
+                <small class="text-white tw-text-[10px]">ویرایش عکس پروفایل</small>
+              </label>
                 <input
                   ref="InputUserEditPhoto"
                   class="InputUserEditPhoto d-none"
                   type="file"
                   @change="InputEditUserPhoto"
                 />
-              </form>
+
             </button>
           </div>
         </li>
@@ -227,10 +274,10 @@ import AddFriendIcon from "../components/Icons/AddFriendIcon";
 import FollowerIcon from "../components/Icons/FollowerIcon"
 import FollowingIcon from "../components/Icons/FollowingIcon";
 import CheckIcon from "../components/Icons/CheckIcon"
-
+import UploadIcon from "@/components/Icons/UploadIcon";
 export default {
   name: "CustomHeader",
-  components: {WhiteCropIcon, AddFriendIcon, FollowerIcon, FollowingIcon, CheckIcon},
+  components: {WhiteCropIcon, UploadIcon,AddFriendIcon, FollowerIcon, FollowingIcon, CheckIcon},
   props: {
     isChatLayout: {
       type: Boolean,
@@ -240,18 +287,8 @@ export default {
   },
   computed: {
     InlineBg() {
-      // const base = this.BaseUrl;
-      // if (this.$auth.user && this.$auth.user.baseData && this.$auth.user.baseData.banner) {
-      //   return {
-      //     backgroundImage: `url(${base + this.$auth.user.baseData.banner})`,
-      //     backgroundPosition: "center",
-      //     backgroundSize: "cover",
-      //     backgroundRepeat: "no-repeat",
-      //   };
-      // }
-      //
       const base = this.BaseUrl;
-      if (!this.$route.params.slug) {
+      if (!this.$route.params.slug && this.$auth.user && this.$auth.user.baseData && this.$auth.user.baseData.banner) {
         return {
           backgroundImage: `url(${this.$auth.user.baseData.banner ? base + 'media/gallery/banner/'+ this.$auth.user.baseData.banner : "/defaultBanner.jpg"})`,
           backgroundPosition: "center",
@@ -269,7 +306,7 @@ export default {
 
     },
     userAvatar() {
-      if (!this.$route.params.slug) {
+      if (!this.$route.params.slug && this.$auth.user && this.$auth.user.userInfo && this.$auth.user.userInfo.selfieFileData) {
         return this.$auth.user.userInfo.selfieFileData
           ? this.BaseUrl +'media/gallery/profile/'+ this.$auth.user.userInfo.selfieFileData
           : "/defaultUser.png";

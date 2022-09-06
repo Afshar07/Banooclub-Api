@@ -66,8 +66,8 @@ namespace BanooClub.Models
         [NotMapped]
         public string StateName { get; set; }
         [NotMapped]
-        public IList<long> OwnerUserIds { get; set; }
+        public List<long>? OwnerUserIds { get; set; }
         [NotMapped]
-        public IList<User> OwnerUserInfos { get; set; }
+        public List<User>? OwnerUserInfos { get; set; }
     }
 }

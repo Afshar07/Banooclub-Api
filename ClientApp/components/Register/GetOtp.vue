@@ -9,21 +9,16 @@
             :placeholder="inputPlaceholder"
             @input="setInputValue"
             :value="getInputValue"
-            @keydown.prevent.enter="sendOtpCode"
+            @keydown.prevent.enter="sendMobileOtpCode"
             required
           />
         </div>
       </div>
     </div>
     <div class="col-12 mt-3 text-center">
-      <button
-        type="button"
-        class="tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full"
-        @click="sendOtpCode"
-      >
-        ارسال کد
-      </button>
-
+      <div class="tw-w-full my-2 tw-flex tw-items-center tw-justify-center">
+        <button  @click="sendMobileOtpCode" class="bg-purple rounded text-white tw-w-1/4 p-2 tw-cursor-pointer">         ارسال کد</button>
+      </div>
     </div>
   </div>
 </template>
@@ -42,9 +37,6 @@ export default {
     };
   },
   methods: {
-    sendOtpCode() {
-        this.sendMobileOtpCode();
-    },
     setInputValue(event) {
       // Handle both login with mobile/email in one component
         this.mobile = event.target.value;
@@ -64,15 +56,9 @@ export default {
             );
           if (response.data.message === "Confirmation code has not expired") {
             this.$toast.error("کد تایید منقضی نشده است");
-
-            this.$emit("setCounter", this.counter);
           } else if (response.data.hasUser === 1) {
-            this.$emit("setCounter", this.counter);
-            this.$toast.error(
-              "کاربری با این شماره موبایل قبلا ثبت نام کرده است"
-            );
+            this.$toast.error("کاربری با این شماره موبایل قبلا ثبت نام کرده است");
           } else {
-            this.$emit("setCounter", this.counter);
             this.$toast.success("کد تایید برای شما ارسال شد");
             this.$emit("getNumber", this.mobile);
 

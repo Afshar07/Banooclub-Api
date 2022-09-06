@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="d-flex flex-row flex-wrap">
-      <AdItemWish class="tw-ml-1 my-3" v-for="item in Ads" :AdsDetail="item" :show_buttons="false"/>
+      <AdItemWish class="my-3" v-for="item in Ads" :AdsDetail="item" :show_buttons="false"/>
     </div>
   </div>
 

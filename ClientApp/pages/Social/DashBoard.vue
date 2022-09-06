@@ -6,7 +6,7 @@
       <div class="tw-w-full bg-white p-3 d-flex align-items-center gap-3  rounded ">
         <img src="/girl-icon-dashboard.png" class="tw-w-[7rem] tw-h-20" alt="">
         <div class="d-flex align-items-center flex-column">
-          <strong class="text-purple">داشبورد</strong>
+          <h1 class="text-purple h6">داشبورد</h1>
           <strong class="text-pink">Dashboard</strong>
         </div>
 

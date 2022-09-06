@@ -5,7 +5,7 @@
         <div class="d-flex align-items-center gap-2">
           <img src="/girl-icon-khadamat.png" class="tw-w-[7rem] tw-h-20" alt="">
           <div class="d-flex align-items-center flex-column">
-            <strong class="text-purple"> خدمات</strong>
+            <h1 class="text-purple h6"> خدمات</h1>
             <strong class="text-pink">Services</strong>
           </div>
         </div>

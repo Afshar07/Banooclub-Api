@@ -1,8 +1,8 @@
 <template>
   <div class="row">
-    <div class="d-flex flex-row flex-wrap">
+    <div class="d-flex flex-row gap-1 flex-wrap">
 
-      <ProductItemWish class="tw-ml-1 my-3" v-for="(service,idx) in services" :key="idx" :service_details="service" :show_buttons="false"/>
+      <ProductItemWish class="my-3" v-for="(service,idx) in services" :key="idx" :service_details="service" :show_buttons="false"/>
     </div>
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
 
   props:{
     services:{
-      type:Object,
+      type:Array,
       required: true
     },
     categories:{

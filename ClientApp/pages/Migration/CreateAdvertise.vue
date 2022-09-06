@@ -10,7 +10,7 @@
             <div class="d-flex align-items-center gap-2">
               <img src="/girl-icon-ads-afzodan.png" class="tw-w-[7rem] tw-h-20" alt="">
               <div class="d-flex align-items-center flex-column">
-                <strong class="text-purple">ثبت آگهی</strong>
+                <h1 class="text-purple h6">ثبت آگهی</h1>
                 <strong class="text-pink">Add AdvertiseMents</strong>
               </div>
             </div>
