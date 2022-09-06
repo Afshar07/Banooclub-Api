@@ -10,7 +10,7 @@
 
       </div>
 
-      <div @click="CallBanner"
+      <div v-if="$route.path==='/social/accountsetting/MyPage'" @click="CallBanner"
            class="tw-w-full tw-bg-stone-200 tw-rounded tw-border-dashed tw-border-2 tw-flex tw-items-center tw-justify-center tw-h-20 my-4">
         <UploadIcon class="tw-fill-pink-400"></UploadIcon>
       </div>
