@@ -155,11 +155,11 @@
     <!--      <h2 class="tw-text-2xl tw-font-semibold pb-3">ویرایش خدمت</h2>-->
     <div class="row">
       <div class="col-md-6 col-12 pt-3">
-        <label>نام خدمت</label>
-        <input v-model="serviceDetailProp.title" type="text" class="with-border" placeholder="نام خدمت">
+        <label>عنوان خدمت *</label>
+        <input v-model="serviceDetailProp.title" type="text" class="with-border" placeholder="آموزش اکستنشن مژه">
       </div>
       <div class="col-md-6 col-12 pt-3">
-        <label>دسته بندی خدمت</label>
+        <label>دسته بندی خدمت *</label>
         <select v-model="serviceDetailProp.serviceCategoryId" class="form-select" aria-label="Default select example">
           <option :value="null">دسته بندی خدمت</option>
           <option v-for="(service_category,idx) in categories" :key="idx" :value="service_category.serviceCategoryId">
@@ -174,7 +174,7 @@
           row="100"
           style="color: #808080;"
           class="form-control border rounded w-100"
-          placeholder="توضیحات خدمت"
+          placeholder="در مورد خدمت توضیح دهید"
           id="about"
         ></textarea>
       </div>
@@ -198,6 +198,10 @@
         </div>
       </div>
       <div class="col-md-6 col-12 pt-3">
+        <label>شماره مستقیم تماس *</label>
+        <input v-model="serviceDetailProp.mobile" type="text" class="with-border" placeholder="شماره همراه با صفر">
+      </div>
+      <div class="col-md-6 col-12 pt-3">
         <label>شماره تلفن 1</label>
         <input v-model="serviceDetailProp.phoneNumber1" type="text" class="with-border" placeholder="شماره تلفن">
       </div>
@@ -205,10 +209,7 @@
         <label>شماره تلفن 2</label>
         <input v-model="serviceDetailProp.phoneNumber2" type="text" class="with-border" placeholder="شماره تلفن">
       </div>
-      <div class="col-md-6 col-12 pt-3">
-        <label>شماره همراه</label>
-        <input v-model="serviceDetailProp.mobile" type="text" class="with-border" placeholder="شماره همراه">
-      </div>
+
       <div class="col-md-6 col-12 pt-3">
         <label>ایمیل</label>
         <input v-model="serviceDetailProp.email" type="text" class="with-border" placeholder="ایمیل">
@@ -240,7 +241,7 @@
         <div class="d-flex row">
           <div class="py-3 col-lg-2 col-md-3 px-3">
             <div @click="uploadNewPicture" class="tw-bg-gray-100 tw-border-2 tw-border-dashed tw-flex tw-flex-col tw-h-32 tw-items-center tw-justify-center tw-relative tw-rounded-lg">
-              <UploadFileIcon style="width: 48px; height: 48px;"/>
+              <UploadFileIcon class="tw-fill-[#85ffdd]" style="width: 48px; height: 48px;"/>
             </div>
             <input
               ref="picture_file"
@@ -260,7 +261,7 @@
             <img class="tw-rounded-lg tw-h-32" width="100%" :src="image.base64" :alt="serviceDetailProp.title"
                  style="object-fit: contain" :class="{BorderGreen:index===0}"/>
             <span class="position-absolute deleteIcon m-3" style="top: 15px" @click="deleteNewImage(index)">
-                <font-awesome-icon icon="trash" color="#ff4d4d" size="sm"/>
+                <font-awesome-icon icon="trash" color="#85ffdd" size="sm"/>
               </span>
           </div>
         </div>
@@ -278,7 +279,7 @@
             <img class="tw-rounded-lg tw-h-32" width="100%" :src="`https://banooclubapi.simagar.com/media/gallery/Service/${image.base64}`" :alt="serviceDetailProp.title"
                  style="object-fit: contain" :class="{BorderGreen:index===0}"/>
             <span class="position-absolute deleteIcon m-3" style="top: 15px" @click="deleteImage(image,index)">
-                <font-awesome-icon icon="trash" color="#ff4d4d" size="sm"/>
+                <font-awesome-icon icon="trash" color="#85ffdd" size="sm"/>
               </span>
           </div>
         </div>
@@ -292,7 +293,7 @@
             <div @click="uploadNewPicture" class="tw-bg-gray-100
               tw-border-2 tw-border-dashed tw-flex tw-flex-col tw-h-32 tw-items-center
               tw-justify-center tw-relative tw-rounded-lg">
-              <UploadFileIcon style="width: 48px; height: 48px;"/>
+              <UploadFileIcon class="tw-fill-[#85ffdd]" style="width: 48px; height: 48px;"/>
             </div>
             <input
               ref="file"
@@ -330,7 +331,7 @@
             افزودن ویژگی خدمت
           </div>
           <button @click="increasePropertyCount" class="btn AddReplyBtn text-white">
-            <PlusIcon fill="#2563eb" style="width: 40px; height: 40px;"/>
+            <PlusIcon fill="#fc5399" style="width: 40px; height: 40px;"/>
           </button>
         </div>
 
@@ -342,7 +343,7 @@
 
             <div class=" col-md-3 col-sm-12">
               <label>نام ویژگی</label>
-              <input :ref="`Title${idx}`" type="text" class="with-border" placeholder="نام ویژگی">
+              <input :ref="`Title${idx}`" v-model="property_name" type="text" class="with-border" placeholder="نام ویژگی">
             </div>
             <div  class=" col-md-3 col-sm-12 d-flex flex-column justify-content-end   ">
               <div class="d-flex align-items-center justify-content-between">
@@ -351,14 +352,14 @@
                 <small>قیمت ویژگی</small>
                 <div class="d-flex align-items-center gap-2">
                   <small>ویژگی رایگان</small>
-                  <input type="checkbox" @click="Disable(idx)" style="width: 20px;height: 20px" class="form-check">
+                  <input type="checkbox"  v-model="property_IsFree"  style="width: 20px;height: 20px" class="form-check">
                 </div>
               </div>
 
-              <input maxlength="11" :ref="`Price${idx}`" type="number" class="with-border" placeholder="قیمت ویژگی">
+              <input maxlength="11" :ref="`Price${idx}`" :disabled="property_IsFree" :class="{DisabledInput:property_IsFree}" v-model="property_price" type="number" class="with-border" placeholder="قیمت ویژگی">
             </div>
             <div class="col-md-3 d-flex align-items-end">
-              <button @click="createProperty" type="button" class="button mt-auto tw-whitespace-nowrap">
+              <button @click="createProperty" type="button" class="bg-pink p-2 rounded text-white tw-cursor-pointer">
                 ثبت ویژگی
               </button>
             </div>
@@ -392,11 +393,11 @@
                 </div>
               </div>
 
-              <input maxlength="11" :disabled="service_property.isFree" v-model="service_property.price" type="number" class="with-border" placeholder="قیمت ویژگی">
+              <input maxlength="11" :disabled="service_property.isFree" :class="{DisabledInput:service_property.isFree}" v-model="service_property.price" type="number" class="with-border" placeholder="قیمت ویژگی">
             </div>
 
             <div class="col-md-3 d-flex align-items-center">
-              <button @click="UpdateProperty(service_property)" type="button" class="button mt-auto tw-whitespace-nowrap px-2">
+              <button @click="UpdateProperty(service_property)" type="button" class="bg-pink p-2 rounded text-white tw-cursor-pointer mt-auto">
                 ویرایش ویژگی
               </button>
             </div>
@@ -404,9 +405,23 @@
         </div>
 
       </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div v-if="serviceDetailProp.properties.length>0 " class="col-md-6 d-flex flex-column gap-3">
+            <div class="tw-w-full d-flex align-items-center justify-content-between ">
+              <span>جمع ویژگی ها :</span>
+              <span> {{ serviceDetailProp.totalPrice }} <small> تومان</small></span>
+            </div>
+            <div class="tw-w-full d-flex align-items-center justify-content-between ">
+              <span class="text-purple">جمع کل خدمت :</span>
+              <span class="text-purple">{{ serviceDetailProp.totalPrice }} <small>تومان</small></span>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="col-12 py-5 tw-text-left">
         <div class="d-flex align-items-center justify-content-between">
-          <button type="button" class="btn btn-success mt-auto px-2" @click="updateService">
+          <button type="button" class="bg-pink p-2 rounded text-white tw-cursor-pointer mt-auto" @click="updateService">
             به روز رسانی خدمت
           </button>
           <button v-if="serviceDetailProp.discount===null" type="button" class="btn btn-info text-white mt-auto px-2" data-bs-toggle="modal" data-bs-target="#AddDiscount">
@@ -488,6 +503,7 @@ export default {
       tag:'',
       property_price:0,
       property_name:'',
+      property_IsFree:false,
       HaveDiscount:false,
       Discount: {
         type: 0,
@@ -514,6 +530,20 @@ export default {
     };
   },
   methods: {
+    Disable(idx) {
+
+      if (this.$refs['Price' + idx][0].hasAttribute('disabled')) {
+        this.$refs['Price' + idx][0].removeAttribute('disabled')
+        this.$refs['Price' + idx][0].classList.remove('DisabledInput')
+      } else {
+        this.$refs['Price' + idx][0].setAttribute('disabled', '')
+        this.$refs['Price' + idx][0].value = 0
+        this.$refs['Price' + idx][0].classList.add('DisabledInput')
+
+      }
+
+
+    },
     DeleteDiscount(){
       try {
         const res = this.$repositories.DeleteDiscount.DeleteDiscount({
@@ -576,16 +606,22 @@ export default {
       if(this.property_name === ''){
         this.$toast.error("لطفا نام ویژگی را وارد کنید");
       }
-      else if(this.property_price === 0){
+      else if(!this.property_IsFree){
+       if(this.property_price === 0){
         this.$toast.error("لطفا قیمت ویژگی را وارد کنید");
       }
+      }
       else {
+        if(this.property_IsFree){
+          this.property_price = 0
+        }
         this.$nuxt.$loading.start();
         try {
           await this.$repositories.createAServiceProperty.createAServiceProperty({
             serviceId: this.serviceDetailProp.servicePackId,
             name: this.property_name,
             price: this.property_price,
+            isFree:this.property_IsFree
           })
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
@@ -626,7 +662,12 @@ export default {
       this.property_count.splice(index, 1)
     },
     increasePropertyCount() {
+          if(this.property_count.length>0){
+            this.$toast.error('یک ویژگی در آن واحد میتوانید اضافه کنید')
+          }else{
+
       this.property_count.push('property')
+          }
     },
     UpdateProperty(item){
       try {
@@ -812,5 +853,10 @@ export default {
 .form-select:focus {
   border-color: #ced4da !important;
   outline: 0;
+}
+
+.DisabledInput {
+  @apply tw-bg-stone-400
+
 }
 </style>

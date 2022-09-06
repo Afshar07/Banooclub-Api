@@ -1,8 +1,18 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer  containerBox">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container NewBg mcontainer  containerBox">
+    <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+      <div class="d-flex align-items-center gap-2">
+        <img src="/girl-icon-sabteSefaresh.png" class="tw-w-[7rem] tw-h-20" alt="">
+        <div class="d-flex align-items-center flex-column">
+          <strong class="text-purple">ثبت سفارش</strong>
+          <strong class="text-pink">Order Submit</strong>
+        </div>
+      </div>
 
 
-      <div class="px-4 py-5">
+    </div>
+
+      <div class="p-3 my-4 bg-white rounded">
 
         <h5 class="text-uppercase">{{ $auth.user.userInfo.userName }}</h5>
 
@@ -27,13 +37,16 @@
 
 <!--        v-if="OrderData && OrderData.subOrders && OrderData.subOrders[0].planId !==0 "-->
         <ChargeWalletSideNav :show="displaySideNav" @close="displaySideNav = false"/>
-        <div v-if="OrderData.status!==2" class="text-center mt-5 d-flex align-items-center justify-content-center gap-2">
-          <div v-if=" OrderData&&OrderData.subOrders &&OrderData.subOrders[0].title !== 'شارژ کیف پول'"  class="d-flex flex-column justify-content-center">
-            <button class="btn btn-warning text-white px-2" :disabled="OrderData.sumPrice>$store.state.WalletAmount" @click="PayByWallet()">پرداخت با کیف پول</button>
+        <div v-if="OrderData.status!==2" class="text-center my-5 d-flex flex-wrap align-items-center justify-content-around gap-2">
+          <div v-if=" OrderData&&OrderData.subOrders &&OrderData.subOrders[0].title !== 'شارژ کیف پول'"  class="d-flex flex-column shadow p-4 tw-h-[10rem]  justify-content-center gap-2">
+            <button class=" tw-bg-[#ff6f9e] rounded  text-white p-2" :disabled="OrderData.sumPrice>$store.state.WalletAmount" @click="PayByWallet()">پرداخت با کیف پول</button>
             <small class="my-2">موجودی کیف پول شما : {{  Intl.NumberFormat('fa-IR').format($store.state.WalletAmount) }} تومان</small>
             <small v-if="OrderData.sumPrice>$store.state.WalletAmount">موجودی کیف پول شما کافی نمیباشد <a class="text-decoration-none text-primary tw-cursor-pointer" @click="displaySideNav= true">افزایش موجودی</a></small>
           </div>
-          <button class="button px-2" @click="createPayment()">پرداخت</button>
+          <div class="d-flex flex-column justify-content-center align-items-center gap-2 shadow p-4 tw-h-[10rem] ">
+          <button class="p-2 tw-bg-[#85ffdd] tw-text-[#f5447d] rounded px-2" @click="createPayment()">پرداخت</button>
+            <small>پرداخت با درگاه بانکی</small>
+          </div>
         </div>
 
       </div>
@@ -150,23 +163,6 @@ body {
   align-items: center
 }
 
-.modal-body {
-  background-color: #fff;
-  border-color: #fff;
-
-}
-
-
-.close {
-  color: #000;
-  cursor: pointer;
-}
-
-.close:hover {
-  color: #000;
-}
-
-
 .theme-color{
 
   color: #004cb9;
@@ -176,33 +172,12 @@ hr.new1 {
   margin: 0.4rem 0;
 }
 
+.mcontainer{
 
-.btn-primary {
-  color: #fff;
-  background-color: #004cb9;
-  border-color: #004cb9;
-  padding: 12px;
-  padding-right: 30px;
-  padding-left: 30px;
-  border-radius: 1px;
-  font-size: 17px;
 }
-
-
-.btn-primary:hover {
-  color: #fff;
-  background-color: #004cb9;
-  border-color: #004cb9;
-  padding: 12px;
-  padding-right: 30px;
-  padding-left: 30px;
-  border-radius: 1px;
-  font-size: 17px;
-}
-
 @media (min-width: 1024px) {
   .mcontainer {
-    max-width: 1000px;
+    max-width: 600px;
     padding: 30px 0px;
     margin-left: auto;
     margin-right: auto;
@@ -210,7 +185,7 @@ hr.new1 {
 }
 @media (max-width: 1024px) {
   .mcontainer {
-    max-width: 1000px;
+    max-width: 600px;
     padding: 25px 0px;
     margin-left: auto;
     margin-right: auto;

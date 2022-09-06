@@ -1,5 +1,5 @@
 <template>
-  <div class="custom_card d-flex justify-content-between align-items-center p-4" @click="toggleCheckbox">
+  <div class=" Bg-Pink custom_card d-flex justify-content-between align-items-center p-4" @click="toggleCheckbox">
     <div>{{ upgradeItem.title }}</div>
     <div>
       {{Intl.NumberFormat('fa-IR').format(upgradeItem.price)}}

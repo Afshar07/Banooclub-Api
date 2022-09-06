@@ -18,7 +18,24 @@
         </div>
       </div>
     </div>
-    <h1 class="tw-text-2xl tw-font-semibold"> {{ forumDetails.title }} </h1>
+    <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+      <div class="d-flex align-items-center gap-2">
+        <img src="/girl-icon-forum.png" class="tw-w-[7rem] tw-h-20" alt="">
+        <div class="d-flex align-items-center flex-column">
+          <strong class="text-purple">{{ forumDetails.title }}</strong>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+
+      <button v-tooltip="{content:'افزودن تالار جدید'}" @click="$router.push('/Forums/AddForum')" class="btn AddReplyBtn text-white">
+        <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+      </button>
+      <button v-tooltip="{content:'گزارش تالار'}" data-bs-toggle="modal" data-bs-target="#ReportForum" class="btn AddReplyBtn text-white">
+        <ExclamationMarkIcon fill="#ff6f9e" style="width: 37px; height: 37px;"/>
+      </button>
+      </div>
+
+    </div>
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
       <p class="tw-text-sm d-flex align-items-center tw-text-gray-400 tw-my-2">
         پست شده توسط:
@@ -29,21 +46,16 @@
           </nuxt-link>
 
         </span>
-      </p>
         <span class="tw-text-black px-1">
           {{time_ago(forumDetails.createDate) }}
         </span>
-
+      </p>
       <p class="tw-text-sm tw-text-gray-400 tw-my-2 px-3">
         بازدید
         <span class="tw-text-black px-1">
           {{forumDetails.viewsCount}}
         </span>
       </p>
-      <a data-bs-toggle="modal" href="#ReportForum" class=" tw-no-underline tw-text-sm  tw-cursor-pointer tw-my-2  px-3">
-        <span class="badge pill text-white bg-danger">      گزارش تالار</span>
-
-      </a>
     </div>
 
     <div class="row py-3">
@@ -95,12 +107,12 @@
                 </div>
               </div>
             </div>
-            <div v-if="forumDetails.comments.length>0" class="pt-3 tw-font-bold" style="font-weight: 600; font-size: 20px">{{ forumDetails.comments.length }} پاسخ</div>
-            <hr v-if="forumDetails.comments.length>0"/>
+            <div v-if="forumDetails.comments.length>0" class="py-3 border-bottom tw-font-bold " >{{ forumDetails.comments.length }} پاسخ</div>
+
           </div>
-          <ul class="tw-divide-y tw-divide-gray-100 sm:tw-m-0 tw--mx-5">
+          <ul class="tw-divide-y  tw-divide-gray-100 sm:tw-m-0 tw--mx-5">
             <li v-for="comment in forumDetails.comments">
-              <div class="row mx-auto">
+              <div class="row mx-auto my-3">
                 <div class="col-md-1">
                   <div class="d-flex flex-lg-column flex-row  justify-content-center align-items-center ">
                       <button @click="ForumCommentLike(1,comment.forumCommentId)">
@@ -145,7 +157,6 @@
                   </div>
                 </div>
               </div>
-
             </li>
 
           </ul>
@@ -165,10 +176,12 @@ import TelegramIcon from "../../components/Icons/TelegramIcon";
 import WhatsappIcon from "../../components/Icons/WhatsappIcon";
 import InstagramIcon from "../../components/Icons/InstagramIcon";
 import TopCommenters from '../../components/Forums/TopCommenters';
+import PlusIcon from "@/components/Icons/PlusIcon";
+import ExclamationMarkIcon from "@/components/Icons/ExclamationMarkIcon";
 export default {
   name: "ForumDetail",
 
-  components: {InstagramIcon, WhatsappIcon, TelegramIcon,TopCommenters},
+  components: {InstagramIcon, WhatsappIcon, ExclamationMarkIcon,TelegramIcon,TopCommenters,PlusIcon},
   layout: "PoshtebamPlusLayout",
   head(){
     return{

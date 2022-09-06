@@ -74,12 +74,12 @@
                   <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
                 </svg>
                 <div class="text-gray-700 tw-flex tw-items-center px-2">
-                  <span>
+                  <small>
                       {{
                       service_details.viewsCount
                     }}
                   بازدید
-                  </span>
+                  </small>
 
                 </div>
               </div>
@@ -294,34 +294,34 @@
         <div>
           <client-only>
             <div class="d-flex align-items-center">
-              <vue-star-rating  :star-size="20" v-model="service_rates_show[0]" :show-rating="false" :read-only="true"	></vue-star-rating>
+              <vue-star-rating active-color="#5a5af0" :star-size="20" v-model="service_rates_show[0]" :show-rating="false" :read-only="true"	></vue-star-rating>
               <div class="tw-tooltip tw-w-full px-2" :data-tip="rates.oneStar + '%'">
-                <progress class="tw-progress tw-progress-warning w-56 mt-3" :value="(rates.oneStar*100)/100" max="100"></progress>
+                <progress class="tw-progress tw-progress-primary w-56 mt-3" :value="(rates.oneStar*100)/100" max="100"></progress>
               </div>
             </div>
             <div class="d-flex align-items-center">
-              <vue-star-rating :star-size="20" v-model="service_rates_show[1]" :show-rating="false" :read-only="true"	></vue-star-rating>
+              <vue-star-rating active-color="#89ffde" :star-size="20" v-model="service_rates_show[1]" :show-rating="false" :read-only="true"	></vue-star-rating>
               <div class="tw-tooltip tw-w-full px-2" :data-tip="rates.twoStar + '%'">
-                <progress class="tw-progress tw-progress-warning w-56 mt-3" :value="(rates.twoStar*100)/100" max="100"></progress>
+                <progress class="tw-progress tw-progress-primary w-56 mt-3" :value="(rates.twoStar*100)/100" max="100"></progress>
               </div>
             </div>
             <div class="d-flex align-items-center">
-              <vue-star-rating :star-size="20" v-model="service_rates_show[2]" :show-rating="false" :read-only="true"	></vue-star-rating>
+              <vue-star-rating active-color="#44ecf9" :star-size="20" v-model="service_rates_show[2]" :show-rating="false" :read-only="true"	></vue-star-rating>
               <div class="tw-tooltip tw-w-full px-2" :data-tip="rates.threeStar + '%'">
-                <progress class="tw-progress tw-progress-warning w-56 mt-3" :value="(rates.threeStar*100)/100" max="100"></progress>
+                <progress class="tw-progress tw-progress-primary w-56 mt-3" :value="(rates.threeStar*100)/100" max="100"></progress>
               </div>
             </div>
             <div class="d-flex align-items-center">
-              <vue-star-rating :star-size="20" v-model="service_rates_show[3]" :show-rating="false" :read-only="true"	></vue-star-rating>
+              <vue-star-rating active-color="#b44aff" :star-size="20" v-model="service_rates_show[3]" :show-rating="false" :read-only="true"	></vue-star-rating>
               <div class="tw-tooltip tw-w-full px-2" :data-tip="rates.fourStar + '%'">
-                <progress class="tw-progress tw-progress-warning w-56 mt-3" :value="(rates.fourStar*100)/100" max="100"></progress>
+                <progress class="tw-progress tw-progress-primary  w-56 mt-3" :value="(rates.fourStar*100)/100" max="100"></progress>
               </div>
 
             </div>
             <div class="d-flex align-items-center">
-              <vue-star-rating :star-size="20" v-model="service_rates_show[4]" :show-rating="false" :read-only="true"	></vue-star-rating>
+              <vue-star-rating active-color="#fc5399" :star-size="20" v-model="service_rates_show[4]" :show-rating="false" :read-only="true"	></vue-star-rating>
               <div class="tw-tooltip tw-w-full px-2" :data-tip="rates.fiveStar + '%'">
-                <progress class="tw-progress tw-progress-warning w-56 mt-3" :value="(rates.fiveStar*100)/100" max="100"></progress>
+                <progress class="tw-progress tw-progress-primary w-56 mt-3" :value="(rates.fiveStar*100)/100" max="100"></progress>
               </div>
             </div>
           </client-only>

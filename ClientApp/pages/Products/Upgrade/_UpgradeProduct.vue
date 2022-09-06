@@ -1,7 +1,25 @@
 <template>
-  <div  :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer tw-h-full">
+  <div  :class="$fetchState.pending?'loading-skeleton':''" class="container NewBg mcontainer tw-h-full">
     <div class="row">
-      <h1 class="tw-text-2xl tw-font-semibold">ارتقاء خدمت</h1>
+      <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+        <div v-if="ActiveTab===1" class="d-flex align-items-center gap-2">
+          <img src="/girl-icon-khadamat-edit.png" class="tw-w-[7rem] tw-h-20" alt="">
+          <div class="d-flex align-items-center flex-column">
+            <strong class="text-purple"> ویرایش خدمت </strong>
+            <strong class="text-pink">Edit Service</strong>
+          </div>
+        </div>
+        <div v-if="ActiveTab===2" class="d-flex align-items-center gap-2">
+          <img src="/girl-icon-khadamat-ertegha.png" class="tw-w-[7rem] tw-h-20" alt="">
+          <div class="d-flex align-items-center flex-column">
+            <strong class="text-purple"> ارتقا خدمت </strong>
+            <strong class="text-pink">Boost Service</strong>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="tab-content bg-white rounded p-2 my-3 tw-h-full" id="pills-tabContent" v-if="!$fetchState.pending">
       <ul class="nav nav-pills align-items-end profile_tabs pt-3 nav-fill tw-overflow-x-auto" id="pills-tab" role="tablist">
         <li class="nav-item " role="presentation m-0" style="margin: 0 !important;">
           <button @click="ActiveTab=1" :class="{' active':ActiveTab===1}" class="nav-link " id="products-pills-home-tab" data-bs-toggle="pill"
@@ -21,8 +39,6 @@
         </li>
 
       </ul>
-    </div>
-    <div class="tab-content tw-h-full" id="pills-tabContent" v-if="!$fetchState.pending">
       <div  class="tab-pane fade  " :class="{'show active':ActiveTab===1}" id="products-pills-home" role="tabpanel" aria-labelledby="products-pills-home-tab">
         <EditProductTab @DiscountChanged="GetService" v-if="ActiveTab===1"  :service_details="ServiceDetails"/>
       </div>

@@ -1,22 +1,37 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer">
-    <h1 class="tw-text-2xl tw-font-semibold p-3"> تالار </h1>
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer p-3">
+    <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+      <div class="d-flex align-items-center gap-2">
+        <img src="/girl-icon-forum.png" class="tw-w-[7rem] tw-h-20" alt="">
+        <div class="d-flex align-items-center flex-column">
+          <strong class="text-purple">تالار  گفتگو</strong>
+          <strong class="text-pink">Forum</strong>
+        </div>
+      </div>
+      <button v-tooltip="{content:'افزودن تالار جدید'}" @click="$router.push('/Forums/AddForum')" class="btn AddReplyBtn text-white">
+        <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+      </button>
+    </div>
     <div class="row">
-
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-8 d-flex align-items-center">
+              <input type="text" class="SearchStyle" v-model="Search" placeholder="جستجو تالار ها">
+            </div>
+            <div class="col-md-4">
+              <v-select
+                v-model="SelectedCategoryId"
+                :options="Categories"
+                placeholder="جستجو بر اساس دسته بندی"
+                label="title"
+                :reduce="title=> title.forumCategoryId"
+              />
+            </div>
+          </div>
+        </div>
       <div class="col-lg-8 tw-flex-shirink-0">
         <div class="row">
-          <div class="col-md-8 d-flex align-items-center">
-            <input type="text" class="SearchStyle" v-model="Search" placeholder="جستجو تالار ها">
-          </div>
-          <div class="col-md-4 my-3">
-            <v-select
-              v-model="SelectedCategoryId"
-              :options="Categories"
-              placeholder="جستجو بر اساس دسته بندی"
-              label="title"
-              :reduce="title=> title.forumCategoryId"
-            />
-          </div>
+
           <div class="col-md-12">
             <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
               <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
@@ -108,10 +123,10 @@
 <script>
 import ForumMainItem from "../../components/Forums/ForumMainItem";
 import TopCommenters from '../../components/Forums/TopCommenters';
-
+import PlusIcon from "@/components/Icons/PlusIcon";
 export default {
   name: "index",
-  components: {ForumMainItem, TopCommenters},
+  components: {ForumMainItem, TopCommenters,PlusIcon},
   layout: "PoshtebamPlusLayout",
   data() {
     return {
