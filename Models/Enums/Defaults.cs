@@ -4,8 +4,8 @@ namespace BanooClub.Models.Enums
 {
     public static class Defaults
     {
-        public const string Avatars = "/wwwroot/Media/Gallery/DefaultAvatars";
-        public const string Banners = "/wwwroot/Media/Gallery/DefaultBanners";
+        public const string Avatars = "Media/Gallery/DefaultAvatars";
+        public const string Banners = "Media/Gallery/DefaultBanners";
 
         public static IList<string> GetDefaultAvatars() =>
             new List<string>

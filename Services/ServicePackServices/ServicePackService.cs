@@ -508,6 +508,8 @@ namespace BanooClub.Services.ServicePackServices
                         service.OwnerUserInfos.Add(ownerUser);
                     }
                 }
+
+                SetAvatarAndBannerForUser(service);
             }
 
             if (service.CityId != null && service.CityId != 0)
@@ -526,10 +528,19 @@ namespace BanooClub.Services.ServicePackServices
 
             var dbUserMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == service.UserId && z.Type == MediaTypes.Profile);
             service.UserInfo.Password = null;
-            if (dbUserMedia != null)
-            {
-                service.UserInfo.SelfieFileData = dbUserMedia.PictureUrl;
-            }
+
+            var selfie = mediaRepository.GetQuery()
+                        .FirstOrDefault(z => z.ObjectId == service.UserInfo.UserId && z.Type == MediaTypes.Profile);
+
+            var banner = mediaRepository.GetQuery()
+                .FirstOrDefault(z => z.ObjectId == service.UserInfo.UserId && z.Type == MediaTypes.Banner);
+
+            service.UserInfo.SelfieFileData = selfie == null ? $"{Defaults.Avatars}/{service.UserInfo.Avatar}"
+                : $"Media/Gallery/Profile/{selfie.PictureUrl}";
+
+            service.UserInfo.BannerFileData = banner == null ? $"{Defaults.Banners}/{service.UserInfo.DefaultBanner}"
+                : $"Media/Gallery/Profile/{banner.PictureUrl}";
+
             var dbComments = commentRepository.GetQuery().Where(z => z.ServiceId == id).ToList();
             //dbComments.ForEach(z => z.Children = dbComments.Where(x => x.ParentId == z.ServiceCommentId).ToList());
             foreach (var cmnt in dbComments)
@@ -974,5 +985,30 @@ namespace BanooClub.Services.ServicePackServices
 
             return data;
         }
+
+        #region Utilites
+
+        private void SetAvatarAndBannerForUser(ServicePack service)
+        {
+            if (service.OwnerUserInfos != null && service.OwnerUserInfos.Any())
+            {
+                service.OwnerUserInfos.ForEach(user =>
+                {
+                    var selfie = mediaRepository.GetQuery()
+                        .FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Profile);
+
+                    var banner = mediaRepository.GetQuery()
+                        .FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Banner);
+
+                    user.SelfieFileData = selfie == null ? $"{Defaults.Avatars}/{user.Avatar}"
+                        : $"Media/Gallery/Profile/{selfie.PictureUrl}";
+
+                    user.BannerFileData = banner == null ? $"{Defaults.Banners}/{user.DefaultBanner}"
+                        : $"Media/Gallery/Profile/{banner.PictureUrl}";
+                });
+            }
+        }
+
+        #endregion
     }
 }
