@@ -34,6 +34,9 @@ namespace BanooClub.Models
         public int Quantity { get; set; }
         public bool? IsFree { get; set; }
         public int Maintain { get; set; }
+        public long? CityId { get; set; }
+        public long? StateId { get; set; }
+
         [NotMapped]
         public Discount Discount { get; set; }
         [NotMapped]
@@ -58,5 +61,13 @@ namespace BanooClub.Models
         public string CatName { get; set; }
         [NotMapped]
         public List<int> PlanTypes { get; set; }
+        [NotMapped]
+        public string CityName { get; set; }
+        [NotMapped]
+        public string StateName { get; set; }
+        [NotMapped]
+        public IList<long> OwnerUserIds { get; set; }
+        [NotMapped]
+        public IList<User> OwnerUserInfos { get; set; }
     }
 }
