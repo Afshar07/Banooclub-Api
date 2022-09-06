@@ -793,7 +793,11 @@ namespace BanooClub.Services.AccountServices
             if (!string.IsNullOrWhiteSpace(userSelectionFile))
                 userFile = defaultFiles.FirstOrDefault(x => x.Equals(userSelectionFile));
             else
-                userFile = defaultFiles[random.Next(0, 15)];
+            {
+                // we have 22 images with extension ".jpg" for banners and 16 images with extension ".png" for avatars
+                var maxValue = defaultFiles.FirstOrDefault().Contains(".jpg") ? 22 : 16;
+                userFile = defaultFiles[random.Next(0, maxValue)];
+            }
 
             return userFile;
         }
