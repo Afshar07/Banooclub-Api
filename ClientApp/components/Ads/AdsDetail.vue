@@ -12,13 +12,14 @@
           <div class="d-flex flex-column tw-font-semibold tw-capitalize tw-mr-4">
             <h2 class="tw-text-black text-decoration-none service_name">{{ AdsDetail.userInfo.userName }}</h2>
             <div class="d-flex">
-              <div class="d-flex justify-content-start align-items-center">
+              <div class="d-flex justify-content-start gap-2 align-items-center">
                 <AllUsersIcon fill="#374151" style="width: 15px; height: 15px;"/>
-                <div class="text-gray-700 tw-flex tw-items-center px-2">
+                <small>
                   {{
                     time_ago(AdsDetail.createDate)
                   }}
-                </div>
+                </small>
+
               </div>
             </div>
 
@@ -117,42 +118,58 @@
 
       <div class="tw-p-4 tw-space-y-3">
         <div class="d-flex justify-content-between">
-          <h1 class="tw-text-2xl tw-font-semibold tw-text-gray-600 tw-pt-2">{{AdsDetail.title}}</h1>
+          <h1 class="tw-text-2xl tw-font-semibold tw-text-[#605dff] tw-pt-2">{{AdsDetail.title}}</h1>
           <div class="d-flex align-items-center gap-2">
             <div class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
               {{Intl.NumberFormat('fa-IR').format(AdsDetail.price)}}
               تومان
             </div>
             <div v-if="AdsDetail.exchangeability" class="tw-bg-sky-400 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
-              قابل معاوضه
+              معاوضه میکنم
             </div>
           </div>
 
         </div>
         <div class="d-flex mt-0">
-          <div class="back_tags p-1 m-1" v-for="(tag,index) in AdsDetail.tags">
+          <div class="back_tags tw-text-[#605dff] p-1 m-1" v-for="(tag,index) in AdsDetail.tags">
             {{ tag.title }}
           </div>
         </div>
-
+        <div class="d-flex align-items-center gap-2">
+          <strong>وضعیت کالا : </strong>
+          <span v-if="AdsDetail.condition===1" class="badge pill bg-pink text-white">نو</span>
+          <span v-if="AdsDetail.condition===2" class="badge pill bg-purple text-white">دسته دوم</span>
+        </div>
         <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2">توضیحات</h2>
-        <p class="tw-text-gray-600 mt-1">
+        <p class="tw-text-[#605dff] mt-1">
           {{AdsDetail.description}}
         </p>
-        <div v-if="AdsDetail.tag!==null" class="tw-text-gray-600 d-flex flex-column tw-text-sm md:tw-pt-3">
+        <div v-if="AdsDetail.tag!==null" class="tw-text-gray-600 border-bottom d-flex flex-column tw-text-sm md:tw-pt-3">
           <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2 mb-0">هشتگ ها</h2>
           <div class="d-flex align-items-center gap-2">
-            <span class="text-secondary"  v-for="item in ArrangedTags(AdsDetail.tag)"> #{{ item}} </span>
+            <span class="tw-text-[#605dff]"  v-for="item in ArrangedTags(AdsDetail.tag)"> #{{ item}} </span>
           </div>
         </div>
-        <hr>
+
         <!--        <div class="tw-grid md:tw-grid-cols-2 md:tw-gap-4 tw-mb-5 xs:tw-grid-cols-12">-->
         <!--          <a :href="`tel:${AdsDetail.mobile}`" class="text-decoration-none tw-bg-gray-200 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md my-1">-->
         <!--            تماس-->
         <!--          </a>-->
-        <button @click="GoToChat(AdsDetail)" class="tw-bg-blue-600 tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
-          چت
-        </button>
+        <div class="my-3 tw-w-full">
+          <button v-if="AdsDetail.userId && $auth.user && $auth.user.userInfo && $auth.user.userInfo.userId && $auth.user.userInfo.userId !==AdsDetail.userId" @click="GoToChat(AdsDetail)" class="p-2 rounded tw-bg-[#ff6f9e] tw-w-[5rem]  text-white">
+            چت
+          </button>
+          <div v-if="AdsDetail.userId && $auth.user && $auth.user.userInfo && $auth.user.userInfo.userId && $auth.user.userInfo.userId ===AdsDetail.userId" class="d-flex align-items-center gap-3">
+            <button  @click="$router.push({path:`/Migration/EditAdvertise/`,query:{adId:AdsDetail.adsId}})" class="p-2 tw-w-[5rem] rounded tw-bg-[#ff6f9e] text-white">
+              ویرایش
+            </button>
+            <button  @click="$router.push(`/Migration/Upgrade/${AdsDetail.adsId}`)" class="p-2 rounded tw-bg-[#85ffdd] tw-text-[#f5447d] tw-w-[5rem]  ">
+              ارتقا
+            </button>
+          </div>
+
+        </div>
+
         <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2">موقعیت روی نقشه</h2>
         <div class="my-3" >
           <client-only>

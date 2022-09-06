@@ -1,7 +1,25 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer px-2">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container NewBg mcontainer px-2">
     <div class="d-flex justify-content-between align-items-center">
-      <h2 class="tw-text-2xl tw-font-semibold py-3">سفارشات</h2>
+      <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/girl-icon-mali.png" class="tw-w-[7rem] tw-h-20" alt="">
+          <div class="d-flex align-items-center flex-column">
+            <strong class="text-purple">سفارشات</strong>
+            <strong class="text-pink">Orders</strong>
+          </div>
+        </div>
+<!--        <div class="d-flex justify-content-center align-items-center">-->
+<!--          <div class="d-flex flex-column">-->
+<!--            <span class="text-purple">موجودی کیف پول:</span>-->
+<!--            <span class="text-pink">{{ Intl.NumberFormat('fa-IR').format($store.state.WalletAmount) }}تومان</span>-->
+<!--          </div>-->
+<!--          <button @click="displayChargeSideNav = true" v-tooltip="{content:'شارژ کیف پول'}"-->
+<!--                  class="btn AddReplyBtn text-white">-->
+<!--            <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>-->
+<!--          </button>-->
+<!--        </div>-->
+      </div>
     </div>
 
     <div
@@ -12,8 +30,8 @@
       style="z-index: 9999999;"
     >
     </div>
-    <div class="tw-overflow-x-auto">
-      <div class="tw-overflow-x-auto">
+
+      <div class="tw-overflow-x-auto bg-white mt-3 rounded p-3">
         <table class="tw-table tw-w-full tw-table-compact tw-table-zebra" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
           <!-- head -->
           <thead>
@@ -80,8 +98,8 @@
           </tbody>
         </table>
       </div>
-    </div>
-      <div class="col-md-12">
+
+      <div class="col-md-12 my-3">
         <CustomPagination v-if="totalPages.length>1" :activePage="SelectedPageNumber" :totalPages="totalPages" @PageChanged="changePage($event)"/>
       </div>
   </div>

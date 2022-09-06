@@ -1,16 +1,25 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer p-3">
     <div class="row">
-      <h2 class="tw-text-2xl tw-font-semibold pb-3">افزودن تالار</h2>
+      <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/girl-icon-forum.png" class="tw-w-[7rem] tw-h-20" alt="">
+          <div class="d-flex align-items-center flex-column">
+            <strong class="text-purple">افزودن تالار</strong>
+            <strong class="text-pink">Add Forum</strong>
+          </div>
+        </div>
+
+      </div>
       <div class="row">
         <div class="col-6 pt-3">
-          <label>نام تالار *</label>
-          <input v-model="forum_title" type="text" class="with-border " style="height: 30px!important;" placeholder="نام تالار"
+          <label>نام تالار گفتگو *</label>
+          <input v-model="forum_title" type="text" class="with-border " style="height: 55px!important;" placeholder="موضوع گفتمان را بنویسید"
                  :class="{BorderRed:forum_title==='',BorderGreen:forum_title!==''}">
         </div>
 
         <div class="col-6 pt-3">
-          <label>دسته بندی تالار *</label>
+          <label>دسته بندی *</label>
           <v-select
             :options="Categories"
             v-model="SelectedCategoryId"
@@ -21,13 +30,13 @@
         </div>
         <div class="col-12 pt-3">
           <div class="labelText">
-            هشتگ های تالار
+            هشتگ های مرتبط
           </div>
           <div class="my-3">
             <div class="d-flex align-items-center gap-2">
               <input  v-model="tag" type="text" class="with-border"
                      placeholder="هشتگ">
-              <button class="btn btn-primary" @click="addTags">ثبت</button>
+              <button class="p-2 rounded bg-purple text-white tw-cursor-pointer" @click="addTags">ثبت</button>
             </div>
 
             <div class="d-flex">
@@ -46,18 +55,18 @@
 
 
         <div class="col-12 py-3">
-          <label>توضیحات تالار</label>
+          <label>توضیحات گفتگو</label>
           <textarea
             v-model="forum_desc"
             row="100"
             class="form-control border rounded w-100"
-            placeholder="توضیحات تالار"
+            placeholder="در مورد موضوع گفتگو یا سوالتان شرح دهید"
             id="about"
           ></textarea>
         </div>
 
-        <div class="col-12 d-flex align-items-center justify-content-center pt-3">
-          <button type="button" class="button mt-auto" @click="createForum">
+        <div class="col-12 d-flex align-items-center justify-content-start pt-3">
+          <button type="button" class="p-2 rounded bg-purple text-white tw-cursor-pointer" @click="createForum">
             ثبت
           </button>
         </div>

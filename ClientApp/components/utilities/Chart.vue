@@ -33,7 +33,7 @@ export default {
         datasets: [
           {
             label: 'آمار بازدید',
-            backgroundColor: '#1470ce',
+            backgroundColor: '#8e54e9',
             data: []
           }
         ]
@@ -49,7 +49,7 @@ export default {
 
     }
     this.BarChart = new Chart(this.$refs.LineChart, {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: this.chartData.labels,
         datasets: this.chartData.datasets

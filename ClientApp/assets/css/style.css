@@ -2035,15 +2035,31 @@ select.bs-select-hidden, select.selectpicker {
   @apply  tw-bg-[#faf7ff] !important;
 }
 
+.StarBlue{
+  color:#5a5af0
+}
+.StarGreen{
+  color:#89ffde
+}
+.StarSkyBlue{
+  color:#44ecf9
+}
+.StarPurple{
+  color:#d6baff
+}
+.StarPink{
+  color:#fb8dbc
+}
+
 .text-purple{
   color:#b44aff;
 }
 .text-pink{
-  color:#fc5399;
+  color: #fc5399;
 
 }
 .bg-pink{
-  background-color:#fc5399 ;
+  background-color: #fc5399;
 }
 
 .bg-purple{

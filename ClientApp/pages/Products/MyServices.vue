@@ -1,6 +1,18 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer px-2">
-    <h1 class="tw-text-2xl tw-font-semibold">خدمات من</h1>
+    <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+      <div class="d-flex align-items-center gap-2">
+        <img src="/girl-icon-khadamat.png" class="tw-w-[7rem] tw-h-20" alt="">
+        <div class="d-flex align-items-center flex-column">
+          <strong class="text-purple"> خدمات من</strong>
+          <strong class="text-pink">My Services</strong>
+        </div>
+      </div>
+
+<!--      <button v-tooltip="{content:'ثبت خدمت'}" @click="$router.push('/Products/AddProduct')" class="btn AddReplyBtn text-white">-->
+<!--        <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>-->
+<!--      </button>-->
+    </div>
     <div class="row">
       <div class="col-md-4 col-lg-3" v-for="(service,idx) in my_services" :key="idx">
         <ProductItem @updateServiceDetails="updateServiceDetails" class="my-3" :service_details="service" :show_buttons="true"/>

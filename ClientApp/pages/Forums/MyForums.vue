@@ -1,6 +1,17 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer p-3">
-    <h1 class="tw-text-2xl tw-font-semibold">تالار های من</h1>
+    <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+      <div class="d-flex align-items-center gap-2">
+        <img src="/girl-icon-forum.png" class="tw-w-[7rem] tw-h-20" alt="">
+        <div class="d-flex align-items-center flex-column">
+          <strong class="text-purple">تالار  من</strong>
+          <strong class="text-pink">My Forum</strong>
+        </div>
+      </div>
+      <button v-tooltip="{content:'افزودن تالار جدید'}" @click="$router.push('/Forums/AddForum')" class="btn AddReplyBtn text-white">
+        <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+      </button>
+    </div>
     <div class="row py-3">
       <div class="col-lg-8 tw-flex-shirink-0">
         <ul class="custom_card tw-divide-y tw-divide-gray-100 sm:tw-m-0 tw--mx-5">
@@ -22,11 +33,12 @@
 <script>
 import ForumMainItem from "../../components/Forums/ForumMainItem";
 import TopCommenters from '../../components/Forums/TopCommenters';
+import PlusIcon from "@/components/Icons/PlusIcon";
 export default {
 
   name: "MyForums",
   layout: "PoshtebamPlusLayout",
-  components: {ForumMainItem,TopCommenters},
+  components: {ForumMainItem,TopCommenters,PlusIcon},
 
   head() {
     return {

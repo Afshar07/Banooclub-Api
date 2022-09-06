@@ -1,5 +1,5 @@
 <template>
-  <div class=" Bg-Pink custom_card d-flex justify-content-between align-items-center p-4" @click="toggleCheckbox">
+  <div class="custom_card Bg-Pink d-flex justify-content-between align-items-center p-4" @click="toggleCheckbox">
     <div>{{ upgradeItem.title }}</div>
     <div>
       {{Intl.NumberFormat('fa-IR').format(upgradeItem.price)}}
@@ -44,5 +44,7 @@ export default {
 </script>
 
 <style scoped>
-
+.Bg-Pink{
+  @apply tw-bg-[#FF84B5FF] !important;
+}
 </style>

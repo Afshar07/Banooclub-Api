@@ -99,7 +99,6 @@ module.exports = {
     },
   },
 
-  // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     "@nuxtjs/recaptcha",
     "@nuxtjs/auth-next",
