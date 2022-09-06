@@ -23,7 +23,10 @@ export default {
   },
   async mounted() {
     this.$nextTick(()=>{
-      if(this.map===null){
+      if(this.map){
+        this.map.remove()
+        this.map = null
+      }else{
         this.map = L.map("map").setView([this.latitude, this.longitude], 14);
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
           maxZoom: 19,

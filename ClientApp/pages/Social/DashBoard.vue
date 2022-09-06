@@ -197,7 +197,7 @@
           </div>
           <div class="tw-p-4 ">
             <div v-if="!$fetchState.pending  && DashBoard" class="tw-overflow-x-auto">
-              <FollowersChart :ChartData="DashBoard.monthFollowersChart"></FollowersChart>
+              <FollowersChart :ChartData="DashBoard.monthFollowersChartSeperate5Days"></FollowersChart>
             </div>
           </div>
         </div>

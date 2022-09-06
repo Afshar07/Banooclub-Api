@@ -153,6 +153,7 @@ export default {
           this.$emit("close_register_modal");
           this.$auth.strategy.token.set(response.data.token)
           this.$auth.setUser(response.data.user)
+          this.$auth.fetchUser()
           this.$router.push('/social')
         }
 
@@ -169,19 +170,22 @@ export default {
       this.ActiveComponent=3
     },
     setSignUpPayload(payload) {
-      this.$refs.IntCode.SendIntroducerCode();
       Object.keys(payload).forEach(key => {
         this.payload[key] = payload[key]
       })
-        console.log(this.payload)
-      // this.sendSignUpRequest();
+
+      this.sendSignUpRequest();
     },
 
-    SetAvatarPic(){
+    SetAvatarPic(AvatarPic){
+      this.payload['avatar'] = AvatarPic
       this.ActiveComponent=4
+
     },
-    SetBannerPic(){
+    SetBannerPic(BannerPic){
+      this.payload['banner'] = BannerPic
       this.ActiveComponent=5
+
     },
     setNumber(mobile) {
       this.payload.mobile = mobile;

@@ -74,7 +74,7 @@
       </div>
     </div>
     <div
-      v-if="serviceDetailProp.discount!==null"
+      v-if="serviceDetailProp&& serviceDetailProp.discount!==null"
       class="modal fade"
       id="EditDiscount"
       tabindex="-1"
@@ -197,6 +197,31 @@
 
         </div>
       </div>
+      <div class="col-md-6 my-3">
+        <v-select
+          @input="GetCity"
+          :options="AllStates"
+          label="name"
+          dir="rtl"
+          class="selectWidth BgInput w-100"
+          placeholder="استان*"
+          v-model="serviceDetailProp.stateId"
+          :reduce="(name) => name.stateId"
+
+        ></v-select>
+      </div>
+      <div class="col-md-6 my-3">
+        <v-select
+          :options="AllCities"
+          label="name"
+          dir="rtl"
+          class="selectWidth BgInput w-100"
+          placeholder="شهر*"
+          v-model="serviceDetailProp.cityId"
+          :reduce="(name) => name.cityId"
+
+        ></v-select>
+      </div>
       <div class="col-md-6 col-12 pt-3">
         <label>شماره مستقیم تماس *</label>
         <input v-model="serviceDetailProp.mobile" type="text" class="with-border" placeholder="شماره همراه با صفر">
@@ -236,7 +261,7 @@
       </div>
       <div class="col-12 pt-3">
         <div class="labelText">
-          انتخاب عکس نمونه کار (اولین عکس به عنوان عکس اصلی خدمت بارگذاری می شود - حداکثر 10 عکس می توانید بارگذاری کنید)
+          انتخاب عکس خدمت (اولین عکس به عنوان عکس اصلی خدمت بارگذاری می شود - حداکثر 10 عکس می توانید بارگذاری کنید)
         </div>
         <div class="d-flex row">
           <div class="py-3 col-lg-2 col-md-3 px-3">
@@ -479,6 +504,12 @@ export default {
   name: "EditProductTab",
   components: {PlusIcon, UploadFileIcon,SetLocation},
   async fetch() {
+    try {
+      const res = await this.$repositories.GetAllStates.GetAllStates()
+      this.AllStates = res.data.states
+    } catch (e) {
+      console.log(e)
+    }
     this.serviceDetailProp = JSON.parse(JSON.stringify(this.service_details))
     this.serviceDetailProp.medias=[]
     try {
@@ -521,6 +552,10 @@ export default {
       servicePhotos:[],
       serviceVideos:[],
       images_preview:[],
+      AllStates: [],
+      AllCities: [],
+      SelectedCityId: null,
+      SelectedStateId: null,
       new_image_preview:[],
       is_first_image:false,
       properties:null,
@@ -530,6 +565,28 @@ export default {
     };
   },
   methods: {
+    async GetCity() {
+      this.$nextTick(() => {
+        this.$nuxt.$loading.start()
+      })
+      try {
+        const res = await this.$repositories.GetAllCities.GetAllCities({
+          pageNumber: 1,
+          count: 500,
+          stateId: this.serviceDetailProp.stateId
+
+        })
+        this.AllCities = res.data.cities
+        this.$nuxt.$loading.finish()
+        this.$nuxt.loading = false;
+      } catch (e) {
+        console.log(e)
+      } finally {
+        this.$nuxt.$loading.finish()
+        this.$nuxt.loading = false;
+      }
+    },
+
     Disable(idx) {
 
       if (this.$refs['Price' + idx][0].hasAttribute('disabled')) {

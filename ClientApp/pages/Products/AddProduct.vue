@@ -150,7 +150,7 @@
       </div>
       <div class="col-12 pt-3" style="padding-left: 0">
         <div class="labelText">
-          انتخاب عکس نمونه کار (اولین عکس به عنوان عکس اصلی خدمت بارگذاری می شود - حداکثر 10 عکس می توانید بارگذاری
+          انتخاب عکس خدمت (اولین عکس به عنوان عکس اصلی خدمت بارگذاری می شود - حداکثر 10 عکس می توانید بارگذاری
           کنید)
         </div>
         <div class="d-flex row">
@@ -228,9 +228,17 @@
         </div>
         <div class="my-3">
           <div class="d-flex align-items-center gap-2">
-            <input @keydown.enter="addTags" v-model="tag" type="text" ref="TagsInput" class=" form-control with-border">
+            <v-select
+              :options="AllUsers"
+              label="userName"
+              dir="rtl"
+              multiple
+              class="selectWidth BgInput w-100"
+              v-model="SelectedUserIds"
+              :reduce="(userName) => userName.userId"
 
-            <button class="bg-purple text-white p-2 rounded tw-cursor-pointer " @click="addTags">ثبت</button>
+            ></v-select>
+
           </div>
         </div>
       </div>
@@ -344,6 +352,16 @@ export default {
   },
   async fetch() {
     try {
+      const following =
+        await this.$repositories.getMyFollowings.getMyFollowings();
+      following.data.forEach((item)=>{
+        this.AllUsers.push(item.userInfo)
+      })
+
+    }catch (error) {
+      console.log(error);
+    }
+    try {
       const allCategories =
         await this.$repositories.getAllServicesCategory.getAllServicesCategory();
       this.categories = allCategories.data.serviceCategories;
@@ -381,6 +399,8 @@ export default {
       service_address: '',
       phone_number1: null,
       phone_number2: null,
+      SelectedUserIds:[],
+      AllUsers:[],
       Qty: 0,
       mobile: null,
       email: '',
@@ -405,6 +425,7 @@ export default {
     };
   },
   methods: {
+
     async GetCity() {
       this.$nextTick(() => {
         this.$nuxt.$loading.start()
@@ -470,12 +491,13 @@ export default {
         tmpitem.name = this.$refs[`Title${idx}`][0].value
         if (!this.IsFreeService) {
           tmpitem.price = this.$refs[`Price${idx}`][0].value
+          if (this.$refs[`Price${idx}`][0].value === '0') {
+            tmpitem.isFree = true
+          }
         } else {
           tmpitem.price = 0
         }
-        if (this.$refs[`Price${idx}`][0].value === '0') {
-          tmpitem.isFree = true
-        }
+
         const clone = {...tmpitem}
         tmplist.push(clone)
         tmpitem.name = ''
@@ -586,9 +608,7 @@ export default {
         this.$toast.error("ایمیل وارد شده معتبر نیست");
       } else if (this.photos.length === 0) {
         this.$toast.error("حداقل یک عکس به عنوان عکس اصلی وارد کنید");
-      } else if (this.properties === null) {
-        this.$toast.error("حداقل یک ویژگی وارد کنید");
-      } else {
+      }else {
         this.$nuxt.$loading.start();
         try {
           let tmpMedias = []
@@ -647,10 +667,11 @@ export default {
             StartDate: this.StartDate,
             isFree: this.IsFreeService,
             specified: false,
-            cityId:0,
-            stateId:0,
+            cityId:this.SelectedCityId,
+            stateId:this.SelectedStateId,
             specifiedWithExpireDate: false,
             specifiedExpireDateTime: null,
+            ownerUserIds:this.SelectedUserIds,
             totalPrice: this.totalPrice,
             expireDate: this.expiration_date,
             properties: this.properties,

@@ -68,21 +68,21 @@ export default {
     return true;
   },
   async fetch() {
-    try {
-      const response = await this.$repositories.getAllUsersForUser.getAllUsersForUser(
-        {
-          userId:this.userId,
-          count:20,
-          search:this.searchKey
-        }
-      );
-      console.log('response',response)
-      this.AllUsers = response.data;
+      try {
+        const response = await this.$repositories.getAllUsersForUser.getAllUsersForUser(
+          {
+            userId:this.userId,
+            count:20,
+            search:this.searchKey
+          }
+        );
+        console.log('response',response)
+        this.AllUsers = response.data;
 
-      this.AllUsersCount = this.AllUsers.length;
-    }catch (error) {
-      console.log(error);
-    }
+        this.AllUsersCount = this.AllUsers.length;
+      }catch (error) {
+        console.log(error);
+      }
   },
   computed: {
     BaseUrl() {

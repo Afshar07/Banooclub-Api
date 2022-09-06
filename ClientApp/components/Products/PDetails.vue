@@ -47,7 +47,7 @@
     <div class="custom_card">
       <!-- post header-->
       <div class="tw-flex tw-justify-between tw-items-center lg:tw-p-4 tw-p-2.5">
-        <div class="tw-flex tw-items-center">
+        <div v-if="service_details && service_details.userInfo" class="tw-flex tw-items-center">
           <nuxt-link :to="`/user/${service_details.userInfo.userId}/posts`" class="text-decoration-none">
             <img v-if="service_details.userInfo &&service_details.userInfo.selfieFileData!==null " :src="`https://banooclubapi.simagar.com/media/gallery/profile/${service_details.userInfo.selfieFileData}`" alt="profile_image"
                  class="tw-bg-gray-200 tw-border tw-border-white tw-rounded-full tw-w-10 tw-h-10">
@@ -236,6 +236,11 @@
 
         <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2">آدرس</h2>
         <p class="mt-1 tw-text-gray-600">{{service_details.address}}</p>
+        <div class="d-flex align-items-center gap-2">
+          <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2">شهر و استان :</h2>
+          <strong>{{ service_details.stateName }}</strong>
+          <strong>{{ service_details.cityName }}</strong>
+        </div>
         <div class="my-5" id="map-wrap" >
 
             <Map :latitude="service_details.latitude" :longitude="service_details.longitude"></Map>
@@ -250,7 +255,7 @@
         </div>
 
         <h2 v-if="service_details.mobile || service_details.phoneNumber1 || service_details.phone_number2" class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2">اطلاعات تماس</h2>
-        <div class="d-flex justify-content-between align-items-center row mt-1">
+        <div class="d-flex justify-content-start align-items-center row mt-1">
           <div v-if="service_details.mobile" class="d-flex align-items-center col-md-6 col-12">
             <p class="mb-0 tw-text-gray-600 ">شماره همراه : </p>
             <a class="text-decoration-none px-1 tw-text-gray-600" :href="`tel:${service_details.mobile}`">{{service_details.mobile}}</a>
@@ -263,6 +268,14 @@
             <p class="mb-0 tw-text-gray-600">شماره تلفن 2 : </p>
             <a class="text-decoration-none px-1 tw-text-gray-600" :href="`tel:${service_details.phoneNumber2}`">{{service_details.phoneNumber2}}</a>
           </div>
+        </div>
+        <div class="tw-w-full d-flex align-items-center justify-content-between">
+          <div class="d-flex flex-column">
+            <small class="text-secondary">
+              برگزار کنندگان
+            </small>
+          </div>
+
         </div>
         <div class="tw-text-gray-600 d-flex flex-column tw-text-sm md:tw-pt-3">
           <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2 mb-0">ویژگی ها</h2>
@@ -756,15 +769,18 @@ export default {
       this.isRenderingDeleteConfirmation = false
     },
     filteredMedias() {
-      this.service_details.medias.filter(item => {
-        if (item.priority === 1 || item.priority === 2) {
-          this.images_preview.push(item)
-        }
-        if(item.priority === 3){
-          this.serviceVideos.push(item)
+      if(this.service_details.medias!==null){
+        this.service_details.medias.filter(item => {
+          if (item.priority === 1 || item.priority === 2) {
+            this.images_preview.push(item)
+          }
+          if(item.priority === 3){
+            this.serviceVideos.push(item)
 
-        }
-      })
+          }
+        })
+      }
+
     },
     time_ago(time) {
       switch (typeof time) {
