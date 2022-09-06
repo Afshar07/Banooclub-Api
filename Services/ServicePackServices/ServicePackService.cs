@@ -509,7 +509,7 @@ namespace BanooClub.Services.ServicePackServices
                     }
                 }
 
-                SetAvatarAndBannerForUser(service);
+                SetAvatarAndBannerForUser(service.OwnerUserInfos?.ToArray());
             }
 
             if (service.CityId != null && service.CityId != 0)
@@ -528,6 +528,7 @@ namespace BanooClub.Services.ServicePackServices
 
             var dbUserMedia = mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == service.UserId && z.Type == MediaTypes.Profile);
             service.UserInfo.Password = null;
+            SetAvatarAndBannerForUser(service.UserInfo);
 
             var selfie = mediaRepository.GetQuery()
                         .FirstOrDefault(z => z.ObjectId == service.UserInfo.UserId && z.Type == MediaTypes.Profile);
@@ -988,11 +989,12 @@ namespace BanooClub.Services.ServicePackServices
 
         #region Utilites
 
-        private void SetAvatarAndBannerForUser(ServicePack service)
+        private void SetAvatarAndBannerForUser(params User[]? users)
         {
-            if (service.OwnerUserInfos != null && service.OwnerUserInfos.Any())
+            if (users != null && users.Any())
             {
-                service.OwnerUserInfos.ForEach(user =>
+                var list = users.ToList();
+                list.ForEach(user =>
                 {
                     var selfie = mediaRepository.GetQuery()
                         .FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Profile);
