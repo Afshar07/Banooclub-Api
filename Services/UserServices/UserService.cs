@@ -216,7 +216,6 @@ namespace BanooClub.Services.UserServices
                     await _mediaRepository.Update(dbLastBanner);
                     await _mediaRepository.Delete(dbLastBanner);
                 }
-
             }
             else if (!string.IsNullOrEmpty(item.BannerFileData))
             {
@@ -702,14 +701,36 @@ namespace BanooClub.Services.UserServices
         public object GetAll(int pageNumber, int count, string search)
         {
             List<User> users = new List<User>();
-            users = userRepository.GetQuery().Where(z => z.Type != 2 && (z.Name.Contains(search) || z.FamilyName.Contains(search) || z.UserName.Contains(search))).Skip((pageNumber - 1) * count).Take(count).ToList();
-            var usersCount = userRepository.GetQuery().Where(z => z.Type != 2 && (z.Name.Contains(search) || z.FamilyName.Contains(search) || z.UserName.Contains(search))).Count();
-            users.ForEach(z => z.Password = null);
-            users.ForEach(z => z.UserSetting = userSettingRepository.GetQuery().AsNoTracking().FirstOrDefault(x => x.UserId == z.UserId));
-            users.ForEach(z => z.SelfieFileData = _mediaRepository.GetQuery().
-            FirstOrDefault(x => x.ObjectId == z.UserId && x.Type == MediaTypes.Profile) == null ? ""
-            : _mediaRepository.GetQuery().
-            FirstOrDefault(x => x.ObjectId == z.UserId && x.Type == MediaTypes.Profile).PictureUrl);
+            users = userRepository.GetQuery()
+                .Where(z => z.Type != 2 && (z.Name.Contains(search) || z.FamilyName.Contains(search) || z.UserName.Contains(search)))
+                .Skip((pageNumber - 1) * count)
+                .Take(count)
+                .ToList();
+
+            var usersCount = userRepository.GetQuery()
+                .Where(z => z.Type != 2 && (z.Name.Contains(search) || z.FamilyName.Contains(search) || z.UserName.Contains(search)))
+                .Count();
+
+            users.ForEach(z =>
+            {
+                z.Password = null;
+
+                z.UserSetting = userSettingRepository.GetQuery()
+                .AsNoTracking()
+                .FirstOrDefault(x => x.UserId == z.UserId);
+
+                z.SelfieFileData = !_mediaRepository.GetQuery()
+                .Any(x => x.ObjectId == z.UserId && x.Type == MediaTypes.Profile) ? $"{Defaults.Avatars}/{z.Avatar}"
+                : _mediaRepository.GetQuery()
+                .FirstOrDefault(x => x.ObjectId == z.UserId && x.Type == MediaTypes.Profile).PictureUrl;
+
+                z.BannerFileData = !_mediaRepository.GetQuery()
+                .Any(x => x.ObjectId == z.UserId && x.Type == MediaTypes.Banner) ? $"{Defaults.Banners}/{z.DefaultBanner}"
+                : _mediaRepository.GetQuery()
+                .AsQueryable()
+                .FirstOrDefault(x => x.ObjectId == z.UserId && x.Type == MediaTypes.Banner).PictureUrl;
+            });
+
             var obj = new
             {
                 Users = users,
@@ -826,15 +847,16 @@ namespace BanooClub.Services.UserServices
 
                 var dbBanner = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Banner);
                 if (dbBanner != null)
-                {
                     dbUser.BannerFileData = dbBanner.PictureUrl;
-                }
+                else
+                    dbUser.BannerFileData = $"{Defaults.Banners}/{dbUser.DefaultBanner}";
 
                 var dbProfile = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Profile);
                 if (dbProfile != null)
-                {
                     dbUser.SelfieFileData = dbProfile.PictureUrl;
-                }
+                else
+                    dbUser.SelfieFileData = $"{Defaults.Avatars}/{dbUser.Avatar}";
+
                 dbUser.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == id);
 
                 var KartMelliImage = _mediaRepository.GetQuery()
@@ -865,15 +887,16 @@ namespace BanooClub.Services.UserServices
 
             var dbBanner = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Banner);
             if (dbBanner != null)
-            {
                 dbUser.BannerFileData = dbBanner.PictureUrl;
-            }
+            else
+                dbUser.BannerFileData = $"{Defaults.Banners}/{dbUser.DefaultBanner}";
 
             var dbProfile = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Profile);
             if (dbProfile != null)
-            {
                 dbUser.SelfieFileData = dbProfile.PictureUrl;
-            }
+            else
+                dbUser.SelfieFileData = $"{Defaults.Avatars}/{dbUser.Avatar}";
+
             dbUser.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == id);
 
             var KartMelliImage = _mediaRepository.GetQuery()
@@ -897,6 +920,7 @@ namespace BanooClub.Services.UserServices
             var id = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+
             var dbUser = userRepository.GetQuery().FirstOrDefault(z => z.UserId == id);
             var dbFollowingsCount = followingRepository.GetQuery().Where(z => z.UserId == dbUser.UserId).Count();
             var dbFollowersCount = followerRepository.GetQuery().Where(z => z.UserId == dbUser.UserId).Count();
@@ -905,15 +929,16 @@ namespace BanooClub.Services.UserServices
 
             var dbBanner = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Banner);
             if (dbBanner != null)
-            {
                 dbUser.BannerFileData = dbBanner.PictureUrl;
-            }
+            else
+                dbUser.BannerFileData = $"{Defaults.Banners}/{dbUser.DefaultBanner}";
 
             var dbProfile = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Profile);
             if (dbProfile != null)
-            {
                 dbUser.SelfieFileData = dbProfile.PictureUrl;
-            }
+            else
+                dbUser.SelfieFileData = $"{Defaults.Avatars}/{dbUser.Avatar}";
+
             dbUser.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == id);
 
             var KartMelliImage = _mediaRepository.GetQuery()
@@ -945,8 +970,16 @@ namespace BanooClub.Services.UserServices
             foreach (var user in dbUsers)
             {
                 user.Password = null;
+
+                var banner = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Banner);
                 var selfie = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Profile);
-                user.SelfieFileData = selfie == null ? "" : selfie.PictureUrl;
+
+                user.SelfieFileData = selfie == null ? $"{Defaults.Avatars}/{user.Avatar}"
+                    : selfie.PictureUrl;
+
+                user.BannerFileData = banner == null ? $"{Defaults.Banners}/{user.DefaultBanner}"
+                    : selfie.PictureUrl;
+
                 user.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == user.UserId);
             }
             return dbUsers;
@@ -1320,8 +1353,16 @@ namespace BanooClub.Services.UserServices
             foreach (var user in dbUsers)
             {
                 user.Password = null;
+
+                var banner = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Banner);
                 var selfie = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Profile);
-                user.SelfieFileData = selfie == null ? "" : selfie.PictureUrl;
+
+                user.SelfieFileData = selfie == null ? $"{Defaults.Avatars}/{user.Avatar}"
+                    : selfie.PictureUrl;
+
+                user.BannerFileData = banner == null ? $"{Defaults.Banners}/{user.DefaultBanner}"
+                    : selfie.PictureUrl;
+
                 user.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == user.UserId);
             }
             return dbUsers;
