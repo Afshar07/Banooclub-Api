@@ -56,6 +56,7 @@ export default {
             );
           if (response.data.message === "Confirmation code has not expired") {
             this.$toast.error("کد تایید منقضی نشده است");
+            this.$emit("getNumber", this.mobile);
           } else if (response.data.hasUser === 1) {
             this.$toast.error("کاربری با این شماره موبایل قبلا ثبت نام کرده است");
           } else {

@@ -939,7 +939,7 @@ export default {
       });
     },
     saveRoommateInformation() {
-      console.log(this.RoomMateInfo)
+
       let tmpPhotos = []
       let tmpPhoto = {
         base64:'',

@@ -10,7 +10,7 @@
               v-if="item.selfieFileData"
               style="width: 35px;height: 35px;"
               class="friendPicture"
-              :src="`https://banooclubapi.simagar.com/media/gallery/profile/${item.selfieFileData}`"
+              :src="`https://banooclubapi.simagar.com/${item.selfieFileData}`"
               alt=""
             />
             <img

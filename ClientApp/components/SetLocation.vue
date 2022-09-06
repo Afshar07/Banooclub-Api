@@ -24,7 +24,10 @@ export default {
     },
   },
   async mounted() {
-    if(this.map===null){
+    if (this.map) {
+      this.map.remove()
+      this.map = null
+    } else {
       this.map = L.map("map").setView([35.751128, 51.418679], 14);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,

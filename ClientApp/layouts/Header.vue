@@ -749,7 +749,7 @@
                   v-click-outside="CloseProfileHeader"
                   v-if="$auth.user && $auth.user.baseData &&  $auth.user.baseData.selfie"
                   class="img-fluid headerPicture tw-object-cover"
-                  :src="`https://banooclubapi.simagar.com/media/gallery/profile/${$auth.user.baseData.selfie}`"
+                  :src="`https://banooclubapi.simagar.com/${$auth.user.baseData.selfie}`"
                   alt=""
                   @click.stop="profileHeader"
                 />
@@ -776,7 +776,7 @@
                             v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
                             class="img-fluid rounded-circle"
                             style="width: 45px; height: 45px;"
-                            :src="`https://banooclubapi.simagar.com/media/gallery/profile/${$auth.user.baseData.selfie}`"
+                            :src="`https://banooclubapi.simagar.com/${$auth.user.baseData.selfie}`"
                             alt=""
                             @click="profileHeader"
                           />
@@ -1010,7 +1010,7 @@
                 <img
                   v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
                   class="img-fluid headerPicture tw-object-cover"
-                  :src="`https://banooclubapi.simagar.com/media/gallery/profile/${$auth.user.baseData.selfie}`"
+                  :src="`https://banooclubapi.simagar.com/${$auth.user.baseData.selfie}`"
                   alt=""
 
                 />
@@ -1274,7 +1274,7 @@ export default {
         const response =
           await this.$repositories.searchUserByName.searchUserByName(val);
         this.userData = response.data;
-        console.log(this.userData);
+
       } catch (error) {
         console.log(error);
       }
@@ -1529,6 +1529,7 @@ export default {
     },
   },
   async mounted() {
+    console.log(this.$auth)
     window.addEventListener("scroll", this.updateScroll);
     if (!this.$route.query.id) {
           await this.goToMyPage()
