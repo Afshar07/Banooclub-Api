@@ -8,7 +8,7 @@ import VueCompositionAPI, {inject} from '@vue/composition-api'
 import { HubConnectionBuilder, LogLevel } from "@aspnet/signalr";
 // export default (inject) => {
   const hub = new HubConnectionBuilder()
-    .withUrl("https://api.halamkhoobee.com/chatHub", {
+    .withUrl("https://banooclubapi.simagar.com/chatHub", {
       accessTokenFactory: function () {
         // console.log("Getting token for hub");
       },

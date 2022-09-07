@@ -357,6 +357,7 @@ export default {
       let data = {
         pageNumber: _this.currentPage,
         search: _this.search,
+        count:10,
         status:3
       }
       serviceGetAllRequest.setParams(data)
