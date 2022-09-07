@@ -40,7 +40,7 @@
 
       </ul>
       <div  class="tab-pane fade  " :class="{'show active':ActiveTab===1}" id="products-pills-home" role="tabpanel" aria-labelledby="products-pills-home-tab">
-        <EditProductTab @DiscountChanged="GetService" v-if="ActiveTab===1"  :service_details="ServiceDetails"/>
+        <EditProductTab @RefetchService="GetService" @DiscountChanged="GetService" v-if="ActiveTab===1"  :service_details="ServiceDetails"/>
       </div>
       <div class="tab-pane fade tw-h-full" :class="{'show active':ActiveTab===2}" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
         <UpgradeProductTab v-if="ActiveTab===2"/>

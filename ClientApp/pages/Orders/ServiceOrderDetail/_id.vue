@@ -1,5 +1,16 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="mcontainer">
+    <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+      <div class="d-flex align-items-center gap-2">
+        <img src="/girl-icon-sabteSefaresh.png" class="tw-w-[7rem] tw-h-20" alt="">
+        <div class="d-flex align-items-center flex-column">
+          <h1 class="text-purple h6">ثبت سفارش</h1>
+          <strong class="text-pink">Order Submit</strong>
+        </div>
+      </div>
+
+
+    </div>
     <div class="container ">
       <div class="row ">
         <div class="well col-xs-10 col-sm-10 p-4 rounded col-md-12 col-xs-offset-1 col-sm-offset-1 col-md-offset-3 bg-white tw-shadow-xl">
@@ -68,9 +79,23 @@
             </div>
           </div>
           <div class="row my-3">
-            <div class="text-right">
-              <h4 class="tw-font-bold ">جزئیات پرداخت</h4>
+            <div class="d-flex align-items-center justify-content-between">
+                <h4 class="tw-font-bold ">جزئیات پرداخت</h4>
+              <div class="d-flex align-items-center gap-2">
+                <div v-if="OrderData.status!==2" class="text-center my-5 d-flex flex-wrap align-items-center justify-content-around gap-2">
+                  <div v-if=" OrderData&&OrderData.subOrders &&OrderData.subOrders[0].title !== 'شارژ کیف پول'"  class="d-flex flex-column shadow p-4 tw-h-[10rem]  justify-content-center gap-2">
+                    <button class=" tw-bg-[#ff6f9e] rounded  text-white p-2" :disabled="OrderData.sumPrice>$store.state.WalletAmount" @click="PayByWallet()">پرداخت با کیف پول</button>
+                    <small class="my-2">موجودی کیف پول شما : {{  Intl.NumberFormat('fa-IR').format($store.state.WalletAmount) }} تومان</small>
+                    <small v-if="OrderData.sumPrice>$store.state.WalletAmount">موجودی کیف پول شما کافی نمیباشد <a class="text-decoration-none text-primary tw-cursor-pointer" @click="displaySideNav= true">افزایش موجودی</a></small>
+                  </div>
+                  <div class="d-flex flex-column justify-content-center align-items-center gap-2 shadow p-4 tw-h-[10rem] ">
+                    <button class="p-2 tw-bg-[#85ffdd] tw-text-[#f5447d] rounded px-2" @click="createPayment()">پرداخت</button>
+                    <small>پرداخت با درگاه بانکی</small>
+                  </div>
+                </div>
+              </div>
             </div>
+
             <table v-if="OrderData.paymentInfo" class="tw-table tw-w-full tw-table-zebra" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
               <!-- head -->
               <thead>
@@ -140,6 +165,47 @@ export default {
     GoToChat(item){
       this.$router.push({path:'/Social/Chat',query:{userId:item.userInfo.userId,Photo:item.userInfo.selfieFileData}})
     },
+    async PayByWallet(){
+      try {
+        const res = await this.$repositories.PayByWallet.PayByWallet({
+          orderId: this.OrderData.orderId
+        })
+        if(res.data===1){
+          this.$toast.success('سفارش شما با موفقیت پرداخت شد')
+          this.$router.push('/Orders')
+          await  this.GetCredit()
+
+        }else if (res.data===0){
+          this.$toast.success('موجودی کیف پول شما کافی نمیباشد')
+        }
+      }catch (e){
+        console.log(e)
+      }
+    },
+    async createPayment(){
+      let walletCharge = false
+      if(this.OrderData.subOrders[0].title === 'شارژ کیف پول' ){
+        walletCharge = true
+      }
+      try {
+        const res = await this.$repositories.createAPayment.createAPayment({
+          orderId: parseInt(this.$route.params.id),
+          amount: this.OrderData.sumPrice,
+          createDate: "2022-06-13T09:09:35.951Z",
+          transId: "",
+          description:walletCharge?'شارژ کیف پول':this.OrderData.description,
+          walletCharge:walletCharge,
+          status: 0,
+          refId: ""
+        })
+        window.location.replace(res.data);
+        walletCharge = false
+
+      }
+      catch (error){
+        console.error(error)
+      }
+    }
   },
 
   async fetch(){
@@ -153,6 +219,7 @@ export default {
 
     }
   },
+
 }
 </script>
 

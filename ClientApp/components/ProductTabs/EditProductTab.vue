@@ -153,7 +153,7 @@
       </div>
     </div>
     <!--      <h2 class="tw-text-2xl tw-font-semibold pb-3">ویرایش خدمت</h2>-->
-    <div class="row">
+    <div v-if="serviceDetailProp" class="row">
       <div class="col-md-6 col-12 pt-3">
         <label>عنوان خدمت *</label>
         <input v-model="serviceDetailProp.title" type="text" class="with-border" placeholder="آموزش اکستنشن مژه">
@@ -662,13 +662,7 @@ export default {
     async createProperty(){
       if(this.property_name === ''){
         this.$toast.error("لطفا نام ویژگی را وارد کنید");
-      }
-      else if(!this.property_IsFree){
-       if(this.property_price === 0){
-        this.$toast.error("لطفا قیمت ویژگی را وارد کنید");
-      }
-      }
-      else {
+      } else {
         if(this.property_IsFree){
           this.property_price = 0
         }
@@ -739,7 +733,7 @@ export default {
           isFree: item.isFree,
           createDate: item.createDate
         })
-        this.$nuxt.refresh();
+        this.$emit('RefetchService')
         this.$toast.success('ویژگی با موفقیت ویرایش شد')
       }catch (e) {
         console.log(e)

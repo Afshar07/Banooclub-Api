@@ -153,7 +153,7 @@
                 <input
                   v-model="AdDetail.tag"
                   type="text"
-                  class="form-control"
+                  class="form-control with-border"
                   placeholder="لباس,تیشرت,شلوار..."
                 />
               </div>
@@ -408,6 +408,7 @@ export default {
             price: parseInt(this.AdDetail.price),
             expirationDate: this.AdDetail.expirationDate,
             createDate: this.AdDetail.createDate,
+            fireDate:this.AdDetail.fireDate,
             status: this.AdDetail.status,
             updateDate: new Date(Date.now()),
             tag: this.AdDetail.tag,

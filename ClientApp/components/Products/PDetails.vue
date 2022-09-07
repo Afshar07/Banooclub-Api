@@ -49,7 +49,7 @@
       <div class="tw-flex tw-justify-between tw-items-center lg:tw-p-4 tw-p-2.5">
         <div v-if="service_details && service_details.userInfo" class="tw-flex tw-items-center">
           <nuxt-link :to="`/user/${service_details.userInfo.userId}/posts`" class="text-decoration-none">
-            <img v-if="service_details.userInfo &&service_details.userInfo.selfieFileData!==null " :src="`https://banooclubapi.simagar.com/media/gallery/profile/${service_details.userInfo.selfieFileData}`" alt="profile_image"
+            <img v-if="service_details.userInfo &&service_details.userInfo.selfieFileData!==null " :src="`https://banooclubapi.simagar.com/${service_details.userInfo.selfieFileData}`" alt="profile_image"
                  class="tw-bg-gray-200 tw-border tw-border-white tw-rounded-full tw-w-10 tw-h-10">
             <img v-else :src="userDefault" alt="profile_image"
                  class="tw-bg-gray-200 tw-border tw-border-white tw-rounded-full tw-w-10 tw-h-10">

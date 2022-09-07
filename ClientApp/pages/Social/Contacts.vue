@@ -11,12 +11,12 @@
       </div>
     </div>
       <div class="row">
-        <div class="col-md-12" style="height: 900px;overflow-y: scroll;" @scroll="handleScroll">
+        <div class="col-md-12" style="height: 700px;overflow-y: scroll;" @scroll="handleScroll">
           <div v-if="AllUsers.length>0" class="row">
             <div class="col-md-3 col-12" v-for="(item,index) in AllUsers" :key="index">
               <UserItem class="my-2 tw-shadow tw-rounded tw-p-2" :userDetails="item"/>
             </div>
-            <Spinner style="text-align: center" v-if="AllUsers && AllUsers.length !== AllUsersCount"/>
+            <Spinner style="text-align: center" v-if="Atbottom"/>
           </div>
           <div v-else class="row">
             <div class="col-12 d-flex align-items-center justify-content-center" >
@@ -71,15 +71,19 @@ export default {
       try {
         const response = await this.$repositories.getAllUsersForUser.getAllUsersForUser(
           {
-            userId:this.userId,
+            userId:0,
             count:20,
             search:this.searchKey
           }
         );
-        console.log('response',response)
+        if(response.data){
+          this.Atbottom = true
         this.AllUsers = response.data;
-
         this.AllUsersCount = this.AllUsers.length;
+        }else{
+          this.Atbottom = false
+        }
+
       }catch (error) {
         console.log(error);
       }
@@ -100,7 +104,7 @@ export default {
         const response = await this.$repositories.getAllUsersForUser.getAllUsersForUser(
           {
             userId:this.userId,
-            count:20,
+            count:10,
             search:this.searchKey
           }
         );
@@ -114,11 +118,12 @@ export default {
     },
 
     async getUsersForInfiniteScroll(id){
+      console.log(id)
       try {
         const response = await this.$repositories.getAllUsersForUser.getAllUsersForUser(
           {
-            userId:this.userId,
-            count:20,
+            userId:id,
+            count:10,
             search:''
           }
         );
@@ -134,8 +139,9 @@ export default {
     handleScroll(event){
 
       if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight) {
-        const lastUserId = Object.values(this.AllUsers).pop();
-        this.getUsersForInfiniteScroll(lastUserId.userId)
+     const id = this.AllUsers[this.AllUsers.length-1].UserId
+
+         this.getUsersForInfiniteScroll(id)
       }
 
     },

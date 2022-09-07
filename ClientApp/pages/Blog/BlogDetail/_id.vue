@@ -50,7 +50,7 @@
 
                   <div class="tw-flex tw-justify-start tw-items-center tw-gap-2">
                     <img v-if="BlogData.userInfo.selfieFileData!==null"
-                         :src="`https://banooclubapi.simagar.com/media/gallery/profile/${BlogData.userInfo.selfieFileData}`"
+                         :src="`https://banooclubapi.simagar.com/${BlogData.userInfo.selfieFileData}`"
                          width="80px" height="80px" class="rounded-circle" alt="">
                     <img v-else src="/nopicture.jpg" width="80px" height="80px" class="rounded-circle" alt="">
                     <div v-if="BlogData.userInfo" class="tw-flex tw-flex-col tw-my-3">
@@ -112,7 +112,7 @@
                     <div class="tw-flex tw-justify-between tw-items-center tw-gap-2 tw-w-full ">
                       <div v-if="item.userInfo" class="tw-flex tw-justify-between tw-items-center tw-gap-2">
                         <img v-if="item.userInfo.selfieFileData!==null"
-                             :src="`https://banooclubapi.simagar.com/media/gallery/profile/${item.userInfo.selfieFileData}`"
+                             :src="`https://banooclubapi.simagar.com/${item.userInfo.selfieFileData}`"
                                class="tw-rounded-full tw-w-[50px] tw-h-[50px]" alt="">
                         <img v-else src="/nopicture.jpg" class="tw-rounded-full tw-w-[50px] tw-h-[50px]" alt="">
                         <div class="tw-flex tw-flex-col tw-my-3">
@@ -138,7 +138,7 @@
                       <div class="tw-flex tw-justify-between tw-items-center tw-gap-2 tw-w-full">
                         <div v-if="el.userInfo" class="tw-flex tw-justify-between tw-items-center tw-gap-2">
                           <img v-if="el.userInfo.selfieFileData!==null"
-                               :src="`https://banooclubapi.simagar.com/media/gallery/profile/${el.userInfo.selfieFileData}`"
+                               :src="`https://banooclubapi.simagar.com/${el.userInfo.selfieFileData}`"
                                class="tw-rounded-full tw-w-[50px] tw-h-[50px]" alt="">
                           <img v-else src="/nopicture.jpg"  class="tw-rounded-full tw-w-[50px] tw-h-[50px]" alt="">
                           <div class="tw-flex tw-flex-col tw-my-3">

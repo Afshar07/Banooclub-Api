@@ -91,7 +91,7 @@
               </div>
               <div v-if="item.planTypes.includes(1)"
                    class="tw--top-3  tw-bg-[#ffe175] tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text-[#2533e1]">
-                نردبان
+                آتیش زدم
               </div>
               <div v-if="item.planTypes.includes(4)"
                    class="tw--top-3  tw-bg-[#ffe175] tw-font-medium tw-px-2 tw-py-1 tw-shadow tw-left-2 tw-rounded-full tw-text-[#2533e1]">

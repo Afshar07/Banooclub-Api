@@ -324,11 +324,37 @@ export default {
     handleScroll(event){
 
       if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight) {
-        this.GetAdd()
+        this.GetAddForInfinite()
       }
     },
 
     async GetAdd() {
+      try {
+        const res = await this.$repositories.GetAllAds.GetAllAds({
+          priceFrom: this.PriceFrom,
+          priceTo: this.PriceTo,
+          title: this.Search,
+          tag: null,
+          city: this.SelectedCityId,
+          state: this.SelectedStateId,
+          lastItemFireDate: '',
+          count: 10,
+          categoryId: this.SelectedCategoryId,
+          planType: this.Ladder ? 1 : null,
+          exchangeability: this.Exchange
+        })
+        this.AllAds = res.data.ads
+        this.AllAdsCount = res.data.adsCount
+        this.$nuxt.$loading.finish();
+        this.$nuxt.loading = false;
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.$nuxt.$loading.finish();
+        this.$nuxt.loading = false;
+      }
+    },
+    async GetAddForInfinite() {
       try {
         const res = await this.$repositories.GetAllAds.GetAllAds({
           priceFrom: this.PriceFrom,
