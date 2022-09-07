@@ -7,7 +7,7 @@
                  :to="`/user/${AdsDetail.userInfo.userName}/posts`">
         <img
           class="headerPicture"
-          :src="`https://banooclubapi.simagar.com/media/gallery/profile/${AdsDetail.userInfo.selfieFileData}`"
+          :src="`https://banooclubapi.simagar.com/${AdsDetail.userInfo.selfieFileData}`"
           alt=""
 
           style="border-radius: 50%; cursor: pointer;    width: 30px;  height: 30px;box-shadow: 0 0 9px rgb(72 69 72);"

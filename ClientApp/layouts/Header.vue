@@ -306,6 +306,12 @@
               </div>
             </div>
           </div>
+          <div @click="logoutUser" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+            <span class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <LogOutIcon  class="svg_icons_size  "/>
+              <span v-if="!decrease_width" class="header_font_sidebar_size">خروج</span>
+            </span>
+          </div>
           <div class="d-flex align-items-center  flex-wrap justify-content-start p-2">
             <strong class="text-secondary border-start my-3 px-2">راهنما</strong>
             <strong class="text-secondary border-start my-3 px-2">قوانین و مقررات</strong>

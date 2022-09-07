@@ -407,7 +407,7 @@ export default {
             categoryId: this.AdDetail.categoryId,
             price: parseInt(this.AdDetail.price),
             expirationDate: this.AdDetail.expirationDate,
-            createDate: new Date(Date.now()),
+            createDate: this.AdDetail.createDate,
             status: this.AdDetail.status,
             updateDate: new Date(Date.now()),
             tag: this.AdDetail.tag,

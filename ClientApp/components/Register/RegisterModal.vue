@@ -178,12 +178,22 @@ export default {
     },
 
     SetAvatarPic(AvatarPic){
+      if(AvatarPic === 'defaultAvatar0.png'){
+        this.payload['avatar'] = null
+      }else{
+
       this.payload['avatar'] = AvatarPic
+      }
       this.ActiveComponent=4
 
     },
     SetBannerPic(BannerPic){
+      if(BannerPic === 'defaultBanner0.jpg'){
+        this.payload['banner'] = null
+      }else{
+
       this.payload['banner'] = BannerPic
+      }
       this.ActiveComponent=5
 
     },

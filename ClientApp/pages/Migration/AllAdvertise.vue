@@ -180,7 +180,7 @@
                       <div class="col-md-12 mt-3">
                         <input type="search" v-model="Search" class="SearchStyle" placeholder="جستجو در میان آگهی ها">
                       </div>
-                      <div @scroll="handleScroll" class="col-md-12"  style="height: 1000px; overflow-y: scroll">
+                      <div class="col-md-12"  style="height: 1000px; overflow-y: scroll">
                         <AllAdsTabContent :Ads="AllAds" :categories="categories"/>
                       <div class="col-md-12 d-flex align-items-center justify-content-center">
                         <Spinner></Spinner>

@@ -106,7 +106,7 @@
       <div v-if="$route.path === '/Products/MyServices/'" class="my-2">
         <small v-if="service_details.status===2" class="text-secondary ">خدمت شما در دست بررسی است</small>
         <small v-if="service_details.status===1" class="text-success ">خدمت شما فعال است</small>
-        <small v-if="service_details.status===3" class="text-warning ">خدمت شما نیاز به بازبینی مجدد دارد</small>
+        <small v-if="service_details.status===3" class="text-warning ">در انتظار تایید</small>
       </div>
 
       <div v-if="$route.path==='/Products/MyServices/'||$route.path==='/social/accountsetting/MyPage'" class="w-100 d-flex align-items-center justify-content-between">

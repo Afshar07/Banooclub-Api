@@ -25,7 +25,7 @@ export default {
   components:{UploadIcon},
   data(){
     return{
-      SelectedAvatar:'defaultAvatar1.png',
+      SelectedAvatar:null,
       AvatarIdx:0
     }
   },

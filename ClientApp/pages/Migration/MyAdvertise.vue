@@ -55,7 +55,7 @@
       <div    v-for="item in UserAds" :key="item.adsId" class="col-md-4" >
         <div
           class=" p-3  bg-white AdCard px-2 mb-4 rounded main-shadow"
-          style="cursor: pointer;height: 265px"
+          style="cursor: pointer;height: 300px"
 
         >
           <div class="d-flex align-items-center justify-content-between">
