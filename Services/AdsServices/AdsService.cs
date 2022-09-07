@@ -226,8 +226,8 @@ IBanooClubEFRepository<OrderItem> orderItemRepository)
             //    }
             //}
 
-
-
+            //var dbOldAd = adsRepository.GetQuery().AsNoTracking().FirstOrDefault(z=>z.AdsId == item.AdsId);
+            //item.FireDate = dbOldAd.FireDate;
             item.IsDeleted = false;
             item.Status = (int)AdsStatus.NotConfirmed;
             //item.UpdateDate = DateTime.Now;
@@ -752,13 +752,11 @@ IBanooClubEFRepository<OrderItem> orderItemRepository)
             if (planType > 0)
             {
                 var orderIds = _orderItemRepository.GetQuery()
-                    .AsNoTracking()
                     .Where(x => x.PlanId == planType)
                     .Select(z => z.OrderId)
                     .ToList();
 
                 var adsIds = _orderRepository.GetQuery()
-                    .AsNoTracking()
                     .Where(x => x.AdsId != null && x.IsPayed && orderIds.Contains(x.OrderId))
                     .Select(z => z.AdsId)
                     .ToList();

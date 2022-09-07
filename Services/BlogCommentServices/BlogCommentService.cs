@@ -101,7 +101,7 @@ namespace BanooClub.Services.BlogCommentServices
 
         public IServiceResult<object> GetAllAsyncByBlogId(long blogId)
         {
-            var dbComments = _BlogCommentRepository.GetQuery().Where(z => z.BlogId == blogId).ToList();
+            var dbComments = _BlogCommentRepository.GetQuery().Where(z => z.BlogId == blogId).OrderByDescending(z=>z.BlogCommentId).ToList();
             foreach (var comment in dbComments)
             {
                 comment.UserInfo = _userService.Get(comment.UserId);

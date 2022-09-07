@@ -274,13 +274,12 @@ namespace BanooClub.Services.ServicePackServices
 
             var objSer = JsonSerializer.Serialize<object>(DeSerializeObj);
             servicePacks = JsonSerializer.Deserialize<List<ServicePack>>(objSer);
-            var servicesCount = servicePacks.Count;
 
             if (status != null)
             {
                 servicePacks = servicePacks.Where(z => z.Status == status).ToList();
             }
-
+            var servicesCount = servicePacks.Count;
             if (pageNumber != 0 && count != 0)
             {
                 servicePacks = servicePacks.Where(z => z.Title.Contains(searchCommand)).ToList();
