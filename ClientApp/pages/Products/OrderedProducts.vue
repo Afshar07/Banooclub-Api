@@ -1,9 +1,9 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer px-2 h-100">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="mcontainer  NewBg px-2 h-100">
 
-      <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+      <div class="tw-w-full bg-white tw-shadow p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
         <div class="d-flex align-items-center gap-2">
-          <img src="/girl-icon-khadamat.png" class="tw-w-[7rem] tw-h-20" alt="">
+          <img src="/girl-icon-khadamat.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
           <div class="d-flex align-items-center flex-column">
             <h1 class="text-purple h6"> خدمات خریداری شده</h1>
             <strong class="text-pink">Purchased Services</strong>
@@ -11,7 +11,7 @@
         </div>
       </div>
 
-    <div class="tw-overflow-x-auto">
+    <div  class="tw-overflow-x-auto bg-white rounded shadow my-3 p-3">
       <div class="tw-overflow-x-auto">
         <table class="tw-table tw-w-full tw-table-zebra"
                style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
@@ -77,86 +77,88 @@
         </table>
       </div>
     </div>
+<div v-if="ServiceMembers!==null"  class="bg-white rounded shadow my-3 p-3">
+  <div v-if="ServiceMembers!==null" class="d-flex mt-3 justify-content-between align-items-center">
+    <h3 class="tw-text-xl text-purple tw-font-semibold py-3">کاربرانی که این خدمت را سفارش داده اند</h3>
+  </div>
+  <div v-if="ServiceMembers!==null" class="tw-overflow-x-auto">
+    <div class="tw-overflow-x-auto">
+      <table class="tw-table tw-w-full TableBg tw-rounded  tw-table-zebra"
+      >
+        <!-- head -->
+        <thead>
+        <tr>
+          <th class="tw-text-teal-500">شناسه کاربر</th>
+          <th class="tw-text-teal-500">نام و نام خانوادگی</th>
+          <th class="tw-text-teal-500">نام کاربری</th>
+          <th class="tw-text-teal-500">شماره تماس</th>
+          <th class="tw-text-teal-500">عملیات</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- rows -->
+        <tr class="tw-hover" v-for="(item,idx) in ServiceMembers" :key="idx">
+          <th class="fw-normal">{{ item.userId }}</th>
+          <th class="fw-normal">
+            <small>{{ item.name + ' ' + item.familyName }}</small>
 
-    <div v-if="ServiceMembers!==null" class="d-flex mt-3 justify-content-between align-items-center">
-      <h3 class="tw-text-xl text-purple tw-font-semibold py-3">کاربرانی که این خدمت را سفارش داده اند</h3>
+          </th>
+          <th class="fw-normal">
+            <small>{{ item.userName }}</small>
+          </th>
+          <th class="fw-normal">
+            <small> {{ item.mobile }} </small>
+          </th>
+          <td>
+            <div
+              class="bg-purple tw-rounded tw-cursor-pointer d-inline-flex justify-content-center align-items-center p-1"
+              @click="SetSelectedUser(item)">
+              <span class="text-white tw-text-xs">مشاهده جزئیات کاربر </span>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
-    <div v-if="ServiceMembers!==null" class="tw-overflow-x-auto">
-      <div class="tw-overflow-x-auto">
-        <table class="tw-table tw-w-full TableBg tw-rounded  tw-table-zebra"
-              >
-          <!-- head -->
-          <thead>
-          <tr>
-            <th class="tw-text-teal-500">شناسه کاربر</th>
-            <th class="tw-text-teal-500">نام و نام خانوادگی</th>
-            <th class="tw-text-teal-500">نام کاربری</th>
-            <th class="tw-text-teal-500">شماره تماس</th>
-            <th class="tw-text-teal-500">عملیات</th>
-          </tr>
-          </thead>
-          <tbody>
-          <!-- rows -->
-          <tr class="tw-hover" v-for="(item,idx) in ServiceMembers" :key="idx">
-            <th class="fw-normal">{{ item.userId }}</th>
-            <th class="fw-normal">
-              <small>{{ item.name + ' ' + item.familyName }}</small>
+  </div>
+  <div v-if="SelectedService!==null && ServiceMembers===null"
+       class="col-md-12 d-flex align-items-center justify-content-center">
+    <Spinner></Spinner>
+  </div>
+  <div v-if="SelectedUser!==null" class="col-md-12 my-3  bg-white p-3 ">
+    <div class="row">
+      <div class="col-md-3">
+        <span  class="text-secondary">نام کوچک : </span>
+        <span>{{SelectedUser.name}}</span>
 
-            </th>
-            <th class="fw-normal">
-              <small>{{ item.userName }}</small>
-            </th>
-            <th class="fw-normal">
-              <small> {{ item.mobile }} </small>
-            </th>
-            <td>
-              <div
-                class="bg-purple tw-rounded tw-cursor-pointer d-inline-flex justify-content-center align-items-center p-1"
-                @click="SetSelectedUser(item)">
-                <span class="text-white tw-text-xs">مشاهده جزئیات کاربر </span>
-              </div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
       </div>
-    </div>
-    <div v-if="SelectedService!==null && ServiceMembers===null"
-         class="col-md-12 d-flex align-items-center justify-content-center">
-      <Spinner></Spinner>
-    </div>
-    <div v-if="SelectedUser!==null" class="col-md-12 my-3  bg-white p-3 ">
-      <div class="row">
-        <div class="col-md-3">
-          <span  class="text-secondary">نام کوچک : </span>
-          <span>{{SelectedUser.name}}</span>
+      <div class="col-md-3">
+        <span  class="text-secondary">نام خانوادگی : </span>
+        <span>{{SelectedUser.familyName}}</span>
 
-        </div>
-        <div class="col-md-3">
-          <span  class="text-secondary">نام خانوادگی : </span>
-          <span>{{SelectedUser.familyName}}</span>
+      </div>
+      <div class="col-md-3 ">
+        <span  class="text-secondary">نام کاربری: </span>
+        <nuxt-link class=" tw-transition tw-text-blue-500 text-decoration-none" :to="`/user/${SelectedUser.userName}/posts`">@{{SelectedUser.userName}}</nuxt-link>
+      </div>
+      <div class="col-md-3 ">
+        <span  class="text-secondary">شماره موبایل : </span>
+        <span v-if="SelectedUser.mobile!=='' || SelectedUser.mobile!==null">{{SelectedUser.mobile}}</span>
+        <span v-else>-</span>
+      </div>
+      <div class="col-md-12  d-flex align-items-center gap-2">
+        <span  class="text-secondary">ایمیل : </span>
+        <span v-if="SelectedUser.email!=='' || SelectedUser.email!==null">{{SelectedUser.email}}</span>
+        <span v-else>-</span>
 
-        </div>
-        <div class="col-md-3 ">
-          <span  class="text-secondary">نام کاربری: </span>
-          <nuxt-link class=" tw-transition tw-text-blue-500 text-decoration-none" :to="`/user/${SelectedUser.userName}/posts`">@{{SelectedUser.userName}}</nuxt-link>
-        </div>
-        <div class="col-md-3 ">
-          <span  class="text-secondary">شماره موبایل : </span>
-          <span v-if="SelectedUser.mobile!=='' || SelectedUser.mobile!==null">{{SelectedUser.mobile}}</span>
-          <span v-else>-</span>
-        </div>
-        <div class="col-md-12  d-flex align-items-center gap-2">
-          <span  class="text-secondary">ایمیل : </span>
-          <span v-if="SelectedUser.email!=='' || SelectedUser.email!==null">{{SelectedUser.email}}</span>
-          <span v-else>-</span>
-
-
-        </div>
 
       </div>
 
     </div>
+
+  </div>
+</div>
+
   </div>
 
 

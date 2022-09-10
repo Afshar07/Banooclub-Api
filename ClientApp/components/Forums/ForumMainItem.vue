@@ -9,11 +9,11 @@
 
           </div>
           <div class="modal-body">
-           <span>آیا از حذف این تالار اظمینان دارید ؟ </span>
+           <span>آیا از حذف این تالار اطمینان دارید ؟ </span>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">خیر</button>
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal" @click="DeleteForum">بله</button>
+            <button type="button" class=" bg-purple text-white p-2 rounded shadow" data-bs-dismiss="modal">خیر</button>
+            <button type="button" class="bg-pink text-white p-2 rounded shadow" data-bs-dismiss="modal" @click="DeleteForum">بله</button>
           </div>
         </div>
       </div>
@@ -29,8 +29,10 @@
         <a  href="#DeleteForum" data-bs-toggle="modal">
           <i class="fas fa-trash tw-text-red-600 hover:tw-text-red-900 hover:tw-transition  tw-cursor-pointer "></i>
         </a>
+          <nuxt-link :to="`/Forums/EditForum/${forum_details.forumId}`">
+            <i class="fas fa-edit tw-text-blue-600 hover:tw-text-blue-900 hover:tw-transition  tw-cursor-pointer "></i>
+          </nuxt-link>
 
-          <i class="fas fa-edit tw-text-blue-600 hover:tw-text-blue-900 hover:tw-transition  tw-cursor-pointer "></i>
 
       </div>
 

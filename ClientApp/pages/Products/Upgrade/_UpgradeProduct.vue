@@ -3,14 +3,14 @@
     <div class="row">
       <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
         <div v-if="ActiveTab===1" class="d-flex align-items-center gap-2">
-          <img src="/girl-icon-khadamat-edit.png" class="tw-w-[7rem] tw-h-20" alt="">
+          <img src="/girl-icon-khadamat-edit.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
           <div class="d-flex align-items-center flex-column">
             <h1 class="text-purple h6"> ویرایش خدمت </h1>
             <strong class="text-pink">Edit Service</strong>
           </div>
         </div>
         <div v-if="ActiveTab===2" class="d-flex align-items-center gap-2">
-          <img src="/girl-icon-khadamat-ertegha.png" class="tw-w-[7rem] tw-h-20" alt="">
+          <img src="/girl-icon-khadamat-ertegha.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
           <div class="d-flex align-items-center flex-column">
             <strong class="text-purple"> ارتقا خدمت </strong>
             <strong class="text-pink">Boost Service</strong>

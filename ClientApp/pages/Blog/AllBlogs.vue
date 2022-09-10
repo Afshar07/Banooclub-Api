@@ -1,22 +1,20 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container NewBg mcontainer  p-3 ">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class=" NewBg mcontainer  p-3 ">
     <div class="row p-3">
       <div class="col-lg-8 tw-flex-shirink-0 ">
-        <div class="">
-          <div class="tw-w-full bg-white p-3 d-flex align-items-center gap-3  rounded ">
-            <img src="/girl-icon-maghale.png" class="tw-w-[7rem] tw-h-20" alt="">
+          <div class="tw-w-full tw-rounded tw-shadow bg-white p-3 d-flex align-items-center gap-3  rounded ">
+            <img src="/girl-icon-maghale.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
             <div class="d-flex align-items-center flex-column">
               <h1 class="text-purple h5">مقالات</h1>
               <h1 class="text-pink h5">Articles</h1>
             </div>
-
           </div>
-        </div>
-        <div class="col-md-12 my-3 px-0">
-          <input type="text" class="SearchStyle   border  " v-model="Search" placeholder="جستجو مقالات">
-        </div>
 
-        <div class="tab-content" id="pills-tabContent" v-if="!$fetchState.pending">
+
+        <div class="tab-content bg-white rounded shadow p-3 my-3" id="pills-tabContent" v-if="!$fetchState.pending">
+          <div class="col-md-12 my-3 px-0">
+            <input type="text" class="SearchStyle   border  " v-model="Search" placeholder="جستجو مقالات">
+          </div>
           <div class="tab-pane fade show active" id="forum-active-content" role="tabpanel" aria-labelledby="forum-active-tab">
             <div class="  tw-mx-auto">
               <ul class="custom_card tw-pl-0 tw-mx-auto tw-divide-y tw-divide-gray-100 sm:tw-m-0 ">
@@ -62,7 +60,7 @@
         </div>
         <Pagination v-if="totalPages.length>1" :pages="totalPages" @PageChanged="GetAllBlog($event)"></Pagination>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4 bg-white rounded shadow p-3 mb-3">
         <RecentBlogs></RecentBlogs>
       </div>
 

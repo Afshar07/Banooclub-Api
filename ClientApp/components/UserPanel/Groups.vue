@@ -1,5 +1,5 @@
 <template>
-  <div class="widget card p-3 border-t">
+  <div class="card p-3 ">
     <div class="tw-flex tw-items-center tw-justify-between tw-mb-2">
       <div>
         <h4 class="tw-text-lg tw-font-semibold"> گروه ها </h4>

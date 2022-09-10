@@ -1,37 +1,17 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container NewBg mcontainer px-2">
     <div class="d-flex justify-content-between align-items-center">
-      <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+      <div class="tw-w-full bg-white tw-rounded tw-shadow p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
         <div class="d-flex align-items-center gap-2">
-          <img src="/girl-icon-mali.png" class="tw-w-[7rem] tw-h-20" alt="">
+          <img src="/girl-icon-mali.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
           <div class="d-flex align-items-center flex-column">
             <h1 class="text-purple h6">سفارشات</h1>
             <strong class="text-pink">Orders</strong>
           </div>
         </div>
-<!--        <div class="d-flex justify-content-center align-items-center">-->
-<!--          <div class="d-flex flex-column">-->
-<!--            <span class="text-purple">موجودی کیف پول:</span>-->
-<!--            <span class="text-pink">{{ Intl.NumberFormat('fa-IR').format($store.state.WalletAmount) }}تومان</span>-->
-<!--          </div>-->
-<!--          <button @click="displayChargeSideNav = true" v-tooltip="{content:'شارژ کیف پول'}"-->
-<!--                  class="btn AddReplyBtn text-white">-->
-<!--            <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>-->
-<!--          </button>-->
-<!--        </div>-->
       </div>
     </div>
-
-    <div
-      class="offcanvas offcanvas-start sidebar-bg"
-      tabindex="-1"
-      id="offcanvasExample"
-      aria-labelledby="offcanvasExample"
-      style="z-index: 9999999;"
-    >
-    </div>
-
-      <div class="tw-overflow-x-auto bg-white mt-3 rounded p-3">
+      <div class="tw-overflow-x-auto bg-white my-3 tw-shadow rounded p-3">
         <table class="tw-table tw-w-full tw-table-compact tw-table-zebra">
           <!-- head -->
           <thead>
@@ -67,10 +47,10 @@
             </th>
             <td>{{ new Date(item.createDate).toLocaleDateString('fa-IR') }}</td>
             <td>
-              <div class="tw-bg-red-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-if="item.status === 3">
+              <div class="tw-bg-red-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-if="item.status === 3">
                 <span class="text-white tw-text-xs">لغو شده</span>
               </div>
-              <div class="tw-bg-green-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="item.status === 2">
+              <div class="bg-LightGreen tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="item.status === 2">
                 <span class="text-white tw-text-xs">پرداخت شده</span>
               </div>
               <div class="tw-bg-gray-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="item.status === 1">
@@ -97,11 +77,12 @@
           </tr>
           </tbody>
         </table>
+        <div class="col-md-12 my-3">
+          <CustomPagination v-if="totalPages.length>1" :activePage="SelectedPageNumber" :totalPages="totalPages" @PageChanged="changePage($event)"/>
+        </div>
       </div>
 
-      <div class="col-md-12 my-3">
-        <CustomPagination v-if="totalPages.length>1" :activePage="SelectedPageNumber" :totalPages="totalPages" @PageChanged="changePage($event)"/>
-      </div>
+
   </div>
 
 

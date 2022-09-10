@@ -1,8 +1,8 @@
 <template>
-  <div class=" mcontainer tw-overflow-x-hidden " v-if="!$fetchState.pending">
+  <div class=" mcontainer NewBg tw-overflow-x-hidden " v-if="!$fetchState.pending">
 
     <div class="row">
-      <div class="col-md-12 col-lg-8 add_post px-0 custom_padding_for_posts">
+      <div class="col-md-12 my-3 col-lg-8 add_post  custom_padding_for_posts">
         <PDetails @updateServiceDetails="updateServiceDetails" :service_details="ServiceDetails"/>
       </div>
       <div class=" col-lg-4">

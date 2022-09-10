@@ -1,5 +1,5 @@
 <template>
-  <div :class="UserAds===''?'loading-skeleton':''" class="container bg-white mcontainer">
+  <div :class="UserAds===''?'loading-skeleton':''" class="NewBg  mcontainer">
     <!-- Modal -->
     <div
       class="modal fade"
@@ -38,9 +38,9 @@
     </div>
     <div class="row">
       <div class="col-md-12 my-3">
-        <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+        <div class="tw-w-full bg-white rounded tw-shadow p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
           <div class="d-flex align-items-center gap-2">
-            <img src="/girl-icon-ads.png" class="tw-w-[7rem] tw-h-20" alt="">
+            <img src="/girl-icon-ads.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
             <div class="d-flex align-items-center flex-column">
               <h1 class="text-purple h6">آگهی های من</h1>
               <strong class="text-pink">My AdvertiseMents</strong>
@@ -52,6 +52,8 @@
           </button>
         </div>
       </div>
+    </div>
+    <div class="row bg-white rounded tw-shadow p-3 my-3">
       <div    v-for="item in UserAds" :key="item.adsId" class="col-md-4" >
         <div
           class=" p-3  bg-white AdCard px-2 mb-4 rounded main-shadow"
@@ -108,7 +110,7 @@
             <div class="col-md-6 pt-4">
               <div class="d-flex align-items-center gap-2">
                 <small>وضعیت :  </small>
-                <small v-if="item.status === 1" class="badge tw-bg-[#10eb62]"
+                <small v-if="item.status === 1" class="badge bg-LightGreen"
                 >منتشر شده</small
                 >
                 <small v-if="item.status === 2" class="badge bg-secondary"
@@ -171,15 +173,13 @@
           </div>
         </div>
       </div>
-
-
       <div
         v-if="UserAds.length === 0"
         class="col-md-12 bg-white d-flex justify-content-center p-4"
       >
         <strong class="text-warning">شما هیچ آگهی ندارید.</strong>
         <nuxt-link to="/Migration/CreateAdvertise" class="text-decoration-none"
-          ><small>ثبت آگهی جدید</small></nuxt-link
+        ><small>ثبت آگهی جدید</small></nuxt-link
         >
       </div>
     </div>

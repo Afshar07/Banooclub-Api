@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex row">
-      <div class="col-md-7 col-sm-12" style="height: 1500px;overflow-y: scroll;" @scroll="handleScroll">
+      <div class="col-md-7 col-sm-12" style="height: 1600px;overflow-y: scroll;" @scroll="handleScroll">
         <AddPost @updateMyPosts="updateMyPosts" class="mb-3"/>
         <PostItem @PostEvent="GetPosts"  class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post" :inMainPage="false" :inMyPosts="false"/>
         <Spinner style="text-align: center" v-if="postData && postData.length !== postCounts"/>

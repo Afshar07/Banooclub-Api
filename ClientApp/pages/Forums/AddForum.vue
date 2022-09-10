@@ -1,9 +1,8 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer p-3">
-    <div class="row">
-      <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="NewBg mcontainer p-3">
+      <div class="tw-w-full bg-white tw-rounded tw-shadow p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
         <div class="d-flex align-items-center gap-2">
-          <img src="/girl-icon-forum.png" class="tw-w-[7rem] tw-h-20" alt="">
+          <img src="/girl-icon-forum.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
           <div class="d-flex align-items-center flex-column">
             <h1 class="text-purple h6">افزودن تالار</h1>
             <strong class="text-pink">Add Forum</strong>
@@ -11,10 +10,10 @@
         </div>
 
       </div>
-      <div class="row">
+      <div class="row bg-white rounded shadow p-3 my-3">
         <div class="col-6 pt-3">
           <label>نام تالار گفتگو *</label>
-          <input v-model="forum_title" type="text" class="with-border " style="height: 55px!important;" placeholder="موضوع گفتمان را بنویسید"
+          <input v-model="forum_title" type="text" class="with-border FormInputs" style="height: 55px!important;" placeholder="موضوع گفتمان را بنویسید"
                  :class="{BorderRed:forum_title==='',BorderGreen:forum_title!==''}">
         </div>
 
@@ -34,7 +33,7 @@
           </div>
           <div class="my-3">
             <div class="d-flex align-items-center gap-2">
-              <input  v-model="tag" type="text" class="with-border"
+              <input  v-model="tag" type="text" class="with-border FormInputs"
                      placeholder="هشتگ">
               <button class="p-2 rounded bg-purple text-white tw-cursor-pointer" @click="addTags">ثبت</button>
             </div>
@@ -59,7 +58,7 @@
           <textarea
             v-model="forum_desc"
             row="100"
-            class="form-control border rounded w-100"
+            class="FormInputs border rounded w-100"
             placeholder="در مورد موضوع گفتگو یا سوالتان شرح دهید"
             id="about"
           ></textarea>
@@ -71,11 +70,6 @@
           </button>
         </div>
       </div>
-
-
-    </div>
-
-
   </div>
 
 

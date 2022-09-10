@@ -1,5 +1,5 @@
 <template>
-  <div class="my-5">
+  <div >
     <div class="tw-bg-white tw-mb-5 tw-px-4 tw-py-3 tw-rounded-md tw-shadow" v-if="birthdateList.length>0">
       <h4 class="tw-text-line-through tw-font-semibold tw-mb-1"> تولدها </h4>
       <div class="contact-list tw-w-full" v-for="(item,idx) in birthdateList" :key="idx"
@@ -32,12 +32,12 @@
         </div>
       </div>
     </div>
-    <div class="tw-w-full my-3 tw-bg-white p-3 tw-rounded">
+    <div class="tw-w-full tw-shadow my-3 tw-bg-white p-3 tw-rounded">
       <div class="tw-grid tw-grid-cols-2 ">
         <div class="tw-flex tw-items-start  tw-flex-col my-2">
           <div class="tw-radial-progress tw-text-[#fc5399]" :style="`--value:${FilledCount}`" >{{ FilledCount }}%</div>
         </div>
-        <div class="tw-flex tw-flex-col">
+        <div class="tw-flex tw-flex-col ">
           <small class="text-center tw-text-[#b44aff]">تکمیل پروفایل باعث بیشتر دیده شدن میشود</small>
           <button class="tw-bg-[#fc5399] tw-rounded tw-text-white p-2">
             <nuxt-link class="text-decoration-none hover:tw-text-white tw-text-white" to="/Social/AccountSetting/EditProfileBasic">تکمیل پروفایل</nuxt-link>
@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <div class="tw-w-full my-3 p-3 tw-rounded bg-white">
+    <div class="tw-w-full my-3 tw-shadow p-3 tw-rounded bg-white">
       <div class="tw-flex tw-items-center tw-justify-start tw-flex-col">
         <small class="text-center tw-text-[#b44aff]">دوستان خود را دعوت کنید</small>
         <input v-if=" userinfo&& userinfo.userInfo" v-model="userinfo.userInfo.userCode" value="" type="text" class="SearchStyle tw-text-[#b44aff] my-2" disabled
@@ -56,7 +56,7 @@
 
 
 
-    <div class="bg-white p-2 rounded">
+    <div class="bg-white tw-shadow p-2 rounded">
       <h3 class="tw-text-xl tw-font-semibold">مخاطبان</h3>
       <ul class="nav nav-pills align-items-end profile_tabs" id="pills-tab" role="tablist"
           style="border-bottom: 1px solid #e5e7eb">

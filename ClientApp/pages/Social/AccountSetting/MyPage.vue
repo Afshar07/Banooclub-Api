@@ -1,5 +1,5 @@
 <template>
-  <div  class="container-fluid mcontainer tw-bg-[#faf7ff] px-0 ">
+  <div  class="container-fluid mcontainer NewBg px-0 ">
     <CustomHeader @SetActiveTab="GetActiveTab"/>
     <div class="tab-content tw-bg-[#faf7ff] py-3" id="pills-tabContent">
       <div v-if="ActiveTab===2"  class="tab-pane tw-bg-[#faf7ff] fade show active" id="services" role="tabpanel" aria-labelledby="services-tab">

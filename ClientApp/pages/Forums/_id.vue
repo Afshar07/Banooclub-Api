@@ -1,5 +1,5 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer p-3" v-if="forumDetails">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class=" NewBg mcontainer p-3" v-if="forumDetails">
 
     <div class="modal fade" id="ReportForum" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -12,15 +12,15 @@
             <span>آیا از انجام این عملیات مطمئنید؟</span>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">خیر</button>
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal" @click="ReportForum">بله</button>
+            <button type="button" class=" bg-purple text-white p-2 rounded shadow" data-bs-dismiss="modal">خیر</button>
+            <button type="button" class="bg-pink text-white p-2 rounded shadow" data-bs-dismiss="modal" @click="ReportForum">بله</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+    <div class="tw-w-full bg-white tw-rounded tw-shadow p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
       <div class="d-flex align-items-center gap-2">
-        <img src="/girl-icon-forum.png" class="tw-w-[7rem] tw-h-20" alt="">
+        <img src="/girl-icon-forum.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
         <div class="d-flex align-items-center flex-column">
           <strong class="text-purple">{{ forumDetails.title }}</strong>
         </div>
@@ -36,29 +36,28 @@
       </div>
 
     </div>
-    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
-      <p class="tw-text-sm d-flex align-items-center tw-text-gray-400 tw-my-2">
-        پست شده توسط:
+    <div class="row my-3 p-3 rounded shadow bg-white">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <p class="tw-text-sm d-flex align-items-center tw-text-gray-400 tw-my-2">
+          پست شده توسط:
 
-        <span v-if="forumDetails.userInfo" data-href="%40tag-dev.html">
+          <span v-if="forumDetails.userInfo" data-href="%40tag-dev.html">
           <nuxt-link class="tw-font-semibold tw-px-2 text-decoration-none tw-text-blue-500" :to="`/user/${forumDetails.userInfo.userName}/posts`">
              {{ forumDetails.userInfo.userName }}
           </nuxt-link>
 
         </span>
-        <span class="tw-text-black px-1">
+          <span class="tw-text-black px-1">
           {{time_ago(forumDetails.createDate) }}
         </span>
-      </p>
-      <p class="tw-text-sm tw-text-gray-400 tw-my-2 px-3">
-        بازدید
-        <span class="tw-text-black px-1">
+        </p>
+        <p class="tw-text-sm tw-text-gray-400 tw-my-2 px-3">
+          بازدید
+          <span class="tw-text-black px-1">
           {{forumDetails.viewsCount}}
         </span>
-      </p>
-    </div>
-
-    <div class="row py-3">
+        </p>
+      </div>
       <div class="col-lg-8 tw-flex-shirink-0">
         <div class="  mx-auto custom_card">
           <div class="d-flex flex-column">
@@ -107,7 +106,7 @@
                 </div>
               </div>
             </div>
-            <div v-if="forumDetails.comments.length>0" class="py-3 border-bottom tw-font-bold " >{{ forumDetails.comments.length }} پاسخ</div>
+            <div v-if="forumDetails.comments.length>0" class="p-3 border-bottom tw-font-bold " >{{ forumDetails.comments.length }} پاسخ</div>
 
           </div>
           <ul class="tw-divide-y  tw-divide-gray-100 sm:tw-m-0 tw--mx-5">

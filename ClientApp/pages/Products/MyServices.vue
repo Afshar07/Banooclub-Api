@@ -1,28 +1,22 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer px-2">
-    <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer NewBg px-2">
+    <div class="tw-w-full bg-white tw-shadow  p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
       <div class="d-flex align-items-center gap-2">
-        <img src="/girl-icon-khadamat.png" class="tw-w-[7rem] tw-h-20" alt="">
+        <img src="/girl-icon-khadamat.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
         <div class="d-flex align-items-center flex-column">
           <h1 class="text-purple h6"> خدمات من</h1>
           <strong class="text-pink">My Services</strong>
         </div>
       </div>
-
-<!--      <button v-tooltip="{content:'ثبت خدمت'}" @click="$router.push('/Products/AddProduct')" class="btn AddReplyBtn text-white">-->
-<!--        <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>-->
-<!--      </button>-->
     </div>
-    <div class="row">
+    <div class="row bg-white rounded shadow my-3 p-3">
       <div class="col-md-4 col-lg-3" v-for="(service,idx) in my_services" :key="idx">
-        <ProductItem @updateServiceDetails="updateServiceDetails" class="my-3" :service_details="service" :show_buttons="true"/>
+        <ProductItem @GetServices="GetMyServices" @updateServiceDetails="updateServiceDetails" class="my-3" :service_details="service" :show_buttons="true"/>
+      </div>
+      <div class="col-md-12">
+        <CustomPagination v-if="totalPages.length>1" :activePage="SelectedPageId" :totalPages="totalPages" @PageChanged="changePage($event)"/>
       </div>
     </div>
-<!--    <div class="row py-3">-->
-<!--      <div class="d-flex flex-row flex-wrap">-->
-<!--        <ProductItem class="mx-1 my-3" v-for="service in my_services" :service_details="service" :show_buttons="true"/>-->
-<!--      </div>-->
-<!--    </div>-->
   </div>
 
 
@@ -31,12 +25,13 @@
 
 <script>
 import ProductItem from "../../components/Products/ProductItem";
-
+import CustomPagination from "@/components/utilities/CustomPagination";
 export default {
   name: "MyServices",
   layout: "PoshtebamPlusLayout",
   components: {
     ProductItem,
+    CustomPagination
   },
   head() {
     return {
@@ -54,20 +49,46 @@ export default {
   data(){
     return{
       my_services:null,
+      SelectedPageId:1,
+      totalPages:[],
+
     }
   },
   async fetch(){
     try {
-      const services = await this.$repositories.getMyServices.getMyServices({pageNumber:0, count:0, searchCommand:null})
+      const services = await this.$repositories.getMyServices.getMyServices({pageNumber:this.SelectedPageId, count:10, searchCommand:null})
       this.my_services = services.data.services
+      this.totalPages = []
+      const result = Math.ceil(services.data.servicesCount / 10)
+      for (let i = 1; i <= result; i++) {
+        this.totalPages.push(i);
+      }
     }
     catch (error){
       console.log(error)
     }
   },
   methods:{
+    changePage(id){
+      this.SelectedPageId = id
+      this.GetMyServices();
+    },
+   async GetMyServices(){
+      try {
+        const services = await this.$repositories.getMyServices.getMyServices({pageNumber:this.SelectedPageId, count:10, searchCommand:null})
+        this.my_services = services.data.services
+        this.totalPages = []
+        const result = Math.ceil(services.data.servicesCount / 10)
+        for (let i = 1; i <= result; i++) {
+          this.totalPages.push(i);
+        }
+      }
+      catch (error){
+        console.log(error)
+      }
+    },
     updateServiceDetails(){
-      this.$fetch();
+      this.GetMyServices();
     }
   }
 }

@@ -148,24 +148,30 @@ export default {
   mounted() {
     this.filterHeaderImage(1)
     if (this.service_details) {
+      this.CalcDiscount();
+    }
+  },
+  watch:{
+    service_details:function (){
+      this.CalcDiscount();
+    }
+  },
+  methods: {
+    CalcDiscount(){
       if (this.service_details.discount !== null) {
         let PriceDiscount = this.service_details.discount
         let discountValue = PriceDiscount.value
         if (PriceDiscount.type === 1) {
           let value = this.service_details.totalPrice * discountValue / 100
           this.$set(this.service_details, 'TotalDiscountPrice', this.service_details.totalPrice - value)
-
-
           // If Discount Is Numeric Type
         } else {
           this.$set(this.service_details, 'TotalDiscountPrice', this.service_details.totalPrice - discountValue)
         }
-        console.log(this.service_details)
+
       }
 
-    }
-  },
-  methods: {
+    },
     Share(item){
       if(navigator.share){
         navigator.share({

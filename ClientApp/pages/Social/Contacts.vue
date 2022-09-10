@@ -1,6 +1,6 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="mcontainer bg-white tw-shadow px-3">
-    <div class="row p-3 rounded-top">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="mcontainer NewBg  px-3">
+    <div class="row p-3 my-3 rounded tw-shadow bg-white rounded-top">
       <div class="col-md-12">
         <input
           class="SearchStyle"
@@ -9,23 +9,22 @@
           v-model="searchKey"
         />
       </div>
-    </div>
-      <div class="row">
-        <div class="col-md-12" style="height: 700px;overflow-y: scroll;" @scroll="handleScroll">
-          <div v-if="AllUsers.length>0" class="row">
-            <div class="col-md-3 col-12" v-for="(item,index) in AllUsers" :key="index">
-              <UserItem class="my-2 tw-shadow tw-rounded tw-p-2" :userDetails="item"/>
-            </div>
-            <Spinner style="text-align: center" v-if="Atbottom"/>
+      <div class="col-md-12" style="height: 700px;overflow-y: scroll;" @scroll="handleScroll">
+        <div v-if="AllUsers.length>0" class="row">
+          <div class="col-md-3 col-12" v-for="(item,index) in AllUsers" :key="index">
+            <UserItem class="my-2 tw-shadow tw-rounded tw-p-2" :userDetails="item"/>
           </div>
-          <div v-else class="row">
-            <div class="col-12 d-flex align-items-center justify-content-center" >
-              <small class="text-warning">کاربری  با این مشخصات یافت نشد</small>
-            </div>
+          <Spinner style="text-align: center" v-if="Atbottom"/>
+        </div>
+        <div v-else class="row">
+          <div class="col-12 d-flex align-items-center justify-content-center" >
+            <small class="text-warning">کاربری  با این مشخصات یافت نشد</small>
+          </div>
 
-          </div>
         </div>
       </div>
+    </div>
+
   </div>
 </template>
 
@@ -77,8 +76,15 @@ export default {
           }
         );
         if(response.data){
+          console.log(response.data)
           this.Atbottom = true
-        this.AllUsers = response.data;
+          response.data.forEach((item)=>{
+            if(this.AllUsers.findIndex(e=> e.UserId === item.UserId)>-1){
+            return
+            }else{
+              this.AllUsers.push(item)
+            }
+          })
         this.AllUsersCount = this.AllUsers.length;
         }else{
           this.Atbottom = false
@@ -108,9 +114,9 @@ export default {
             search:this.searchKey
           }
         );
-        console.log('response',response)
+
         this.AllUsers = response.data;
-        console.log('this.AllUsers',this.AllUsers)
+
         this.AllUsersCount = this.AllUsers.length;
       }catch (error) {
         console.log(error);
@@ -127,11 +133,20 @@ export default {
             search:''
           }
         );
-        const newUsers = response.data;
-        newUsers.forEach((element) => {
-          this.AllUsers.push(element)
-        });
-        // console.log('this.postData',this.postData)
+        if(response.data.length>0){
+          this.Atbottom = true
+          response.data.forEach((item)=>{
+            if(this.AllUsers.findIndex(e=> e.UserId === item.UserId)>-1){
+              return
+            }else{
+              this.AllUsers.push(item)
+            }
+          })
+          this.AllUsersCount = this.AllUsers.length;
+        }else{
+          this.Atbottom = false
+        }
+
       }catch (error) {
         console.log(error);
       }
@@ -148,10 +163,6 @@ export default {
     async ChangeRoute(item) {
       console.log(item);
       this.$store.commit("SetSearchedUserId", item.UserId);
-      // const response = await this.$repositories.getUserIndex.getUserIndex(
-      //   item.UserId
-      // );
-      // this.$store.commit("SetUserData", response.data);
       this.$router.push({
         path: `/user/${item.UserId}/posts`,
       });

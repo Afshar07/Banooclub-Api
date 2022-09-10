@@ -81,9 +81,9 @@
       </div>
     </div>
     <div class="row">
-      <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+      <div class="tw-w-full bg-white p-3 tw-rounded tw-shadow d-flex align-items-center justify-content-between gap-3  rounded ">
         <div class="d-flex align-items-center gap-2">
-        <img src="/girl-icon-ticket.png" class="tw-w-[7rem] tw-h-20" alt="">
+        <img src="/girl-icon-ticket.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
         <div class="d-flex align-items-center flex-column">
           <h1 class="text-purple h5">تیکت ها </h1>
           <h1 class="text-pink h5">Tickets</h1>
@@ -94,17 +94,18 @@
         </button>
       </div>
 
-      <div class="col-md-12 my-3">
-          <input
-            class="SearchStyle "
-            type="text"
-            placeholder="جستجو تیکت"
-            v-model="searchKey"
-          />
-      </div>
 
-          <div class="tw-overflow-x-scroll" v-if="FilteredTickets.length>0">
-            <div class="tw-overflow-x-scroll ">
+
+          <div class="tw-overflow-x-scroll bg-white rounded tw-shadow p-3 my-3  ">
+            <div class="col-md-12 my-3">
+              <input
+                class="SearchStyle "
+                type="text"
+                placeholder="جستجو تیکت"
+                v-model="searchKey"
+              />
+            </div>
+            <div  v-if="FilteredTickets.length>0" class="tw-overflow-x-scroll ">
               <table class="tw-items-center  tw-w-full tw-table-compact   tw-bg-white p-3 rounded tw-border-collapse">
                 <thead>
                 <tr>
@@ -137,34 +138,35 @@
                 <tbody>
                 <tr v-for="(item, index) in FilteredTickets" :key="index">
                   <th
-                    class="tw-border-b tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
+                    class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
                     {{ item.ticketId }}
                   </th>
 
                   <td
-                    class="tw-border-b  tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
+                    class="  tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
                     {{ item.title.substr(0, 7) }}
                   </td>
 
                   <td
-                    class="tw-border-b tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
-                    <span v-if="item.type === 0">احراز هویت</span>
-                    <span v-if="item.type === 1">پشتیبانی</span>
-                    <span v-if="item.type === 2">سایر</span>
+                    class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
+                    <span v-if="item.type === 0">تیکت ادمین</span>
+                    <span v-if="item.type === 1">احراز هویت</span>
+                    <span v-if="item.type === 2">پشتیبانی</span>
+                    <span v-if="item.type === 3">سایر</span>
                   </td>
 
                   <td
-                    class="tw-border-b tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
+                    class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
                     {{ new Date(item.createDate).toLocaleTimeString('fa-IR') }}
                   </td>
 
                   <td
-                    class="tw-border-b tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
+                    class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
 
-                    <div class="tw-bg-red-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-if="item.isClosed == false && item.isRead == false">
+                    <div class="tw-bg-red-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-if="item.isClosed == false && item.isRead == false">
                       <span class="text-white tw-text-xs">منتظر پاسخ</span>
                     </div>
-                    <div class="tw-bg-green-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="item.isClosed == false && item.isRead == true">
+                    <div class="bg-LightGreen tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-else-if="item.isClosed == false && item.isRead == true">
                       <span class="text-white tw-text-xs">پاسخ داده شده</span>
                     </div>
                     <div class="tw-bg-stone-300  tw-rounded d-inline-flex justify-content-center align-items-center p-1" style="border: 1px solid black" v-else-if="item.isClosed == true">
@@ -173,7 +175,7 @@
                   </td>
 
                   <th
-                    class="tw-border-b tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-flex tw-items-center tw-justify-end">
+                    class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-flex tw-justify-center">
                     <svg @click="ticketRouteGenerator(item)" style="cursor: pointer" xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="none" viewBox="0 0 24 24" stroke="green" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -184,12 +186,14 @@
                 </tbody>
               </table>
             </div>
-          </div>
-          <div class="row mb-3" v-else>
-            <div class="col-12 text-warning fw-bold text-center">
-              هیچ تیکتی برای نمایش وجود ندارد
+            <div class="row mb-3" v-else>
+              <div class="col-12 text-warning fw-bold text-center">
+                هیچ تیکتی برای نمایش وجود ندارد
+              </div>
             </div>
+            <CustomPagination v-if="totalPages.length>1" :activePage="pageNumber" :totalPages="totalPages" @PageChanged="changePage($event)"/>
           </div>
+
       </div>
   </div>
 </template>
@@ -266,9 +270,25 @@ export default {
   },
 
   methods: {
+   async  GetAllTicket(){
+     try {
+       const response = await this.$repositories.getAllTickets.getAllTickets({
+         pageNumber:this.pageNumber,
+         count:10,
+       });
+       this.totalPages = []
+       const result = Math.ceil(response.data.ticketsCount / 10)
+       for (let i = 1; i <= result; i++) {
+         this.totalPages.push(i);
+       }
+       this.AllTickets = response.data.tickets;
+     } catch (error) {
+       console.log(error);
+     }
+    },
     changePage(id){
       this.pageNumber = id
-      this.$fetch()
+     this.GetAllTicket()
     },
     openFileUpload() {
       this.$refs.file.click();

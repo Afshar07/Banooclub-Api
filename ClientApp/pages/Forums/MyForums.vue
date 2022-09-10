@@ -1,8 +1,8 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer p-3">
-    <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="NewBg mcontainer p-3">
+    <div class="tw-w-full bg-white p-3 d-flex align-items-center tw-rounded tw-shadow justify-content-between gap-3  rounded ">
       <div class="d-flex align-items-center gap-2">
-        <img src="/girl-icon-forum.png" class="tw-w-[7rem] tw-h-20" alt="">
+        <img src="/girl-icon-forum.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
         <div class="d-flex align-items-center flex-column">
           <h1 class="text-purple h6">تالار  من</h1>
           <strong class="text-pink">My Forum</strong>
@@ -12,7 +12,7 @@
         <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
       </button>
     </div>
-    <div class="row py-3">
+    <div class="row my-3 p-3 rounded shadow bg-white">
       <div class="col-lg-8 tw-flex-shirink-0">
         <ul class="custom_card tw-divide-y tw-divide-gray-100 sm:tw-m-0 tw--mx-5">
           <li v-if="my_forums.length>0" v-for="Forum in my_forums">

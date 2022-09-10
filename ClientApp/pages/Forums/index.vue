@@ -1,8 +1,8 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer p-3">
-    <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="NewBg mcontainer p-3">
+    <div class="tw-w-full bg-white tw-rounded tw-shadow p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
       <div class="d-flex align-items-center gap-2">
-        <img src="/girl-icon-forum.png" class="tw-w-[7rem] tw-h-20" alt="">
+        <img src="/girl-icon-forum.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
         <div class="d-flex align-items-center flex-column">
           <h1 class="text-purple h6">تالار  گفتگو</h1>
           <strong class="text-pink">Forum</strong>
@@ -12,7 +12,7 @@
         <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
       </button>
     </div>
-    <div class="row">
+    <div class="row bg-white tw-rounded tw-shadow p-3 my-3">
         <div class="col-md-12">
           <div class="row">
             <div class="col-md-8 d-flex align-items-center">

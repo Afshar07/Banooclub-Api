@@ -2,9 +2,9 @@
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container-fluid  tw-bg-[#faf7ff]">
     <ChargeWalletSideNav :show="ShowSideNav" @close="ShowSideNav = false">
     </ChargeWalletSideNav>
-    <div class="tw-p-10">
-      <div class="tw-w-full bg-white p-3 d-flex align-items-center gap-3  rounded ">
-        <img src="/girl-icon-dashboard.png" class="tw-w-[7rem] tw-h-20" alt="">
+    <div class="tw-p-10 ">
+      <div class="tw-w-full tw-shadow bg-white p-3 d-flex align-items-center gap-3  rounded ">
+        <img src="/girl-icon-dashboard.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
         <div class="d-flex align-items-center flex-column">
           <h1 class="text-purple h6">داشبورد</h1>
           <strong class="text-pink">Dashboard</strong>

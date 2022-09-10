@@ -1,5 +1,5 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''"  class="container mcontainer ">
+  <div :class="$fetchState.pending?'loading-skeleton':''"  class="NewBg mcontainer ">
     <!-- Modal -->
     <div class="modal fade" id="AddBlogComment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="row">
-      <div v-if="BlogData" class="col-md-8  tw-shadow">
+      <div v-if="BlogData" class="col-md-8 bg-white rounded p-3 shadow ">
             <div class="row  mx-auto ">
               <div class="tw-card tw-card-compact bg-white rounded tw-w-96 tw-bg-base-100 ">
                 <img v-if="BlogData && BlogData.fileData && BlogData.fileData!==''" :src="`https://banooclubapi.simagar.com/${BlogData.fileData}`"
@@ -163,8 +163,10 @@
               </div>
             </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4   ">
+        <div class="bg-white p-3 rounded  shadow">
         <RecentBlogs></RecentBlogs>
+        </div>
       </div>
 
     </div>

@@ -9,7 +9,7 @@
           <div class="col-md-12 p-4">
             <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
               <div class="d-flex align-items-center gap-2">
-                <img src="/girl-icon-ads-edit.png" class="tw-w-[7rem] tw-h-20" alt="">
+                <img src="/girl-icon-ads-edit.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
                 <div class="d-flex align-items-center flex-column">
                   <h1 class="text-purple h6">ویرایش آگهی</h1>
                   <strong class="text-pink">Edit AdvertiseMents</strong>

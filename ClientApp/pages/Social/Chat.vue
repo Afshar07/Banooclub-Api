@@ -20,7 +20,7 @@
         <!--Desktop Main Chat-->
         <div class="col-md-9 px-0" style="background: url('/chat-bg.jpg') no-repeat center;background-size: cover">
           <!--It Returns One Event => GoBack Removes EveryThing From Current Chat, ChatSelected Boolean Is Required For Handling Show/Hide Chat-->
-          <DesktopChat class="w-100 h-100"  @GoBack="RemoveChatData" v-if="ChatSelected" :ActiveUser="ActiveUser"></DesktopChat>
+          <DesktopChat class="w-100 h-100"   @GoBack="RemoveChatData" v-if="ChatSelected" :ActiveUser="ActiveUser"></DesktopChat>
           <div   class="d-flex align-items-center justify-content-center w-100 h-100 " v-if="!ChatSelected">
             <span class="text-secondary">مکالمه ای انتخاب نشده است</span>
           </div>
@@ -48,7 +48,7 @@
 
     </div>
     <!--It Returns One Event => GoBack Removes EveryThing From Current Chat, ChatSelected Boolean Is Required For Handling Show/Hide Chat-->
-    <MainChatData class="d-lg-none d-block" @GoBack="RemoveChatData" v-if="ChatSelected" :ActiveUser="ActiveUser"></MainChatData>
+    <MainChatData class="d-lg-none d-block"  @GoBack="RemoveChatData" v-if="ChatSelected" :ActiveUser="ActiveUser"></MainChatData>
   </div>
 
 </template>
@@ -149,10 +149,13 @@ export default {
     },
     SetActiveUser(item) {
       this.ActiveUser = item
+
       this.ChatData = []
       this.lastMessage = false
       this.FirstId = 0
       this.ChatSelected = true
+
+
     },
     GetActiveChatClass(item) {
       if (item.userId !== 0) {

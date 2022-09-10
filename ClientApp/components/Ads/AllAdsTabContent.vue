@@ -1,11 +1,7 @@
 <template>
-  <div>
-    <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-3 tw-justify-center tw-mx-auto  ">
+    <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2   lg:tw-grid-cols-3 tw-justify-center tw-mx-auto  ">
       <AdItem class="tw-my-3 tw-mx-auto"   v-for="item in Ads" :AdsDetail="item"  />
     </div>
-
-  </div>
-
 </template>
 
 <script>

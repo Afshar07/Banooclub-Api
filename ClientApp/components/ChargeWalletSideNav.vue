@@ -42,62 +42,66 @@ export default {
 
   methods:{
    async createOrder(){
+        if(this.WalletAmount===0){
+          this.$toast.error('یک مقدار وارد کنید')
+        }else{
+          try {
+            this.$nextTick(()=>{
+              this.$nuxt.$loading.start();
+            })
 
-      try {
-        this.$nextTick(()=>{
-          this.$nuxt.$loading.start();
-        })
+            let tmpSubOrders = []
+            let tmpSubOrder = {
+              orderId: 0,
+              planId: 0,
+              count: 1,
+              vendorUserId: 0,
+              price: 0,
+              title:''
+            }
+            tmpSubOrder.planId = 0
+            tmpSubOrder.price = this.WalletAmount
+            tmpSubOrder.title = 'شارژ کیف پول'
+            tmpSubOrder.vendorUserId = 0
+            tmpSubOrder.orderId = 0
+            tmpSubOrder.count = 1
+            const clone = {...tmpSubOrder}
+            tmpSubOrders.push(clone)
+            tmpSubOrder.planId = 0
+            tmpSubOrder.orderId = 0
+            tmpSubOrder.count = 0
+            tmpSubOrder.vendorUserId = 0
+            tmpSubOrder.price = 0
+            tmpSubOrder.title = ''
 
-        let tmpSubOrders = []
-        let tmpSubOrder = {
-          orderId: 0,
-          planId: 0,
-          count: 1,
-          vendorUserId: 0,
-          price: 0,
-          title:''
+
+            const res = await this.$repositories.createAOrder.createAOrder({
+              isDeleted: false,
+              orderId: 0,
+              isPayed: false,
+              description: "شارژ کیف پول",
+              sumPrice: this.WalletAmount,
+              userId: 0,
+              createDate: new Date(Date.now()),
+              status: 1,
+              subOrders: tmpSubOrders
+            });
+            this.$nuxt.$loading.finish();
+            this.$nuxt.loading = false;
+            this.$toast.success("سفارش شما با موفقیت ثبت شد.");
+            this.$router.push({path: `/Products/Order/${res.data}`});
+            this.WalletAmount = 0
+            this.$emit('close')
+
+          }
+          catch (error){
+            console.error(error)
+          }finally {
+            this.$nuxt.$loading.finish();
+            this.$nuxt.loading = false;
+          }
         }
-          tmpSubOrder.planId = 0
-          tmpSubOrder.price = this.WalletAmount
-          tmpSubOrder.title = 'شارژ کیف پول'
-          tmpSubOrder.vendorUserId = 0
-          tmpSubOrder.orderId = 0
-          tmpSubOrder.count = 1
-          const clone = {...tmpSubOrder}
-          tmpSubOrders.push(clone)
-          tmpSubOrder.planId = 0
-          tmpSubOrder.orderId = 0
-          tmpSubOrder.count = 0
-          tmpSubOrder.vendorUserId = 0
-          tmpSubOrder.price = 0
-          tmpSubOrder.title = ''
 
-
-        const res = await this.$repositories.createAOrder.createAOrder({
-          isDeleted: false,
-          orderId: 0,
-          isPayed: false,
-          description: "شارژ کیف پول",
-          sumPrice: this.WalletAmount,
-          userId: 0,
-          createDate: new Date(Date.now()),
-          status: 1,
-          subOrders: tmpSubOrders
-        });
-        this.$nuxt.$loading.finish();
-        this.$nuxt.loading = false;
-        this.$toast.success("سفارش شما با موفقیت ثبت شد.");
-        this.$router.push({path: `/Products/Order/${res.data}`});
-        this.WalletAmount = 0
-        this.$emit('close')
-
-      }
-      catch (error){
-        console.error(error)
-      }finally {
-        this.$nuxt.$loading.finish();
-        this.$nuxt.loading = false;
-      }
     },
   }
 

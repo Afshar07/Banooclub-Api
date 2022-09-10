@@ -1,11 +1,21 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer">
-    <div class="row">
-      <h2 class="tw-text-2xl tw-font-semibold pb-3">افزودن تالار</h2>
-      <div class="row">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="NewBg mcontainer">
+      <div class="tw-w-full bg-white tw-rounded tw-shadow p-3 d-flex align-items-center tw-rounded tw-shadow justify-content-between gap-3  rounded ">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/girl-icon-forum.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
+          <div class="d-flex align-items-center flex-column">
+            <h1 class="text-purple h6">ویرایش تالار</h1>
+            <strong class="text-pink">Edit Forum</strong>
+          </div>
+        </div>
+        <button v-tooltip="{content:'افزودن تالار جدید'}" @click="$router.push('/Forums/AddForum')" class="btn AddReplyBtn text-white">
+          <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+        </button>
+      </div>
+      <div class="row bg-white rounded shadow p-3 my-3">
         <div class="col-12 pt-3">
           <label>نام تالار *</label>
-          <input v-model="ForumData.title" type="text" class="with-border" placeholder="نام تالار"
+          <input v-model="ForumData.title" type="text" class="with-border FormInputs" placeholder="نام تالار"
                  :class="{BorderRed:ForumData.title==='',BorderGreen:ForumData.title!==''}">
         </div>
         <div class="col-12 pt-3">
@@ -14,8 +24,8 @@
           </div>
           <div class="my-3">
             <div class="d-flex align-items-center gap-2">
-              <input v-model="tag" type="text" class="with-border" placeholder="هشتگ">
-              <button class="btn  btn-success" @click="addTags">
+              <input v-model="tag" type="text" class="with-border FormInputs" placeholder="هشتگ">
+              <button class="bg-purple p-2 rounded shadow text-white" @click="addTags">
               <small>ثبت </small>
               </button>
             </div>
@@ -41,7 +51,7 @@
           <textarea
             v-model="ForumData.description"
             row="100"
-            class="form-control border rounded w-100"
+            class=" FormInputs   border rounded w-100"
             placeholder="توضیحات تالار"
             id="about"
           ></textarea>
@@ -49,15 +59,10 @@
 
         <div class="col-12 pt-3">
           <button type="button" class="button mt-auto" @click="UpdateForum">
-            ثبت
+            ویرایش
           </button>
         </div>
       </div>
-
-
-    </div>
-
-
   </div>
 
 

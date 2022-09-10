@@ -6,14 +6,14 @@
     <button
       :disabled="activePage === 1"
       @click="setNewPage(activePage - 1)"
-      class="btn btn-primary"
+      class="bg-purple p-1 rounded text-white"
     >
       قبلی
     </button>
     <button
       v-if="totalPages.length > 3 && activePage > 3"
       @click="setNewPage(1)"
-      class="btn"
+      class="bg-purple p-1 rounded text-white"
       :class="
         activePage === 1
           ? 'underline underline-offset-2 rounded-full bg-primary text-white'
@@ -34,7 +34,7 @@
       :key="i"
       :class="
         activePage === i
-          ? 'underline underline-offset-2 rounded-full bg-primary text-white'
+          ? 'underline underline-offset-2 rounded-full bgPurple text-white'
           : ''
       "
       @click="setNewPage(i)"
@@ -53,7 +53,7 @@
       class="btn"
       :class="
         activePage === totalPages.length
-          ? 'underline underline-offset-2 rounded-full bg-primary text-white'
+          ? 'underline underline-offset-2 rounded-full bg-purple text-white'
           : ''
       "
     >
@@ -62,7 +62,7 @@
     <button
       :disabled="activePage === totalPages.length"
       @click="setNewPage(activePage + 1)"
-      class="btn btn-primary"
+      class="bg-purple  p-1 rounded text-white"
     >
       بعدی
     </button>
@@ -137,6 +137,10 @@ export default {
 .ActiveClass{
   color: white;
   background-color: #00adef;
+}
+
+.bgPurple{
+  background-color: #b44aff!important;
 }
 
 </style>

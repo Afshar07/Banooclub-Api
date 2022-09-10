@@ -1,9 +1,9 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container tw-shadow bg-white p-3 mcontainer">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container  NewBg p-3 mcontainer">
     <div class="row my-3">
-        <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+        <div class="tw-w-full bg-white tw-shadow p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
           <div class="d-flex align-items-center gap-2">
-            <img src="/girl-icon-ads.png" class="tw-w-[7rem] tw-h-20" alt="">
+            <img src="/girl-icon-ads.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
             <div class="d-flex align-items-center flex-column">
               <h1 class="text-purple h6">آگهی ها</h1>
               <strong class="text-pink">AdvertiseMents</strong>
@@ -15,7 +15,7 @@
           </button>
         </div>
     </div>
-    <div class="tab-content" id="pills-tabContent">
+    <div class="tab-content bg-white rounded tw-shadow p-3 my-3" id="pills-tabContent">
 
       <div class="row boxMainContent mx-auto">
         <div class="col-12  px-0">
@@ -44,7 +44,7 @@
                   <div class="col-md-3  mt-3">
                     <div class="row">
                       <div class="col-md-12">
-                        <div class="accordion tw-mt-[2.3rem]" id="accordionPanelsStayOpenExample">
+                        <div class="accordion " id="accordionPanelsStayOpenExample">
                           <div class="accordion-item">
                             <h2 class="accordion-header" id="panelsStayOpen-headingFour">
                               <button

@@ -1,9 +1,9 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container NewBg mcontainer px-2">
     <div class="d-flex justify-content-between align-items-center">
-      <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+      <div class="tw-w-full tw-rounded tw-shadow bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
         <div class="d-flex align-items-center gap-2">
-          <img src="/girl-icon-mali.png" class="tw-w-[7rem] tw-h-20" alt="">
+          <img src="/girl-icon-mali.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
           <div class="d-flex align-items-center flex-column">
             <h1 class="text-purple h6">پرداخت ها</h1>
             <strong class="text-pink">Payments</strong>
@@ -22,34 +22,7 @@
       </div>
     </div>
     <ChargeWalletSideNav :show="displayChargeSideNav" @close="displayChargeSideNav = false"/>
-    <div
-      class="offcanvas offcanvas-start sidebar-bg"
-      tabindex="-1"
-      id="offcanvasExample"
-      aria-labelledby="offcanvasExample"
-      style="z-index: 9999999;"
-    >
-
-      <div class="offcanvas-body d-flex flex-column">
-        <h3>شارژ کیف پول</h3>
-        <div class="col-12 pt-3">
-          <label>مبلغ</label>
-          <div class="d-flex justify-content-center align-items-center">
-            <input type="text" class="with-border" placeholder="مبلغ">
-            <span class="px-2">تومان</span>
-          </div>
-        </div>
-        <div class="loadmore mt-auto pt-3">
-          <button type="button" class="button tw-w-full mt-auto">
-            پرداخت
-          </button>
-        </div>
-
-
-      </div>
-    </div>
-
-      <div class="tw-overflow-x-auto bg-white p-2 py-3 rounded my-3">
+      <div class="tw-overflow-x-auto bg-white p-3 tw-shadow rounded my-3">
         <table class="tw-table tw-w-full tw-table-auto tw-rounded" >
           <!-- head -->
           <thead>
@@ -70,11 +43,11 @@
             <th class="fw-normal">{{ item.refId }}</th>
             <td>{{ new Date(item.createDate).toLocaleDateString('fa-IR') }}</td>
             <td>
-              <div class="tw-bg-red-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1"
+              <div class="tw-bg-red-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1"
                    v-if="item.status === -2 || item.status ===-4">
                 <span class="text-white tw-text-xs">لغو شده</span>
               </div>
-              <div class="tw-bg-green-700 tw-rounded d-inline-flex justify-content-center align-items-center p-1"
+              <div class="bg-LightGreen tw-rounded d-inline-flex justify-content-center align-items-center p-1"
                    v-else-if="item.status === 0">
                 <span class="text-white tw-text-xs">پرداخت شده</span>
               </div>

@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="row">
-        <div class="col-md-9 d-flex align-items-center ">
+        <div class="col-md-7 d-flex align-items-center ">
           <input
             class="SearchStyle"
             type="text"
@@ -10,7 +10,7 @@
             v-model="searchKey"
           />
         </div>
-        <div class="col-md-3">
+        <div class="col-md-5">
           <v-select
             v-model="SelectedCategoryId"
             :options="Categories"
@@ -31,9 +31,7 @@
         هیچ خدمتی برای نمایش وجود ندارد
       </div>
     </div>
-
     <CustomPagination v-if="totalpages.length>1" :activePage="SelectedPageId" :totalPages="totalpages" @PageChanged="changePage($event)"/>
-
   </div>
 
 </template>

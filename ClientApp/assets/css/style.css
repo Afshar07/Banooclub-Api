@@ -1,6 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+:root {
+
+  /* Search Input */
+  --vs-search-input-color:#737373FF!important; ;
+  --vs-search-input-bg: #fcf5ff !important;
+  --vs-search-input-placeholder-color: inherit;
+  /* Borders */
+  --vs-border-color:transparent!important;
+  --vs-border-width: 1px;
+  --vs-border-style: solid;
+  --vs-border-radius: 20px !important;
+
+}
 * {
   outline-style: none !important;
   direction: rtl !important;
@@ -2058,6 +2073,17 @@ select.bs-select-hidden, select.selectpicker {
   color: #fc5399;
 
 }
+
+.bg-LightGreen{
+ background-color: #10eb62 !important;
+}
+.text-LightGreen{
+  color: #10eb62 !important;
+}
+
+.FormInputs{
+  background-color: #fcf5ff !important;
+}
 .bg-pink{
   background-color: #fc5399;
 }
@@ -2082,8 +2108,8 @@ input[type="number"] {
   padding: 0 30px 0 40px!important;
 
   outline: 0!important;
-  background: #EEEEEEFF !important;
-  border: 1px solid white!important;
+  background: #fcf5ff!important;
+
   border-radius: 2rem!important;
 
   font-size: 15px!important;

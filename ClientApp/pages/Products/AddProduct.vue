@@ -1,27 +1,27 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer NewBg  px-2">
 
-    <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+    <div class="tw-w-full bg-white tw-shadow p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
       <div class="d-flex align-items-center gap-2">
-        <img src="/girl-icon-khadamat-afzodan.png" class="tw-w-[7rem] tw-h-20" alt="">
+        <img src="/girl-icon-khadamat-afzodan.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
         <div class="d-flex align-items-center flex-column">
           <h1 class="text-purple h6"> ثبت خدمت</h1>
           <strong class="text-pink">Submit A Service</strong>
         </div>
       </div>
     </div>
-    <div class="row my-3 bg-white px-3 rounded " style="padding-left: 0">
+    <div class="row my-3 bg-white px-3 tw-shadow rounded " style="padding-left: 0">
       <div class="col-md-6 col-sm-12 mt-3 " style="padding-left: 0">
         <label>عنوان خدمت *</label>
-        <input v-model="service_title" type="text" class="with-border" placeholder="آموزش اکستنشن مژه"
+        <input v-model="service_title" type="text" class="with-border FormInputs" placeholder="آموزش اکستنشن مژه"
                :class="{BorderRed:service_title==='',BorderGreen:service_title!==''}">
       </div>
       <div class="col-md-6 col-sm-12 mt-3 " style="padding-left: 0">
         <label>دسته بندی خدمت *</label>
-        <select v-model="service_category" class="form-select" aria-label="Default select example"
+        <select v-model="service_category" class=" FormInputs" aria-label="Default FormInputs select example"
                 :class="{BorderRed:service_category===null,BorderGreen:service_category!==null}">
-          <option :value="null">دسته بندی خدمت</option>
-          <option v-for="(service_category,idx) in categories" :key="idx" :value="service_category.serviceCategoryId">
+          <option class="" :value="null">دسته بندی خدمت</option>
+          <option class="" v-for="(service_category,idx) in categories" :key="idx" :value="service_category.serviceCategoryId">
             {{ service_category.title }}
           </option>
         </select>
@@ -32,7 +32,7 @@
           v-model="service_desc"
           row="100"
           style="color: #808080;"
-          class="form-control border rounded w-100 with-border"
+          class="form-control border rounded FormInputs w-100 with-border"
           placeholder="در مورد خدمت توضیح دهید"
           id="description"
         ></textarea>
@@ -43,7 +43,7 @@
           v-model="service_address"
           style="color: #808080;"
           row="100"
-          class="form-control border rounded w-100"
+          class="form-control border FormInputs rounded w-100"
           placeholder="آدرس خدمت"
           id="address"
         ></textarea>
@@ -79,25 +79,25 @@
       </div>
       <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
         <label>ظرفیت</label>
-        <input maxlength="11" v-model="Qty" type="number" class="with-border" placeholder="ظرفیت خدمت">
+        <input maxlength="11" v-model="Qty" type="number" class="with-border FormInputs" placeholder="ظرفیت خدمت">
       </div>
       <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
         <label>شماره مستقیم تماس *</label>
-        <input maxlength="11" v-model="mobile" type="number" class="with-border" placeholder="شماره همراه با صفر"
+        <input maxlength="11" v-model="mobile" type="number" class="with-border FormInputs" placeholder="شماره همراه با صفر"
                :class="{BorderRed:mobile===null,BorderGreen:mobile!==0}">
       </div>
       <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
         <label>شماره تلفن 1</label>
-        <input maxlength="11" v-model="phone_number1" type="number" class="with-border" placeholder="شماره تلفن">
+        <input maxlength="11" v-model="phone_number1" type="number" class="with-border FormInputs" placeholder="شماره تلفن">
       </div>
       <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
         <label>شماره تلفن 2</label>
-        <input maxlength="11" v-model="phone_number2" type="number" class="with-border" placeholder="شماره تلفن">
+        <input maxlength="11" v-model="phone_number2" type="number" class="with-border FormInputs" placeholder="شماره تلفن">
       </div>
 
       <div class="col-md-12 col-sm-12 pt-3" style="padding-left: 0">
         <label>ایمیل</label>
-        <input v-model="email" type="email" class="with-border" placeholder="ایمیل">
+        <input v-model="email" type="email" class="with-border FormInputs" placeholder="ایمیل">
       </div>
       <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
         <label class="mb-3">تاریخ شروع خدمت (اختیاری)</label>
@@ -127,7 +127,7 @@
         </div>
         <div class="my-3">
           <div class="d-flex align-items-center gap-2">
-            <input @keydown.enter="addTags" v-model="tag" type="text" ref="TagsInput" class=" form-control with-border">
+            <input @keydown.enter="addTags" v-model="tag" type="text" ref="TagsInput" class=" form-control FormInputs with-border">
 
             <button class="bg-purple text-white p-2 rounded tw-cursor-pointer" @click="addTags">ثبت</button>
           </div>
@@ -157,7 +157,7 @@
           <div class="py-3 col-lg-2 col-md-3 px-3">
             <div @click="uploadNewPicture"
                  class="tw-bg-[#f9f9f9] tw-border-2 tw-border-dashed tw-flex tw-flex-col tw-h-32 tw-items-center tw-justify-center tw-relative tw-rounded-lg">
-              <UploadFileIcon class="tw-fill-[#85ffdd]" style="width: 48px; height: 48px;"/>
+              <UploadFileIcon class="tw-fill-[#b44aff]" style="width: 48px; height: 48px;"/>
             </div>
             <input
               ref="picture_file"
@@ -192,7 +192,7 @@
             <div @click="uploadNewVideo" class="tw-bg-[#f9f9f9]
               tw-border-2 tw-border-dashed tw-flex tw-flex-col tw-h-32 tw-items-center
               tw-justify-center tw-relative tw-rounded-lg">
-              <UploadFileIcon class="tw-fill-[#85ffdd]" style="width: 48px; height: 48px;"/>
+              <UploadFileIcon class="tw-fill-[#b44aff]" style="width: 48px; height: 48px;"/>
             </div>
             <input
               ref="VideoFile"
@@ -275,7 +275,7 @@
             <div class="row">
               <div class=" col-md-3 col-sm-12">
                 <label>نام ویژگی</label>
-                <input :ref="`Title${idx}`" type="text" class="with-border" placeholder="نام ویژگی">
+                <input :ref="`Title${idx}`" type="text" class="with-border FormInputs" placeholder="نام ویژگی">
               </div>
               <div v-if="!IsFreeService" class=" col-md-3 col-sm-12 d-flex flex-column justify-content-end   ">
                 <div class="d-flex align-items-center justify-content-between">
@@ -284,11 +284,11 @@
                   <small>قیمت ویژگی</small>
                   <div class="d-flex align-items-center gap-2">
                     <small>ویژگی رایگان</small>
-                    <input type="checkbox" @click="Disable(idx)" style="width: 20px;height: 20px" class="form-check">
+                    <input type="checkbox" @click="Disable(idx)" style="width: 20px;height: 20px" class="form-check ">
                   </div>
                 </div>
 
-                <input maxlength="11" :ref="`Price${idx}`" type="number" class="with-border" placeholder="قیمت ویژگی">
+                <input maxlength="11" :ref="`Price${idx}`" type="number" class="with-border FormInputs" placeholder="قیمت ویژگی">
               </div>
               <div class="col-md-3 d-flex align-items-center">
                 <i @click="decreasePropertyCount(idx)" class="fa fa-minus-circle text-danger tw-cursor-pointer"></i>
@@ -843,5 +843,7 @@ input:checked + .slider .off {
   color: #999;
   padding-top: 8px;
 }
+
+
 </style>
 

@@ -334,7 +334,7 @@
         @mouseleave="MouseLeaveRightMenu"
         @mouseenter="MouseOverRightMenu"
       >
-        <div class="offcanvas-body px-2 mt-3" style="height: 750px!important;overflow-y: scroll!important;">
+        <div class="offcanvas-body px-2 mt-3" style="height: 850px!important;overflow-y: scroll!important;">
           <div class="d-flex flex-column" style="padding-right: 15px">
 
             <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
@@ -1718,7 +1718,7 @@ export default {
 .OffCanvas {
   z-index: 99999;
   height: 100%;
-  background-color: #faf7ff;
+  background-color: white;
   transition: 0.5s ease;
   top: 70px;
   right: -15px;

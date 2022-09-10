@@ -1,38 +1,26 @@
 <template>
   <div class="card" v-if="AdsDetail" >
     <div class="card-media tw-h-40">
-
       <nuxt-link :to="`/Migration/AdvertiseDetail/${AdsDetail.adsId}`">
         <img v-if="AdsDetail.adsInfo.photos && AdsDetail.adsInfo.photos.length>0" :src="`https://banooclubapi.simagar.com/media/gallery/adsphotos/${AdsDetail.adsInfo.photos[0].base64}`" :alt="AdsDetail.adsInfo.title">
         <img v-else :src="`/nopicture.jpg`" :alt="AdsDetail.title">
       </nuxt-link>
-
     </div>
     <div  class="card-body p-2 ">
-
-      <div class="tw-flex tw-items-center  tw-left-2  tw-justify-center position-absolute tw-top-[-15px]">
-
-        <div class="tw-top-3  tw-border-1 tw-bg-[#9cf5ff] tw-relative tw-rounded-full tw-shadow   tw-font-medium tw-px-2 tw-py-1 tw-left-2   tw-text-[#db3cd6] ">
-          {{Intl.NumberFormat('fa-IR').format(AdsDetail.adsInfo.price)}}
+      <div class="tw-relative tw-flex tw-justify-end tw-bottom-[15px] ">
+        <div class="tw-bg-[#9cf5ff] tw-rounded-full tw-shadow tw-font-medium  tw-p-1 tw-text-[#db3cd6] ">
+          <small>
+            {{Intl.NumberFormat('fa-IR').format(AdsDetail.adsInfo.price)}}
+          </small>
           <small class="Toman">تومان</small>
-
         </div>
-
       </div>
-
-
       <nuxt-link :to="`/Products/${AdsDetail.adsInfo.adsId}`" class="text-decoration-none">
         <h2 class="tw-text-lg tw-font-medium tw-mt-1 tw-t tw-truncate tw-text-slate-500 product_name tw-text-right mt-2">{{AdsDetail.adsInfo.title}}</h2>
       </nuxt-link>
       <div class="tw-text-xs tw-font-semibold tw-uppercase tw-text-yellow-500 text-end my-3">{{ AdsDetail.adsInfo.adsCategoryParents }}</div>
-
-
-
-
     </div>
   </div>
-  <!--            router.push({ path: 'register', query: { plan: 'private' } })-->
-
 </template>
 
 <script>

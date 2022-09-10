@@ -1,9 +1,9 @@
 <template>
-  <div class="row">
-    <div class="d-flex flex-row flex-wrap">
-      <AdItemWish class="my-3" v-for="item in Ads" :AdsDetail="item" :show_buttons="false"/>
+
+    <div class="tw-grid lg:tw-grid-cols-4 md:tw-grid-cols-3 tw-grid-cols-1 ">
+      <AdItemWish class="my-3 mx-auto" v-for="item in Ads" :AdsDetail="item" :show_buttons="false"/>
     </div>
-  </div>
+
 
 </template>
 

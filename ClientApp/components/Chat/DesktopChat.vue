@@ -70,7 +70,7 @@ export default {
       FirstId: 0,
       SearchConversation: "",
       AllChats: [],
-
+      ActiveUserId:0,
       ChatData: [],
       lastMessage: false,
       isLoading: false,
@@ -78,7 +78,9 @@ export default {
     }
   },
 
+
   async fetch() {
+    this.ActiveUserId = this.ActiveUser.userId
     await this.ReadMessage()
     await this.GetConversationWithScroll()
   },
@@ -86,6 +88,18 @@ export default {
     ...mapGetters(["SocketId"]),
   },
   watch: {
+    ActiveUser:{
+
+      immediate:true,
+      async  handler(val){
+if(val.userId!==this.ActiveUserId){
+  this.ChatData = []
+}
+    this.$nuxt.refresh();
+        await this.ReadMessage();
+        await this.GetConversationWithScroll();
+      }
+    },
     SocketId: {
       immediate: true,
       async handler(val) {
@@ -270,7 +284,7 @@ export default {
       } catch (e) {
         console.log(e)
       } finally {
-        // await this.GetConversationWithScroll()
+        await this.GetConversationWithScroll()
         if (this.$route.params.userId) {
           this.GoBack()
         }

@@ -1,14 +1,14 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container mcontainer bg-white">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class=" NewBg mcontainer">
     <div
       class="container-fluid px-0 rounded"
 
     >
       <div class="row">
         <div class="col-md-12 p-4">
-          <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+          <div class="tw-w-full bg-white p-3 rounded tw-shadow d-flex align-items-center justify-content-between gap-3  rounded ">
             <div class="d-flex align-items-center gap-2">
-              <img src="/girl-icon-ads-afzodan.png" class="tw-w-[7rem] tw-h-20" alt="">
+              <img src="/girl-icon-ads-afzodan.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
               <div class="d-flex align-items-center flex-column">
                 <h1 class="text-purple h6">ثبت آگهی</h1>
                 <strong class="text-pink">Add AdvertiseMents</strong>
@@ -16,7 +16,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12 p-4 bg-white rounded tw-shadow">
           <div class="row p-3 px-5">
             <div class="col-md-12">
               <div class="row">
@@ -25,7 +25,7 @@
 
                   <div class="col-md-12 px-0">
                     <div class="my-3">
-                      <select class="form-control" v-model="categoryId">
+                      <select class="FormInputs" v-model="categoryId">
                         <option
                           v-for="(item, index) in categories"
                           :value="item.adsCategoryId"
@@ -44,7 +44,7 @@
               <div class="labelText">عنوان آگهی*</div>
               <div class="my-3">
                 <input
-                  class="border BgInput w-100 rounded p-1"
+                  class="border FormInputs w-100 rounded p-1"
                   maxlength="50"
                   type="text"
                   v-model.trim="title"
@@ -55,7 +55,7 @@
             <div class="col-md-6">
               <div class="labelText">وضعیت کالا*</div>
               <div class="my-3">
-                <select v-model="Status" class="form-control BgInput w-100">
+                <select v-model="Status" class="form-control FormInputs w-100">
                   <option :value="1">نو</option>
                   <option :value="2">دست دوم</option>
                 </select>
@@ -63,7 +63,7 @@
             </div>
             <div class="col-md-12 my-3">
               <div class="labelText">شماره موبایل*</div>
-              <input type="tel" placeholder="با صفر اول وارد کنید" class="form-control BgInput with-border" v-model="PhoneNumber">
+              <input type="tel" placeholder="با صفر اول وارد کنید" class="form-control FormInputs with-border" v-model="PhoneNumber">
             </div>
 
 
@@ -132,7 +132,7 @@
                 :options="AllStates"
                 label="name"
                 dir="rtl"
-                class="selectWidth BgInput w-100"
+
                 placeholder="استان*"
                 v-model="SelectedStateId"
                 :reduce="(name) => name.stateId"
@@ -144,7 +144,6 @@
                 :options="AllCities"
                 label="name"
                 dir="rtl"
-                class="selectWidth BgInput w-100"
                 placeholder="شهر*"
                 v-model="SelectedCityId"
                 :reduce="(name) => name.cityId"
@@ -157,7 +156,7 @@
                 <input
                   v-model="Tags"
                   type="text"
-                  class="form-control BgInput with-border"
+                  class="form-control FormInputs with-border"
                   placeholder="لباس,تیشرت,شلوار..."
                 />
               </div>
@@ -166,7 +165,7 @@
               <div class="labelText">قیمت (تومان)*</div>
               <div class="my-3">
                 <input
-                  class="rounded BgInput border p-1 w-100"
+                  class="rounded FormInputs border p-1 w-100"
                   type="text"
                   v-model="formattedValuePrice"
                 />
@@ -176,7 +175,7 @@
               <div class="labelText">توضیحات آگهی</div>
               <div class="my-3">
               <textarea
-                class="border BgInput rounded form-control"
+                class="border FormInputs rounded form-control"
                 rows="1"
                 placeholder="در مورد ویژگی های کالا توضیح دهید"
                 v-model.trim="description"
