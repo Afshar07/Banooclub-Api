@@ -211,83 +211,93 @@ namespace BanooClub.Services.ServicePackServices
             return item;
         }
 
-        public async Task<object> GetAll(int pageNumber, int count, string searchCommand,
-            ServiceFilter serviceFilter, ServicePackStatus? status, long categoryId)
+        public async Task<object> GetAll(ServicePackFilterDto searchFilter)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                        ? _accessor.HttpContext.User.Identity.GetUserId()
                        : 0;
 
-            if (searchCommand == null)
+            if (searchFilter.SearchCommand == null)
             {
-                searchCommand = "";
+                searchFilter.SearchCommand = "";
             }
             List<ServicePack> servicePacks = new List<ServicePack>();
 
             string cmd = "";
-            switch (serviceFilter)
-            {
-                case ServiceFilter.All:
-                    {
-                        if (categoryId > 0)
-                            cmd = "select s.* from [Service].[ServicePacks] s " +
+
+            if (searchFilter.CategoryId > 0)
+                cmd = "select s.* from [Service].[ServicePacks] s " +
                                 "inner join [Service].[ServiceCategories] c on s.ServiceCategoryId = c.ServiceCategoryId " +
-                                $"where s.IsDeleted='false' And s.ServiceCategoryId = {categoryId} order by CreateDate desc";
-                        else
-                            cmd = "select * from Service.ServicePacks where IsDeleted='false' order by CreateDate desc";
-                    }
-                    break;
-                //order by viewCount
-                case ServiceFilter.Suggestion:
-                    {
-                        if (categoryId > 0)
-                            cmd = "SELECT [Service].ServicePacks.*, [Common].Views.Count as ViewsCount " +
-                                  "from [Service].ServicePacks inner join [Service].[ServiceCategories] " +
-                                  "on [Service].ServicePacks.ServiceCategoryId = [Service].[ServiceCategories].ServiceCategoryId " +
-                                  "INNER JOIN [Common].Views ON [Service].ServicePacks.ServicePackId = [Common].Views.ObjectId " +
-                                  " where [Service].ServicePacks.IsDeleted='false' " +
-                                  $"And [Service].ServicePacks.ServiceCategoryId = {categoryId} order by ViewsCount desc ";
-                        else
-                            cmd = "SELECT [Service].ServicePacks.*, [Common].Views.Count as ViewsCount " +
-                                  "FROM [Service].ServicePacks  INNER JOIN " +
-                                  "[Common].Views ON [Service].ServicePacks.ServicePackId = [Common].Views.ObjectId where [Service].ServicePacks.IsDeleted='false' order by ViewsCount desc";
-                    }
-                    break;
-                //order by rate
-                case ServiceFilter.Top:
-                    if (categoryId > 0)
-                    {
-                        cmd = "select t1.*,rateavg from [Service].ServicePacks t1 " +
-                          "left join (SELECT ObjectId, avg(Rate) as rateavg FROM [Common].Ratings GROUP BY ObjectId) " +
-                          "t2 on t1.ServicePackId = t2.ObjectId " +
-                          "Inner Join [Service].[ServiceCategories] c on c.ServiceCategoryId = t1.ServiceCategoryId " +
-                          $"where t1.IsDeleted='false' And t1.ServiceCategoryId = {categoryId}";
-                    }
-                    else
-                        cmd = "select t1.*,rateavg from [Service].ServicePacks t1 " +
-                          "left join (SELECT ObjectId, avg(Rate) as rateavg FROM [Common].Ratings GROUP BY ObjectId) t2 on t1.ServicePackId = t2.ObjectId where t1.IsDeleted='false'";
-                    break;
-                default:
-                    break;
-            }
+                                $"where s.IsDeleted='false' And s.ServiceCategoryId = {searchFilter.CategoryId} order by CreateDate desc";
+            else
+                cmd = "select * from Service.ServicePacks where IsDeleted='false' order by CreateDate desc";
+
             var DeSerializeObj = await servicePackRepository.DapperSqlQuery(cmd);
 
             var objSer = JsonSerializer.Serialize<object>(DeSerializeObj);
             servicePacks = JsonSerializer.Deserialize<List<ServicePack>>(objSer);
 
-            if (status != null)
+            if (searchFilter.Status != null)
             {
-                servicePacks = servicePacks.Where(z => z.Status == status).ToList();
+                servicePacks = servicePacks.Where(z => z.Status == searchFilter.Status).ToList();
             }
-            var servicesCount = servicePacks.Count;
-            if (pageNumber != 0 && count != 0)
+
+            if (searchFilter.FromPrice > 0)
+                servicePacks = servicePacks.Where(x => x.TotalPrice >= searchFilter.FromPrice).ToList();
+
+            if (searchFilter.ToPrice > 0)
+                servicePacks = servicePacks.Where(x => x.TotalPrice <= searchFilter.ToPrice).ToList();
+
+            if (searchFilter.CityId > 0)
+                servicePacks = servicePacks.Where(x => x.CityId == searchFilter.CityId).ToList();
+
+            if (searchFilter.StateId > 0)
+                servicePacks = servicePacks.Where(x => x.StateId == searchFilter.StateId).ToList();
+
+            if (searchFilter.HasDiscount)
             {
-                servicePacks = servicePacks.Where(z => z.Title.Contains(searchCommand)).ToList();
-                servicePacks = servicePacks.Skip((pageNumber - 1) * count).Take(count).ToList();
+                var servicePackIds = servicePacks.Select(x => x.ServicePackId).ToList();
+
+                var discountsForServices = _discountRepository.GetQuery()
+                    .AsNoTracking()
+                    .Where(x => servicePackIds.Contains(x.ServicePackId));
+
+                var finalservicePackIds = new List<long>();
+
+                foreach(var item in discountsForServices)
+                {
+                    if (item.ExpireDate != null && item.ExpireDate > DateTime.Now)
+                        servicePackIds.Add(item.ServicePackId);
+                    else if (item.StartDate != null && item.StartDate <= DateTime.Now)
+                        servicePackIds.Add(item.ServicePackId);
+                    else if (item.ExpireDate == null && item.StartDate == null)
+                        servicePackIds.Add(item.ServicePackId);
+                }
+
+                servicePacks = servicePacks.Where(x => finalservicePackIds.Contains(x.ServicePackId)).ToList();
+            }
+
+            if (searchFilter.IsFunTime)
+            {
+                var categoryIds = servicePacks.Select(x => x.ServiceCategoryId).ToList();
+
+                var categories = categoryRepository.GetQuery()
+                    .AsNoTracking()
+                    .Where(x => categoryIds.Contains(x.ServiceCategoryId) && x.IsFunTime)
+                    .Select(x => x.ServiceCategoryId);
+
+                servicePacks = servicePacks.Where(x => categories.Contains(x.ServiceCategoryId)).ToList();
+            }
+
+                var servicesCount = servicePacks.Count;
+            if (searchFilter.PageNumber != 0 && searchFilter.Count != 0)
+            {
+                servicePacks = servicePacks.Where(z => z.Title.Contains(searchFilter.SearchCommand)).ToList();
+                servicePacks = servicePacks.Skip((searchFilter.PageNumber - 1) * searchFilter.Count).Take(searchFilter.Count).ToList();
             }
             else
             {
-                servicePacks = servicePacks.Where(z => z.Title.Contains(searchCommand)).ToList();
+                servicePacks = servicePacks.Where(z => z.Title.Contains(searchFilter.SearchCommand)).ToList();
             }
 
             foreach (var servicePack in servicePacks)
@@ -492,7 +502,7 @@ namespace BanooClub.Services.ServicePackServices
             service.Tags = tagRepository.GetQuery().Where(z => z.Type == TagType.Service && z.ObjectId == id).ToList();
             service.UserInfo = userRepository.GetQuery().FirstOrDefault(z => z.UserId == service.UserId);
 
-            if(service.OwnerUserIds != null)
+            if (service.OwnerUserIds != null)
             {
                 service.OwnerUserInfos = new List<User>();
 
