@@ -72,16 +72,16 @@
         <div class="d-flex">
           <div class="d-flex flex-column" @click="goToServiceProfile(post_details.userInfo)">
             <img
-              v-if="(post_details.userInfo && post_details.userInfo.selfieFileData && inMyPosts)"
+              v-if="(post_details.userInfo && post_details.userInfo.selfieFileData && $route.path==='/social')"
               class="IMG-FLUID myPicture tw-rounded"
-              :src="`https://banooclubapi.simagar.com/media/gallery/Profile/${post_details.userInfo.selfieFileData}`"
+              :src="`https://banooclubapi.simagar.com/media/gallery/profile/${post_details.userInfo.selfieFileData}`"
               alt=""
               style="width: 40px; height: 40px;border-radius: 50%; object-fit: contain; cursor: pointer"
             />
             <img
-              v-else-if="post_details.userInfo && post_details.userInfo.selfieFileData && !inMyPosts"
+              v-else-if="post_details.userInfo && post_details.userInfo.selfieFileData && $route.path!=='/social'"
               class="IMG-FLUID myPicture tw-rounded"
-              :src="`https://banooclubapi.simagar.com/media/gallery/Profile/${post_details.userInfo.selfieFileData}`"
+              :src="`https://banooclubapi.simagar.com/${post_details.userInfo.selfieFileData}`"
               alt=""
               style="width: 40px; height: 40px;border-radius: 50%; object-fit: contain; cursor: pointer"
             />
