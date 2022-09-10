@@ -156,7 +156,7 @@ namespace BanooClub.Services.ForumServices
                 }
             }
 
-            await forumRepository.Save();
+            await forumRepository.Update(item);
             return item;
         }
 
@@ -264,9 +264,7 @@ namespace BanooClub.Services.ForumServices
             bool? mostRated, bool? mostComments, long? categoryId, bool? mostViewed)
         {
             if (searchCommand == null)
-            {
                 searchCommand = "";
-            }
 
             List<Forum> forums = new List<Forum>();
             forums = forumRepository.GetQuery().Where(z => z.Title.Contains(searchCommand)).OrderByDescending(z => z.CreateDate).ToList();
