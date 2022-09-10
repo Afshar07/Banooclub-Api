@@ -32,7 +32,7 @@
     </div>
 
       <div class="tw-overflow-x-auto bg-white mt-3 rounded p-3">
-        <table class="tw-table tw-w-full tw-table-compact tw-table-zebra" style="border-radius: 10px;box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;">
+        <table class="tw-table tw-w-full tw-table-compact tw-table-zebra">
           <!-- head -->
           <thead>
           <tr>

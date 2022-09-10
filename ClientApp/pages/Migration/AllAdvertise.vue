@@ -182,9 +182,9 @@
                       </div>
                       <div class="col-md-12"  style="height: 1000px; overflow-y: scroll">
                         <AllAdsTabContent :Ads="AllAds" :categories="categories"/>
-                      <div class="col-md-12 d-flex align-items-center justify-content-center">
-                        <Spinner></Spinner>
-                      </div>
+<!--                      <div class="col-md-12 d-flex align-items-center justify-content-center">-->
+<!--                        <Spinner></Spinner>-->
+<!--                      </div>-->
                       </div>
                     </div>
                   </div>
