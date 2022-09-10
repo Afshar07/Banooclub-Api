@@ -26,13 +26,11 @@ namespace BanooClub.Services.ServicePropertyServices
             var creation = servicePropertyRepository.Insert(inputDto);
 
             var servicePack = _servicePackRepostitory.GetQuery()
-                .AsNoTracking()
-                .SingleOrDefault(x => x.ServicePackId == creation.ServiceId);
-
+                .FirstOrDefault(x => x.ServicePackId == creation.ServiceId);
             if (servicePack != null)
             {
                 servicePack.TotalPrice += creation.Price;
-                await _servicePackRepostitory.Save();
+                await _servicePackRepostitory.Update(servicePack);
             }
 
             return creation.ServicePropertyId;
@@ -40,31 +38,39 @@ namespace BanooClub.Services.ServicePropertyServices
 
         public async Task<ServiceProperty> Update(ServiceProperty item)
         {
-            var previousPrice = servicePropertyRepository.GetQuery()
-                .AsNoTracking()
-                .SingleOrDefault(x => x.ServicePropertyId == item.ServicePropertyId)?.Price ?? 0;
+            //var previousPrice = servicePropertyRepository.GetQuery()
+            //    .AsNoTracking()
+            //    .SingleOrDefault(x => x.ServicePropertyId == item.ServicePropertyId)?.Price ?? 0;
 
+            //await servicePropertyRepository.Update(item);
+
+            //if (item.Price != previousPrice)
+            //{
+            //    var servicePack = _servicePackRepostitory.GetQuery()
+            //        .AsNoTracking()
+            //        .SingleOrDefault(x => x.ServicePackId == item.ServiceId);
+
+            //    if (servicePack != null)
+            //    {
+            //        if (previousPrice == 0)
+            //            servicePack.TotalPrice += item.Price;
+            //        else if (previousPrice > item.Price)
+            //            servicePack.TotalPrice -= (previousPrice - item.Price);
+            //        else
+            //            servicePack.TotalPrice += (item.Price - previousPrice);
+
+            //        await _servicePackRepostitory.Save();
+            //    }
+            //}
+
+            item.IsDeleted = false;
             await servicePropertyRepository.Update(item);
-
-            if (item.Price != previousPrice)
+            var dbServicePack = _servicePackRepostitory.GetQuery().FirstOrDefault(z=>z.ServicePackId == item.ServiceId);
+            if(dbServicePack != null)
             {
-                var servicePack = _servicePackRepostitory.GetQuery()
-                    .AsNoTracking()
-                    .SingleOrDefault(x => x.ServicePackId == item.ServiceId);
-
-                if (servicePack != null)
-                {
-                    if (previousPrice == 0)
-                        servicePack.TotalPrice += item.Price;
-                    else if (previousPrice > item.Price)
-                        servicePack.TotalPrice -= (previousPrice - item.Price);
-                    else
-                        servicePack.TotalPrice += (item.Price - previousPrice);
-
-                    await _servicePackRepostitory.Save();
-                }
+                dbServicePack.TotalPrice = servicePropertyRepository.GetQuery().Where(z=>z.ServiceId == dbServicePack.ServicePackId).Sum(x=>x.Price);
+                await _servicePackRepostitory.Update(dbServicePack);
             }
-
             return item;
         }
 

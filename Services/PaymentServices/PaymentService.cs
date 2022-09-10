@@ -40,7 +40,7 @@ namespace BanooClub.Services.PaymentServices
             this.orderItemRepository = orderItemRepository;
             this.walletRepository = walletRepository;
             this.servicePlanRepository = servicePlanRepository;
-            this.servicePlanRepository = servicePlanRepository;
+            this.servicePackRepository = servicePackRepository;
             this.adsRepository = adsRepository;
             this.planRepository = planRepository;
             _smsSenderService = smsSenderService;
@@ -195,6 +195,7 @@ namespace BanooClub.Services.PaymentServices
                 dbWallet.Credit -= dbOrder.SumPrice;
                 await walletRepository.Update(dbWallet);
                 dbOrder.Status = OrderStatus.Payed;
+                dbOrder.IsPayed = true;
                 await orderRepository.Update(dbOrder);
             }
             else
