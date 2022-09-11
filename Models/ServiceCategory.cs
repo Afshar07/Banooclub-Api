@@ -6,6 +6,7 @@ namespace BanooClub.Models
     {
         public long ServiceCategoryId { get; set; }
         public string Title { get; set; }
+        public bool IsFunTime { get; set; }
         public string Description { get; set; }
         public string SEOTitle { get; set; }
         public string SEODescription { get; set; }
