@@ -64,7 +64,7 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]"), AllowAnonymous]
-        public async Task<object> GetAll(ServicePackFilterDto searchFilter)
+        public async Task<object> GetAll([FromQuery] ServicePackFilterDto searchFilter)
         {
             return await servicePackService.GetAll(searchFilter);
         }
