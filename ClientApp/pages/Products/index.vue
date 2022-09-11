@@ -1,47 +1,51 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container NewBg mcontainer px-2">
-      <div class="tw-w-full bg-white tw-shadow p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
-        <div class="d-flex align-items-center gap-2">
-          <img src="/girl-icon-khadamat.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
-          <div class="d-flex align-items-center flex-column">
-            <h1 class="text-purple h6"> خدمات</h1>
-            <strong class="text-pink">Services</strong>
-          </div>
+    <div class="tw-w-full bg-white tw-shadow p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+      <div class="d-flex align-items-center gap-2">
+        <img src="/girl-icon-khadamat.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
+        <div class="d-flex align-items-center flex-column">
+          <h1 class="text-purple h6"> خدمات</h1>
+          <strong class="text-pink">Services</strong>
         </div>
-
-        <button v-tooltip="{content:'ثبت خدمت'}" @click="$router.push('/Products/AddProduct')" class="btn AddReplyBtn text-white">
-          <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
-        </button>
       </div>
-      <div class="bg-white tw-shadow rounded my-3 p-3">
-        <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
-          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-            <button  class="nav-link active" id="products-pills-home-tab" data-bs-toggle="pill"
-                     data-bs-target="#products-pills-home" type="button" role="tab" aria-controls="products-pills-home" aria-selected="true">
-              همه خدمات
-            </button>
-          </li>
-          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-            <button  class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
-              پیشنهادات
-            </button>
-          </li>
-        </ul>
 
-        <div class="tab-content" id="pills-tabContent">
-          <div class="tab-pane fade show active" id="products-pills-home" role="tabpanel" aria-labelledby="products-pills-home-tab">
-            <div class="row boxMainContent mx-auto">
-              <div class="col-12 text-center " style="height: 1000px;overflow-y: scroll">
-                <AllServicesTabContent @CategoryChanged="SetSelectedCategoryId" @SearchCommandFired="SearchCommand" @PageChanged="ChangePage" :Categories="categories" @RefetchServices="GetAllServices" :SelectedPageId="SelectedPageId" :AllServices="AllServices" :totalpages="totalPages"/>
-              </div>
+      <button v-tooltip="{content:'ثبت خدمت'}" @click="$router.push('/Products/AddProduct')"
+              class="btn AddReplyBtn text-white">
+        <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+      </button>
+    </div>
+    <div class="bg-white tw-shadow rounded my-3 p-3">
+      <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
+          <button class="nav-link active" id="products-pills-home-tab" data-bs-toggle="pill"
+                  data-bs-target="#products-pills-home" type="button" role="tab" aria-controls="products-pills-home"
+                  aria-selected="true">
+            همه خدمات
+          </button>
+        </li>
+        <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
+          <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+                  type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+            پیشنهادات
+          </button>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="products-pills-home" role="tabpanel"
+             aria-labelledby="products-pills-home-tab">
+          <div class="row boxMainContent mx-auto">
+            <div class="col-12 text-center ">
+              <AllServicesTabContent :Categories="categories"/>
             </div>
           </div>
-          <div class="tab-pane fade " id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-            <FirstTabContent @RefetchServices="GetAllServices"   :AllServices="AllServicesFirstTab"  :categories="categories"  />
-          </div>
+        </div>
+        <div class="tab-pane fade " id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+          <FirstTabContent @RefetchServices="GetAllServices" :AllServices="AllServicesFirstTab"
+                           :categories="categories"/>
         </div>
       </div>
-
+    </div>
 
 
   </div>
@@ -59,10 +63,11 @@ import FirstTabContent from "../../components/Products/FirstTabContent";
 
 import PlusIcon from "@/components/Icons/PlusIcon";
 import AllServicesTabContent from "../../components/Products/AllServicesTabContent";
+
 export default {
   name: "index",
   layout: "PoshtebamPlusLayout",
-  components:{
+  components: {
     AllServicesTabContent,
     FirstTabContent,
     LeftChevronIcon,
@@ -84,112 +89,74 @@ export default {
       ],
     }
   },
-  data(){
-    return{
-      categories:[],
-      AllServices:[],
-      totalPages:[],
-      AllServicesFirstTab:[],
-      SelectedPageId:1,
-      Search:'',
-      SelectedCategoryId:0
+  data() {
+    return {
+      categories: [],
+      AllServices: [],
+      totalPages: [],
+      AllServicesFirstTab: [],
+      SelectedPageId: 1,
+      Search: '',
+      SelectedCategoryId: 0
     }
   },
-  methods:{
-    SetSelectedCategoryId(id){
-      this.SelectedCategoryId = id
-      this.GetAllServices()
-    },
-    async GetAllServices(){
+  methods: {
+
+    async GetAllServices() {
       try {
         const res = await this.$repositories.getAllServices.getAllServices(
           {
-            pageNumber:this.SelectedPageId,
-            count:10  ,
-            searchCommand:this.Search,
-            status:1,
-            categoryId:this.SelectedCategoryId
+            pageNumber: this.SelectedPageId,
+            count: 10,
+            searchCommand: this.Search,
+            status: 1,
+            categoryId: this.SelectedCategoryId
 
-          }
-        )
+          })
         this.AllServices = res.data.services
         this.totalPages = []
-        const result = Math.ceil( res.data.servicesCount / 10)
+        const result = Math.ceil(res.data.servicesCount / 10)
         for (let i = 1; i <= result; i++) {
           this.totalPages.push(i);
         }
 
-      }
-      catch (error){
+      } catch (error) {
         console.log(error)
       }
     },
-    ChangePage(id){
-      this.SelectedPageId =id
-      this.GetAllServices()
-    },
-    SearchCommand(SearchString){
-      this.Search = SearchString
-      if(this.Search.length>=3|| this.Search===''){
-        this.GetAllServices()
-      }
 
-    }
   },
 
-  async fetch(){
+  async fetch() {
 
     try {
-      const allCategories = await this.$repositories.getAllServicesCategory.getAllServicesCategory();
-      this.categories = allCategories.data.serviceCategories;
+      const res = await this.$repositories.getAllServicesCategory.getAllServicesCategory()
+      console.log(res)
+      this.categories = res.data.serviceCategories
+    } catch (e) {
+      console.log(e)
     }
-    catch (error){
-      console.log(error)
-    }
 
 
-    try {
-      const res = await this.$repositories.getAllServices.getAllServices(
-        {
-          pageNumber:this.SelectedPageId,
-          count:10,
-          searchCommand:'',
-          status:1,
-
-        }
-      )
-      this.AllServices = res.data.services
-      this.totalPages = []
-      const result = Math.ceil( res.data.servicesCount / 10)
-      for (let i = 1; i <= result; i++) {
-        this.totalPages.push(i);
-      }
-
-
-    }
-    catch (error){
-      console.log(error)
-    }
     try {
       const res = await this.$repositories.getAllServices.getAllServices(
         {
-          pageNumber:this.SelectedPageId,
-          count:10000,
-          searchCommand:'',
-          status:1,
+          pageNumber: this.SelectedPageId,
+          count: 1000,
+          searchCommand: '',
+          status: 1,
 
         }
       )
       this.AllServicesFirstTab = res.data.services
       this.totalPages = []
-      const result = Math.ceil( res.data.servicesCount / 10)
+      const result = Math.ceil(res.data.servicesCount / 10)
       for (let i = 1; i <= result; i++) {
         this.totalPages.push(i);
       }
 
 
-    }
-    catch (error){
+    } catch (error) {
       console.log(error)
     }
 
@@ -207,6 +174,7 @@ export default {
     margin-right: auto;
   }
 }
+
 @media (max-width: 1024px) {
   .mcontainer {
     max-width: 1000px;
@@ -215,6 +183,7 @@ export default {
     margin-right: auto;
   }
 }
+
 /*@media (max-width: 375px) {*/
 /*  .vueperslide.vueperslide--active.vueperslide--visible{*/
 /*    margin-left: 3% !important;*/
@@ -227,15 +196,17 @@ export default {
 /*  }*/
 /*}*/
 .nav-pills .nav-link {
-  border-bottom: 3px solid transparent ;
+  border-bottom: 3px solid transparent;
 }
+
 .nav-link {
   font-weight: 500;
   color: #8c8d90 !important;
   font-weight: 500;
   padding: 5px 9px 15px;
 }
-.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #0d6efd !important;
   background-color: transparent;
   font-weight: 500;
