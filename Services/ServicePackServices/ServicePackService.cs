@@ -272,6 +272,7 @@ namespace BanooClub.Services.ServicePackServices
                         servicePackIds.Add(item.ServicePackId);
                     else if (item.ExpireDate == null && item.StartDate == null)
                         servicePackIds.Add(item.ServicePackId);
+                    
                 }
 
                 servicePacks = servicePacks.Where(x => finalservicePackIds.Contains(x.ServicePackId)).ToList();
