@@ -13,7 +13,7 @@
             </div>
           </div>
           <div class=" mt-auto pt-3">
-            <button type="button" class="button tw-w-full mt-auto" @click="createOrder">
+            <button type="button" class=" bg-purple text-white p-2 rounded tw-cursor-pointer  tw-w-full mt-auto" @click="createOrder">
               ثبت
             </button>
           </div>

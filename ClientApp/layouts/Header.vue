@@ -660,7 +660,7 @@
 
           </button>
           <nuxt-link to="/social">
-            بانوکلاب
+            <img src="/t5.png" class="tw-h-10  tw-object-cover" alt="">
           </nuxt-link>
         </div>
         <div v-if="!isChatLayout" class="col-lg-5 col-xl-4 header_search tw-relative">
@@ -684,7 +684,7 @@
                 <img
                   v-if="item.selfieFileData !== ''"
                   class="img-fluid myPicture rounded-circle tw-pl-0"
-                  :src="`https://banooclubapi.simagar.com/media/gallery/profile/${item.selfieFileData}`"
+                  :src="`https://banooclubapi.simagar.com/${item.selfieFileData}`"
                   alt=""
                   style="width: 25px; height: 25px;object-fit: contain"
                 />
@@ -887,7 +887,7 @@
 
             </button>
             <nuxt-link to="/social">
-              بانوکلاب
+              <img src="/t5.png" class="tw-h-10  tw-object-cover" alt="">
             </nuxt-link>
           </div>
           <div @click="$emit('sidenavToggle')" class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
@@ -919,9 +919,9 @@
           <div class="d-flex justify-content-between align-items-center">
             <form class="col-11 px-1">
             <span class="searchIconMobile position-absolute">
-              <font-awesome-icon icon="search" color="#999"/>
+              <font-awesome-icon icon="search" color="#fcf5ff"/>
             </span>
-              <input v-model="SearchUsers" value="" type="text" class="form-control search_style"
+              <input v-model="SearchUsers" value="" type="text" class="SearchStyle "
                      placeholder="جستجو دوستان" autocomplete="off">
             </form>
             <button
@@ -931,7 +931,7 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="w-100 bg-white p-3" v-if="SearchUsers !== ''">
+          <div class="w-100 tw-bg-[#fcf5ff]  rounded p-3" v-if="SearchUsers !== ''">
             <div
               class="row styleCursor d-flex justify-content-center align-items-center"
               v-for="(item,idx) in userData"
@@ -958,7 +958,7 @@
               <div class="col-11">
                 <div class="d-flex flex-column">
                   <div v-if="item.name !== undefined" style="font-size: 16px; font-weight: 500;color: #2d2d2d;">
-                    <small class="text-dark">{{
+                    <small class="text-purple">{{
                         item.name + " " + item.familyName
                       }}</small>
                   </div>

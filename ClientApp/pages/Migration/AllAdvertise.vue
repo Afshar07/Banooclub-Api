@@ -157,7 +157,7 @@
 
 
                                 <v-select
-                                  @input="GetCity"
+
                                   :options="AllCities"
                                   label="name"
                                   dir="rtl"
@@ -466,18 +466,6 @@ export default {
     margin-right: auto;
   }
 }
-
-/*@media (max-width: 375px) {*/
-/*  .vueperslide.vueperslide--active.vueperslide--visible{*/
-/*    margin-left: 3% !important;*/
-/*  }*/
-/*  .vueperslide.vueperslide--visible{*/
-/*    margin-left: 3% !important;*/
-/*  }*/
-/*  .vueperslide{*/
-/*    margin-left: 3% !important;*/
-/*  }*/
-/*}*/
 .nav-pills .nav-link {
   border-bottom: 3px solid transparent;
 }

@@ -22,7 +22,11 @@
                 :class="{BorderRed:service_category===null,BorderGreen:service_category!==null}">
           <option class="" :value="null">دسته بندی خدمت</option>
           <option class="" v-for="(service_category,idx) in categories" :key="idx" :value="service_category.serviceCategoryId">
+            <small>
             {{ service_category.title }}
+              <span v-if="service_category.isFunTime" class="badge pill  bg-purple text-white">(شادی تایم)</span>
+            </small>
+
           </option>
         </select>
       </div>
