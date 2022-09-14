@@ -31,7 +31,7 @@
     >
       <template v-slot:title>گزارش پست</template>
       <template v-slot:content>
-        <div class="d-flex align-items-center p-3 justify-content-between">
+        <div class="d-flex flex-column  p-3 ">
           <div v-for="item in PostReports" :key="item.ReportId" class="d-flex align-items-center gap-2">
             <input type="radio" class="form-check" v-model="reportReason" :value="item.ReportDescription" name="Reports">
             <small>{{ item.ReportDescription }}</small>
@@ -188,10 +188,8 @@
           <button v-if="post_details.userInfo && !(post_details.userInfo.userId === $auth.user.userInfo.userId)" @click="likePost(post_details.postId, post_details.userId)"
                   class="tw-flex tw-items-center tw-space-x-2 text-decoration-none text-dark">
             <div class="tw-p-2 tw-rounded-full  tw-text-black d-flex align-items-center">
-              <img v-if="post_details.isLikedByMe" src="/like-small.png" style="width: 20px; height: 20px" alt="">
-              <img v-else src="/dislike-small.png" style="width: 20px; height: 20px" alt="">
-
-
+              <img v-if="post_details.isLikedByMe" src="/like-small.png" style="width: 30px; height: 30px" alt="">
+              <img v-else src="/dislike-small.png" style="width: 30px; height: 30px" alt="">
             </div>
           </button>
         </div>
@@ -243,7 +241,7 @@
                  style="border-radius: 50px; background-color: #fcf5ff; height: 40px !important;"
                  value="" type="text" class="form-control mx-1"
                  placeholder="نظر خود را وارد کنید...">
-          <button style="font-weight: 600" class="px-2 button mx-1"
+          <button style="font-weight: 600" class="px-2 tw-bg-[#e2a7ff] text-white p-2 rounded mx-1"
                   @click="addComment">
             ثبت
           </button>
@@ -585,6 +583,7 @@ export default {
 <style scoped>
 .post_images{
   height: 100%;
+  border-radius: 20px;
   width: 100%;
   object-fit: contain;
   object-position: center;

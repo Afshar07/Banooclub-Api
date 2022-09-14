@@ -40,7 +40,7 @@
         <div class="row mb-3">حریم خصوصی</div>
         {{ $store.state.loggedInfo.isPrivate }}
         <div class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2">
-          <div v-tooltip="{trigger :'click hover focus',content:'با فعال کردن این گزینه نمایش گالری شما برای کاربرانی که شما را دنبال نکرده اند قفل میشود'}" class="position-relative tw-cursor-pointer">
+          <div v-tooltip="{trigger :'manual',show :false,content:'با فعال کردن این گزینه نمایش گالری شما برای کاربرانی که شما را دنبال نکرده اند قفل میشود'}" class="position-relative tw-cursor-pointer">
             <i class="fas fa-question-circle tw-text-blue-400 position-absolute bottom-0 end-0 "></i>
             <div class="sidenavOptionText">قفل نمایش گالری</div>
           </div>

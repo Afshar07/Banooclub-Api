@@ -1,8 +1,8 @@
 <template>
-  <div class="row" v-if="followList">
-    <div @click="goToUserProfile(item.userInfo)" class="col-md-3 tw-cursor-pointer my-2 p-3"
+  <div class="row "  v-if="followList">
+    <div @click="goToUserProfile(item.userInfo)" class="col-md-3  tw-cursor-pointer my-2 p-3"
          v-for="(item, index) in followList" :key="index">
-      <div class="rounded shadow border d-flex flex-column justify-content-center align-items-center ">
+      <div class="rounded shadow border d-flex flex-column bg-white justify-content-center align-items-center ">
             <div class="Card-Img tw-w-full tw-h-[10rem] relative">
               <img :src="isARequestCard ? requestUserAvatar(item) : userAvatar(item)" class="custom-image tw-absolute -tw-translate-y-1/4  tw-top-1/4  -tw-translate-x-1/2 tw-left-1/2 " alt="">
               <img alt="User Avatar" :src="isARequestCard ? requestUserBanner(item) : userBanner(item)" class="tw-w-full tw-h-full tw-object-cover  "/>
@@ -83,28 +83,28 @@ export default {
 
     userAvatar(user) {
       if (user.userInfo.selfieFileData) {
-        return `https://banooclubapi.simagar.com/media/gallery/profile/${user.userInfo.selfieFileData}`;
+        return `https://banooclubapi.simagar.com/${user.userInfo.selfieFileData}`;
       } else {
         return "/defaultUser.png";
       }
     },
     userBanner(user) {
       if (user.userInfo.bannerFileData) {
-        return `https://banooclubapi.simagar.com/media/gallery/banner/${user.userInfo.bannerFileData}`;
+        return `https://banooclubapi.simagar.com/${user.userInfo.bannerFileData}`;
       } else {
         return "/defaultUser.png";
       }
     },
     requestUserBanner(user){
       if (user.followerInfo.bannerFileData) {
-        return `https://banooclubapi.simagar.com/media/gallery/banner/${user.followerInfo.bannerFileData}`;
+        return `https://banooclubapi.simagar.com/${user.followerInfo.bannerFileData}`;
       } else {
         return "/defaultUser.png";
       }
     },
     requestUserAvatar(user) {
       if (user.followerInfo.selfieFileData) {
-        return `https://banooclubapi.simagar.com/media/gallery/profile/${user.followerInfo.selfieFileData}`;
+        return `https://banooclubapi.simagar.com/${user.followerInfo.selfieFileData}`;
       } else {
         return "/defaultUser.png";
       }

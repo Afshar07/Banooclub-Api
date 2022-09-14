@@ -138,8 +138,8 @@
         </div>
       </template>
     </CustomModal>
-    <div class="tw-flex tw-items-center tw-shadow tw-justify-between bg-white tw-rounded gap-2 p-3">
-      <img src="/girl-icon-post.png" class="tw-w-20 tw-h-20" alt="">
+    <div class="tw-flex tw-items-center tw-shadow tw-justify-between bg-white tw-rounded gap-2 p-3" style="border-radius: 8px!important;">
+      <img src="/girl-icon-post.png" class="tw-w-[6rem] tw-h-20" alt="">
       <div class="w-100" @click="showModal = true">
         <input value="" type="text" class="SearchStyle  tw-cursor-pointer tw-text-[#b44aff]" disabled placeholder="+افزودن پست"
                autocomplete="off">

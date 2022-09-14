@@ -63,6 +63,7 @@
               </b-link>
           </template>
           <template #cell(type)="data">
+            <span class="badge pill text-white bg-primary" v-if="data.item.type===0">تیکت همگانی</span>
             <span class="badge pill text-white bg-primary" v-if="data.item.type===1">احراز هویت</span>
             <span class="badge pill text-white bg-primary" v-if="data.item.type===2">پشتیبانی</span>
             <span class="badge pill text-white bg-primary" v-if="data.item.type===3">سایر</span>

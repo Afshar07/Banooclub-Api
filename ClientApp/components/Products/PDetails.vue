@@ -277,7 +277,7 @@
           </div>
 
         </div>
-        <div class="tw-text-gray-600 d-flex flex-column tw-text-sm md:tw-pt-3">
+        <div class="tw-text-gray-600 d-flex flex-column tw-text-sm md:tw-py-3 border-bottom">
           <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2 mb-0">ویژگی ها</h2>
           <div class="d-flex flex-wrap mt-1 row">
             <div v-for="property in service_details.properties" class="tw-font-semibold tw-text-[#fd3ab8] pt-1 col-md-6 col-12">
@@ -289,7 +289,7 @@
             </div>
           </div>
         </div>
-        <hr>
+
         <div class="d-flex align-items-center justify-content-between  gap-3">
           <a :href="`tel:${service_details.mobile}`" class="text-decoration-none hover:tw-text-white tw-bg-[#ff6f9e] tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-text-white tw-justify-center tw-px-4 tw-rounded-md my-1">
             تماس
@@ -455,8 +455,8 @@
 
 
 
-        <div v-if="others_can_add_comments" class="tw-bg-gray-100 tw-flex tw-items-center tw-rounded-full tw-relative tw-border-t">
-          <input  v-model="service_comment" :placeholder="want_to_reply?place_holder:'نظر خود را وارد کنید'" class="tw-bg-transparent tw-max-h-10 tw-shadow-none tw-px-5">
+        <div v-if="others_can_add_comments" class=" tw-flex tw-items-center  tw-gap-3 tw-rounded-full tw-relative tw-border-t">
+          <input  v-model="service_comment" :placeholder="want_to_reply?place_holder:'نظر خود را وارد کنید'" class="SearchStyle tw-max-h-10 tw-shadow-none tw-px-5">
       <button class="p-2 rounded text-white tw-cursor-pointer tw-bg-[#e2a7ff] " @click="addComment"> <strong>ثبت</strong>  </button>
         </div>
 

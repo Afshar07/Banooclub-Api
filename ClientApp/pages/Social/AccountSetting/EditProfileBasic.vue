@@ -392,7 +392,7 @@ export default {
       return count
     },
     RadialProgress() {
-      return Math.round(this.FilledCount * (100 / 10))
+      return Math.round(this.FilledCount * (100 / 9))
     },
     BaseUrl() {
       return process.env.pic

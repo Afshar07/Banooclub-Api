@@ -5,7 +5,7 @@
       <div class="d-flex align-items-center gap-2">
         <img src="/girl-icon-khadamat-afzodan.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
         <div class="d-flex align-items-center flex-column">
-          <h1 class="text-purple h6"> ثبت خدمت</h1>
+          <h1 class="text-purple h6" style="font-weight: bolder!important;"> ثبت خدمت</h1>
           <strong class="text-pink">Submit A Service</strong>
         </div>
       </div>
