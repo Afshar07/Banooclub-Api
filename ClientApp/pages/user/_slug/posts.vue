@@ -1,5 +1,5 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class="container-fluid mcontainer px-0">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class="container-fluid NewBg mcontainer px-0">
     <CustomHeader/>
     <div class="tab-content" id="pills-tabContent">
       <div class="tab-pane fade  " id="services" role="tabpanel" aria-labelledby="services-tab">
@@ -11,26 +11,24 @@
 
             <PostItem class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post"/>
             <Spinner v-if="postData && postData.length !== postCounts"/>
-            <div class="row mb-3" v-if="!$fetchState.pending && postData && postData.length === 0">
+            <div class="row mb-3" v-if="!$fetchState.pending && postData.length===0">
               <div class="col-12 text-warning fw-bold text-center">
                 هیچ پستی برای نمایش وجود ندارد
               </div>
             </div>
-            <div v-else-if="userinfo && userinfo.userSetting && userinfo.userSetting.isPrivatePost" class="row mb-3">
+            <div v-else-if="userinfo && userinfo.userSetting && userinfo.userSetting.isPrivatePost" class="row mb-3"  >
               <div class="col-12 text-warning fw-bold text-center">
                 پست های این کاربر شخصی هستند.
               </div>
             </div>
-
           </div>
           <div class="col-md-5 col-sm-12">
             <div class="widget custom_card p-3">
-              <h4 class="tw-text-lg tw-font-semibold"> درباره من </h4>
+              <h4 class="tw-text-lg tw-font-semibold"> درباره  </h4>
               <ul class="tw-text-gray-600 space-y-3 tw-mt-3">
                 <li class="tw-flex tw-items-center my-2"
                     v-if="userinfo && (userinfo.cityName !== '' || userinfo.stateName !== '')">
-                  <HomeIcon style="width: 30px; height: 30px;" fill="rgb(75 85 99)"
-                            lass="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
+                  <HomeIcon style="width: 30px; height: 30px;" fill="rgb(75 85 99)" class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
                   ساکن
                   <strong class="px-1">{{ userinfo.stateName }} <span
                     v-if="userinfo.cityName !== '' && userinfo.stateName !== ''">,</span>
@@ -56,16 +54,13 @@
                   </div>
                 </li>
                 <li  class="tw-flex tw-items-center my-2" v-else-if="  userinfo.userSetting&& userinfo.userSetting.birthDate!==null">
-                  <AllUsersIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"  class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
-                  <div >
+                  <UserIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"  class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
+
                     <strong  v-if="  userinfo.userSetting&& userinfo.userSetting.birthDate!==null"> {{ time_ago(userinfo.userSetting.birthDate) }}  </strong>
-                  </div>
+
 
                 </li>
-                <li  class="tw-flex tw-items-center my-2" v-if="  userinfo.userSetting">
-                  <ServiceProviderLabel v-if="userinfo.type===3"></ServiceProviderLabel>
-                  <CustomerLabel v-else></CustomerLabel>
-                </li>
+
                 <li class="tw-flex tw-items-center my-2" v-if="userinfo">
                   <AllUsersIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"
                                 class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
@@ -80,36 +75,13 @@
 
                 </li>
               </ul>
-              <div class="tw-gap-3 grid tw-grid-cols-2 tw-mt-4">
-                <div class="row">
-                  <div
-                    class="col-md-6 my-3"
-                    v-for="(item,index) in Photos.slice(0,4)"
-                    :key="index"
-                  >
-                    <div class="position-relative">
-                      <img
-                        v-if="item.priority === 2"
-                        :src="`https://banooclubapi.simagar.com/media/gallery/galleryImages/${item.base64}`"
-                        style="object-fit: cover;object-position: center; width: 300px;height: 250px"
-                        class="rounded"
-                        alt=""
-                      />
-                      <video
-                        v-else-if="item.priority === 3"
-                        class="rounded w-100"
-                        style="object-fit: cover;object-position: center;height: 250px"
-                        controls
-                        :src="`https://banooclubapi.simagar.com/media/gallery/galleryVideos/${item.base64}`"
-                      ></video>
-                      <!--            </a>-->
-                    </div>
-                  </div>
-                  <div class="col-md-12 d-flex align-items-center justify-content-center">
-                    <a  data-bs-toggle="tab"  class="tw-decoration-0 tw-text-blue-400 tw-cursor-pointer" href="#pills-contact" >مشاهده بیشتر</a>
-                  </div>
+              <div class="row my-3">
+                <div v-for="(item,index) in Photos.slice(0,4)" :key="index" class="col-md-4 tw-h-[10rem] rounded my-2">
+                  <img v-if="item.priority===2" :src="`https://banooclubapi.simagar.com/media/gallery/galleryimages/${item.base64}`" class="tw-w-full rounded tw-h-[10rem] tw-object-cover" alt="">
+                  <video v-else-if="item.priority === 3" class="rounded w-full" style="object-fit: cover;height: 150px" controls :src="`https://banooclubapi.simagar.com/media/gallery/galleryvideos/${item.base64}`"></video>
                 </div>
               </div>
+
             </div>
             <Groups class="my-3"/>
           </div>
@@ -134,6 +106,7 @@ import PostItem from "../../../components/PostItem"
 import QuestionIcon from "@/components/Icons/QuestionIcon";
 import CustomHeader from "../../../components/CustomHeader";
 import AboutUser from "../../../components/UserPanel/AboutUser";
+import UserIcon from "@/components/Icons/UserIcon";
 import MyFriends from "../../../components/UserPanel/MyFriends";
 import Groups from "../../../components/UserPanel/Groups";
 import UserServices from "../../../components/UserTabsContent/UserServices"
@@ -152,6 +125,7 @@ export default {
   components: {
     Groups, MyFriends, AboutUser, CustomHeader, PostItem, UserServices, UserPhotos, Spinner, UserFriends, AllUsersIcon,
     HeartIcon,
+    UserIcon,
     UserAds,
     QuestionIcon,
     GlobeIcon, HomeIcon

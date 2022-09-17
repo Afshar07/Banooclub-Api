@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.Toman {
+  font-size: 11px;
+  font-weight: bold;
+}
 
 
 :root {
@@ -2080,7 +2084,9 @@ select.bs-select-hidden, select.selectpicker {
 .text-LightGreen{
   color: #10eb62 !important;
 }
-
+.Bg-Pink{
+  @apply tw-bg-[#ffe7fa] !important;
+}
 .FormInputs{
   background-color: #fcf5ff !important;
 }

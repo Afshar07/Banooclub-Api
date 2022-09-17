@@ -12,7 +12,7 @@
                 <img src="/girl-icon-ads-edit.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
                 <div class="d-flex align-items-center flex-column">
                   <h1 class="text-purple h6" style="font-weight: bolder!important;">ویرایش آگهی</h1>
-                  <strong class="text-pink">Edit AdvertiseMents</strong>
+                  <strong class="text-pink">Edit Advertisements</strong>
                 </div>
               </div>
             </div>
@@ -24,7 +24,7 @@
               <div class="labelText">عنوان آگهی*</div>
               <div class="my-3">
                 <input
-                  class="border w-100 rounded p-1"
+                  class="border w-100 FormInputs rounded p-1"
                   maxlength="50"
                   type="text"
                   v-model.trim="AdDetail.title"
@@ -35,7 +35,7 @@
             <div class="col-md-6">
               <div class="labelText">وضعیت کالا*</div>
               <div class="my-3">
-                <select v-model="AdDetail.status" class="form-control w-100">
+                <select v-model="AdDetail.status" class="FormInputs with-border w-100">
                   <option :value="1">نو</option>
                   <option :value="2">دست دوم</option>
                 </select>
@@ -43,7 +43,7 @@
             </div>
             <div class="col-md-12">
               <div class="labelText">شماره موبایل*</div>
-              <input type="tel" placeholder="با صفر اول وارد کنید" class="form-control with-border" v-model="AdDetail.phoneNumber">
+              <input type="tel" placeholder="با صفر اول وارد کنید" class="FormInputs with-border" v-model="AdDetail.phoneNumber">
             </div>
 
             <div class="col-md-12 my-2">
@@ -153,7 +153,7 @@
                 <input
                   v-model="AdDetail.tag"
                   type="text"
-                  class="form-control with-border"
+                  class="FormInputs with-border"
                   placeholder="لباس,تیشرت,شلوار..."
                 />
               </div>
@@ -162,7 +162,7 @@
               <div class="labelText">قیمت (تومان)*</div>
               <div class="my-3">
                 <input
-                  class="rounded border p-1 w-100"
+                  class="rounded FormInputs with-border p-1 w-100"
                   type="number"
                   v-model.trim="AdDetail.price"
                 />
@@ -172,7 +172,7 @@
               <div class="labelText">توضیحات آگهی</div>
               <div class="my-3">
               <textarea
-                class="border rounded form-control"
+                class=" rounded FormInputs with-border"
                 rows="1"
                 placeholder="توضیحات آگهی"
                 v-model.trim="AdDetail.description"
@@ -215,7 +215,7 @@
                   class="btn AddReplyBtn"
                   @click="UpdateAdvertise"
                 >
-                  ثبت آگهی
+                  ویرایش آگهی
                 </button>
               </div>
             </div>

@@ -1,56 +1,52 @@
 <template>
-  <div class="container mcontainer position-relative">
-    <div class="row mx-auto">
-      <div class="col-12">
-        <h5 class="editAccountSetting text-black d-inline-block">
-          <font-awesome-icon icon="info-circle" color="#088dcd"/>
-          ویرایش اصلی اطلاعات
-        </h5>
+  <div class=" NewBg mcontainer position-relative">
+
+      <div class="tw-w-full tw-shadow bg-white p-3 d-flex align-items-center gap-3  rounded ">
+        <img src="/girl-icon-dashboard.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
+        <div class="d-flex align-items-center flex-column">
+          <h1 class="text-purple h6" style="font-weight: bolder!important;">ویرایش اطلاعات</h1>
+          <strong class="text-pink">Edit Profile Data</strong>
+        </div>
+
       </div>
+
+    <div class="row bg-white rounded shadow my-3 p-3 mx-auto">
+
       <form class="row">
         <div class="col-md-6 col-lg-6 col-12 mt-3">
-          <div class="form-floating text-end">
-            <input
+          <label for="firstName">نام</label>
+          <input
               type="text"
-              class="form-control border-0"
+              class="FormInputs with-border "
               id="firstName"
               placeholder="نام "
               v-model.trim="firstName"
             />
-            <label for="firstName">نام</label>
-          </div>
+
         </div>
         <div class="col-md-6 col-lg-6 col-12 mt-3">
-          <div class="form-floating text-end">
+            <label for="lastName">نام خانوادگی</label>
             <input
               type="text"
-              class="form-control border-0 border-bottom"
+              class="FormInputs with-border"
               id="lastName"
               placeholder="نام خانوادگی"
               v-model.trim="lastName"
             />
-            <label for="lastName">نام خانوادگی</label>
-          </div>
         </div>
-        <!--        <div class="col-12 form-group mt-3">-->
-        <!--          <div class="form-floating text-end">-->
-        <!--            <input type="email" class="form-control border-0 border-bottom" id="email" v-model.trim="email"-->
-        <!--                   placeholder="[ایمیل محافظت شده است]">-->
-        <!--            <label for="email">[ایمیل محافظت شده است]</label>-->
-        <!--          </div>-->
-        <!--        </div>-->
         <div class="col-12 form-group mt-3">
-          <div class="form-floating text-end">
+
+            <label for="mobile">تلفن</label>
             <input
               type="tel"
-              class="form-control border-0 border-bottom"
+              v-tooltip="{content:'شماره تلفن غیر قابل ویرایش است'}"
+              class="FormInputs with-border tw-cursor-not-allowed"
               id="mobile"
               disabled
               v-model.trim="mobile"
               placeholder="تلفن"
             />
-            <label for="mobile">تلفن</label>
-          </div>
+
         </div>
         <div class="col-12 mt-3">
           <label for="" class="m-0 text-muted">تاریخ تولد</label>
@@ -64,9 +60,9 @@
           </client-only>
         </div>
 
-        <div class="col-md-12 my-3 d-flex align-items-center justify-content-around flex-wrap">
-          <span class="text-secondary ">وضعیت تاهل</span>
-          <div class="form-check form-check-inline">
+        <div class="col-md-12 my-3 d-flex align-items-center  gap-2 justify-content-start flex-wrap">
+          <span class="text-secondary ">وضعیت تاهل :  </span>
+          <div class="d-flex align-items-center gap-3">
             <input
               class="form-check-input"
               type="radio"
@@ -74,9 +70,9 @@
               :value="1"
               v-model="Relation"
             />
-            <label class="form-check-label" for="inlineCheckbox9">مجرد</label>
+            <label class="m-0" for="inlineCheckbox9">مجرد</label>
           </div>
-          <div class="form-check form-check-inline">
+          <div class="d-flex align-items-center gap-3">
             <input
               class="form-check-input"
               type="radio"
@@ -84,9 +80,9 @@
               :value="2"
               v-model="Relation"
             />
-            <label class="form-check-label" for="inlineCheckbox9">در رابطه</label>
+            <label class="m-0" for="inlineCheckbox9">در رابطه</label>
           </div>
-          <div class="form-check form-check-inline">
+          <div class="d-flex align-items-center gap-3">
             <input
               class="form-check-input"
               type="radio"
@@ -94,9 +90,9 @@
               :value="3"
               v-model="Relation"
             />
-            <label class="form-check-label" for="inlineCheckbox9">متاهل</label>
+            <label class="m-0" for="inlineCheckbox9">متاهل</label>
           </div>
-          <div class="form-check form-check-inline">
+          <div class="d-flex align-items-center gap-3">
             <input
               class="form-check-input"
               type="radio"
@@ -104,9 +100,9 @@
               :value="4"
               v-model="Relation"
             />
-            <label class="form-check-label" for="inlineCheckbox9">مطلقه</label>
+            <label class="m-0" for="inlineCheckbox9">مطلقه</label>
           </div>
-          <div class="form-check form-check-inline">
+          <div class="d-flex align-items-center gap-3">
             <input
               class="form-check-input"
               type="radio"
@@ -114,7 +110,7 @@
               :value="5"
               v-model="Relation"
             />
-            <label class="form-check-label" for="inlineCheckbox9">سایر</label>
+            <label class="m-0" for="inlineCheckbox9">سایر</label>
           </div>
         </div>
         <div class="col-md-12 my-3">
@@ -140,142 +136,48 @@
           </div>
         </div>
         <div class="col-12 ">
-          <div class="form-floating">
+
+            <label>درباره من</label>
             <textarea
-              class="form-control border-0 px-0"
+              class="FormInputs with-border"
               resize="none"
               placeholder="درباره من"
               id="about"
               v-model.trim="bio"
               style="height: 150px"
             ></textarea>
-            <label>درباره من</label>
-          </div>
+
         </div>
         <div class="col-12 mt-3">
-          <div class="form-floating">
+
+            <label>هشتگ های من (با علامت کاما, از هم جدا کنید)</label>
             <textarea
-              class="form-control border-0 px-0"
+              class="FormInputs with-border"
               resize="none"
               placeholder="هشتگ های من (با علامت کاما, از هم جدا کنید)"
               id="about2"
               v-model.trim="userTag"
               style="height: 150px"
             ></textarea>
-            <label>هشتگ های من (با علامت کاما, از هم جدا کنید)</label>
-          </div>
+
         </div>
         <div class="col-12 mt-3">
-          <!--          <div-->
-          <!--            v-if="$store.state.HeaderData.type === 4"-->
-          <!--            class="d-flex flex-row gap-3 my-3"-->
-          <!--          >-->
-          <!--            <div class="labelText">ارسال ویدیو احراز هویت :</div>-->
-          <!--            <div-->
-          <!--              class="border rounded text-center justify-content-center align-items-center InputUiBox"-->
-          <!--              @click="callInputMethod3"-->
-          <!--            >-->
-          <!--              <input-->
-          <!--                type="file"-->
-          <!--                ref="Video"-->
-          <!--                accept="video/*"-->
-          <!--                class="form-control-file my-file3 d-none"-->
-          <!--                id="my-Video"-->
-          <!--                @change="onFileChangeVideo"-->
-          <!--              />-->
-          <!--              <font-awesome-icon icon="plus-square" size="lg" />-->
-          <!--            </div>-->
-
-          <!--            <video-->
-          <!--              :src="BaseUrl + Video"-->
-          <!--              v-if="Video && Video.includes('.mp4')"-->
-          <!--              width="225"-->
-          <!--              height="240"-->
-          <!--              controls-->
-          <!--            >-->
-          <!--              &lt;!&ndash;              <source  type="video/*">&ndash;&gt;-->
-          <!--            </video>-->
-          <!--            <video v-else :src="BaseVideoUrl" width="225" height="240" controls>-->
-          <!--              &lt;!&ndash;              <source  type="video/*">&ndash;&gt;-->
-          <!--            </video>-->
-          <!--          </div>-->
-          <!--          <div class="row" v-if="$store.state.HeaderData.type === 3">-->
-          <!--            <div class="col-lg-3 col-md-12">-->
-          <!--              <div class="labelText">ارسال عکس پروانه کسب :</div>-->
-          <!--            </div>-->
-          <!--            <div class="col-lg-2 col-md-12">-->
-          <!--              <div-->
-          <!--                class="border rounded text-center justify-content-center align-items-center InputUiBox"-->
-          <!--                @click="callInputMethod4"-->
-          <!--              >-->
-          <!--                <input-->
-          <!--                  type="file"-->
-          <!--                  accept="image/*"-->
-          <!--                  multiple="multiple"-->
-          <!--                  class="form-control-file my-file d-none"-->
-          <!--                  id="my-file6"-->
-          <!--                  @change="onFileChange4"-->
-          <!--                />-->
-          <!--                <font-awesome-icon icon="plus-square" size="lg" />-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--            <div class="col-lg-7 col-md-12">-->
-          <!--              <div v-if="Certificate && Certificate.includes('.')">-->
-          <!--                <img class="img-fluid" :src="BaseUrl + Certificate" />-->
-          <!--              </div>-->
-          <!--              <div v-else>-->
-          <!--                <img class="img-fluid" :src="Certificate" />-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </div>-->
-          <!--          <div class="row my-3" v-if="$store.state.HeaderData.type === 3">-->
-          <!--            <div class="col-lg-3 col-md-12">-->
-          <!--              <div class="labelText">ارسال عکس روزنامه رسمی :</div>-->
-          <!--            </div>-->
-          <!--            <div class="col-lg-2 col-md-12">-->
-          <!--              <div-->
-          <!--                class="border rounded text-center justify-content-center align-items-center InputUiBox"-->
-          <!--                @click="callInputMethod5"-->
-          <!--              >-->
-          <!--                <input-->
-          <!--                  type="file"-->
-          <!--                  accept="image/*"-->
-          <!--                  multiple="multiple"-->
-          <!--                  class="form-control-file my-file d-none"-->
-          <!--                  id="my-file7"-->
-          <!--                  @change="onFileChange5"-->
-          <!--                />-->
-          <!--                <font-awesome-icon icon="plus-square" size="lg" />-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--            <div class="col-lg-7 col-md-12">-->
-          <!--              <div v-if="NewsPaper && NewsPaper.includes('.')">-->
-          <!--                <img class="img-fluid" :src="BaseUrl + NewsPaper" />-->
-          <!--              </div>-->
-          <!--              <div v-else>-->
-          <!--                <img class="img-fluid" :src="NewsPaper" />-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </div>-->
           <div class="row">
             <div class="col-lg-3 col-md-12">
               <div class="labelText">ارسال عکس کارت ملی :</div>
             </div>
             <div class="col-lg-2 col-md-12">
-              <div
-                class="border rounded text-center justify-content-center align-items-center InputUiBox"
-                @click="callInputMethod"
-              >
+              <div class="border rounded text-center d-flex justify-content-center align-items-center InputUiBox" @click="callInputMethod">
                 <input
                   type="file"
                   accept="image/*"
-                  multiple="multiple"
-                  class="form-control-file my-file d-none"
-                  id="my-file"
+                  class="form-control-file MainImage d-none"
+                  id="MainImage"
                   @change="onFileChange"
                 />
-                <font-awesome-icon icon="plus-square" size="lg"/>
+                <UploadIcon class="tw-fill-[#b44aff]"></UploadIcon>
               </div>
+
             </div>
             <div class="col-lg-7 col-md-12">
               <div v-if="cart !== ''">
@@ -297,12 +199,10 @@
         </div>
 
         <div class="col-12 mt-3">
-          <button type="button" class="btn btn-sm ButtonAccountSetting">
-            لغو
-          </button>
+
           <button
             type="button"
-            class="btn btn-sm ButtonAccountSetting"
+            class="bg-pink rounded p-2 tw-cursor-pointer text-white"
             @click="submitEditProfileBasic"
           >
             به روز رسانی
@@ -319,11 +219,11 @@
 
 <script>
 import CircularProgress from "@/components/CircularProgress";
-
+import UploadIcon from "@/components/Icons/UploadIcon";
 export default {
   name: "EditProfileBasic",
   layout: "PoshtebamPlusLayout",
-  components: {CircularProgress},
+  components: {CircularProgress,UploadIcon},
   head() {
     return {
       title: 'ویرایش حساب کاربری',
@@ -747,7 +647,7 @@ textarea {
 }
 
 label {
-  margin-right: 2rem;
+
   font-size: 14px;
   color: #545454;
 }

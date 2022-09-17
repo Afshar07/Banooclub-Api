@@ -683,10 +683,6 @@ export default {
 </script>
 
 <style scoped>
-.Toman {
-  font-size: 11px;
-  font-weight: bold;
-}
 
 /* width */
 ::-webkit-scrollbar {

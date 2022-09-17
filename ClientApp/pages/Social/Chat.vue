@@ -8,7 +8,7 @@
         <div class="col-md-3 " style="border-left: solid 1px lightgrey !important">
           <div class="row">
             <div class="col-md-12 border-bottom pb-2 my-2">
-              <input type="search" v-model="Search" class="SearchStyle" placeholder="جستجو">
+              <input type="search" v-model="Search" class="SearchStyle tw-shadow" placeholder="جستجو">
             </div>
             <!--SideBar Desktop For Chat Items. It Takes One UserData Prop With Local Search Command-->
             <div v-if="FilteredChats.length>0" v-for="(item,idx) in FilteredChats" @click="SetActiveUser(item)"

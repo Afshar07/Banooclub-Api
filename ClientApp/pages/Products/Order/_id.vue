@@ -1,6 +1,6 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container NewBg mcontainer  containerBox">
-    <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+    <div class="tw-w-full tw-shadow bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
       <div class="d-flex align-items-center gap-2">
         <img src="/girl-icon-sabteSefaresh.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
         <div class="d-flex align-items-center flex-column">
@@ -12,7 +12,7 @@
 
     </div>
 
-      <div class="p-3 my-4 bg-white rounded">
+      <div class="p-3 px-5 my-4 bg-white tw-shadow rounded">
 
         <h5 class="text-uppercase">{{ $auth.user.userInfo.userName }}</h5>
 

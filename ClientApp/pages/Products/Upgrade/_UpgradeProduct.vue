@@ -1,7 +1,7 @@
 <template>
   <div  :class="$fetchState.pending?'loading-skeleton':''" class="container NewBg mcontainer tw-h-full">
     <div class="row">
-      <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+      <div class="tw-w-full tw-shadow bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
         <div v-if="ActiveTab===1" class="d-flex align-items-center gap-2">
           <img src="/girl-icon-khadamat-edit.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
           <div class="d-flex align-items-center flex-column">
@@ -19,8 +19,8 @@
       </div>
 
     </div>
-    <div class="tab-content bg-white rounded p-2 my-3 tw-h-full" id="pills-tabContent" v-if="!$fetchState.pending">
-      <ul class="nav nav-pills align-items-end profile_tabs pt-3 nav-fill tw-overflow-x-auto" id="pills-tab" role="tablist">
+    <div class="tab-content  rounded p-2 my-3 tw-h-full" id="pills-tabContent" v-if="!$fetchState.pending">
+      <ul class="nav nav-pills tw-shadow bg-white align-items-end profile_tabs pt-3 nav-fill tw-overflow-x-auto" id="pills-tab" role="tablist">
         <li class="nav-item " role="presentation m-0" style="margin: 0 !important;">
           <button @click="ActiveTab=1" :class="{' active':ActiveTab===1}" class="nav-link " id="products-pills-home-tab" data-bs-toggle="pill"
                   data-bs-target="#products-pills-home" type="button" role="tab" aria-controls="products-pills-home" aria-selected="true">
@@ -39,13 +39,13 @@
         </li>
 
       </ul>
-      <div  class="tab-pane fade  " :class="{'show active':ActiveTab===1}" id="products-pills-home" role="tabpanel" aria-labelledby="products-pills-home-tab">
+      <div  class="tab-pane bg-white tw-shadow fade  " :class="{'show active':ActiveTab===1}" id="products-pills-home" role="tabpanel" aria-labelledby="products-pills-home-tab">
         <EditProductTab @RefetchService="GetService" @DiscountChanged="GetService" v-if="ActiveTab===1"  :service_details="ServiceDetails"/>
       </div>
-      <div class="tab-pane fade tw-h-full" :class="{'show active':ActiveTab===2}" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+      <div class="tab-pane bg-white tw-shadow fade tw-h-full" :class="{'show active':ActiveTab===2}" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
         <UpgradeProductTab v-if="ActiveTab===2"/>
       </div>
-      <div class="tab-pane fade" id="pills-contact" :class="{'show active':ActiveTab===3}" role="tabpanel" aria-labelledby="pills-contact-tab">
+      <div class="tab-pane bg-white tw-shadow fade" id="pills-contact" :class="{'show active':ActiveTab===3}" role="tabpanel" aria-labelledby="pills-contact-tab">
         <PreviewProductTab v-if="ActiveTab===3" :service_details="ServiceDetails"/>
       </div>
     </div>

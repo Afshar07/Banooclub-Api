@@ -80,15 +80,15 @@
           </div>
           <div class="row my-3">
             <div class="d-flex align-items-center justify-content-between">
-                <h4 class="tw-font-bold ">جزئیات پرداخت</h4>
+                <h6 class="tw-font-bold ">جزئیات پرداخت</h6>
               <div class="d-flex align-items-center gap-2">
                 <div v-if="OrderData.status!==2" class="text-center my-5 d-flex flex-wrap align-items-center justify-content-around gap-2">
-                  <div v-if=" OrderData&&OrderData.subOrders &&OrderData.subOrders[0].title !== 'شارژ کیف پول'"  class="d-flex flex-column shadow p-4 tw-h-[10rem]  justify-content-center gap-2">
+                  <div v-if=" OrderData&&OrderData.subOrders &&OrderData.subOrders[0].title !== 'شارژ کیف پول'"  class=" tw-rounded d-flex flex-column shadow p-4 tw-h-[10rem]  justify-content-center gap-2">
                     <button class=" tw-bg-[#ff6f9e] rounded  text-white p-2" :disabled="OrderData.sumPrice>$store.state.WalletAmount" @click="PayByWallet()">پرداخت با کیف پول</button>
                     <small class="my-2">موجودی کیف پول شما : {{  Intl.NumberFormat('fa-IR').format($store.state.WalletAmount) }} تومان</small>
                     <small v-if="OrderData.sumPrice>$store.state.WalletAmount">موجودی کیف پول شما کافی نمیباشد <a class="text-decoration-none text-primary tw-cursor-pointer" @click="displaySideNav= true">افزایش موجودی</a></small>
                   </div>
-                  <div class="d-flex flex-column justify-content-center align-items-center gap-2 shadow p-4 tw-h-[10rem] ">
+                  <div class="d-flex flex-column justify-content-center align-items-center tw-rounded  gap-2 shadow p-4 tw-h-[10rem] ">
                     <button class="p-2 tw-bg-[#85ffdd] tw-text-[#f5447d] rounded px-2" @click="createPayment()">پرداخت</button>
                     <small>پرداخت با درگاه بانکی</small>
                   </div>

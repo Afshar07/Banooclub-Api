@@ -4,9 +4,9 @@
       <AdItem  class="tw-my-3 tw-mx-auto"  v-for="item in Ads" :AdsDetail="item" />
 
     </div>
-    <div v-else class="tw-flex tw-items-center tw-justify-center">
-      <span class="text-secondary">داده ای برای نمایش وجود ندارد</span>
-    </div>
+      <div  v-else-if="Ads.length===0" class="col-12 text-warning fw-bold text-center">
+        هیچ آگهی برای نمایش وجود ندارد
+      </div>
     <CustomPagination  :activePage="activePage" :totalPages="totalPages" @PageChanged="changePage($event)"/>
   </div>
 

@@ -128,7 +128,7 @@
   <div v-if="SelectedUser!==null" class="col-md-12 my-3  bg-white p-3 ">
     <div class="row">
       <div class="col-md-3">
-        <span  class="text-secondary">نام کوچک : </span>
+        <span  class="text-secondary">نام  : </span>
         <span>{{SelectedUser.name}}</span>
 
       </div>

@@ -44,7 +44,5 @@ export default {
 </script>
 
 <style scoped>
-.Bg-Pink{
-  @apply tw-bg-[#FF84B5FF] !important;
-}
+
 </style>

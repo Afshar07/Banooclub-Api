@@ -455,8 +455,8 @@
 
 
 
-        <div v-if="others_can_add_comments" class=" tw-flex tw-items-center  tw-gap-3 tw-rounded-full tw-relative tw-border-t">
-          <input  v-model="service_comment" :placeholder="want_to_reply?place_holder:'نظر خود را وارد کنید'" class="SearchStyle tw-max-h-10 tw-shadow-none tw-px-5">
+        <div v-if="others_can_add_comments" class=" tw-flex tw-items-center  tw-gap-3 tw-rounded-full tw-relative ">
+          <input  v-model="service_comment" :placeholder="want_to_reply?place_holder:'نظر خود را وارد کنید'" class="SearchStyle tw-max-h-10 tw-shadow tw-px-5">
       <button class="p-2 rounded text-white tw-cursor-pointer tw-bg-[#e2a7ff] " @click="addComment"> <strong>ثبت</strong>  </button>
         </div>
 

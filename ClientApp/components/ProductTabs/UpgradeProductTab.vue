@@ -15,7 +15,7 @@
               {{Intl.NumberFormat('fa-IR').format(this.sumPrice)}}
               تومان
             </div>
-            <button type="button" class="button px-3" @click="CreateOrder()">
+            <button type="button" class="tw-bg-[#d277ff] tw-rounded tw-text-white tw-p-2 tw-cursor-pointer px-3" @click="CreateOrder()">
               ثبت سفارش
             </button>
           </div>

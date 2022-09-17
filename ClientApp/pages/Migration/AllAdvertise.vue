@@ -87,7 +87,7 @@
                           <div class="accordion-item">
                             <h2 class="accordion-header" id="panelsStayOpen-headingSeven">
                               <button
-                                class="accordion-button p-2 w-100 d-flex align-items-center justify-content-between"
+                                class="accordion-button p-2 w-100 d-flex align-items-center justify-content-between tw-shadow-lg"
                                 type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeven"
                                 aria-expanded="true" aria-controls="panelsStayOpen-collapseSeven">
                                 <small> قیمت</small>
@@ -507,7 +507,7 @@ export default {
 }
 
 .vs__search {
-  height: 20px !important;
+  height: 40px !important;
   font-size: 12px !important;
   color: grey !important;
 

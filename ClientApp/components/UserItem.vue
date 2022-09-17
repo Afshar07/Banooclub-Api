@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column align-items-center justify-content-between">
-    <div class="Card-Img tw-w-full tw-h-[10rem] relative" :style="`background-color:${SelectRandomBg}`">
+    <div class="Card-Img tw-w-full tw-h-[10rem] tw-rounded relative" :style="`background-color:${SelectRandomBg}`">
       <img v-if="userDetails.PictureUrl" :src="BaseUrl + 'media/gallery/profile/'+userDetails.PictureUrl"
            class="userImage custom-image tw-absolute -tw-translate-y-1/4  tw-top-1/4  -tw-translate-x-1/2 tw-left-1/2 "
            alt=""/>

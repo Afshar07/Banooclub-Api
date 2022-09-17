@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white tab_content_back">
+  <div class="NewBg tab_content_back">
       <div class="row">
         <div
           class="col-md-4 my-3"
@@ -25,14 +25,9 @@
             <!--            </a>-->
           </div>
         </div>
-        <div class="row mb-3" v-if="photos && photos.length === 0">
+        <div class="row mb-3" v-if="photos.length === 0">
           <div class="col-12 text-warning fw-bold text-center">
             هیچ عکسی برای نمایش وجود ندارد
-          </div>
-        </div>
-        <div class="row mb-3" v-else-if="isPrivate">
-          <div class="col-12 text-warning fw-bold text-center">
-            عکس های این کاربر شخصی هستند.
           </div>
         </div>
       </div>
@@ -63,7 +58,7 @@ export default {
       BaseImgUrls: [],
       images: [],
       imgId: 0,
-      isPrivate:false,
+
       swiperOptionTop: {
         loop: false,
         loopedSlides: 5,

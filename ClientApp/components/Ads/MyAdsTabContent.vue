@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="Ads.length>0" class="tw-grid tw-grid-cols-1 md:tw-grid-cols-5 tw-justify-center tw-mx-auto  ">
-      <div @click="$router.push('/Migration/CreateAdvertise/')" class=" tw-cursor-pointer tw-my-2.5">
+      <div @click="$router.push('/Migration/CreateAdvertise/')" class=" tw-cursor-pointer tw-my-3">
         <div class="card h-100 w-100  d-flex align-items-center justify-content-center tw-bg-stone-700">
           <div class="d-flex align-items-center justify-content-center flex-column">
             <i class="fas fa-plus text-secondary"></i>

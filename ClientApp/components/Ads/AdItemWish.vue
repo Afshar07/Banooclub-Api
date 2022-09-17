@@ -8,7 +8,7 @@
     </div>
     <div  class="card-body p-2 ">
       <div class="tw-relative tw-flex tw-justify-end tw-bottom-[15px] ">
-        <div class="tw-bg-[#9cf5ff] tw-rounded-full tw-shadow tw-font-medium  tw-p-1 tw-text-[#db3cd6] ">
+        <div class="tw-bg-[#9cf5ff] tw-rounded tw-shadow tw-font-medium  tw-p-1 tw-text-[#db3cd6] ">
           <small>
             {{Intl.NumberFormat('fa-IR').format(AdsDetail.adsInfo.price)}}
           </small>

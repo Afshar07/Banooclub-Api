@@ -43,7 +43,7 @@
             <img src="/girl-icon-ads.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
             <div class="d-flex align-items-center flex-column">
               <h1 class="text-purple h6" style="font-weight: bolder!important;">آگهی های من</h1>
-              <strong class="text-pink">My AdvertiseMents</strong>
+              <strong class="text-pink">My Advertisements</strong>
             </div>
           </div>
 

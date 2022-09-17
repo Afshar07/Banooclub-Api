@@ -8,7 +8,7 @@
             <img v-else-if="$route.query.Photo" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://banooclubapi.simagar.com/media/gallery/profile/${$route.query.Photo}`"/>
             <img v-else-if="ActiveUser.userPhoto!==null && ActiveUser.groupId!==0" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://banooclubapi.simagar.com/media/gallery/group/${ActiveUser.userPhoto}`"/>
             <img v-else style="width: 50px; height: 50px;" class="rounded-circle" src="~/assets/images/defaultUser.png"/>
-            <small class="cursor-pointer" @click="goToUserProfile(ActiveUser)">{{ ActiveUser.userName }}</small>
+            <small class="tw-text-[#333] tw-text-[15px] tw-font-bold tw-cursor-pointer" @click="goToUserProfile(ActiveUser)">{{ ActiveUser.userName }}</small>
 
           </div>
           <button @click="GoBack" class="btn"><i class="fas fa-chevron-left"></i></button>
@@ -269,12 +269,15 @@ export default {
         this.scrollToBottom()
       }
     },
-    async goToUserProfile(user){
-      try {
-        this.$router.push({path: `/user/${user.userName}/posts`});
-      }catch (e){
-        console.log(e)
+    async goToUserProfile(user) {
+      if(user.groupId===0){
+        try {
+          this.$router.push({path: `/user/${user.userName}/posts`});
+        } catch (e) {
+          console.log(e)
+        }
       }
+
     },
   }
 }
