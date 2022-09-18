@@ -85,7 +85,7 @@
         <div class="d-flex align-items-center gap-2">
         <img src="/girl-icon-ticket.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
         <div class="d-flex align-items-center flex-column">
-          <h1 class="text-purple h5">تیکت ها </h1>
+          <h1 class="text-purple h6" style="font-weight: bolder!important;">تیکت ها </h1>
           <h1 class="text-pink h5">Tickets</h1>
         </div>
         </div>
@@ -106,31 +106,31 @@
               />
             </div>
             <div  v-if="FilteredTickets.length>0" class="tw-overflow-x-scroll ">
-              <table class="tw-items-center  tw-w-full tw-table-compact   tw-bg-white p-3 rounded tw-border-collapse">
+              <table class="   tw-w-full tw-table-compact   tw-bg-white p-3 rounded tw-border-collapse">
                 <thead>
                 <tr>
                   <th
-                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-left">
+                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-right">
                     شناسه
                   </th>
                   <th
-                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-left">
+                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-right">
                     موضوع
                   </th>
                   <th
-                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-left">
+                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-right">
                     واحد
                   </th>
                   <th
-                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-left">
+                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-right">
                     تاریخ
                   </th>
                   <th
-                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-left">
+                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-right">
                     وضعیت
                   </th>
                   <th
-                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-left">
+                    class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-right">
                     مشاهده
                   </th>
                 </tr>
@@ -138,17 +138,17 @@
                 <tbody>
                 <tr v-for="(item, index) in FilteredTickets" :key="index">
                   <th
-                    class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
+                    class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-right">
                     {{ item.ticketId }}
                   </th>
 
                   <td
-                    class="  tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
+                    class="  tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-right">
                     {{ item.title.substr(0, 7) }}
                   </td>
 
                   <td
-                    class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
+                    class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-right">
                     <span v-if="item.type === 0">تیکت ادمین</span>
                     <span v-if="item.type === 1">احراز هویت</span>
                     <span v-if="item.type === 2">پشتیبانی</span>
@@ -156,12 +156,12 @@
                   </td>
 
                   <td
-                    class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
+                    class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-right">
                     {{ new Date(item.createDate).toLocaleTimeString('fa-IR') }}
                   </td>
 
                   <td
-                    class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-left">
+                    class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-right">
 
                     <div class="tw-bg-red-500 tw-rounded d-inline-flex justify-content-center align-items-center p-1" v-if="item.isClosed == false && item.isRead == false">
                       <span class="text-white tw-text-xs">منتظر پاسخ</span>
@@ -175,7 +175,7 @@
                   </td>
 
                   <th
-                    class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-flex tw-justify-center">
+                    class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4  tw-text-right">
                     <svg @click="ticketRouteGenerator(item)" style="cursor: pointer" xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="none" viewBox="0 0 24 24" stroke="green" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />

@@ -10,8 +10,8 @@
             <div class="d-flex align-items-center gap-2">
               <img src="/girl-icon-ads-afzodan.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
               <div class="d-flex align-items-center flex-column">
-                <h1 class="text-purple h6">ثبت آگهی</h1>
-                <strong class="text-pink">Add AdvertiseMents</strong>
+                <h1 class="text-purple h6" style="font-weight: bolder!important;">ثبت آگهی</h1>
+                <strong class="text-pink">Add Advertisements</strong>
               </div>
             </div>
           </div>
@@ -73,10 +73,7 @@
             <div class="col-md-6">
               <div class="labelText">عکس اصلی آگهی</div>
               <div class="d-flex flex-row gap-3 my-3">
-                <div
-                  class="border rounded text-center d-flex justify-content-center align-items-center InputUiBox"
-                  @click="callInputMethodMainImage"
-                >
+                <div class="border rounded text-center d-flex justify-content-center align-items-center InputUiBox" @click="callInputMethodMainImage">
                   <input
                     type="file"
                     accept="image/*"
@@ -132,7 +129,6 @@
                 :options="AllStates"
                 label="name"
                 dir="rtl"
-
                 placeholder="استان*"
                 v-model="SelectedStateId"
                 :reduce="(name) => name.stateId"
@@ -175,7 +171,7 @@
               <div class="labelText">توضیحات آگهی</div>
               <div class="my-3">
               <textarea
-                class="border FormInputs rounded form-control"
+                class="border FormInputs rounded p-1 w-100"
                 rows="1"
                 placeholder="در مورد ویژگی های کالا توضیح دهید"
                 v-model.trim="description"
@@ -305,7 +301,7 @@ export default {
       longitude:0,
       mainImage: "",
       subImage: "",
-      PhoneNumber:0,
+      PhoneNumber:null,
       photos: [],
       categoryId: null,
       Status: 0,

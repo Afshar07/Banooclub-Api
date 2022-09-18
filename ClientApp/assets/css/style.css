@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.Toman {
+  font-size: 11px;
+  font-weight: bold;
+}
 
 
 :root {
@@ -2080,7 +2084,9 @@ select.bs-select-hidden, select.selectpicker {
 .text-LightGreen{
   color: #10eb62 !important;
 }
-
+.Bg-Pink{
+  @apply tw-bg-[#ffe7fa] !important;
+}
 .FormInputs{
   background-color: #fcf5ff !important;
 }
@@ -10026,6 +10032,7 @@ li.nav-item{
 .loading-skeleton h1, .loading-skeleton h2, .loading-skeleton h3, .loading-skeleton h4, .loading-skeleton h5, .loading-skeleton h6, .loading-skeleton p, .loading-skeleton li, .loading-skeleton .btn, .loading-skeleton span, .loading-skeleton small, .loading-skeleton i, .loading-skeleton a, .loading-skeleton strong, .loading-skeleton label, .loading-skeleton .form-control {
   color: transparent;
   appearance: none;
+  border-radius: 20px!important;
   -webkit-appearance: none;
   background-color: #eee;
   border-color: #eee;
@@ -10045,19 +10052,23 @@ li.nav-item{
 }
 .loading-skeleton {
   pointer-events: none;
-  border-radius: 10px!important;
+  border-radius: 20px!important;
   animation: loading-skeleton 1s infinite alternate;
 }
 .loading-skeleton img {
   filter: grayscale(100) contrast(0%) brightness(1.8);
+  border-radius: 20px!important;
 }
 .loading-skeleton h1, .loading-skeleton h2, .loading-skeleton h3, .loading-skeleton h4, .loading-skeleton h5, .loading-skeleton h6, .loading-skeleton p, .loading-skeleton li, .loading-skeleton .btn, .loading-skeleton span, .loading-skeleton small, .loading-skeleton i, .loading-skeleton a, .loading-skeleton strong, .loading-skeleton label, .loading-skeleton .form-control {
   color: transparent !important;
+  border-radius: 20px!important;
 }
 .loading-skeleton span {
   background-color: transparent !important;
+  border-radius: 20px!important;
 }
 .loading-skeleton div {
   background-image: none !important;
   color: transparent !important;
+  border-radius: 20px!important;
 }

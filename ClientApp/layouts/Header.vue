@@ -60,7 +60,7 @@
               to="/social/MyWishlist"
               class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
             >
-              <HeartIcon :fill="'#ff3b26'" class="svg_icons_size  text-danger"/>
+              <HeartIcon :fill="'#ff3b26'" class="svg_icons_size tw-text-[#ff3b26] "/>
               <!--                <i class="fas fa-users" style="font-size: 18px"></i>-->
               <span v-if="!decrease_width" class="header_font_sidebar_size">علاقه مندی من</span>
             </nuxt-link>
@@ -313,12 +313,12 @@
             </span>
           </div>
           <div class="d-flex align-items-center  flex-wrap justify-content-start p-2">
-            <strong class="text-secondary border-start my-3 px-2">راهنما</strong>
-            <strong class="text-secondary border-start my-3 px-2">قوانین و مقررات</strong>
-            <strong class="text-secondary border-start my-3 px-2">درباره</strong>
-            <strong class="text-secondary border-start px-2">تماس با ما</strong>
+            <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start my-3 px-2">راهنما</strong>
+            <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start my-3 px-2">قوانین و مقررات</strong>
+            <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start my-3 px-2">درباره</strong>
+            <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start px-2">تماس با ما</strong>
             <nuxt-link class="text-decoration-none" to="/Forums/">
-              <strong class="text-secondary border-start px-2">تالار گفتگو</strong>
+              <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start px-2">تالار گفتگو</strong>
             </nuxt-link>
           </div>
         </div>
@@ -387,7 +387,7 @@
                 to="/social/MyWishlist"
                 class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
               >
-                <HeartIcon :fill="'#ff3b26'" class="svg_icons_size  text-danger"/>
+                <HeartIcon :fill="'#ff3b26'" class="svg_icons_size  tw-text-[#ff3b26]"/>
                 <!--                <i class="fas fa-users" style="font-size: 18px"></i>-->
                 <span v-if="!decrease_width" class="header_font_sidebar_size">علاقه مندی من</span>
               </nuxt-link>
@@ -634,12 +634,12 @@
               </div>
             </div>
             <div v-if="!decrease_width" class="d-flex align-items-center  flex-wrap justify-content-start p-2">
-              <strong class="text-secondary border-start my-3 px-2">راهنما</strong>
-              <strong class="text-secondary border-start my-3 px-2">قوانین و مقررات</strong>
-              <strong class="text-secondary border-start my-3 px-2">درباره</strong>
-              <strong class="text-secondary border-start px-2">تماس با ما</strong>
+              <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start my-3 px-2">راهنما</strong>
+              <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start my-3 px-2">قوانین و مقررات</strong>
+              <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start my-3 px-2">درباره</strong>
+              <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start px-2">تماس با ما</strong>
               <nuxt-link class="text-decoration-none" to="/Forums/">
-              <strong class="text-secondary border-start px-2">تالار گفتگو</strong>
+              <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start px-2">تالار گفتگو</strong>
               </nuxt-link>
             </div>
           </div>
@@ -733,20 +733,18 @@
               <nuxt-link to="/social/accountsetting/tickets" class="d-flex align-items-center">
                 <div v-tooltip.bottom-start="{content:'اعلان ها',delay:{show: 500, hide: 100}}"
                      class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
-                  <NotifIcon class=""></NotifIcon>
+                  <i
+                    class="fas fa-bell"
+                    style="color: #b44aff"></i>
                 </div>
               </nuxt-link>
 
                 <div @click="$emit('sidenavToggle')"
                      v-tooltip.bottom-start="{content:'حریم خصوصی',delay:{show: 500, hide: 100}}"
                      class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-7 tw-w-7" fill="none" viewBox="0 0 24 24"
-                       stroke="#b44aff" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                  </svg>
-
+                  <i
+                    class="fas fa-cog"
+                    style="color: #b44aff"></i>
                 </div>
 
 
@@ -896,13 +894,7 @@
 
           <div @click="$emit('sidenavToggle')"
                class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
-            <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-7 tw-w-7" fill="none" viewBox="0 0 24 24"
-                 stroke="#b44aff" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-            </svg>
-
+            <i class="fas fa-cog"  style="color: #b44aff"></i>
           </div>
 <!--          <div class="p-3" @click="$emit('sidenavToggle')">-->
 <!--            &lt;!&ndash;            <PrivacyIcon style="width: 25px; height: 25px;"/>&ndash;&gt;-->
@@ -1007,7 +999,7 @@
               <nuxt-link to="/social/accountsetting/tickets" class="d-flex align-items-center">
                 <div v-tooltip.bottom-start="{content:'اعلان ها',delay:{show: 500, hide: 100}}"
                      class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
-                  <NotifIcon class=""></NotifIcon>
+                  <i class="fas fa-bell"  style="color: #b44aff"></i>
                 </div>
               </nuxt-link>
             </div>

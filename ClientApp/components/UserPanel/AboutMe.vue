@@ -29,15 +29,10 @@
         </div>
       </li>
       <li  class="tw-flex tw-items-center my-2" v-else-if="  userinfo.userSetting">
-        <i class="fas fa-user tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-1" style="width: 30px; height: 30px;" ></i>
-        <div >
+        <UserIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"  class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
           <strong  v-if="  userinfo.userSetting&& userinfo.userSetting.birthDate!==null"> {{ time_ago(userinfo.userSetting.birthDate) }}  </strong>
-        </div>
 
-      </li>
-      <li  class="tw-flex tw-items-center my-2" v-else-if="  userinfo.userSetting&& userinfo.userSetting.birthDate!==null">
-          <ServiceProviderLabel v-if="userinfo.type===3"></ServiceProviderLabel>
-        <CustomerLabel v-else></CustomerLabel>
+
       </li>
       <li class="tw-flex tw-items-center my-2">
         <AllUsersIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"  class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
@@ -70,7 +65,7 @@ import HeartIcon from "../../components/Icons/HeartIcon";
 import AllUsersIcon from "../../components/Icons/AllUsersIcon";
 import QuestionIcon from '../../components/Icons/QuestionIcon'
 import CustomerLabel from "@/components/CustomerLabel";
-
+import UserIcon from "@/components/Icons/UserIcon";
 import ServiceProviderLabel from "@/components/ServiceProviderLabel";
 import CropIcon from "../Icons/WhiteCropIcon";
 export default {
@@ -78,6 +73,7 @@ export default {
   components: {
     AllUsersIcon,
     QuestionIcon,
+    UserIcon,
     HeartIcon,
     ServiceProviderLabel,
     CustomerLabel,

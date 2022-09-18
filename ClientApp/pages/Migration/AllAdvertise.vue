@@ -5,7 +5,7 @@
           <div class="d-flex align-items-center gap-2">
             <img src="/girl-icon-ads.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
             <div class="d-flex align-items-center flex-column">
-              <h1 class="text-purple h6">آگهی ها</h1>
+              <h1 class="text-purple h6" style="font-weight: bolder!important;">آگهی ها</h1>
               <strong class="text-pink">AdvertiseMents</strong>
             </div>
           </div>
@@ -87,7 +87,7 @@
                           <div class="accordion-item">
                             <h2 class="accordion-header" id="panelsStayOpen-headingSeven">
                               <button
-                                class="accordion-button p-2 w-100 d-flex align-items-center justify-content-between"
+                                class="accordion-button p-2 w-100 d-flex align-items-center justify-content-between tw-shadow-lg"
                                 type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeven"
                                 aria-expanded="true" aria-controls="panelsStayOpen-collapseSeven">
                                 <small> قیمت</small>
@@ -507,7 +507,7 @@ export default {
 }
 
 .vs__search {
-  height: 20px !important;
+  height: 40px !important;
   font-size: 12px !important;
   color: grey !important;
 

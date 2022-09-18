@@ -8,8 +8,8 @@
             <div class="d-flex align-items-center gap-2">
               <img src="/girl-icon-ads-ertegha.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
               <div class="d-flex align-items-center flex-column">
-                <h1 class="text-purple h6">ارتقا آگهی</h1>
-                <strong class="text-pink">Boost AdvertiseMents</strong>
+                <h1 class="text-purple h6" style="font-weight: bolder!important;">ارتقا آگهی</h1>
+                <strong class="text-pink">Boost Advertisements</strong>
               </div>
             </div>
           </div>
@@ -25,7 +25,7 @@
                 {{Intl.NumberFormat('fa-IR').format(this.sumPrice)}}
                 تومان
               </div>
-              <button type="button" class="button px-3" @click="CreateOrder()">
+              <button type="button" class="tw-bg-[#d277ff] tw-rounded tw-text-white tw-p-2 tw-cursor-pointer px-3" @click="CreateOrder()">
                 ثبت سفارش
               </button>
             </div>

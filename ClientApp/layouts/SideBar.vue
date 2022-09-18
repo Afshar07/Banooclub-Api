@@ -175,7 +175,7 @@ console.log(this.userinfo)
         this.userinfo.userInfo.cityId !== null ? count++ : count - 1
         this.userinfo.userInfo.stateId !== null ? count++ : count - 1
         this.userinfo.userInfo.userSetting.userTag !== '' ? count++ : count - 1
-        return Math.round(count * (100 / 10))
+        return Math.round(count * (100 / 9))
       }
 
     },

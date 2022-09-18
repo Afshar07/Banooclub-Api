@@ -1,5 +1,5 @@
 <template>
-  <div class="row p-3">
+  <div class="row  p-3">
     <div
       class="modal fade"
       id="AddDiscount"
@@ -66,7 +66,7 @@
             >
               بستن
             </button>
-            <button @click="AddDiscount" type="button" class="btn btn-success mt-auto px-2" data-bs-dismiss="modal">
+            <button @click="AddDiscount" type="button" class="bg-pink p-2 text-white rounded shadow tw-cursor-pointer" data-bs-dismiss="modal">
               ایجاد تخفیف
             </button>
           </div>
@@ -85,7 +85,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabe2l">ایجاد تخفیف جدید</h5>
+            <h5 class="modal-title" id="exampleModalLabe2l">ویرایش تخفیف</h5>
 
           </div>
           <div class="modal-body">
@@ -133,10 +133,10 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button @click="UpdateDiscount" type="button" class="btn btn-success mt-auto px-2" data-bs-dismiss="modal">
+            <button @click="UpdateDiscount" type="button" class="bg-pink p-2 text-white rounded shadow tw-cursor-pointer" data-bs-dismiss="modal">
               بروزرسانی
             </button>
-            <button @click="DeleteDiscount" type="button" class="btn btn-danger mt-auto px-2" data-bs-dismiss="modal">
+            <button @click="DeleteDiscount" type="button" class="bg-purple p-2 text-white rounded shadow tw-cursor-pointer" data-bs-dismiss="modal">
               حذف
             </button>
             <button
@@ -153,14 +153,14 @@
       </div>
     </div>
     <!--      <h2 class="tw-text-2xl tw-font-semibold pb-3">ویرایش خدمت</h2>-->
-    <div v-if="serviceDetailProp" class="row">
+    <div v-if="serviceDetailProp" class="row px-5">
       <div class="col-md-6 col-12 pt-3">
         <label>عنوان خدمت *</label>
-        <input v-model="serviceDetailProp.title" type="text" class="with-border" placeholder="آموزش اکستنشن مژه">
+        <input v-model="serviceDetailProp.title" type="text" class=" FormInputs with-border" placeholder="آموزش اکستنشن مژه">
       </div>
       <div class="col-md-6 col-12 pt-3">
         <label>دسته بندی خدمت *</label>
-        <select v-model="serviceDetailProp.serviceCategoryId" class="form-select" aria-label="Default select example">
+        <select v-model="serviceDetailProp.serviceCategoryId" class="form-select FormInputs" aria-label="Default select example">
           <option :value="null">دسته بندی خدمت</option>
           <option v-for="(service_category,idx) in categories" :key="idx" :value="service_category.serviceCategoryId">
             {{ service_category.title }}
@@ -173,29 +173,10 @@
           v-model="serviceDetailProp.description"
           row="100"
           style="color: #808080;"
-          class="form-control border rounded w-100"
+          class="FormInputs border rounded w-100"
           placeholder="در مورد خدمت توضیح دهید"
           id="about"
         ></textarea>
-      </div>
-      <div class="col-12 py-3">
-        <label>آدرس</label>
-        <textarea
-          v-model="serviceDetailProp.address"
-          row="100"
-          style="color: #808080;"
-          class="form-control border rounded w-100"
-          placeholder="آدرس خدمت"
-          id="about2"
-        ></textarea>
-      </div>
-      <div class="col-12 py-3">
-        <div class="labelText">موقعیت روی نقشه</div>
-        <div class="my-3" id="map-wrap" >
-
-           <SetLocation @getGeoLocation="SetLcoation"  :defaultMarkerGeoLoc="[serviceDetailProp.latitude,serviceDetailProp.longitude]"  :defaultGeoLoc="[serviceDetailProp.latitude,serviceDetailProp.longitude]"></SetLocation>
-
-        </div>
       </div>
       <div class="col-md-6 my-3">
         <v-select
@@ -222,29 +203,49 @@
 
         ></v-select>
       </div>
+      <div class="col-12 py-3">
+        <label>آدرس</label>
+        <textarea
+          v-model="serviceDetailProp.address"
+          row="100"
+          style="color: #808080;"
+          class="FormInputs border rounded w-100"
+          placeholder="آدرس خدمت"
+          id="about2"
+        ></textarea>
+      </div>
+      <div class="col-12 py-3">
+        <div class="labelText">موقعیت روی نقشه</div>
+        <div class="my-3" id="map-wrap" >
+
+           <SetLocation @getGeoLocation="SetLcoation"  :defaultMarkerGeoLoc="[serviceDetailProp.latitude,serviceDetailProp.longitude]"  :defaultGeoLoc="[serviceDetailProp.latitude,serviceDetailProp.longitude]"></SetLocation>
+
+        </div>
+      </div>
+
       <div class="col-md-6 col-12 pt-3">
-        <label>شماره مستقیم تماس *</label>
-        <input v-model="serviceDetailProp.mobile" type="text" class="with-border" placeholder="شماره همراه با صفر">
+        <label>شماره موبایل *</label>
+        <input v-model="serviceDetailProp.mobile" type="text" class=" FormInputs with-border" placeholder="شماره همراه با صفر">
       </div>
       <div class="col-md-6 col-12 pt-3">
         <label>شماره تلفن 1</label>
-        <input v-model="serviceDetailProp.phoneNumber1" type="text" class="with-border" placeholder="شماره تلفن">
+        <input v-model="serviceDetailProp.phoneNumber1" type="text" class=" FormInputs with-border" placeholder="شماره تلفن">
       </div>
       <div class="col-md-6 col-12 pt-3">
         <label>شماره تلفن 2</label>
-        <input v-model="serviceDetailProp.phoneNumber2" type="text" class="with-border" placeholder="شماره تلفن">
+        <input v-model="serviceDetailProp.phoneNumber2" type="text" class=" FormInputs with-border" placeholder="شماره تلفن">
       </div>
 
       <div class="col-md-6 col-12 pt-3">
         <label>ایمیل</label>
-        <input v-model="serviceDetailProp.email" type="text" class="with-border" placeholder="ایمیل">
+        <input v-model="serviceDetailProp.email" type="text" class=" FormInputs with-border" placeholder="ایمیل">
       </div>
       <div class="col-md-12 col-12 pt-3">
         <div class="labelText">
           هشتگ های خدمت
         </div>
         <div class="my-3">
-          <input v-on:keyup.enter="createTag" v-model="tag" type="text" class="with-border" placeholder="ناخن،مو،رنگ...">
+          <input v-on:keyup.enter="createTag" v-model="tag" type="text" class=" FormInputs with-border" placeholder="ناخن،مو،رنگ...">
           <div class="d-flex">
             <div class="back_tags p-1 m-1 d-flex" v-for="(tag,index) in serviceDetailProp.tags" :key="index">
               <button @click="deleteServiceTag(tag.tagId)">
@@ -368,7 +369,7 @@
 
             <div class=" col-md-3 col-sm-12">
               <label>نام ویژگی</label>
-              <input :ref="`Title${idx}`" v-model="property_name" type="text" class="with-border" placeholder="نام ویژگی">
+              <input :ref="`Title${idx}`" v-model="property_name" type="text" class=" FormInputs with-border" placeholder="نام ویژگی">
             </div>
             <div  class=" col-md-3 col-sm-12 d-flex flex-column justify-content-end   ">
               <div class="d-flex align-items-center justify-content-between">
@@ -377,11 +378,11 @@
                 <small>قیمت ویژگی</small>
                 <div class="d-flex align-items-center gap-2">
                   <small>ویژگی رایگان</small>
-                  <input type="checkbox"  v-model="property_IsFree"  style="width: 20px;height: 20px" class="form-check">
+                  <input type="checkbox"  v-model="property_IsFree"  style="width: 20px;height: 20px" class="  form-check">
                 </div>
               </div>
 
-              <input maxlength="11" :ref="`Price${idx}`" :disabled="property_IsFree" :class="{DisabledInput:property_IsFree}" v-model="property_price" type="number" class="with-border" placeholder="قیمت ویژگی">
+              <input maxlength="11" :ref="`Price${idx}`" :disabled="property_IsFree" :class="{DisabledInput:property_IsFree}" v-model="property_price" type="number" class=" FormInputs with-border" placeholder="قیمت ویژگی">
             </div>
             <div class="col-md-3 d-flex align-items-end">
               <button @click="createProperty" type="button" class="bg-pink p-2 rounded text-white tw-cursor-pointer">
@@ -444,6 +445,68 @@
           </div>
         </div>
       </div>
+      <div v-if="serviceDetailProp.discount!==null" class="col-md-12 my-3">
+        <div class="labelText">
+          ویرایش تخفیف خدمت
+        </div>
+        <table class="   tw-w-full tw-table-compact tw-shadow   tw-bg-white p-3 rounded tw-border-collapse">
+          <thead>
+          <tr>
+            <th
+              class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-right">
+              شناسه
+            </th>
+            <th
+              class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-right">
+              نوع
+            </th>
+            <th
+              class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-right">
+              مقدار
+            </th>
+            <th
+              class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-right">
+              تاریخ انقضا
+            </th>
+            <th
+              class="tw-px-2 tw-text-teal-500 tw-align-middle tw-border-b tw-border-solid tw-border-gray-200 tw-py-3 tw-text-sm tw-whitespace-nowrap tw-font-light tw-text-right">
+              عملیات
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th
+              class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-right">
+              {{serviceDetailProp.discount.discountId}}
+            </th>
+
+            <td
+              class="  tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-right">
+              <span v-if="serviceDetailProp.discount.type===1" class="badge pill text-white bg-info">درصدی</span>
+              <span v-if="serviceDetailProp.discount.type===2" class="badge pill text-white bg-info">عددی</span>
+            </td>
+
+            <td
+              class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-right">
+             {{serviceDetailProp.discount.value }}
+            </td>
+
+            <td
+              class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-right">
+              {{ new Date(serviceDetailProp.discount.expireDate).toLocaleDateString('fa-IR')   }}
+            </td>
+
+            <td
+              class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-right">
+              <button  data-bs-target="#EditDiscount" data-bs-toggle="modal" class="btn btn-info btn-sm text-white">ویرایش</button>
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
+
+    </div>
       <div class="col-12 py-5 tw-text-left">
         <div class="d-flex align-items-center justify-content-between">
           <button type="button" class="bg-pink p-2 rounded text-white tw-cursor-pointer mt-auto" @click="updateService">
@@ -460,33 +523,7 @@
 
 
 
-      <div v-if="serviceDetailProp.discount!==null" class="col-md-12 my-3">
-        <label>ویرایش تخفیف خدمت</label>
-        <table class="table table-sm table-striped">
-          <thead>
-          <tr>
-            <th scope="col">شناسه</th>
-            <th scope="col">نوع</th>
-            <th scope="col">مقدار</th>
-            <th scope="col">تاریخ انقضا</th>
-            <th scope="col">عملیات</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr >
-            <th scope="row">{{serviceDetailProp.discount.discountId}}</th>
-            <td>
-              <span v-if="serviceDetailProp.discount.type===1" class="badge pill text-white bg-info">درصدی</span>
-              <span v-if="serviceDetailProp.discount.type===2" class="badge pill text-white bg-info">عددی</span>
 
-            </td>
-            <td>{{ serviceDetailProp.discount.value }}</td>
-            <td>{{ new Date(serviceDetailProp.discount.expireDate).toLocaleDateString('fa-IR')  }}</td>
-            <td><button  data-bs-target="#EditDiscount" data-bs-toggle="modal" class="btn btn-info btn-sm text-white">ویرایش</button></td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
 
     </div>
 
@@ -909,5 +946,9 @@ export default {
 .DisabledInput {
   @apply tw-bg-stone-400
 
+}
+
+.vpd-input-group input{
+  background-color: #faf7ff!important;
 }
 </style>

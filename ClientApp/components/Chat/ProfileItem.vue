@@ -5,7 +5,7 @@
     <img v-else style="width: 50px; height: 50px;" class="rounded-circle" src="~/assets/images/defaultUser.png"/>
     <div class="d-flex justify-content-between w-100 px-3">
       <div class="d-flex flex-column">
-        <div style="color: #333;font-size: 15px;font-weight: 600;" >{{ UserData.userName }}</div>
+        <div class="tw-text-[#333] tw-text-[15px] tw-font-bold tw-cursor-pointer"  @click="goToUserProfile" >{{ UserData.userName }}</div>
         <div style="color: #888;font-size: 14px;" class="=ShortDescriptionIndex">{{ UserData.subject }}</div>
       </div>
       <div class="d-flex flex-column justify-content-center align-items-center">
@@ -34,12 +34,15 @@ export default {
   name: "ProfileItem",
   methods:{
     // Method That Routes To User Profile Page
-    async goToUserProfile(user){
-      try {
-        this.$router.push({path: `/user/${user.userName}/posts`});
-      }catch (e){
-        console.log(e)
+    async goToUserProfile(user) {
+      if(user.groupId===0){
+        try {
+          this.$router.push({path: `/user/${user.userName}/posts`});
+        } catch (e) {
+          console.log(e)
+        }
       }
+
     },
   }
 }

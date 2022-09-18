@@ -1,6 +1,6 @@
 <template>
   <div class="overflow-scroll">
-    <div class="bg-white tab_content_back" v-if="!$fetchState.pending">
+    <div class=" tab_content_back" v-if="!$fetchState.pending">
       <!--      <div-->
       <!--        class="row boxMainContent col-12 mx-auto rounded main-shadow"-->
       <!--        v-if="!$fetchState.pending"-->

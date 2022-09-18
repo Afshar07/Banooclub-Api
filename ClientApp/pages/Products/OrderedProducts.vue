@@ -5,7 +5,7 @@
         <div class="d-flex align-items-center gap-2">
           <img src="/girl-icon-khadamat.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
           <div class="d-flex align-items-center flex-column">
-            <h1 class="text-purple h6"> خدمات خریداری شده</h1>
+            <h1 class="text-purple h6" style="font-weight: bolder!important;"> خدمات خریداری شده</h1>
             <strong class="text-pink">Purchased Services</strong>
           </div>
         </div>
@@ -128,7 +128,7 @@
   <div v-if="SelectedUser!==null" class="col-md-12 my-3  bg-white p-3 ">
     <div class="row">
       <div class="col-md-3">
-        <span  class="text-secondary">نام کوچک : </span>
+        <span  class="text-secondary">نام  : </span>
         <span>{{SelectedUser.name}}</span>
 
       </div>

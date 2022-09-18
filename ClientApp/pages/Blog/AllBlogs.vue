@@ -5,7 +5,7 @@
           <div class="tw-w-full tw-rounded tw-shadow bg-white p-3 d-flex align-items-center gap-3  rounded ">
             <img src="/girl-icon-maghale.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
             <div class="d-flex align-items-center flex-column">
-              <h1 class="text-purple h5">مقالات</h1>
+              <h1 class="text-purple h6" style="font-weight: bolder!important;">مقالات</h1>
               <h1 class="text-pink h5">Articles</h1>
             </div>
           </div>
@@ -13,7 +13,7 @@
 
         <div class="tab-content bg-white rounded shadow p-3 my-3" id="pills-tabContent" v-if="!$fetchState.pending">
           <div class="col-md-12 my-3 px-0">
-            <input type="text" class="SearchStyle   border  " v-model="Search" placeholder="جستجو مقالات">
+            <input type="text" class="SearchStyle   tw-shadow  " v-model="Search" placeholder="جستجو مقالات">
           </div>
           <div class="tab-pane fade show active" id="forum-active-content" role="tabpanel" aria-labelledby="forum-active-tab">
             <div class="  tw-mx-auto">

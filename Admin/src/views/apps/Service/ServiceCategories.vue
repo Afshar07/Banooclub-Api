@@ -44,9 +44,19 @@
               />
             </b-form-group>
           </b-col>
+          <b-col cols="12">
+            <div class="d-flex align-items-center gap-3 my-25">
+              <b-form-checkbox
+                  v-model="SelectedCategory.isFunTime"
+
+              >
+              </b-form-checkbox>
+              <label>دسته بندی شادی تایم</label>
+            </div>
+          </b-col>
           <b-col md="12">
             <b-form-group
-                label="عکس مقاله"
+                label="عکس دسته بندی"
                 label-for="mc-last-name"
             >
               <b-form-file
@@ -89,6 +99,15 @@
                   v-model="CategoryName"
               />
             </b-form-group>
+          </b-col>
+          <b-col cols="12">
+              <div class="d-flex align-items-center gap-3 my-25">
+                <b-form-checkbox
+                    v-model="isFunTime"
+                >
+                </b-form-checkbox>
+                <label>دسته بندی شادی تایم</label>
+              </div>
           </b-col>
           <b-col cols="12">
             <b-form-group>
@@ -180,10 +199,14 @@
           </template>
           <template #cell(fileData)="data">
 
-            <img :src="`https://banooclubapi.simagar.com/media/gallery/serviceCategory/${data.item.fileData}`" width="50px" height="50px" alt="">
+            <img v-if="data.item.fileData" :src="`https://banooclubapi.simagar.com/media/gallery/serviceCategory/${data.item.fileData}`" width="50px" height="50px" alt="">
 
           </template>
+          <template #cell(isFunTime)="data">
 
+           <feather-icon v-if="data.item.isFunTime" icon="CheckIcon" class="text-success"></feather-icon>
+            <feather-icon v-else icon="XIcon" class="text-danger"></feather-icon>
+          </template>
           <template #cell(Edit)="data">
 
             <div class="cursor-pointer d-flex flex-row"
@@ -244,7 +267,7 @@
 
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,BFormFile,
-  BBadge, BDropdown, BDropdownItem, BPagination, BOverlay, BModal, BFormGroup,BFormSelect
+  BBadge, BDropdown, BDropdownItem, BPagination, BOverlay, BModal, BFormGroup,BFormSelect,BFormCheckbox
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 
@@ -260,6 +283,7 @@ export default {
   data() {
     return {
       Categories: null,
+      isFunTime:false,
       totalCount: null,
       perPageOptions: [10, 20, 30, 40, 50],
       myTableColumns: [
@@ -278,6 +302,10 @@ export default {
         {
           key: 'description',
           label: 'توضیحات'
+        },
+        {
+          key: 'isFunTime',
+          label: 'شادی تایم'
         },
 
         {
@@ -313,6 +341,7 @@ export default {
     BCol,
     BFormInput,
     BFormGroup,
+    BFormCheckbox,
     BFormFile,
     BButton,
     BTable,
@@ -382,6 +411,7 @@ export default {
         serviceCategoryId:this.SelectedCategory.serviceCategoryId,
         createDate:new Date(Date.now()),
         title: this.SelectedCategory.title,
+        isFunTime:this.SelectedCategory.isFunTime,
         description: this.SelectedCategory.description,
         seoTitle: this.SelectedCategory.seoTitle,
         seoDescription: this.SelectedCategory.seoDescription,
@@ -417,6 +447,7 @@ export default {
           title: this.CategoryName,
           description: this.CategoryDescription,
           seoTitle: this.CategoryName,
+          isFunTime:this.isFunTime,
           seoDescription: this.CategoryDescription,
           fileData: this.images
         }

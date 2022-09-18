@@ -10,7 +10,7 @@
 
 import Chart from "chart.js";
 
-export default {
+export default  {
   name: 'Chart',
   async fetch() {
     try {
@@ -20,6 +20,7 @@ export default {
         })
 
       this.ChartData = service_view.data.servicePack.weekViews.data
+      console.log(this.ChartData)
 
     }catch (e) {
       console.log(e)

@@ -44,10 +44,8 @@
         <div class="tw-flex tw-items-center mb-3  tw-left-2  tw-justify-center position-absolute tw-top-[-15px]">
 
           <div
-            class="tw-top-3  tw-border-1 tw-bg-[#9cf5ff] tw-relative tw-rounded-full tw-shadow   tw-font-medium tw-px-2 tw-py-1 tw-left-2   tw-text-[#db3cd6] ">
-            <i v-if="AdsDetail.planTypes && AdsDetail.planTypes.length>0 &&  AdsDetail.planTypes.includes(1)"
-               class="fas fa-fire tw-cursor-pointer text-danger tw-absolute tw-top-0 tw-left-0 tw-shadow"
-               v-tooltip="{content:'آتیش زدم'}"></i>
+            class="tw-top-3  tw-border-1 tw-bg-[#9cf5ff] tw-relative tw-rounded tw-shadow-lg   tw-font-medium tw-px-2 tw-py-1 tw-left-2   tw-text-[#db3cd6] ">
+            <i v-if="AdsDetail.planTypes && AdsDetail.planTypes.length>0 &&  AdsDetail.planTypes.includes(1)" class="fas fa-fire tw-cursor-pointer text-danger tw-absolute tw-top-0 tw-left-0 tw-shadow" v-tooltip="{content:'آتیش زدم'}"></i>
             {{ Intl.NumberFormat('fa-IR').format(AdsDetail.price) }}
             <small class="Toman">تومان</small>
 
@@ -60,10 +58,10 @@
             class="tw-text-lg tw-font-medium  tw-truncate tw-text-slate-500 product_name tw-text-right mt-2 ShortDescriptionIndex">
             {{ AdsDetail.title }}</h2>
         </nuxt-link>
-        <div v-if="AdsDetail.adsCategoryParents!==''" class="tw-text-xs tw-font-semibold tw-uppercase tw-text-yellow-500 text-end my-3">
+        <div v-if="AdsDetail.adsCategoryParents!==''" class="tw-text-xs tw-font-semibold tw-uppercase tw-text-[#9170f5] text-end my-3">
           {{ AdsDetail.adsCategoryParents }}
         </div>
-        <div v-else class="tw-text-xs tw-font-semibold tw-uppercase tw-text-yellow-500 text-end my-3">
+        <div v-else class="tw-text-xs tw-font-semibold tw-uppercase tw-text-[#9170f5] text-end my-3">
          بدون دسته بندی
         </div>
         <div v-if="$route.path==='/social/accountsetting/MyPage'" class="w-100 d-flex  align-items-center justify-content-between">

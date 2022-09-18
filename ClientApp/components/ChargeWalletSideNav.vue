@@ -4,7 +4,10 @@
     <transition name="charge-wallet-slide-side">
       <div v-if="show" class="charge-wallet-sidenav">
         <div class="d-flex flex-column">
-          <h3>شارژ کیف پول</h3>
+          <div>
+           شارژ کیف پول
+          </div>
+
           <div class="col-12 pt-3 px-0" style="height: 100%;">
             <label>مبلغ</label>
             <div class="d-flex justify-content-center align-items-center">

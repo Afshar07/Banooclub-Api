@@ -16,8 +16,6 @@ export default {
   mounted() {
 
     if (this.ChartData) {
-
-
       let tmpLabels = []
       let tmpData = []
       let tmpDataset = {
@@ -25,8 +23,8 @@ export default {
         datasets: [
           {
             label: 'جدول رشد دنبال کنندگان',
-            borderColor: '#de1c61',
-            backgroundColor:'rgba(222,22,97,0.31)',
+            borderColor: '#8e54e9',
+            backgroundColor:'rgba(142,84,233,0.31)',
 
             data: []
           }

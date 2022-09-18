@@ -28,7 +28,7 @@
     <input type="checkbox" ref="BannerModal" id="my-modal-5" class="tw-modal-toggle"/>
     <label for="my-modal-5" class="tw-modal cursor-pointer">
       <label class="tw-modal-box tw-max-w-3xl relative" for="">
-        <SelectBanner @SetBannerPic="callInputMethod"></SelectBanner>
+        <SelectBanner @SendBannerPic="UploadBanner" @SetBannerPic="callInputMethod"></SelectBanner>
 <!--        <div class="tw-w-full">-->
 <!--          <img src="/defaultBanner.jpg" class="tw-w-full tw-h-20 tw-rounded tw-object-cover" alt="">-->
 
@@ -252,34 +252,19 @@
             </button>
           </div>
           <div class="add-btn" v-if="!$route.params.slug">
-
-            <button
-              style="cursor: pointer;background-color: #e2a7ff"
-              type="button"
-              class="btn ChangePhotoBtn d-flex align-items-center py-md-2 px-md-3 mx-1"
-            >
-
               <label for="my-modal-5" class="m-0">
-                <small class="text-white" style="font-size: 10px;">ویرایش عکس جلد</small>
+                <small class="text-white btn ChangePhotoBtn tw-cursor-pointer d-flex align-items-center py-md-2 px-md-3 mx-1" style="font-size: 10px;background-color: #e2a7ff">ویرایش عکس جلد</small>
               </label>
-
-
               <input
                 ref="file"
                 class="InputEditPhoto d-none"
                 type="file"
                 @change="InputEditPhoto"
               />
-
-            </button>
           </div>
           <div class="add-btn" v-if="!$route.params.slug">
-            <button
-              style="cursor: pointer;background-color: #e2a7ff"
-              class="btn ChangePhotoBtn d-flex align-items-center py-md-2 px-md-3 mx-1"
-            >
-              <label for="my-modal-4" class="m-0 tw-w-full tw-h-full">
-                <small class="text-white tw-text-[10px]">ویرایش عکس پروفایل</small>
+              <label for="my-modal-4" class="m-0  ">
+                <small class="text-white btn ChangePhotoBtn tw-cursor-pointer d-flex align-items-center py-md-2 px-md-3 mx-1" style="font-size: 10px;background-color: #e2a7ff">ویرایش عکس پروفایل</small>
               </label>
               <input
                 ref="InputUserEditPhoto"
@@ -287,8 +272,6 @@
                 type="file"
                 @change="InputEditUserPhoto"
               />
-
-            </button>
           </div>
         </li>
       </ul>
@@ -368,6 +351,10 @@ export default {
         console.log(e)
       }
     },
+
+
+
+
     callInputMethod() {
       this.$refs.file.click();
     },
@@ -375,7 +362,23 @@ export default {
       setTimeout(async () => {
         try {
           await this.$repositories.updateUserDetails.updateUserDetails({
-            avatar: Avatar,
+            selfieFileData: Avatar,
+          });
+          await this.$auth.fetchUser()
+          this.$fetch()
+        } catch (error) {
+          console.log(error);
+        } finally {
+          this.$nuxt.$loading.finish();
+          this.$nuxt.loading = false;
+        }
+      }, 300);
+    },
+    UploadBanner(banner){
+      setTimeout(async () => {
+        try {
+          await this.$repositories.updateUserDetails.updateUserDetails({
+            bannerFileData: banner,
           });
           await this.$auth.fetchUser()
           this.$fetch()
@@ -455,6 +458,13 @@ export default {
         }
       }, 1000);
     },
+
+
+
+
+
+
+
     async Follow() {
       try {
         const response =

@@ -12,7 +12,7 @@
         </div>
       </div>
     </div>
-    <h1 class="p-1 h3">موضوع تیکت: {{ ticketData[0].content }}</h1>
+    <h1 class="p-1 h5">موضوع تیکت: {{ ticketData[0].content }}</h1>
     <div         v-for="item in ticketData" :key="item.ticketId" class="col-md-12">
       <div class="TicketCard  w-100  my-3">
         <span    v-if="item.userType === 3" class="badge pill  " style="background: linear-gradient(to right,rgba(219,60,145,1) 0%,rgba(231,122,122,1) 100%);">توسط شما</span>
@@ -26,8 +26,8 @@
         <small class="text-secondary">{{new Date(item.createDate).toLocaleTimeString('fa-IR')}} </small>
       </div>
     </div>
-    <div class="col-12 bg-white p-2 rounded">
-      <h4>ثبت پاسخ</h4>
+    <div class="col-12 bg-white p-3 tw-shadow rounded">
+      <h6>ثبت پاسخ</h6>
       <div class="row">
         <div class="col-md-8">
           <textarea

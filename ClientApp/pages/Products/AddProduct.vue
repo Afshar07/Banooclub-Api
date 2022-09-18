@@ -1,11 +1,11 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer NewBg  px-2">
+  <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer NewBg  px-5">
 
     <div class="tw-w-full bg-white tw-shadow p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
       <div class="d-flex align-items-center gap-2">
         <img src="/girl-icon-khadamat-afzodan.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
         <div class="d-flex align-items-center flex-column">
-          <h1 class="text-purple h6"> ثبت خدمت</h1>
+          <h1 class="text-purple h6" style="font-weight: bolder!important;"> ثبت خدمت</h1>
           <strong class="text-pink">Submit A Service</strong>
         </div>
       </div>
@@ -41,21 +41,6 @@
           id="description"
         ></textarea>
       </div>
-      <div class="col-12 py-3" style="padding-left: 0">
-        <label>آدرس</label>
-        <textarea
-          v-model="service_address"
-          style="color: #808080;"
-          row="100"
-          class="form-control border FormInputs rounded w-100"
-          placeholder="آدرس خدمت"
-          id="address"
-        ></textarea>
-      </div>
-      <div class="col-12 py-3" style="padding-left: 0">
-        <div class="labelText">موقعیت روی نقشه</div>
-        <SetLocation @getGeoLocation="SetGeoLocation"></SetLocation>
-      </div>
       <div class="col-md-6 my-3">
         <v-select
           @input="GetCity"
@@ -81,12 +66,28 @@
 
         ></v-select>
       </div>
+      <div class="col-12 py-3" style="padding-left: 0">
+        <label>آدرس</label>
+        <textarea
+          v-model="service_address"
+          style="color: #808080;"
+          row="100"
+          class="form-control border FormInputs rounded w-100"
+          placeholder="آدرس خدمت"
+          id="address"
+        ></textarea>
+      </div>
+      <div class="col-12 py-3" style="padding-left: 0">
+        <div class="labelText">موقعیت روی نقشه</div>
+        <SetLocation @getGeoLocation="SetGeoLocation"></SetLocation>
+      </div>
+
       <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
         <label>ظرفیت</label>
         <input maxlength="11" v-model="Qty" type="number" class="with-border FormInputs" placeholder="ظرفیت خدمت">
       </div>
       <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
-        <label>شماره مستقیم تماس *</label>
+        <label>شماره موبایل *</label>
         <input maxlength="11" v-model="mobile" type="number" class="with-border FormInputs" placeholder="شماره همراه با صفر"
                :class="{BorderRed:mobile===null,BorderGreen:mobile!==0}">
       </div>
@@ -110,6 +111,7 @@
             format="YYYY-MM-DD"
             display-format="jYYYY-jMM-jDD"
             v-model="StartDate"
+            inputClass="vpd-input-group1"
             type="date"
           />
         </client-only>
@@ -120,6 +122,7 @@
           <date-picker
             format="YYYY-MM-DD"
             display-format="jYYYY-jMM-jDD"
+            inputClass="vpd-input-group1"
             v-model="expiration_date"
             type="date"
           />
@@ -847,7 +850,9 @@ input:checked + .slider .off {
   color: #999;
   padding-top: 8px;
 }
-
+.vpd-input-group1{
+  background-color: #faf7ff!important;
+}
 
 </style>
 

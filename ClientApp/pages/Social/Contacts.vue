@@ -3,7 +3,7 @@
     <div class="row p-3 my-3 rounded tw-shadow bg-white rounded-top">
       <div class="col-md-12">
         <input
-          class="SearchStyle"
+          class="SearchStyle tw-shadow"
           type="text"
           placeholder="جستجو کاربران"
           v-model="searchKey"
@@ -12,7 +12,7 @@
       <div class="col-md-12" style="height: 700px;overflow-y: scroll;" @scroll="handleScroll">
         <div v-if="AllUsers.length>0" class="row">
           <div class="col-md-3 col-12" v-for="(item,index) in AllUsers" :key="index">
-            <UserItem class="my-2 tw-shadow tw-rounded tw-p-2" :userDetails="item"/>
+            <UserItem class="my-2 tw-shadow tw-rounded " :userDetails="item"/>
           </div>
           <Spinner style="text-align: center" v-if="Atbottom"/>
         </div>
