@@ -250,6 +250,7 @@ IBanooClubEFRepository<OrderItem> orderItemRepository)
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                     ? _accessor.HttpContext.User.Identity.GetUserId()
                     : 0;
+
             List<Ads> dbAds = new List<Ads>();
             dbAds = adsRepository.GetQuery().Where(z => z.Status == (int)AdsStatus.Published && (z.Title.Contains(search) || z.Description.Contains(search))).
                 OrderByDescending(x => x.FireDate).Skip((pageNumber - 1) * count).Take(count).ToList();
@@ -269,6 +270,9 @@ IBanooClubEFRepository<OrderItem> orderItemRepository)
                         });
                     }
                 }
+                if (!ad.IsShowNumber)
+                    ad.PhoneNumber = 0;
+
                 ad.UserInfo = userService.Get(ad.UserId);
                 //ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
                 var cat = adsCategoryRepository.GetQuery().FirstOrDefault(z => z.AdsCategoryId == ad.CategoryId);
@@ -365,6 +369,9 @@ IBanooClubEFRepository<OrderItem> orderItemRepository)
             }
             var cat = adsCategoryRepository.GetQuery().FirstOrDefault(z => z.AdsCategoryId == ad.CategoryId);
             ad.AdsCategoryParents = cat == null ? "" : cat.Name;
+
+            if (!ad.IsShowNumber)
+                ad.PhoneNumber = 0;
             //ad.AdsCategoryParents = GetAdsParents(ad.CategoryId,"");
             return ad;
         }
@@ -436,6 +443,9 @@ IBanooClubEFRepository<OrderItem> orderItemRepository)
                         });
                     }
                 }
+                if (!ad.IsShowNumber)
+                    ad.PhoneNumber = 0;
+
                 ad.UserInfo = userService.Get(userId);
                 ad.AdsCategoryParents = GetAdsParents(ad.CategoryId, "");
                 var dbState = _stateRepository.GetQuery().FirstOrDefault(z => z.StateId == ad.StateId);
@@ -603,6 +613,10 @@ IBanooClubEFRepository<OrderItem> orderItemRepository)
         public async Task<Ads> ChangeAdsStatus(Ads item)
         {
             var dbAds = adsRepository.GetQuery().FirstOrDefault(z => z.AdsId == item.AdsId);
+
+            if (!dbAds.IsShowNumber)
+                dbAds.PhoneNumber = 0;
+
             if (dbAds != null)
             {
                 dbAds.UpdateDate = DateTime.Now;
@@ -667,6 +681,9 @@ IBanooClubEFRepository<OrderItem> orderItemRepository)
 
             foreach (var ad in dbAds)
             {
+                if (!ad.IsShowNumber)
+                    ad.PhoneNumber = 0;
+
                 ad.AdsCategoryParents = GetAdsParents(ad.CategoryId, "");
                 ad.Photos = new List<FileData>();
                 var dbPhotos = _mediaRepository.GetQuery().Where(z => z.ObjectId == ad.AdsId && z.Type == MediaTypes.AdsPhoto).ToList();
@@ -769,6 +786,9 @@ IBanooClubEFRepository<OrderItem> orderItemRepository)
 
             foreach (var ad in finalResult)
             {
+                if (!ad.IsShowNumber)
+                    ad.PhoneNumber = 0;
+
                 //ad.AdsCategoryParents = GetAdsParents(ad.CategoryId, "");
                 var cat = adsCategoryRepository.GetQuery().FirstOrDefault(z => z.AdsCategoryId == ad.CategoryId);
                 ad.AdsCategoryParents = cat == null ? "" : cat.Name;

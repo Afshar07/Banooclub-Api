@@ -25,6 +25,8 @@ namespace BanooClub.Models
         public DateTime FireDate { get; set; }
         public bool Exchangeability { get; set; }
         public long PhoneNumber { get; set; }
+        public bool IsShowNumber { get; set; }
+
         [NotMapped]
         public string City { get; set; }
         [NotMapped]

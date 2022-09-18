@@ -264,7 +264,7 @@ namespace BanooClub.Services.ServicePackServices
 
                 var finalservicePackIds = new List<long>();
 
-                foreach(var item in discountsForServices)
+                foreach (var item in discountsForServices)
                 {
                     if (item.ExpireDate != null && item.ExpireDate > DateTime.Now)
                         finalservicePackIds.Add(item.ServicePackId);
@@ -289,7 +289,7 @@ namespace BanooClub.Services.ServicePackServices
                 servicePacks = servicePacks.Where(x => categories.Contains(x.ServiceCategoryId)).ToList();
             }
 
-                var servicesCount = servicePacks.Count;
+            var servicesCount = servicePacks.Count;
             if (searchFilter.PageNumber != 0 && searchFilter.Count != 0)
             {
                 servicePacks = servicePacks.Where(z => z.Title.Contains(searchFilter.SearchCommand)).ToList();
@@ -920,15 +920,16 @@ namespace BanooClub.Services.ServicePackServices
             service.Tags = tagRepository.GetQuery().Where(z => z.Type == TagType.Service && z.ObjectId == id).ToList();
             service.UserInfo = userRepository.GetQuery().FirstOrDefault(z => z.UserId == service.UserId);
 
-            foreach (var ownerId in service.OwnerUserIds)
-            {
-                var ownerUser = userRepository.GetQuery()
-                    .AsQueryable()
-                    .SingleOrDefault(x => x.UserId == ownerId);
+            if (service.OwnerUserIds != null && service.OwnerUserIds.Any())
+                foreach (var ownerId in service.OwnerUserIds)
+                {
+                    var ownerUser = userRepository.GetQuery()
+                        .AsQueryable()
+                        .SingleOrDefault(x => x.UserId == ownerId);
 
-                if (ownerUser != null)
-                    service.OwnerUserInfos.Add(ownerUser);
-            }
+                    if (ownerUser != null)
+                        service.OwnerUserInfos.Add(ownerUser);
+                }
 
             if (service.CityId != null && service.CityId != 0)
             {
