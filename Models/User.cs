@@ -26,6 +26,8 @@ namespace BanooClub.Models
         public RelationStatus? RelationState { get; set; }
         public string Avatar { get; set; }
         public string DefaultBanner { get; set; }
+        public bool UseDefaultAvatar { get; set; }
+        public bool UseDefaultBanner { get; set; }
 
         [NotMapped]
         public int FollowersCount { get; set; }

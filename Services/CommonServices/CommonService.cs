@@ -384,7 +384,7 @@ namespace BanooClub.Services.CommonServices
                     };
                     Last8Viewer.Add(obj);
                 }
-
+                
                 var IsPrivate = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == userId).IsPrivateSocial;
                 var dbUserInfo = _userService.Get(userId);
 

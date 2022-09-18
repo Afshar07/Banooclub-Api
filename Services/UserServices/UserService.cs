@@ -311,6 +311,8 @@ namespace BanooClub.Services.UserServices
             dbUser.CityId = item.CityId == null ? dbUser.CityId : item.CityId;
             dbUser.StateId = item.StateId == null ? dbUser.StateId : item.StateId;
             dbUser.RelationState = item.RelationState == null ? dbUser.RelationState : item.RelationState;
+            dbUser.UseDefaultAvatar = item.UseDefaultAvatar;
+            dbUser.UseDefaultBanner = item.UseDefaultBanner;
 
             if (!string.IsNullOrEmpty(item.Password))
             {
@@ -689,6 +691,8 @@ namespace BanooClub.Services.UserServices
             dbUser.CityId = item.CityId == null ? dbUser.CityId : item.CityId;
             dbUser.StateId = item.StateId == null ? dbUser.StateId : item.StateId;
             dbUser.RelationState = item.RelationState == null ? dbUser.RelationState : item.RelationState;
+            dbUser.UseDefaultAvatar = item.UseDefaultAvatar;
+            dbUser.UseDefaultBanner = item.UseDefaultBanner;
             if (!string.IsNullOrEmpty(item.Password))
             {
                 var dbCurrentFromUser = _encryptService.Encrypt(item.CurrentPassword).Data;
@@ -878,13 +882,13 @@ namespace BanooClub.Services.UserServices
                 dbUser.FollowingsCount = dbFollowingsCount;
 
                 var dbBanner = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Banner);
-                if (dbBanner != null)
+                if (dbBanner != null && !dbUser.UseDefaultBanner)
                     dbUser.BannerFileData = $"Media/Gallery/Banner/{dbBanner.PictureUrl}";
                 else
                     dbUser.BannerFileData = $"{Defaults.Banners}/{dbUser.DefaultBanner}";
 
                 var dbProfile = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Profile);
-                if (dbProfile != null)
+                if (dbProfile != null && !dbUser.UseDefaultAvatar)
                     dbUser.SelfieFileData = $"Media/Gallery/Profile/{dbProfile.PictureUrl}";
                 else
                     dbUser.SelfieFileData = $"{Defaults.Avatars}/{dbUser.Avatar}";
@@ -918,13 +922,13 @@ namespace BanooClub.Services.UserServices
             dbUser.FollowingsCount = dbFollowingsCount;
 
             var dbBanner = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Banner);
-            if (dbBanner != null)
+            if (dbBanner != null && !dbUser.UseDefaultBanner)
                 dbUser.BannerFileData = $"Media/Gallery/Banner/{dbBanner.PictureUrl}";
             else
                 dbUser.BannerFileData = $"{Defaults.Banners}/{dbUser.DefaultBanner}";
 
             var dbProfile = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Profile);
-            if (dbProfile != null)
+            if (dbProfile != null && !dbUser.UseDefaultAvatar)
                 dbUser.SelfieFileData = $"Media/Gallery/Profile/{dbProfile.PictureUrl}";
             else
                 dbUser.SelfieFileData = $"{Defaults.Avatars}/{dbUser.Avatar}";
@@ -960,13 +964,13 @@ namespace BanooClub.Services.UserServices
             dbUser.FollowingsCount = dbFollowingsCount;
 
             var dbBanner = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Banner);
-            if (dbBanner != null)
+            if (dbBanner != null && !dbUser.UseDefaultBanner)
                 dbUser.BannerFileData = $"Media/Gallery/Banner/{dbBanner.PictureUrl}";
             else
                 dbUser.BannerFileData = $"{Defaults.Banners}/{dbUser.DefaultBanner}";
 
             var dbProfile = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == id && z.Type == MediaTypes.Profile);
-            if (dbProfile != null)
+            if (dbProfile != null && !dbUser.UseDefaultAvatar)
                 dbUser.SelfieFileData = $"Media/Gallery/Profile/{dbProfile.PictureUrl}";
             else
                 dbUser.SelfieFileData = $"{Defaults.Avatars}/{dbUser.Avatar}";
@@ -1006,11 +1010,11 @@ namespace BanooClub.Services.UserServices
                 var banner = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Banner);
                 var selfie = _mediaRepository.GetQuery().FirstOrDefault(z => z.ObjectId == user.UserId && z.Type == MediaTypes.Profile);
 
-                user.SelfieFileData = selfie == null ? $"{Defaults.Avatars}/{user.Avatar}"
-                    : $"Media/Gallery/Profile/{selfie.PictureUrl}";
+                user.SelfieFileData = (selfie != null && !user.UseDefaultAvatar) ? $"Media/Gallery/Profile/{selfie.PictureUrl}"
+                    : $"{Defaults.Avatars}/{user.Avatar}";
 
-                user.BannerFileData = banner == null ? $"{Defaults.Banners}/{user.DefaultBanner}"
-                    : $"Media/Gallery/Banner/{banner.PictureUrl}";
+                user.BannerFileData = (banner != null && !user.UseDefaultBanner) ? $"Media/Gallery/Banner/{banner.PictureUrl}"
+                    : $"{Defaults.Banners}/{user.DefaultBanner}";
 
                 user.UserSetting = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == user.UserId);
             }

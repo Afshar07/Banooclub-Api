@@ -351,8 +351,8 @@ namespace BanooClub.Services.AccountServices
                         var cmd = "BEGIN TRANSACTION [Tran1]" +
                             "BEGIN TRY" +
                             " declare @LASTID bigint" +
-                            " INSERT INTO[User].Users(Avatar, DefaultBanner, Mobile, Name, Type, FamilyName, Email, IsDeleted, Password, Status,FormalId,UserName,ServiceCategoryId,UserCode,IntroducerCode,BirthDate,StateId,CityId,RelationState)" +
-                            $" VALUES('{userAvatar}', '{userBanner}', '{mobile}', N'{firstname}', 3, N'{lastName}', '{email}', 0, '{password}', 1,0,N'{userName}',{ServiceCatId},N'{UserCode}',N'{IntroducerCode}','{BirthDate}',{STATEID},{CITYID},{RELATIONSTATE})" +
+                            " INSERT INTO[User].Users(Avatar, DefaultBanner, Mobile, Name, Type, FamilyName, Email, IsDeleted, Password, Status,FormalId,UserName,ServiceCategoryId,UserCode,IntroducerCode,BirthDate,StateId,CityId,RelationState, UseDefaultBanner, UseDefaultAvatar)" +
+                            $" VALUES('{userAvatar}', '{userBanner}', '{mobile}', N'{firstname}', 3, N'{lastName}', '{email}', 0, '{password}', 1,0,N'{userName}',{ServiceCatId},N'{UserCode}',N'{IntroducerCode}','{BirthDate}',{STATEID},{CITYID},{RELATIONSTATE}, 1, 1)" +
                             " SET @LASTID = SCOPE_IDENTITY()" +
                             " INSERT INTO[User].UserSettings(ActiveRoomate,IsPrivateActivity, VideoIdentityStatus, IsPrivateRoomate, IsPrivateAds, IsPrivateSocial, Flag, Bio, IsDeleted, BirthDate, UserTag, UserId ,LawyerCertificateStatus,NewspaperStatus )" +
                             "  VALUES(0,0,1, 0, 0, 0, '', '', 0, GETDATE(), '', @LASTID , 4 , 4)" +

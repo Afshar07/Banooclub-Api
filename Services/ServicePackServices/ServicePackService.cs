@@ -267,12 +267,11 @@ namespace BanooClub.Services.ServicePackServices
                 foreach(var item in discountsForServices)
                 {
                     if (item.ExpireDate != null && item.ExpireDate > DateTime.Now)
-                        servicePackIds.Add(item.ServicePackId);
+                        finalservicePackIds.Add(item.ServicePackId);
                     else if (item.StartDate != null && item.StartDate <= DateTime.Now)
-                        servicePackIds.Add(item.ServicePackId);
+                        finalservicePackIds.Add(item.ServicePackId);
                     else if (item.ExpireDate == null && item.StartDate == null)
-                        servicePackIds.Add(item.ServicePackId);
-                    
+                        finalservicePackIds.Add(item.ServicePackId);
                 }
 
                 servicePacks = servicePacks.Where(x => finalservicePackIds.Contains(x.ServicePackId)).ToList();
