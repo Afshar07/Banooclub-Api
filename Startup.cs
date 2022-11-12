@@ -49,6 +49,7 @@ namespace BanooClub
             services.AddDbContext<BanooClubDBContext>(o =>
             { o.UseSqlServer(Configuration.GetConnectionString("BanooClub")); });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHostedService<Services.BackgroundServices.DiscountBackgroundService>();
             services.AddSession();
             services.AddDependency();
             services.AddSettings(Configuration);
