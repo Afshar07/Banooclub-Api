@@ -49,8 +49,8 @@
     </ul>
     <div class="row my-3">
       <div v-for="(item,index) in MyPhotos.slice(0,4)" :key="index" class="col-md-4 tw-h-[10rem] rounded my-2">
-        <img v-if="item.priority===2" :src="`https://banooclubapi.simagar.com/media/gallery/galleryimages/${item.base64}`" class="tw-w-full rounded tw-h-[10rem] tw-object-cover" alt="">
-        <video v-else-if="item.priority === 3" class="rounded w-full" style="object-fit: cover;height: 150px" controls :src="`https://banooclubapi.simagar.com/media/gallery/galleryvideos/${item.base64}`"></video>
+        <img v-if="item.priority===2" :src="`https://banooclubapi.oregonserver.com/media/gallery/galleryimages/${item.base64}`" class="tw-w-full rounded tw-h-[10rem] tw-object-cover" alt="">
+        <video v-else-if="item.priority === 3" class="rounded w-full" style="object-fit: cover;height: 150px" controls :src="`https://banooclubapi.oregonserver.com/media/gallery/galleryvideos/${item.base64}`"></video>
       </div>
     </div>
 

@@ -19,7 +19,7 @@
           <div class="">
             <img
               class="img-fluid myPicture"
-              :src="`https://banooclubapi.simagar.com/${item.selfieFileData}`"
+              :src="`https://banooclubapi.oregonserver.com/${item.selfieFileData}`"
               alt=""
             />
           </div>

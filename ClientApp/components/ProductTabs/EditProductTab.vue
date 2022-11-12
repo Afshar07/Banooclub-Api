@@ -302,7 +302,7 @@
             v-for="(image,index) in images_preview"
             :key="index"
           >
-            <img class="tw-rounded-lg tw-h-32" width="100%" :src="`https://banooclubapi.simagar.com/media/gallery/Service/${image.base64}`" :alt="serviceDetailProp.title"
+            <img class="tw-rounded-lg tw-h-32" width="100%" :src="`https://banooclubapi.oregonserver.com/media/gallery/Service/${image.base64}`" :alt="serviceDetailProp.title"
                  style="object-fit: contain" :class="{BorderGreen:index===0}"/>
             <span class="position-absolute deleteIcon m-3" style="top: 15px" @click="deleteImage(image,index)">
                 <font-awesome-icon icon="trash" color="#85ffdd" size="sm"/>

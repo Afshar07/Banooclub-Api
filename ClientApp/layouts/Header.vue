@@ -684,7 +684,7 @@
                 <img
                   v-if="item.selfieFileData !== ''"
                   class="img-fluid myPicture rounded-circle tw-pl-0"
-                  :src="`https://banooclubapi.simagar.com/${item.selfieFileData}`"
+                  :src="`https://banooclubapi.oregonserver.com/${item.selfieFileData}`"
                   alt=""
                   style="width: 25px; height: 25px;object-fit: contain"
                 />
@@ -753,7 +753,7 @@
                   v-click-outside="CloseProfileHeader"
                   v-if="$auth.user && $auth.user.baseData &&  $auth.user.baseData.selfie"
                   class="img-fluid headerPicture tw-object-cover"
-                  :src="`https://banooclubapi.simagar.com/${$auth.user.baseData.selfie}`"
+                  :src="`https://banooclubapi.oregonserver.com/${$auth.user.baseData.selfie}`"
                   alt=""
                   @click.stop="profileHeader"
                 />
@@ -780,7 +780,7 @@
                             v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
                             class="img-fluid rounded-circle"
                             style="width: 45px; height: 45px;"
-                            :src="`https://banooclubapi.simagar.com/${$auth.user.baseData.selfie}`"
+                            :src="`https://banooclubapi.oregonserver.com/${$auth.user.baseData.selfie}`"
                             alt=""
                             @click="profileHeader"
                           />
@@ -936,7 +936,7 @@
                   v-if="item.selfieFileData !== ''"
                   style="width: 25px;height: 25px;object-fit: contain"
                   class="myPicture rounded-circle align-self-center"
-                  :src="`https://banooclubapi.simagar.com/${item.selfieFileData}`"
+                  :src="`https://banooclubapi.oregonserver.com/${item.selfieFileData}`"
                   alt=""
                 />
                 <img
@@ -1008,7 +1008,7 @@
                 <img
                   v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
                   class="img-fluid headerPicture tw-object-cover"
-                  :src="`https://banooclubapi.simagar.com/${$auth.user.baseData.selfie}`"
+                  :src="`https://banooclubapi.oregonserver.com/${$auth.user.baseData.selfie}`"
                   alt=""
 
                 />
@@ -1032,7 +1032,7 @@
                             v-if="loggedInfoData.selfie"
                             class="img-fluid rounded-circle"
                             style="width: 45px; height: 45px;"
-                            :src="`https://banooclubapi.simagar.com/${loggedInfoData.selfie}`"
+                            :src="`https://banooclubapi.oregonserver.com/${loggedInfoData.selfie}`"
                             alt=""
                             @click="profileHeader"
                           />
@@ -1488,12 +1488,12 @@ export default {
     },
     imgUserAvatar() {
       if (this.userinfo.selfieFileData !== null) {
-        this.userImageApi = `https://banooclubapi.simagar.com/${this.userinfo.selfieFileData}`;
+        this.userImageApi = `https://banooclubapi.oregonserver.com/${this.userinfo.selfieFileData}`;
       }
     },
     imageBackground() {
       if (this.userinfo.bannerFileData !== null) {
-        this.BackgroundApi = `https://banooclubapi.simagar.com/${this.userinfo.bannerFileData}`;
+        this.BackgroundApi = `https://banooclubapi.oregonserver.com/${this.userinfo.bannerFileData}`;
       }
     },
     async getUserInfo() {

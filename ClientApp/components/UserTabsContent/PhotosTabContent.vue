@@ -8,13 +8,13 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div v-if="SelectedMedia!==null" class="modal-body">
-            <img v-if="SelectedMedia.priority == 1 || SelectedMedia.priority == 2" class="tw-w-full tw-h-full" :src="`https://banooclubapi.simagar.com/media/gallery/galleryimages/${SelectedMedia.base64}`" alt="Product Image"
+            <img v-if="SelectedMedia.priority == 1 || SelectedMedia.priority == 2" class="tw-w-full tw-h-full" :src="`https://banooclubapi.oregonserver.com/media/gallery/galleryimages/${SelectedMedia.base64}`" alt="Product Image"
                  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
             <video
               v-else-if="SelectedMedia.priority == 3"
               class="w-100 tw-h-full"
               controls
-              :src="`https://banooclubapi.simagar.com/media/gallery/galleryvideos/${SelectedMedia.base64}`"
+              :src="`https://banooclubapi.oregonserver.com/media/gallery/galleryvideos/${SelectedMedia.base64}`"
             ></video>
           </div>
 
@@ -95,7 +95,7 @@
                 <font-awesome-icon icon="trash" color="#ff4d4d" size="lg"/>
               </span>
 
-              <img data-bs-toggle="modal" data-bs-target="#MediaModal"  @click="SetSelectedMedia(item)" class="tw-w-full tw-shadow tw-rounded tw-h-full" :src="`https://banooclubapi.simagar.com/media/gallery/galleryimages/${item.base64}`"  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
+              <img data-bs-toggle="modal" data-bs-target="#MediaModal"  @click="SetSelectedMedia(item)" class="tw-w-full tw-shadow tw-rounded tw-h-full" :src="`https://banooclubapi.oregonserver.com/media/gallery/galleryimages/${item.base64}`"  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
             </button>
             <button  v-else-if="item.priority === 3" class="btn ShowMediaModal w-100 tw-h-full"   >
 
@@ -107,7 +107,7 @@
                 @click="SetSelectedMedia(item)"
                 class="w-100 tw-h-full tw-shadow tw-rounded"
                 controls
-                :src="`https://banooclubapi.simagar.com/media/gallery/galleryvideos/${item.base64}`"
+                :src="`https://banooclubapi.oregonserver.com/media/gallery/galleryvideos/${item.base64}`"
               ></video>
             </button>
 
