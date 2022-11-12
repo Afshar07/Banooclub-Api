@@ -76,7 +76,7 @@
           <!-- Column: delete -->
           <template #cell(medias)="data">
               <div v-for="el in data.item.photos" class="d-flex align-items-center gap-2">
-                <img v-if="el.base64!==''" :src="`https://banooclubapi.simagar.com/${el.base64}`" style="object-fit: contain;object-position: center" width="50px" height="50px" alt="">
+                <img v-if="el.base64!==''" :src="`https://banooclubapi.oregonserver.com/${el.base64}`" style="object-fit: contain;object-position: center" width="50px" height="50px" alt="">
 
               </div>
 

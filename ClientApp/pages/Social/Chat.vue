@@ -114,6 +114,13 @@ export default {
 
   },
   methods: {
+    scrollToBottom(){
+
+      if(this.ChatData.length>0 && this.$refs.ChatContainer){
+
+        this.$refs.ChatContainer.scrollTop = this.$refs.ChatContainer.scrollHeight
+      }
+    },
     // Main Methods
     async GetMenu() {
 

@@ -17,7 +17,6 @@ export default ({ app, store }, inject) => {
     })
     .configureLogging(LogLevel.Information)
     .build();
-
   inject("hub", hub,PostHub);
   hub.on("SendMessage", (res) => {
     store.commit("sendMessage", res);

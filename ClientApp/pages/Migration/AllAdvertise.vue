@@ -148,7 +148,6 @@
                                   :options="AllStates"
                                   label="name"
                                   dir="rtl"
-
                                   placeholder="استان"
                                   v-model="SelectedStateId"
                                   :reduce="(name) => name.stateId"

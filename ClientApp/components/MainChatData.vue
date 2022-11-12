@@ -84,12 +84,9 @@ export default {
           await this.ReadMessage()
           await this.GetConversationWithScroll();
           this.$store.commit("SetDefaultSocketId");
-
         }
-
       },
     },
-
   },
   methods:{
     async DeliverMessage(){
