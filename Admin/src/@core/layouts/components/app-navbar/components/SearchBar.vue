@@ -53,7 +53,7 @@
           @click="RouteToUserPage(item)"
           >
             <div class=" d-flex align-items-center ">
-              <img v-if="item.selfieFileData" class="rounded-circle" style="width: 50px;height: 50px" :src="`https://banooclubapi.oregonserver.com/media/gallery/profile/${item.selfieFileData}`" alt="">
+              <img v-if="item.selfieFileData" class="rounded-circle" style="width: 50px;height: 50px" :src="`https://banooclubapi.oregonserver.com/${item.selfieFileData}`" alt="">
 
           <feather-icon v-else icon="UserIcon"></feather-icon>
               <div class="d-flex mx-4 align-items-start flex-column">

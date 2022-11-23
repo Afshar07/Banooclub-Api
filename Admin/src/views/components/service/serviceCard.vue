@@ -9,7 +9,7 @@
           <b-avatar
               v-if="ServiceData.userInfo"
               size="42"
-              :src="`https://banooclubapi.oregonserver.com/media/gallery/profile/${ServiceData.userInfo.selfieFileData}`"
+              :src="`https://banooclubapi.oregonserver.com/${ServiceData.userInfo.selfieFileData}`"
           />
         </b-media-aside>
         <b-media-body>

@@ -79,7 +79,7 @@
       </div>
       <div class="col-12 py-3" style="padding-left: 0">
         <div class="labelText">موقعیت روی نقشه</div>
-        <SetLocation @getGeoLocation="SetGeoLocation"></SetLocation>
+        <LazySetLocation @getGeoLocation="SetGeoLocation"></LazySetLocation>
       </div>
 
       <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
@@ -164,7 +164,7 @@
           <div class="py-3 col-lg-2 col-md-3 px-3">
             <div @click="uploadNewPicture"
                  class="tw-bg-[#f9f9f9] tw-border-2 tw-border-dashed tw-flex tw-flex-col tw-h-32 tw-items-center tw-justify-center tw-relative tw-rounded-lg">
-              <UploadFileIcon class="tw-fill-[#b44aff]" style="width: 48px; height: 48px;"/>
+              <LazyUploadFileIcon class="tw-fill-[#b44aff]" style="width: 48px; height: 48px;"/>
             </div>
             <input
               ref="picture_file"
@@ -199,7 +199,7 @@
             <div @click="uploadNewVideo" class="tw-bg-[#f9f9f9]
               tw-border-2 tw-border-dashed tw-flex tw-flex-col tw-h-32 tw-items-center
               tw-justify-center tw-relative tw-rounded-lg">
-              <UploadFileIcon class="tw-fill-[#b44aff]" style="width: 48px; height: 48px;"/>
+              <LazyUploadFileIcon class="tw-fill-[#b44aff]" style="width: 48px; height: 48px;"/>
             </div>
             <input
               ref="VideoFile"
@@ -257,7 +257,7 @@
               افزودن ویژگی خدمت (بعد از تکمیل اطلاعات ویژگی ها را ذخیره کنید)
             </div>
             <button @click="increasePropertyCount" class="btn AddReplyBtn text-white">
-              <PlusIcon fill="#fc5399" style="width: 40px; height: 40px;"/>
+              <LazyPlusIcon fill="#fc5399" style="width: 40px; height: 40px;"/>
             </button>
           </div>
           <div class="d-flex align-items-center gap-2">
@@ -336,13 +336,9 @@
 </template>
 
 <script>
-import UploadFileIcon from "../../components/Icons/UploadFileIcon";
-import PlusIcon from "../../components/Icons/PlusIcon";
-import SetLocation from "../../components/SetLocation";
 
 export default {
   name: "AddProduct",
-  components: {PlusIcon, UploadFileIcon, SetLocation},
   layout: "PoshtebamPlusLayout",
   fetchOnServer: false,
   head() {

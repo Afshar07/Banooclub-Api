@@ -35,8 +35,7 @@
                 ورود با شماره موبایل
               </div>
             </div>
-            <LoginForm :login-type="loginType" @open_register_modal="openRegisterModal()"
-                       @close_register_modal="closeRegisterModal()"/>
+            <LazyLoginForm/>
           </div>
         </div>
       </div>
@@ -55,9 +54,7 @@
 </template>
 
 <script>
-import LoginBanner from "../components/LoginBanner";
-import LoginForm from "../components/Login/LoginForm.vue";
-import RegisterModal from "../components/Register/RegisterModal";
+
 
 export default {
   name: "Login",
@@ -68,27 +65,17 @@ export default {
       title: 'ثبت نام'
     }
   },
-  components: {RegisterModal, LoginBanner, LoginForm},
+
   data() {
     return {
-      register_modal_is_open: false,
-      loginType: 1,
+
     };
   },
 
   mounted() {
-    this.$nextTick(() => {
-      this.$nuxt.$loading.finish();
-    });
+
   },
   methods: {
-    closeRegisterModal() {
-      this.register_modal_is_open = false
-
-    },
-    openRegisterModal() {
-      this.register_modal_is_open = true
-    },
 
 
   },

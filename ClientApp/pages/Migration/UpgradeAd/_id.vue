@@ -16,7 +16,7 @@
         </div>
         <div class="d-flex flex-column">
           <div class="d-flex flex-column overflow-scroll px-1">
-            <UpgradeItem v-tooltip="SetToolTip(plan)" :upgradeItem="plan" v-for="(plan,idx) in plans" :key="idx" class="my-3  upgrade_item" @addOrder="addOrder($event)" @deleteOrder="deleteOrder($event)" />
+            <LazyUpgradeItem v-tooltip="SetToolTip(plan)" :upgradeItem="plan" v-for="(plan,idx) in plans" :key="idx" class="my-3  upgrade_item" @addOrder="addOrder($event)" @deleteOrder="deleteOrder($event)" />
           </div>
           <div class="col-12 pt-3 mt-auto">
             <div class="d-flex justify-content-between align-items-center">
@@ -40,14 +40,11 @@
 </template>
 
 <script>
-import UpgradeItem from "../../../components/Ads/UpgradeItem";
 
-import CustomPagination from "../../../components/utilities/CustomPagination"
 
 export default {
   name: "UpgradeProductTab",
   layout:'PoshtebamPlusLayout',
-  components: {UpgradeItem,CustomPagination},
   data(){
     return{
       pageNumber:0,

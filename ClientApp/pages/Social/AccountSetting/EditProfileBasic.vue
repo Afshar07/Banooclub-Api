@@ -175,7 +175,7 @@
                   id="MainImage"
                   @change="onFileChange"
                 />
-                <UploadIcon class="tw-fill-[#b44aff]"></UploadIcon>
+                <LazyUploadIcon class="tw-fill-[#b44aff]"></LazyUploadIcon>
               </div>
 
             </div>
@@ -211,19 +211,16 @@
       </form>
     </div>
     <div class="tw-fixed tw-bottom-0 tw-left-0 tw-p-10">
-      <CircularProgress :RadialProgress="RadialProgress"></CircularProgress>
+      <LazyCircularProgress :RadialProgress="RadialProgress"></LazyCircularProgress>
 
     </div>
   </div>
 </template>
 
 <script>
-import CircularProgress from "@/components/CircularProgress";
-import UploadIcon from "@/components/Icons/UploadIcon";
 export default {
   name: "EditProfileBasic",
   layout: "PoshtebamPlusLayout",
-  components: {CircularProgress,UploadIcon},
   head() {
     return {
       title: 'ویرایش حساب کاربری',

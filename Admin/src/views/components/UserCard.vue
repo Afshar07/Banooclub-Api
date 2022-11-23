@@ -11,7 +11,7 @@
         <b-avatar
             size="114"
             variant="light"
-            :src="`https://banooclubapi.oregonserver.com/media/gallery/profile/${UserDetails.baseData.selfie}`"
+            :src="`https://banooclubapi.oregonserver.com/${UserDetails.baseData.selfie}`"
         />
       </div>
     </div>

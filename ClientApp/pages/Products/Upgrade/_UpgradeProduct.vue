@@ -40,13 +40,13 @@
 
       </ul>
       <div  class="tab-pane bg-white tw-shadow fade  " :class="{'show active':ActiveTab===1}" id="products-pills-home" role="tabpanel" aria-labelledby="products-pills-home-tab">
-        <EditProductTab @RefetchService="GetService" @DiscountChanged="GetService" v-if="ActiveTab===1"  :service_details="ServiceDetails"/>
+        <LazyEditProductTab @RefetchService="GetService" @DiscountChanged="GetService" v-if="ActiveTab===1"  :service_details="ServiceDetails"/>
       </div>
       <div class="tab-pane bg-white tw-shadow fade tw-h-full" :class="{'show active':ActiveTab===2}" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-        <UpgradeProductTab v-if="ActiveTab===2"/>
+        <LazyUpgradeProductTab v-if="ActiveTab===2"/>
       </div>
       <div class="tab-pane bg-white tw-shadow fade" id="pills-contact" :class="{'show active':ActiveTab===3}" role="tabpanel" aria-labelledby="pills-contact-tab">
-        <PreviewProductTab v-if="ActiveTab===3" :service_details="ServiceDetails"/>
+        <LazyPreviewProductTab v-if="ActiveTab===3" :service_details="ServiceDetails"/>
       </div>
     </div>
 
@@ -57,12 +57,9 @@
 </template>
 
 <script>
-import EditProductTab from "../../../components/ProductTabs/EditProductTab";
-import UpgradeProductTab from "../../../components/ProductTabs/UpgradeProductTab";
-import PreviewProductTab from "../../../components/ProductTabs/PreviewProductTab";
+
 export default {
   name: "UpgradeProduct",
-  components: {PreviewProductTab, UpgradeProductTab, EditProductTab},
   layout: "PoshtebamPlusLayout",
   data(){
     return{

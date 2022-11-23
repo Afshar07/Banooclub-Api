@@ -515,7 +515,7 @@
                   <div class="my-3">
                     <div id="map-wrap" style="height: 50vh">
 
-                      <SetLocation  @getGeoLocation="SetLocation"  :defaultMarkerGeoLoc="[RoomMateInfo.latitude,RoomMateInfo.longitude]"  :defaultGeoLoc="[RoomMateInfo.latitude,RoomMateInfo.longitude]" ></SetLocation>
+                      <LazySetLocation  @getGeoLocation="SetLocation"  :defaultMarkerGeoLoc="[RoomMateInfo.latitude,RoomMateInfo.longitude]"  :defaultGeoLoc="[RoomMateInfo.latitude,RoomMateInfo.longitude]" ></LazySetLocation>
 
                     </div>
                   </div>
@@ -817,10 +817,8 @@
 
 <script>
 
-import SetLocation from '../../../components/SetLocation'
 export default {
   name: "RoommateCondition",
-  components:{SetLocation},
   layout: "PoshtebamPlusLayout",
   head() {
     return {

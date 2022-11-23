@@ -165,7 +165,7 @@
       </div>
       <div class="col-md-4   ">
         <div class="bg-white p-3 rounded  shadow">
-        <RecentBlogs></RecentBlogs>
+        <LazyRecentBlogs></LazyRecentBlogs>
         </div>
       </div>
 
@@ -177,11 +177,9 @@
 
 <script>
 
-import RecentBlogs from '../../../components/Blog/RecentBlogs';
 
 export default {
   name: "index",
-  components: {RecentBlogs},
   layout: "PoshtebamPlusLayout",
   data() {
     return {

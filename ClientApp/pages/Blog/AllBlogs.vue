@@ -58,10 +58,10 @@
           </div>
 
         </div>
-        <Pagination v-if="totalPages.length>1" :pages="totalPages" @PageChanged="GetAllBlog($event)"></Pagination>
+        <LazyPagination v-if="totalPages.length>1" :pages="totalPages" @PageChanged="GetAllBlog($event)"></LazyPagination>
       </div>
       <div class="col-md-4 bg-white rounded shadow p-3 mb-3">
-        <RecentBlogs></RecentBlogs>
+        <LazyRecentBlogs></LazyRecentBlogs>
       </div>
 
     </div>
@@ -71,12 +71,8 @@
 </template>
 
 <script>
-import ForumMainItem from "../../components/Forums/ForumMainItem";
-import RecentBlogs from '../../components/Blog/RecentBlogs';
-import Pagination from '../../components/Pagination';
 export default {
   name: "index",
-  components: {ForumMainItem,RecentBlogs,Pagination},
   layout: "PoshtebamPlusLayout",
   data(){
     return{

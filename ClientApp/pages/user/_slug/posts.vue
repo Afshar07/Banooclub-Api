@@ -1,16 +1,16 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container-fluid NewBg mcontainer px-0">
-    <CustomHeader/>
+    <LazyCustomHeader/>
     <div class="tab-content" id="pills-tabContent">
       <div class="tab-pane fade  " id="services" role="tabpanel" aria-labelledby="services-tab">
-        <UserServices/>
+        <LazyUserServices/>
       </div>
       <div class="tab-pane fade show active" id="posts-home" role="tabpanel" aria-labelledby="posts-home-tab">
         <div class="d-flex row">
           <div class="col-md-7 col-sm-12" style="height: 1500px;overflow-y: scroll;" @scroll="handleScroll">
 
-            <PostItem class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post"/>
-            <Spinner v-if="postData && postData.length !== postCounts"/>
+            <LazyPostItem class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post"/>
+            <LazySpinner v-if="postData && postData.length !== postCounts"/>
             <div class="row mb-3" v-if="!$fetchState.pending && postData.length===0">
               <div class="col-12 text-warning fw-bold text-center">
                 هیچ پستی برای نمایش وجود ندارد
@@ -28,14 +28,14 @@
               <ul class="tw-text-gray-600 space-y-3 tw-mt-3">
                 <li class="tw-flex tw-items-center my-2"
                     v-if="userinfo && (userinfo.cityName !== '' || userinfo.stateName !== '')">
-                  <HomeIcon style="width: 30px; height: 30px;" fill="rgb(75 85 99)" class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
+                  <LazyHomeIcon style="width: 30px; height: 30px;" fill="rgb(75 85 99)" class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
                   ساکن
                   <strong class="px-1">{{ userinfo.stateName }} <span
                     v-if="userinfo.cityName !== '' && userinfo.stateName !== ''">,</span>
                     {{ userinfo.cityName }}</strong>
                 </li>
                 <li class="tw-flex tw-items-center my-2"  v-if="  userinfo.userSetting&&userinfo.userSetting.birthDate===null&&userinfo.relationState !== null">
-                  <HeartIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"
+                  <LazyHeartIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"
                              class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
                   <div v-if="userinfo && userinfo.relationState === 1">
                     <strong> مجرد </strong>
@@ -54,7 +54,7 @@
                   </div>
                 </li>
                 <li  class="tw-flex tw-items-center my-2" v-else-if="  userinfo.userSetting&& userinfo.userSetting.birthDate!==null">
-                  <UserIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"  class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
+                  <LazyUserIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"  class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
 
                     <strong  v-if="  userinfo.userSetting&& userinfo.userSetting.birthDate!==null"> {{ time_ago(userinfo.userSetting.birthDate) }}  </strong>
 
@@ -62,12 +62,12 @@
                 </li>
 
                 <li class="tw-flex tw-items-center my-2" v-if="userinfo">
-                  <AllUsersIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"
+                  <LazyAllUsersIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"
                                 class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
                   دنبال شده توسط <strong v-if="userinfo" class="px-1">{{ userinfo.followersCount }}</strong> نفر
                 </li>
                 <li  class="tw-flex tw-items-center my-2" v-if="  userinfo.userSetting">
-                  <QuestionIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;" class="tw-rounded-full tw-w-10 tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"></QuestionIcon>
+                  <LazyQuestionIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;" class="tw-rounded-full tw-w-10 tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"></LazyQuestionIcon>
 
                   <div >
                     <p class="m-0 ShortDescriptionIndex"> {{ userinfo.userSetting.bio }}  </p>
@@ -83,16 +83,16 @@
               </div>
 
             </div>
-            <Groups class="my-3"/>
+            <LazyGroups class="my-3"/>
           </div>
 
         </div>
       </div>
       <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-        <UserPhotos :photos="Photos"/>
+        <LazyUserPhotos :photos="Photos"/>
       </div>
       <div class="tab-pane fade" id="Ads" role="tabpanel" aria-labelledby="pills-contact-tab">
-        <UserAds @PageChanged="ChangePage" :Ads="AllAds" :totalPages="totalPages" :activePage="SelectedPageId" />
+        <LazyUserAds @PageChanged="ChangePage" :Ads="AllAds" :totalPages="totalPages" :activePage="SelectedPageId" />
       </div>
     </div>
 
@@ -102,34 +102,11 @@
 </template>
 
 <script>
-import PostItem from "../../../components/PostItem"
-import QuestionIcon from "@/components/Icons/QuestionIcon";
-import CustomHeader from "../../../components/CustomHeader";
-import AboutUser from "../../../components/UserPanel/AboutUser";
-import UserIcon from "@/components/Icons/UserIcon";
-import MyFriends from "../../../components/UserPanel/MyFriends";
-import Groups from "../../../components/UserPanel/Groups";
-import UserServices from "../../../components/UserTabsContent/UserServices"
-import UserPhotos from "../../../components/UserTabsContent/UserPhotos"
 import {mapGetters} from "vuex";
-import Spinner from "../../../components/Spinner";
-import UserFriends from "../../../components/UserTabsContent/UserFriends"
-import GlobeIcon from "../../../components/Icons/GlobeIcon";
-import HeartIcon from "../../../components/Icons/HeartIcon";
-import HomeIcon from "../../../components/Icons/HomeIcon"
-import AllUsersIcon from "../../../components/Icons/AllUsersIcon"
-import UserAds from "@/components/Ads/UserAds";
 export default {
   layout: "PoshtebamPlusLayout",
   name: "MyPosts",
-  components: {
-    Groups, MyFriends, AboutUser, CustomHeader, PostItem, UserServices, UserPhotos, Spinner, UserFriends, AllUsersIcon,
-    HeartIcon,
-    UserIcon,
-    UserAds,
-    QuestionIcon,
-    GlobeIcon, HomeIcon
-  },
+
   fetchOnServer() {
     return true;
   },

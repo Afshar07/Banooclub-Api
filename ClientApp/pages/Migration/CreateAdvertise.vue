@@ -81,7 +81,7 @@
                     id="MainImage"
                     @change="onFileChangeMainImage"
                   />
-                  <UploadIcon class="tw-fill-[#b44aff]"></UploadIcon>
+                  <LazyUploadIcon class="tw-fill-[#b44aff]"></LazyUploadIcon>
                 </div>
                 <div  v-if="url" id="main" class="position-relative">
                   <i class="fas fa-times tw-cursor-pointer text-danger position-absolute top-0 end-0" @click="RemoveMainImage" ></i>
@@ -110,7 +110,7 @@
                     id="SubImage"
                     @change="onFileChangeSubImage"
                   />
-                  <UploadIcon class="tw-fill-[#b44aff]"></UploadIcon>
+                  <LazyUploadIcon class="tw-fill-[#b44aff]"></LazyUploadIcon>
                 </div>
                 <div  v-for="(item,idx) in subUrl"   :key="item" id="preview" class="position-relative" v-if="subUrl">
                   <i class="fas fa-times tw-cursor-pointer  text-danger position-absolute top-0 end-0" @click="RemoveOtherImages(idx)" ></i>
@@ -229,11 +229,9 @@
 </template>
 
 <script>
-import UploadIcon from "@/components/Icons/UploadIcon";
 export default {
   name: "CreateAdvertise",
   layout: "PoshtebamPlusLayout",
-  components:{UploadIcon},
   fetchOnServer() {
     return true;
   },

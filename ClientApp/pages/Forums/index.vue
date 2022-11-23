@@ -9,7 +9,7 @@
         </div>
       </div>
       <button v-tooltip="{content:'افزودن تالار جدید'}" @click="$router.push('/Forums/AddForum')" class="btn AddReplyBtn text-white">
-        <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+        <LazyPlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
       </button>
     </div>
     <div class="row bg-white tw-rounded tw-shadow p-3 my-3">
@@ -76,7 +76,7 @@
                   <ul class="custom_card tw-divide-y tw-divide-gray-100 sm:tw-m-0  ">
                     <li v-for="Forum in AllForums.filter(e=> e.status===1)">
                       <nuxt-link class="text-decoration-none text-black" :to="`/Forums/${Forum.forumId}/`">
-                        <ForumMainItem :forum_details="Forum"/>
+                        <LazyForumMainItem :forum_details="Forum"/>
                       </nuxt-link>
 
                     </li>
@@ -113,7 +113,7 @@
 
 
       </div>
-      <TopCommenters></TopCommenters>
+      <LazyTopCommenters></LazyTopCommenters>
     </div>
 
   </div>
@@ -121,12 +121,8 @@
 </template>
 
 <script>
-import ForumMainItem from "../../components/Forums/ForumMainItem";
-import TopCommenters from '../../components/Forums/TopCommenters';
-import PlusIcon from "@/components/Icons/PlusIcon";
 export default {
   name: "index",
-  components: {ForumMainItem, TopCommenters,PlusIcon},
   layout: "PoshtebamPlusLayout",
   data() {
     return {
