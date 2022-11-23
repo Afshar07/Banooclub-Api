@@ -218,8 +218,8 @@ export default {
 <style scoped>
 .TabActive {
   background: white;
-  border-bottom: 3px solid #0d6efd;
-  color: #0d6efd;
+  border-bottom: 3px solid #b44aff;
+  color: #b44aff;
   font-size: 14px;
   padding: 10px 0;
   text-transform: uppercase;

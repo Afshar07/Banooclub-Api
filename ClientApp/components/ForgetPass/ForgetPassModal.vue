@@ -31,7 +31,7 @@
               />
             </div>
             <div class="flex text-center">
-              <button @click="submitForgetPass" type="button" class="tw-bg-blue-600 tw-font-semibold tw-mx-auto tw-px-10 tw-py-3 tw-rounded-md tw-text-center tw-text-white">
+              <button @click="submitForgetPass" type="button" class="tw-bg-purple-400 tw-font-semibold tw-mx-auto tw-px-10 tw-py-3 tw-rounded-md tw-text-center tw-text-white">
                 ارسال رمز عبور
               </button>
             </div>
