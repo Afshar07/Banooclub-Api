@@ -38,7 +38,7 @@
             maxlength="200"
             placeholder="متن تیکت"
           ></textarea>
-          <InputLimitation v-if="ticketDescription!==null" :LimitLength="200" :Value="ticketDescription.length"></InputLimitation>
+          <LazyInputLimitation v-if="ticketDescription!==null" :LimitLength="200" :Value="ticketDescription.length"></LazyInputLimitation>
         </div>
 
         <div class="col-md-2">
@@ -71,10 +71,8 @@
 </template>
 
 <script>
-import InputLimitation from "@/components/InputLimitation";
 export default {
   layout: "PoshtebamPlusLayout",
-  components:{InputLimitation},
   head() {
     return {
       title: 'تیکت ها',

@@ -1,21 +1,21 @@
 <template>
   <div  class="container-fluid mcontainer NewBg px-0 ">
-    <CustomHeader @SetActiveTab="GetActiveTab"/>
+    <LazyCustomHeader @SetActiveTab="GetActiveTab"/>
     <div class="tab-content tw-bg-[#faf7ff] py-3" id="pills-tabContent">
       <div v-if="ActiveTab===2"  class="tab-pane tw-bg-[#faf7ff] fade show active" id="services" role="tabpanel" aria-labelledby="services-tab">
-        <ServicesTabContent/>
+        <LazyServicesTabContent/>
       </div>
       <div v-if="ActiveTab===3" class="tab-pane fade tw-bg-[#faf7ff] show active " id="Ads" role="tabpanel" aria-labelledby="pill-Ads">
-          <MyAdsTabContent @PageChanged="ChangePage" :Ads="AllAds" :totalPages="totalPages" :activePage="SelectedPageId"/>
+          <LazyMyAdsTabContent @PageChanged="ChangePage" :Ads="AllAds" :totalPages="totalPages" :activePage="SelectedPageId"/>
       </div>
       <div v-if="ActiveTab===1" class="tab-pane tw-bg-[#faf7ff] fade show active " id="posts-home" role="tabpanel" aria-labelledby="posts-home-tab">
-        <PostsTabContent/>
+        <LazyPostsTabContent/>
       </div>
       <div v-if="ActiveTab===4" class="tab-pane fade tw-bg-[#faf7ff] show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-        <FriendsTabContent/>
+        <LazyFriendsTabContent/>
       </div>
       <div v-if="ActiveTab===5" class="tab-pane fade tw-bg-[#faf7ff] show active" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-        <PhotosTabContent/>
+        <LazyPhotosTabContent/>
       </div>
     </div>
 
@@ -24,13 +24,6 @@
 
 <script>
 
-import EditInfoContent from "../../../components/UserTabsContent/EditInfoContent";
-import CustomHeader from "../../../components/CustomHeader";
-import FriendsTabContent from "../../../components/UserTabsContent/FriendsTabContent";
-import PhotosTabContent from "../../../components/UserTabsContent/PhotosTabContent";
-import PostsTabContent from "../../../components/UserTabsContent/PostsTabContent";
-import ServicesTabContent from "../../../components/UserTabsContent/ServicesTabContent"
-import MyAdsTabContent from "@/components/Ads/MyAdsTabContent";
 
 export default {
   name: "MyPosts",
@@ -39,15 +32,7 @@ export default {
       title: 'بانوکلاب - پروفایل من'
     }
   },
-  components: {
-    EditInfoContent,
-    MyAdsTabContent,
-    CustomHeader,
-    FriendsTabContent,
-    PhotosTabContent,
-    PostsTabContent,
-    ServicesTabContent
-  },
+
   layout: "PoshtebamPlusLayout",
   async fetch(){
     try {

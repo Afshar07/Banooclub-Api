@@ -80,7 +80,7 @@
                     id="MainImage"
                     @change="onFileChangeMainImage"
                   />
-                  <UploadIcon class="tw-fill-[#b44aff]"></UploadIcon>
+                  <LazyUploadIcon class="tw-fill-[#b44aff]"></LazyUploadIcon>
                 </div>
                 <div id="main">
                   <img
@@ -109,7 +109,7 @@
                     id="SubImage"
                     @change="onFileChangeSubImage"
                   />
-                  <UploadIcon class="tw-fill-[#b44aff]"></UploadIcon>
+                  <LazyUploadIcon class="tw-fill-[#b44aff]"></LazyUploadIcon>
                 </div>
                 <div id="preview" v-if="subUrl">
                   <img
@@ -201,9 +201,9 @@
               <div class="labelText">موقعیت حدودی روی نقشه*</div>
               <div class="my-3" id="map-wrap" >
                 <client-only>
-                  <SetLocation @getGeoLocation="SetLocation"
+                  <LazySetLocation @getGeoLocation="SetLocation"
                                :defaultMarkerGeoLoc="[AdDetail.latitude,AdDetail.longitude]"
-                               :defaultGeoLoc="[AdDetail.latitude,AdDetail.longitude]"></SetLocation>
+                               :defaultGeoLoc="[AdDetail.latitude,AdDetail.longitude]"></LazySetLocation>
                 </client-only>
               </div>
             </div>
@@ -231,12 +231,9 @@
 
 <script>
 
-import SetLocation from '../../components/SetLocation'
-import UploadIcon from "@/components/Icons/UploadIcon";
 export default {
   name: "CreateAdvertise",
   layout: "PoshtebamPlusLayout",
-  components: {SetLocation,UploadIcon},
   fetchOnServer() {
     return true;
   },

@@ -62,7 +62,7 @@ export default {
 
       const Id =  Math.round(Math.random() * (5 - 1) + 1);
      const Bg =  this.RandomBg.filter(e=> e.bgId === Id)
-      console.log(Bg[0].bg)
+
       return Bg[0].bg
 
 

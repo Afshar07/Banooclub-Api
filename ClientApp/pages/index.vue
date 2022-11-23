@@ -1,45 +1,60 @@
 <template>
-  <div>
-    <div v-if="register_modal_is_open"
-         class="tw-z-[99] tw-fixed tw-w-screen tw-h-screen tw-top-0 tw-left-0 tw-bg-gray-200 tw-bg-opacity-80"></div>
-    <div class="lg:tw-flex tw-max-w-5xl tw-min-h-screen tw-mx-auto tw-p-6 tw-py-10">
-      <div class="tw-flex tw-flex-col tw-items-center lg:tw-flex-row lg:tw-space-x-10">
+  <div class="t-w-full tw-min-h-screen tw-bg-white ">
 
-        <div class="lg:tw-mb-12 tw-flex-1 lg:tw-text-left tw-text-center">
-          <p class="tw-font-medium lg:tw-mx-0 md:tw-text-2xl tw-mt-6 tw-mx-auto sm:tw-w-3/4 tw-text-xl tw-text-right"
-             style="color:rgb(102 102 102);">
-            بانو کلاب،
-            با دوستان و دنیای اطراف خود با بانو کلاب ارتباط برقرار کنید.
-          </p>
+    <div class="tw-w-full tw-min-h-screen   tw-grid lg:tw-grid-cols-2 tw-grid-cols-1">
+      <div  class="tw-flex tw-relative bgImg  lg:tw-order-first   tw-order-last  tw-items-center tw-flex-col  tw-gap-5 tw-justify-center">
+        <div class="  gap-2 tw-items-center  lg:tw-flex tw-hidden tw-absolute tw-top-4 tw-right-4 ">
+          <span class="text-purple tw-text-[50px] tw-font-bold">بانوی</span>
+          <span class="text-pink tw-text-[50px]  tw-font-bold">با انگیزه</span>
         </div>
-        <div class="d-flex flex-column justify-content-center align-items-center">
-          <div class="lg:tw-mt-0 lg:tw-w-96 tw-mt-10 tw-w-full custom_navs tw-bg-white tw-shadow-lg tw-rounded-lg">
+        <div class="tw-flex tw-gap-5 tw-flex-col sm:tw-flex-row  tw-items-center">
+          <div
+            class=" tw-flex tw-flex-col bg-white  tw-items-center tw-shadow-xl tw-border-purple-200 tw-w-[18rem]  tw-border  p-3 tw-shadow-purple-400 tw-rounded ">
+            <img src="/item.png" class="tw-w-[10rem] tw-h-[10rem] tw-object-contain" alt="">
+            <span class="text-pink my-3 tw-font-bold">آگهی نیازمندی های بانوان</span>
+            <p class="text-purple  text-center" style="overflow-wrap: anywhere">خرید و فروش کالای نو و دست دوم مخصوص
+              بانوان</p>
+
+          </div>
+          <div
+            class=" tw-flex tw-flex-col bg-white  tw-items-center tw-shadow-xl tw-border-purple-200 tw-w-[18rem]  tw-border  p-3 tw-shadow-purple-400 tw-rounded ">
+            <img src="/item2.png" class="tw-w-[10rem] tw-h-[10rem] tw-object-contain" alt="">
+            <span class="text-pink my-3 tw-font-bold">شادی تفریح و سرگرمی</span>
+            <p class="text-purple text-center  " style="overflow-wrap: anywhere">خدمات سفر,تور,گردشگری,آموزشی,آرایشی و
+              بهداشتی</p>
+          </div>
+        </div>
+      </div>
+      <div class="tw-flex lg:tw-order-last   tw-order-first tw-items-center tw-justify-center">
+        <div class="d-flex flex-column justify-content-center align-items-center tw-p-5">
+
+          <div
+            class="lg:tw-mt-0 lg:tw-w-[30rem] tw-mt-10 tw-w-full custom_navs tw-shadow-xl tw-shadow-pink-300 tw-border-pink-200  tw-border tw-bg-white tw-shadow-lg tw-rounded-lg">
             <div class="d-flex justify-content-center">
-              <div
-                class="border-end text-center col-6 my-0 TabActive"
-
-
-              >
+              <div class="border-end text-center col-6 my-0 TabActive">
                 ورود با شماره موبایل
               </div>
             </div>
-            <LoginForm :login-type="loginType" @open_register_modal="openRegisterModal()"
-                       @close_register_modal="closeRegisterModal()"/>
-
+            <LazyLoginForm/>
           </div>
-
         </div>
-
+      </div>
+    </div>
+    <div class="tw-p-3 tw-flex tw-items-center  tw-bg-purple-400 tw-justify-start tw-fixed tw-bottom-0 tw-w-full">
+      <div class="tw-flex tw-items-center tw-justify-start tw-gap-4 tw-flex-wrap">
+        <span class="text-white tw-cursor-pointer hover:tw-text-purple-400">درباره</span>
+        <span class="text-white tw-cursor-pointer hover:tw-text-purple-400">تماس با ما</span>
+        <span class="text-white tw-cursor-pointer hover:tw-text-purple-400">مقالات</span>
+        <span class="text-white tw-cursor-pointer hover:tw-text-purple-400">راهنما</span>
+        <span class="text-white tw-cursor-pointer hover:tw-text-purple-400">قوانین و مقررات</span>
+        <span class="text-white tw-cursor-pointer hover:tw-text-purple-400">تالار گفتگو</span>
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
-import LoginBanner from "../components/LoginBanner";
-import LoginForm from "../components/Login/LoginForm.vue";
-import RegisterModal from "../components/Register/RegisterModal";
+
 
 export default {
   name: "Login",
@@ -50,27 +65,17 @@ export default {
       title: 'ثبت نام'
     }
   },
-  components: {RegisterModal, LoginBanner, LoginForm},
+
   data() {
     return {
-      register_modal_is_open: false,
-      loginType: 1,
+
     };
   },
 
   mounted() {
-    this.$nextTick(() => {
-      this.$nuxt.$loading.finish();
-    });
+
   },
   methods: {
-    closeRegisterModal() {
-      this.register_modal_is_open = false
-
-    },
-    openRegisterModal() {
-      this.register_modal_is_open = true
-    },
 
 
   },
@@ -120,10 +125,16 @@ textarea.with-border:focus {
   left: 0;
 }
 
+.bgImg{
+  background: url("/21.png") center no-repeat;
+  background-size: contain;
+
+}
+
 .TabActive {
   background: white;
-  border-bottom: 3px solid #0d6efd;
-  color: #0d6efd;
+  border-bottom: 3px solid #b44aff;
+  color: #b44aff;
   font-size: 14px;
   padding: 10px 0;
   text-transform: uppercase;

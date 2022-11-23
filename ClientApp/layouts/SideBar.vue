@@ -94,15 +94,11 @@
 
 import Friends from "./Friends";
 import Following from "./Following";
-import ServiceProviderLabel from "@/components/ServiceProviderLabel";
-import CustomerLabel from "@/components/CustomerLabel";
 export default {
   name: "SideBar",
   components: {
     Friends,
     Following,
-    ServiceProviderLabel,
-    CustomerLabel,
   },
   async fetch() {
 

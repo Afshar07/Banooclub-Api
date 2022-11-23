@@ -9,10 +9,10 @@
           v-model="searchKey"
         />
         <div class="row">
-          <Spinner v-if="$fetchState.pending"></Spinner>
+          <LazySpinner v-if="$fetchState.pending"></LazySpinner>
           <div v-if="categories.length>0" class="col-xl-3 col-sm-12 col-md-4" v-for="(category,idx) in categories"
                :key="idx">
-            <CategoryItem class="m-2" :category_details="category"/>
+            <LazyCategoryItem class="m-2" :category_details="category"/>
           </div>
           <div v-else class="tw-flex tw-items-center tw-justify-center">
             <span class="text-secondary">داده ای برای نمایش وجود ندارد</span>
@@ -20,7 +20,7 @@
 
           <div v-if="AllServices.length>0" class="col-xl-3 col-sm-12 col-md-4"
                v-for="service in AllServices.filter(e=> e.serviceCategoryId===parseInt($route.params.Categories))">
-            <ProductItem @GetServices="GetAllServices()" class="my-3" :service_details="service"/>
+            <LazyProductItem @GetServices="GetAllServices()" class="my-3" :service_details="service"/>
           </div>
           <div v-else class="tw-flex tw-items-center tw-justify-center">
             <span class="text-secondary">داده ای برای نمایش وجود ندارد</span>
@@ -33,14 +33,10 @@
 </template>
 
 <script>
-import CategoryItem from "@/components/Categories/CategoryItem";
-import ProductItem from "@/components/Products/ProductItem";
-import Spinner from "@/components/Spinner";
 
 export default {
   name: "Categories",
   layout: 'PoshtebamPlusLayout',
-  components: {ProductItem, CategoryItem, Spinner},
   data() {
     return {
       categories: [],

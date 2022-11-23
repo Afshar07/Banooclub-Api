@@ -68,7 +68,7 @@
               <template #aside>
                 <b-avatar
                     size="45"
-                    :src="`https://api.halamkhoobee.com/media/gallery/profile/${data.item.user.selfieFileData}`"
+                    :src="`https://api.halamkhoobee.com/${data.item.user.selfieFileData}`"
                     :variant="`success`"
                     :to="{ name: 'apps-users-edit', params: { id: data.item.user.userId } }"
                 />

@@ -70,7 +70,12 @@ module.exports = {
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
+  components: [
+    {
+      path: "~/components",
+      pathPrefix: false,
+    }
+  ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules:
@@ -134,6 +139,19 @@ module.exports = {
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extractCSS: true,
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          styles: {
+            name: 'styles',
+            test: /\.(css|vue)$/,
+            chunks: 'all',
+            enforce: true
+          }
+        }
+      }
+    },
     publicPath: "/nuxt/",
     plugins: [
       new webpack.ProvidePlugin({

@@ -16,12 +16,12 @@
           </div>
           <button @click="displayChargeSideNav = true" v-tooltip="{content:'شارژ کیف پول'}"
                   class="btn AddReplyBtn text-white">
-            <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+            <LazyPlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
           </button>
         </div>
       </div>
     </div>
-    <ChargeWalletSideNav :show="displayChargeSideNav" @close="displayChargeSideNav = false"/>
+    <LazyChargeWalletSideNav :show="displayChargeSideNav" @close="displayChargeSideNav = false"/>
       <div class="tw-overflow-x-auto bg-white p-3 tw-shadow rounded my-3">
         <table class="tw-table tw-w-full tw-table-auto tw-rounded" >
           <!-- head -->
@@ -73,7 +73,7 @@
           </tr>
           </tbody>
         </table>
-        <CustomPagination class="my-3" :activePage="SelectedPageNumber" :totalPages="totalPages"
+        <LazyCustomPagination class="my-3" :activePage="SelectedPageNumber" :totalPages="totalPages"
                           @PageChanged="changePage($event)"/>
       </div>
 
@@ -83,19 +83,11 @@
 </template>
 
 <script>
-import PlusIcon from "../../components/Icons/PlusIcon";
-import {data} from "autoprefixer";
-import ChargeWalletSideNav from "../../components/ChargeWalletSideNav";
-import CustomPagination from "@/components/utilities/CustomPagination";
 
 export default {
   name: "index",
   layout: "PoshtebamPlusLayout",
-  components: {
-    ChargeWalletSideNav,
-    CustomPagination,
-    PlusIcon
-  },
+
   head() {
     return {
       bodyAttrs: {

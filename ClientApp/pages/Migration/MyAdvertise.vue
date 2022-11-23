@@ -48,7 +48,7 @@
           </div>
 
           <button v-tooltip="{content:'ثبت آگهی'}" @click="$router.push('/Migration/CreateAdvertise')" class="btn AddReplyBtn text-white">
-            <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+            <LazyPlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
           </button>
         </div>
       </div>
@@ -188,11 +188,9 @@
 </template>
 
 <script>
-import PlusIcon from "@/components/Icons/PlusIcon";
 export default {
   layout: "PoshtebamPlusLayout",
   name: "Advertises",
-  components:{PlusIcon},
   data() {
     return {
       UserAds: "",

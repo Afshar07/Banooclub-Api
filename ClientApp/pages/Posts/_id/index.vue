@@ -2,7 +2,7 @@
   <div :class="$fetchState.pending?'loading-skeleton':''" class=" mcontainer tw-overflow-x-hidden" >
     <div class="row">
       <div class="col-md-12 col-lg-8 add_post px-0 custom_padding_for_posts">
-        <PostItem :post_details="PostDetails" :inMainPage="false" :inMyPosts="false"/>
+        <LazyPostItem :post_details="PostDetails" :inMainPage="false" :inMyPosts="false"/>
       </div>
       <div class="col-md-12 col-lg-4 d-none d-lg-block">
         <SideBar class="tw-mt-5" @SideNavPictureVideo="SideNavPictureVideoToggle($event)"/>
@@ -16,19 +16,12 @@
 
 <script>
 import SideBar from "../../../layouts/SideBar";
-import PDetails from "../../../components/Products/PDetails";
-import BaseModal from "../../../components/utilities/BaseModal";
-import PostDetails from "../../../components/PostDetails";
-import PostItem from "../../../components/PostItem"
 export default {
   name: "index",
   layout: "PoshtebamPlusLayout",
   components:{
-    PDetails,
     SideBar,
-    BaseModal,
-    PostDetails,
-    PostItem
+
   },
   head(){
     return{

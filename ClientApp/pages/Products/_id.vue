@@ -3,7 +3,7 @@
 
     <div class="row">
       <div class="col-md-12 my-3 col-lg-8 add_post  custom_padding_for_posts">
-        <PDetails @updateServiceDetails="updateServiceDetails" :service_details="ServiceDetails"/>
+        <LazyPDetails @updateServiceDetails="updateServiceDetails" :service_details="ServiceDetails"/>
       </div>
       <div class=" col-lg-4">
         <SideBar class="tw-mt-5" />
@@ -15,16 +15,13 @@
 
 <script>
 import SideBar from "../../layouts/SideBar";
-import PDetails from "../../components/Products/PDetails";
-import BaseModal from "../../components/utilities/BaseModal";
 
 export default {
   name: "PDetail",
   layout: "PoshtebamPlusLayout",
   components:{
-    PDetails,
     SideBar,
-    BaseModal,
+
   },
   head(){
     return{

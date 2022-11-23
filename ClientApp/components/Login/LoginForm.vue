@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-p-6 tw-space-y-4 tw-relative">
+  <div class="tw-p-6 tw-space-y-4 tw-relative ">
     <form class="row " autocomplete="off" >
       <div class="col-12 mt-3">
         <div class="form-floating text-end">
@@ -26,31 +26,32 @@
             @keydown.prevent.enter="submitLogin"
           />
           <button
-            class="btn position-absolute viewPassword d-flex justify-content-center align-items-center"
+            class="btn  position-absolute viewPassword d-flex justify-content-center align-items-center"
             type="password"
+            style="border: none!important"
             @click.prevent="showPassword"
             :class="{ active: !isShowingPassword }"
           >
-            <font-awesome-icon icon="eye" v-if="fieldPassword === 'password'" />
-            <font-awesome-icon icon="eye-slash" v-if="fieldPassword === 'text'" />
+            <font-awesome-icon class="text-pink" icon="eye" v-if="fieldPassword === 'password'" />
+            <font-awesome-icon class="text-pink" icon="eye-slash" v-if="fieldPassword === 'text'" />
           </button>
         </div>
         <button
           type="button"
-          class="tw-bg-blue-600 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full mt-3"
+          class="tw-bg-purple-400 tw-font-semibold tw-p-3 tw-rounded-md tw-text-center tw-text-white tw-w-full mt-3"
           @click="submitLogin"
         >
           ورود
         </button>
 
-        <div class="text-center mt-3 pb-3 tw-text-blue-500 forget_pass"  @click="openForgetModal" >
+        <div class="text-center mt-3 pb-3 tw-text-purple-400 forget_pass"  @click="openForgetModal" >
             رمز عبور خود را فراموش کرده اید ؟
         </div>
 
       </div>
       <div class="col-12 mt-5 d-flex">
         <!--      <a href="/register" class="btn btn-sm submitRegisterButton"> ثبت نام </a>-->
-        <button class="tw-no-underline tw-bg-green-600 hover:tw-bg-green-500 hover:tw-text-white tw-font-semibold tw-py-3 tw-px-5 tw-rounded-md tw-text-center tw-text-white tw-mx-auto"
+        <button class="tw-no-underline tw-bg-pink-400 hover:tw-bg-pink-500 tw-transition-all hover:tw-text-white tw-font-semibold tw-py-3 tw-px-5 tw-rounded-md tw-text-center tw-text-white tw-mx-auto"
                 type="button" @click="openRegisterModal">
           حساب جدید بسازید
         </button>

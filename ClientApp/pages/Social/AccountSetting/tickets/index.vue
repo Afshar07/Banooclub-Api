@@ -26,7 +26,7 @@
                 placeholder="عنوان تیکت"
               />
             </div>
-            <InputLimitation :LimitLength="100" :Value="TicketTitle.length"></InputLimitation>
+            <LazyInputLimitation :LimitLength="100" :Value="TicketTitle.length"></LazyInputLimitation>
             <div class="col-12 my-3 p-0" @click.stop>
               <select
                 id="categoryType"
@@ -48,7 +48,7 @@
                 maxlength="200"
                 placeholder="متن تیکت"
               ></textarea>
-              <InputLimitation class="my-2" :LimitLength="200" :Value="TicketDescription.length"></InputLimitation>
+              <LazyInputLimitation class="my-2" :LimitLength="200" :Value="TicketDescription.length"></LazyInputLimitation>
             </div>
             <div class="col-md-12">
               <div class="row">
@@ -90,7 +90,7 @@
         </div>
         </div>
         <button v-tooltip="{content:'ثبت تیکت'}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" class="btn AddReplyBtn text-white">
-          <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+          <LazyPlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
         </button>
       </div>
 
@@ -191,7 +191,7 @@
                 هیچ تیکتی برای نمایش وجود ندارد
               </div>
             </div>
-            <CustomPagination v-if="totalPages.length>1" :activePage="pageNumber" :totalPages="totalPages" @PageChanged="changePage($event)"/>
+            <LazyCustomPagination v-if="totalPages.length>1" :activePage="pageNumber" :totalPages="totalPages" @PageChanged="changePage($event)"/>
           </div>
 
       </div>
@@ -199,17 +199,11 @@
 </template>
 
 <script>
-import PlusIcon from "../../../../components/Icons/PlusIcon"
-import CustomPagination from  "../../../../components/utilities/CustomPagination"
-import InputLimitation from "@/components/InputLimitation";
+
 export default {
   layout: "PoshtebamPlusLayout",
   name: "tickets",
-  components:{
-    PlusIcon,
-    InputLimitation,
-    CustomPagination
-  },
+
   head(){
     return{
       title: 'بانوکلاب - تیکت ها'

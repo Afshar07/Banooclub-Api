@@ -35,7 +35,7 @@
       <div class="tab-pane fade show active" id="products-pills-home" role="tabpanel" aria-labelledby="products-pills-home-tab">
         <div class="row boxMainContent mx-auto">
           <div class="col-12 text-center px-0">
-                <AllServicesTabContentWish v-if="ServicesWishList.length>0" :services="ServicesWishList" :categories="categories"/>
+                <LazyAllServicesTabContentWish v-if="ServicesWishList.length>0" :services="ServicesWishList" :categories="categories"/>
               <span v-else>شما خدمت مورد علاقه ندارید</span>
           </div>
         </div>
@@ -43,7 +43,7 @@
       <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
         <div class="row boxMainContent mx-auto">
           <div class="col-12 text-center px-0">
-            <AllAdsTabContentWish v-if="AdsWishList.length>0" :Ads="AdsWishList" :categories="categories"/>
+            <LazyAllAdsTabContentWish v-if="AdsWishList.length>0" :Ads="AdsWishList" :categories="categories"/>
             <span v-else>شما آگهی مورد علاقه ندارید</span>
           </div>
         </div>
@@ -57,29 +57,12 @@
 </template>
 
 <script>
-import ProductItem from "../../components/Products/ProductItem";
-import ChevronRightIcon from "../../components/Icons/RightChevronIcon";
-import ChevronLeftIcon from "../../components/Icons/LeftChevronIcon";
-import RightChevronIcon from "../../components/Icons/RightChevronIcon";
-import LeftChevronIcon from "../../components/Icons/LeftChevronIcon";
-import FirstTabContent from "../../components/Products/FirstTabContent";
-import AllServicesTabContentWish from "../../components/Products/AllServicesTabContentWish";
-import AllAdsTabContentWish from "../../components/Ads/AllAdsTabContentWish";
 
 export default {
 
   name: "index",
   layout: "PoshtebamPlusLayout",
-  components:{
-    AllServicesTabContentWish,
-    AllAdsTabContentWish,
-    FirstTabContent,
-    LeftChevronIcon,
-    RightChevronIcon,
-    ChevronLeftIcon,
-    ChevronRightIcon,
-    ProductItem,
-  },
+
   head() {
     return {
       title: 'علاقه مندی ها',
