@@ -53,7 +53,7 @@ class WebServiceRequest {
     }
 
     getUrl () {
-        return `https://banooclubapi.oregonserver.com/api/${this.getTag()}`
+        return `https://banoclubapi.com/api/${this.getTag()}`
       // return `https://bababilit-dev.ir/api/v1/${this.getTag()}`
       //   return `http://192.168.100.97/api/v1/${this.getTag()}`
     }

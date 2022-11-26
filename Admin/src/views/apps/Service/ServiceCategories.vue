@@ -68,7 +68,7 @@
             </b-form-group>
             <div class="position-relative" v-if="SelectedCategory.fileData!==''">
 
-              <img v-if="BaseImgUrl===''" :src="`https://banooclubapi.oregonserver.com/media/gallery/serviceCategory/${SelectedCategory.fileData}`" width="100px" height="100px" alt="">
+              <img v-if="BaseImgUrl===''" :src="`https://banoclubapi.com/media/gallery/serviceCategory/${SelectedCategory.fileData}`" width="100px" height="100px" alt="">
               <img v-else :src="BaseImgUrl" width="100px" height="100px" alt="">
             </div>
 
@@ -199,7 +199,7 @@
           </template>
           <template #cell(fileData)="data">
 
-            <img v-if="data.item.fileData" :src="`https://banooclubapi.oregonserver.com/media/gallery/serviceCategory/${data.item.fileData}`" width="50px" height="50px" alt="">
+            <img v-if="data.item.fileData" :src="`https://banoclubapi.com/media/gallery/serviceCategory/${data.item.fileData}`" width="50px" height="50px" alt="">
 
           </template>
           <template #cell(isFunTime)="data">

@@ -10,7 +10,7 @@
               v-if="item.selfieFileData"
               style="width: 35px;height: 35px;"
               class="friendPicture"
-              :src="`https://banooclubapi.oregonserver.com/${item.selfieFileData}`"
+              :src="`https://banoclubapi.com/${item.selfieFileData}`"
               alt=""
             />
             <img

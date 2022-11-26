@@ -55,7 +55,7 @@
                   :key="index"
                 >
                   <img class="tw-rounded-lg tw-h-32" width="100%"
-                       :src="`https://banooclubapi.oregonserver.com/${image.base64}`"
+                       :src="`https://banoclubapi.com/${image.base64}`"
                        style="object-fit: contain" :class="{BorderGreen:index===0}"/>
                   <span class="position-absolute deleteIcon m-3" style="top: 15px" @click="DeleteImage(image,index)">
                 <font-awesome-icon icon="trash" color="#ff4d4d" size="sm"/>

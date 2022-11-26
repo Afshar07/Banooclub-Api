@@ -83,28 +83,28 @@ export default {
 
     userAvatar(user) {
       if (user.userInfo.selfieFileData) {
-        return `https://banooclubapi.oregonserver.com/${user.userInfo.selfieFileData}`;
+        return `https://banoclubapi.com/${user.userInfo.selfieFileData}`;
       } else {
         return "/defaultUser.png";
       }
     },
     userBanner(user) {
       if (user.userInfo.bannerFileData) {
-        return `https://banooclubapi.oregonserver.com/${user.userInfo.bannerFileData}`;
+        return `https://banoclubapi.com/${user.userInfo.bannerFileData}`;
       } else {
         return "/defaultUser.png";
       }
     },
     requestUserBanner(user){
       if (user.followerInfo.bannerFileData) {
-        return `https://banooclubapi.oregonserver.com/${user.followerInfo.bannerFileData}`;
+        return `https://banoclubapi.com/${user.followerInfo.bannerFileData}`;
       } else {
         return "/defaultUser.png";
       }
     },
     requestUserAvatar(user) {
       if (user.followerInfo.selfieFileData) {
-        return `https://banooclubapi.oregonserver.com/${user.followerInfo.selfieFileData}`;
+        return `https://banoclubapi.com/${user.followerInfo.selfieFileData}`;
       } else {
         return "/defaultUser.png";
       }

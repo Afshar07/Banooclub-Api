@@ -3,7 +3,7 @@
     <div class="card-media tw-h-40">
       <div class="card-media-overly"></div>
       <nuxt-link :to="`/Products/${service_details.serviceInfo.servicePackId}`">
-        <img v-if="service_details.serviceInfo && service_details.serviceInfo.medias!==null" :src="`https://banooclubapi.oregonserver.com/media/gallery/service/${service_details.serviceInfo.medias[0].base64}`"  alt="">
+        <img v-if="service_details.serviceInfo && service_details.serviceInfo.medias!==null" :src="`https://banoclubapi.com/media/gallery/service/${service_details.serviceInfo.medias[0].base64}`"  alt="">
         <img v-else :src="`/nopicture.jpg`"  alt="">
       </nuxt-link>
 

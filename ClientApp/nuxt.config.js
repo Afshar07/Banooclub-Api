@@ -209,10 +209,10 @@ module.exports = {
   axios: {
     plugins: ["~/plugins/auth.js"],
     credentials: true,
-    baseURL: "https://banooclubapi.oregonserver.com/api/",
+    baseURL: "https://banoclubapi.com/api/",
     // baseURL: 'https://localhost:44330/',
   },
   env: {
-    pic: "https://banooclubapi.oregonserver.com/",
+    pic: "https://banoclubapi.com/",
   },
 };

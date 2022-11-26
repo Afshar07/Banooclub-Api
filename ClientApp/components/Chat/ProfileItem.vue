@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex align-items-center profile_item p-2 " style="cursor: pointer!important;">
-    <img v-if="UserData.userPhoto!==null && UserData.userId!==0" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://banooclubapi.oregonserver.com/media/gallery/profile/${UserData.userPhoto}`"/>
-    <img v-else-if="UserData.userPhoto!==null && UserData.groupId!==0" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://banooclubapi.oregonserver.com/media/gallery/group/${UserData.userPhoto}`"/>
+    <img v-if="UserData.userPhoto!==null && UserData.userId!==0" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://banoclubapi.com/media/gallery/profile/${UserData.userPhoto}`"/>
+    <img v-else-if="UserData.userPhoto!==null && UserData.groupId!==0" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://banoclubapi.com/media/gallery/group/${UserData.userPhoto}`"/>
     <img v-else style="width: 50px; height: 50px;" class="rounded-circle" src="~/assets/images/defaultUser.png"/>
     <div class="d-flex justify-content-between w-100 px-3">
       <div class="d-flex flex-column">

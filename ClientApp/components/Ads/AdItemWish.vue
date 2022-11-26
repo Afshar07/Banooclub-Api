@@ -2,7 +2,7 @@
   <div class="card" v-if="AdsDetail" >
     <div class="card-media tw-h-40">
       <nuxt-link :to="`/Migration/AdvertiseDetail/${AdsDetail.adsId}`">
-        <img v-if="AdsDetail.adsInfo.photos && AdsDetail.adsInfo.photos.length>0" :src="`https://banooclubapi.oregonserver.com/media/gallery/adsphotos/${AdsDetail.adsInfo.photos[0].base64}`" :alt="AdsDetail.adsInfo.title">
+        <img v-if="AdsDetail.adsInfo.photos && AdsDetail.adsInfo.photos.length>0" :src="`https://banoclubapi.com/media/gallery/adsphotos/${AdsDetail.adsInfo.photos[0].base64}`" :alt="AdsDetail.adsInfo.title">
         <img v-else :src="`/nopicture.jpg`" :alt="AdsDetail.title">
       </nuxt-link>
     </div>

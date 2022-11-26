@@ -3,9 +3,9 @@
     <div class="tw-w-20 tw-h-24 tw-overflow-hidden tw-rounded-lg">
       <div class="card-media tw-h-24">
         <nuxt-link :to="`/Products/${service_details.servicePackId}`">
-          <img :src="`https://banooclubapi.oregonserver.com/media/gallery/Service/${headerImage}`" :alt="service_details.title"/>
+          <img :src="`https://banoclubapi.com/media/gallery/Service/${headerImage}`" :alt="service_details.title"/>
         </nuxt-link>
-<!--        <img :src="`https://banooclubapi.oregonserver.com/media/gallery/Profile/${service_details.userInfo.selfieFileData}`" :alt="service_details.title">-->
+<!--        <img :src="`https://banoclubapi.com/media/gallery/Profile/${service_details.userInfo.selfieFileData}`" :alt="service_details.title">-->
       </div>
     </div>
     <div class="d-flex flex-column tw-w-full mx-3">

@@ -49,7 +49,7 @@
           <!-- Column: delete -->
           <template #cell(photos[0].base64)="data">
             <img v-if="data.item.photos.length>0"
-                 :src="`https://banooclubapi.oregonserver.com/${data.item.photos[0].base64}`" width="75px" height="75px"
+                 :src="`https://banoclubapi.com/${data.item.photos[0].base64}`" width="75px" height="75px"
                  alt=""
             >
 
