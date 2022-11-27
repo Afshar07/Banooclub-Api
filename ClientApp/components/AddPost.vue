@@ -12,7 +12,7 @@
               <div class="col-xl-4 col-md-6 col-12 my-3 d-flex justify-content-center" v-for="(item,index) in galleries"
                    :key="index">
                 <img v-if="item.priority === 2" @click.stop="selectImage(item)"
-                     :src="`https://banoclubapi.com/media/gallery/galleryimages/${item.base64}`"
+                     :src="`https://subapi.banoclub.com/media/gallery/galleryimages/${item.base64}`"
                      class="rounded posts_media_size" alt="post_image"/>
                 <video
                   @click.stop="selectImage(item)"
@@ -21,7 +21,7 @@
                   style="object-fit: cover;object-position: center;height: 250px"
                   controls
                   :autoplay="false"
-                  :src="`https://banoclubapi.com/media/gallery/galleryvideos/${item.base64}`"
+                  :src="`https://subapi.banoclub.com/media/gallery/galleryvideos/${item.base64}`"
                 ></video>
                 <span :class="GetSelectedImageClass(item)" class="position-absolute d-none deleteIcon m-2"
                       style="left: 15px;">
@@ -81,7 +81,7 @@
               <div class="col-xl-4 col-md-6 col-12 my-3 d-flex justify-content-center"
                    v-for="(media,idx) in selected_media" :key="idx">
                 <img v-if="media.blob === '' && media.priority===2"
-                     :src="`https://banoclubapi.com/media/gallery/galleryimages/${media.base64}`"
+                     :src="`https://subapi.banoclub.com/media/gallery/galleryimages/${media.base64}`"
                      class="rounded posts_media_size" alt="post_image"/>
                 <video
                   v-else-if="media.blob === '' && media.priority===3"
@@ -89,7 +89,7 @@
                   style="object-fit: cover;object-position: center;height: 250px"
                   controls
                   :autoplay="false"
-                  :src="`https://banoclubapi.com/media/gallery/galleryvideos/${media.base64}`"
+                  :src="`https://subapi.banoclub.com/media/gallery/galleryvideos/${media.base64}`"
                 ></video>
                 <img v-else-if="media.blob !== '' && media.priority===2" :src="`${media.blob}`"
                      class="rounded posts_media_size" alt="post_image"/>

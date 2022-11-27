@@ -5,7 +5,7 @@
     <div class="tw-grid tw-grid-cols-3 tw-gap-3 tw-text-gray-600 tw-font-semibold">
       <nuxt-link class="text-decoration-none" v-for="(friend,idx) in followingList" :key="idx" to="#">
         <div class="d-flex flex-column justify-content-center align-items-center">
-          <img style="width: 89px; height: 96px;" :src="`https://banoclubapi.com/${friend.userInfo.selfieFileData}`" alt=""
+          <img style="width: 89px; height: 96px;" :src="`https://subapi.banoclub.com/${friend.userInfo.selfieFileData}`" alt=""
                class="tw-w-full tw-h-full tw-object-cover tw-rounded-md">
           <div style="color: #4b5563" class="tw-text-sm tw-truncate mt-2 text-primary tw-cursor-pointer" @click="goToUserProfile(friend.userInfo)"> {{ friend.userInfo.name + ' ' + friend.userInfo.familyName }}</div>
         </div>

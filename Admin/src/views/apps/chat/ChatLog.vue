@@ -17,7 +17,7 @@
       <div class="chat-body">
         <div class="chat-content position-relative " :class="{'pb-2': chatData.userInfo.userId === admin.userId}">
           <p>{{ chatData.content }}</p>
-          <img v-if="chatData.fileData!==''" :src="`https://banoclubapi.com/${chatData.fileData}`" style="object-fit: contain;object-position: center" class="my-2" width="200px" height="100px" alt="">
+          <img v-if="chatData.fileData!==''" :src="`https://subapi.banoclub.com/${chatData.fileData}`" style="object-fit: contain;object-position: center" class="my-2" width="200px" height="100px" alt="">
         </div>
       </div>
     </div>

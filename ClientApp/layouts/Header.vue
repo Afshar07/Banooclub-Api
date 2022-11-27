@@ -684,7 +684,7 @@
                 <img
                   v-if="item.selfieFileData !== ''"
                   class="img-fluid myPicture rounded-circle tw-pl-0"
-                  :src="`https://banoclubapi.com/${item.selfieFileData}`"
+                  :src="`https://subapi.banoclub.com/${item.selfieFileData}`"
                   alt=""
                   style="width: 25px; height: 25px;object-fit: contain"
                 />
@@ -753,7 +753,7 @@
                   v-click-outside="CloseProfileHeader"
                   v-if="$auth.user && $auth.user.baseData &&  $auth.user.baseData.selfie"
                   class="img-fluid headerPicture tw-object-cover"
-                  :src="`https://banoclubapi.com/${$auth.user.baseData.selfie}`"
+                  :src="`https://subapi.banoclub.com/${$auth.user.baseData.selfie}`"
                   alt=""
                   @click.stop="profileHeader"
                 />
@@ -780,7 +780,7 @@
                             v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
                             class="img-fluid rounded-circle"
                             style="width: 45px; height: 45px;"
-                            :src="`https://banoclubapi.com/${$auth.user.baseData.selfie}`"
+                            :src="`https://subapi.banoclub.com/${$auth.user.baseData.selfie}`"
                             alt=""
                             @click="profileHeader"
                           />
@@ -936,7 +936,7 @@
                   v-if="item.selfieFileData !== ''"
                   style="width: 25px;height: 25px;object-fit: contain"
                   class="myPicture rounded-circle align-self-center"
-                  :src="`https://banoclubapi.com/${item.selfieFileData}`"
+                  :src="`https://subapi.banoclub.com/${item.selfieFileData}`"
                   alt=""
                 />
                 <img
@@ -1008,7 +1008,7 @@
                 <img
                   v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
                   class="img-fluid headerPicture tw-object-cover"
-                  :src="`https://banoclubapi.com/${$auth.user.baseData.selfie}`"
+                  :src="`https://subapi.banoclub.com/${$auth.user.baseData.selfie}`"
                   alt=""
 
                 />
@@ -1032,7 +1032,7 @@
                             v-if="loggedInfoData.selfie"
                             class="img-fluid rounded-circle"
                             style="width: 45px; height: 45px;"
-                            :src="`https://banoclubapi.com/${loggedInfoData.selfie}`"
+                            :src="`https://subapi.banoclub.com/${loggedInfoData.selfie}`"
                             alt=""
                             @click="profileHeader"
                           />
@@ -1488,12 +1488,12 @@ export default {
     },
     imgUserAvatar() {
       if (this.userinfo.selfieFileData !== null) {
-        this.userImageApi = `https://banoclubapi.com/${this.userinfo.selfieFileData}`;
+        this.userImageApi = `https://subapi.banoclub.com/${this.userinfo.selfieFileData}`;
       }
     },
     imageBackground() {
       if (this.userinfo.bannerFileData !== null) {
-        this.BackgroundApi = `https://banoclubapi.com/${this.userinfo.bannerFileData}`;
+        this.BackgroundApi = `https://subapi.banoclub.com/${this.userinfo.bannerFileData}`;
       }
     },
     async getUserInfo() {

@@ -44,7 +44,7 @@
                                   </div>
                                   <div class="tw-relative md:tw-order-2 tw-order-1  md:tw-col-span-2 tw-col-span-5  ">
                                     <div v-if="item.tags.length>0" class="tw-badge tw-absolute tw-badge-primary tw-m-3 tw-ml-0 tw-p-2 ">{{ item.tags[0].title }}</div>
-                                    <img :src="`https://banoclubapi.com/${item.fileData}`"  class="tw-rounded  tw-ml-0 tw-object-contain tw-object-center" width="300px" style="height: 170px!important;">
+                                    <img :src="`https://subapi.banoclub.com/${item.fileData}`"  class="tw-rounded  tw-ml-0 tw-object-contain tw-object-center" width="300px" style="height: 170px!important;">
                                   </div>
                                 </div>
 

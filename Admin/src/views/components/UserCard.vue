@@ -1,7 +1,7 @@
 <template>
   <b-card
       v-if="UserIndex"
-      :img-src="`https://banoclubapi.com/media/gallery/banner/${UserDetails.baseData.banner}`"
+      :img-src="`https://subapi.banoclub.com/media/gallery/banner/${UserDetails.baseData.banner}`"
       img-alt="Profile Cover Photo"
       img-top
       class="card-profile"
@@ -11,7 +11,7 @@
         <b-avatar
             size="114"
             variant="light"
-            :src="`https://banoclubapi.com/${UserDetails.baseData.selfie}`"
+            :src="`https://subapi.banoclub.com/${UserDetails.baseData.selfie}`"
         />
       </div>
     </div>
