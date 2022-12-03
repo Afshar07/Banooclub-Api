@@ -19,7 +19,7 @@
                 type="text"
                 class="with-border"
                 v-model="PhoneOrEmail"
-                :placeholder="inputPlaceholder"
+                placeholder="شماره موبایل یا ایمیل"
               />
             </div>
             <div class="flex text-center">
@@ -50,13 +50,7 @@ export default {
     }
   },
   computed:{
-    inputPlaceholder() {
-      if(this.forget_type === 1){
-        return "شماره موبایل"
-      }
-      else
-        return "ایمیل"
-    },
+
 
 
   },

@@ -47,14 +47,14 @@
             <!--            <label class="fa-pull-right" for="lastName">نام خانوادگی</label>-->
           </div>
         </div>
-        <div class="col-12 mt-3">
-          <select v-model="payload.serviceCategoryId" class="form-select" aria-label="Default select example">
-            <option :value="0">دسته بندی خدمت</option>
-            <option v-for="(service_category,idx) in categories" :key="idx" :value="service_category.serviceCategoryId">
-              {{ service_category.title }}
-            </option>
-          </select>
-        </div>
+<!--        <div class="col-12 mt-3">-->
+<!--          <select v-model="payload.serviceCategoryId" class="form-select" aria-label="Default select example">-->
+<!--            <option :value="0">دسته بندی خدمت</option>-->
+<!--            <option v-for="(service_category,idx) in categories" :key="idx" :value="service_category.serviceCategoryId">-->
+<!--              {{ service_category.title }}-->
+<!--            </option>-->
+<!--          </select>-->
+<!--        </div>-->
 
         <div class="col-12 mt-3 position-relative">
           <div class="form-floating text-end">
