@@ -1,21 +1,20 @@
 <template>
   <div>
     <div class="d-flex row">
-      <div class="col-md-7 col-sm-12" style="height: 1600px;overflow-y: scroll;" @scroll="handleScroll">
-        <AddPost @updateMyPosts="updateMyPosts" class="mb-3"/>
-        <PostItem @PostEvent="GetPosts"  class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post" :inMainPage="false" :inMyPosts="false"/>
-        <Spinner style="text-align: center" v-if="postData && postData.length !== postCounts"/>
-        <div class="row mb-3" v-if="!$fetchState.pending && postData && postData.length === 0">
-          <div class="col-12 text-warning fw-bold text-center">
-            هیچ پستی برای نمایش وجود ندارد
-          </div>
-        </div>
-      </div>
+<!--      <div class="col-md-7 col-sm-12" style="height: 1600px;overflow-y: scroll;" @scroll="handleScroll">-->
+<!--        <AddPost @updateMyPosts="updateMyPosts" class="mb-3"/>-->
+<!--        <PostItem @PostEvent="GetPosts"  class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post" :inMainPage="false" :inMyPosts="false"/>-->
+<!--        <Spinner style="text-align: center" v-if="postData && postData.length !== postCounts"/>-->
+<!--        <div class="row mb-3" v-if="!$fetchState.pending && postData && postData.length === 0">-->
+<!--          <div class="col-12 text-warning fw-bold text-center">-->
+<!--            هیچ پستی برای نمایش وجود ندارد-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
       <div class="col-md-5 col-sm-12">
         <AboutMe/>
         <SideBar></SideBar>
-<!--        <MyFriends class="my-3"/>-->
-        <Groups class="my-3"/>
+<!--        <Groups class="my-3"/>-->
       </div>
     </div>
   </div>

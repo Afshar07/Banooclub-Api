@@ -3,9 +3,9 @@
   <!--I had No idea How to Handle Height Correctly. Open To Contribute :D-->
   <div :class="$fetchState.pending?'loading-skeleton':''" class="row ">
     <div class="d-lg-block d-none ">
-      <div class="row bg-white rounded shadow" >
+      <div class="row bg-white rounded shadow tw-min-h-screen" >
         <!--Desktop Chat-->
-        <div class="col-md-3 " style="border-left: solid 1px lightgrey !important">
+        <div class="col-md-3  " style="border-left: solid 1px lightgrey !important">
           <div class="row">
             <div class="col-md-12 border-bottom pb-2 my-2">
               <input type="search" v-model="Search" class="SearchStyle tw-shadow" placeholder="جستجو">
@@ -18,7 +18,7 @@
           </div>
         </div>
         <!--Desktop Main Chat-->
-        <div class="col-md-9 px-0" style="background: url('/chat-bg.jpg') no-repeat center;background-size: cover">
+        <div class="col-md-9  px-0" style="background: url('/chat-bg.jpg') no-repeat center;background-size: cover">
           <!--It Returns One Event => GoBack Removes EveryThing From Current Chat, ChatSelected Boolean Is Required For Handling Show/Hide Chat-->
           <LazyDesktopChat class="w-100 h-100"   @GoBack="RemoveChatData" v-if="ChatSelected" :ActiveUser="ActiveUser"></LazyDesktopChat>
           <div   class="d-flex align-items-center justify-content-center w-100 h-100 " v-if="!ChatSelected">

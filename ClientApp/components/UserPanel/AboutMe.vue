@@ -10,24 +10,24 @@
         ساکن
          <strong class="px-1">{{userinfo.stateName}} <span v-if="userinfo.cityName !== '' && userinfo.stateName !== ''">,</span> {{userinfo.cityName}}</strong>
       </li>
-      <li  class="tw-flex tw-items-center my-2" v-if="  userinfo.userSetting&&userinfo.userSetting.birthDate===null&&userinfo.relationState !== null">
-        <HeartIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;" class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
-        <div v-if="userinfo.relationState === 1">
-           <strong> مجرد  </strong>
-        </div>
-        <div v-else-if="userinfo.relationState === 2">
-          در <strong> رابطه  </strong>
-        </div>
-        <div v-else-if="userinfo.relationState === 3">
-           <strong> متاهل  </strong>
-        </div>
-        <div v-else-if="userinfo.relationState === 4">
-           <strong> مطلقه  </strong>
-        </div>
-        <div v-else-if="userinfo.relationState === 5">
-           <strong> سایر  </strong>
-        </div>
-      </li>
+<!--      <li  class="tw-flex tw-items-center my-2" v-if="  userinfo.userSetting&&userinfo.userSetting.birthDate===null&&userinfo.relationState !== null">-->
+<!--        <HeartIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;" class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>-->
+<!--        <div v-if="userinfo.relationState === 1">-->
+<!--           <strong> مجرد  </strong>-->
+<!--        </div>-->
+<!--        <div v-else-if="userinfo.relationState === 2">-->
+<!--          در <strong> رابطه  </strong>-->
+<!--        </div>-->
+<!--        <div v-else-if="userinfo.relationState === 3">-->
+<!--           <strong> متاهل  </strong>-->
+<!--        </div>-->
+<!--        <div v-else-if="userinfo.relationState === 4">-->
+<!--           <strong> مطلقه  </strong>-->
+<!--        </div>-->
+<!--        <div v-else-if="userinfo.relationState === 5">-->
+<!--           <strong> سایر  </strong>-->
+<!--        </div>-->
+<!--      </li>-->
       <li  class="tw-flex tw-items-center my-2" v-else-if="  userinfo.userSetting">
         <UserIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"  class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
           <strong  v-if="  userinfo.userSetting&& userinfo.userSetting.birthDate!==null"> {{ time_ago(userinfo.userSetting.birthDate) }}  </strong>

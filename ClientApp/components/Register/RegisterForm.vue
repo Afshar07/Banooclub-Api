@@ -116,18 +116,7 @@
           رمز عبور باید حداقل 8 کاراکتر و شامل حداقل یک حرف کوچک و بزرگ انگلیسی
           و یک عدد و یک کاراکتر ویژه باشد
         </div>
-        <div class="col-12 form-group mt-3">
-          <div class="form-floating text-end">
-            <input
-              type="text"
-              class="with-border "
-              id="otp"
-              placeholder="کد تایید"
-              v-model.trim="payload.verifyCode"
-            />
-            <!--            <label for="otp">کد تایید</label>-->
-          </div>
-        </div>
+
         <div class="col-12 my-2">
           <div class="form-check d-flex align-items-center">
             <input
@@ -147,7 +136,10 @@
             <br/>
           </div>
         </div>
+        <div class="col-12 mt-3">
+          <input v-model="payload.introducerCode" type="text" placeholder="کد معرف" class="with-border">
 
+        </div>
         <div class="col-md-12 d-flex align-items-start gap-1 ">
 
 
@@ -205,7 +197,7 @@ export default {
         firstName: null,
         lastName: null,
         password: null,
-        verifyCode: null,
+        introducerCode:null,
         userRole: 3,
         serviceCategoryId: 0,
       },
@@ -261,9 +253,7 @@ export default {
         this.$toast.error("نام خانوادگی را وارد کنید.");
       } else if (this.payload.password.length < 8) {
         this.$toast.error("رمز عبور باید حداقل 8 کارکتر باشد.");
-      } else if (!this.payload.verifyCode) {
-        this.$toast.error("کد تایید را وارد کنید.");
-      } else {
+      }  else {
         this.$emit("getSignUpPayload", this.payload);
       }
     },

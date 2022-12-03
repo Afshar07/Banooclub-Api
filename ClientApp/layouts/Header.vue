@@ -21,17 +21,17 @@
               <span v-if="!decrease_width" class="header_font_sidebar_size">داشبورد</span>
             </nuxt-link>
           </div>
-          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
-            <nuxt-link
-              exact-active-class="SingleShortCutActive"
-              to="/social"
-              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
-            >
-              <HomeIcon fill="#fc5399" class="svg_icons_size"/>
-              <!--                <i class="fas fa-home" style="font-size: 18px"></i>-->
-              <span v-if="!decrease_width" class="header_font_sidebar_size">خانه</span>
-            </nuxt-link>
-          </div>
+<!--          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
+<!--            <nuxt-link-->
+<!--              exact-active-class="SingleShortCutActive"-->
+<!--              to="/social"-->
+<!--              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
+<!--            >-->
+<!--              <HomeIcon fill="#fc5399" class="svg_icons_size"/>-->
+<!--              &lt;!&ndash;                <i class="fas fa-home" style="font-size: 18px"></i>&ndash;&gt;-->
+<!--              <span v-if="!decrease_width" class="header_font_sidebar_size">خانه</span>-->
+<!--            </nuxt-link>-->
+<!--          </div>-->
           <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
               exact-active-class="SingleShortCutActive"
@@ -254,17 +254,17 @@
               <span v-if="!decrease_width" class="header_font_sidebar_size">مقالات</span>
             </nuxt-link>
           </div>
-          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
-            <nuxt-link
-              exact-active-class="SingleShortCutActive"
-              to="/social/contacts"
-              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
-            >
-              <AllUsersIcon fill="#fbbc35" class="svg_icons_size"/>
-              <!--                <i class="fas fa-users" style="font-size: 18px"></i>-->
-              <span v-if="!decrease_width" class="header_font_sidebar_size">دوست یاب</span>
-            </nuxt-link>
-          </div>
+<!--          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
+<!--            <nuxt-link-->
+<!--              exact-active-class="SingleShortCutActive"-->
+<!--              to="/social/contacts"-->
+<!--              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
+<!--            >-->
+<!--              <AllUsersIcon fill="#fbbc35" class="svg_icons_size"/>-->
+<!--              &lt;!&ndash;                <i class="fas fa-users" style="font-size: 18px"></i>&ndash;&gt;-->
+<!--              <span v-if="!decrease_width" class="header_font_sidebar_size">دوست یاب</span>-->
+<!--            </nuxt-link>-->
+<!--          </div>-->
           <div :class="[decrease_width ? '' : ' ']" class=" py-1">
             <div  @click="RoomateActive=! RoomateActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"
                   class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
@@ -348,17 +348,17 @@
                 <span v-if="!decrease_width" class="header_font_sidebar_size">داشبورد</span>
               </nuxt-link>
             </div>
-            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
-              <nuxt-link
-                exact-active-class="SingleShortCutActive"
-                to="/social"
-                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
-              >
-                <HomeIcon fill="#fc5399" class="svg_icons_size"/>
-                <!--                <i class="fas fa-home" style="font-size: 18px"></i>-->
-                <span v-if="!decrease_width" class="header_font_sidebar_size">خانه</span>
-              </nuxt-link>
-            </div>
+<!--            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
+<!--              <nuxt-link-->
+<!--                exact-active-class="SingleShortCutActive"-->
+<!--                to="/social"-->
+<!--                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
+<!--              >-->
+<!--                <HomeIcon fill="#fc5399" class="svg_icons_size"/>-->
+<!--                &lt;!&ndash;                <i class="fas fa-home" style="font-size: 18px"></i>&ndash;&gt;-->
+<!--                <span v-if="!decrease_width" class="header_font_sidebar_size">خانه</span>-->
+<!--              </nuxt-link>-->
+<!--            </div>-->
             <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
                 exact-active-class="SingleShortCutActive"
@@ -581,17 +581,17 @@
                 <span v-if="!decrease_width" class="header_font_sidebar_size">مقالات</span>
               </nuxt-link>
             </div>
-            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
-              <nuxt-link
-                exact-active-class="SingleShortCutActive"
-                to="/social/contacts"
-                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
-              >
-                <AllUsersIcon fill="#fbbc35" class="svg_icons_size"/>
-                <!--                <i class="fas fa-users" style="font-size: 18px"></i>-->
-                <span v-if="!decrease_width" class="header_font_sidebar_size">دوست یاب</span>
-              </nuxt-link>
-            </div>
+<!--            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
+<!--              <nuxt-link-->
+<!--                exact-active-class="SingleShortCutActive"-->
+<!--                to="/social/contacts"-->
+<!--                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
+<!--              >-->
+<!--                <AllUsersIcon fill="#fbbc35" class="svg_icons_size"/>-->
+<!--                &lt;!&ndash;                <i class="fas fa-users" style="font-size: 18px"></i>&ndash;&gt;-->
+<!--                <span v-if="!decrease_width" class="header_font_sidebar_size">دوست یاب</span>-->
+<!--              </nuxt-link>-->
+<!--            </div>-->
             <div class=" py-1">
               <div  @click="RoomateActive=! RoomateActive"  :class="[decrease_width ? '' : '']"
                    class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
@@ -660,7 +660,7 @@
 
           </button>
           <nuxt-link to="/social">
-            <img src="/t5.png" class="tw-h-10  tw-object-cover" alt="">
+            <img src="/banoclub-logo-small.png" class="tw-h-10  tw-object-cover" alt="">
           </nuxt-link>
         </div>
         <div v-if="!isChatLayout" class="col-lg-5 col-xl-4 header_search tw-relative">
@@ -885,7 +885,7 @@
 
             </button>
             <nuxt-link to="/social">
-              <img src="/t5.png" class="tw-h-10  tw-object-cover" alt="">
+              <img src="/banoclub-logo-small.png" class="tw-h-10  tw-object-cover" alt="">
             </nuxt-link>
           </div>
           <div @click="$emit('sidenavToggle')" class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">

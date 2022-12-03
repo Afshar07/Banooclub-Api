@@ -60,59 +60,59 @@
           </client-only>
         </div>
 
-        <div class="col-md-12 my-3 d-flex align-items-center  gap-2 justify-content-start flex-wrap">
-          <span class="text-secondary ">وضعیت تاهل :  </span>
-          <div class="d-flex align-items-center gap-3">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="inlineCheckbox10"
-              :value="1"
-              v-model="Relation"
-            />
-            <label class="m-0" for="inlineCheckbox9">مجرد</label>
-          </div>
-          <div class="d-flex align-items-center gap-3">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="inlineCheckbox11"
-              :value="2"
-              v-model="Relation"
-            />
-            <label class="m-0" for="inlineCheckbox9">در رابطه</label>
-          </div>
-          <div class="d-flex align-items-center gap-3">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="inlineCheckbox12"
-              :value="3"
-              v-model="Relation"
-            />
-            <label class="m-0" for="inlineCheckbox9">متاهل</label>
-          </div>
-          <div class="d-flex align-items-center gap-3">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="inlineCheckbox13"
-              :value="4"
-              v-model="Relation"
-            />
-            <label class="m-0" for="inlineCheckbox9">مطلقه</label>
-          </div>
-          <div class="d-flex align-items-center gap-3">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="inlineCheckbox14"
-              :value="5"
-              v-model="Relation"
-            />
-            <label class="m-0" for="inlineCheckbox9">سایر</label>
-          </div>
-        </div>
+<!--        <div class="col-md-12 my-3 d-flex align-items-center  gap-2 justify-content-start flex-wrap">-->
+<!--          <span class="text-secondary ">وضعیت تاهل :  </span>-->
+<!--          <div class="d-flex align-items-center gap-3">-->
+<!--            <input-->
+<!--              class="form-check-input"-->
+<!--              type="radio"-->
+<!--              id="inlineCheckbox10"-->
+<!--              :value="1"-->
+<!--              v-model="Relation"-->
+<!--            />-->
+<!--            <label class="m-0" for="inlineCheckbox9">مجرد</label>-->
+<!--          </div>-->
+<!--          <div class="d-flex align-items-center gap-3">-->
+<!--            <input-->
+<!--              class="form-check-input"-->
+<!--              type="radio"-->
+<!--              id="inlineCheckbox11"-->
+<!--              :value="2"-->
+<!--              v-model="Relation"-->
+<!--            />-->
+<!--            <label class="m-0" for="inlineCheckbox9">در رابطه</label>-->
+<!--          </div>-->
+<!--          <div class="d-flex align-items-center gap-3">-->
+<!--            <input-->
+<!--              class="form-check-input"-->
+<!--              type="radio"-->
+<!--              id="inlineCheckbox12"-->
+<!--              :value="3"-->
+<!--              v-model="Relation"-->
+<!--            />-->
+<!--            <label class="m-0" for="inlineCheckbox9">متاهل</label>-->
+<!--          </div>-->
+<!--          <div class="d-flex align-items-center gap-3">-->
+<!--            <input-->
+<!--              class="form-check-input"-->
+<!--              type="radio"-->
+<!--              id="inlineCheckbox13"-->
+<!--              :value="4"-->
+<!--              v-model="Relation"-->
+<!--            />-->
+<!--            <label class="m-0" for="inlineCheckbox9">مطلقه</label>-->
+<!--          </div>-->
+<!--          <div class="d-flex align-items-center gap-3">-->
+<!--            <input-->
+<!--              class="form-check-input"-->
+<!--              type="radio"-->
+<!--              id="inlineCheckbox14"-->
+<!--              :value="5"-->
+<!--              v-model="Relation"-->
+<!--            />-->
+<!--            <label class="m-0" for="inlineCheckbox9">سایر</label>-->
+<!--          </div>-->
+<!--        </div>-->
         <div class="col-md-12 my-3">
           <div class="row">
             <div class="col-md-6">

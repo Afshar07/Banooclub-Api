@@ -323,9 +323,9 @@ if(val.userId!==this.ActiveUserId){
 }
 
 .ChatContainer {
-  height: 600px;
-  max-height: 600px;
-  min-height: 600px;
+  height: 800px;
+  max-height: 800px;
+  min-height: 800px;
   overflow-y: scroll;
   background: url("/chat-bg.jpg") no-repeat;
   background-size: cover;

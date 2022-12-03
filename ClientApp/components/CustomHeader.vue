@@ -71,11 +71,11 @@
                         style="white-space: nowrap">
                       {{ $auth.user.baseData.name + " " + $auth.user.baseData.familyName }}
                     </h1>
-                    <small class="text-primary tw-cursor-pointer" @click="goToUserProfile($auth.user.baseData)"
+                    <small v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.userName" class="text-primary tw-cursor-pointer" @click="goToUserProfile($auth.user.baseData)"
                            style="text-align: center">
                       {{ $auth.user.baseData.userName }}@
                     </small>
-                    <div class="d-flex mb-4" style="position: relative;top: 16px;">
+                    <div v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.followersCount" class="d-flex mb-4" style="position: relative;top: 16px;">
                       <div class="mx-2 d-flex" style="align-items: center">
                         <div class="tw-pl-2" style="font-size: 13px">
                           {{ $auth.user.userInfo.followersCount }}
@@ -145,9 +145,9 @@
           <button @click="$emit('SetActiveTab',1)" class="nav-link active customFontSize" id="posts-home-tab"
                   data-bs-toggle="pill" data-bs-target="#posts-home"
                   type="button" role="tab" aria-controls="posts-home" aria-selected="true">
-            <span v-if="!$route.params.slug">پست های من</span>
+            <span v-if="!$route.params.slug">درباره من</span>
             <span class="d-flex" v-else-if="$route.params.slug && getUserDetails && getUserDetails.baseData">
-              <span class="px-1">پست ها</span>
+              <span class="px-1">درباره</span>
               <svg
                 v-if="getUserDetails && getUserDetails.userInfo && getUserDetails.userInfo.userSetting && getUserDetails.userInfo.userSetting.isPrivatePost"
                 xmlns="http://www.w3.org/2000/svg" class="tw-h-4 tw-w-4" viewBox="0 0 20 20" fill="#ff6f9e">

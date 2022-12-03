@@ -200,7 +200,7 @@ module.exports = {
     },
     redirect: {
       login: "/",
-      home: "/social",
+      home: "/social/accountsetting/MyPage",
       logout: "/",
       admins: false,
     },

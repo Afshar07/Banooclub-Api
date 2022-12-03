@@ -7,21 +7,8 @@
       </div>
       <div class="tab-pane fade show active" id="posts-home" role="tabpanel" aria-labelledby="posts-home-tab">
         <div class="d-flex row">
-          <div class="col-md-7 col-sm-12" style="height: 1500px;overflow-y: scroll;" @scroll="handleScroll">
-
-            <LazyPostItem class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post"/>
-            <LazySpinner v-if="postData && postData.length !== postCounts"/>
-            <div class="row mb-3" v-if="!$fetchState.pending && postData.length===0">
-              <div class="col-12 text-warning fw-bold text-center">
-                هیچ پستی برای نمایش وجود ندارد
-              </div>
-            </div>
-            <div v-else-if="userinfo && userinfo.userSetting && userinfo.userSetting.isPrivatePost" class="row mb-3"  >
-              <div class="col-12 text-warning fw-bold text-center">
-                پست های این کاربر شخصی هستند.
-              </div>
-            </div>
-          </div>
+<!--
+-->
           <div class="col-md-5 col-sm-12">
             <div class="widget custom_card p-3">
               <h4 class="tw-text-lg tw-font-semibold"> درباره  </h4>
@@ -34,25 +21,25 @@
                     v-if="userinfo.cityName !== '' && userinfo.stateName !== ''">,</span>
                     {{ userinfo.cityName }}</strong>
                 </li>
-                <li class="tw-flex tw-items-center my-2"  v-if="  userinfo.userSetting&&userinfo.userSetting.birthDate===null&&userinfo.relationState !== null">
-                  <LazyHeartIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"
-                             class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
-                  <div v-if="userinfo && userinfo.relationState === 1">
-                    <strong> مجرد </strong>
-                  </div>
-                  <div v-else-if="userinfo && userinfo.relationState === 2">
-                    در <strong> رابطه </strong>
-                  </div>
-                  <div v-else-if="userinfo && userinfo.relationState === 3">
-                    <strong> متاهل </strong>
-                  </div>
-                  <div v-else-if="userinfo && userinfo.relationState === 4">
-                    <strong> مطلقه </strong>
-                  </div>
-                  <div v-else-if="userinfo && userinfo.relationState === 5">
-                    <strong> سایر </strong>
-                  </div>
-                </li>
+<!--                <li class="tw-flex tw-items-center my-2"  v-if="  userinfo.userSetting&&userinfo.userSetting.birthDate===null&&userinfo.relationState !== null">-->
+<!--                  <LazyHeartIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"-->
+<!--                             class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>-->
+<!--                  <div v-if="userinfo && userinfo.relationState === 1">-->
+<!--                    <strong> مجرد </strong>-->
+<!--                  </div>-->
+<!--                  <div v-else-if="userinfo && userinfo.relationState === 2">-->
+<!--                    در <strong> رابطه </strong>-->
+<!--                  </div>-->
+<!--                  <div v-else-if="userinfo && userinfo.relationState === 3">-->
+<!--                    <strong> متاهل </strong>-->
+<!--                  </div>-->
+<!--                  <div v-else-if="userinfo && userinfo.relationState === 4">-->
+<!--                    <strong> مطلقه </strong>-->
+<!--                  </div>-->
+<!--                  <div v-else-if="userinfo && userinfo.relationState === 5">-->
+<!--                    <strong> سایر </strong>-->
+<!--                  </div>-->
+<!--                </li>-->
                 <li  class="tw-flex tw-items-center my-2" v-else-if="  userinfo.userSetting&& userinfo.userSetting.birthDate!==null">
                   <LazyUserIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"  class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
 

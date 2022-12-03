@@ -154,7 +154,7 @@ export default {
           this.$auth.strategy.token.set(response.data.token)
           this.$auth.setUser(response.data.user)
           this.$auth.fetchUser()
-          this.$router.push('/social')
+          this.$router.push('/social/accountsetting/MyPage')
         }
 
       } catch (error) {
@@ -168,6 +168,7 @@ export default {
         this.payload[key] = payload[key]
       })
       this.ActiveComponent=3
+      console.log(this.payload)
     },
     setSignUpPayload(payload) {
       Object.keys(payload).forEach(key => {
