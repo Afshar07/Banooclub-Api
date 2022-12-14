@@ -25,7 +25,7 @@
             <!--            </a>-->
           </div>
         </div>
-        <div class="row mb-3" v-if="photos.length === 0">
+        <div class="row mb-3 bg-white tw-rounded-xl p-2" v-if="photos.length === 0">
           <div class="col-12 text-warning fw-bold text-center">
             هیچ عکسی برای نمایش وجود ندارد
           </div>

@@ -11,7 +11,7 @@
       <div v-if="ActiveTab===1" class="tab-pane tw-bg-[#faf7ff] fade show active " id="posts-home" role="tabpanel" aria-labelledby="posts-home-tab">
         <LazyPostsTabContent/>
       </div>
-      <div v-if="ActiveTab===4" class="tab-pane fade tw-bg-[#faf7ff] show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+      <div v-if="ActiveTab===4" class="tab-pane  fade tw-bg-[#faf7ff] show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
         <LazyFriendsTabContent/>
       </div>
       <div v-if="ActiveTab===5" class="tab-pane fade tw-bg-[#faf7ff] show active" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">

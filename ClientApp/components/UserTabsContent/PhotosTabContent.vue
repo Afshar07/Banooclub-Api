@@ -75,12 +75,19 @@
       </div>
     </div>
     <div class="bg-white p-4 tab_content_back">
-      <div class="d-flex flex-row justify-content-between align-items-center">
-        <h2 class="tw-text-xl tw-font-bold" style="font-family: iranSans !important;">گالری من</h2>
-        <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" class="btn AddReplyBtn text-white">
-          <PlusIcon fill="#2563eb" style="width: 30px; height: 30px;"/>
+      <div class="tw-w-full    p-3 d-flex align-items-center justify-content-between gap-3   ">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/girl-icon-gallery.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
+          <div class="d-flex align-items-center flex-column">
+            <h1 class="text-purple h6" style="font-weight: bolder!important;">گالری من</h1>
+            <strong class="text-pink">My Gallery</strong>
+          </div>
+        </div>
+        <button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" v-tooltip="{content:'افزودن عکس جدید'}" class="btn AddReplyBtn text-white">
+          <LazyPlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
         </button>
       </div>
+
       <div class="row">
         <div
           class="col-md-4 my-3"

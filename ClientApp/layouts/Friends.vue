@@ -46,10 +46,15 @@
         </div>
       </transition-group>
     </div>
-    <div class="col-12 text-warning fw-bold tw-text-right mt-3" v-else>
+    <div class="col-12 text-purple fw-bold tw-text-right mt-3" v-else>
       هیچ دنبال کننده ای برای نمایش وجود ندارد
     </div>
+    <div class="col-12 d-flex w-100 align-items-center justify-content-center" v-else>
 
+    <nuxt-link to="/Social/Contacts" style="text-decoration: none" class="    tw-text-blue-500 tw-text-sm fw-bold  mt-3" >
+     مشاهده سایر بانوان
+    </nuxt-link>
+    </div>
   </div>
 </template>
 

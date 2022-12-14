@@ -4,9 +4,11 @@
       <AdItem  class="tw-my-3 tw-mx-auto"  v-for="item in Ads" :AdsDetail="item" />
 
     </div>
-      <div  v-else-if="Ads.length===0" class="col-12 text-warning fw-bold text-center">
-        هیچ آگهی برای نمایش وجود ندارد
+    <div v-else-if="Ads.length===0" @click="$router.push('/Migration/CreateAdvertise')" class="row mb-3">
+      <div class="col-12 text-warning fw-bold text-center tw-cursor-pointer">
+        <img src="/ads.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">
       </div>
+    </div>
     <CustomPagination  :activePage="activePage" :totalPages="totalPages" @PageChanged="changePage($event)"/>
   </div>
 

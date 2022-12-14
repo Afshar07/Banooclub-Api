@@ -4,15 +4,17 @@
 
       <div class="col-md-8 add_post custom_padding_for_posts" style="height: 950px;overflow-y: scroll;" @scroll="handleScroll">
 
-        <LazyAddPost @updateMyPosts="updateMyPosts" class="mb-3"/>
+        <LazyAddPost ref="AddPost" @updateMyPosts="updateMyPosts" class="mb-3"/>
+
+        <div         v-if="!$fetchState.pending && postData && postData.length === 0"  class="row mb-3" >
+          <div  @click="$refs.AddPost.showModal=true" class="col-12 text-warning fw-bold text-center tw-cursor-pointer">
+            <img src="/girl1.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">
+          </div>
+        </div>
         <PostItem @PostEvent="GetPosts" class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post" :inMainPage="true" :inMyPosts="false"/>
         <LazySpinner v-if="postData && postData.length !== postCounts"/>
 
-        <div class="row mb-3" v-if="!$fetchState.pending && postData && postData.length === 0">
-          <div class="col-12 text-warning fw-bold text-center">
-            هیچ پستی برای نمایش وجود ندارد
-          </div>
-        </div>
+
       </div>
       <div class=" col-md-4 px-0">
         <SideBar />

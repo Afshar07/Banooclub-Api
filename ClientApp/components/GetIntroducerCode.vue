@@ -29,7 +29,11 @@ export default {
   },
   methods:{
     SendIntroducerCode(){
+      if(this.payload.verifyCode.length!==5){
+        this.$toast.error('کد وارد شده اشتباه است')
+      }else{
       this.$emit('SendIntCode',this.payload)
+      }
     }
   }
 }

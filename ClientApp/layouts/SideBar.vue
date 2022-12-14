@@ -35,7 +35,7 @@
     <div class="tw-w-full tw-shadow my-3 tw-bg-white p-3 tw-rounded">
       <div class="tw-grid tw-grid-cols-2 ">
         <div class="tw-flex tw-items-start  tw-flex-col my-2">
-          <div class="tw-radial-progress tw-text-[#fc5399]" :style="`--value:${FilledCount}`" >{{ FilledCount }}%</div>
+          <div class="tw-radial-progress " :class="{'tw-text-[#fc5399]':FilledCount===100,'tw-text-gray-400':FilledCount!==100}" :style="`--value:${FilledCount}`" >{{ FilledCount }}%</div>
         </div>
         <div class="tw-flex tw-flex-col ">
           <small class="text-center tw-text-[#b44aff]">تکمیل پروفایل باعث بیشتر دیده شدن میشود</small>
