@@ -5,7 +5,7 @@ class UsersChangeUserRoleRequest extends WebServiceRequest {
         super(context)
     }
     setParams(data){
-        super.setTag(`Account/ChangeRole?userId=${data.userId}&UserTypeId=${data.typeId}`)
+        super.setTag(`Account/ChangeRole?userId=${data.userId}&UserTypeId=${data.status}`)
     }
 }
 export default UsersChangeUserRoleRequest;

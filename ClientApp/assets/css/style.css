@@ -2078,7 +2078,12 @@ select.bs-select-hidden, select.selectpicker {
 .StarGreen {
   color: #89ffde
 }
-
+.ShadowPrice {
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: bolder;
+  box-shadow: 0 0 7px 1px #e5aded;
+}
 .StarSkyBlue {
   color: #44ecf9
 }
@@ -10587,3 +10592,5 @@ li.nav-item {
   color: transparent !important;
   border-radius: 20px !important;
 }
+
+

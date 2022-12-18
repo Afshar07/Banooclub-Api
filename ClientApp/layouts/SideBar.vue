@@ -39,7 +39,7 @@
         </div>
         <div class="tw-flex tw-flex-col ">
           <small class="text-center tw-text-[#b44aff]">تکمیل پروفایل باعث بیشتر دیده شدن میشود</small>
-          <button class="tw-bg-[#fc5399] tw-rounded tw-text-white p-2">
+          <button class="tw-bg-[#fc5399] tw-rounded tw-text-white mt-2 p-2">
             <nuxt-link class="text-decoration-none hover:tw-text-white tw-text-white" to="/Social/AccountSetting/EditProfileBasic">تکمیل پروفایل</nuxt-link>
             </button>
         </div>
@@ -136,7 +136,7 @@ export default {
       try {
         const response = await this.$repositories.getUserByToken.getUserByToken();
         this.userinfo = response.data;
-console.log(this.userinfo)
+
       } catch (error) {
         console.log(error);
       }

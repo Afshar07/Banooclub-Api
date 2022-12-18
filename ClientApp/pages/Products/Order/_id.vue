@@ -20,7 +20,7 @@
 
         <h4 class="mt-5 theme-color mb-5">سفارش شما ثبت شد</h4>
 
-        <span class="theme-color">خلاصه پرداخت</span>
+        <span  class="theme-color tw-text-sm">خلاصه پرداخت</span>
         <div class="mb-3">
           <hr class="new1">
         </div>

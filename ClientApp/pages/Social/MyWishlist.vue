@@ -149,4 +149,6 @@ export default {
   border-bottom-right-radius: 0;
 }
 
+
+
 </style>

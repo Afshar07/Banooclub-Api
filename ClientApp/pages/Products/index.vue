@@ -9,7 +9,7 @@
         </div>
       </div>
 
-      <button v-tooltip="{content:'ثبت خدمت'}" @click="$router.push('/Products/AddProduct')"
+      <button v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3" v-tooltip="{content:'ثبت خدمت'}" @click="$router.push('/Products/AddProduct')"
               class="btn AddReplyBtn text-white">
         <LazyPlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
       </button>

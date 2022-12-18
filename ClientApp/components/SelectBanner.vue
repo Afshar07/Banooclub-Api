@@ -39,7 +39,7 @@ export default {
   mounted() {
 
     this.BannerIdx = Math.round(Math.random() * (16 - 1) + 1)
-    this.SelectedAvatar = `defaultBanner${this.BannerIdx}.png`
+    this.SelectedBanner = `defaultBanner${this.BannerIdx}.jpg`
 
   },
   methods: {

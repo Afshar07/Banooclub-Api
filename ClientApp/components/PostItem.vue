@@ -185,7 +185,7 @@
             <strong class="px-1" style="font-size: 16px; font-weight: bolder"> {{ post_details.likesCount }} </strong>
             <div style="font-size: 14px">نفر</div>
           </div>
-          <button v-if="post_details.userInfo && !(post_details.userInfo.userId === $auth.user.userInfo.userId)" @click="likePost(post_details.postId, post_details.userId)"
+          <button v-if="post_details.userInfo && !(post_details.userInfo.userId === $auth?.user?.userInfo?.userId)" @click="likePost(post_details.postId, post_details.userId)"
                   class="tw-flex tw-items-center tw-space-x-2 text-decoration-none text-dark">
             <div class="tw-p-2 tw-rounded-full  tw-text-black d-flex align-items-center">
               <img v-if="post_details.isLikedByMe" src="/like-small.png" style="width: 30px; height: 30px" alt="">

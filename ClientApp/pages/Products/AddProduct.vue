@@ -568,14 +568,13 @@ export default {
       });
     },
     onFileChangeVideo() {
-      console.log(this.$refs.VideoFile.files);
       const that = this;
       const f = [];
 
       that.Uploaded = true;
       Array.prototype.forEach.call(this.$refs.VideoFile.files, (element) => {
         if (element.duration > 120000) {
-          this.$toast.error('زمان ویدئو بارگذازری شده باید کمتر از 2 دقیقه باشد')
+          this.$toast.error('زمان ویدئو بارگذاری شده باید کمتر از 2 دقیقه باشد')
         } else if (this.Videos.length >= 3) {
           this.$toast.error('بیشتر از 3 ویدئو نمیتوانید بارگذاری کنید')
         } else {

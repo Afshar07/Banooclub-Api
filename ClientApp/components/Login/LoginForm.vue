@@ -174,10 +174,14 @@ export default {
         // this.$store.commit("setUser", {
         //   user: response.data.data.user,
         // });
+
+
+        // TempChange
+        // /Social
         if (response.data.data.user.role === "Admin") {
-          this.$router.push({ path: "/social" });
+          this.$router.push({ path: "/social/AccountSetting/MyPage" });
         } else {
-          this.$router.push({ path: "/social" });
+          this.$router.push({ path: "/social/AccountSetting/MyPage" });
         }
       } catch (error) {
         console.log(error);

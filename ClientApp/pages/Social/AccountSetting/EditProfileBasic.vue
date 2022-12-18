@@ -211,7 +211,7 @@
       </form>
     </div>
     <div class="tw-fixed tw-bottom-0 tw-left-0 tw-p-10">
-      <LazyCircularProgress :RadialProgress="RadialProgress"></LazyCircularProgress>
+      <LazyCircularProgress :RadialProgress="FilledCount"></LazyCircularProgress>
 
     </div>
   </div>
@@ -251,6 +251,7 @@ export default {
       Relation: 0,
       userTag: "",
       pass: null,
+      userinfo:[],
       nationalCart: "",
       cart: '',
       userSettingId: null,
@@ -259,7 +260,6 @@ export default {
       SelectedStateId: null,
       SelectedCityId: null,
 
-        requiredFields: ["firstName", "lastName", "mobile", 'birthDate', 'bio', 'nationalCart', 'SelectedCityId', 'SelectedStateId', 'userTag'],
 
 
     };
@@ -276,21 +276,32 @@ export default {
       count: 0
     })
     this.AllStates = res.data.states
+      try {
+        const response = await this.$repositories.getUserByToken.getUserByToken();
+        this.userinfo = response.data;
 
+      } catch (error) {
+        console.log(error);
+      }
   },
   computed: {
     FilledCount() {
       let count = 0
-      this.requiredFields.forEach(item => {
-        if(this[item] && this[item]!==''){
-          count++
-        }
-      })
-      return count
+      if(this.userinfo && this.userinfo.userInfo && this.userinfo.userInfo.userSetting){
+        this.userinfo.userInfo.name !== '' ? count++ : count - 1
+        this.userinfo.userInfo.familyName !== '' ? count++ : count - 1
+        this.userinfo.userInfo.mobile !== '' ? count++ : count - 1
+        this.userinfo.userInfo.userSetting.birthDate !== '' ? count++ : count - 1
+        this.userinfo.userInfo.userSetting.bio !== '' ? count++ : count - 1
+        this.userinfo.userInfo.userSetting.kartMelliDoc !== null ? count++ : count - 1
+        this.userinfo.userInfo.cityId !== null ? count++ : count - 1
+        this.userinfo.userInfo.stateId !== null ? count++ : count - 1
+        this.userinfo.userInfo.userSetting.userTag !== '' ? count++ : count - 1
+        return Math.round(count * (100 / 9))
+      }
+
     },
-    RadialProgress() {
-      return Math.round(this.FilledCount * (100 / 9))
-    },
+
     BaseUrl() {
       return process.env.pic
     },

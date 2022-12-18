@@ -26,7 +26,7 @@
       </label>
     </label>
     <input type="checkbox" ref="BannerModal" id="my-modal-5" class="tw-modal-toggle"/>
-    <label for="my-modal-5" class="tw-modal cursor-pointer">
+    <label for="my-modal-5"  class="tw-modal cursor-pointer">
       <label class="tw-modal-box tw-max-w-3xl relative" for="">
         <SelectBanner @SendBannerPic="UploadBanner" @SetBannerPic="callInputMethod"></SelectBanner>
 <!--        <div class="tw-w-full">-->
@@ -148,13 +148,17 @@
             <span v-if="!$route.params.slug">درباره من</span>
             <span class="d-flex" v-else-if="$route.params.slug && getUserDetails && getUserDetails.baseData">
               <span class="px-1">درباره</span>
-              <svg
+<!--              //TempChange-->
+<!--
+  <svg
                 v-if="getUserDetails && getUserDetails.userInfo && getUserDetails.userInfo.userSetting && getUserDetails.userInfo.userSetting.isPrivatePost"
                 xmlns="http://www.w3.org/2000/svg" class="tw-h-4 tw-w-4" viewBox="0 0 20 20" fill="#ff6f9e">
                 <path fill-rule="evenodd"
                       d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
                       clip-rule="evenodd"/>
               </svg>
+     -->
+
             </span>
 
           </button>
@@ -358,33 +362,41 @@ export default {
     callInputMethod() {
       this.$refs.file.click();
     },
-    UploadAvatar(Avatar){
+    async UploadAvatar(Avatar){
       setTimeout(async () => {
         try {
-          await this.$repositories.updateUserDetails.updateUserDetails({
+          this.$nextTick(()=>{
+            this.$nuxt.$loading.start();
+          })
+         const res = await this.$repositories.updateUserDetails.updateUserDetails({
             selfieFileData: Avatar,
           });
           await this.$auth.fetchUser()
-          this.$fetch()
+          this.$toast.success('آواتار پیش فرض شما با موفقیت تغییر یافت')
         } catch (error) {
           console.log(error);
         } finally {
+          this.$refs.AvatarModal.click();
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
         }
       }, 300);
     },
-    UploadBanner(banner){
+  async   UploadBanner(banner){
       setTimeout(async () => {
         try {
-          await this.$repositories.updateUserDetails.updateUserDetails({
+          this.$nextTick(()=>{
+            this.$nuxt.$loading.start();
+          })
+         const res =  await this.$repositories.updateUserDetails.updateUserDetails({
             bannerFileData: banner,
           });
+         this.$toast.success('بنر پیش فرض شما با موفقیت عوض شد')
           await this.$auth.fetchUser()
-          this.$fetch()
         } catch (error) {
           console.log(error);
         } finally {
+          this.$refs.BannerModal.click();
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
         }

@@ -16,6 +16,13 @@
             <strong class="text-pink">Boost Service</strong>
           </div>
         </div>
+        <div v-if="ActiveTab===2" class="d-flex align-items-center gap-2">
+          <img src="/girl-icon-khadamat-edit.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
+          <div class="d-flex align-items-center flex-column">
+            <strong class="text-purple"> پیش نمایش خدمت </strong>
+            <strong class="text-pink">Preview</strong>
+          </div>
+        </div>
       </div>
 
     </div>

@@ -12,7 +12,7 @@
 
       <div class="tw-flex tw-items-center  tw-left-2  tw-justify-center position-absolute tw-top-[-15px]">
 
-        <div class="tw-top-3  tw-border-1  tw-rounded tw-shadow tw-bg-[#9cf5ff]  tw-font-medium tw-px-2 tw-py-1 tw-left-2  tw-text-[#db3cd6]">
+        <div class="tw-top-3 ShadowPrice  tw-border-1  tw-rounded tw-shadow tw-bg-[#9cf5ff]  tw-font-medium tw-px-2 tw-py-1 tw-left-2  tw-text-[#db3cd6]">
           {{Intl.NumberFormat('fa-IR').format(service_details.serviceInfo.totalPrice)}}
           <small class="Toman">تومان</small>
         </div>
@@ -110,4 +110,5 @@ export default {
 .product_name:hover{
   color: #007bff !important;
 }
+
 </style>

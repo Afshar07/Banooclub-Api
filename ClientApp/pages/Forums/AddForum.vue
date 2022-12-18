@@ -13,8 +13,7 @@
       <div class="row bg-white rounded shadow p-3 my-3">
         <div class="col-6 pt-3">
           <label>نام تالار گفتگو *</label>
-          <input v-model="forum_title" type="text" class="with-border FormInputs" style="height: 55px!important;" placeholder="موضوع گفتمان را بنویسید"
-                 :class="{BorderRed:forum_title==='',BorderGreen:forum_title!==''}">
+          <input v-model="forum_title" type="text" class="with-border FormInputs" style="height: 55px!important;" placeholder="موضوع گفتمان را بنویسید">
         </div>
 
         <div class="col-6 pt-3">

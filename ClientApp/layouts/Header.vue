@@ -313,12 +313,12 @@
             </span>
           </div>
           <div class="d-flex align-items-center  flex-wrap justify-content-start p-2">
-            <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start my-3 px-2">راهنما</strong>
-            <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start my-3 px-2">قوانین و مقررات</strong>
-            <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start my-3 px-2">درباره</strong>
-            <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start px-2">تماس با ما</strong>
+            <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2">راهنما</strong>
+            <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2">قوانین و مقررات</strong>
+            <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2">درباره</strong>
+            <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start px-2">تماس با ما</strong>
             <nuxt-link class="text-decoration-none" to="/Forums/">
-              <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start px-2">تالار گفتگو</strong>
+              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start px-2">تالار گفتگو</strong>
             </nuxt-link>
           </div>
         </div>
@@ -634,12 +634,12 @@
               </div>
             </div>
             <div v-if="!decrease_width" class="d-flex align-items-center  flex-wrap justify-content-start p-2">
-              <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start my-3 px-2">راهنما</strong>
-              <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start my-3 px-2">قوانین و مقررات</strong>
-              <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start my-3 px-2">درباره</strong>
-              <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start px-2">تماس با ما</strong>
+              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2">راهنما</strong>
+              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2">قوانین و مقررات</strong>
+              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2">درباره</strong>
+              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start px-2">تماس با ما</strong>
               <nuxt-link class="text-decoration-none" to="/Forums/">
-              <strong class=" tw-text-[14px] tw-text-[#a3a3a3] border-start px-2">تالار گفتگو</strong>
+              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start px-2">تالار گفتگو</strong>
               </nuxt-link>
             </div>
           </div>

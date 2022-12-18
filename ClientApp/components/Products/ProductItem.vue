@@ -110,11 +110,14 @@
       </div>
 
       <div v-if="$route.path==='/Products/MyServices/'||$route.path==='/social/accountsetting/MyPage'" class="w-100 d-flex align-items-center justify-content-between">
-        <i v-tooltip="{content:'ویرایش'}" @click.prevent="$router.push({path: `/Products/Upgrade/${service_details.servicePackId}`, query: { active_tab: 'edit' }})" class=" tw-cursor-pointer fas fa-edit tw-text-[#949494]"></i>
-        <i v-tooltip="{content:'ارتقا'}" @click.prevent="$router.push({path: `/Products/Upgrade/${service_details.servicePackId}`, query: { active_tab: 'upgrade' }})" class=" tw-cursor-pointer fas fa-rocket tw-text-[#949494]"></i>
+        <button @click.prevent="$router.push({path: `/Products/Upgrade/${service_details.servicePackId}`, query: { active_tab: 'edit' }})">
+          <LazyEditIcon  class=" tw-w-5 tw-h-5  tw-cursor-pointer   tw-fill-[#949494]" v-tooltip="{content:'ویرایش'}" ></LazyEditIcon>
+        </button>
+        <button @click.prevent="$router.push({path: `/Products/Upgrade/${service_details.servicePackId}`, query: { active_tab: 'upgrade' }})">
+          <LazyRocketIcon class=" tw-cursor-pointer tw-w-5 tw-h-5 tw-fill-[#949494]" v-tooltip="{content:'ارتقا'}" ></LazyRocketIcon>
+        </button>
         <button  @click="Share(service_details)">
-
-        <ShareAltIcon v-tooltip="{content:'اشتراک گذاری'}" class=" tw-cursor-pointer tw-fill-[#949494]"></ShareAltIcon>
+        <ShareAltIcon v-tooltip="{content:'اشتراک گذاری'}" class=" tw-w-5 tw-h-5 tw-cursor-pointer tw-fill-[#949494]"></ShareAltIcon>
         </button>
 
       </div>

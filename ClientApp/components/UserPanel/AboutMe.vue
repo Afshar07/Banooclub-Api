@@ -47,12 +47,14 @@
 
       </li>
     </ul>
-    <div class="row my-3">
-      <div v-for="(item,index) in MyPhotos.slice(0,4)" :key="index" class="col-md-4 tw-h-[10rem] rounded my-2">
-        <img v-if="item.priority===2" :src="`https://subapi.banoclub.com/media/gallery/galleryimages/${item.base64}`" class="tw-w-full rounded tw-h-[10rem] tw-object-cover" alt="">
-        <video v-else-if="item.priority === 3" class="rounded w-full" style="object-fit: cover;height: 150px" controls :src="`https://subapi.banoclub.com/media/gallery/galleryvideos/${item.base64}`"></video>
+    <div class="tw-grid tw-grid-cols-3 tw-gap-1.5">
+
+      <div v-for="(item,index) in MyPhotos.slice(0,4)" :key="index" class=" !tw-h-[8rem] md:tw-col-span-1 tw-cols-pan-3 rounded my-1">
+        <img v-if="item.priority===2" :src="`https://subapi.banoclub.com/media/gallery/galleryimages/${item.base64}`" class="tw-w-full rounded !tw-h-[8rem] tw-object-cover" alt="">
+        <video v-else-if="item.priority === 3" class="rounded tw-w-full !tw-h-[8rem] tw-object-cover" controls :src="`https://subapi.banoclub.com/media/gallery/galleryvideos/${item.base64}`"></video>
       </div>
     </div>
+
 
   </div>
 

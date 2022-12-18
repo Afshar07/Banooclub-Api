@@ -12,7 +12,7 @@
       <div class="col-md-12" style="height: 700px;overflow-y: scroll;" @scroll="handleScroll">
         <div v-if="AllUsers.length>0" class="row">
           <div class="col-md-3 col-12" v-for="(item,index) in AllUsers" :key="index">
-            <LazyUserItem class="my-2 tw-shadow tw-rounded " :userDetails="item"/>
+            <LazyUserItem class="my-2 tw-shadow tw-rounded-xl " :userDetails="item"/>
           </div>
           <LazySpinner style="text-align: center" v-if="Atbottom"/>
         </div>

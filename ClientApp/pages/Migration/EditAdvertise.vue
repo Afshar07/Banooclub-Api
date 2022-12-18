@@ -1,5 +1,5 @@
 <template>
-  <div class="container mcontainer">
+  <div class="NewBg mcontainer">
     <div
       class="container-fluid px-0 rounded"
       v-if="!$fetchState.pending"
@@ -7,19 +7,19 @@
       <div class="row">
 
           <div class="col-md-12 p-4">
-            <div class="tw-w-full bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
+            <div class="tw-w-full tw-shadow bg-white p-3 d-flex align-items-center justify-content-between gap-3  rounded ">
               <div class="d-flex align-items-center gap-2">
                 <img src="/girl-icon-ads-edit.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
                 <div class="d-flex align-items-center flex-column">
                   <h1 class="text-purple h6" style="font-weight: bolder!important;">ویرایش آگهی</h1>
-                  <strong class="text-pink">Edit Advertisements</strong>
+                  <strong class="text-pink">Edit Advertisement</strong>
                 </div>
               </div>
             </div>
           </div>
 
-        <div class="col-md-12">
-          <div class="row p-3 px-5">
+        <div class="col-md-12 ">
+          <div class="row p-3 bg-white tw-shadow px-5">
             <div class="col-md-6">
               <div class="labelText">عنوان آگهی*</div>
               <div class="my-3">

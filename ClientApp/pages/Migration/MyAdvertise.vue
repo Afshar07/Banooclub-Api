@@ -110,13 +110,13 @@
             <div class="col-md-6 pt-4">
               <div class="d-flex align-items-center gap-2">
                 <small>وضعیت :  </small>
-                <small v-if="item.status === 1" class="badge bg-LightGreen"
+                <small v-if="item.status === 1" class="badge ShadowPrice bg-LightGreen"
                 >منتشر شده</small
                 >
-                <small v-if="item.status === 2" class="badge bg-secondary"
+                <small v-if="item.status === 2" class="badge ShadowPrice bg-secondary"
                 >تایید نشده</small
                 >
-                <small v-if="item.status === 3" class="badge bg-danger"
+                <small v-if="item.status === 3" class="badge ShadowPrice bg-danger"
                 >رد شده
                 </small>
               </div>
@@ -293,4 +293,5 @@ export default {
     max-height: 13rem;
   }
 }
+
 </style>
