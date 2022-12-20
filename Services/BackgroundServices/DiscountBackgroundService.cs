@@ -17,11 +17,9 @@ namespace BanooClub.Services.BackgroundServices
 
         private readonly IBanooClubEFRepository<Discount> _discountRepository;
 
-        public DiscountBackgroundService(IServiceScopeFactory factory)
-        {
+        public DiscountBackgroundService(IServiceScopeFactory factory) =>
             _discountRepository = factory.CreateScope().ServiceProvider.GetService<IBanooClubEFRepository<Discount>>();
-        }
-
+        
         #endregion
 
         public async Task StartAsync(CancellationToken cancellationToken)
