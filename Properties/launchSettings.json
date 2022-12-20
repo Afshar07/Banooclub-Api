@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "SnappFood": {
+    "BanooClub": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
