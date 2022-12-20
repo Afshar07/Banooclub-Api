@@ -6,12 +6,12 @@
           <div class="d-flex align-items-center gap-2">
             <img v-if="ActiveUser.userPhoto!==null && !$route.query.Photo && ActiveUser.userId!==0 "
                  style="width: 50px; height: 50px;" class="rounded-circle"
-                 :src="`https://banooclubapi.simagar.com/media/gallery/profile/${ActiveUser.userPhoto}`"/>
+                 :src="`https://subapi.banoclub.com/media/gallery/profile/${ActiveUser.userPhoto}`"/>
             <img v-else-if="$route.query.Photo" style="width: 50px; height: 50px;" class="rounded-circle"
-                 :src="`https://banooclubapi.simagar.com/media/gallery/profile/${$route.query.Photo}`"/>
+                 :src="`https://subapi.banoclub.com/media/gallery/profile/${$route.query.Photo}`"/>
             <img v-else-if="ActiveUser.userPhoto!==null && ActiveUser.groupId!==0" style="width: 50px; height: 50px;"
                  class="rounded-circle"
-                 :src="`https://banooclubapi.simagar.com/media/gallery/group/${ActiveUser.userPhoto}`"/>
+                 :src="`https://subapi.banoclub.com/media/gallery/group/${ActiveUser.userPhoto}`"/>
             <img v-else style="width: 50px; height: 50px;" class="rounded-circle"
                  src="~/assets/images/defaultUser.png"/>
             <small class="tw-text-[#333] tw-text-[15px] tw-font-bold tw-cursor-pointer" @click="goToUserProfile(ActiveUser)">{{ ActiveUser.userName }}</small>
@@ -323,9 +323,9 @@ if(val.userId!==this.ActiveUserId){
 }
 
 .ChatContainer {
-  height: 600px;
-  max-height: 600px;
-  min-height: 600px;
+  height: 800px;
+  max-height: 800px;
+  min-height: 800px;
   overflow-y: scroll;
   background: url("/chat-bg.jpg") no-repeat;
   background-size: cover;

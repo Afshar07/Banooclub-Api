@@ -8,13 +8,13 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div v-if="SelectedMedia!==null" class="modal-body">
-            <img v-if="SelectedMedia.priority == 1 || SelectedMedia.priority == 2" class="tw-w-full tw-h-full" :src="`https://banooclubapi.simagar.com/media/gallery/galleryimages/${SelectedMedia.base64}`" alt="Product Image"
+            <img v-if="SelectedMedia.priority == 1 || SelectedMedia.priority == 2" class="tw-w-full tw-h-full" :src="`https://subapi.banoclub.com/media/gallery/galleryimages/${SelectedMedia.base64}`" alt="Product Image"
                  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
             <video
               v-else-if="SelectedMedia.priority == 3"
               class="w-100 tw-h-full"
               controls
-              :src="`https://banooclubapi.simagar.com/media/gallery/galleryvideos/${SelectedMedia.base64}`"
+              :src="`https://subapi.banoclub.com/media/gallery/galleryvideos/${SelectedMedia.base64}`"
             ></video>
           </div>
 
@@ -75,12 +75,19 @@
       </div>
     </div>
     <div class="bg-white p-4 tab_content_back">
-      <div class="d-flex flex-row justify-content-between align-items-center">
-        <h2 class="tw-text-xl tw-font-bold" style="font-family: iranSans !important;">گالری من</h2>
-        <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" class="btn AddReplyBtn text-white">
-          <PlusIcon fill="#2563eb" style="width: 30px; height: 30px;"/>
+      <div class="tw-w-full    p-3 d-flex align-items-center justify-content-between gap-3   ">
+        <div class="d-flex align-items-center gap-2">
+          <img src="/girl-icon-gallery.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
+          <div class="d-flex align-items-center flex-column">
+            <h1 class="text-purple h6" style="font-weight: bolder!important;">گالری من</h1>
+            <strong class="text-pink">My Gallery</strong>
+          </div>
+        </div>
+        <button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" v-tooltip="{content:'افزودن عکس جدید'}" class="btn AddReplyBtn text-white">
+          <LazyPlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
         </button>
       </div>
+
       <div class="row">
         <div
           class="col-md-4 my-3"
@@ -95,7 +102,7 @@
                 <font-awesome-icon icon="trash" color="#ff4d4d" size="lg"/>
               </span>
 
-              <img data-bs-toggle="modal" data-bs-target="#MediaModal"  @click="SetSelectedMedia(item)" class="tw-w-full tw-shadow tw-rounded tw-h-full" :src="`https://banooclubapi.simagar.com/media/gallery/galleryimages/${item.base64}`"  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
+              <img data-bs-toggle="modal" data-bs-target="#MediaModal"  @click="SetSelectedMedia(item)" class="tw-w-full tw-shadow tw-rounded tw-h-full" :src="`https://subapi.banoclub.com/media/gallery/galleryimages/${item.base64}`"  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
             </button>
             <button  v-else-if="item.priority === 3" class="btn ShowMediaModal w-100 tw-h-full"   >
 
@@ -107,7 +114,7 @@
                 @click="SetSelectedMedia(item)"
                 class="w-100 tw-h-full tw-shadow tw-rounded"
                 controls
-                :src="`https://banooclubapi.simagar.com/media/gallery/galleryvideos/${item.base64}`"
+                :src="`https://subapi.banoclub.com/media/gallery/galleryvideos/${item.base64}`"
               ></video>
             </button>
 

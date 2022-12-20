@@ -1,5 +1,5 @@
 <template>
-  <div :class="$fetchState.pending?'loading-skeleton':''" >
+  <div :class="$fetchState.pending?'loading-skeleton':''">
     <base-modal
       @close_modal="hideDeleteModal"
       :isRenderingModal="isRenderingDeleteConfirmation"
@@ -31,13 +31,14 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div v-if="SelectedMedia!==null" class="modal-body">
-            <img v-if="SelectedMedia.priority == 1 || SelectedMedia.priority == 2" class="tw-w-full tw-h-full" :src="`https://banooclubapi.simagar.com/media/gallery/Service/${SelectedMedia.base64}`" alt="Product Image"
+            <img v-if="SelectedMedia.priority == 1 || SelectedMedia.priority == 2" class="tw-w-full tw-h-full"
+                 :src="`https://subapi.banoclub.com/media/gallery/Service/${SelectedMedia.base64}`" alt="Product Image"
                  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
             <video
               v-else-if="SelectedMedia.priority == 3"
               class="w-100 tw-h-full"
               controls
-              :src="`https://banooclubapi.simagar.com/media/gallery/Service/${SelectedMedia.base64}`"
+              :src="`https://subapi.banoclub.com/media/gallery/Service/${SelectedMedia.base64}`"
             ></video>
           </div>
 
@@ -49,36 +50,39 @@
       <div class="tw-flex tw-justify-between tw-items-center lg:tw-p-4 tw-p-2.5">
         <div v-if="service_details && service_details.userInfo" class="tw-flex tw-items-center">
           <nuxt-link :to="`/user/${service_details.userInfo.userId}/posts`" class="text-decoration-none">
-            <img v-if="service_details.userInfo &&service_details.userInfo.selfieFileData!==null " :src="`https://banooclubapi.simagar.com/${service_details.userInfo.selfieFileData}`" alt="profile_image"
+            <img v-if="service_details.userInfo &&service_details.userInfo.selfieFileData!==null "
+                 :src="`https://subapi.banoclub.com/${service_details.userInfo.selfieFileData}`" alt="profile_image"
                  class="tw-bg-gray-200 tw-border tw-border-white tw-rounded-full tw-w-10 tw-h-10">
             <img v-else :src="userDefault" alt="profile_image"
                  class="tw-bg-gray-200 tw-border tw-border-white tw-rounded-full tw-w-10 tw-h-10">
           </nuxt-link>
           <div class="d-flex flex-column   tw-mr-4">
-            <h2 class="text-primary tw-cursor-pointer text-decoration-none service_name" @click="goToUserProfile(service_details.userInfo)">@{{ service_details.userInfo.userName }}</h2>
+            <h2 class="text-primary tw-cursor-pointer text-decoration-none service_name"
+                @click="goToUserProfile(service_details.userInfo)">@{{ service_details.userInfo.userName }}</h2>
             <div class="d-flex">
               <div class="d-flex justify-content-start align-items-center">
-                <AllUsersIcon fill="#374151" style="width: 15px; height: 15px;"/>
                 <div class="text-gray-700 tw-flex tw-items-center px-2">
-                  <span>
-                     {{
+                  <small>
+                    {{
                       time_ago(service_details.createDate)
                     }}
-                  </span>
+                  </small>
 
                 </div>
               </div>
               <div class="d-flex justify-content-start align-items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-4 tw-w-4" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                  <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                  <path fill-rule="evenodd"
+                        d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                        clip-rule="evenodd"/>
                 </svg>
                 <div class="text-gray-700 tw-flex tw-items-center px-2">
                   <small>
-                      {{
+                    {{
                       service_details.viewsCount
                     }}
-                  بازدید
+                    بازدید
                   </small>
 
                 </div>
@@ -88,32 +92,38 @@
           </div>
         </div>
         <div>
-            <button v-click-outside="showMoreDiv" @click.stop="OpenShowMore" class="tw-text-2xl hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw-transition tw--mr-1 tw-relative">
-              <svg  xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
-              </svg>
-            </button>
+          <button v-click-outside="showMoreDiv" @click.stop="OpenShowMore"
+                  class="tw-text-2xl hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw-transition tw--mr-1 tw-relative">
+            <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/>
+            </svg>
+          </button>
 
-          <div v-if="show_more" class="tw-absolute tw-z-10 tw-left-5 tw-bg-white tw-w-56 tw-shadow-md tw-mx-auto tw-p-2 tw-rounded-md tw-text-gray-500 tw-text-base tw-border tw-border-gray-100">
+          <div v-if="show_more"
+               class="tw-absolute tw-z-10 tw-left-5 tw-bg-white tw-w-56 tw-shadow-md tw-mx-auto tw-p-2 tw-rounded-md tw-text-gray-500 tw-text-base tw-border tw-border-gray-100">
             <ul class="tw-pl-0 mb-0">
               <li>
-                <a @click="Share" class="tw-w-full tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
+                <a @click="Share"
+                   class="tw-w-full tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
                   <small class="d-flex tw-text-gray-700">
-                    <ShareIcon  class="tw-ml-1"/>
+                    <ShareIcon class="tw-ml-1"/>
 
                     اشتراک گذاری
                   </small>
                 </a>
               </li>
               <li v-if="service_details.userInfo.userId === $auth.user.userInfo.userId">
-                <nuxt-link :to="`/Products/Upgrade/${service_details.servicePackId}?active_tab=edit`" class="text-decoration-none tw-w-full tw-text-gray-700 tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
+                <nuxt-link :to="`/Products/Upgrade/${service_details.servicePackId}?active_tab=edit`"
+                           class="text-decoration-none tw-w-full tw-text-gray-700 tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
                   <EditIcon style="width: 19px; height: 19px" class="tw-ml-1"/>
                   ویرایش خدمت
                 </nuxt-link>
               </li>
               <li v-if="service_details.userInfo.userId === $auth.user.userInfo.userId">
                 <button @click="disableCommenting"
-                           class="tw-w-full tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
+                        class="tw-w-full tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
                   <MessageIcon fill="black" class="tw-ml-1"/>
                   <span v-if="others_can_add_comments">
                     غیر فعال کردن نظرات
@@ -125,7 +135,8 @@
                 </button>
               </li>
               <li>
-                <button style="font-size: 15px" @click="toggleWishList(service_details)" class="tw-w-full tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
+                <button style="font-size: 15px" @click="toggleWishList(service_details)"
+                        class="tw-w-full tw-text-gray-700 text-decoration-none tw-flex tw-items-center tw-px-3 tw-py-2 hover:tw-bg-gray-200 hover:tw-text-gray-800 tw-rounded-md">
                   <span v-if="service_details.isFavourite" class="d-flex">
                     <SolidSter/>
                     حذف از علاقه مندی ها
@@ -140,9 +151,12 @@
                 <hr class="-mx-2 my-2 dark:border-gray-800">
               </li>
               <li v-if="service_details.userInfo.userId === $auth.user.userInfo.userId">
-                <button @click="isRenderingDeleteConfirmation = true" class="tw-w-full tw-flex tw-items-center tw-px-3 tw-py-2 tw-text-red-500 hover:tw-bg-red-100 hover:tw-text-red-500 tw-rounded-md">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                <button @click="isRenderingDeleteConfirmation = true"
+                        class="tw-w-full tw-flex tw-items-center tw-px-3 tw-py-2 tw-text-red-500 hover:tw-bg-red-100 hover:tw-text-red-500 tw-rounded-md">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-ml-1" fill="none" viewBox="0 0 24 24"
+                       stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                   </svg>
                   حذف
                 </button>
@@ -169,15 +183,21 @@
         >
           <template #content>
 
-            <button  v-if="slide.priority === 1 || slide.priority === 2" class="btn tw-w-full tw-h-full ShowMediaModal"  data-bs-toggle="modal" data-bs-target="#MediaModal"  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
-              <img  @click="SetSelectedMedia(slide)" class="tw-w-full tw-h-full" :src="`https://banooclubapi.simagar.com/media/gallery/Service/${slide.base64}`" :alt="service_details.title" style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
+            <button v-if="slide.priority === 1 || slide.priority === 2" class="btn tw-w-full tw-h-full ShowMediaModal"
+                    data-bs-toggle="modal" data-bs-target="#MediaModal"
+                    style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
+              <img @click="SetSelectedMedia(slide)" class="tw-w-full tw-h-full"
+                   :src="`https://subapi.banoclub.com/media/gallery/Service/${slide.base64}`"
+                   :alt="service_details.title"
+                   style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
             </button>
-            <button  v-else-if="slide.priority === 3" class="btn ShowMediaModal w-100 tw-h-full" data-bg-toggle="modal" @click="SetSelectedMedia(slide)" data-bs-target="#MediaModal">
-            <video
-              class="w-100 tw-h-full"
-              controls
-              :src="`https://banooclubapi.simagar.com/media/gallery/Service/${slide.base64}`"
-            ></video>
+            <button v-else-if="slide.priority === 3" class="btn ShowMediaModal w-100 tw-h-full" data-bg-toggle="modal"
+                    @click="SetSelectedMedia(slide)" data-bs-target="#MediaModal">
+              <video
+                class="w-100 tw-h-full"
+                controls
+                :src="`https://subapi.banoclub.com/media/gallery/Service/${slide.base64}`"
+              ></video>
             </button>
           </template>
         </vueper-slide>
@@ -200,27 +220,35 @@
           :key="i"
           @click.native="$refs.vueperslides2 && $refs.vueperslides2.goToSlide(i)">
           <template #content>
-            <img v-if="slide.priority == 1 || slide.priority == 2" class=" tw-w-full" :src="`https://banooclubapi.simagar.com/media/gallery/Service/${slide.base64}`" :alt="service_details.title" style="object-fit: cover;object-position: center !important; height: 100px;">
+            <img v-if="slide.priority == 1 || slide.priority == 2" class=" tw-w-full"
+                 :src="`https://subapi.banoclub.com/media/gallery/Service/${slide.base64}`" :alt="service_details.title"
+                 style="object-fit: cover;object-position: center !important; height: 100px;">
             <img v-else-if="slide.priority == 3" class=" tw-w-full"
                  src="/video_player.jpg"
-                 :alt="service_details.title" style="object-fit: contain;object-position: center !important; height: 100px;">
+                 :alt="service_details.title"
+                 style="object-fit: contain;object-position: center !important; height: 100px;">
           </template>
         </vueper-slide>
       </vueper-slides>
 
       <div class="tw-p-4 tw-space-y-3">
         <div class="d-flex justify-content-between">
-          <h1 class="tw-text-2xl tw-font-semibold tw-text-gray-600 tw-pt-2">{{service_details.title}}</h1>
-          <div  :class="{'tw-line-through':service_details.TotalDiscountPrice}" v-if="!service_details.isFree" class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
-            {{Intl.NumberFormat('fa-IR').format(service_details.totalPrice)}}
-            تومان
-          </div>
-          <div  v-if="service_details&& service_details.TotalDiscountPrice" class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
-            {{Intl.NumberFormat('fa-IR').format(service_details.TotalDiscountPrice)}}
-            تومان
-          </div>
-          <div v-if="service_details.isFree" class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
-            خدمات رایگان
+          <h1 class="tw-text-2xl tw-font-semibold tw-text-gray-600 tw-pt-2">{{ service_details.title }}</h1>
+          <div class="d-flex align-items-center gap-1">
+            <div :class="{'tw-line-through !tw-text-gray-300 !tw-bg-gray-50':service_details.TotalDiscountPrice}" v-if="!service_details.isFree"
+                 class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
+              {{ Intl.NumberFormat('fa-IR').format(service_details.totalPrice) }}
+              تومان
+            </div>
+            <div v-if="service_details&& service_details.TotalDiscountPrice"
+                 class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
+              {{ Intl.NumberFormat('fa-IR').format(service_details.TotalDiscountPrice) }}
+              تومان
+            </div>
+            <div v-if="service_details.isFree"
+                 class="tw-bg-gray-100 tw-text-gray-600 tw-font-semibold tw-px-3 tw-py-1 tw-rounded-full tw-text tw-text-sm d-flex justify-content-center align-items-center">
+              خدمات رایگان
+            </div>
           </div>
         </div>
         <div class="d-flex mt-3 flex-wrap">
@@ -231,42 +259,46 @@
 
         <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2">توضیحات</h2>
         <p class="tw-text-gray-600 mt-1">
-          {{service_details.description}}
+          {{ service_details.description }}
         </p>
 
         <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2">آدرس</h2>
-        <p class="mt-1 tw-text-gray-600">{{service_details.address}}</p>
+        <p class="mt-1 tw-text-gray-600">{{ service_details.address }}</p>
         <div class="d-flex align-items-center gap-2">
           <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2">شهر و استان :</h2>
           <strong>{{ service_details.stateName }}</strong>
           <strong>{{ service_details.cityName }}</strong>
         </div>
-        <div class="my-5" id="map-wrap" >
+        <div class="my-5" id="map-wrap">
 
-            <Map :latitude="service_details.latitude" :longitude="service_details.longitude"></Map>
+          <Map :latitude="service_details.latitude" :longitude="service_details.longitude"></Map>
 
         </div>
         <div class="tw-flex tw-items-center tw-gap-2">
           <h2 class="tw-text-base tw-font-bold tw-text-gray-600 tw-pt-2 ">ظرفیت باقی مانده :</h2>
-          <span   class="tw-text-gray-600">
-          {{service_details.maintain}}
+          <span class="tw-text-gray-600">
+          {{ service_details.maintain }}
         </span>
 
         </div>
 
-        <h2 v-if="service_details.mobile || service_details.phoneNumber1 || service_details.phone_number2" class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2">اطلاعات تماس</h2>
+        <h2 v-if="service_details.mobile || service_details.phoneNumber1 || service_details.phone_number2"
+            class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2">اطلاعات تماس</h2>
         <div class="d-flex justify-content-start align-items-center row mt-1">
           <div v-if="service_details.mobile" class="d-flex align-items-center col-md-6 col-12">
             <p class="mb-0 tw-text-gray-600 ">شماره همراه : </p>
-            <a class="text-decoration-none px-1 tw-text-gray-600" :href="`tel:${service_details.mobile}`">{{service_details.mobile}}</a>
+            <a class="text-decoration-none px-1 tw-text-gray-600"
+               :href="`tel:${service_details.mobile}`">{{ service_details.mobile }}</a>
           </div>
           <div v-if="service_details.phoneNumber1" class="d-flex align-items-center col-md-6 col-12">
             <p class="mb-0 tw-text-gray-600">شماره تلفن 1 : </p>
-            <a class="text-decoration-none px-1 tw-text-gray-600" :href="`tel:${service_details.phoneNumber1}`">{{service_details.phoneNumber1}}</a>
+            <a class="text-decoration-none px-1 tw-text-gray-600"
+               :href="`tel:${service_details.phoneNumber1}`">{{ service_details.phoneNumber1 }}</a>
           </div>
           <div v-if="service_details.phoneNumber2" class="d-flex align-items-center col-md-6 col-12">
             <p class="mb-0 tw-text-gray-600">شماره تلفن 2 : </p>
-            <a class="text-decoration-none px-1 tw-text-gray-600" :href="`tel:${service_details.phoneNumber2}`">{{service_details.phoneNumber2}}</a>
+            <a class="text-decoration-none px-1 tw-text-gray-600"
+               :href="`tel:${service_details.phoneNumber2}`">{{ service_details.phoneNumber2 }}</a>
           </div>
         </div>
         <div class="tw-w-full d-flex align-items-center justify-content-between">
@@ -280,10 +312,11 @@
         <div class="tw-text-gray-600 d-flex flex-column tw-text-sm md:tw-py-3 border-bottom">
           <h2 class="tw-text-base tw-font-semibold tw-text-gray-600 tw-pt-2 mb-0">ویژگی ها</h2>
           <div class="d-flex flex-wrap mt-1 row">
-            <div v-for="property in service_details.properties" class="tw-font-semibold tw-text-[#fd3ab8] pt-1 col-md-6 col-12">
+            <div v-for="property in service_details.properties"
+                 class="tw-font-semibold tw-text-[#fd3ab8] pt-1 col-md-6 col-12">
               {{ property.name }}
               -
-              {{property.price!==0?Intl.NumberFormat('fa-IR').format(property.price):'رایگان'}}
+              {{ property.price !== 0 ? Intl.NumberFormat('fa-IR').format(property.price) : 'رایگان' }}
               <small v-if="!(service_details.isFree ||property.price===0) " class="Toman">تومان</small>
 
             </div>
@@ -291,50 +324,64 @@
         </div>
 
         <div class="d-flex align-items-center justify-content-between  gap-3">
-          <a :href="`tel:${service_details.mobile}`" class="text-decoration-none hover:tw-text-white tw-bg-[#ff6f9e] tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-text-white tw-justify-center tw-px-4 tw-rounded-md my-1">
+          <a :href="`tel:${service_details.mobile}`"
+             class="text-decoration-none hover:tw-text-white tw-bg-[#ff6f9e] tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-text-white tw-justify-center tw-px-4 tw-rounded-md my-1">
             تماس
           </a>
-          <button @click="GoToChat(service_details)" class=" tw-bg-[#ff6f9e] tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
+          <button @click="GoToChat(service_details)"
+                  class=" tw-bg-[#ff6f9e] tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-white my-1">
             چت
           </button>
-          <button v-if="service_details.maintain>0" @click="CreateOrder(service_details)" class="tw-bg-[#85ffdd]  tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-[#f5447d] my-1">
+          <button v-if="service_details.maintain>0" @click="CreateOrder(service_details)"
+                  class="tw-bg-[#85ffdd]  tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-[#f5447d] my-1">
             پرداخت
           </button>
-          <button v-else  class="tw-bg-[#85ffdd]  tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-[#f5447d] my-1">
+          <button v-else
+                  class="tw-bg-[#85ffdd]  tw-flex tw-flex-1 tw-font-semibold tw-h-10 tw-items-center tw-justify-center tw-px-4 tw-rounded-md tw-text-[#f5447d] my-1">
             ظرفیت تکمیل
           </button>
         </div>
         <div>
           <client-only>
             <div class="d-flex align-items-center">
-              <vue-star-rating active-color="#5a5af0" :star-size="20" v-model="service_rates_show[0]" :show-rating="false" :read-only="true"	></vue-star-rating>
+              <vue-star-rating active-color="#5a5af0" :star-size="20" v-model="service_rates_show[0]"
+                               :show-rating="false" :read-only="true"></vue-star-rating>
               <div class="tw-tooltip tw-w-full px-2" :data-tip="rates.oneStar + '%'">
-                <progress class="tw-progress tw-progress-primary w-56 mt-3" :value="(rates.oneStar*100)/100" max="100"></progress>
+                <progress class="tw-progress tw-progress-primary w-56 mt-3" :value="(rates.oneStar*100)/100"
+                          max="100"></progress>
               </div>
             </div>
             <div class="d-flex align-items-center">
-              <vue-star-rating active-color="#89ffde" :star-size="20" v-model="service_rates_show[1]" :show-rating="false" :read-only="true"	></vue-star-rating>
+              <vue-star-rating active-color="#89ffde" :star-size="20" v-model="service_rates_show[1]"
+                               :show-rating="false" :read-only="true"></vue-star-rating>
               <div class="tw-tooltip tw-w-full px-2" :data-tip="rates.twoStar + '%'">
-                <progress class="tw-progress tw-progress-primary w-56 mt-3" :value="(rates.twoStar*100)/100" max="100"></progress>
+                <progress class="tw-progress tw-progress-primary w-56 mt-3" :value="(rates.twoStar*100)/100"
+                          max="100"></progress>
               </div>
             </div>
             <div class="d-flex align-items-center">
-              <vue-star-rating active-color="#44ecf9" :star-size="20" v-model="service_rates_show[2]" :show-rating="false" :read-only="true"	></vue-star-rating>
+              <vue-star-rating active-color="#44ecf9" :star-size="20" v-model="service_rates_show[2]"
+                               :show-rating="false" :read-only="true"></vue-star-rating>
               <div class="tw-tooltip tw-w-full px-2" :data-tip="rates.threeStar + '%'">
-                <progress class="tw-progress tw-progress-primary w-56 mt-3" :value="(rates.threeStar*100)/100" max="100"></progress>
+                <progress class="tw-progress tw-progress-primary w-56 mt-3" :value="(rates.threeStar*100)/100"
+                          max="100"></progress>
               </div>
             </div>
             <div class="d-flex align-items-center">
-              <vue-star-rating active-color="#b44aff" :star-size="20" v-model="service_rates_show[3]" :show-rating="false" :read-only="true"	></vue-star-rating>
+              <vue-star-rating active-color="#b44aff" :star-size="20" v-model="service_rates_show[3]"
+                               :show-rating="false" :read-only="true"></vue-star-rating>
               <div class="tw-tooltip tw-w-full px-2" :data-tip="rates.fourStar + '%'">
-                <progress class="tw-progress tw-progress-primary  w-56 mt-3" :value="(rates.fourStar*100)/100" max="100"></progress>
+                <progress class="tw-progress tw-progress-primary  w-56 mt-3" :value="(rates.fourStar*100)/100"
+                          max="100"></progress>
               </div>
 
             </div>
             <div class="d-flex align-items-center">
-              <vue-star-rating active-color="#fc5399" :star-size="20" v-model="service_rates_show[4]" :show-rating="false" :read-only="true"	></vue-star-rating>
+              <vue-star-rating active-color="#fc5399" :star-size="20" v-model="service_rates_show[4]"
+                               :show-rating="false" :read-only="true"></vue-star-rating>
               <div class="tw-tooltip tw-w-full px-2" :data-tip="rates.fiveStar + '%'">
-                <progress class="tw-progress tw-progress-primary w-56 mt-3" :value="(rates.fiveStar*100)/100" max="100"></progress>
+                <progress class="tw-progress tw-progress-primary w-56 mt-3" :value="(rates.fiveStar*100)/100"
+                          max="100"></progress>
               </div>
             </div>
           </client-only>
@@ -343,104 +390,132 @@
           <div class="d-flex justify-content-center align-items-center">
             <div>امتیاز دهید:</div>
             <client-only>
-              <vue-star-rating class="mb-2 tw-mr-2" @rating-selected="add_rate" :star-size="20" v-model="service_rate"	:show-rating="false"></vue-star-rating>
+              <vue-star-rating class="mb-2 tw-mr-2" @rating-selected="add_rate" :star-size="20" v-model="service_rate"
+                               :show-rating="false"></vue-star-rating>
             </client-only>
-<!--            <button class="tw-flex tw-items-center">-->
-<!--              <LikeIcon fill="black"/>-->
-<!--              <div class="mx-3">لایک</div>-->
-<!--            </button>-->
-<!--            <button class="tw-flex tw-items-center tw-mr-2">-->
-<!--              <MessageIcon fill="black"/>-->
-<!--              <div class="mx-3">نظر</div>-->
-<!--            </button>-->
+            <!--            <button class="tw-flex tw-items-center">-->
+            <!--              <LikeIcon fill="black"/>-->
+            <!--              <div class="mx-3">لایک</div>-->
+            <!--            </button>-->
+            <!--            <button class="tw-flex tw-items-center tw-mr-2">-->
+            <!--              <MessageIcon fill="black"/>-->
+            <!--              <div class="mx-3">نظر</div>-->
+            <!--            </button>-->
           </div>
           <div class="d-flex" id="share">
             <a target="_blank" :href="`https://telegram.me/share/url?url=${site_url+$route.fullPath}`">
               <TelegramIcon style="width: 20px; height: 20px;"/>
             </a>
             <a target="_blank" :href="`https://api.whatsapp.com/send?text=${site_url+$route.fullPath}`">
-              <WhatsappIcon  style="width: 20px; height: 20px;"/>
+              <WhatsappIcon style="width: 20px; height: 20px;"/>
             </a>
             <a target="_blank" :href="`https://www.facebook.com/sharer.php?u=${site_url+$route.fullPath}`">
               <FacebookIcon style="width: 20px; height: 20px;"/>
             </a>
           </div>
         </div>
-        <div class="tw-border-t" v-if="others_can_add_comments" >
+        <div class="tw-border-t" v-if="others_can_add_comments">
           <div class="d-flex flex-column">
-            <div class="d-flex flex-column tw-py-3" v-for="(comment,idx) in service_details.comments.filter(e=> e.baseId === 0)" :key="idx">
+            <div class="d-flex flex-column tw-py-3"
+                 v-for="(comment,idx) in service_details.comments.filter(e=> e.baseId === 0)" :key="idx">
 
               <div class="tw-grid tw-grid-cols-12">
                 <div class="tw-col-span-1 tw-rounded-full tw-relative tw-flex tw-items-center ">
-                  <img v-if="comment.userInfo && comment.userInfo.selfieFileData!==null" :src="`https://banooclubapi.simagar.com/media/gallery/profile/${comment.userInfo.selfieFileData}`" alt="" class="tw-absolute tw-h-[40px] tw-rounded-full tw-w-[50px]">
+                  <img v-if="comment.userInfo && comment.userInfo.selfieFileData!==null"
+                       :src="`https://subapi.banoclub.com/media/gallery/profile/${comment.userInfo.selfieFileData}`"
+                       alt="" class="tw-absolute tw-h-[40px] tw-rounded-full tw-w-[50px]">
                   <img v-else :src="userDefault" alt="" class="tw-absolute tw-h-[40px] tw-rounded-full tw-w-[50px]">
                 </div>
                 <div class="tw-col-span-11">
                   <div class="d-flex align-items-center justify-content-between tw-mr-3">
-                    <small class="text-primary tw-cursor-pointer mx-2" @click="goToUserProfile(comment.userInfo)">@{{comment.userInfo.userName}}</small>
-                    <small class="mx-2 text-secondary"> {{time_ago(comment.createDate) }} </small>
+                    <small class="text-primary tw-cursor-pointer mx-2"
+                           @click="goToUserProfile(comment.userInfo)">@{{ comment.userInfo.userName }}</small>
+                    <small class="mx-2 text-secondary"> {{ time_ago(comment.createDate) }} </small>
                   </div>
 
-                  <div class="tw-text-gray-700 tw-py-2 tw-px-3 tw-rounded-md tw-w-full tw-text-right tw-bg-gray-100 tw-relative tw-mr-3">
-                    <p class="tw-leading-6  d-flex flex-wrap justify-content-start   mb-0" style="overflow-wrap: anywhere">
-                      {{comment.text}}
+                  <div
+                    class="tw-text-gray-700 tw-py-2 tw-px-3 tw-rounded-md tw-w-full tw-text-right tw-bg-gray-100 tw-relative tw-mr-3">
+                    <p class="tw-leading-6  d-flex flex-wrap justify-content-start   mb-0"
+                       style="overflow-wrap: anywhere">
+                      {{ comment.text }}
                     </p>
                   </div>
                   <div class="tw-text-sm tw-flex tw-items-center tw-mt-2 tw-ml-5 mx-3">
-                    <button class="tw-flex tw-items-center tw-text-red-600 tw-ml-2" @click="createCommentLike(comment.serviceCommentId)">
+                    <button class="tw-flex tw-items-center tw-text-red-600 tw-ml-2"
+                            @click="createCommentLike(comment.serviceCommentId)">
                       <small>
-                        <svg v-if="!comment.isLikedByMe" xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        <svg v-if="!comment.isLikedByMe" xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 mx-1"
+                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                         </svg>
-                        <svg v-else xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 mx-1" fill="#ef4444" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        <svg v-else xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 mx-1" fill="#ef4444"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                         </svg>
                       </small>
-                      <small>{{comment.commentsLikesCount}}</small>
+                      <small>{{ comment.commentsLikesCount }}</small>
 
                     </button>
-                    <button @click="replyAComment(comment)" class="mx-2"><small class="text-secondary">پاسخ</small>  </button>
+                    <button @click="replyAComment(comment)" class="mx-2"><small class="text-secondary">پاسخ</small>
+                    </button>
 
                   </div>
                 </div>
               </div>
-              <div class="tw-grid tw-grid-cols-12" v-for="(el,idx) in service_details.comments.filter(e => e.baseId === comment.serviceCommentId )" :key="idx">
+              <div class="tw-grid tw-grid-cols-12"
+                   v-for="(el,idx) in service_details.comments.filter(e => e.baseId === comment.serviceCommentId )"
+                   :key="idx">
                 <div class="tw-col-span-1 tw-rounded-full tw-relative tw-flex tw-items-center">
-                  <img v-if="el.userInfo && el.userInfo.selfieFileData!==null" :src="`https://banooclubapi.simagar.com/media/gallery/profile/${el.userInfo.selfieFileData}`" alt="" class="tw-absolute tw-h-[40px] tw-rounded-full tw-w-[50px]">
+                  <img v-if="el.userInfo && el.userInfo.selfieFileData!==null"
+                       :src="`https://subapi.banoclub.com/media/gallery/profile/${el.userInfo.selfieFileData}`" alt=""
+                       class="tw-absolute tw-h-[40px] tw-rounded-full tw-w-[50px]">
                   <img v-else :src="userDefault" alt="" class="tw-absolute tw-h-[40px] tw-rounded-full tw-w-[50px]">
                 </div>
                 <div class="tw-col-span-8">
                   <div class="d-flex align-items-center justify-content-between my-2 tw-mr-3 ">
                     <div class="d-flex align-items-center gap-1">
-                      <small class="text-primary tw-cursor-pointer" @click="goToUserProfile(el.userInfo)">{{ `@${el.userInfo.userName}` }}</small>
+                      <small class="text-primary tw-cursor-pointer"
+                             @click="goToUserProfile(el.userInfo)">{{ `@${el.userInfo.userName}` }}</small>
                       <small class="tw-font-[8px] text-secondary">در پاسخ به</small>
-                      <small class="text-primary tw-cursor-pointer" @click="goToUserProfile(GetReply(el)[0].userInfo)">{{ `@${GetReply(el)[0].userInfo.userName}` }}</small>
+                      <small class="text-primary tw-cursor-pointer" @click="goToUserProfile(GetReply(el)[0].userInfo)">{{
+                          `@${GetReply(el)[0].userInfo.userName}`
+                        }}</small>
                     </div>
-                    <small class="mx-1 text-secondary">{{time_ago(el.createDate) }} </small>
+                    <small class="mx-1 text-secondary">{{ time_ago(el.createDate) }} </small>
                   </div>
 
-                  <div class="tw-text-gray-700 tw-py-2 tw-px-3 tw-rounded-md tw-w-auto tw-text-right tw-bg-gray-100 tw-relative tw-mr-3">
+                  <div
+                    class="tw-text-gray-700 tw-py-2 tw-px-3 tw-rounded-md tw-w-auto tw-text-right tw-bg-gray-100 tw-relative tw-mr-3">
 
-                    <div class="tw-absolute tw-w-3 tw-h-3 top-3 tw--right-1 tw-bg-gray-100 tw-transform tw-rotate-45"></div>
-                    <p class="tw-leading-6  d-flex flex-wrap justify-content-start   mb-0 " style="overflow-wrap: anywhere" >
-                      {{el.text}}
+                    <div
+                      class="tw-absolute tw-w-3 tw-h-3 top-3 tw--right-1 tw-bg-gray-100 tw-transform tw-rotate-45"></div>
+                    <p class="tw-leading-6  d-flex flex-wrap justify-content-start   mb-0 "
+                       style="overflow-wrap: anywhere">
+                      {{ el.text }}
                     </p>
                   </div>
                   <div class="tw-text-sm tw-flex tw-items-center tw-mt-2 tw-ml-5 mx-3">
-                    <button class="tw-flex tw-items-center tw-text-red-600 tw-ml-2" @click="createCommentLike(el.serviceCommentId)">
-                      <small  >
-                        <svg v-if="!el.isLikedByMe" xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    <button class="tw-flex tw-items-center tw-text-red-600 tw-ml-2"
+                            @click="createCommentLike(el.serviceCommentId)">
+                      <small>
+                        <svg v-if="!el.isLikedByMe" xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 mx-1"
+                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                         </svg>
-                        <svg v-else xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 mx-1" fill="#ef4444" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        <svg v-else xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 mx-1" fill="#ef4444"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                         </svg>
                       </small>
-                      <small>{{el.commentsLikesCount}}</small>
+                      <small>{{ el.commentsLikesCount }}</small>
 
 
                     </button>
-                    <button @click="replyAComment(el)" class="mx-2">   <small class="text-secondary">پاسخ</small></button>
+                    <button @click="replyAComment(el)" class="mx-2"><small class="text-secondary">پاسخ</small></button>
 
                   </div>
                 </div>
@@ -451,13 +526,11 @@
         </div>
 
 
-
-
-
-
         <div v-if="others_can_add_comments" class=" tw-flex tw-items-center  tw-gap-3 tw-rounded-full tw-relative ">
-          <input  v-model="service_comment" :placeholder="want_to_reply?place_holder:'نظر خود را وارد کنید'" class="SearchStyle tw-max-h-10 tw-shadow tw-px-5">
-      <button class="p-2 rounded text-white tw-cursor-pointer tw-bg-[#e2a7ff] " @click="addComment"> <strong>ثبت</strong>  </button>
+          <input v-model="service_comment" :placeholder="want_to_reply?place_holder:'نظر خود را وارد کنید'"
+                 class="SearchStyle tw-max-h-10 tw-shadow tw-px-5">
+          <button class="p-2 rounded text-white tw-cursor-pointer tw-bg-[#e2a7ff] " @click="addComment">
+            <strong>ثبت</strong></button>
         </div>
 
       </div>
@@ -483,7 +556,7 @@ import FacebookIcon from "../Icons/FacebookIcon";
 import Map from "../Map";
 import EmptyStar from "../Icons/EmptyStar";
 import SolidSter from "../Icons/SolidSter";
-import PComments  from "../../components/Products/PComments";
+import PComments from "../../components/Products/PComments";
 import BaseModal from "../../components/Base/BaseModal"
 
 export default {
@@ -498,34 +571,35 @@ export default {
     WhatsappIcon,
     TelegramIcon,
     Map,
-    ShareIcon, MessageIcon, LikeIcon, MoreIcon, AllUsersIcon, EditIcon,  VueperSlides, VueperSlide },
-  data(){
-    return{
+    ShareIcon, MessageIcon, LikeIcon, MoreIcon, AllUsersIcon, EditIcon, VueperSlides, VueperSlide
+  },
+  data() {
+    return {
       userDefault: require("~/assets/images/defaultUser.png"),
-      isRenderingDeleteConfirmation:false,
+      isRenderingDeleteConfirmation: false,
       site_url: 'https://banooclub.simagar.com',
       show_more: false,
-      images_preview:[],
-      serviceVideos:[],
-      is_show_delete_modal:false,
-      service_comment:'',
-      others_can_add_comments:true,
-      show_reply_modal:false,
-      place_holder:'',
-      want_to_reply:false,
-      reply_parent_id:0,
-      base_id:0,
-      parentComments:[],
-      service_rate:0,
-      SelectedMedia:null,
-      rates:[],
+      images_preview: [],
+      serviceVideos: [],
+      is_show_delete_modal: false,
+      service_comment: '',
+      others_can_add_comments: true,
+      show_reply_modal: false,
+      place_holder: '',
+      want_to_reply: false,
+      reply_parent_id: 0,
+      base_id: 0,
+      parentComments: [],
+      service_rate: 0,
+      SelectedMedia: null,
+      rates: [],
       center: [35.757539, 51.409968],
       latlng: [35, 51],
-      service_rates_show:[1,2,3,4,5],
-      custom_service_rates:[1,2,3,4,5]
+      service_rates_show: [1, 2, 3, 4, 5],
+      custom_service_rates: [1, 2, 3, 4, 5]
     }
   },
-  async fetch(){
+  async fetch() {
     if (this.service_details) {
       if (this.service_details.discount !== null) {
         let PriceDiscount = this.service_details.discount
@@ -551,23 +625,22 @@ export default {
         }
       )
       this.rates = service_rates.data
-    }
-    catch (error){
+    } catch (error) {
       console.log(error)
     }
   },
-  methods:{
-    Share(){
-      if(navigator.share){
+  methods: {
+    Share() {
+      if (navigator.share) {
         navigator.share({
           title: this.service_details.title,
-          url: this.site_url+this.$route.fullPath
+          url: this.site_url + this.$route.fullPath
         })
       }
 
     },
-    async CreateOrder(item){
-    console.log(this.service_details.TotalDiscountPrice)
+    async CreateOrder(item) {
+      console.log(this.service_details.TotalDiscountPrice)
       this.$nuxt.$loading.start();
       try {
         let tmpSubOrders = []
@@ -576,9 +649,9 @@ export default {
           planId: 0,
           count: 1,
           vendorUserId: item.userInfo.userId,
-          price: !this.service_details.TotalDiscountPrice ? item.totalPrice :this.service_details.TotalDiscountPrice ,
-          title:item.title,
-          serviceId:item.servicePackId
+          price: !this.service_details.TotalDiscountPrice ? item.totalPrice : this.service_details.TotalDiscountPrice,
+          title: item.title,
+          serviceId: item.servicePackId
         }
         tmpSubOrders.push(tmpSubOrder)
         const res = await this.$repositories.createAOrder.createAOrder({
@@ -586,9 +659,9 @@ export default {
           orderId: 0,
           isPayed: false,
           description: item.title,
-          sumPrice:!this.service_details.TotalDiscountPrice ? item.totalPrice :this.service_details.TotalDiscountPrice ,
-          serviceId:0,
-          adsId:0,
+          sumPrice: !this.service_details.TotalDiscountPrice ? item.totalPrice : this.service_details.TotalDiscountPrice,
+          serviceId: 0,
+          adsId: 0,
           userId: 0,
           createDate: new Date(Date.now()),
           status: 1,
@@ -599,87 +672,86 @@ export default {
         this.$toast.success("سفارش شما با موفقیت ثبت شد");
         this.$router.push({path: `/Products/Order/${res.data}`});
 
-      }
-      catch (error){
+      } catch (error) {
         console.error(error)
       }
     },
-   SetSelectedMedia(slide){
-     this.SelectedMedia = slide
-   },
-    async toggleWishList(item){
+    SetSelectedMedia(slide) {
+      this.SelectedMedia = slide
+    },
+    async toggleWishList(item) {
       try {
         await this.$repositories.toggleWishList.toggleWishList({
-          objectId:item.servicePackId,
-          type:1
+          objectId: item.servicePackId,
+          type: 1
         })
-        if(this.service_details.isFavourite){
+        if (this.service_details.isFavourite) {
           this.$toast.success("خدمت از علاقمندی ها حذف شد");
           this.$emit("updateServiceDetails");
-        }
-        else{
+        } else {
           this.$toast.success("خدمت به علاقمندی ها اضافه شد");
           this.$emit("updateServiceDetails");
         }
 
-      }
-      catch (error){
+      } catch (error) {
         console.log(error)
       }
     },
-    GoToChat(item){
-      this.$router.push({path:'/Social/Chat',query:{userId:item.userInfo.userId,Photo:item.userInfo.selfieFileData}})
+    GoToChat(item) {
+      this.$router.push({
+        path: '/Social/Chat',
+        query: {userId: item.userInfo.userId, Photo: item.userInfo.selfieFileData}
+      })
     },
     addMarker(event) {
       this.latlng = event.latlng;
     },
-    async goToUserProfile(user){
+    async goToUserProfile(user) {
       try {
         this.$router.push({path: `/user/${user.userName}/posts`});
-      }catch (e){
+      } catch (e) {
         console.log(e)
       }
     },
-    async createCommentLike(id){
+    async createCommentLike(id) {
       try {
         const res = await this.$repositories.createCommentLike.createCommentLike({
-          objectId:id,
-          type:1
+          objectId: id,
+          type: 1
         })
-        if(res.data){
+        if (res.data) {
           this.$toast.success('نظر لایک شد')
           this.$nuxt.refresh();
-        }else{
+        } else {
           this.$toast.success('نظر دیس لایک شد')
           this.$nuxt.refresh();
 
         }
-      }catch (e) {
+      } catch (e) {
         console.log(e)
       }
     },
-    AddToCart(){
+    AddToCart() {
 
     },
-    async add_rate(){
+    async add_rate() {
       this.$nuxt.$loading.start();
-      try{
+      try {
         const response = await this.$repositories.createRate.createRate({
           objectId: this.service_details.servicePackId,
           rate: parseInt(this.service_rate),
           type: 1,
         })
-        if(response.data == 0){
+        if (response.data == 0) {
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
           this.$toast.error("امکان ثبت دوباره امتیاز نیست");
-          this.service_rate=0
-        }
-        else {
+          this.service_rate = 0
+        } else {
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
           this.$toast.success("امتیاز ثبت شد");
-          this.service_rate=0
+          this.service_rate = 0
           this.$nuxt.refresh();
         }
       } catch (error) {
@@ -688,67 +760,64 @@ export default {
         this.$nuxt.loading = false;
       }
     },
-    filterParentComments(id){
-      const filter_comments=[]
+    filterParentComments(id) {
+      const filter_comments = []
       this.service_details.comments.filter(item => {
-        if(item.parentId === id){
+        if (item.parentId === id) {
           filter_comments.push(item)
         }
       })
       return filter_comments
     },
 
-    GetReply(comment){
+    GetReply(comment) {
 
-    return  this.service_details.comments.filter((el)=>{
-        if(el.serviceCommentId === comment.parentId){
-        return el
+      return this.service_details.comments.filter((el) => {
+        if (el.serviceCommentId === comment.parentId) {
+          return el
         }
       })
 
     },
-    replyAComment(comment){
+    replyAComment(comment) {
       const selected_comment = comment
 
 
-
       this.want_to_reply = true
-      this.place_holder='در حال پاسخ به ' +selected_comment.userInfo.userName + ' هستید'
-      if(comment.parentId === 0 && comment.baseId === 0 ){
+      this.place_holder = 'در حال پاسخ به ' + selected_comment.userInfo.userName + ' هستید'
+      if (comment.parentId === 0 && comment.baseId === 0) {
         this.reply_parent_id = selected_comment.serviceCommentId
         this.base_id = selected_comment.serviceCommentId
-      }else if(comment.baseId!==0){
+      } else if (comment.baseId !== 0) {
         this.reply_parent_id = selected_comment.serviceCommentId
         this.base_id = selected_comment.baseId
       }
     },
-    showMoreDiv(){
+    showMoreDiv() {
       this.show_more = false
     },
-    OpenShowMore(){
-      this.show_more=!this.show_more
+    OpenShowMore() {
+      this.show_more = !this.show_more
     },
-    disableCommenting(){
-      if(this.others_can_add_comments){
+    disableCommenting() {
+      if (this.others_can_add_comments) {
         this.others_can_add_comments = false
         this.$toast.success("نظرات غیر فعال شدند");
-      }
-      else {
+      } else {
         this.others_can_add_comments = true
         this.$toast.success("نظرات فعال شدند");
       }
     },
-    async addComment(){
-      if(this.service_comment == '' || this.service_comment.match(/^ *$/) !== null){
+    async addComment() {
+      if (this.service_comment == '' || this.service_comment.match(/^ *$/) !== null) {
         this.$toast.error("لطفا متن نظر را وارد کنید");
         this.service_comment = ''
-      }
-      else{
+      } else {
         this.$nuxt.$loading.start();
-        try{
+        try {
           await this.$repositories.createComment.createComment({
             userId: 0,
-            baseId:this.base_id,
+            baseId: this.base_id,
             serviceId: this.service_details.servicePackId,
             text: this.service_comment,
             parentId: this.reply_parent_id,
@@ -765,16 +834,16 @@ export default {
       }
 
     },
-    hideDeleteModal(){
+    hideDeleteModal() {
       this.isRenderingDeleteConfirmation = false
     },
     filteredMedias() {
-      if(this.service_details.medias!==null){
+      if (this.service_details.medias !== null) {
         this.service_details.medias.filter(item => {
           if (item.priority === 1 || item.priority === 2) {
             this.images_preview.push(item)
           }
-          if(item.priority === 3){
+          if (item.priority === 3) {
             this.serviceVideos.push(item)
 
           }
@@ -834,7 +903,7 @@ export default {
         }
       return time;
     },
-    deleteService(id){
+    deleteService(id) {
       this.$repositories.deleteAService.deleteAService({
         id
       })
@@ -842,31 +911,29 @@ export default {
       this.$router.push({path: `/Products/AddProduct/`});
 
     },
-    async createWishList(id){
+    async createWishList(id) {
       try {
         await this.$repositories.createWishList.createWishList({
-          serviceId:id,
+          serviceId: id,
           userId: 0
         })
         this.$toast.success("خدمت به علاقمندی ها افزوده شد.");
         this.$nuxt.refresh();
 
 
-      }
-      catch (error){
+      } catch (error) {
         console.log(error)
       }
 
     },
-    async deleteWishList(id){
+    async deleteWishList(id) {
       try {
         await this.$repositories.deleteWishList.deleteWishList({
-          id:id,
+          id: id,
         })
         this.$toast.success("خدمت از علاقمندی ها حذف شد");
         this.$nuxt.refresh();
-      }
-      catch (error){
+      } catch (error) {
         console.log(error)
       }
 
@@ -876,15 +943,15 @@ export default {
     this.filteredMedias()
     this.filterParentComments(0)
   },
-  watch:{
-    service_details(val){
-      if(val){
+  watch: {
+    service_details(val) {
+      if (val) {
         console.log(val)
       }
     }
   },
-  props:{
-    service_details:{
+  props: {
+    service_details: {
       type: Object,
       required: true
     }
@@ -893,21 +960,23 @@ export default {
 </script>
 
 <style>
-.comments_section_height{
+.comments_section_height {
   height: auto;
   overflow-y: scroll;
   border-bottom: 1px solid #e5e7eb;
 }
-.service_name{
+
+.service_name {
   font-size: 16px;
   font-weight: 600;
 }
+
 .leaflet-top, .leaflet-bottom {
-   z-index: 999 !important;
+  z-index: 999 !important;
 }
 
 
-.ShowMediaModal{
-  border: none!important;
+.ShowMediaModal {
+  border: none !important;
 }
 </style>

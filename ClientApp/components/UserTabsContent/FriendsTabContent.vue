@@ -1,6 +1,6 @@
 <template>
   <div class="overflow-scroll">
-    <div class=" tab_content_back" v-if="!$fetchState.pending">
+    <div class=" tab_content_back tw-bg-white tw-rounded-xl p-4" v-if="!$fetchState.pending">
       <!--      <div-->
       <!--        class="row boxMainContent col-12 mx-auto rounded main-shadow"-->
       <!--        v-if="!$fetchState.pending"-->
@@ -41,6 +41,11 @@
         :is_follower="true"
 
       ></follow-card>
+      <div @click="$router.push(`/Social/Contacts`)" class="col-12">
+        <div class="d-flex flex-row justify-content-center gap-5 w-100 overflow-scroll text-nowrap">
+          <span class="text-purple">اینجا دوست جدید پیدا کن</span>
+        </div>
+      </div>
     </div>
 
 

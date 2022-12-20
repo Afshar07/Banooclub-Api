@@ -9,21 +9,21 @@
         </div>
       </div>
       <button v-tooltip="{content:'افزودن تالار جدید'}" @click="$router.push('/Forums/AddForum')" class="btn AddReplyBtn text-white">
-        <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+        <LazyPlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
       </button>
     </div>
     <div class="row my-3 p-3 rounded shadow bg-white">
       <div class="col-lg-8 tw-flex-shirink-0">
         <ul class="custom_card tw-divide-y tw-divide-gray-100 sm:tw-m-0 tw--mx-5">
           <li v-if="my_forums.length>0" v-for="Forum in my_forums">
-            <ForumMainItem :forum_details="Forum"/>
+            <LazyForumMainItem :forum_details="Forum"/>
           </li>
           <li class="text-center p-3" v-if="my_forums.length===0">
             <span class="text-warning">شما تالار فعال ندارید.</span>
           </li>
         </ul>
       </div>
-      <TopCommenters></TopCommenters>
+      <LazyTopCommenters></LazyTopCommenters>
     </div>
   </div>
 
@@ -31,14 +31,10 @@
 </template>
 
 <script>
-import ForumMainItem from "../../components/Forums/ForumMainItem";
-import TopCommenters from '../../components/Forums/TopCommenters';
-import PlusIcon from "@/components/Icons/PlusIcon";
 export default {
 
   name: "MyForums",
   layout: "PoshtebamPlusLayout",
-  components: {ForumMainItem,TopCommenters,PlusIcon},
 
   head() {
     return {

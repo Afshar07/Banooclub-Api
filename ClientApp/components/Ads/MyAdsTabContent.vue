@@ -1,18 +1,17 @@
 <template>
   <div>
     <div v-if="Ads.length>0" class="tw-grid tw-grid-cols-1 md:tw-grid-cols-5 tw-justify-center tw-mx-auto  ">
-      <div @click="$router.push('/Migration/CreateAdvertise/')" class=" tw-cursor-pointer tw-my-3">
-        <div class="card h-100 w-100  d-flex align-items-center justify-content-center tw-bg-stone-700">
-          <div class="d-flex align-items-center justify-content-center flex-column">
-            <i class="fas fa-plus text-secondary"></i>
-            <span class="text-secondary">ثبت آگهی</span>
-          </div>
+
+
+      <AdItem  class="tw-my-3 tw-mx-auto"  v-for="item in Ads" :AdsDetail="item" />
+
+    </div>
+    <div v-else class="tw-flex tw-col-span-5 tw-items-center tw-justify-center" @click="$router.push('/Migration/CreateAdvertise/')">
+      <div  class="row my-3" >
+        <div class="col-12 text-warning fw-bold text-center tw-cursor-pointer">
+          <img src="/girl3.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">
         </div>
       </div>
-      <AdItem  class="tw-my-3 tw-mx-auto"  v-for="item in Ads" :AdsDetail="item" />
-    </div>
-    <div v-else class="tw-flex tw-items-center tw-justify-center">
-      <span class="text-secondary">داده ای برای نمایش وجود ندارد</span>
     </div>
     <CustomPagination  :activePage="activePage" :totalPages="totalPages" @PageChanged="changePage($event)"/>
   </div>

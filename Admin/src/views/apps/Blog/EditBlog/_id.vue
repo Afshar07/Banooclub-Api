@@ -78,7 +78,7 @@
           />
         </b-form-group>
           <div>
-            <img v-if="!BlogData.fileData.includes('blob')" :src="`https://banooclubapi.simagar.com/${BlogData.fileData}`" width="100px" height="100px" alt="">
+            <img v-if="!BlogData.fileData.includes('blob')" :src="`https://subapi.banoclub.com/${BlogData.fileData}`" width="100px" height="100px" alt="">
             <img v-else :src="`${BlogData.fileData}`" width="100px" height="100px" alt="">
           </div>
 

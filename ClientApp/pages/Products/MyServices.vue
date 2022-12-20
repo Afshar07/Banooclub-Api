@@ -11,10 +11,10 @@
     </div>
     <div class="row bg-white rounded shadow my-3 p-3">
       <div class="col-md-4 col-lg-3" v-for="(service,idx) in my_services" :key="idx">
-        <ProductItem @GetServices="GetMyServices" @updateServiceDetails="updateServiceDetails" class="my-3" :service_details="service" :show_buttons="true"/>
+        <LazyProductItem @GetServices="GetMyServices" @updateServiceDetails="updateServiceDetails" class="my-3" :service_details="service" :show_buttons="true"/>
       </div>
       <div class="col-md-12">
-        <CustomPagination v-if="totalPages.length>1" :activePage="SelectedPageId" :totalPages="totalPages" @PageChanged="changePage($event)"/>
+        <LazyCustomPagination v-if="totalPages.length>1" :activePage="SelectedPageId" :totalPages="totalPages" @PageChanged="changePage($event)"/>
       </div>
     </div>
   </div>
@@ -24,15 +24,11 @@
 </template>
 
 <script>
-import ProductItem from "../../components/Products/ProductItem";
-import CustomPagination from "@/components/utilities/CustomPagination";
+
 export default {
   name: "MyServices",
   layout: "PoshtebamPlusLayout",
-  components: {
-    ProductItem,
-    CustomPagination
-  },
+
   head() {
     return {
       title: 'خدمات من',

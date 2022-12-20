@@ -22,7 +22,7 @@
 
     <div class="tw-flex tw-flex-col tw-items-center ">
       <img v-if=" forum_details.userInfo &&  forum_details.userInfo.selfieFileData===''" src="~/assets/images/products/product_image.jpg" alt="" class="tw-w-12 tw-h-12 tw-rounded-full">
-      <img v-else-if="forum_details.userInfo " :src="`https://banooclubapi.simagar.com/media/gallery/profile/${forum_details.userInfo.selfieFileData}`" alt="" class="tw-w-12 tw-h-12 tw-rounded-full">
+      <img v-else-if="forum_details.userInfo " :src="`https://subapi.banoclub.com/media/gallery/profile/${forum_details.userInfo.selfieFileData}`" alt="" class="tw-w-12 tw-h-12 tw-rounded-full">
       <br>
 
       <div v-if="forum_details.userId === $auth.user.userInfo.userId && $route.path.toLowerCase() === '/forums/myforums/'" class="tw-flex tw-justify-center tw-items-center tw-gap-2">

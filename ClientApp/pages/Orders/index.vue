@@ -78,7 +78,7 @@
           </tbody>
         </table>
         <div class="col-md-12 my-3">
-          <CustomPagination v-if="totalPages.length>1" :activePage="SelectedPageNumber" :totalPages="totalPages" @PageChanged="changePage($event)"/>
+          <LazyCustomPagination v-if="totalPages.length>1" :activePage="SelectedPageNumber" :totalPages="totalPages" @PageChanged="changePage($event)"/>
         </div>
       </div>
 
@@ -89,18 +89,10 @@
 </template>
 
 <script>
-import PlusIcon from "../../components/Icons/PlusIcon";
-import {data} from "autoprefixer";
-import ChargeWalletSideNav from "../../components/ChargeWalletSideNav";
-import CustomPagination from "@/components/utilities/CustomPagination";
 export default {
   name: "index",
   layout: "PoshtebamPlusLayout",
-  components: {
-    ChargeWalletSideNav,
-    PlusIcon,
-    CustomPagination
-  },
+
   head() {
     return {
       bodyAttrs: {

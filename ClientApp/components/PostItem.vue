@@ -74,14 +74,14 @@
             <img
               v-if="(post_details.userInfo && post_details.userInfo.selfieFileData && $route.path==='/social')"
               class="IMG-FLUID myPicture tw-rounded"
-              :src="`https://banooclubapi.simagar.com/media/gallery/profile/${post_details.userInfo.selfieFileData}`"
+              :src="`https://subapi.banoclub.com/media/gallery/profile/${post_details.userInfo.selfieFileData}`"
               alt=""
               style="width: 40px; height: 40px;border-radius: 50%; object-fit: contain; cursor: pointer"
             />
             <img
               v-else-if="post_details.userInfo && post_details.userInfo.selfieFileData && $route.path!=='/social'"
               class="IMG-FLUID myPicture tw-rounded"
-              :src="`https://banooclubapi.simagar.com/${post_details.userInfo.selfieFileData}`"
+              :src="`https://subapi.banoclub.com/${post_details.userInfo.selfieFileData}`"
               alt=""
               style="width: 40px; height: 40px;border-radius: 50%; object-fit: contain; cursor: pointer"
             />
@@ -169,8 +169,8 @@
       >
         <vueper-slide v-for="(media,idx) in post_details.medias" :key="idx" :image="media.image">
           <template #content>
-            <img class="post_images" v-if="media.priority === 2" :src="`https://banooclubapi.simagar.com/media/gallery/post/${media.base64}`"/>
-            <video class="post_images" v-else-if="media.priority == 3" controls :src="`https://banooclubapi.simagar.com/media/gallery/post/${media.base64}`"></video>
+            <img class="post_images" v-if="media.priority === 2" :src="`https://subapi.banoclub.com/media/gallery/post/${media.base64}`"/>
+            <video class="post_images" v-else-if="media.priority == 3" controls :src="`https://subapi.banoclub.com/media/gallery/post/${media.base64}`"></video>
           </template>
         </vueper-slide>
       </vueper-slides>
@@ -185,7 +185,7 @@
             <strong class="px-1" style="font-size: 16px; font-weight: bolder"> {{ post_details.likesCount }} </strong>
             <div style="font-size: 14px">نفر</div>
           </div>
-          <button v-if="post_details.userInfo && !(post_details.userInfo.userId === $auth.user.userInfo.userId)" @click="likePost(post_details.postId, post_details.userId)"
+          <button v-if="post_details.userInfo && !(post_details.userInfo.userId === $auth?.user?.userInfo?.userId)" @click="likePost(post_details.postId, post_details.userId)"
                   class="tw-flex tw-items-center tw-space-x-2 text-decoration-none text-dark">
             <div class="tw-p-2 tw-rounded-full  tw-text-black d-flex align-items-center">
               <img v-if="post_details.isLikedByMe" src="/like-small.png" style="width: 30px; height: 30px" alt="">

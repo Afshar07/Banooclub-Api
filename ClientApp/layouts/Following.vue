@@ -10,7 +10,7 @@
             <img
               v-if="item.userInfo.selfieFileData"
               class="friendPicture"
-              :src="`https://banooclubapi.simagar.com/media/gallery/profile/${item.userInfo.selfieFileData}`"
+              :src="`https://subapi.banoclub.com/media/gallery/profile/${item.userInfo.selfieFileData}`"
               style="width: 35px;height: 35px;"
 
               alt=""
@@ -39,8 +39,13 @@
         </div>
       </div>
     </div>
-    <div class="col-12 text-warning fw-bold tw-text-right mt-3"  v-if="Following.length===0">
+    <div class="col-12 text-purple fw-bold tw-text-right mt-3"  v-if="Following.length===0">
       هیچ دنبال شونده ای برای نمایش وجود ندارد
+    </div>
+    <div class="col-12 d-flex w-100 align-items-center justify-content-center" v-if="Following.length===0">
+      <nuxt-link to="/Social/Contacts" style="text-decoration: none" class="    tw-text-blue-500 tw-text-sm fw-bold  mt-3" >
+        مشاهده سایر بانوان
+      </nuxt-link>
     </div>
   </div>
 </template>

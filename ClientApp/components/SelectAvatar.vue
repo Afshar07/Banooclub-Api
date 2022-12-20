@@ -20,6 +20,7 @@
 
 <script>
 import UploadIcon from "@/components/Icons/UploadIcon";
+
 export default {
   name: "SelectBanner",
   components:{UploadIcon},
@@ -28,6 +29,12 @@ export default {
       SelectedAvatar:null,
       AvatarIdx:0
     }
+  },
+  mounted(){
+
+    this.AvatarIdx = Math.round(Math.random() * (16 - 1) + 1)
+    this.SelectedAvatar = `defaultAvatar${this.AvatarIdx}.png`
+
   },
   methods:{
     callInputMethod(){

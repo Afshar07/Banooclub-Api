@@ -44,7 +44,7 @@
                                   </div>
                                   <div class="tw-relative md:tw-order-2 tw-order-1  md:tw-col-span-2 tw-col-span-5  ">
                                     <div v-if="item.tags.length>0" class="tw-badge tw-absolute tw-badge-primary tw-m-3 tw-ml-0 tw-p-2 ">{{ item.tags[0].title }}</div>
-                                    <img :src="`https://banooclubapi.simagar.com/${item.fileData}`"  class="tw-rounded  tw-ml-0 tw-object-contain tw-object-center" width="300px" style="height: 170px!important;">
+                                    <img :src="`https://subapi.banoclub.com/${item.fileData}`"  class="tw-rounded  tw-ml-0 tw-object-contain tw-object-center" width="300px" style="height: 170px!important;">
                                   </div>
                                 </div>
 
@@ -58,10 +58,10 @@
           </div>
 
         </div>
-        <Pagination v-if="totalPages.length>1" :pages="totalPages" @PageChanged="GetAllBlog($event)"></Pagination>
+        <LazyPagination v-if="totalPages.length>1" :pages="totalPages" @PageChanged="GetAllBlog($event)"></LazyPagination>
       </div>
       <div class="col-md-4 bg-white rounded shadow p-3 mb-3">
-        <RecentBlogs></RecentBlogs>
+        <LazyRecentBlogs></LazyRecentBlogs>
       </div>
 
     </div>
@@ -71,12 +71,8 @@
 </template>
 
 <script>
-import ForumMainItem from "../../components/Forums/ForumMainItem";
-import RecentBlogs from '../../components/Blog/RecentBlogs';
-import Pagination from '../../components/Pagination';
 export default {
   name: "index",
-  components: {ForumMainItem,RecentBlogs,Pagination},
   layout: "PoshtebamPlusLayout",
   data(){
     return{

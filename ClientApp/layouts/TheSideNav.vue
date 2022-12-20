@@ -40,11 +40,14 @@
         <div class="row mb-3">حریم خصوصی</div>
         {{ $store.state.loggedInfo.isPrivate }}
         <div class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2">
-          <div v-tooltip="{trigger :'manual',show :false,content:'با فعال کردن این گزینه نمایش گالری شما برای کاربرانی که شما را دنبال نکرده اند قفل میشود'}" class="position-relative tw-cursor-pointer">
+<!--          <div v-tooltip="{trigger :'manual',show :false,content:''}" class="">-->
+<!--            <i class="fas fa-question-circle tw-text-blue-400 position-absolute bottom-0 end-0 "></i>-->
+<!--            <div class="sidenavOptionText"></div>-->
+<!--          </div>-->
+          <div @click="isGallerySelected=!isGallerySelected" v-click-outside="isGallerySelected=false" :class="{'tw-tooltip-open':isGallerySelected}" class="tw-tooltip   position-relative tw-cursor-pointer" data-tip="با فعال کردن این گزینه نمایش گالری شما برای کاربرانی که شما را دنبال نکرده اند قفل میشود">
             <i class="fas fa-question-circle tw-text-blue-400 position-absolute bottom-0 end-0 "></i>
-            <div class="sidenavOptionText">قفل نمایش گالری</div>
+            <button  class="tw-btn tw-bg-white tw-text-gray-400 hover:tw-bg-white tw-p-0 hover:tw-text-gray-400 sidenavOptionTextb">قفل نمایش گالری</button>
           </div>
-
           <div class="">
             <label class="switch">
               <input
@@ -61,12 +64,11 @@
           </div>
         </div>
         <div class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2">
-          <div v-tooltip="{trigger :'click hover focus', content:'با فعال کردن این گزینه نمایش پست های شما برای کاربرانی که شما را دنبال نکرده اند قفل میشود'}" class="position-relative tw-cursor-pointer">
+
+          <div @click="isPostSelected=!isPostSelected" v-click-outside="isPostSelected=false" :class="{'tw-tooltip-open':isPostSelected}" class="tw-tooltip   position-relative tw-cursor-pointer" data-tip="با فعال کردن این گزینه نمایش گالری شما برای کاربرانی که شما را دنبال نکرده اند قفل میشود">
             <i class="fas fa-question-circle tw-text-blue-400 position-absolute bottom-0 end-0 "></i>
-            <div class="sidenavOptionText"> قفل نمایش پست </div>
-
+            <button  class="tw-btn tw-bg-white tw-text-gray-400 hover:tw-bg-white tw-p-0 hover:tw-text-gray-400 sidenavOptionTextb">قفل نمایش پست</button>
           </div>
-
           <div class="">
             <label class="switch">
               <input
@@ -99,7 +101,9 @@ export default {
   },
   data() {
     return {
+      isGallerySelected:false,
       currentState: false,
+      isPostSelected:false,
       isPrivate: this.$store.state.loggedInfo?.IsPrivateActivity,
       isPrivateSocial: this.$store.state.isPrivateSocial,
       isPrivateGalleryFriend: this.$store.state.isPrivateGalleryFriend,

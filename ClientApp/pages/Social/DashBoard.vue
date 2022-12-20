@@ -1,7 +1,7 @@
 <template>
   <div :class="$fetchState.pending?'loading-skeleton':''" class="container-fluid  tw-bg-[#faf7ff]">
-    <ChargeWalletSideNav :show="ShowSideNav" @close="ShowSideNav = false">
-    </ChargeWalletSideNav>
+    <LazyChargeWalletSideNav :show="ShowSideNav" @close="ShowSideNav = false">
+    </LazyChargeWalletSideNav>
     <div class="tw-p-10 ">
       <div class="tw-w-full tw-shadow bg-white p-3 d-flex align-items-center gap-3  rounded ">
         <img src="/girl-icon-dashboard.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
@@ -196,7 +196,7 @@
           </div>
           <div class="tw-p-4 ">
             <div v-if="!$fetchState.pending  && DashBoard" class="tw-overflow-x-auto">
-              <FollowersChart :ChartData="DashBoard.monthFollowersChartSeperate5Days"></FollowersChart>
+              <LazyFollowersChart :ChartData="DashBoard.monthFollowersChartSeperate5Days"></LazyFollowersChart>
             </div>
           </div>
         </div>
@@ -212,7 +212,7 @@
         </div>
         <div class="tw-p-4 ">
           <div v-if="!$fetchState.pending  && DashBoard" class="tw-overflow-x-auto">
-            <SalaryChart :ChartData="DashBoard.yearIOReports"></SalaryChart>
+            <LazySalaryChart :ChartData="DashBoard.yearIOReports"></LazySalaryChart>
           </div>
         </div>
       </div>
@@ -492,7 +492,7 @@
         <!--                <div class="tw-grid tw-grid-cols-2">-->
         <!--                  <div class="UserInfoCard  tw-bg-white tw-rounded tw-shadow">-->
         <!--                    <div class="UserInfoCardImg tw-justify-center tw-flex tw-shadow tw-object-cover ">-->
-        <!--                      <img :src="`https://banooclubapi.simagar.com/media/gallery/profile/${SelectedUser.selfieFileData}`" class="tw-rounded-full tw-shadow-xl tw-relative tw-bottom-10 tw-w-24 tw-h-24"  alt="">-->
+        <!--                      <img :src="`https://subapi.banoclub.com/media/gallery/profile/${SelectedUser.selfieFileData}`" class="tw-rounded-full tw-shadow-xl tw-relative tw-bottom-10 tw-w-24 tw-h-24"  alt="">-->
         <!--                    </div>-->
         <!--                    <div class="UserInfoCardBody tw-flex tw-flex-col">-->
         <!--                      <div class="tw-flex tw-items-center tw-justify-between">-->
@@ -545,10 +545,7 @@
 </template>
 
 <script>
-import ChargeWalletSideNav from '../../components/ChargeWalletSideNav'
-import FollowersChart from '../../components/utilities/FollowersChart'
 
-import SalaryChart from '../../components/utilities/SalaryChart'
 
 export default {
   head() {
@@ -558,7 +555,6 @@ export default {
   },
   layout: "PoshtebamPlusLayout",
   name: "DashBoard",
-  components: {FollowersChart, ChargeWalletSideNav, SalaryChart},
   data() {
     return {
       ShowSideNav: false,

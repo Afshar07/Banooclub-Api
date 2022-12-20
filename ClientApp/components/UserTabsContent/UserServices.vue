@@ -1,26 +1,22 @@
 <template>
-  <div class="row py-3">
+  <div class="row py-3" style="height: 600px;overflow-y: scroll;">
+    <div class="col-md-12">
+
     <input
-      class="searchFriend"
+      class="SearchStyle"
       type="text"
       placeholder="جستجو خدمت"
       v-model="searchKey"
     />
-    <div class="row">
-      <div class="col-md-12" style="height: 600px;overflow-y: scroll;" >
-        <div class="row">
-          <div class="col-md-4 col-lg-3" v-for="(service,idx) in services" :key="idx">
-            <ProductItem @GetServices="GetServices" @updateServiceDetails="GetServices" class="my-3" :service_details="service" :show_buttons="false"/>
-          </div>
-          <Spinner v-if="services && services.length !== serviceCounts"/>
-          <div class="row mb-3" v-if="!$fetchState.pending && services && services.length === 0">
-            <div class="col-12 text-warning fw-bold text-center">
-              هیچ خدمتی برای نمایش وجود ندارد
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
+    <div class="col-md-4 col-lg-3" v-for="(service,idx) in services" :key="idx">
+      <ProductItem @GetServices="GetServices" @updateServiceDetails="GetServices" class="my-3" :service_details="service" :show_buttons="false"/>
+    </div>
+    <Spinner v-if="services && services.length !== serviceCounts"/>
+    <div v-if="!$fetchState.pending && services && services.length === 0" @click="$router.push('/Products/AddProduct')" class="col-12 text-warning fw-bold text-center tw-cursor-pointer my-3">
+      <img src="/service.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">
+    </div>
+
   </div>
 
 </template>

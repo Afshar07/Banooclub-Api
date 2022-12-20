@@ -2,13 +2,13 @@
   <div class="card" v-if="AdsDetail" >
     <div class="card-media tw-h-40">
       <nuxt-link :to="`/Migration/AdvertiseDetail/${AdsDetail.adsId}`">
-        <img v-if="AdsDetail.adsInfo.photos && AdsDetail.adsInfo.photos.length>0" :src="`https://banooclubapi.simagar.com/media/gallery/adsphotos/${AdsDetail.adsInfo.photos[0].base64}`" :alt="AdsDetail.adsInfo.title">
+        <img v-if="AdsDetail.adsInfo.photos && AdsDetail.adsInfo.photos.length>0" :src="`https://subapi.banoclub.com/media/gallery/adsphotos/${AdsDetail.adsInfo.photos[0].base64}`" :alt="AdsDetail.adsInfo.title">
         <img v-else :src="`/nopicture.jpg`" :alt="AdsDetail.title">
       </nuxt-link>
     </div>
     <div  class="card-body p-2 ">
       <div class="tw-relative tw-flex tw-justify-end tw-bottom-[15px] ">
-        <div class="tw-bg-[#9cf5ff] tw-rounded tw-shadow tw-font-medium  tw-p-1 tw-text-[#db3cd6] ">
+        <div class="tw-bg-[#9cf5ff] ShadowPrice tw-rounded tw-shadow tw-font-medium  tw-p-1 tw-text-[#db3cd6] ">
           <small>
             {{Intl.NumberFormat('fa-IR').format(AdsDetail.adsInfo.price)}}
           </small>
@@ -108,4 +108,5 @@ export default {
 .product_name:hover{
   color: #007bff !important;
 }
+
 </style>

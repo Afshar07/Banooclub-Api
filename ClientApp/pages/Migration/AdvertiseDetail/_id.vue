@@ -2,7 +2,7 @@
   <div class=" NewBg mcontainer tw-overflow-x-hidden" v-if="!$fetchState.pending">
     <div class="row">
       <div class="col-md-12 my-3 col-lg-8 add_post  custom_padding_for_posts">
-        <AdsDetail :AdsDetail="AdsDetail"/>
+        <LazyAdsDetail :AdsDetail="AdsDetail"/>
       </div>
       <div class=" col-lg-4">
         <SideBar class="tw-mt-5" />
@@ -14,8 +14,6 @@
 
 <script>
 
-import AdsDetail from "../../../components/Ads/AdsDetail";
-import BaseModal from "../../../components/utilities/BaseModal";
 import SideBar from "@/layouts/SideBar";
 export default {
   name: "AdvertiseDetail",
@@ -33,8 +31,6 @@ export default {
   },
   layout: "PoshtebamPlusLayout",
   components:{
-    AdsDetail,
-    BaseModal,
     SideBar,
   },
   data(){

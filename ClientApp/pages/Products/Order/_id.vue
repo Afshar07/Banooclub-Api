@@ -20,7 +20,7 @@
 
         <h4 class="mt-5 theme-color mb-5">سفارش شما ثبت شد</h4>
 
-        <span class="theme-color">خلاصه پرداخت</span>
+        <span  class="theme-color tw-text-sm">خلاصه پرداخت</span>
         <div class="mb-3">
           <hr class="new1">
         </div>
@@ -36,7 +36,7 @@
         </div>
 
 <!--        v-if="OrderData && OrderData.subOrders && OrderData.subOrders[0].planId !==0 "-->
-        <ChargeWalletSideNav :show="displaySideNav" @close="displaySideNav = false"/>
+        <LazyChargeWalletSideNav :show="displaySideNav" @close="displaySideNav = false"/>
         <div v-if="OrderData.status!==2" class="text-center my-5 d-flex flex-wrap align-items-center justify-content-around gap-2">
           <div v-if=" OrderData&&OrderData.subOrders &&OrderData.subOrders[0].title !== 'شارژ کیف پول'"  class="d-flex flex-column shadow p-4 tw-h-[10rem]  justify-content-center gap-2">
             <button class=" tw-bg-[#ff6f9e] rounded  text-white p-2" :disabled="OrderData.sumPrice>$store.state.WalletAmount" @click="PayByWallet()">پرداخت با کیف پول</button>
@@ -58,10 +58,8 @@
 
 </template>
 <script>
-import ChargeWalletSideNav from "../../../components/ChargeWalletSideNav";
 export default {
   layout: "PoshtebamPlusLayout",
-components:{ChargeWalletSideNav},
   name: "OrderComplete",
   head() {
     return {

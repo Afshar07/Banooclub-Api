@@ -11,7 +11,7 @@
           </div>
 
           <button v-tooltip="{content:'ثبت آگهی'}" @click="$router.push('/Migration/CreateAdvertise')" class="btn AddReplyBtn text-white">
-            <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+            <LazyPlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
           </button>
         </div>
     </div>
@@ -54,7 +54,7 @@
                                 <div class="tw-w-full tw-flex tw-items-center tw-justify-between">
 
                                 <small> فیلتر ها</small>
-                                <FilterIcon class="tw-fill-white"></FilterIcon>
+                                <LazyFilterIcon class="tw-fill-white"></LazyFilterIcon>
                                 </div>
                               </button>
                             </h2>
@@ -62,18 +62,18 @@
                                  aria-labelledby="panelsStayOpen-headingFour">
                               <div class="accordion-body">
                                 <div class="d-flex  gap-2">
-                                  <SlideCheckBox v-model="Ladder" :UniqueId="1"></SlideCheckBox>
+                                  <LazySlideCheckBox v-model="Ladder" :UniqueId="1"></LazySlideCheckBox>
                                   <div class="d-flex align-items-center gap-2">
-                                    <FireIcon class="tw-fill-red-500 tw-w-6 tw-h-6"></FireIcon>
+                                    <LazyFireIcon class="tw-fill-red-500 tw-w-6 tw-h-6"></LazyFireIcon>
 
                                     <small>آتیش زدم</small>
                                   </div>
 
                                 </div>
                                 <div class="d-flex align-items-end my-2  gap-2">
-                                  <SlideCheckBox v-model="Exchange" :UniqueId="2"></SlideCheckBox>
+                                  <LazySlideCheckBox v-model="Exchange" :UniqueId="2"></LazySlideCheckBox>
                                   <div class="d-flex align-items-center gap-2">
-                                    <ExChangeIcon class="tw-fill-sky-500 tw-w-6 tw-h-6"></ExChangeIcon>
+                                    <LazyExChangeIcon class="tw-fill-sky-500 tw-w-6 tw-h-6"></LazyExChangeIcon>
                                     <small>قابل معاوضه</small>
                                   </div>
 
@@ -148,7 +148,6 @@
                                   :options="AllStates"
                                   label="name"
                                   dir="rtl"
-
                                   placeholder="استان"
                                   v-model="SelectedStateId"
                                   :reduce="(name) => name.stateId"
@@ -181,10 +180,8 @@
                         <input type="search" v-model="Search" class="SearchStyle" placeholder="جستجو در میان آگهی ها">
                       </div>
                       <div class="col-md-12"  style="height: 1000px; overflow-y: scroll">
-                        <AllAdsTabContent :Ads="AllAds" :categories="categories"/>
-<!--                      <div class="col-md-12 d-flex align-items-center justify-content-center">-->
-<!--                        <Spinner></Spinner>-->
-<!--                      </div>-->
+                        <LazyAllAdsTabContent :Ads="AllAds" :categories="categories"/>
+
                       </div>
                     </div>
                   </div>
@@ -194,7 +191,7 @@
             <div v-if="ActiveTab===2" class="tab-pane show active row" id="pills-profile" role="tabpanel"
                  aria-labelledby="pills-profile-tab">
               <div class="col-md-12">
-                <FirstTabContentAds :Ads="AllAds" :categories="categories"/>
+                <LazyFirstTabContentAds :Ads="AllAds" :categories="categories"/>
               </div>
             </div>
 
@@ -211,40 +208,11 @@
 </template>
 
 <script>
-import ProductItem from "../../components/Products/ProductItem";
-import ChevronRightIcon from "../../components/Icons/RightChevronIcon";
-import ChevronLeftIcon from "../../components/Icons/LeftChevronIcon";
-import RightChevronIcon from "../../components/Icons/RightChevronIcon";
-import LeftChevronIcon from "../../components/Icons/LeftChevronIcon";
-import FirstTabContentAds from "../../components/Ads/FirstTabContentAds";
-import CustomPagination from "@/components/utilities/CustomPagination";
-import AllAdsTabContent from "../../components/Ads/AllAdsTabContent";
-import PlusIcon from "@/components/Icons/PlusIcon";
-import SlideCheckBox from "@/components/SlideCheckBox";
-import FilterIcon from "@/components/Icons/FilterIcon";
-import FireIcon from "@/components/Icons/FireIcon";
-import ExChangeIcon from "@/components/Icons/ExChangeIcon";
-import Spinner from "@/components/Spinner";
 export default {
 
   name: "index",
   layout: "PoshtebamPlusLayout",
-  components: {
-    CustomPagination,
-    AllAdsTabContent,
-    FirstTabContentAds,
-    Spinner,
-    FireIcon,
-    SlideCheckBox,
-    ExChangeIcon,
-    LeftChevronIcon,
-    RightChevronIcon,
-    ChevronLeftIcon,
-    FilterIcon,
-    ChevronRightIcon,
-    ProductItem,
-    PlusIcon,
-  },
+
   head() {
     return {
 

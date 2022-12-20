@@ -76,7 +76,7 @@
           <!-- Column: delete -->
           <template #cell(medias)="data">
 
-            <img v-if=" data.item.medias && data.item.medias.length>0" :src="`https://banooclubapi.simagar.com/media/gallery/post/${data.item.medias[0].base64}`" style="object-fit: contain;object-position: center" width="50px" height="50px" alt="">
+            <img v-if=" data.item.medias && data.item.medias.length>0" :src="`https://subapi.banoclub.com/media/gallery/post/${data.item.medias[0].base64}`" style="object-fit: contain;object-position: center" width="50px" height="50px" alt="">
 
           </template>
           <template #cell(createDate)="data">

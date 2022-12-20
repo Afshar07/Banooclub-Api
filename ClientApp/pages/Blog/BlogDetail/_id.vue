@@ -24,7 +24,7 @@
       <div v-if="BlogData" class="col-md-8 bg-white rounded p-3 shadow ">
             <div class="row  mx-auto ">
               <div class="tw-card tw-card-compact bg-white rounded tw-w-96 tw-bg-base-100 ">
-                <img v-if="BlogData && BlogData.fileData && BlogData.fileData!==''" :src="`https://banooclubapi.simagar.com/${BlogData.fileData}`"
+                <img v-if="BlogData && BlogData.fileData && BlogData.fileData!==''" :src="`https://subapi.banoclub.com/${BlogData.fileData}`"
                      class="tw-w-full tw-h-full  tw-inset-0 tw-object-cover" alt="Shoes"/>
                 <img v-else src="/nopicture.jpg" width="80px" height="80px" class="rounded-circle" alt="">
                 <div class="tw-card-body">
@@ -50,7 +50,7 @@
 
                   <div class="tw-flex tw-justify-start tw-items-center tw-gap-2">
                     <img v-if="BlogData.userInfo.selfieFileData!==null"
-                         :src="`https://banooclubapi.simagar.com/${BlogData.userInfo.selfieFileData}`"
+                         :src="`https://subapi.banoclub.com/${BlogData.userInfo.selfieFileData}`"
                          width="80px" height="80px" class="rounded-circle" alt="">
                     <img v-else src="/nopicture.jpg" width="80px" height="80px" class="rounded-circle" alt="">
                     <div v-if="BlogData.userInfo" class="tw-flex tw-flex-col tw-my-3">
@@ -76,7 +76,7 @@
                   <div v-for="(item,idx) in AllBlogs" :key="idx"
                        class="tw-card tw-card-compact w-96 lg:tw-col-span-1 tw-col-span-6  bg-base-100 tw-mx-3.5 shadow-xl">
                     <img v-if="item.fileData!==''" style="border-radius: 1rem!important;"
-                         :src="`https://banooclubapi.simagar.com/${item.fileData}`"
+                         :src="`https://subapi.banoclub.com/${item.fileData}`"
                          class="tw-w-full tw-h-full  tw-inset-0 tw-object-cover" alt="Shoes"/>
                     <img v-else src="/nopicture.jpg" style="border-radius: 1rem!important;" width="80px" height="80px"
                          class="rounded-circle" alt="">
@@ -112,7 +112,7 @@
                     <div class="tw-flex tw-justify-between tw-items-center tw-gap-2 tw-w-full ">
                       <div v-if="item.userInfo" class="tw-flex tw-justify-between tw-items-center tw-gap-2">
                         <img v-if="item.userInfo.selfieFileData!==null"
-                             :src="`https://banooclubapi.simagar.com/${item.userInfo.selfieFileData}`"
+                             :src="`https://subapi.banoclub.com/${item.userInfo.selfieFileData}`"
                                class="tw-rounded-full tw-w-[50px] tw-h-[50px]" alt="">
                         <img v-else src="/nopicture.jpg" class="tw-rounded-full tw-w-[50px] tw-h-[50px]" alt="">
                         <div class="tw-flex tw-flex-col tw-my-3">
@@ -138,7 +138,7 @@
                       <div class="tw-flex tw-justify-between tw-items-center tw-gap-2 tw-w-full">
                         <div v-if="el.userInfo" class="tw-flex tw-justify-between tw-items-center tw-gap-2">
                           <img v-if="el.userInfo.selfieFileData!==null"
-                               :src="`https://banooclubapi.simagar.com/${el.userInfo.selfieFileData}`"
+                               :src="`https://subapi.banoclub.com/${el.userInfo.selfieFileData}`"
                                class="tw-rounded-full tw-w-[50px] tw-h-[50px]" alt="">
                           <img v-else src="/nopicture.jpg"  class="tw-rounded-full tw-w-[50px] tw-h-[50px]" alt="">
                           <div class="tw-flex tw-flex-col tw-my-3">
@@ -165,7 +165,7 @@
       </div>
       <div class="col-md-4   ">
         <div class="bg-white p-3 rounded  shadow">
-        <RecentBlogs></RecentBlogs>
+        <LazyRecentBlogs></LazyRecentBlogs>
         </div>
       </div>
 
@@ -177,11 +177,9 @@
 
 <script>
 
-import RecentBlogs from '../../../components/Blog/RecentBlogs';
 
 export default {
   name: "index",
-  components: {RecentBlogs},
   layout: "PoshtebamPlusLayout",
   data() {
     return {

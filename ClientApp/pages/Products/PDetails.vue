@@ -2,7 +2,7 @@
   <div class="container mcontainer">
     <div class="row">
       <div class="col-md-12 col-lg-8 add_post px-0 custom_padding_for_posts">
-        <ProductDetail/>
+        <LazyProductDetail/>
       </div>
       <div class=" col-lg-4">
         <SideBar />
@@ -16,12 +16,11 @@
 
 <script>
 import SideBar from "../../layouts/SideBar";
-import ProductDetail from "../../components/Products/PDetails";
 export default {
   name: "PDetails",
   layout: "PoshtebamPlusLayout",
   components:{
-    ProductDetail,
+
     SideBar,
   },
   head() {

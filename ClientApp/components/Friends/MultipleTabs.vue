@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-row gap-5 w-100 overflow-scroll text-nowrap">
+  <div class="d-flex flex-row justify-content-center gap-5 w-100 overflow-scroll text-nowrap">
     <div class="">
       <div class="d-flex flex-row align-items-center titleTab small" :class="activeTabClass('followers')"  @click="toggleTab('followers')">
           دنبال کنندگان

@@ -4,18 +4,21 @@
 
       <div class="col-md-8 add_post custom_padding_for_posts" style="height: 950px;overflow-y: scroll;" @scroll="handleScroll">
 
-        <AddPost @updateMyPosts="updateMyPosts" class="mb-3"/>
-        <PostItem @PostEvent="GetPosts" class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post" :inMainPage="true" :inMyPosts="false"/>
-        <Spinner v-if="postData && postData.length !== postCounts"/>
+        <LazyAddPost ref="AddPost" @updateMyPosts="updateMyPosts" class="mb-3"/>
 
-        <div class="row mb-3" v-if="!$fetchState.pending && postData && postData.length === 0">
-          <div class="col-12 text-warning fw-bold text-center">
-            هیچ پستی برای نمایش وجود ندارد
+        <div         v-if="!$fetchState.pending && postData && postData.length === 0"  class="row mb-3" >
+          <div  @click="$refs.AddPost.showModal=true" class="col-12 text-warning fw-bold text-center tw-cursor-pointer">
+            <img src="/girl1.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">
           </div>
         </div>
+        <PostItem @PostEvent="GetPosts" class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post" :inMainPage="true" :inMyPosts="false"/>
+        <LazySpinner v-if="postData && postData.length !== postCounts"/>
+
+
       </div>
       <div class=" col-md-4 px-0">
-        <SideBar /></div>
+        <SideBar />
+      </div>
     </div>
 
   </div>
@@ -25,10 +28,6 @@
 <script>
 
 import SideBar from "../../layouts/SideBar";
-import CustomModal from "../../components/utilities/CustomModal";
-import AddPost from "../../components/AddPost";
-import Spinner from "../../components/Spinner"
-import CustomInput from "@/components/CustomInput";
 
 export default {
   head() {
@@ -43,7 +42,7 @@ export default {
       ],
     }
   },
-  components: {SideBar, CustomModal, AddPost, Spinner,CustomInput},
+  components: {SideBar},
   // mounted() {
   //   window.addEventListener('scroll', this.scrollTrue);
   // },

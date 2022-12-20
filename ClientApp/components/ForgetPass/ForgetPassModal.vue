@@ -15,23 +15,15 @@
           </div>
           <form class="tw-p-7 tw-space-y-5 ">
             <div class="col-12">
-              <select v-model="forget_type" class="form-select" aria-label="Default select example">
-                <option :value="null">ارسال رمز عبور</option>
-                <option :value="1">موبایل</option>
-                <option :value="2">ایمیل</option>
-              </select>
-            </div>
-            <div class="col-12">
-
               <input
-                type="email"
+                type="text"
                 class="with-border"
                 v-model="PhoneOrEmail"
-                :placeholder="inputPlaceholder"
+                placeholder="شماره موبایل یا ایمیل"
               />
             </div>
             <div class="flex text-center">
-              <button @click="submitForgetPass" type="button" class="tw-bg-blue-600 tw-font-semibold tw-mx-auto tw-px-10 tw-py-3 tw-rounded-md tw-text-center tw-text-white">
+              <button @click="submitForgetPass" type="button" class="tw-bg-purple-400 tw-font-semibold tw-mx-auto tw-px-10 tw-py-3 tw-rounded-md tw-text-center tw-text-white">
                 ارسال رمز عبور
               </button>
             </div>
@@ -48,7 +40,7 @@ export default {
   name: "ForgetPassModal",
   data(){
     return{
-      forget_type:1,
+      forget_type:null,
       PhoneOrEmail:'',
     }
   },
@@ -58,13 +50,7 @@ export default {
     }
   },
   computed:{
-    inputPlaceholder() {
-      if(this.forget_type === 1){
-        return "شماره موبایل"
-      }
-      else
-        return "ایمیل"
-    },
+
 
 
   },
@@ -82,12 +68,19 @@ export default {
     async submitForgetPass() {
       if(this.PhoneOrEmail === ''){
         this.$toast.error("موبایل یا ایمیل را وارد کنید");
+      }else if(!this.PhoneOrEmail.includes('@') && this.PhoneOrEmail.length>11){
+
+        this.$toast.error("شماره موبایل یا ایمیل وارد شده معتبر نیست");
+      }else if(!this.PhoneOrEmail.includes('@') && this.PhoneOrEmail.length!==11){
+
+        this.$toast.error("شماره موبایل یا ایمیل وارد شده معتبر نیست");
       }
       else {
         try {
           this.$nuxt.$loading.start();
+
           const response = await this.$repositories.forgetPassword.forgetPassword({
-            type:this.forget_type,
+            type:this.PhoneOrEmail.includes('@')?2:1,
             PhoneOrEmail:this.PhoneOrEmail
           })
           if (response.data.data.status === 3) {
@@ -99,7 +92,7 @@ export default {
           } else if (response.data.data.status === 5) {
             this.$toast.error("کد وارد شده اشتباه است.");
           } else if (response.data.data.status === 6) {
-            this.$toast.error("کاربری با این نام کاربری وجود ندارد.");
+            this.$toast.error("کاربری با این شماره موبایل یا ایمیل وجود ندارد.");
           } else if (response.data.data.status === 7) {
             this.$toast.success("رمز عبور با موفقیت ارسال شد");
             this.$emit('close_modal')

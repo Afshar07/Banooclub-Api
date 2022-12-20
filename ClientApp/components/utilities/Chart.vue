@@ -6,10 +6,7 @@
 </template>
 
 <script>
-
-
 import Chart from "chart.js";
-
 export default  {
   name: 'Chart',
   async fetch() {

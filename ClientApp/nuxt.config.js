@@ -19,20 +19,16 @@ module.exports = {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Oxygen&display=swap",
       },
-      {
-        href: "https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css",
-        rel: "stylesheet",
-      },
+      {rel: 'stylesheet', href: "/bootstrap.css"},
       {
         href: "https://use.fontawesome.com/releases/v5.13.0/css/all.css",
         rel: "stylesheet",
       },
     ],
     script: [
-      {
-        src: "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js",
-      },
-    ],
+      {src: '/popper.js'},
+      {src: '/bootstrap.js'},
+    ]
   },
 
   loading: "~/components/LoadingBar",
@@ -64,7 +60,7 @@ module.exports = {
     {src: "~/plugins/datePicker", mode: "client", ssr: false},
     {src: "~/plugins/v-select", mode: "client"},
     {src: "~/plugins/leaflet", mode: "client"},
-    {src: "~plugins/vue-awesome-counter", ssr: false,mode:'client'},
+    {src: "~plugins/vue-awesome-counter", ssr: false, mode: 'client'},
     {src: "~/plugins/vuex-persist", ssr: false},
     {src: "~/plugins/chart.js", mode: "client"},
     {src: "plugins/vue-context", mode: "client", ssr: false},
@@ -74,7 +70,12 @@ module.exports = {
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
+  components: [
+    {
+      path: "~/components",
+      pathPrefix: false,
+    }
+  ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules:
@@ -103,7 +104,7 @@ module.exports = {
     "@nuxtjs/recaptcha",
     "@nuxtjs/auth-next",
     "nuxt-lazy-load",
-'nuxt-compress',
+    'nuxt-compress',
     [
       "nuxt-fontawesome",
       {
@@ -138,6 +139,19 @@ module.exports = {
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    // extractCSS: true,
+    // optimization: {
+    //   splitChunks: {
+    //     cacheGroups: {
+    //       styles: {
+    //         name: 'styles',
+    //         test: /\.(css|vue)$/,
+    //         chunks: 'all',
+    //         enforce: true
+    //       }
+    //     }
+    //   }
+    // },
     publicPath: "/nuxt/",
     plugins: [
       new webpack.ProvidePlugin({
@@ -186,7 +200,7 @@ module.exports = {
     },
     redirect: {
       login: "/",
-      home: "/social",
+      home: "/social/accountsetting/MyPage",
       logout: "/",
       admins: false,
     },
@@ -195,10 +209,10 @@ module.exports = {
   axios: {
     plugins: ["~/plugins/auth.js"],
     credentials: true,
-    baseURL: "https://banooclubapi.simagar.com/api/",
+    baseURL: "https://subapi.banoclub.com/api/",
     // baseURL: 'https://localhost:44330/',
   },
   env: {
-    pic: "https://banooclubapi.simagar.com/",
+    pic: "https://subapi.banoclub.com/",
   },
 };

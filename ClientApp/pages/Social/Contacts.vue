@@ -12,9 +12,9 @@
       <div class="col-md-12" style="height: 700px;overflow-y: scroll;" @scroll="handleScroll">
         <div v-if="AllUsers.length>0" class="row">
           <div class="col-md-3 col-12" v-for="(item,index) in AllUsers" :key="index">
-            <UserItem class="my-2 tw-shadow tw-rounded " :userDetails="item"/>
+            <LazyUserItem class="my-2 tw-shadow tw-rounded-xl " :userDetails="item"/>
           </div>
-          <Spinner style="text-align: center" v-if="Atbottom"/>
+          <LazySpinner style="text-align: center" v-if="Atbottom"/>
         </div>
         <div v-else class="row">
           <div class="col-12 d-flex align-items-center justify-content-center" >
@@ -29,8 +29,6 @@
 </template>
 
 <script>
-import UserItem from "../../components/UserItem"
-import Spinner from "../../components/Spinner"
 
 
 export default {
@@ -49,10 +47,7 @@ export default {
       ],
     }
   },
-  components: {
-    UserItem,
-    Spinner
-  },
+
   data() {
     return {
       searchKey: '',

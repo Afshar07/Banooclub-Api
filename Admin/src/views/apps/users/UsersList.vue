@@ -21,8 +21,7 @@
                 :options="UserTypes"
                 label="name"
                 :reduce="name => name.status"
-                :clearable="false"
-                class="per-page-selector d-inline-block w-100"
+                class=" d-inline-block w-100"
             />
           </div>
         </div>
@@ -155,7 +154,7 @@
 
                 </div>
                 <div class="col-md-3 ">
-                  <router-link :to="`/apps/users/Detail/${data.item.userInfo.userName}`">
+                  <router-link :to="`/apps/users/Detail/${SelectedUser.userName}`">
                   <span  class="text-secondary">نام کاربری: </span>
                   <span>{{SelectedUser.userName}}</span>
                   </router-link>
@@ -279,9 +278,10 @@ export default {
       let usersChangeUserRoleRequest = new UsersChangeUserRoleRequest(_this);
       let data = {
 
-        userId:this.SelectedUser.userId,
-        status:this.SelectedUserType
+        userId:_this.SelectedUser.userId,
+        status:_this.SelectedUserType
       }
+      console.log(data)
       usersChangeUserRoleRequest.setParams(data);
       await usersChangeUserRoleRequest.fetch(function (content){
         _this.$toast({

@@ -45,7 +45,7 @@
               <template #aside>
                 <b-avatar
                     size="45"
-                    :src="`https://api.halamkhoobee.com/media/gallery/profile/${data.item.userPhoto}`"
+                    :src="`https://api.halamkhoobee.com/${data.item.userPhoto}`"
                     :variant="`success`"
                     :to="{ name: 'apps-chats-id', params: { id: data.item.userId } }"
                 />

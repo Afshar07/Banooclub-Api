@@ -10,7 +10,7 @@
           <div class="tw-flex tw-items-center tw-justify-between my-2">
             <div class="tw-flex tw-items-center tw-gap-2">
               <img v-if="item.userInfo && item.userInfo.selfieFileData.includes('.')"
-                   :src="`https://banooclubapi.simagar.com/media/gallery/profile/${item.userInfo.selfieFileData}`"
+                   :src="`https://subapi.banoclub.com/media/gallery/profile/${item.userInfo.selfieFileData}`"
                    alt="" class=" tw-shadow tw-w-8 tw-h-8 tw-rounded-full tw-object-cover">
               <img v-else src="/nopicture.jpg" class=" tw-shadow tw-w-8 tw-h-8 tw-object-cover tw-rounded-full" alt="">
               <nuxt-link v-if="item.userInfo" :to="`/user/${item.userInfo.userName}/posts`"

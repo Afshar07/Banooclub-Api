@@ -11,33 +11,38 @@
               <img src="/girl-icon-ads-afzodan.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
               <div class="d-flex align-items-center flex-column">
                 <h1 class="text-purple h6" style="font-weight: bolder!important;">ثبت آگهی</h1>
-                <strong class="text-pink">Add Advertisements</strong>
+                <strong class="text-pink">Add Advertisement</strong>
               </div>
             </div>
           </div>
         </div>
         <div class="col-md-12 p-4 bg-white rounded tw-shadow">
           <div class="row p-3 px-5">
-            <div class="col-md-12">
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="labelText">دسته بندی*</div>
+            <div class="col-md-6">
+              <div class="labelText">دسته بندی*</div>
 
-                  <div class="col-md-12 px-0">
-                    <div class="my-3">
-                      <select class="FormInputs" v-model="categoryId">
-                        <option
-                          v-for="(item, index) in categories"
-                          :value="item.adsCategoryId"
-                          :key="index"
-                        >
-                          {{ item.name }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-
+              <div class="col-md-12 px-0">
+                <div class="my-3">
+                  <select class="FormInputs" v-model="categoryId">
+                    <option
+                      v-for="(item, index) in categories"
+                      :value="item.adsCategoryId"
+                      :key="index"
+                    >
+                      {{ item.name }}
+                    </option>
+                  </select>
                 </div>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+              <div class="labelText">وضعیت کالا*</div>
+              <div class="my-3">
+                <select v-model="Status" class="form-control FormInputs w-100">
+                  <option :value="1">نو</option>
+                  <option :value="2">دست دوم</option>
+                </select>
               </div>
             </div>
             <div class="col-md-6">
@@ -52,16 +57,8 @@
                 />
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="labelText">وضعیت کالا*</div>
-              <div class="my-3">
-                <select v-model="Status" class="form-control FormInputs w-100">
-                  <option :value="1">نو</option>
-                  <option :value="2">دست دوم</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-12 my-3">
+
+            <div class="col-md-6 my-3">
               <div class="labelText">شماره موبایل*</div>
               <input type="tel" placeholder="با صفر اول وارد کنید" class="form-control FormInputs with-border" v-model="PhoneNumber">
             </div>
@@ -81,7 +78,7 @@
                     id="MainImage"
                     @change="onFileChangeMainImage"
                   />
-                  <UploadIcon class="tw-fill-[#b44aff]"></UploadIcon>
+                  <LazyUploadIcon class="tw-fill-[#b44aff]"></LazyUploadIcon>
                 </div>
                 <div  v-if="url" id="main" class="position-relative">
                   <i class="fas fa-times tw-cursor-pointer text-danger position-absolute top-0 end-0" @click="RemoveMainImage" ></i>
@@ -110,7 +107,7 @@
                     id="SubImage"
                     @change="onFileChangeSubImage"
                   />
-                  <UploadIcon class="tw-fill-[#b44aff]"></UploadIcon>
+                  <LazyUploadIcon class="tw-fill-[#b44aff]"></LazyUploadIcon>
                 </div>
                 <div  v-for="(item,idx) in subUrl"   :key="item" id="preview" class="position-relative" v-if="subUrl">
                   <i class="fas fa-times tw-cursor-pointer  text-danger position-absolute top-0 end-0" @click="RemoveOtherImages(idx)" ></i>
@@ -170,12 +167,12 @@
             <div class="col-md-12">
               <div class="labelText">توضیحات آگهی</div>
               <div class="my-3">
-              <textarea
-                class="border FormInputs rounded p-1 w-100"
-                rows="1"
-                placeholder="در مورد ویژگی های کالا توضیح دهید"
-                v-model.trim="description"
-              ></textarea>
+                <input
+                  class="rounded FormInputs border p-1 w-100"
+                  type="text"
+                  placeholder="در مورد ویژگی های کالا توضیح دهید"
+                  v-model.trim="description"
+                />
               </div>
             </div>
             <div class="col-md-12 my-2">
@@ -229,11 +226,9 @@
 </template>
 
 <script>
-import UploadIcon from "@/components/Icons/UploadIcon";
 export default {
   name: "CreateAdvertise",
   layout: "PoshtebamPlusLayout",
-  components:{UploadIcon},
   fetchOnServer() {
     return true;
   },

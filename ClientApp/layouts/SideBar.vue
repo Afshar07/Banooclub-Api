@@ -10,7 +10,7 @@
               v-if="item.selfieFileData"
               style="width: 35px;height: 35px;"
               class="friendPicture"
-              :src="`https://banooclubapi.simagar.com/${item.selfieFileData}`"
+              :src="`https://subapi.banoclub.com/${item.selfieFileData}`"
               alt=""
             />
             <img
@@ -35,11 +35,11 @@
     <div class="tw-w-full tw-shadow my-3 tw-bg-white p-3 tw-rounded">
       <div class="tw-grid tw-grid-cols-2 ">
         <div class="tw-flex tw-items-start  tw-flex-col my-2">
-          <div class="tw-radial-progress tw-text-[#fc5399]" :style="`--value:${FilledCount}`" >{{ FilledCount }}%</div>
+          <div class="tw-radial-progress " :class="{'tw-text-[#fc5399]':FilledCount===100,'tw-text-gray-400':FilledCount!==100}" :style="`--value:${FilledCount}`" >{{ FilledCount }}%</div>
         </div>
         <div class="tw-flex tw-flex-col ">
           <small class="text-center tw-text-[#b44aff]">تکمیل پروفایل باعث بیشتر دیده شدن میشود</small>
-          <button class="tw-bg-[#fc5399] tw-rounded tw-text-white p-2">
+          <button class="tw-bg-[#fc5399] tw-rounded tw-text-white mt-2 p-2">
             <nuxt-link class="text-decoration-none hover:tw-text-white tw-text-white" to="/Social/AccountSetting/EditProfileBasic">تکمیل پروفایل</nuxt-link>
             </button>
         </div>
@@ -94,15 +94,11 @@
 
 import Friends from "./Friends";
 import Following from "./Following";
-import ServiceProviderLabel from "@/components/ServiceProviderLabel";
-import CustomerLabel from "@/components/CustomerLabel";
 export default {
   name: "SideBar",
   components: {
     Friends,
     Following,
-    ServiceProviderLabel,
-    CustomerLabel,
   },
   async fetch() {
 
@@ -140,7 +136,7 @@ export default {
       try {
         const response = await this.$repositories.getUserByToken.getUserByToken();
         this.userinfo = response.data;
-console.log(this.userinfo)
+
       } catch (error) {
         console.log(error);
       }

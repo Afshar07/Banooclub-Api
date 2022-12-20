@@ -10,24 +10,24 @@
         ساکن
          <strong class="px-1">{{userinfo.stateName}} <span v-if="userinfo.cityName !== '' && userinfo.stateName !== ''">,</span> {{userinfo.cityName}}</strong>
       </li>
-      <li  class="tw-flex tw-items-center my-2" v-if="  userinfo.userSetting&&userinfo.userSetting.birthDate===null&&userinfo.relationState !== null">
-        <HeartIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;" class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
-        <div v-if="userinfo.relationState === 1">
-           <strong> مجرد  </strong>
-        </div>
-        <div v-else-if="userinfo.relationState === 2">
-          در <strong> رابطه  </strong>
-        </div>
-        <div v-else-if="userinfo.relationState === 3">
-           <strong> متاهل  </strong>
-        </div>
-        <div v-else-if="userinfo.relationState === 4">
-           <strong> مطلقه  </strong>
-        </div>
-        <div v-else-if="userinfo.relationState === 5">
-           <strong> سایر  </strong>
-        </div>
-      </li>
+<!--      <li  class="tw-flex tw-items-center my-2" v-if="  userinfo.userSetting&&userinfo.userSetting.birthDate===null&&userinfo.relationState !== null">-->
+<!--        <HeartIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;" class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>-->
+<!--        <div v-if="userinfo.relationState === 1">-->
+<!--           <strong> مجرد  </strong>-->
+<!--        </div>-->
+<!--        <div v-else-if="userinfo.relationState === 2">-->
+<!--          در <strong> رابطه  </strong>-->
+<!--        </div>-->
+<!--        <div v-else-if="userinfo.relationState === 3">-->
+<!--           <strong> متاهل  </strong>-->
+<!--        </div>-->
+<!--        <div v-else-if="userinfo.relationState === 4">-->
+<!--           <strong> مطلقه  </strong>-->
+<!--        </div>-->
+<!--        <div v-else-if="userinfo.relationState === 5">-->
+<!--           <strong> سایر  </strong>-->
+<!--        </div>-->
+<!--      </li>-->
       <li  class="tw-flex tw-items-center my-2" v-else-if="  userinfo.userSetting">
         <UserIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"  class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
           <strong  v-if="  userinfo.userSetting&& userinfo.userSetting.birthDate!==null"> {{ time_ago(userinfo.userSetting.birthDate) }}  </strong>
@@ -47,12 +47,14 @@
 
       </li>
     </ul>
-    <div class="row my-3">
-      <div v-for="(item,index) in MyPhotos.slice(0,4)" :key="index" class="col-md-4 tw-h-[10rem] rounded my-2">
-        <img v-if="item.priority===2" :src="`https://banooclubapi.simagar.com/media/gallery/galleryimages/${item.base64}`" class="tw-w-full rounded tw-h-[10rem] tw-object-cover" alt="">
-        <video v-else-if="item.priority === 3" class="rounded w-full" style="object-fit: cover;height: 150px" controls :src="`https://banooclubapi.simagar.com/media/gallery/galleryvideos/${item.base64}`"></video>
+    <div class="tw-grid tw-grid-cols-3 tw-gap-1.5">
+
+      <div v-for="(item,index) in MyPhotos.slice(0,4)" :key="index" class=" !tw-h-[8rem] md:tw-col-span-1 tw-cols-pan-3 rounded my-1">
+        <img v-if="item.priority===2" :src="`https://subapi.banoclub.com/media/gallery/galleryimages/${item.base64}`" class="tw-w-full rounded !tw-h-[8rem] tw-object-cover" alt="">
+        <video v-else-if="item.priority === 3" class="rounded tw-w-full !tw-h-[8rem] tw-object-cover" controls :src="`https://subapi.banoclub.com/media/gallery/galleryvideos/${item.base64}`"></video>
       </div>
     </div>
+
 
   </div>
 

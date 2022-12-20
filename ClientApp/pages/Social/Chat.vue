@@ -3,9 +3,9 @@
   <!--I had No idea How to Handle Height Correctly. Open To Contribute :D-->
   <div :class="$fetchState.pending?'loading-skeleton':''" class="row ">
     <div class="d-lg-block d-none ">
-      <div class="row bg-white rounded shadow" >
+      <div class="row bg-white rounded shadow tw-min-h-screen" >
         <!--Desktop Chat-->
-        <div class="col-md-3 " style="border-left: solid 1px lightgrey !important">
+        <div class="col-md-3  " style="border-left: solid 1px lightgrey !important">
           <div class="row">
             <div class="col-md-12 border-bottom pb-2 my-2">
               <input type="search" v-model="Search" class="SearchStyle tw-shadow" placeholder="جستجو">
@@ -13,14 +13,14 @@
             <!--SideBar Desktop For Chat Items. It Takes One UserData Prop With Local Search Command-->
             <div v-if="FilteredChats.length>0" v-for="(item,idx) in FilteredChats" @click="SetActiveUser(item)"
                  :class="GetActiveChatClass(item)" :key="idx"  class="col-md-12 profile_item">
-              <ProfileItem :UserData="item"/>
+              <LazyProfileItem :UserData="item"/>
             </div>
           </div>
         </div>
         <!--Desktop Main Chat-->
-        <div class="col-md-9 px-0" style="background: url('/chat-bg.jpg') no-repeat center;background-size: cover">
+        <div class="col-md-9  px-0" style="background: url('/chat-bg.jpg') no-repeat center;background-size: cover">
           <!--It Returns One Event => GoBack Removes EveryThing From Current Chat, ChatSelected Boolean Is Required For Handling Show/Hide Chat-->
-          <DesktopChat class="w-100 h-100"   @GoBack="RemoveChatData" v-if="ChatSelected" :ActiveUser="ActiveUser"></DesktopChat>
+          <LazyDesktopChat class="w-100 h-100"   @GoBack="RemoveChatData" v-if="ChatSelected" :ActiveUser="ActiveUser"></LazyDesktopChat>
           <div   class="d-flex align-items-center justify-content-center w-100 h-100 " v-if="!ChatSelected">
             <span class="text-secondary">مکالمه ای انتخاب نشده است</span>
           </div>
@@ -39,7 +39,7 @@
 
         <div v-if="FilteredChats.length>0" v-for="(item,idx) in FilteredChats" :key="idx" @click="SetActiveUser(item)"
              :class="GetActiveChatClass(item)" class="col-md-12 profile_item">
-          <ProfileItem :UserData="item"/>
+          <LazyProfileItem :UserData="item"/>
         </div>
         <div v-if="FilteredChats.length===0" class="col-md-12 d-flex align-items-center justify-content-center mt-2">
           <small class="text-warning">مکالمه ای با این مشخصات یافت نشد</small>
@@ -48,24 +48,17 @@
 
     </div>
     <!--It Returns One Event => GoBack Removes EveryThing From Current Chat, ChatSelected Boolean Is Required For Handling Show/Hide Chat-->
-    <MainChatData class="d-lg-none d-block"  @GoBack="RemoveChatData" v-if="ChatSelected" :ActiveUser="ActiveUser"></MainChatData>
+    <LazyMainChatData class="d-lg-none d-block"  @GoBack="RemoveChatData" v-if="ChatSelected" :ActiveUser="ActiveUser"></LazyMainChatData>
   </div>
 
 </template>
 
 <script>
-import EditIcon from "../../components/Icons/EditIcon";
-import ProfileItem from "../../components/Chat/ProfileItem";
-import MyMessageItem from "../../components/Chat/MyMessageItem";
-import ContactMessageItem from "../../components/Chat/ContactMessageItem";
 import {mapGetters} from "vuex";
-import MainChatData from "../../components/MainChatData";
-import DesktopChat from "@/components/Chat/DesktopChat";
 
 export default {
   name: "chat",
   layout: "PoshtebamPlusLayout",
-  components: {ContactMessageItem,DesktopChat, MyMessageItem, ProfileItem, EditIcon, MainChatData},
   data() {
     return {
       SearchConversation: "",
@@ -114,6 +107,13 @@ export default {
 
   },
   methods: {
+    scrollToBottom(){
+
+      if(this.ChatData.length>0 && this.$refs.ChatContainer){
+
+        this.$refs.ChatContainer.scrollTop = this.$refs.ChatContainer.scrollHeight
+      }
+    },
     // Main Methods
     async GetMenu() {
 

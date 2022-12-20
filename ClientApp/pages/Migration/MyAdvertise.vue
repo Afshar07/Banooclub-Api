@@ -48,7 +48,7 @@
           </div>
 
           <button v-tooltip="{content:'ثبت آگهی'}" @click="$router.push('/Migration/CreateAdvertise')" class="btn AddReplyBtn text-white">
-            <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+            <LazyPlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
           </button>
         </div>
       </div>
@@ -110,13 +110,13 @@
             <div class="col-md-6 pt-4">
               <div class="d-flex align-items-center gap-2">
                 <small>وضعیت :  </small>
-                <small v-if="item.status === 1" class="badge bg-LightGreen"
+                <small v-if="item.status === 1" class="badge ShadowPrice bg-LightGreen"
                 >منتشر شده</small
                 >
-                <small v-if="item.status === 2" class="badge bg-secondary"
+                <small v-if="item.status === 2" class="badge ShadowPrice bg-secondary"
                 >تایید نشده</small
                 >
-                <small v-if="item.status === 3" class="badge bg-danger"
+                <small v-if="item.status === 3" class="badge ShadowPrice bg-danger"
                 >رد شده
                 </small>
               </div>
@@ -164,7 +164,7 @@
             <div class="col-md-6 d-flex align-items-center justify-content-center justify-content-md-start">
               <img
                 v-if="item.photos.length > 0"
-                :src="'https://banooclubapi.simagar.com/'+ item.photos[0].base64"
+                :src="'https://subapi.banoclub.com/'+ item.photos[0].base64"
                 class="tw-w-full tw-h-[7rem] rounded tw-object-cover"
                 alt=""
               />
@@ -188,11 +188,9 @@
 </template>
 
 <script>
-import PlusIcon from "@/components/Icons/PlusIcon";
 export default {
   layout: "PoshtebamPlusLayout",
   name: "Advertises",
-  components:{PlusIcon},
   data() {
     return {
       UserAds: "",
@@ -295,4 +293,5 @@ export default {
     max-height: 13rem;
   }
 }
+
 </style>

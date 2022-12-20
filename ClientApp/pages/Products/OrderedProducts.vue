@@ -123,7 +123,7 @@
   </div>
   <div v-if="SelectedService!==null && ServiceMembers===null"
        class="col-md-12 d-flex align-items-center justify-content-center">
-    <Spinner></Spinner>
+    <LazySpinner></LazySpinner>
   </div>
   <div v-if="SelectedUser!==null" class="col-md-12 my-3  bg-white p-3 ">
     <div class="row">
@@ -165,19 +165,11 @@
 </template>
 
 <script>
-import PlusIcon from "../../components/Icons/PlusIcon";
-import {data} from "autoprefixer";
-import ChargeWalletSideNav from "../../components/ChargeWalletSideNav";
-import Spinner from "../../components/Spinner";
 
 export default {
   name: "index",
   layout: "PoshtebamPlusLayout",
-  components: {
-    ChargeWalletSideNav,
-    PlusIcon,
-    Spinner
-  },
+
   head() {
     return {
       bodyAttrs: {

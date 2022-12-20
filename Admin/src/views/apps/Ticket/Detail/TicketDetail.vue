@@ -42,7 +42,7 @@
                 <b-avatar
                     v-if="Tickets!== null && Tickets[0].userInfo"
                     size="36"
-                    :src="`https://banooclubapi.simagar.com/${Tickets[0].userInfo.selfieFileData}`"
+                    :src="`https://subapi.banoclub.com/${Tickets[0].userInfo.selfieFileData}`"
                     class="mr-1 cursor-pointer badge-minimal"
                 />
 
@@ -101,7 +101,7 @@
                 v-if="admin!==null && Tickets!== null && Tickets[0].userInfo"
                 v-for="Ticket in Tickets"
                 :chat-data="Ticket"
-                :profile-user-avatar="`https://banooclubapi.simagar.com/${Tickets[0].userInfo.selfieFileData}`"
+                :profile-user-avatar="`https://subapi.banoclub.com/${Tickets[0].userInfo.selfieFileData}`"
                 :admin="admin"
                 :user="user"
             />

@@ -10,7 +10,7 @@
           <div class="position-relative">
             <img
               v-if="item.priority === 2"
-              :src="`https://banooclubapi.simagar.com/media/gallery/galleryImages/${item.base64}`"
+              :src="`https://subapi.banoclub.com/media/gallery/galleryImages/${item.base64}`"
               style="object-fit: cover;object-position: center; width: 300px;height: 250px"
               class="rounded"
               alt=""
@@ -20,12 +20,12 @@
               class="rounded w-100"
               style="object-fit: cover;object-position: center;height: 250px"
               controls
-              :src="`https://banooclubapi.simagar.com/media/gallery/galleryVideos/${item.base64}`"
+              :src="`https://subapi.banoclub.com/media/gallery/galleryVideos/${item.base64}`"
             ></video>
             <!--            </a>-->
           </div>
         </div>
-        <div class="row mb-3" v-if="photos.length === 0">
+        <div class="row mb-3 bg-white tw-rounded-xl p-2" v-if="photos.length === 0">
           <div class="col-12 text-warning fw-bold text-center">
             هیچ عکسی برای نمایش وجود ندارد
           </div>

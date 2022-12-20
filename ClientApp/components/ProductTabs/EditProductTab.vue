@@ -18,42 +18,41 @@
             <div class="row">
 
 
-                  <div class="col-md-12">
-                    <small>نوع تخفیف : </small>
-                    <select class="form-control" placeholder="نوع تخفیف را انتخاب کنید" v-model="Discount.type">
-                      <option disabled selected>نوع تخفیف را انتخاب کنید</option>
-                      <option :value="1">درصدی</option>
-                      <option :value="2">عددی</option>
-                    </select>
-                  </div>
-                  <div class="col-md-12 my-3">
-                    <small>مقدار تخفیف</small>
-                    <input type="number" maxlength="10" class="form-control with-border" v-model="Discount.value" placeholder="مقدار تخفیف را وارد کنید">
-                  </div>
-                  <div class="col-md-12">
-                    <small>تاریخ اتمام تخفیف</small>
-                    <client-only>
-                      <date-picker
-                        format="YYYY-MM-DD HH:MM"
-                        display-format="jYYYY-jMM-jDD HH:MM"
-                        v-model="Discount.expireDate"
-                        type="date"
-                      />
-                    </client-only>
-                  </div>
-                  <!--                <div class="col-md-3">-->
-                  <!--                  <small>تاریخ شروع تخفیف</small>-->
-                  <!--                  <client-only>-->
-                  <!--                    <date-picker-->
-                  <!--                      format="YYYY-MM-DD"-->
-                  <!--                      display-format="jYYYY-jMM-jDD"-->
-                  <!--                      v-model="Discount.startDate"-->
-                  <!--                      type="date"-->
-                  <!--                    />-->
-                  <!--                  </client-only>-->
-                  <!--                </div>-->
-
-
+              <div class="col-md-12">
+                <small>نوع تخفیف : </small>
+                <select class="form-control" placeholder="نوع تخفیف را انتخاب کنید" v-model="Discount.type">
+                  <option disabled selected>نوع تخفیف را انتخاب کنید</option>
+                  <option :value="1">درصدی</option>
+                  <option :value="2">عددی</option>
+                </select>
+              </div>
+              <div class="col-md-12 my-3">
+                <small>مقدار تخفیف</small>
+                <input type="number" maxlength="10" class="form-control with-border" v-model="Discount.value"
+                       placeholder="مقدار تخفیف را وارد کنید">
+              </div>
+              <div class="col-md-12">
+                <small>تاریخ اتمام تخفیف</small>
+                <client-only>
+                  <date-picker
+                    format="YYYY-MM-DD HH:MM"
+                    display-format="jYYYY-jMM-jDD HH:MM"
+                    v-model="Discount.expireDate"
+                    type="date"
+                  />
+                </client-only>
+              </div>
+              <!--                <div class="col-md-3">-->
+              <!--                  <small>تاریخ شروع تخفیف</small>-->
+              <!--                  <client-only>-->
+              <!--                    <date-picker-->
+              <!--                      format="YYYY-MM-DD"-->
+              <!--                      display-format="jYYYY-jMM-jDD"-->
+              <!--                      v-model="Discount.startDate"-->
+              <!--                      type="date"-->
+              <!--                    />-->
+              <!--                  </client-only>-->
+              <!--                </div>-->
 
 
             </div>
@@ -66,7 +65,8 @@
             >
               بستن
             </button>
-            <button @click="AddDiscount" type="button" class="bg-pink p-2 text-white rounded shadow tw-cursor-pointer" data-bs-dismiss="modal">
+            <button @click="AddDiscount" type="button" class="bg-pink p-2 text-white rounded shadow tw-cursor-pointer"
+                    data-bs-dismiss="modal">
               ایجاد تخفیف
             </button>
           </div>
@@ -102,7 +102,8 @@
               </div>
               <div class="col-md-12 my-3">
                 <small>مقدار تخفیف</small>
-                <input type="number" maxlength="10" class="form-control with-border" v-model="serviceDetailProp.discount.value" placeholder="مقدار تخفیف را وارد کنید">
+                <input type="number" maxlength="10" class="form-control with-border"
+                       v-model="serviceDetailProp.discount.value" placeholder="مقدار تخفیف را وارد کنید">
               </div>
               <div class="col-md-12">
                 <small>تاریخ اتمام تخفیف</small>
@@ -128,15 +129,15 @@
               <!--                </div>-->
 
 
-
-
             </div>
           </div>
           <div class="modal-footer">
-            <button @click="UpdateDiscount" type="button" class="bg-pink p-2 text-white rounded shadow tw-cursor-pointer" data-bs-dismiss="modal">
+            <button @click="UpdateDiscount" type="button"
+                    class="bg-pink p-2 text-white rounded shadow tw-cursor-pointer" data-bs-dismiss="modal">
               بروزرسانی
             </button>
-            <button @click="DeleteDiscount" type="button" class="bg-purple p-2 text-white rounded shadow tw-cursor-pointer" data-bs-dismiss="modal">
+            <button @click="DeleteDiscount" type="button"
+                    class="bg-purple p-2 text-white rounded shadow tw-cursor-pointer" data-bs-dismiss="modal">
               حذف
             </button>
             <button
@@ -156,11 +157,13 @@
     <div v-if="serviceDetailProp" class="row px-5">
       <div class="col-md-6 col-12 pt-3">
         <label>عنوان خدمت *</label>
-        <input v-model="serviceDetailProp.title" type="text" class=" FormInputs with-border" placeholder="آموزش اکستنشن مژه">
+        <input v-model="serviceDetailProp.title" type="text" class=" FormInputs with-border"
+               placeholder="آموزش اکستنشن مژه">
       </div>
       <div class="col-md-6 col-12 pt-3">
         <label>دسته بندی خدمت *</label>
-        <select v-model="serviceDetailProp.serviceCategoryId" class="form-select FormInputs" aria-label="Default select example">
+        <select v-model="serviceDetailProp.serviceCategoryId" class="form-select FormInputs"
+                aria-label="Default select example">
           <option :value="null">دسته بندی خدمت</option>
           <option v-for="(service_category,idx) in categories" :key="idx" :value="service_category.serviceCategoryId">
             {{ service_category.title }}
@@ -216,36 +219,75 @@
       </div>
       <div class="col-12 py-3">
         <div class="labelText">موقعیت روی نقشه</div>
-        <div class="my-3" id="map-wrap" >
+        <div class="my-3" id="map-wrap">
 
-           <SetLocation @getGeoLocation="SetLcoation"  :defaultMarkerGeoLoc="[serviceDetailProp.latitude,serviceDetailProp.longitude]"  :defaultGeoLoc="[serviceDetailProp.latitude,serviceDetailProp.longitude]"></SetLocation>
+          <SetLocation @getGeoLocation="SetLcoation"
+                       :defaultMarkerGeoLoc="[serviceDetailProp.latitude,serviceDetailProp.longitude]"
+                       :defaultGeoLoc="[serviceDetailProp.latitude,serviceDetailProp.longitude]"></SetLocation>
 
         </div>
       </div>
 
       <div class="col-md-6 col-12 pt-3">
         <label>شماره موبایل *</label>
-        <input v-model="serviceDetailProp.mobile" type="text" class=" FormInputs with-border" placeholder="شماره همراه با صفر">
+        <input v-model="serviceDetailProp.mobile" type="text" class=" FormInputs with-border"
+               placeholder="شماره همراه با صفر">
       </div>
       <div class="col-md-6 col-12 pt-3">
         <label>شماره تلفن 1</label>
-        <input v-model="serviceDetailProp.phoneNumber1" type="text" class=" FormInputs with-border" placeholder="شماره تلفن">
+        <input v-model="serviceDetailProp.phoneNumber1" type="text" class=" FormInputs with-border"
+               placeholder="شماره تلفن">
       </div>
       <div class="col-md-6 col-12 pt-3">
         <label>شماره تلفن 2</label>
-        <input v-model="serviceDetailProp.phoneNumber2" type="text" class=" FormInputs with-border" placeholder="شماره تلفن">
+        <input v-model="serviceDetailProp.phoneNumber2" type="text" class=" FormInputs with-border"
+               placeholder="شماره تلفن">
       </div>
 
       <div class="col-md-6 col-12 pt-3">
         <label>ایمیل</label>
         <input v-model="serviceDetailProp.email" type="text" class=" FormInputs with-border" placeholder="ایمیل">
       </div>
+      <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
+        <label class="mb-3">تاریخ شروع خدمت (اختیاری)</label>
+        <client-only>
+          <date-picker
+            format="YYYY-MM-DD"
+            display-format="jYYYY-jMM-jDD"
+            v-model="serviceDetailProp.startDate"
+            inputClass="vpd-input-group1"
+            type="date"
+          />
+        </client-only>
+      </div>
+      <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
+        <label class="mb-3">تاریخ انقضاء خدمت</label>
+        <client-only>
+          <date-picker
+            format="YYYY-MM-DD"
+            display-format="jYYYY-jMM-jDD"
+            inputClass="vpd-input-group1"
+            v-model="serviceDetailProp.expireDate"
+            type="date"
+          />
+        </client-only>
+      </div>
+      <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
+        <label>ظرفیت</label>
+        <input maxlength="11" v-model="serviceDetailProp.quantity" type="number" class="with-border FormInputs"
+               placeholder="ظرفیت خدمت">
+      </div>
       <div class="col-md-12 col-12 pt-3">
         <div class="labelText">
           هشتگ های خدمت
         </div>
         <div class="my-3">
-          <input v-on:keyup.enter="createTag" v-model="tag" type="text" class=" FormInputs with-border" placeholder="ناخن،مو،رنگ...">
+          <div class="d-flex align-items-center gap-2">
+            <input v-on:keyup.enter="createTag" v-model="tag" type="text" class=" FormInputs with-border">
+
+            <button class="bg-purple text-white p-2 rounded tw-cursor-pointer" @click="createTag">ثبت</button>
+          </div>
+
           <div class="d-flex">
             <div class="back_tags p-1 m-1 d-flex" v-for="(tag,index) in serviceDetailProp.tags" :key="index">
               <button @click="deleteServiceTag(tag.tagId)">
@@ -266,7 +308,8 @@
         </div>
         <div class="d-flex row">
           <div class="py-3 col-lg-2 col-md-3 px-3">
-            <div @click="uploadNewPicture" class="tw-bg-gray-100 tw-border-2 tw-border-dashed tw-flex tw-flex-col tw-h-32 tw-items-center tw-justify-center tw-relative tw-rounded-lg">
+            <div @click="uploadNewPicture"
+                 class="tw-bg-gray-100 tw-border-2 tw-border-dashed tw-flex tw-flex-col tw-h-32 tw-items-center tw-justify-center tw-relative tw-rounded-lg">
               <UploadFileIcon class="tw-fill-[#85ffdd]" style="width: 48px; height: 48px;"/>
             </div>
             <input
@@ -293,7 +336,8 @@
         </div>
         <div class="d-flex row">
           <div class="py-3 col-lg-2 col-md-3 px-3">
-            <div class="tw-bg-gray-100 tw-border-2 tw-border-dashed tw-flex tw-flex-col tw-h-32 tw-items-center tw-justify-center tw-relative tw-rounded-lg">
+            <div
+              class="tw-bg-gray-100 tw-border-2 tw-border-dashed tw-flex tw-flex-col tw-h-32 tw-items-center tw-justify-center tw-relative tw-rounded-lg">
               تصاویر شما
             </div>
           </div>
@@ -302,7 +346,9 @@
             v-for="(image,index) in images_preview"
             :key="index"
           >
-            <img class="tw-rounded-lg tw-h-32" width="100%" :src="`https://banooclubapi.simagar.com/media/gallery/Service/${image.base64}`" :alt="serviceDetailProp.title"
+            <img class="tw-rounded-lg tw-h-32" width="100%"
+                 :src="`https://subapi.banoclub.com/media/gallery/Service/${image.base64}`"
+                 :alt="serviceDetailProp.title"
                  style="object-fit: contain" :class="{BorderGreen:index===0}"/>
             <span class="position-absolute deleteIcon m-3" style="top: 15px" @click="deleteImage(image,index)">
                 <font-awesome-icon icon="trash" color="#85ffdd" size="sm"/>
@@ -316,37 +362,37 @@
         </div>
         <div class="d-flex flex-row row">
           <div class="col-lg-2 col-md-6 py-3 px-3">
-            <div @click="uploadNewPicture" class="tw-bg-gray-100
+            <div @click="uploadNewVideo" class="tw-bg-gray-100
               tw-border-2 tw-border-dashed tw-flex tw-flex-col tw-h-32 tw-items-center
               tw-justify-center tw-relative tw-rounded-lg">
               <UploadFileIcon class="tw-fill-[#85ffdd]" style="width: 48px; height: 48px;"/>
             </div>
             <input
-              ref="file"
+              ref="VideoFile"
               type="file"
-              accept="image/*"
-              multiple="multiple"
+              accept="video/*"
+
               class="form-control-file my-file d-none"
               id="my-file"
-              @change="onFileChange"
+              @change="onFileChangeVideo"
             />
           </div>
           <div
-              class="col-lg-3 col-md-6 d-inline-block photos position-relative px-1 my-3"
-              v-for="(video,index) in serviceVideos"
-              :key="index"
-            >
-              <video
-                width="auto"
-                height="auto"
-                class="w-100 tw-rounded-lg tw-h-32"
-                controls
-                :src="video"
-              ></video>
-              <span class="position-absolute deleteIcon m-3" style="top: 0" @click="deleteVideo(index)">
+            class="col-lg-3 col-md-6 d-inline-block photos position-relative px-1 my-3"
+            v-for="(video,index) in serviceVideos"
+            :key="index"
+          >
+            <video
+              width="auto"
+              height="auto"
+              class="w-100 tw-rounded-lg tw-h-32"
+              controls
+              :src="video.base64"
+            ></video>
+            <span class="position-absolute deleteIcon m-3" style="top: 0" @click="deleteVideo(index)">
                 <font-awesome-icon icon="trash" color="#ff4d4d" size="sm"/>
               </span>
-            </div>
+          </div>
 
         </div>
 
@@ -369,20 +415,24 @@
 
             <div class=" col-md-3 col-sm-12">
               <label>نام ویژگی</label>
-              <input :ref="`Title${idx}`" v-model="property_name" type="text" class=" FormInputs with-border" placeholder="نام ویژگی">
+              <input :ref="`Title${idx}`" v-model="property_name" type="text" class=" FormInputs with-border"
+                     placeholder="نام ویژگی">
             </div>
-            <div  class=" col-md-3 col-sm-12 d-flex flex-column justify-content-end   ">
+            <div class=" col-md-3 col-sm-12 d-flex flex-column justify-content-end   ">
               <div class="d-flex align-items-center justify-content-between">
 
 
                 <small>قیمت ویژگی</small>
                 <div class="d-flex align-items-center gap-2">
                   <small>ویژگی رایگان</small>
-                  <input type="checkbox"  v-model="property_IsFree"  style="width: 20px;height: 20px" class="  form-check">
+                  <input type="checkbox" v-model="property_IsFree" style="width: 20px;height: 20px"
+                         class="  form-check">
                 </div>
               </div>
 
-              <input maxlength="11" :ref="`Price${idx}`" :disabled="property_IsFree" :class="{DisabledInput:property_IsFree}" v-model="property_price" type="number" class=" FormInputs with-border" placeholder="قیمت ویژگی">
+              <input maxlength="11" :ref="`Price${idx}`" :disabled="property_IsFree"
+                     :class="{DisabledInput:property_IsFree}" v-model="property_price" type="number"
+                     class=" FormInputs with-border" placeholder="قیمت ویژگی">
             </div>
             <div class="col-md-3 d-flex align-items-end">
               <button @click="createProperty" type="button" class="bg-pink p-2 rounded text-white tw-cursor-pointer">
@@ -399,10 +449,11 @@
             ویژگی های شما
           </div>
         </div>
-        <div   v-for="(service_property,idx) in serviceDetailProp.properties" :key="idx" class="col-md-12 my-3">
+        <div v-for="(service_property,idx) in serviceDetailProp.properties" :key="idx" class="col-md-12 my-3">
           <div class="row">
             <div class="col-md-1 pb-3 d-flex align-items-end">
-              <i  @click="deleteServiceProperty(service_property.servicePropertyId)" class="fa fa-minus-circle text-danger tw-cursor-pointer"></i>
+              <i @click="deleteServiceProperty(service_property.servicePropertyId)"
+                 class="fa fa-minus-circle text-danger tw-cursor-pointer"></i>
             </div>
             <div class=" col-md-3 col-sm-12">
               <label>نام ویژگی</label>
@@ -415,15 +466,19 @@
                 <small>قیمت ویژگی</small>
                 <div class="d-flex align-items-center gap-2">
                   <small>ویژگی رایگان</small>
-                  <input type="checkbox" :checked="service_property.isFree"  @click="service_property.isFree=!service_property.isFree" style="width: 20px;height: 20px" class="form-check">
+                  <input type="checkbox" :checked="service_property.isFree"
+                         @click="service_property.isFree=!service_property.isFree" style="width: 20px;height: 20px"
+                         class="form-check">
                 </div>
               </div>
 
-              <input maxlength="11" :disabled="service_property.isFree" :class="{DisabledInput:service_property.isFree}" v-model="service_property.price" type="number" class="with-border" placeholder="قیمت ویژگی">
+              <input maxlength="11" :disabled="service_property.isFree" :class="{DisabledInput:service_property.isFree}"
+                     v-model="service_property.price" type="number" class="with-border" placeholder="قیمت ویژگی">
             </div>
 
             <div class="col-md-3 d-flex align-items-center">
-              <button @click="UpdateProperty(service_property)" type="button" class="bg-pink p-2 rounded text-white tw-cursor-pointer mt-auto">
+              <button @click="UpdateProperty(service_property)" type="button"
+                      class="bg-pink p-2 rounded text-white tw-cursor-pointer mt-auto">
                 ویرایش ویژگی
               </button>
             </div>
@@ -478,7 +533,7 @@
           <tr>
             <th
               class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-right">
-              {{serviceDetailProp.discount.discountId}}
+              {{ serviceDetailProp.discount.discountId }}
             </th>
 
             <td
@@ -489,30 +544,33 @@
 
             <td
               class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-right">
-             {{serviceDetailProp.discount.value }}
+              {{ serviceDetailProp.discount.value }}
             </td>
 
             <td
               class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-right">
-              {{ new Date(serviceDetailProp.discount.expireDate).toLocaleDateString('fa-IR')   }}
+              {{ new Date(serviceDetailProp.discount.expireDate).toLocaleDateString('fa-IR') }}
             </td>
 
             <td
               class=" tw-border-gray-200 tw-align-middle tw-font-light tw-text-sm tw-whitespace-nowrap tw-px-2 tw-py-4 tw-text-right">
-              <button  data-bs-target="#EditDiscount" data-bs-toggle="modal" class="btn btn-info btn-sm text-white">ویرایش</button>
+              <button data-bs-target="#EditDiscount" data-bs-toggle="modal" class="btn btn-info btn-sm text-white">
+                ویرایش
+              </button>
             </td>
           </tr>
 
           </tbody>
         </table>
 
-    </div>
+      </div>
       <div class="col-12 py-5 tw-text-left">
         <div class="d-flex align-items-center justify-content-between">
           <button type="button" class="bg-pink p-2 rounded text-white tw-cursor-pointer mt-auto" @click="updateService">
             به روز رسانی خدمت
           </button>
-          <button v-if="serviceDetailProp.discount===null" type="button" class="btn btn-info text-white mt-auto px-2" data-bs-toggle="modal" data-bs-target="#AddDiscount">
+          <button v-if="serviceDetailProp.discount===null" type="button" class="btn btn-info text-white mt-auto px-2"
+                  data-bs-toggle="modal" data-bs-target="#AddDiscount">
             ایجاد تخفیف برای خدمت
           </button>
 
@@ -520,9 +578,6 @@
         </div>
 
       </div>
-
-
-
 
 
     </div>
@@ -539,7 +594,7 @@ import SetLocation from "../../components/SetLocation";
 
 export default {
   name: "EditProductTab",
-  components: {PlusIcon, UploadFileIcon,SetLocation},
+  components: {PlusIcon, UploadFileIcon, SetLocation},
   async fetch() {
     try {
       const res = await this.$repositories.GetAllStates.GetAllStates()
@@ -548,7 +603,7 @@ export default {
       console.log(e)
     }
     this.serviceDetailProp = JSON.parse(JSON.stringify(this.service_details))
-    this.serviceDetailProp.medias=[]
+    this.serviceDetailProp.medias = []
     try {
       const allCategories =
         await this.$repositories.getAllServicesCategory.getAllServicesCategory();
@@ -568,11 +623,11 @@ export default {
   },
   data() {
     return {
-      tag:'',
-      property_price:0,
-      property_name:'',
-      property_IsFree:false,
-      HaveDiscount:false,
+      tag: '',
+      property_price: 0,
+      property_name: '',
+      property_IsFree: false,
+      HaveDiscount: false,
       Discount: {
         type: 0,
         value: 0,
@@ -585,17 +640,17 @@ export default {
       center: [35.757539, 51.409968],
       latlng: [35, 51],
       photos: [],
-      Videos:[],
-      servicePhotos:[],
-      serviceVideos:[],
-      images_preview:[],
+      Videos: [],
+      servicePhotos: [],
+      serviceVideos: [],
+      images_preview: [],
       AllStates: [],
       AllCities: [],
       SelectedCityId: null,
       SelectedStateId: null,
-      new_image_preview:[],
-      is_first_image:false,
-      properties:null,
+      new_image_preview: [],
+      is_first_image: false,
+      properties: null,
       property_count: [],
 
 
@@ -638,69 +693,82 @@ export default {
 
 
     },
-    DeleteDiscount(){
+    DeleteDiscount() {
       try {
         const res = this.$repositories.DeleteDiscount.DeleteDiscount({
-          id:this.serviceDetailProp.discount.discountId,
+          id: this.serviceDetailProp.discount.discountId,
         })
         this.$toast.success('تخفیف با موفقیت حذف شد')
 
         this.$emit('DiscountChanged')
-      }catch (e) {
+      } catch (e) {
         console.log(e)
       }
     },
-    UpdateDiscount(){
-      try {
-        const res = this.$repositories.UpdateDiscount.UpdateDiscount({
-          discountId:this.serviceDetailProp.discount.discountId,
-          expireDate: this.serviceDetailProp.discount.expireDate,
-          type: this.serviceDetailProp.discount.type,
-          value: parseInt(this.serviceDetailProp.discount.value) ,
-          refraction: false,
-          servicePackId: this.serviceDetailProp.discount.servicePackId,
-          startDate: ""
+    UpdateDiscount() {
+      if (this.serviceDetailProp.discount.type === 1 && this.serviceDetailProp.discount.value >= 99) {
+        this.$toast.error('مقدار تخفیف درصدی نمیتواند بیشتر از 99 درصد باشد')
+      } else if (this.serviceDetailProp.discount.type === 2 && this.serviceDetailProp.discount.value >= this.serviceDetailProp.totalPrice) {
+        this.$toast.error('مقدار تخفیف عددی نمیتواند بیشتر از مبلغ کل باشد')
+      } else {
+        try {
+          const res = this.$repositories.UpdateDiscount.UpdateDiscount({
+            discountId: this.serviceDetailProp.discount.discountId,
+            expireDate: this.serviceDetailProp.discount.expireDate,
+            type: this.serviceDetailProp.discount.type,
+            value: parseInt(this.serviceDetailProp.discount.value),
+            refraction: false,
+            servicePackId: this.serviceDetailProp.discount.servicePackId,
+            startDate: ""
 
-        })
-        this.$toast.success('تخفیف با موفقیت بروزرسانی شد')
-        this.$emit('DiscountChanged')
-      }catch (e) {
-        console.log(e)
-      }
-    },
-    AddDiscount(){
-      try {
-        const res = this.$repositories.CreateDiscount.CreateDiscount({
-          expireDate: this.Discount.expireDate,
-          type: this.Discount.type,
-          value: parseInt(this.Discount.value) ,
-          refraction: false,
-          servicePackId: this.service_details.servicePackId,
-          startDate: ""
-
-        })
-        this.$toast.success('تخفیف برای خدمت ساخته شد')
-        this.Discount = {
-          type: 0,
-          value: 0,
-          startDate: '',
-          expireDate: '',
-          refraction: false
+          })
+          this.$toast.success('تخفیف با موفقیت بروزرسانی شد')
+          this.$emit('DiscountChanged')
+        } catch (e) {
+          console.log(e)
         }
-        this.$emit('DiscountChanged')
-      }catch (e) {
-        console.log(e)
       }
     },
-    SetLcoation(lat,lang){
+    AddDiscount() {
+      if (this.Discount.type === 1 && this.Discount.value >= 99) {
+        this.$toast.error('مقدار تخفیف درصدی نمیتواند بیشتر از 99 درصد باشد')
+      } else if (this.Discount.type === 2 && this.Discount.value >= this.serviceDetailProp.totalPrice) {
+        this.$toast.error('مقدار تخفیف عددی نمیتواند بیشتر از مبلغ کل باشد')
+      } else {
+
+        try {
+          const res = this.$repositories.CreateDiscount.CreateDiscount({
+            expireDate: this.Discount.expireDate,
+            type: this.Discount.type,
+            value: parseInt(this.Discount.value),
+            refraction: false,
+            servicePackId: this.service_details.servicePackId,
+            startDate: ""
+
+          })
+          this.$toast.success('تخفیف برای خدمت ساخته شد')
+          this.Discount = {
+            type: 0,
+            value: 0,
+            startDate: '',
+            expireDate: '',
+            refraction: false
+          }
+          this.$emit('DiscountChanged')
+        } catch (e) {
+          console.log(e)
+        }
+      }
+    },
+    SetLcoation(lat, lang) {
       this.serviceDetailProp.latitude = lat
       this.serviceDetailProp.longitude = lang
     },
-    async createProperty(){
-      if(this.property_name === ''){
+    async createProperty() {
+      if (this.property_name === '') {
         this.$toast.error("لطفا نام ویژگی را وارد کنید");
       } else {
-        if(this.property_IsFree){
+        if (this.property_IsFree) {
           this.property_price = 0
         }
         this.$nuxt.$loading.start();
@@ -709,37 +777,36 @@ export default {
             serviceId: this.serviceDetailProp.servicePackId,
             name: this.property_name,
             price: this.property_price,
-            isFree:this.property_IsFree
+            isFree: this.property_IsFree
           })
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
           this.$toast.success("ویژگی با موفقیت ثبت شد");
           this.$nuxt.refresh();
-        }catch (error){
+        } catch (error) {
           console.log(error);
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
         }
       }
     },
-    async createTag(){
-      if(this.tag === ''){
+    async createTag() {
+      if (this.tag === '') {
         this.$toast.error("لطفا نام تگ را وارد کنید");
-      }
-      else {
+      } else {
         this.$nuxt.$loading.start();
         try {
           await this.$repositories.createAServiceTag.createAServiceTag({
             objectId: this.serviceDetailProp.servicePackId,
             title: this.tag,
-            type:1,
+            type: 1,
           })
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
           this.$toast.success("هشتگ با موفقیت ثبت شد");
           this.$nuxt.refresh();
           this.tag = '';
-        }catch (error){
+        } catch (error) {
           console.log(error);
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
@@ -750,14 +817,14 @@ export default {
       this.property_count.splice(index, 1)
     },
     increasePropertyCount() {
-          if(this.property_count.length>0){
-            this.$toast.error('یک ویژگی در آن واحد میتوانید اضافه کنید')
-          }else{
+      if (this.property_count.length > 0) {
+        this.$toast.error('یک ویژگی در آن واحد میتوانید اضافه کنید')
+      } else {
 
-      this.property_count.push('property')
-          }
+        this.property_count.push('property')
+      }
     },
-    UpdateProperty(item){
+    UpdateProperty(item) {
       try {
         const res = this.$repositories.updateAServiceProperty.updateAServiceProperty({
 
@@ -772,7 +839,7 @@ export default {
         })
         this.$emit('RefetchService')
         this.$toast.success('ویژگی با موفقیت ویرایش شد')
-      }catch (e) {
+      } catch (e) {
         console.log(e)
       }
     },
@@ -804,27 +871,27 @@ export default {
         if (item.priority === 1 || item.priority === 2) {
           this.images_preview.push(item)
         }
-        if(item.priority === 3){
+        if (item.priority === 3) {
           this.serviceVideos.push(item)
         }
       })
     },
-    deleteNewImage(index){
-      this.new_image_preview.splice(index,1)
-      this.serviceDetailProp.medias.splice(index,1)
+    deleteNewImage(index) {
+      this.new_image_preview.splice(index, 1)
+      this.serviceDetailProp.medias.splice(index, 1)
 
     },
-    deleteImage(item,index) {
+    deleteImage(item, index) {
       this.serviceDetailProp.medias.push(
         {
-          base64:item.base64,
-          priority:0
+          base64: item.base64,
+          priority: 0
         }
       )
-      if(this.images_preview[index].priority === 1){
+      if (this.images_preview[index].priority === 1) {
         this.is_first_image = true
       }
-      this.images_preview.splice(index,1)
+      this.images_preview.splice(index, 1)
     },
 
     addMarker(event) {
@@ -834,37 +901,31 @@ export default {
     uploadNewPicture() {
       this.$refs.picture_file.click();
     },
-    onFileChange(e) {
-
-      this.is_first_image = false
+    uploadNewVideo() {
+      this.$refs.VideoFile.click();
+    },
+    onFileChangeVideo() {
       const that = this;
       const f = [];
       that.Uploaded = true;
-      Array.prototype.forEach.call(this.$refs.picture_file.files, (element) => {
-        if(this.new_image_preview.length + this.images_preview.length >= 10){
-          this.$toast.error('بیشتر از 10 عکس نمیتوانید بارگذاری کنید')
-        }else if(element.size > 512000){
-          this.$toast.error('اندازه عکس نمیتواند بیشتر از 512 کیلوبایت باشد')
-        }
-        else {
-          f.push(element);
+      Array.prototype.forEach.call(this.$refs.VideoFile.files, (element) => {
+        if (element.duration > 120000) {
+          this.$toast.error('زمان ویدئو بارگذاری شده باید کمتر از 2 دقیقه باشد')
+        } else {
+          f.push(element)
         }
       });
       f.forEach((element) => {
-
-        if(that.images_preview.length===0 && that.new_image_preview.length===0){
-
-          this.is_first_image = true
-          this.new_image_preview.push({
-            base64:URL.createObjectURL(element),
-            priority:1
+        if (that.serviceVideos.length === 0 && that.serviceVideos.length === 0) {
+          this.serviceVideos.push({
+            base64: URL.createObjectURL(element),
+            priority: 3
           });
-        }
-        else{
+        } else {
 
-          that.new_image_preview.push({
-            base64:URL.createObjectURL(element),
-            priority:2
+          that.serviceVideos.push({
+            base64: URL.createObjectURL(element),
+            priority: 3
           });
         }
 
@@ -872,18 +933,72 @@ export default {
         reader.onload = (function (theFile) {
           return function () {
             const binaryData = reader.result;
-            if(that.is_first_image){
+            that.serviceDetailProp.medias.push({
+                base64: window.btoa(binaryData),
+                priority: 3
+              }
+            );
+          };
+        })(f);
+
+        reader.readAsBinaryString(element);
+        // this.BaseVideos.push(URL.createObjectURL(element));
+        // const reader = new FileReader();
+        // reader.onload = (function (theFile) {
+        //   return function () {
+        //     const binaryData = reader.result;
+        //     that.Videos.push(window.btoa(binaryData));
+        //   };
+        // })(f);
+        // reader.readAsBinaryString(element);
+      });
+    },
+    onFileChange(e) {
+      this.is_first_image = false
+      const that = this;
+      const f = [];
+      that.Uploaded = true;
+      Array.prototype.forEach.call(this.$refs.picture_file.files, (element) => {
+        if (this.new_image_preview.length + this.images_preview.length >= 10) {
+          this.$toast.error('بیشتر از 10 عکس نمیتوانید بارگذاری کنید')
+        } else if (element.size > 512000) {
+          this.$toast.error('اندازه عکس نمیتواند بیشتر از 512 کیلوبایت باشد')
+        } else {
+          f.push(element);
+        }
+      });
+      f.forEach((element) => {
+
+        if (that.images_preview.length === 0 && that.new_image_preview.length === 0) {
+
+          this.is_first_image = true
+          this.new_image_preview.push({
+            base64: URL.createObjectURL(element),
+            priority: 1
+          });
+        } else {
+
+          that.new_image_preview.push({
+            base64: URL.createObjectURL(element),
+            priority: 2
+          });
+        }
+
+        const reader = new FileReader();
+        reader.onload = (function (theFile) {
+          return function () {
+            const binaryData = reader.result;
+            if (that.is_first_image) {
 
               that.serviceDetailProp.medias.push({
                   base64: window.btoa(binaryData),
-                  priority:1
+                  priority: 1
                 }
               );
-            }
-            else {
+            } else {
               that.serviceDetailProp.medias.push({
                   base64: window.btoa(binaryData),
-                  priority:2
+                  priority: 2
                 }
               );
             }
@@ -896,14 +1011,13 @@ export default {
     },
 
     async updateService() {
-      if(this.serviceDetailProp.medias.length===0 && this.images_preview.length===0){
+      if (this.serviceDetailProp.medias.length === 0 && this.images_preview.length === 0) {
 
         this.$toast.error('حداقل یک عکس بارگذاری کنید')
-      }
-      else {
+      } else {
         this.$nuxt.$loading.start();
         let result = 0
-        if(this.properties !== null){
+        if (this.properties !== null) {
           this.properties.forEach((element) => {
             result += parseInt(element.price)
           })
@@ -915,7 +1029,7 @@ export default {
           this.$nuxt.loading = false;
           this.$nuxt.refresh();
           this.$toast.success("خدمت با موفقیت ویرایش شد");
-          this.$router.push({path: `/Products/Upgrade/${res.data.servicePackId}`, query: { active_tab: 'preview' }});
+          this.$router.push({path: `/Products/Upgrade/${res.data.servicePackId}`, query: {active_tab: 'preview'}});
 
 
         } catch (error) {
@@ -948,7 +1062,7 @@ export default {
 
 }
 
-.vpd-input-group input{
-  background-color: #faf7ff!important;
+.vpd-input-group input {
+  background-color: #faf7ff !important;
 }
 </style>

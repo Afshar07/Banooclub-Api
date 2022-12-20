@@ -12,7 +12,7 @@
       :isChatLayout="false"
       :decrease_width="decrease_width"
     />
-    <TheSideNav :show="displaySideNav" @close="displaySideNav = false" />
+    <TheSideNav  :show="displaySideNav" @close="displaySideNav = false" />
 
 
     <div

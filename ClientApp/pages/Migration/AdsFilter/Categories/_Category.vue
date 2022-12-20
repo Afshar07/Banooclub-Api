@@ -9,15 +9,15 @@
           v-model="searchKey"
         />
         <div class="row">
-          <Spinner v-if="$fetchState.pending"></Spinner>
+          <LazySpinner v-if="$fetchState.pending"></LazySpinner>
           <div v-if="categories.length>0"  class="col-xl-3 my-3 col-sm-12 my-2 col-md-4" v-for="(category,idx) in categories" :key="idx">
-            <adsCategoryItem :category_details="category"/>
+            <LazyadsCategoryItem :category_details="category"/>
           </div>
           <div v-else class="tw-flex tw-items-center tw-justify-center">
             <span class="text-secondary">داده ای برای نمایش وجود ندارد</span>
           </div>
           <div v-if="AllAds.length>0"  class="col-xl-3 my-2  col-sm-12 col-md-4" v-for="item in AllAds">
-            <AdItem :AdsDetail="item" />
+            <LazyAdItem :AdsDetail="item" />
           </div>
           <div v-else class="tw-flex tw-items-center tw-justify-center">
             <span class="text-secondary">داده ای برای نمایش وجود ندارد</span>
@@ -30,13 +30,9 @@
 </template>
 
 <script>
-import adsCategoryItem from "@/components/Categories/adsCategoryItem";
-import AdItem from "@/components/Ads/AdItem";
-import Spinner from "@/components/Spinner";
 export default {
   name: "Categories",
   layout:'PoshtebamPlusLayout',
-  components:{AdItem,adsCategoryItem,Spinner},
   data(){
     return{
       categories:[],

@@ -9,9 +9,9 @@
         </div>
       </div>
 
-      <button v-tooltip="{content:'ثبت خدمت'}" @click="$router.push('/Products/AddProduct')"
+      <button v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3" v-tooltip="{content:'ثبت خدمت'}" @click="$router.push('/Products/AddProduct')"
               class="btn AddReplyBtn text-white">
-        <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+        <LazyPlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
       </button>
     </div>
     <div class="bg-white tw-shadow rounded my-3 p-3">
@@ -36,12 +36,12 @@
              aria-labelledby="products-pills-home-tab">
           <div class="row boxMainContent mx-auto">
             <div class="col-12 text-center ">
-              <AllServicesTabContent :Categories="categories"/>
+              <LazyAllServicesTabContent :Categories="categories"/>
             </div>
           </div>
         </div>
         <div class="tab-pane fade " id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-          <FirstTabContent @RefetchServices="GetAllServices" :AllServices="AllServicesFirstTab"
+          <LazyFirstTabContent @RefetchServices="GetAllServices" :AllServices="AllServicesFirstTab"
                            :categories="categories"/>
         </div>
       </div>
@@ -54,29 +54,16 @@
 </template>
 
 <script>
-import ProductItem from "../../components/Products/ProductItem";
-import ChevronRightIcon from "../../components/Icons/RightChevronIcon";
-import ChevronLeftIcon from "../../components/Icons/LeftChevronIcon";
-import RightChevronIcon from "../../components/Icons/RightChevronIcon";
-import LeftChevronIcon from "../../components/Icons/LeftChevronIcon";
-import FirstTabContent from "../../components/Products/FirstTabContent";
 
-import PlusIcon from "@/components/Icons/PlusIcon";
-import AllServicesTabContent from "../../components/Products/AllServicesTabContent";
+
+
+
+
 
 export default {
   name: "index",
   layout: "PoshtebamPlusLayout",
-  components: {
-    AllServicesTabContent,
-    FirstTabContent,
-    LeftChevronIcon,
-    RightChevronIcon,
-    PlusIcon,
-    ChevronLeftIcon,
-    ChevronRightIcon,
-    ProductItem,
-  },
+
   head() {
     return {
       title: 'همه خدمات',

@@ -28,10 +28,10 @@
       <div class="d-flex align-items-center gap-2">
 
       <button v-tooltip="{content:'افزودن تالار جدید'}" @click="$router.push('/Forums/AddForum')" class="btn AddReplyBtn text-white">
-        <PlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
+        <LazyPlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
       </button>
       <button v-tooltip="{content:'گزارش تالار'}" data-bs-toggle="modal" data-bs-target="#ReportForum" class="btn AddReplyBtn text-white">
-        <ExclamationMarkIcon fill="#ff6f9e" style="width: 37px; height: 37px;"/>
+        <LazyExclamationMarkIcon fill="#ff6f9e" style="width: 37px; height: 37px;"/>
       </button>
       </div>
 
@@ -86,13 +86,13 @@
                 <div class="d-flex align-items-center tw-mt-3" style="height: 40px;">
                   <div class="d-flex px-3">
                     <a target="_blank" :href="`https://telegram.me/share/url?url=${site_url+$route.fullPath}`">
-                      <TelegramIcon style="width: 20px; height: 20px;"/>
+                      <LazyTelegramIcon style="width: 20px; height: 20px;"/>
                     </a>
                     <a target="_blank" :href="`https://api.whatsapp.com/send?text=${site_url+$route.fullPath}`">
-                      <WhatsappIcon  style="width: 20px; height: 20px;"/>
+                      <LazyWhatsappIcon  style="width: 20px; height: 20px;"/>
                     </a>
                     <a target="_blank" :href="`https://www.facebook.com/sharer.php?u=${site_url+$route.fullPath}`">
-                      <InstagramIcon style="width: 20px; height: 20px;"/>
+                      <LazyInstagramIcon style="width: 20px; height: 20px;"/>
                     </a>
                   </div>
 
@@ -136,23 +136,7 @@
                     <p class="tw-mt-1 p-1" style="font-size: 13px;overflow-wrap: anywhere">
                       {{comment.text}}
                     </p>
-<!--                    <div class="d-flex justify-content-between">-->
-<!--                      <div class="d-flex px-3 mt-2">-->
-<!--                        <a target="_blank" :href="`https://telegram.me/share/url?url=${site_url+$route.fullPath}`">-->
-<!--                          <TelegramIcon style="width: 20px; height: 20px;"/>-->
-<!--                        </a>-->
-<!--                        <a target="_blank" :href="`https://api.whatsapp.com/send?text=${site_url+$route.fullPath}`">-->
-<!--                          <WhatsappIcon  style="width: 20px; height: 20px;"/>-->
-<!--                        </a>-->
-<!--                        <a target="_blank" :href="`https://www.facebook.com/sharer.php?u=${site_url+$route.fullPath}`">-->
-<!--                          <InstagramIcon style="width: 20px; height: 20px;"/>-->
-<!--                        </a>-->
-<!--                      </div>-->
-<!--                      &lt;!&ndash;                    <button type="button" class="button p-2" style="font-size: 12px; height: 28px">&ndash;&gt;-->
-<!--                      &lt;!&ndash;                      دنبال کردن&ndash;&gt;-->
-<!--                      &lt;!&ndash;                    </button>&ndash;&gt;-->
 
-<!--                    </div>-->
                   </div>
                 </div>
               </div>
@@ -161,7 +145,7 @@
           </ul>
         </div>
       </div>
-      <TopCommenters></TopCommenters>
+      <LazyTopCommenters></LazyTopCommenters>
 
     </div>
   </div>
@@ -171,16 +155,9 @@
 </template>
 
 <script>
-import TelegramIcon from "../../components/Icons/TelegramIcon";
-import WhatsappIcon from "../../components/Icons/WhatsappIcon";
-import InstagramIcon from "../../components/Icons/InstagramIcon";
-import TopCommenters from '../../components/Forums/TopCommenters';
-import PlusIcon from "@/components/Icons/PlusIcon";
-import ExclamationMarkIcon from "@/components/Icons/ExclamationMarkIcon";
 export default {
   name: "ForumDetail",
 
-  components: {InstagramIcon, WhatsappIcon, ExclamationMarkIcon,TelegramIcon,TopCommenters,PlusIcon},
   layout: "PoshtebamPlusLayout",
   head(){
     return{

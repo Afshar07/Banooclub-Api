@@ -1,6 +1,6 @@
 <template>
   <transition name="modal">
-    <div v-if="is_modal_open" class="tw-modal tw-modal-open tw-bg-transparent" @click="closeRegisterModal">
+    <div v-if="is_modal_open" class="tw-modal tw-modal-open " style="background: rgba(1,1,1,0.2)" @click="closeRegisterModal">
       <div class="tw-container tw-mx-auto tw-w-11/12 tw-z-[99999]">
         <div style="overflow-x: hidden!important;"
              class=" tw-bg-white tw-modal-box tw-max-w-max tw-p-0 tw-w-full tw-mx-auto tw-rounded-xl tw-shadow-2xl tw-p-0"
@@ -154,7 +154,7 @@ export default {
           this.$auth.strategy.token.set(response.data.token)
           this.$auth.setUser(response.data.user)
           this.$auth.fetchUser()
-          this.$router.push('/social')
+          this.$router.push('/social/accountsetting/MyPage')
         }
 
       } catch (error) {
@@ -168,6 +168,7 @@ export default {
         this.payload[key] = payload[key]
       })
       this.ActiveComponent=3
+      console.log(this.payload)
     },
     setSignUpPayload(payload) {
       Object.keys(payload).forEach(key => {
@@ -218,8 +219,8 @@ export default {
 <style scoped>
 .TabActive {
   background: white;
-  border-bottom: 3px solid #0d6efd;
-  color: #0d6efd;
+  border-bottom: 3px solid #b44aff;
+  color: #b44aff;
   font-size: 14px;
   padding: 10px 0;
   text-transform: uppercase;

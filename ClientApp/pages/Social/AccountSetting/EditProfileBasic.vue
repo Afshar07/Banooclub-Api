@@ -60,59 +60,59 @@
           </client-only>
         </div>
 
-        <div class="col-md-12 my-3 d-flex align-items-center  gap-2 justify-content-start flex-wrap">
-          <span class="text-secondary ">وضعیت تاهل :  </span>
-          <div class="d-flex align-items-center gap-3">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="inlineCheckbox10"
-              :value="1"
-              v-model="Relation"
-            />
-            <label class="m-0" for="inlineCheckbox9">مجرد</label>
-          </div>
-          <div class="d-flex align-items-center gap-3">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="inlineCheckbox11"
-              :value="2"
-              v-model="Relation"
-            />
-            <label class="m-0" for="inlineCheckbox9">در رابطه</label>
-          </div>
-          <div class="d-flex align-items-center gap-3">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="inlineCheckbox12"
-              :value="3"
-              v-model="Relation"
-            />
-            <label class="m-0" for="inlineCheckbox9">متاهل</label>
-          </div>
-          <div class="d-flex align-items-center gap-3">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="inlineCheckbox13"
-              :value="4"
-              v-model="Relation"
-            />
-            <label class="m-0" for="inlineCheckbox9">مطلقه</label>
-          </div>
-          <div class="d-flex align-items-center gap-3">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="inlineCheckbox14"
-              :value="5"
-              v-model="Relation"
-            />
-            <label class="m-0" for="inlineCheckbox9">سایر</label>
-          </div>
-        </div>
+<!--        <div class="col-md-12 my-3 d-flex align-items-center  gap-2 justify-content-start flex-wrap">-->
+<!--          <span class="text-secondary ">وضعیت تاهل :  </span>-->
+<!--          <div class="d-flex align-items-center gap-3">-->
+<!--            <input-->
+<!--              class="form-check-input"-->
+<!--              type="radio"-->
+<!--              id="inlineCheckbox10"-->
+<!--              :value="1"-->
+<!--              v-model="Relation"-->
+<!--            />-->
+<!--            <label class="m-0" for="inlineCheckbox9">مجرد</label>-->
+<!--          </div>-->
+<!--          <div class="d-flex align-items-center gap-3">-->
+<!--            <input-->
+<!--              class="form-check-input"-->
+<!--              type="radio"-->
+<!--              id="inlineCheckbox11"-->
+<!--              :value="2"-->
+<!--              v-model="Relation"-->
+<!--            />-->
+<!--            <label class="m-0" for="inlineCheckbox9">در رابطه</label>-->
+<!--          </div>-->
+<!--          <div class="d-flex align-items-center gap-3">-->
+<!--            <input-->
+<!--              class="form-check-input"-->
+<!--              type="radio"-->
+<!--              id="inlineCheckbox12"-->
+<!--              :value="3"-->
+<!--              v-model="Relation"-->
+<!--            />-->
+<!--            <label class="m-0" for="inlineCheckbox9">متاهل</label>-->
+<!--          </div>-->
+<!--          <div class="d-flex align-items-center gap-3">-->
+<!--            <input-->
+<!--              class="form-check-input"-->
+<!--              type="radio"-->
+<!--              id="inlineCheckbox13"-->
+<!--              :value="4"-->
+<!--              v-model="Relation"-->
+<!--            />-->
+<!--            <label class="m-0" for="inlineCheckbox9">مطلقه</label>-->
+<!--          </div>-->
+<!--          <div class="d-flex align-items-center gap-3">-->
+<!--            <input-->
+<!--              class="form-check-input"-->
+<!--              type="radio"-->
+<!--              id="inlineCheckbox14"-->
+<!--              :value="5"-->
+<!--              v-model="Relation"-->
+<!--            />-->
+<!--            <label class="m-0" for="inlineCheckbox9">سایر</label>-->
+<!--          </div>-->
+<!--        </div>-->
         <div class="col-md-12 my-3">
           <div class="row">
             <div class="col-md-6">
@@ -175,7 +175,7 @@
                   id="MainImage"
                   @change="onFileChange"
                 />
-                <UploadIcon class="tw-fill-[#b44aff]"></UploadIcon>
+                <LazyUploadIcon class="tw-fill-[#b44aff]"></LazyUploadIcon>
               </div>
 
             </div>
@@ -211,19 +211,16 @@
       </form>
     </div>
     <div class="tw-fixed tw-bottom-0 tw-left-0 tw-p-10">
-      <CircularProgress :RadialProgress="RadialProgress"></CircularProgress>
+      <LazyCircularProgress :RadialProgress="FilledCount"></LazyCircularProgress>
 
     </div>
   </div>
 </template>
 
 <script>
-import CircularProgress from "@/components/CircularProgress";
-import UploadIcon from "@/components/Icons/UploadIcon";
 export default {
   name: "EditProfileBasic",
   layout: "PoshtebamPlusLayout",
-  components: {CircularProgress,UploadIcon},
   head() {
     return {
       title: 'ویرایش حساب کاربری',
@@ -254,6 +251,7 @@ export default {
       Relation: 0,
       userTag: "",
       pass: null,
+      userinfo:[],
       nationalCart: "",
       cart: '',
       userSettingId: null,
@@ -262,7 +260,6 @@ export default {
       SelectedStateId: null,
       SelectedCityId: null,
 
-        requiredFields: ["firstName", "lastName", "mobile", 'birthDate', 'bio', 'nationalCart', 'SelectedCityId', 'SelectedStateId', 'userTag'],
 
 
     };
@@ -279,21 +276,32 @@ export default {
       count: 0
     })
     this.AllStates = res.data.states
+      try {
+        const response = await this.$repositories.getUserByToken.getUserByToken();
+        this.userinfo = response.data;
 
+      } catch (error) {
+        console.log(error);
+      }
   },
   computed: {
     FilledCount() {
       let count = 0
-      this.requiredFields.forEach(item => {
-        if(this[item] && this[item]!==''){
-          count++
-        }
-      })
-      return count
+      if(this.userinfo && this.userinfo.userInfo && this.userinfo.userInfo.userSetting){
+        this.userinfo.userInfo.name !== '' ? count++ : count - 1
+        this.userinfo.userInfo.familyName !== '' ? count++ : count - 1
+        this.userinfo.userInfo.mobile !== '' ? count++ : count - 1
+        this.userinfo.userInfo.userSetting.birthDate !== '' ? count++ : count - 1
+        this.userinfo.userInfo.userSetting.bio !== '' ? count++ : count - 1
+        this.userinfo.userInfo.userSetting.kartMelliDoc !== null ? count++ : count - 1
+        this.userinfo.userInfo.cityId !== null ? count++ : count - 1
+        this.userinfo.userInfo.stateId !== null ? count++ : count - 1
+        this.userinfo.userInfo.userSetting.userTag !== '' ? count++ : count - 1
+        return Math.round(count * (100 / 9))
+      }
+
     },
-    RadialProgress() {
-      return Math.round(this.FilledCount * (100 / 9))
-    },
+
     BaseUrl() {
       return process.env.pic
     },
