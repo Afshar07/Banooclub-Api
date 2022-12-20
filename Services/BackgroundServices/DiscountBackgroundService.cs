@@ -1,5 +1,6 @@
 ﻿using BanooClub.Models;
 using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -28,25 +29,32 @@ namespace BanooClub.Services.BackgroundServices
             await Task.CompletedTask;
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        public async Task StopAsync(CancellationToken cancellationToken)
         {
             _timer?.Change(Timeout.Infinite, 0);
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
         private async void ExpireDiscounts(object state)
         {
-            var discounts = _discountRepository.GetQuery()
-                .Where(x => x.ExpireDate != null && x.ExpireDate <= DateTime.Now)
-                .ToList();
-
-            if (discounts != null && discounts.Any())
+            try
             {
-                foreach (var discount in discounts)
+                var discounts = await _discountRepository.GetQuery()
+                    .Where(x => x.ExpireDate != null && x.ExpireDate <= DateTime.Now)
+                    .ToListAsync();
+
+                if (discounts != null && discounts.Any())
                 {
-                    discount.IsDeleted = true;
-                    await _discountRepository.Update(discount);
+                    foreach (var discount in discounts)
+                    {
+                        discount.IsDeleted = true;
+                        await _discountRepository.Update(discount);
+                    }
                 }
+            }
+            catch (Exception)
+            {
+
             }
         }
     }
