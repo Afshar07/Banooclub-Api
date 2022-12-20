@@ -46,6 +46,7 @@ namespace BanooClub.Services.BackgroundServices
                     TimeSpan.Zero,
                     interval
                 );
+
             };
             
             // no need to await this call here because this task is scheduled to run much much later.
