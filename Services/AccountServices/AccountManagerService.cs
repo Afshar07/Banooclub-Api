@@ -630,13 +630,13 @@ namespace BanooClub.Services.AccountServices
                     var random = new Random();
                     var confirmCode = new string(Enumerable.Repeat(_confirmationCodeSetting.Chars, _confirmationCodeSetting.CodeLength).Select(s => s[random.Next(_confirmationCodeSetting.Chars.Length)]).ToArray());
                     MimeMessage message = new MimeMessage();
-                    MailboxAddress from = new MailboxAddress("BanooClub", "info@BanooClub.simagar.com");
+                    MailboxAddress from = new MailboxAddress("BanoClub", "info@BanoClub.com");
                     message.From.Add(from);
 
                     MailboxAddress to = new MailboxAddress("User", $"{Email}");
                     message.To.Add(to);
 
-                    message.Subject = "This email is from BanooClub";
+                    message.Subject = "This email is from BanoClub";
 
                     BodyBuilder bodyBuilder = new BodyBuilder();
                     bodyBuilder.TextBody = $"your validation code is {confirmCode}";
@@ -644,7 +644,7 @@ namespace BanooClub.Services.AccountServices
 
                     SmtpClient client = new SmtpClient();
                     client.Connect("95.216.101.100", 587, false);
-                    client.Authenticate("info@BanooClub.simagar.com", "123a@a.com");
+                    client.Authenticate("info@BanoClub.com", "123a@a.com");
 
                     client.Send(message);
                     client.Disconnect(true);
@@ -686,13 +686,13 @@ namespace BanooClub.Services.AccountServices
             if (type == AuthTypes.Email)
             {
                 MimeMessage message = new MimeMessage();
-                MailboxAddress from = new MailboxAddress("BanooClub", "info@BanooClub.simagar.com");
+                MailboxAddress from = new MailboxAddress("BanoClub", "info@BanoClub.com");
                 message.From.Add(from);
 
                 MailboxAddress to = new MailboxAddress("User", $"{PhoneOrEmail}");
                 message.To.Add(to);
 
-                message.Subject = "This email is from BanooClub";
+                message.Subject = "This email is from BanoClub";
 
                 BodyBuilder bodyBuilder = new BodyBuilder();
                 bodyBuilder.TextBody = $"your password is {PassWord}";
@@ -700,7 +700,7 @@ namespace BanooClub.Services.AccountServices
 
                 SmtpClient client = new SmtpClient();
                 client.Connect("95.216.101.100", 587, false);
-                client.Authenticate("info@BanooClub.simagar.com", "123a@a.com");
+                client.Authenticate("info@BanoClub.com", "123a@a.com");
 
                 client.Send(message);
                 client.Disconnect(true);

@@ -70,7 +70,7 @@ namespace BanooClub.Services.PaymentServices
             {
                 amount = inputDto.Amount,
                 api_key = ApiKey,
-                callback_uri = "https://banooclub.simagar.com/payments/ResponseVerify",
+                callback_uri = "https://banoclub.com/payments/ResponseVerify",
                 //callback_uri = "https://localhost:44330/Payment/ChangePaymentStatus",
                 currency = "IRT",
                 customer_phone = mobile,
