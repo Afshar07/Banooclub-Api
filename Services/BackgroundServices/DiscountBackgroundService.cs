@@ -1,5 +1,6 @@
 ﻿using BanooClub.Models;
 using Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
@@ -16,9 +17,9 @@ namespace BanooClub.Services.BackgroundServices
 
         private readonly IBanooClubEFRepository<Discount> _discountRepository;
 
-        public DiscountBackgroundService(IBanooClubEFRepository<Discount> discountRepository)
+        public DiscountBackgroundService(IServiceScopeFactory factory)
         {
-            _discountRepository = discountRepository;
+            _discountRepository = factory.CreateScope().ServiceProvider.GetService<IBanooClubEFRepository<Discount>>();
         }
 
         #endregion
@@ -30,7 +31,8 @@ namespace BanooClub.Services.BackgroundServices
             //DateTime.Today gives time of midnight 00.00
             var nextRunTime = DateTime.Now;  //DateTime.Today.AddDays(1).AddHours(1);
             var curTime = DateTime.Now;
-            var firstInterval = nextRunTime.Subtract(curTime);
+            //var firstInterval = nextRunTime.Subtract(curTime);
+            var firstInterval = curTime.Subtract(nextRunTime);
             Action action = () =>
             {
                 var t1 = Task.Delay(firstInterval);
