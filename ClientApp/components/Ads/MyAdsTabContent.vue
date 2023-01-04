@@ -6,10 +6,15 @@
       <AdItem  class="tw-my-3 tw-mx-auto"  v-for="item in Ads" :AdsDetail="item" />
 
     </div>
-    <div v-else class="tw-flex tw-col-span-5 tw-items-center tw-justify-center" @click="$router.push('/Migration/CreateAdvertise/')">
+    <div v-else class=" tw-col-span-5 tw-items-center tw-justify-center" @click="$router.push('/Migration/CreateAdvertise/')">
       <div  class="row my-3" >
-        <div class="col-12 text-warning fw-bold text-center tw-cursor-pointer">
-          <img src="/girl3.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">
+        <!--              //TempChange-->
+<!--        tw-flex-->
+<!--        <div class="col-12 text-warning fw-bold text-center tw-cursor-pointer">-->
+<!--          <img src="/girl3.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">-->
+<!--        </div>-->
+        <div class="col-md-12 tw-text-white tw-w-full tw-bg-purple-400 tw-flex tw-items-center tw-justify-center tw-h-[20rem] rounded  tw-cursor-pointer">
+          <span>اجناستو آگهی کن به راحتی بفروش</span>
         </div>
       </div>
     </div>

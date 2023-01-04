@@ -12,9 +12,11 @@
             <LazyPostItem class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post"/>
             <LazySpinner v-if="postData && postData.length !== postCounts"/>
             <div  v-if="!$fetchState.pending && postData.length===0" class="row mb-3" >
-              <div @click="$router.push(`/Social`)" class="col-12 text-warning fw-bold text-center tw-cursor-pointer">
-                <img src="/girl4.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">
-              </div>
+              <!--              //TempChange-->
+<!--              <div @click="$router.push(`/Social`)" class="col-12 text-warning fw-bold text-center tw-cursor-pointer">-->
+<!--                <img src="/girl4.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">-->
+<!--              </div>-->
+
             </div>
             <div v-else-if="userinfo && userinfo.userSetting && userinfo.userSetting.isPrivatePost" class="row mb-3"  >
               <div class="col-12 text-warning fw-bold text-center">

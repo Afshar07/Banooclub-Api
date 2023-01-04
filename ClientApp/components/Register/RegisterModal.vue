@@ -93,14 +93,6 @@ export default {
     }
   },
   async fetch() {
-    try {
-      const allCategories =
-        await this.$repositories.getAllServicesCategory.getAllServicesCategory();
-      this.categories = allCategories.data.serviceCategories;
-    } catch (error) {
-      console.error(error)
-    }
-    // Get categories
 
   },
 

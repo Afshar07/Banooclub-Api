@@ -716,13 +716,13 @@
              class="col-lg-4 col-xl-4 icons  d-flex justify-content-end align-items-center">
           <div class="headerIcon">
             <div class="d-flex flex-row justify-content-end align-items-center">
-              <nuxt-link to="/social" class="d-flex align-items-center">
-                <div v-tooltip.bottom-start="{content:'خانه',delay:{show: 500, hide: 100}}"
-                     class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
-                     @click="goToMyPage">
-                  <font-awesome-icon icon="home" color="#b44aff"></font-awesome-icon>
-                </div>
-              </nuxt-link>
+<!--              <nuxt-link to="/social" class="d-flex align-items-center">-->
+<!--                <div v-tooltip.bottom-start="{content:'خانه',delay:{show: 500, hide: 100}}"-->
+<!--                     class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"-->
+<!--                     @click="goToMyPage">-->
+<!--                  <font-awesome-icon icon="home" color="#b44aff"></font-awesome-icon>-->
+<!--                </div>-->
+<!--              </nuxt-link>-->
               <nuxt-link v-tooltip.bottom-start="{content:'چت',delay:{show: 500, hide: 100}}"  to="/social/Chat" class="d-flex align-items-center">
                 <div
                      class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
@@ -772,47 +772,47 @@
                   v-if="showProfileHeader && !closeHeader"
                 >
                   <div class="d-flex flex-column">
-                    <div class="userStatus border-bottom">
-                      <nuxt-link to="/Social">
-                        <div
-                          class="d-flex align-items-center gap-2 flex-row justify-content-start"
-                          @click="goToMyPage"
-                        >
-                          <img
-                            v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
-                            class="img-fluid rounded-circle"
-                            style="width: 45px; height: 45px;"
-                            :src="`https://subapi.banoclub.com/${$auth.user.baseData.selfie}`"
-                            alt=""
-                            @click="profileHeader"
-                          />
-                          <img
-                            v-else
-                            class="img-fluid rounded-circle"
-                            style="width: 45px; height: 45px;"
-                            :src="userDefault"
-                            @click="profileHeader"
-                            alt=""
-                          />
-                          <!--                        <i class="fas fa-user"></i>-->
-                          <div
-                            v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
-                            class="d-flex flex-column align-items-start px-2">
-                            <div
-                              v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
-                              class="profile_pic">{{ $auth.user.baseData.name + ' ' + $auth.user.baseData.familyName }}
-                            </div>
-                            <div
-                              v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
-                              class="d-flex profile_username text-primary tw-cursor-pointer"
-                              @click="goToUserProfile($auth.user.baseData)">
-                              {{ $auth.user.baseData.userName }}
-                              @
-                            </div>
-                          </div>
-                        </div>
-                      </nuxt-link>
-                    </div>
+<!--                    <div class="userStatus border-bottom">-->
+<!--                      <nuxt-link to="/Social">-->
+<!--                        <div-->
+<!--                          class="d-flex align-items-center gap-2 flex-row justify-content-start"-->
+<!--                          @click="goToMyPage"-->
+<!--                        >-->
+<!--                          <img-->
+<!--                            v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"-->
+<!--                            class="img-fluid rounded-circle"-->
+<!--                            style="width: 45px; height: 45px;"-->
+<!--                            :src="`https://subapi.banoclub.com/${$auth.user.baseData.selfie}`"-->
+<!--                            alt=""-->
+<!--                            @click="profileHeader"-->
+<!--                          />-->
+<!--                          <img-->
+<!--                            v-else-->
+<!--                            class="img-fluid rounded-circle"-->
+<!--                            style="width: 45px; height: 45px;"-->
+<!--                            :src="userDefault"-->
+<!--                            @click="profileHeader"-->
+<!--                            alt=""-->
+<!--                          />-->
+<!--                          &lt;!&ndash;                        <i class="fas fa-user"></i>&ndash;&gt;-->
+<!--                          <div-->
+<!--                            v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "-->
+<!--                            class="d-flex flex-column align-items-start px-2">-->
+<!--                            <div-->
+<!--                              v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "-->
+<!--                              class="profile_pic">{{ $auth.user.baseData.name + ' ' + $auth.user.baseData.familyName }}-->
+<!--                            </div>-->
+<!--                            <div-->
+<!--                              v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "-->
+<!--                              class="d-flex profile_username text-primary tw-cursor-pointer"-->
+<!--                              @click="goToUserProfile($auth.user.baseData)">-->
+<!--                              {{ $auth.user.baseData.userName }}-->
+<!--                              @-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </nuxt-link>-->
+<!--                    </div>-->
                     <div class="userStatus defaultUserStatus border-bottom">
                       <div>
                         <div class="d-flex flex-row justify-content-start align-items-center">
@@ -968,22 +968,22 @@
       <div class="headerStyleMobile py-2">
         <div class="headerIcon">
           <div class="d-flex flex-row justify-content-around align-items-center">
-            <div
-              class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
-              @click="goToMyPage">
-              <nuxt-link to="/social"
-              >
-                <font-awesome-icon
-                  icon="home"
-                  color="#b44aff"
-                  v-tooltip.bottom-start="'صفحه اصلی'"
-                >
-                  >
-                </font-awesome-icon
-                >
-              </nuxt-link
-              >
-            </div>
+<!--            <div-->
+<!--              class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"-->
+<!--              @click="goToMyPage">-->
+<!--              <nuxt-link to="/social"-->
+<!--              >-->
+<!--                <font-awesome-icon-->
+<!--                  icon="home"-->
+<!--                  color="#b44aff"-->
+<!--                  v-tooltip.bottom-start="'صفحه اصلی'"-->
+<!--                >-->
+<!--                  >-->
+<!--                </font-awesome-icon-->
+<!--                >-->
+<!--              </nuxt-link-->
+<!--              >-->
+<!--            </div>-->
 
             <div
               class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
@@ -1024,47 +1024,47 @@
 
                 <div class="showProfileHeader position-absolute" v-if="showProfileHeader && !closeHeader">
                   <div class="d-flex flex-column">
-                    <div class="userStatus">
-                      <nuxt-link to="/Social">
-                        <div
-                          class="d-flex align-items-center gap-2 flex-row justify-content-start rounded-circle"
-                          @click="goToMyPage"
-                        >
-                          <img
-                            v-if="loggedInfoData.selfie"
-                            class="img-fluid rounded-circle"
-                            style="width: 45px; height: 45px;"
-                            :src="`https://subapi.banoclub.com/${loggedInfoData.selfie}`"
-                            alt=""
-                            @click="profileHeader"
-                          />
-                          <img
-                            v-else
-                            class="img-fluid rounded-circle"
-                            style="width: 45px; height: 45px;"
-                            :src="userDefault"
-                            @click="profileHeader"
-                            alt=""
-                          />
-                          <!--                        <i class="fas fa-user"></i>-->
-                          <div
-                            v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
-                            class="d-flex flex-column align-items-end px-2">
-                            <div
-                              v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
-                              class="profile_pic">{{ $auth.user.baseData.name + ' ' + $auth.user.baseData.familyName }}
-                            </div>
-                            <div
-                              v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
-                              class="d-flex profile_username text-primary tw-cursor-pointer"
-                              @click="goToUserProfile($auth.user.baseData)">
-                              {{ $auth.user.baseData.userName }}
-                              @
-                            </div>
-                          </div>
-                        </div>
-                      </nuxt-link>
-                    </div>
+<!--                    <div class="userStatus">-->
+<!--                      <nuxt-link to="/Social">-->
+<!--                        <div-->
+<!--                          class="d-flex align-items-center gap-2 flex-row justify-content-start rounded-circle"-->
+<!--                          @click="goToMyPage"-->
+<!--                        >-->
+<!--                          <img-->
+<!--                            v-if="loggedInfoData.selfie"-->
+<!--                            class="img-fluid rounded-circle"-->
+<!--                            style="width: 45px; height: 45px;"-->
+<!--                            :src="`https://subapi.banoclub.com/${loggedInfoData.selfie}`"-->
+<!--                            alt=""-->
+<!--                            @click="profileHeader"-->
+<!--                          />-->
+<!--                          <img-->
+<!--                            v-else-->
+<!--                            class="img-fluid rounded-circle"-->
+<!--                            style="width: 45px; height: 45px;"-->
+<!--                            :src="userDefault"-->
+<!--                            @click="profileHeader"-->
+<!--                            alt=""-->
+<!--                          />-->
+<!--                          &lt;!&ndash;                        <i class="fas fa-user"></i>&ndash;&gt;-->
+<!--                          <div-->
+<!--                            v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "-->
+<!--                            class="d-flex flex-column align-items-end px-2">-->
+<!--                            <div-->
+<!--                              v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "-->
+<!--                              class="profile_pic">{{ $auth.user.baseData.name + ' ' + $auth.user.baseData.familyName }}-->
+<!--                            </div>-->
+<!--                            <div-->
+<!--                              v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "-->
+<!--                              class="d-flex profile_username text-primary tw-cursor-pointer"-->
+<!--                              @click="goToUserProfile($auth.user.baseData)">-->
+<!--                              {{ $auth.user.baseData.userName }}-->
+<!--                              @-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </nuxt-link>-->
+<!--                    </div>-->
                     <div class="userStatus">
                       <nuxt-link to="/Social/AccountSetting/EditProfileBasic">
                         <div class="d-flex flex-row justify-content-start">
