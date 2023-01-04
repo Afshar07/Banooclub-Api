@@ -1,5 +1,6 @@
 ﻿using BanooClub.Models;
 using Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
@@ -16,9 +17,9 @@ namespace BanooClub.Services.BackgroundServices
 
         private readonly IBanooClubEFRepository<Discount> _discountRepository;
 
-        public DiscountBackgroundService(IBanooClubEFRepository<Discount> discountRepository)
+        public DiscountBackgroundService( IServiceScopeFactory factory)
         {
-            _discountRepository = discountRepository;
+            _discountRepository = factory.CreateScope().ServiceProvider.GetRequiredService<IBanooClubEFRepository<Discount>>();
         }
 
         #endregion
@@ -28,7 +29,7 @@ namespace BanooClub.Services.BackgroundServices
             var interval = TimeSpan.FromHours(24); //TimeSpan.FromHours(24);
             //calculate time to run the first time & delay to set the timer
             //DateTime.Today gives time of midnight 00.00
-            var nextRunTime = DateTime.Now;  //DateTime.Today.AddDays(1).AddHours(1);
+            var nextRunTime = DateTime.Today.AddDays(1).AddHours(1);
             var curTime = DateTime.Now;
             var firstInterval = nextRunTime.Subtract(curTime);
             Action action = () =>
@@ -45,7 +46,9 @@ namespace BanooClub.Services.BackgroundServices
                     TimeSpan.Zero,
                     interval
                 );
+
             };
+            
             // no need to await this call here because this task is scheduled to run much much later.
             Task.Run(action);
             return Task.CompletedTask;
