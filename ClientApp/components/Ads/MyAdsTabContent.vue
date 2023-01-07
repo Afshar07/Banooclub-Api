@@ -1,11 +1,5 @@
 <template>
-  <div class="tw-w-full tw-grid tw-grid-cols-1">
-    <input
-      class="SearchStyle"
-      type="text"
-      placeholder="جستجو آگهی"
-      v-model="searchKey"
-    />
+  <div>
     <div v-if="Ads.length>0" class="tw-grid tw-grid-cols-1 md:tw-grid-cols-5 tw-justify-center tw-mx-auto  ">
 
 

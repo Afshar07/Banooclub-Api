@@ -45,7 +45,7 @@
                            style="text-align: center">
                       {{ $auth.user.baseData.userName }}@
                     </small>
-                    <div v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.followersCount" class="d-flex mb-4" style="position: relative;top: 16px;">
+                    <div v-if="$auth?.user?.baseData?.followersCount" class="d-flex mb-4" style="position: relative;top: 16px;">
                       <div class="mx-2 d-flex" style="align-items: center">
                         <div class="tw-pl-2" style="font-size: 13px">
                           {{ $auth.user.userInfo.followersCount }}

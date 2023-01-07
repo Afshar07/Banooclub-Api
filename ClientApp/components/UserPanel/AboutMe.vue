@@ -36,7 +36,7 @@
       </li>
       <li class="tw-flex tw-items-center my-2">
         <AllUsersIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;"  class="tw-rounded-full tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"/>
-        دنبال شده توسط  <strong class="px-1">{{ $auth.user.baseData.followersCount }}</strong> نفر
+        دنبال شده توسط  <strong class="px-1">{{ $auth?.user?.baseData?.followersCount }}</strong> نفر
       </li>
       <li  class="tw-flex tw-items-center my-2" v-if="  userinfo.userSetting">
         <QuestionIcon fill="rgb(75 85 99)" style="width: 30px; height: 30px;" class="tw-rounded-full tw-w-10 tw-bg-gray-200 tw-text-xl tw-p-1 tw-ml-3"></QuestionIcon>

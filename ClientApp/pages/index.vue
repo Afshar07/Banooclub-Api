@@ -2,28 +2,29 @@
   <div class="t-w-full tw-min-h-screen tw-bg-white ">
 
     <div class="tw-w-full tw-min-h-screen   tw-grid lg:tw-grid-cols-2 tw-grid-cols-1">
-      <div  class="tw-flex tw-relative   lg:tw-order-first   tw-order-last  tw-items-center tw-flex-col  tw-gap-5 tw-justify-center">
-<!--        <div class="  gap-2 tw-items-center  lg:tw-flex tw-hidden tw-absolute tw-top-4 tw-right-4 ">-->
-<!--          <span class="text-purple tw-text-[50px] tw-font-bold">بانوی</span>-->
-<!--          <span class="text-pink tw-text-[50px]  tw-font-bold">با انگیزه</span>-->
-<!--        </div>-->
-<!--        <div class="tw-flex tw-gap-5 tw-flex-col sm:tw-flex-row  tw-items-center">-->
-<!--          <div-->
-<!--            class=" tw-flex tw-flex-col bg-white  tw-items-center tw-shadow-xl tw-border-purple-200 tw-w-[18rem]  tw-border  p-3 tw-shadow-purple-400 tw-rounded ">-->
-<!--            <img src="/item.png" class="tw-w-[10rem] tw-h-[10rem] tw-object-contain" alt="">-->
-<!--            <span class="text-pink my-3 tw-font-bold">آگهی نیازمندی های بانوان</span>-->
-<!--            <p class="text-purple  text-center" style="overflow-wrap: anywhere">خرید و فروش کالای نو و دست دوم مخصوص-->
-<!--              بانوان</p>-->
+      <div
+        class="tw-flex tw-relative   lg:tw-order-first   tw-order-last  tw-items-center tw-flex-col  tw-gap-5 tw-justify-center">
+        <!--        <div class="  gap-2 tw-items-center  lg:tw-flex tw-hidden tw-absolute tw-top-4 tw-right-4 ">-->
+        <!--          <span class="text-purple tw-text-[50px] tw-font-bold">بانوی</span>-->
+        <!--          <span class="text-pink tw-text-[50px]  tw-font-bold">با انگیزه</span>-->
+        <!--        </div>-->
+        <!--        <div class="tw-flex tw-gap-5 tw-flex-col sm:tw-flex-row  tw-items-center">-->
+        <!--          <div-->
+        <!--            class=" tw-flex tw-flex-col bg-white  tw-items-center tw-shadow-xl tw-border-purple-200 tw-w-[18rem]  tw-border  p-3 tw-shadow-purple-400 tw-rounded ">-->
+        <!--            <img src="/item.png" class="tw-w-[10rem] tw-h-[10rem] tw-object-contain" alt="">-->
+        <!--            <span class="text-pink my-3 tw-font-bold">آگهی نیازمندی های بانوان</span>-->
+        <!--            <p class="text-purple  text-center" style="overflow-wrap: anywhere">خرید و فروش کالای نو و دست دوم مخصوص-->
+        <!--              بانوان</p>-->
 
-<!--          </div>-->
-<!--          <div-->
-<!--            class=" tw-flex tw-flex-col bg-white  tw-items-center tw-shadow-xl tw-border-purple-200 tw-w-[18rem]  tw-border  p-3 tw-shadow-purple-400 tw-rounded ">-->
-<!--            <img src="/item2.png" class="tw-w-[10rem] tw-h-[10rem] tw-object-contain" alt="">-->
-<!--            <span class="text-pink my-3 tw-font-bold">شادی تفریح و سرگرمی</span>-->
-<!--            <p class="text-purple text-center  " style="overflow-wrap: anywhere">خدمات سفر,تور,گردشگری,آموزشی,آرایشی و-->
-<!--              بهداشتی</p>-->
-<!--          </div>-->
-<!--        </div>-->
+        <!--          </div>-->
+        <!--          <div-->
+        <!--            class=" tw-flex tw-flex-col bg-white  tw-items-center tw-shadow-xl tw-border-purple-200 tw-w-[18rem]  tw-border  p-3 tw-shadow-purple-400 tw-rounded ">-->
+        <!--            <img src="/item2.png" class="tw-w-[10rem] tw-h-[10rem] tw-object-contain" alt="">-->
+        <!--            <span class="text-pink my-3 tw-font-bold">شادی تفریح و سرگرمی</span>-->
+        <!--            <p class="text-purple text-center  " style="overflow-wrap: anywhere">خدمات سفر,تور,گردشگری,آموزشی,آرایشی و-->
+        <!--              بهداشتی</p>-->
+        <!--          </div>-->
+        <!--        </div>-->
         <img src="/banoclub-logo.png" style="width: 25rem!important;height: 15rem!important;" alt="">
       </div>
       <div class="tw-flex lg:tw-order-last tw-bg-purple-200  tw-order-first tw-items-center tw-justify-center">
@@ -67,18 +68,14 @@ export default {
     }
   },
 
-  data() {
-    return {
-
-    };
-  },
 
   mounted() {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.finish();
+      this.$nuxt.loading = false;
+    })
   },
-  methods: {
-
-
-  },
+  methods: {},
 };
 </script>
 
@@ -125,7 +122,7 @@ textarea.with-border:focus {
   left: 0;
 }
 
-.bgImg{
+.bgImg {
   background: url("/21.png") center no-repeat;
   background-size: contain;
 

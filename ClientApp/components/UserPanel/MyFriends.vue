@@ -1,7 +1,7 @@
 <template>
   <div class="widget custom_card p-3">
     <h4 class="tw-text-lg tw-font-semibold"> دوستان </h4>
-    <p class="tw-text-sm">{{ $auth.user.baseData.followersCount }} نفر</p>
+    <p class="tw-text-sm" v-if="$auth?.user?.baseData?.followersCount">{{ $auth.user.baseData.followersCount }} نفر</p>
     <div class="tw-grid tw-grid-cols-3 tw-gap-3 tw-text-gray-600 tw-font-semibold">
       <nuxt-link class="text-decoration-none" v-for="(friend,idx) in followingList" :key="idx" to="#">
         <div class="d-flex flex-column justify-content-center align-items-center">

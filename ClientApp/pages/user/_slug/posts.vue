@@ -86,8 +86,7 @@
 
 
             </div>
-            <!--              //TempChange-->
-<!--            <LazyGroups class="my-3"/>-->
+            <LazyGroups class="my-3"/>
           </div>
 
         </div>
