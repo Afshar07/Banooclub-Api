@@ -1,21 +1,23 @@
 <template>
   <div>
     <div class="d-flex row">
+      <!--              //TempChange-->
       <div class="col-md-7 col-sm-12" style="height: 1600px;overflow-y: scroll;" @scroll="handleScroll">
-        <AddPost @updateMyPosts="updateMyPosts" class="mb-3"/>
-        <div class="row mb-3" v-if="!$fetchState.pending && postData && postData.length === 0">
-          <div  @click="$refs.AddPost.showModal=true" class="col-12 text-warning fw-bold text-center tw-cursor-pointer">
-            <img src="/girl1.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">
-          </div>
-        </div>
-        <PostItem @PostEvent="GetPosts"  class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post" :inMainPage="false" :inMyPosts="false"/>
-        <Spinner style="text-align: center" v-if="postData && postData.length !== postCounts"/>
+<!--        <AddPost @updateMyPosts="updateMyPosts" class="mb-3"/>-->
+<!--        <div class="row mb-3" v-if="!$fetchState.pending && postData && postData.length === 0">-->
+<!--          <div  @click="$refs.AddPost.showModal=true" class="col-12 text-warning fw-bold text-center tw-cursor-pointer">-->
+<!--            <img src="/girl1.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <PostItem @PostEvent="GetPosts"  class="mb-3" v-for="(post,idx) in postData" :key="idx" :post_details="post" :inMainPage="false" :inMyPosts="false"/>-->
+<!--        <Spinner style="text-align: center" v-if="postData && postData.length !== postCounts"/>-->
+        <AboutMe/>
 
       </div>
       <div class="col-md-5 col-sm-12">
-        <AboutMe/>
         <SideBar></SideBar>
-        <Groups class="my-3"/>
+        <!--              //TempChange-->
+<!--        <Groups class="my-3"/>-->
       </div>
     </div>
   </div>

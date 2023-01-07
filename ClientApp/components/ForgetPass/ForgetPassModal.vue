@@ -1,6 +1,6 @@
 <template>
   <transition name="modal">
-    <div v-if="is_modal_open" class="tw-modal tw-modal-open tw-bg-transparent" @click="closeModal">
+    <div v-if="is_modal_open" style="background: rgba(1,1,1,0.7)" class="tw-modal my-0 tw-modal-open tw-bg-transparent" @click="closeModal">
       <div class="tw-container tw-mx-auto tw-w-11/12 tw-z-[99999]">
         <div  style="overflow-x: hidden!important;" class=" tw-bg-white tw-modal-box tw-max-w-max tw-p-0 tw-w-full tw-mx-auto tw-rounded-xl tw-shadow-2xl tw-p-0 forget_pass_modal"  @click.stop>
           <div class="modal_header tw-flex tw-items-center tw-justify-between tw-border-b">

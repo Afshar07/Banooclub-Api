@@ -186,7 +186,7 @@
                   :src="cart"
                 />
               </div>
-              <div v-else>
+              <div v-else-if="nationalCart!==''">
 
                 <img
                   class="img-fluid"

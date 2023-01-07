@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <div class="tw-w-full tw-grid tw-grid-cols-1">
+    <input
+      class="SearchStyle"
+      type="text"
+      placeholder="جستجو آگهی"
+      v-model="searchKey"
+    />
     <div v-if="Ads.length>0" class="tw-grid tw-grid-cols-1 md:tw-grid-cols-5 tw-justify-center tw-mx-auto  ">
 
 
@@ -9,7 +15,7 @@
     <div v-else class="tw-flex tw-col-span-5 tw-items-center tw-justify-center" @click="$router.push('/Migration/CreateAdvertise/')">
       <div  class="row my-3" >
         <div class="col-12 text-warning fw-bold text-center tw-cursor-pointer">
-          <img src="/girl3.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">
+          <img src="/ads.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">
         </div>
       </div>
     </div>
@@ -24,6 +30,11 @@ import CustomPagination from "@/components/utilities/CustomPagination";
 
 export default {
   name: "AllAdsTabContent",
+  data(){
+    return{
+      searchKey:''
+    }
+  },
   methods:{
     changePage(id){
     this.$emit('PageChanged',id)

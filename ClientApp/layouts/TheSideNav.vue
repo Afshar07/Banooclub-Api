@@ -63,27 +63,28 @@
             </label>
           </div>
         </div>
-        <div class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2">
+        <!--              //TempChange-->
+<!--        <div class="d-flex flex-row justify-content-between border-bottom pb-2 mt-2">-->
 
-          <div @click="isPostSelected=!isPostSelected" v-click-outside="isPostSelected=false" :class="{'tw-tooltip-open':isPostSelected}" class="tw-tooltip   position-relative tw-cursor-pointer" data-tip="با فعال کردن این گزینه نمایش گالری شما برای کاربرانی که شما را دنبال نکرده اند قفل میشود">
-            <i class="fas fa-question-circle tw-text-blue-400 position-absolute bottom-0 end-0 "></i>
-            <button  class="tw-btn tw-bg-white tw-text-gray-400 hover:tw-bg-white tw-p-0 hover:tw-text-gray-400 sidenavOptionTextb">قفل نمایش پست</button>
-          </div>
-          <div class="">
-            <label class="switch">
-              <input
-                type="checkbox"
-                id="togBtn12"
-                @input="isPrivatePostMethod"
-                :checked="PrivatePostMethod"
-              />
-              <div class="slider round">
-                <span class="on">بله</span>
-                <span class="off">خیر</span>
-              </div>
-            </label>
-          </div>
-        </div>
+<!--          <div @click="isPostSelected=!isPostSelected" v-click-outside="isPostSelected=false" :class="{'tw-tooltip-open':isPostSelected}" class="tw-tooltip   position-relative tw-cursor-pointer" data-tip="با فعال کردن این گزینه نمایش گالری شما برای کاربرانی که شما را دنبال نکرده اند قفل میشود">-->
+<!--            <i class="fas fa-question-circle tw-text-blue-400 position-absolute bottom-0 end-0 "></i>-->
+<!--            <button  class="tw-btn tw-bg-white tw-text-gray-400 hover:tw-bg-white tw-p-0 hover:tw-text-gray-400 sidenavOptionTextb">قفل نمایش پست</button>-->
+<!--          </div>-->
+<!--          <div class="">-->
+<!--            <label class="switch">-->
+<!--              <input-->
+<!--                type="checkbox"-->
+<!--                id="togBtn12"-->
+<!--                @input="isPrivatePostMethod"-->
+<!--                :checked="PrivatePostMethod"-->
+<!--              />-->
+<!--              <div class="slider round">-->
+<!--                <span class="on">بله</span>-->
+<!--                <span class="off">خیر</span>-->
+<!--              </div>-->
+<!--            </label>-->
+<!--          </div>-->
+<!--        </div>-->
 
       </div>
     </transition>

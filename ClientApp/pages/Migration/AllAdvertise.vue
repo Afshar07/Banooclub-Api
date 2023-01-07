@@ -6,7 +6,7 @@
             <img src="/girl-icon-ads.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
             <div class="d-flex align-items-center flex-column">
               <h1 class="text-purple h6" style="font-weight: bolder!important;">آگهی ها</h1>
-              <strong class="text-pink">AdvertiseMents</strong>
+              <strong class="text-pink">Advertisements</strong>
             </div>
           </div>
 
@@ -98,10 +98,10 @@
                               <div class="accordion-body">
                                 <div class="d-flex align-items-center gap-2">
                                   <input type="tel" v-model="PriceFrom" placeholder="مثلا از 100000 تومان"
-                                         class=" my-1 p-1 Form-Control border ">
+                                         class=" my-1 SearchStyle p-1 Form-Control border ">
                                   <small>-</small>
                                   <input type="tel" v-model="PriceTo" placeholder="مثلا تا 200000 تومان"
-                                         class=" my-1 p-1 Form-Control border ">
+                                         class=" my-1 SearchStyle p-1 Form-Control border ">
                                 </div>
 
                               </div>
@@ -120,14 +120,16 @@
                             <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show"
                                  aria-labelledby="panelsStayOpen-headingOne">
                               <div class="accordion-body">
-                                <select v-model="SelectedCategoryId" class=" Form-Control border">
-                                  <option :value="0" selected>
-                                    همه دسته بندی ها
-                                  </option>
-                                  <option v-for="item in categories" :value="item.adsCategoryId">
-                                    {{ item.name }}
-                                  </option>
-                                </select>
+                                <v-select
+                                  :options="categories"
+                                  label="name"
+                                  dir="rtl"
+                                  placeholder="دسته بندی"
+                                  v-model="SelectedCategoryId"
+                                  :reduce="(name) => name.adsCategoryId"
+
+                                ></v-select>
+
                               </div>
                             </div>
                           </div>

@@ -714,7 +714,7 @@
              class="col-lg-4 col-xl-4 icons  d-flex justify-content-end align-items-center">
           <div class="headerIcon">
             <div class="d-flex flex-row justify-content-end align-items-center">
-              <nuxt-link to="/social" class="d-flex align-items-center">
+              <nuxt-link to="/Social/AccountSetting/MyPage" class="d-flex align-items-center">
                 <div v-tooltip.bottom-start="{content:'خانه',delay:{show: 500, hide: 100}}"
                      class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
                      @click="goToMyPage">
@@ -771,7 +771,7 @@
                 >
                   <div class="d-flex flex-column">
                     <div class="userStatus border-bottom">
-                      <nuxt-link to="/Social">
+                      <nuxt-link to="/Social/AccountSetting/MyPage">
                         <div
                           class="d-flex align-items-center gap-2 flex-row justify-content-start"
                           @click="goToMyPage"
@@ -969,7 +969,7 @@
             <div
               class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
               @click="goToMyPage">
-              <nuxt-link to="/social"
+              <nuxt-link to="/Social/AccountSetting/MyPage"
               >
                 <font-awesome-icon
                   icon="home"
@@ -1023,7 +1023,7 @@
                 <div class="showProfileHeader position-absolute" v-if="showProfileHeader && !closeHeader">
                   <div class="d-flex flex-column">
                     <div class="userStatus">
-                      <nuxt-link to="/Social">
+                      <nuxt-link to="/Social/AccountSetting/MyPage">
                         <div
                           class="d-flex align-items-center gap-2 flex-row justify-content-start rounded-circle"
                           @click="goToMyPage"

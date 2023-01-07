@@ -3,47 +3,17 @@
        style="border: 1px solid #ebe9e6;border-radius: 1rem;height: 450px">
 
     <input type="checkbox" ref="AvatarModal" id="my-modal-4" class="tw-modal-toggle"/>
-    <label for="my-modal-4" class="tw-modal cursor-pointer">
-      <label class="tw-modal-box tw-max-w-3xl relative" for="">
+    <label for="my-modal-4" class="tw-modal my-0 cursor-pointer">
+      <label class="tw-modal-box  tw-max-w-3xl relative" style="z-index: 9999!important;" for="">
         <SelectAvatar @SendAvatarPic="UploadAvatar" @SetUserPic="callUserInputMethod"></SelectAvatar>
-        <!--        <div class="tw-w-full">-->
-        <!--          <div class="tw-w-full tw-flex tw-items-center tw-justify-center">-->
-        <!--          <img src="/defaultBanner.jpg" class="tw-w-20 tw-h-20 tw-rounded-full tw-object-cover" alt="">-->
-        <!--          </div>-->
-<!--                  <div   @click="callInputMethod" class="tw-w-full tw-cursor-pointer tw-bg-stone-200 tw-rounded tw-border-dashed tw-border-2 tw-flex tw-items-center tw-justify-center tw-h-20 my-4">-->
-<!--                    <UploadIcon  class="tw-fill-pink-400"></UploadIcon>-->
-<!--                  </div>-->
-        <!--          <div class="tw-w-full tw-flex tw-items-center tw-flex-wrap tw-gap-2 tw-justify-start ">-->
-        <!--            <img v-for="i in 8" src="/defaultBanner.jpg" class="tw-w-20 tw-h-20 my-2 tw-rounded-full hover:tw-transform hover:tw-scale-110 tw-transition-all tw-cursor-pointer tw-rounded tw-object-cover"  alt="">-->
 
-        <!--          </div>-->
-
-
-        <!--          <div class="tw-w-full my-2 tw-flex tw-items-center tw-justify-center">-->
-        <!--            <button class="bg-purple rounded text-white tw-w-1/4 p-2 tw-cursor-pointer"> تایید</button>-->
-        <!--          </div>-->
-        <!--        </div>-->
       </label>
     </label>
     <input type="checkbox" ref="BannerModal" id="my-modal-5" class="tw-modal-toggle"/>
-    <label for="my-modal-5"  class="tw-modal cursor-pointer">
-      <label class="tw-modal-box tw-max-w-3xl relative" for="">
+    <label for="my-modal-5"  class="tw-modal my-0 cursor-pointer">
+      <label class="tw-modal-box  tw-max-w-3xl relative" style="z-index: 9999!important;" for="">
         <SelectBanner @SendBannerPic="UploadBanner" @SetBannerPic="callInputMethod"></SelectBanner>
-<!--        <div class="tw-w-full">-->
-<!--          <img src="/defaultBanner.jpg" class="tw-w-full tw-h-20 tw-rounded tw-object-cover" alt="">-->
 
-<!--          <div class="tw-w-full tw-flex tw-items-center tw-flex-wrap tw-justify-start ">-->
-<!--            <img v-for="i in 8" src="/defaultBanner.jpg"-->
-<!--                 class="tw-w-1/4 tw-h-20 my-2 hover:tw-transform hover:tw-scale-110 tw-transition-all tw-cursor-pointer tw-rounded tw-object-cover"-->
-<!--                 alt="">-->
-
-<!--          </div>-->
-
-<!--          &lt;!&ndash;              @click="callUserInputMethod"&ndash;&gt;-->
-<!--          <div class="tw-w-full my-2 tw-flex tw-items-center tw-justify-center">-->
-<!--            <button class="bg-purple rounded text-white tw-w-1/4 p-2 tw-cursor-pointer"> تایید</button>-->
-<!--          </div>-->
-<!--        </div>-->
       </label>
     </label>
     <!-- Modal -->

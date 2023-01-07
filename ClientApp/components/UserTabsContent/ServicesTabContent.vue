@@ -9,7 +9,7 @@
     <div class="row mx-auto">
       <div @click="$router.push('/Products/AddProduct/')" class="row my-3" v-if="!$fetchState.pending && my_services && my_services.length === 0">
         <div class="col-12 text-warning fw-bold text-center tw-cursor-pointer">
-          <img src="/girl2.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">
+          <img src="/service.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">
         </div>
       </div>
       <div class="col-md-4 col-lg-3" v-for="(service,idx) in my_services" :key="idx">

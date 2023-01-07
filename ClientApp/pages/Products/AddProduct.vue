@@ -21,9 +21,10 @@
         <select v-model="service_category" class=" FormInputs" aria-label="Default FormInputs select example"
                 :class="{BorderRed:service_category===null,BorderGreen:service_category!==null}">
           <option class="" :value="null">دسته بندی خدمت</option>
-          <option class="" v-for="(service_category,idx) in categories" :key="idx" :value="service_category.serviceCategoryId">
+          <option class="" v-for="(service_category,idx) in categories" :key="idx"
+                  :value="service_category.serviceCategoryId">
             <small>
-            {{ service_category.title }}
+              {{ service_category.title }}
               <span v-if="service_category.isFunTime" class="badge pill  bg-purple text-white">(شادی تایم)</span>
             </small>
 
@@ -88,16 +89,19 @@
       </div>
       <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
         <label>شماره موبایل *</label>
-        <input maxlength="11" v-model="mobile" type="number" class="with-border FormInputs" placeholder="شماره همراه با صفر"
+        <input maxlength="11" v-model="mobile" type="number" class="with-border FormInputs"
+               placeholder="شماره همراه با صفر"
                :class="{BorderRed:mobile===null,BorderGreen:mobile!==0}">
       </div>
       <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
         <label>شماره تلفن 1</label>
-        <input maxlength="11" v-model="phone_number1" type="number" class="with-border FormInputs" placeholder="شماره تلفن">
+        <input maxlength="11" v-model="phone_number1" type="number" class="with-border FormInputs"
+               placeholder="شماره تلفن">
       </div>
       <div class="col-md-6 col-sm-12 pt-3" style="padding-left: 0">
         <label>شماره تلفن 2</label>
-        <input maxlength="11" v-model="phone_number2" type="number" class="with-border FormInputs" placeholder="شماره تلفن">
+        <input maxlength="11" v-model="phone_number2" type="number" class="with-border FormInputs"
+               placeholder="شماره تلفن">
       </div>
 
       <div class="col-md-12 col-sm-12 pt-3" style="padding-left: 0">
@@ -134,7 +138,8 @@
         </div>
         <div class="my-3">
           <div class="d-flex align-items-center gap-2">
-            <input @keydown.enter="addTags" v-model="tag" type="text" ref="TagsInput" class=" form-control FormInputs with-border">
+            <input @keydown.enter="addTags" v-model="tag" type="text" ref="TagsInput"
+                   class=" form-control FormInputs with-border">
 
             <button class="bg-purple text-white p-2 rounded tw-cursor-pointer" @click="addTags">ثبت</button>
           </div>
@@ -295,7 +300,8 @@
                   </div>
                 </div>
 
-                <input maxlength="11" :ref="`Price${idx}`" type="number" class="with-border FormInputs" placeholder="قیمت ویژگی">
+                <input maxlength="11" :ref="`Price${idx}`" type="number" class="with-border FormInputs"
+                       placeholder="قیمت ویژگی">
               </div>
               <div class="col-md-3 d-flex align-items-center">
                 <i @click="decreasePropertyCount(idx)" class="fa fa-minus-circle text-danger tw-cursor-pointer"></i>
@@ -357,11 +363,11 @@ export default {
     try {
       const following =
         await this.$repositories.getMyFollowings.getMyFollowings();
-      following.data.forEach((item)=>{
+      following.data.forEach((item) => {
         this.AllUsers.push(item.userInfo)
       })
 
-    }catch (error) {
+    } catch (error) {
       console.log(error);
     }
     try {
@@ -402,8 +408,8 @@ export default {
       service_address: '',
       phone_number1: null,
       phone_number2: null,
-      SelectedUserIds:[],
-      AllUsers:[],
+      SelectedUserIds: [],
+      AllUsers: [],
       Qty: 0,
       mobile: null,
       email: '',
@@ -491,23 +497,32 @@ export default {
         isFree: false
       }
       this.property_count.forEach((item, idx) => {
-        tmpitem.name = this.$refs[`Title${idx}`][0].value
+        if (this.$refs[`Title${idx}`][0].value) {
+          tmpitem.name = this.$refs[`Title${idx}`][0].value
+        } else {
+          return this.$toast.error("نام را پر کنید");
+        }
         if (!this.IsFreeService) {
-          tmpitem.price = this.$refs[`Price${idx}`][0].value
+          if (this.$refs[`Price${idx}`][0].value) {
+            tmpitem.price = this.$refs[`Price${idx}`][0].value
+          } else {
+            return this.$toast.error("قیمت را پر کنید");
+          }
           if (this.$refs[`Price${idx}`][0].value === '0') {
             tmpitem.isFree = true
           }
         } else {
           tmpitem.price = 0
         }
-
         const clone = {...tmpitem}
         tmplist.push(clone)
         tmpitem.name = ''
         tmpitem.price = 0
       })
       this.properties = tmplist
+      if(this.properties.length>0){
       this.$toast.success("ویژگی ها با موفقیت ثبت شدند");
+      }
       let result = 0
       this.properties.forEach((element) => {
         result += parseInt(element.price)
@@ -610,7 +625,7 @@ export default {
         this.$toast.error("ایمیل وارد شده معتبر نیست");
       } else if (this.photos.length === 0) {
         this.$toast.error("حداقل یک عکس به عنوان عکس اصلی وارد کنید");
-      }else {
+      } else {
         this.$nuxt.$loading.start();
         try {
           let tmpMedias = []
@@ -669,11 +684,11 @@ export default {
             StartDate: this.StartDate,
             isFree: this.IsFreeService,
             specified: false,
-            cityId:this.SelectedCityId,
-            stateId:this.SelectedStateId,
+            cityId: this.SelectedCityId,
+            stateId: this.SelectedStateId,
             specifiedWithExpireDate: false,
             specifiedExpireDateTime: null,
-            ownerUserIds:this.SelectedUserIds,
+            ownerUserIds: this.SelectedUserIds,
             totalPrice: this.totalPrice,
             expireDate: this.expiration_date,
             properties: this.properties,
@@ -845,8 +860,9 @@ input:checked + .slider .off {
   color: #999;
   padding-top: 8px;
 }
-.vpd-input-group1{
-  background-color: #faf7ff!important;
+
+.vpd-input-group1 {
+  background-color: #faf7ff !important;
 }
 
 </style>
