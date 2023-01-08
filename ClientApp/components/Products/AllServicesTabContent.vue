@@ -70,10 +70,10 @@
                         <div class="accordion-body">
                           <div class="d-flex align-items-center gap-2">
                             <input type="tel" v-model="PriceFrom" placeholder="مثلا از 100000 تومان"
-                                   class=" my-1 p-1 Form-Control border ">
+                                   class=" my-1 SearchStyle p-1 Form-Control border ">
                             <small>-</small>
                             <input type="tel" v-model="PriceTo" placeholder="مثلا تا 200000 تومان"
-                                   class=" my-1 p-1 Form-Control border ">
+                                   class=" my-1 SearchStyle p-1 Form-Control border ">
                           </div>
 
                         </div>
@@ -119,7 +119,6 @@
                             :options="AllStates"
                             label="name"
                             dir="rtl"
-
                             placeholder="استان"
                             v-model="SelectedStateId"
                             :reduce="(name) => name.stateId"
