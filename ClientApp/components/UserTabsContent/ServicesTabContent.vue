@@ -7,15 +7,10 @@
       v-model="searchKey"
     />
     <div class="row mx-auto">
-      <div @click="$router.push('/Products/AddProduct/')" class="row my-3"
-           v-if="!$fetchState.pending && my_services && my_services.length === 0">
-        <!--              //TempChange-->
-        <!--        <div class="col-12    tw-cursor-pointer">-->
-        <!--          <img src="/girl2.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">-->
-        <!--        </div>-->
-                <div class="col-12 tw-text-white tw-w-full tw-bg-purple-400 tw-flex tw-items-center tw-justify-center tw-h-[20rem] rounded  tw-cursor-pointer">
-                  <span>خدمات خود را ثبت کنید و کسب درآمد کنید</span>
-                </div>
+      <div @click="$router.push('/Products/AddProduct/')" class="row my-3" v-if="!$fetchState.pending && my_services && my_services.length === 0">
+        <div class="col-12 text-warning fw-bold text-center tw-cursor-pointer">
+          <img src="/service.jpg" class="tw-w-full tw-h-auto tw-rounded-xl" alt="">
+        </div>
       </div>
       <div class="col-md-4 col-lg-3" v-for="(service,idx) in my_services" :key="idx">
         <ProductItem @GetServices="GetServices" @updateServiceDetails="updateServiceDetails" class="my-3"

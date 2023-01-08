@@ -25,4 +25,7 @@ export default {
 .TextYellow{
   @apply tw-text-yellow-500 !important;
 }
+.tw-radial-progress::after{
+  display: none!important;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-12">
+  <div class="col-md-12 tw-bg-white  " >
     <small v-if="$route.path!=='/social/accountsetting/MyPage'" class="my-3">انتخاب عکس جلد (میتوانید در ویرایش اطلاعات
       آن را عوض کنید)</small>
     <div class="tw-w-full ">

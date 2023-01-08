@@ -186,10 +186,11 @@
                   :src="cart"
                 />
               </div>
-              <div v-else-if="nationalCart">
+              <div v-else-if="nationalCart!==''">
+
                 <img
                   class="img-fluid"
-                  :src=" BaseUrl + nationalCart "
+                  :src=" BaseUrl + nationalCart"
                 />
               </div>
             </div>
