@@ -25,7 +25,7 @@
         <!--              بهداشتی</p>-->
         <!--          </div>-->
         <!--        </div>-->
-        <img src="/banoclub-logo.png" style="width: 25rem!important;height: 15rem!important;" alt="">
+        <img alt="" src="/banoclub-logo.png" style="width: 25rem!important;height: 15rem!important;">
       </div>
       <div class="tw-flex lg:tw-order-last tw-bg-purple-200  tw-order-first tw-items-center tw-justify-center">
         <div class="d-flex flex-column justify-content-center align-items-center tw-p-5">
@@ -44,11 +44,15 @@
     </div>
     <div class="tw-p-3 tw-flex tw-items-center  tw-bg-purple-400 tw-justify-start tw-fixed tw-bottom-0 tw-w-full">
       <div class="tw-flex tw-items-center tw-justify-start tw-gap-4 tw-flex-wrap">
-        <span class="text-white tw-cursor-pointer hover:tw-text-purple-400">درباره</span>
+        <nuxt-link style="text-decoration: none!important" to="/AboutUs">
+          <span class="text-white tw-cursor-pointer  tw-cursor-pointer hover:tw-text-purple-400">درباره</span>
+        </nuxt-link>
         <span class="text-white tw-cursor-pointer hover:tw-text-purple-400">تماس با ما</span>
         <span class="text-white tw-cursor-pointer hover:tw-text-purple-400">مقالات</span>
         <span class="text-white tw-cursor-pointer hover:tw-text-purple-400">راهنما</span>
-        <span class="text-white tw-cursor-pointer hover:tw-text-purple-400">قوانین و مقررات</span>
+        <nuxt-link style="text-decoration: none!important" to="/terms">
+          <span class="text-white tw-cursor-pointer hover:tw-text-purple-400">قوانین و مقررات</span>
+        </nuxt-link>
         <span class="text-white tw-cursor-pointer hover:tw-text-purple-400">تالار گفتگو</span>
       </div>
     </div>
