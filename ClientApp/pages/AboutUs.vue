@@ -40,7 +40,7 @@
       </div>
 
     </div>
-
+    <LoginFooter></LoginFooter>
   </div>
 </template>
 
