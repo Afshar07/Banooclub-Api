@@ -9,7 +9,7 @@
 
               <li class=" "><nuxt-link class="text-secondary " style="cursor: pointer;text-decoration: none" to="/">ثبت نام  </nuxt-link></li>
               <li> / </li>
-              <li class="  "><a class="text-dark " style="cursor: pointer;text-decoration: none" href="#"> تماس با ما </a></li>
+              <li class="  "><a class="text-dark " style="cursor: pointer;text-decoration: none" href="#"> قوانین و مقررات</a></li>
 
             </ol>
 
@@ -20,7 +20,7 @@
       <div class="container">
         <div class="row  py-5 d-flex justify-content-center  ">
           <div class="col-md-4 d-flex justify-content-center">
-            <h2><strong>درباره ما</strong></h2>
+            <h2><strong>قوانین و مقررات</strong></h2>
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@
 
               <li class=" "><nuxt-link class="text-secondary " style="cursor: pointer;text-decoration: none" to="/">ثبت نام  </nuxt-link></li>
               <li> / </li>
-              <li class="  "><a class="text-dark " style="cursor: pointer;text-decoration: none" href="#"> قوانین و مقررات </a></li>
+              <li class="  "><a class="text-dark " style="cursor: pointer;text-decoration: none" href="#"> تماس با ما </a></li>
 
             </ol>
 
