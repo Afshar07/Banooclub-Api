@@ -608,7 +608,7 @@ namespace BanooClub.Services.AccountServices
                     if (result.IsSuccess)
                     {
                         byte[] bytes = Encoding.UTF8.GetBytes(confirmCode.ToCharArray());
-                        await _cache.SetAsync(phoneNumber, bytes, new DistributedCacheEntryOptions() { AbsoluteExpiration = _dateTime.Now().AddMinutes(2) });
+                        await _cache.SetAsync(phoneNumber, bytes, new DistributedCacheEntryOptions() { AbsoluteExpiration = _dateTime.Now().AddMinutes(10) });
                         return new ServiceResult<object>().Ok(new { hasUser, message = "A Confirmation code has been sent to you" });
                     }
                     return new ServiceResult<object>().Ok(new { hasUser, message = result.ErrorMessage });
@@ -650,7 +650,7 @@ namespace BanooClub.Services.AccountServices
                     client.Disconnect(true);
                     client.Dispose();
                     byte[] bytes = Encoding.UTF8.GetBytes(confirmCode.ToCharArray());
-                    await _cache.SetAsync(Email, bytes, new DistributedCacheEntryOptions() { AbsoluteExpiration = _dateTime.Now().AddMinutes(4) });
+                    await _cache.SetAsync(Email, bytes, new DistributedCacheEntryOptions() { AbsoluteExpiration = _dateTime.Now().AddMinutes(10) });
                     return new ServiceResult<object>().Ok(new { hasUser, message = "A Confirmation code has been sent to your Email" });
                 }
                 catch (Exception ex)
