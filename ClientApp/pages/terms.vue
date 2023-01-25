@@ -7,7 +7,12 @@
           <nav aria-label="breadcrumb" style="direction: rtl" >
             <ol class="breadcrumb   d-flex align-items-center gap-2  pb-3  p-0 m-0" >
 
-              <li class=" "><nuxt-link class="text-secondary " style="cursor: pointer;text-decoration: none" to="/">ثبت نام  </nuxt-link></li>
+              <li class=" ">
+                <nuxt-link v-if="!$auth.loggedIn" class="text-secondary " style="cursor: pointer;text-decoration: none" to="/">ثبت نام
+                </nuxt-link>
+                <nuxt-link v-else class="text-secondary " style="cursor: pointer;text-decoration: none" to="/social/AccountSetting/MyPage">پروفایل من
+                </nuxt-link>
+              </li>
               <li> / </li>
               <li class="  "><a class="text-dark " style="cursor: pointer;text-decoration: none" href="#"> قوانین و مقررات</a></li>
 

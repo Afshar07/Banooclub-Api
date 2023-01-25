@@ -2,41 +2,41 @@
   <section class="m-0 position-sticky top-0 tw-z-[1000]">
     <!--    mobile menu-->
     <div
-      class="offcanvas offcanvas-end sidebar-bg right_menu_mobile"
-      tabindex="-1"
       id="test"
       aria-labelledby="test"
+      class="offcanvas offcanvas-end sidebar-bg right_menu_mobile"
+      tabindex="-1"
     >
       <div class="offcanvas-body px-2" style="height: 700px!important;overflow-y: scroll!important;">
         <div class="d-flex flex-column" style="padding-right: 15px">
 
           <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
+              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
               exact-active-class="SingleShortCutActive"
               to="/social/DashBoard"
-              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
             >
               <DashBoard class="svg_icons_size tw-stroke-[#2563eb]"></DashBoard>
               <!--                <i class="fas fa-home" style="font-size: 18px"></i>-->
               <span v-if="!decrease_width" class="header_font_sidebar_size">داشبورد</span>
             </nuxt-link>
           </div>
-<!--          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--            <nuxt-link-->
-<!--              exact-active-class="SingleShortCutActive"-->
-<!--              to="/social"-->
-<!--              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
-<!--            >-->
-<!--              <HomeIcon fill="#fc5399" class="svg_icons_size"/>-->
-<!--              &lt;!&ndash;                <i class="fas fa-home" style="font-size: 18px"></i>&ndash;&gt;-->
-<!--              <span v-if="!decrease_width" class="header_font_sidebar_size">خانه</span>-->
-<!--            </nuxt-link>-->
-<!--          </div>-->
+          <!--          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
+          <!--            <nuxt-link-->
+          <!--              exact-active-class="SingleShortCutActive"-->
+          <!--              to="/social"-->
+          <!--              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
+          <!--            >-->
+          <!--              <HomeIcon fill="#fc5399" class="svg_icons_size"/>-->
+          <!--              &lt;!&ndash;                <i class="fas fa-home" style="font-size: 18px"></i>&ndash;&gt;-->
+          <!--              <span v-if="!decrease_width" class="header_font_sidebar_size">خانه</span>-->
+          <!--            </nuxt-link>-->
+          <!--          </div>-->
           <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
+              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
               exact-active-class="SingleShortCutActive"
               to="/social/accountsetting/MyPage"
-              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
             >
               <ProfileIcon class="svg_icons_size" fill="#35fb7f"/>
               <!--                <i class="fas fa-plus-square" style="font-size: 18px"></i>-->
@@ -45,9 +45,9 @@
           </div>
           <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
+              class="SingleShortCut  p-3 py-2 w-100 d-flex align-items-center gap-4"
               exact-active-class="SingleShortCutActive"
               to="/social/Chat"
-              class="SingleShortCut  p-3 py-2 w-100 d-flex align-items-center gap-4"
             >
               <MessageIcon :fill="'#3584fb'" class="svg_icons_size"/>
               <!--                <i class="fas fa-comment" style="font-size: 18px"></i>-->
@@ -56,9 +56,9 @@
           </div>
           <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
+              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
               exact-active-class="SingleShortCutActive"
               to="/social/MyWishlist"
-              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
             >
               <HeartIcon :fill="'#ff3b26'" class="svg_icons_size tw-text-[#ff3b26] "/>
               <!--                <i class="fas fa-users" style="font-size: 18px"></i>-->
@@ -67,19 +67,21 @@
           </div>
           <div :class="[decrease_width ? '' : '']" class="py-1">
 
-            <div @click="ServicesActive=!ServicesActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"
-                 class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+                 @click="ServicesActive=!ServicesActive">
               <ProductsIcon class="svg_icons_size tw-fill-[#19faf4]"/>
               <span v-if="!decrease_width" class="header_font_sidebar_size">خدمات </span>
-              <CheveronIcon :class="{ActiveChevron:ServicesActive}" class=" tw-transition-all tw-mr-auto" style="width: 12px; height: 12px"/>
+              <CheveronIcon :class="{ActiveChevron:ServicesActive}" class=" tw-transition-all tw-mr-auto"
+                            style="width: 12px; height: 12px"/>
             </div>
-            <div :class="{ActiveMenuService:ServicesActive}" v-if="!decrease_width" class="px-3  tw-h-0 tw-overflow-hidden tw-transition-all" >
+            <div v-if="!decrease_width" :class="{ActiveMenuService:ServicesActive}"
+                 class="px-3  tw-h-0 tw-overflow-hidden tw-transition-all">
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                   exact-active-class="SingleShortCutActive"
                   to="/Products/"
-                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                  :class="[decrease_width ? 'p-3' : 'px-3']"
                 >
                   <span v-if="!decrease_width" class="font_sidebar_size">همه خدمات</span>
                 </nuxt-link>
@@ -87,10 +89,10 @@
               <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3"
                    class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                   exact-active-class="SingleShortCutActive"
                   to="/Products/AddProduct/"
-                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                  :class="[decrease_width ? 'p-3' : 'px-3']"
                 >
                   <span v-if="!decrease_width" class="font_sidebar_size">ثبت خدمات</span>
                 </nuxt-link>
@@ -98,10 +100,10 @@
               <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3"
                    class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                   exact-active-class="SingleShortCutActive"
                   to="/Products/OrderedProducts/"
-                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                  :class="[decrease_width ? 'p-3' : 'px-3']"
                 >
                   <span v-if="!decrease_width" class="font_sidebar_size">خدمات خریداری شده</span>
                 </nuxt-link>
@@ -109,10 +111,10 @@
               <div v-if=" $auth.user&& $auth.user && $auth.user.baseData&& $auth.user.baseData.userType===3"
                    class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                   exact-active-class="SingleShortCutActive"
                   to="/Products/MyServices/"
-                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                  :class="[decrease_width ? 'p-3' : 'px-3']"
                 >
                   <span v-if="!decrease_width" class="font_sidebar_size">خدمات من</span>
                 </nuxt-link>
@@ -121,38 +123,41 @@
             </div>
           </div>
           <div :class="[decrease_width ? '' : ' ']" class="py-1">
-            <div v-if="!decrease_width"  @click="AdsActive=!AdsActive" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+            <div v-if="!decrease_width" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+                 @click="AdsActive=!AdsActive">
               <AdsIcon class="svg_icons_size tw-fill-[#9739fc]"/>
               <span class="header_font_sidebar_size">آگهی کالا</span>
-              <CheveronIcon :class="{ActiveChevron:AdsActive}" class="tw-mr-auto tw-transition-all " style="width: 12px; height: 12px"/>
+              <CheveronIcon :class="{ActiveChevron:AdsActive}" class="tw-mr-auto tw-transition-all "
+                            style="width: 12px; height: 12px"/>
             </div>
-            <div v-if="!decrease_width" :class="{ActiveMenu:AdsActive}" class=" tw-transition-all px-3 tw-h-0 tw-overflow-hidden" >
+            <div v-if="!decrease_width" :class="{ActiveMenu:AdsActive}"
+                 class=" tw-transition-all px-3 tw-h-0 tw-overflow-hidden">
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                   exact-active-class="SingleShortCutActive"
                   to="/migration/alladvertise"
-                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                  :class="[decrease_width ? 'p-3' : 'px-3']"
                 >
                   <span v-if="!decrease_width" class="font_sidebar_size">همه آگهی ها </span>
                 </nuxt-link>
               </div>
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                   exact-active-class="SingleShortCutActive"
                   to="/migration/createadvertise"
-                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                  :class="[decrease_width ? 'p-3' : 'px-3']"
                 >
                   <span v-if="!decrease_width" class="font_sidebar_size">ثبت آگهی</span>
                 </nuxt-link>
               </div>
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                   exact-active-class="SingleShortCutActive"
                   to="/migration/myadvertise"
-                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                  :class="[decrease_width ? 'p-3' : 'px-3']"
                 >
                   <span v-if="!decrease_width" class="font_sidebar_size">آگهی های من </span>
                 </nuxt-link>
@@ -162,19 +167,21 @@
           </div>
           <div :class="[decrease_width ? '' : '']" class="py-1">
 
-            <div @click="FinancialActive=!FinancialActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"
-                 class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
-              <MoneyIcon fill="#fc9739" class="svg_icons_size"/>
+            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+                 @click="FinancialActive=!FinancialActive">
+              <MoneyIcon class="svg_icons_size" fill="#fc9739"/>
               <span v-if="!decrease_width" class="header_font_sidebar_size">مالی</span>
-              <CheveronIcon :class="{ActiveChevron:FinancialActive}" class=" tw-transition-all tw-mr-auto" style="width: 12px; height: 12px"/>
+              <CheveronIcon :class="{ActiveChevron:FinancialActive}" class=" tw-transition-all tw-mr-auto"
+                            style="width: 12px; height: 12px"/>
             </div>
-            <div :class="{ActiveMenuService:FinancialActive}" v-if="!decrease_width" class="px-3  tw-h-0 tw-overflow-hidden tw-transition-all" >
+            <div v-if="!decrease_width" :class="{ActiveMenuService:FinancialActive}"
+                 class="px-3  tw-h-0 tw-overflow-hidden tw-transition-all">
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                   exact-active-class="SingleShortCutActive"
                   to="/Payments/"
-                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                  :class="[decrease_width ? 'p-3' : 'px-3']"
                 >
                   <span v-if="!decrease_width" class="font_sidebar_size">پرداخت ها</span>
                 </nuxt-link>
@@ -182,10 +189,10 @@
               <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3"
                    class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                   exact-active-class="SingleShortCutActive"
                   to="/Orders/"
-                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                  :class="[decrease_width ? 'p-3' : 'px-3']"
                 >
                   <span v-if="!decrease_width" class="font_sidebar_size">سفارشات</span>
                 </nuxt-link>
@@ -194,9 +201,9 @@
           </div>
           <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
+              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
               exact-active-class="SingleShortCutActive"
               to="/social/accountsetting/tickets"
-              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
             >
               <TicketIcon class="svg_icons_size tw-fill-[#1cf9b8]"/>
               <!--                <i class="fas fa-ticket-alt" style="font-size: 18px"></i>-->
@@ -204,39 +211,39 @@
             </nuxt-link>
           </div>
           <div :class="[decrease_width ? '' : '']" class="py-1">
-            <div  @click="ForumsActive=! ForumsActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"
-                  class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+                 @click="ForumsActive=! ForumsActive">
               <ForumIcon class="svg_icons_size tw-fill-[#3f30ff]"/>
               <span v-if="!decrease_width" class="header_font_sidebar_size">تالار گفتگو</span>
-              <CheveronIcon :class="{ActiveChevron:ForumsActive}"  class="tw-mr-auto" style="width: 12px; height: 12px"/>
+              <CheveronIcon :class="{ActiveChevron:ForumsActive}" class="tw-mr-auto" style="width: 12px; height: 12px"/>
             </div>
-            <div :class="{ActiveMenu:ForumsActive}" v-if="!decrease_width" class="px-3 tw-h-0 tw-overflow-hidden" >
+            <div v-if="!decrease_width" :class="{ActiveMenu:ForumsActive}" class="px-3 tw-h-0 tw-overflow-hidden">
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                   exact-active-class="SingleShortCutActive"
                   to="/Forums/"
-                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                  :class="[decrease_width ? 'p-3' : 'px-3']"
                 >
                   <span v-if="!decrease_width" class="font_sidebar_size">همه تالار ها</span>
                 </nuxt-link>
               </div>
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                   exact-active-class="SingleShortCutActive"
                   to="/Forums/MyForums/"
-                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                  :class="[decrease_width ? 'p-3' : 'px-3']"
                 >
                   <span v-if="!decrease_width" class="font_sidebar_size">تالار های من</span>
                 </nuxt-link>
               </div>
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                   exact-active-class="SingleShortCutActive"
                   to="/Forums/AddForum/"
-                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                  :class="[decrease_width ? 'p-3' : 'px-3']"
                 >
                   <span v-if="!decrease_width" class="font_sidebar_size">افزودن تالار</span>
                 </nuxt-link>
@@ -245,80 +252,86 @@
           </div>
           <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
+              class="SingleShortCut  p-3 py-2 w-100 d-flex align-items-center gap-4"
               exact-active-class="SingleShortCutActive"
               to="/Blog/AllBlogs"
-              class="SingleShortCut  p-3 py-2 w-100 d-flex align-items-center gap-4"
             >
-              <BlogIcon fill="#fc5399" class="svg_icons_size"/>
+              <BlogIcon class="svg_icons_size" fill="#fc5399"/>
               <!--                <i class="fas fa-comment" style="font-size: 18px"></i>-->
               <span v-if="!decrease_width" class="header_font_sidebar_size">مقالات</span>
             </nuxt-link>
           </div>
-<!--          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--            <nuxt-link-->
-<!--              exact-active-class="SingleShortCutActive"-->
-<!--              to="/social/contacts"-->
-<!--              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
-<!--            >-->
-<!--              <AllUsersIcon fill="#fbbc35" class="svg_icons_size"/>-->
-<!--              &lt;!&ndash;                <i class="fas fa-users" style="font-size: 18px"></i>&ndash;&gt;-->
-<!--              <span v-if="!decrease_width" class="header_font_sidebar_size">دوست یاب</span>-->
-<!--            </nuxt-link>-->
-<!--          </div>-->
-<!--          <div :class="[decrease_width ? '' : ' ']" class=" py-1">-->
-<!--            <div  @click="RoomateActive=! RoomateActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"-->
-<!--                  class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">-->
-<!--              <BedIcon class="svg_icons_size"/>-->
-<!--              <span v-if="!decrease_width" class="header_font_sidebar_size">هم خانه</span>-->
-<!--              <CheveronIcon :class="{ActiveChevron:RoomateActive}" class="tw-mr-auto" style="width: 12px; height: 12px"/>-->
-<!--            </div>-->
-<!--            <div :class="{ActiveMenu:RoomateActive}" v-if="!decrease_width" class="px-3 tw-h-0 tw-overflow-hidden" >-->
-<!--              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--                <nuxt-link-->
-<!--                  exact-active-class="SingleShortCutActive"-->
-<!--                  to="/migration/allroomate"-->
-<!--                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                  :class="[decrease_width ? 'p-3' : 'px-3']"-->
-<!--                >-->
-<!--                  <span v-if="!decrease_width" class="font_sidebar_size"> همه آگهی های هم خانه</span>-->
-<!--                </nuxt-link>-->
-<!--              </div>-->
+          <!--          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
+          <!--            <nuxt-link-->
+          <!--              exact-active-class="SingleShortCutActive"-->
+          <!--              to="/social/contacts"-->
+          <!--              class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
+          <!--            >-->
+          <!--              <AllUsersIcon fill="#fbbc35" class="svg_icons_size"/>-->
+          <!--              &lt;!&ndash;                <i class="fas fa-users" style="font-size: 18px"></i>&ndash;&gt;-->
+          <!--              <span v-if="!decrease_width" class="header_font_sidebar_size">دوست یاب</span>-->
+          <!--            </nuxt-link>-->
+          <!--          </div>-->
+          <!--          <div :class="[decrease_width ? '' : ' ']" class=" py-1">-->
+          <!--            <div  @click="RoomateActive=! RoomateActive" v-if="!decrease_width" :class="[decrease_width ? '' : '']"-->
+          <!--                  class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">-->
+          <!--              <BedIcon class="svg_icons_size"/>-->
+          <!--              <span v-if="!decrease_width" class="header_font_sidebar_size">هم خانه</span>-->
+          <!--              <CheveronIcon :class="{ActiveChevron:RoomateActive}" class="tw-mr-auto" style="width: 12px; height: 12px"/>-->
+          <!--            </div>-->
+          <!--            <div :class="{ActiveMenu:RoomateActive}" v-if="!decrease_width" class="px-3 tw-h-0 tw-overflow-hidden" >-->
+          <!--              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
+          <!--                <nuxt-link-->
+          <!--                  exact-active-class="SingleShortCutActive"-->
+          <!--                  to="/migration/allroomate"-->
+          <!--                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"-->
+          <!--                  :class="[decrease_width ? 'p-3' : 'px-3']"-->
+          <!--                >-->
+          <!--                  <span v-if="!decrease_width" class="font_sidebar_size"> همه آگهی های هم خانه</span>-->
+          <!--                </nuxt-link>-->
+          <!--              </div>-->
 
-<!--              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--                <nuxt-link-->
-<!--                  exact-active-class="SingleShortCutActive"-->
-<!--                  to="/migration/myroomateinfo"-->
-<!--                  class="SingleShortCut  py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                  :class="[decrease_width ? 'p-3' : 'px-3']"-->
-<!--                >-->
-<!--                  <span v-if="!decrease_width" class="font_sidebar_size">اطلاعات هم خانه</span>-->
-<!--                </nuxt-link>-->
-<!--              </div>-->
-<!--              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--                <nuxt-link-->
-<!--                  exact-active-class="SingleShortCutActive"-->
-<!--                  to="/migration/setting/roommatecondition"-->
-<!--                  class="SingleShortCut  py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                  :class="[decrease_width ? 'p-3' : 'px-3']"-->
-<!--                >-->
-<!--                  <span v-if="!decrease_width" class="font_sidebar_size">افزودن هم خانه</span>-->
-<!--                </nuxt-link>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-          <div @click="logoutUser" class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+          <!--              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
+          <!--                <nuxt-link-->
+          <!--                  exact-active-class="SingleShortCutActive"-->
+          <!--                  to="/migration/myroomateinfo"-->
+          <!--                  class="SingleShortCut  py-2 w-100 d-flex align-items-center gap-4"-->
+          <!--                  :class="[decrease_width ? 'p-3' : 'px-3']"-->
+          <!--                >-->
+          <!--                  <span v-if="!decrease_width" class="font_sidebar_size">اطلاعات هم خانه</span>-->
+          <!--                </nuxt-link>-->
+          <!--              </div>-->
+          <!--              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
+          <!--                <nuxt-link-->
+          <!--                  exact-active-class="SingleShortCutActive"-->
+          <!--                  to="/migration/setting/roommatecondition"-->
+          <!--                  class="SingleShortCut  py-2 w-100 d-flex align-items-center gap-4"-->
+          <!--                  :class="[decrease_width ? 'p-3' : 'px-3']"-->
+          <!--                >-->
+          <!--                  <span v-if="!decrease_width" class="font_sidebar_size">افزودن هم خانه</span>-->
+          <!--                </nuxt-link>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas" @click="logoutUser">
             <span class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
-              <LogOutIcon  class="svg_icons_size  "/>
+              <LogOutIcon class="svg_icons_size  "/>
               <span v-if="!decrease_width" class="header_font_sidebar_size">خروج</span>
             </span>
           </div>
           <div class="d-flex align-items-center  flex-wrap justify-content-start p-2">
-            <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2">راهنما</strong>
-            <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2">قوانین و مقررات</strong>
-            <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2">درباره</strong>
-            <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start px-2">تماس با ما</strong>
+            <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 my-3 px-2">راهنما</strong>
+            <nuxt-link to="/terms">
+              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2 tw-cursor-pointer hover:!tw-text-purple-400">قوانین و مقررات</strong>
+            </nuxt-link>
+            <nuxt-link to="/AboutUs">
+              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start tw-cursor-pointer hover:!tw-text-purple-400 my-3 px-2">درباره</strong>
+            </nuxt-link>
+            <nuxt-link to="/ContactUs">
+              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 px-2">تماس با ما</strong>
+            </nuxt-link>
             <nuxt-link class="text-decoration-none" to="/Forums/">
-              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start px-2">تالار گفتگو</strong>
+              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 px-2">تالار گفتگو</strong>
             </nuxt-link>
           </div>
         </div>
@@ -326,44 +339,44 @@
     </div>
 
     <!--lg sidebar-->
-    <div class="offCanvasWrapper" :class="{ OffCanvasWrapperActive: true }">
+    <div :class="{ OffCanvasWrapperActive: true }" class="offCanvasWrapper">
       <div
+        :class="{ decrease_width: decrease_width===true ,OffCanvasActive:decrease_width===false }"
         class="OffCanvas d-none d-xl-block "
         style="z-index: 999999 !important; overflow-x: hidden; border-left: 1px solid #ccc;"
-        :class="{ decrease_width: decrease_width===true ,OffCanvasActive:decrease_width===false }"
-        @mouseleave="MouseLeaveRightMenu"
         @mouseenter="MouseOverRightMenu"
+        @mouseleave="MouseLeaveRightMenu"
       >
         <div class="offcanvas-body px-2 mt-3" style="height: 850px!important;overflow-y: scroll!important;">
           <div class="d-flex flex-column" style="padding-right: 15px">
 
             <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
+                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
                 exact-active-class="SingleShortCutActive"
                 to="/social/DashBoard"
-                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
               >
                 <DashBoard class="svg_icons_size tw-stroke-[#2563eb]"></DashBoard>
                 <!--                <i class="fas fa-home" style="font-size: 18px"></i>-->
                 <span v-if="!decrease_width" class="header_font_sidebar_size">داشبورد</span>
               </nuxt-link>
             </div>
-<!--            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--              <nuxt-link-->
-<!--                exact-active-class="SingleShortCutActive"-->
-<!--                to="/social"-->
-<!--                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
-<!--              >-->
-<!--                <HomeIcon fill="#fc5399" class="svg_icons_size"/>-->
-<!--                &lt;!&ndash;                <i class="fas fa-home" style="font-size: 18px"></i>&ndash;&gt;-->
-<!--                <span v-if="!decrease_width" class="header_font_sidebar_size">خانه</span>-->
-<!--              </nuxt-link>-->
-<!--            </div>-->
+            <!--            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
+            <!--              <nuxt-link-->
+            <!--                exact-active-class="SingleShortCutActive"-->
+            <!--                to="/social"-->
+            <!--                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
+            <!--              >-->
+            <!--                <HomeIcon fill="#fc5399" class="svg_icons_size"/>-->
+            <!--                &lt;!&ndash;                <i class="fas fa-home" style="font-size: 18px"></i>&ndash;&gt;-->
+            <!--                <span v-if="!decrease_width" class="header_font_sidebar_size">خانه</span>-->
+            <!--              </nuxt-link>-->
+            <!--            </div>-->
             <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
+                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
                 exact-active-class="SingleShortCutActive"
                 to="/social/accountsetting/MyPage"
-                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
               >
                 <ProfileIcon class="svg_icons_size" fill="#35fb7f"/>
                 <!--                <i class="fas fa-plus-square" style="font-size: 18px"></i>-->
@@ -372,9 +385,9 @@
             </div>
             <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
+                class="SingleShortCut  p-3 py-2 w-100 d-flex align-items-center gap-4"
                 exact-active-class="SingleShortCutActive"
                 to="/social/Chat"
-                class="SingleShortCut  p-3 py-2 w-100 d-flex align-items-center gap-4"
               >
                 <MessageIcon :fill="'#3584fb'" class="svg_icons_size"/>
                 <!--                <i class="fas fa-comment" style="font-size: 18px"></i>-->
@@ -383,9 +396,9 @@
             </div>
             <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
+                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
                 exact-active-class="SingleShortCutActive"
                 to="/social/MyWishlist"
-                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
               >
                 <HeartIcon :fill="'#ff3b26'" class="svg_icons_size  tw-text-[#ff3b26]"/>
                 <!--                <i class="fas fa-users" style="font-size: 18px"></i>-->
@@ -394,19 +407,21 @@
             </div>
             <div class="py-1">
 
-              <div @click="ServicesActive=!ServicesActive"
-                   class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+                   @click="ServicesActive=!ServicesActive">
                 <ProductsIcon class="svg_icons_size tw-fill-[#19faf4]"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">خدمات </span>
-                <CheveronIcon v-if="!decrease_width" :class="{ActiveChevron:ServicesActive}" class=" tw-transition-all tw-mr-auto" style="width: 12px; height: 12px"/>
+                <CheveronIcon v-if="!decrease_width" :class="{ActiveChevron:ServicesActive}"
+                              class=" tw-transition-all tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div :class="{ActiveMenuService:ServicesActive}" v-if="!decrease_width" class="px-3  tw-h-0 tw-overflow-hidden tw-transition-all" >
+              <div v-if="!decrease_width" :class="{ActiveMenuService:ServicesActive}"
+                   class="px-3  tw-h-0 tw-overflow-hidden tw-transition-all">
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                     exact-active-class="SingleShortCutActive"
                     to="/Products/"
-                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                    :class="[decrease_width ? 'p-3' : 'px-3']"
                   >
                     <span v-if="!decrease_width" class="font_sidebar_size">همه خدمات</span>
                   </nuxt-link>
@@ -414,10 +429,10 @@
                 <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3"
                      class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                     exact-active-class="SingleShortCutActive"
                     to="/Products/AddProduct/"
-                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                    :class="[decrease_width ? 'p-3' : 'px-3']"
                   >
                     <span v-if="!decrease_width" class="font_sidebar_size">ثبت خدمات</span>
                   </nuxt-link>
@@ -425,10 +440,10 @@
                 <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3"
                      class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                     exact-active-class="SingleShortCutActive"
                     to="/Products/OrderedProducts/"
-                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                    :class="[decrease_width ? 'p-3' : 'px-3']"
                   >
                     <span v-if="!decrease_width" class="font_sidebar_size">خدمات خریداری شده</span>
                   </nuxt-link>
@@ -436,10 +451,10 @@
                 <div v-if=" $auth.user&& $auth.user && $auth.user.baseData&& $auth.user.baseData.userType===3"
                      class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                     exact-active-class="SingleShortCutActive"
                     to="/Products/MyServices/"
-                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                    :class="[decrease_width ? 'p-3' : 'px-3']"
                   >
                     <span v-if="!decrease_width" class="font_sidebar_size">خدمات من</span>
                   </nuxt-link>
@@ -448,38 +463,41 @@
               </div>
             </div>
             <div :class="[decrease_width ? '' : ' ']" class="py-1">
-              <div   @click="AdsActive=!AdsActive" class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+                   @click="AdsActive=!AdsActive">
                 <AdsIcon class="svg_icons_size tw-fill-[#9739fc]"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">آگهی کالا</span>
-                <CheveronIcon v-if="!decrease_width" :class="{ActiveChevron:AdsActive}" class="tw-mr-auto tw-transition-all " style="width: 12px; height: 12px"/>
+                <CheveronIcon v-if="!decrease_width" :class="{ActiveChevron:AdsActive}"
+                              class="tw-mr-auto tw-transition-all " style="width: 12px; height: 12px"/>
               </div>
-              <div v-if="!decrease_width" :class="{ActiveMenu:AdsActive}" class=" tw-transition-all px-3 tw-h-0 tw-overflow-hidden" >
+              <div v-if="!decrease_width" :class="{ActiveMenu:AdsActive}"
+                   class=" tw-transition-all px-3 tw-h-0 tw-overflow-hidden">
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                     exact-active-class="SingleShortCutActive"
                     to="/migration/alladvertise"
-                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                    :class="[decrease_width ? 'p-3' : 'px-3']"
                   >
                     <span v-if="!decrease_width" class="font_sidebar_size">همه آگهی ها </span>
                   </nuxt-link>
                 </div>
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                     exact-active-class="SingleShortCutActive"
                     to="/migration/createadvertise"
-                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                    :class="[decrease_width ? 'p-3' : 'px-3']"
                   >
                     <span v-if="!decrease_width" class="font_sidebar_size">ثبت آگهی</span>
                   </nuxt-link>
                 </div>
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                     exact-active-class="SingleShortCutActive"
                     to="/migration/myadvertise"
-                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                    :class="[decrease_width ? 'p-3' : 'px-3']"
                   >
                     <span v-if="!decrease_width" class="font_sidebar_size">آگهی های من </span>
                   </nuxt-link>
@@ -489,19 +507,21 @@
             </div>
             <div :class="[decrease_width ? '' : '']" class="py-1">
 
-              <div @click="FinancialActive=!FinancialActive"  :class="[decrease_width ? '' : '']"
-                   class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
-                <MoneyIcon fill="#fc9739" class="svg_icons_size"/>
+              <div :class="[decrease_width ? '' : '']" class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+                   @click="FinancialActive=!FinancialActive">
+                <MoneyIcon class="svg_icons_size" fill="#fc9739"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">مالی</span>
-                <CheveronIcon v-if="!decrease_width" :class="{ActiveChevron:FinancialActive}" class=" tw-transition-all tw-mr-auto" style="width: 12px; height: 12px"/>
+                <CheveronIcon v-if="!decrease_width" :class="{ActiveChevron:FinancialActive}"
+                              class=" tw-transition-all tw-mr-auto" style="width: 12px; height: 12px"/>
               </div>
-              <div :class="{ActiveMenuService:FinancialActive}" v-if="!decrease_width" class="px-3  tw-h-0 tw-overflow-hidden tw-transition-all" >
+              <div v-if="!decrease_width" :class="{ActiveMenuService:FinancialActive}"
+                   class="px-3  tw-h-0 tw-overflow-hidden tw-transition-all">
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                     exact-active-class="SingleShortCutActive"
                     to="/Payments/"
-                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                    :class="[decrease_width ? 'p-3' : 'px-3']"
                   >
                     <span v-if="!decrease_width" class="font_sidebar_size">پرداخت ها</span>
                   </nuxt-link>
@@ -509,10 +529,10 @@
                 <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3"
                      class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                     exact-active-class="SingleShortCutActive"
                     to="/Orders/"
-                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                    :class="[decrease_width ? 'p-3' : 'px-3']"
                   >
                     <span v-if="!decrease_width" class="font_sidebar_size">سفارشات</span>
                   </nuxt-link>
@@ -521,9 +541,9 @@
             </div>
             <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
+                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
                 exact-active-class="SingleShortCutActive"
                 to="/social/accountsetting/tickets"
-                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
               >
                 <TicketIcon class="svg_icons_size tw-fill-[#1cf9b8]"/>
                 <!--                <i class="fas fa-ticket-alt" style="font-size: 18px"></i>-->
@@ -531,39 +551,40 @@
               </nuxt-link>
             </div>
             <div :class="[decrease_width ? '' : '']" class="py-1">
-              <div  @click="ForumsActive=! ForumsActive"  :class="[decrease_width ? '' : '']"
-                    class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">
+              <div :class="[decrease_width ? '' : '']" class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+                   @click="ForumsActive=! ForumsActive">
                 <ForumIcon class="svg_icons_size tw-fill-[#3f30ff]"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">تالار گفتگو</span>
-                <CheveronIcon  v-if="!decrease_width" :class="{ActiveChevron:ForumsActive}"  class="tw-mr-auto" style="width: 12px; height: 12px"/>
+                <CheveronIcon v-if="!decrease_width" :class="{ActiveChevron:ForumsActive}" class="tw-mr-auto"
+                              style="width: 12px; height: 12px"/>
               </div>
-              <div :class="{ActiveMenu:ForumsActive}" v-if="!decrease_width" class="px-3 tw-h-0 tw-overflow-hidden" >
+              <div v-if="!decrease_width" :class="{ActiveMenu:ForumsActive}" class="px-3 tw-h-0 tw-overflow-hidden">
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                     exact-active-class="SingleShortCutActive"
                     to="/Forums/"
-                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                    :class="[decrease_width ? 'p-3' : 'px-3']"
                   >
                     <span v-if="!decrease_width" class="font_sidebar_size">همه تالار ها</span>
                   </nuxt-link>
                 </div>
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                     exact-active-class="SingleShortCutActive"
                     to="/Forums/MyForums/"
-                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                    :class="[decrease_width ? 'p-3' : 'px-3']"
                   >
                     <span v-if="!decrease_width" class="font_sidebar_size">تالار های من</span>
                   </nuxt-link>
                 </div>
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                     exact-active-class="SingleShortCutActive"
                     to="/Forums/AddForum/"
-                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                    :class="[decrease_width ? 'p-3' : 'px-3']"
                   >
                     <span v-if="!decrease_width" class="font_sidebar_size">افزودن تالار</span>
                   </nuxt-link>
@@ -572,74 +593,80 @@
             </div>
             <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
+                class="SingleShortCut  p-3 py-2 w-100 d-flex align-items-center gap-4"
                 exact-active-class="SingleShortCutActive"
                 to="/Blog/AllBlogs"
-                class="SingleShortCut  p-3 py-2 w-100 d-flex align-items-center gap-4"
               >
-                <BlogIcon fill="#fc5399" class="svg_icons_size"/>
+                <BlogIcon class="svg_icons_size" fill="#fc5399"/>
                 <!--                <i class="fas fa-comment" style="font-size: 18px"></i>-->
                 <span v-if="!decrease_width" class="header_font_sidebar_size">مقالات</span>
               </nuxt-link>
             </div>
-<!--            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--              <nuxt-link-->
-<!--                exact-active-class="SingleShortCutActive"-->
-<!--                to="/social/contacts"-->
-<!--                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
-<!--              >-->
-<!--                <AllUsersIcon fill="#fbbc35" class="svg_icons_size"/>-->
-<!--                &lt;!&ndash;                <i class="fas fa-users" style="font-size: 18px"></i>&ndash;&gt;-->
-<!--                <span v-if="!decrease_width" class="header_font_sidebar_size">دوست یاب</span>-->
-<!--              </nuxt-link>-->
-<!--            </div>-->
-<!--            <div class=" py-1">-->
-<!--              <div  @click="RoomateActive=! RoomateActive"  :class="[decrease_width ? '' : '']"-->
-<!--                   class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">-->
-<!--                <BedIcon class="svg_icons_size"/>-->
-<!--                <span v-if="!decrease_width" class="header_font_sidebar_size">هم خانه</span>-->
-<!--                <CheveronIcon v-if="!decrease_width" :class="{ActiveChevron:RoomateActive}" class="tw-mr-auto" style="width: 12px; height: 12px"/>-->
-<!--              </div>-->
-<!--              <div :class="{ActiveMenu:RoomateActive}" v-if="!decrease_width" class="px-3 tw-h-0 tw-overflow-hidden" >-->
-<!--                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--                  <nuxt-link-->
-<!--                    exact-active-class="SingleShortCutActive"-->
-<!--                    to="/migration/allroomate"-->
-<!--                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                    :class="[decrease_width ? 'p-3' : 'px-3']"-->
-<!--                  >-->
-<!--                    <span v-if="!decrease_width" class="font_sidebar_size"> همه آگهی های هم خانه</span>-->
-<!--                  </nuxt-link>-->
-<!--                </div>-->
+            <!--            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
+            <!--              <nuxt-link-->
+            <!--                exact-active-class="SingleShortCutActive"-->
+            <!--                to="/social/contacts"-->
+            <!--                class="SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"-->
+            <!--              >-->
+            <!--                <AllUsersIcon fill="#fbbc35" class="svg_icons_size"/>-->
+            <!--                &lt;!&ndash;                <i class="fas fa-users" style="font-size: 18px"></i>&ndash;&gt;-->
+            <!--                <span v-if="!decrease_width" class="header_font_sidebar_size">دوست یاب</span>-->
+            <!--              </nuxt-link>-->
+            <!--            </div>-->
+            <!--            <div class=" py-1">-->
+            <!--              <div  @click="RoomateActive=! RoomateActive"  :class="[decrease_width ? '' : '']"-->
+            <!--                   class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4">-->
+            <!--                <BedIcon class="svg_icons_size"/>-->
+            <!--                <span v-if="!decrease_width" class="header_font_sidebar_size">هم خانه</span>-->
+            <!--                <CheveronIcon v-if="!decrease_width" :class="{ActiveChevron:RoomateActive}" class="tw-mr-auto" style="width: 12px; height: 12px"/>-->
+            <!--              </div>-->
+            <!--              <div :class="{ActiveMenu:RoomateActive}" v-if="!decrease_width" class="px-3 tw-h-0 tw-overflow-hidden" >-->
+            <!--                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
+            <!--                  <nuxt-link-->
+            <!--                    exact-active-class="SingleShortCutActive"-->
+            <!--                    to="/migration/allroomate"-->
+            <!--                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"-->
+            <!--                    :class="[decrease_width ? 'p-3' : 'px-3']"-->
+            <!--                  >-->
+            <!--                    <span v-if="!decrease_width" class="font_sidebar_size"> همه آگهی های هم خانه</span>-->
+            <!--                  </nuxt-link>-->
+            <!--                </div>-->
 
-<!--                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--                  <nuxt-link-->
-<!--                    exact-active-class="SingleShortCutActive"-->
-<!--                    to="/migration/myroomateinfo"-->
-<!--                    class="SingleShortCut  py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                    :class="[decrease_width ? 'p-3' : 'px-3']"-->
-<!--                  >-->
-<!--                    <span v-if="!decrease_width" class="font_sidebar_size">اطلاعات هم خانه</span>-->
-<!--                  </nuxt-link>-->
-<!--                </div>-->
-<!--                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
-<!--                  <nuxt-link-->
-<!--                    exact-active-class="SingleShortCutActive"-->
-<!--                    to="/migration/setting/roommatecondition"-->
-<!--                    class="SingleShortCut  py-2 w-100 d-flex align-items-center gap-4"-->
-<!--                    :class="[decrease_width ? 'p-3' : 'px-3']"-->
-<!--                  >-->
-<!--                    <span v-if="!decrease_width" class="font_sidebar_size">افزودن هم خانه</span>-->
-<!--                  </nuxt-link>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
+            <!--                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
+            <!--                  <nuxt-link-->
+            <!--                    exact-active-class="SingleShortCutActive"-->
+            <!--                    to="/migration/myroomateinfo"-->
+            <!--                    class="SingleShortCut  py-2 w-100 d-flex align-items-center gap-4"-->
+            <!--                    :class="[decrease_width ? 'p-3' : 'px-3']"-->
+            <!--                  >-->
+            <!--                    <span v-if="!decrease_width" class="font_sidebar_size">اطلاعات هم خانه</span>-->
+            <!--                  </nuxt-link>-->
+            <!--                </div>-->
+            <!--                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
+            <!--                  <nuxt-link-->
+            <!--                    exact-active-class="SingleShortCutActive"-->
+            <!--                    to="/migration/setting/roommatecondition"-->
+            <!--                    class="SingleShortCut  py-2 w-100 d-flex align-items-center gap-4"-->
+            <!--                    :class="[decrease_width ? 'p-3' : 'px-3']"-->
+            <!--                  >-->
+            <!--                    <span v-if="!decrease_width" class="font_sidebar_size">افزودن هم خانه</span>-->
+            <!--                  </nuxt-link>-->
+            <!--                </div>-->
+            <!--              </div>-->
+            <!--            </div>-->
             <div v-if="!decrease_width" class="d-flex align-items-center  flex-wrap justify-content-start p-2">
-              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2">راهنما</strong>
-              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2">قوانین و مقررات</strong>
-              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2">درباره</strong>
-              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start px-2">تماس با ما</strong>
+              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 my-3 px-2">راهنما</strong>
+              <nuxt-link to="/terms">
+                <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2 tw-cursor-pointer hover:!tw-text-purple-400">قوانین و مقررات</strong>
+              </nuxt-link>
+              <nuxt-link to="/AboutUs">
+                <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start tw-cursor-pointer hover:!tw-text-purple-400 my-3 px-2">درباره</strong>
+              </nuxt-link>
+              <nuxt-link to="/ContactUs">
+                <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 px-2">تماس با ما</strong>
+              </nuxt-link>
               <nuxt-link class="text-decoration-none" to="/Forums/">
-              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start px-2">تالار گفتگو</strong>
+                <strong class=" tw-text-[12px] tw-text-[#a3a3a3]  tw-cursor-pointer hover:!tw-text-purple-400 border-start px-2">تالار گفتگو</strong>
               </nuxt-link>
             </div>
           </div>
@@ -655,44 +682,47 @@
         class="row headerStyle sticky-top tw-flex tw-flex-row tw-items-center tw-justify-between py-3 position-sticky top-0">
         <div :class="[!isChatLayout ? 'col-xl-4' : 'col-xl-6']" class="col-lg-2 d-flex align-items-center">
 
-          <button  @click="decreaseWidthButton" class="btn ms-3 ShortCutToggle position-relative h-100" type="button">
-            <i :class="!decrease_width?' tw-text-white  tw-transform tw-rotate-0':' tw-text-white  tw-transform tw-rotate-[24deg]'" class="fas fa-thumbtack   tw-transition tw-z-20 tw-z-10 "></i>
+          <button class="btn ms-3 ShortCutToggle position-relative h-100" type="button" @click="decreaseWidthButton">
+            <i
+              :class="!decrease_width?' tw-text-white  tw-transform tw-rotate-0':' tw-text-white  tw-transform tw-rotate-[24deg]'"
+              class="fas fa-thumbtack   tw-transition tw-z-20 tw-z-10 "></i>
 
           </button>
-          <nuxt-link to="/social">
-            <img src="/banoclub-logo-small.png" class="tw-h-10  tw-object-cover" alt="">
+          <nuxt-link to="/social/AccountSetting/MyPage">
+            <img alt="" class="tw-h-10  tw-object-cover" src="/banoclub-logo-small.png">
           </nuxt-link>
         </div>
         <div v-if="!isChatLayout" class="col-lg-5 col-xl-4 header_search tw-relative">
           <SearchIcon
             class="tw-absolute tw-top-1/2 -tw-translate-y-1/2 tw-text-[#b44aff] -tw-translate-x-1/2 tw-flex tw-items-center tw-pointer-events-none"/>
-          <input v-model="SearchUsers" value="" type="text" class="form-control tw-text-[#b44aff]" placeholder="جستجو دوستان"
-                 autocomplete="off">
+          <input v-model="SearchUsers" autocomplete="off" class="form-control tw-text-[#b44aff]" placeholder="جستجو دوستان"
+                 type="text"
+                 value="">
           <div
-            class="tw-bg-[#fcf5ff] p-3 SearchContainer"
             v-if="SearchUsers !== ''"
+            class="tw-bg-[#fcf5ff] p-3 SearchContainer"
           >
             <div
-              class="row styleCursor d-flex justify-content-center align-items-center"
               v-for="(item,idx) in userData"
               v-if="userData!==''"
               :key="idx"
-              @click="goToUserProfile(item)"
+              class="row styleCursor d-flex justify-content-center align-items-center"
               style="padding-top: 10px;padding-bottom: 10px;"
+              @click="goToUserProfile(item)"
             >
               <div class="col-md-1" style="padding-left: 0">
                 <img
                   v-if="item.selfieFileData !== ''"
-                  class="img-fluid myPicture rounded-circle tw-pl-0"
                   :src="`https://subapi.banoclub.com/${item.selfieFileData}`"
                   alt=""
+                  class="img-fluid myPicture rounded-circle tw-pl-0"
                   style="width: 25px; height: 25px;object-fit: contain"
                 />
                 <img
                   v-else
-                  class="img-fluid myPicture rounded-circle tw-pl-0"
                   :src="userDefault"
                   alt=""
+                  class="img-fluid myPicture rounded-circle tw-pl-0"
                   style="width: 25px; height: 25px;"
                 />
 
@@ -715,23 +745,24 @@
           <div class="headerIcon">
             <div class="d-flex flex-row justify-content-end align-items-center">
 
-              <nuxt-link to="/Social/AccountSetting/MyPage" class="d-flex align-items-center">
+              <nuxt-link class="d-flex align-items-center" to="/Social/AccountSetting/MyPage">
                 <div v-tooltip.bottom-start="{content:'خانه',delay:{show: 500, hide: 100}}"
                      class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
                      @click="goToMyPage">
-                  <font-awesome-icon icon="home" color="#b44aff"></font-awesome-icon>
+                  <font-awesome-icon color="#b44aff" icon="home"></font-awesome-icon>
                 </div>
               </nuxt-link>
-              <nuxt-link v-tooltip.bottom-start="{content:'چت',delay:{show: 500, hide: 100}}"  to="/social/Chat" class="d-flex align-items-center">
+              <nuxt-link v-tooltip.bottom-start="{content:'چت',delay:{show: 500, hide: 100}}" class="d-flex align-items-center"
+                         to="/social/Chat">
                 <div
-                     class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
-                     ref="Chat">
+                  ref="Chat"
+                  class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
                   <i
                     class="far fa-comment"
                     style="color: #b44aff"></i>
                 </div>
               </nuxt-link>
-              <nuxt-link to="/social/accountsetting/tickets" class="d-flex align-items-center">
+              <nuxt-link class="d-flex align-items-center" to="/social/accountsetting/tickets">
                 <div v-tooltip.bottom-start="{content:'اعلان ها',delay:{show: 500, hide: 100}}"
                      class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
                   <i
@@ -740,35 +771,35 @@
                 </div>
               </nuxt-link>
 
-                <div @click="$emit('sidenavToggle')"
-                     v-tooltip.bottom-start="{content:'حریم خصوصی',delay:{show: 500, hide: 100}}"
-                     class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
-                  <i
-                    class="fas fa-cog"
-                    style="color: #b44aff"></i>
-                </div>
+              <div v-tooltip.bottom-start="{content:'حریم خصوصی',delay:{show: 500, hide: 100}}"
+                   class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
+                   @click="$emit('sidenavToggle')">
+                <i
+                  class="fas fa-cog"
+                  style="color: #b44aff"></i>
+              </div>
 
 
-              <div @click.stop="profileHeader" class="position-relative custom_header_size mx-1">
+              <div class="position-relative custom_header_size mx-1" @click.stop="profileHeader">
                 <img
-                  v-click-outside="CloseProfileHeader"
                   v-if="$auth.user && $auth.user.baseData &&  $auth.user.baseData.selfie"
-                  class="img-fluid headerPicture tw-object-cover"
+                  v-click-outside="CloseProfileHeader"
                   :src="`https://subapi.banoclub.com/${$auth.user.baseData.selfie}`"
                   alt=""
+                  class="img-fluid headerPicture tw-object-cover"
                   @click.stop="profileHeader"
                 />
                 <img
                   v-else
-                  class="img-fluid headerPicture tw-object-cover"
                   :src="userDefault"
-                  @click.stop="profileHeader"
                   alt=""
+                  class="img-fluid headerPicture tw-object-cover"
+                  @click.stop="profileHeader"
                 />
 
                 <div
-                  class="showProfileHeader position-absolute"
                   v-if="showProfileHeader && !closeHeader"
+                  class="showProfileHeader position-absolute"
                 >
                   <div class="d-flex flex-column">
                     <div class="userStatus border-bottom">
@@ -779,19 +810,19 @@
                         >
                           <img
                             v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
-                            class="img-fluid rounded-circle"
-                            style="width: 45px; height: 45px;"
                             :src="`https://subapi.banoclub.com/${$auth.user.baseData.selfie}`"
                             alt=""
+                            class="img-fluid rounded-circle"
+                            style="width: 45px; height: 45px;"
                             @click="profileHeader"
                           />
                           <img
                             v-else
+                            :src="userDefault"
+                            alt=""
                             class="img-fluid rounded-circle"
                             style="width: 45px; height: 45px;"
-                            :src="userDefault"
                             @click="profileHeader"
-                            alt=""
                           />
                           <!--                        <i class="fas fa-user"></i>-->
                           <div
@@ -824,7 +855,7 @@
                             {{ Intl.NumberFormat('fa-IR').format($store.state.WalletAmount) }}
                             تومان
                           </div>
-                          <button @click="openChargeWalletSideNav" class="btn AddReplyBtn text-white">
+                          <button class="btn AddReplyBtn text-white" @click="openChargeWalletSideNav">
                             <PlusIcon fill="#2563eb" style="width: 15px; height: 15px;"/>
                           </button>
                         </div>
@@ -839,8 +870,8 @@
                           </div>
                           <div
                             class="userStatusColor text-dark px-2"
-                            @click="CloseProfileHeader"
                             style="font-size: 14px;font-weight: 500;"
+                            @click="CloseProfileHeader"
                           >
                             ویرایش اطلاعات
                           </div>
@@ -879,72 +910,75 @@
     <section class="sticky_header d-xl-none d-block w-100">
       <div class="headerStyleMobile py-2">
         <div v-if="!want_to_search" class="px-2 d-flex justify-content-between align-items-center">
-          <div  data-bs-toggle="offcanvas" data-bs-target="#test" class="col-lg-2 d-flex align-items-center">
+          <div class="col-lg-2 d-flex align-items-center" data-bs-target="#test" data-bs-toggle="offcanvas">
 
-            <button   class="btn ms-3 ShortCutToggle position-relative h-100" type="button">
-              <i :class="!decrease_width?' tw-text-white  tw-transform tw-rotate-0':' tw-text-white tw-transform tw-rotate-[24deg]'" class="fas fa-thumbtack   tw-transition tw-z-20 tw-z-10 "></i>
+            <button class="btn ms-3 ShortCutToggle position-relative h-100" type="button">
+              <i
+                :class="!decrease_width?' tw-text-white  tw-transform tw-rotate-0':' tw-text-white tw-transform tw-rotate-[24deg]'"
+                class="fas fa-thumbtack   tw-transition tw-z-20 tw-z-10 "></i>
 
             </button>
-            <nuxt-link to="/social">
-              <img src="/banoclub-logo-small.png" class="tw-h-10  tw-object-cover" alt="">
+            <nuxt-link to="/social/AccountSetting/MyPage">
+              <img alt="" class="tw-h-10  tw-object-cover" src="/banoclub-logo-small.png">
             </nuxt-link>
           </div>
-          <div @click="$emit('sidenavToggle')" class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
-            <font-awesome-icon @click="want_to_search = !want_to_search" icon="search" color="#b44aff"/>
+          <div class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
+               @click="$emit('sidenavToggle')">
+            <font-awesome-icon color="#b44aff" icon="search" @click="want_to_search = !want_to_search"/>
           </div>
 
-          <div @click="$emit('sidenavToggle')"
-               class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
-            <i class="fas fa-cog"  style="color: #b44aff"></i>
+          <div class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
+               @click="$emit('sidenavToggle')">
+            <i class="fas fa-cog" style="color: #b44aff"></i>
           </div>
-<!--          <div class="p-3" @click="$emit('sidenavToggle')">-->
-<!--            &lt;!&ndash;            <PrivacyIcon style="width: 25px; height: 25px;"/>&ndash;&gt;-->
-<!--            <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-7 tw-w-7" fill="none" viewBox="0 0 24 24" stroke="#999"-->
-<!--                 stroke-width="2">-->
-<!--              <path stroke-linecap="round" stroke-linejoin="round"-->
-<!--                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>-->
-<!--              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>-->
-<!--            </svg>-->
+          <!--          <div class="p-3" @click="$emit('sidenavToggle')">-->
+          <!--            &lt;!&ndash;            <PrivacyIcon style="width: 25px; height: 25px;"/>&ndash;&gt;-->
+          <!--            <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-7 tw-w-7" fill="none" viewBox="0 0 24 24" stroke="#999"-->
+          <!--                 stroke-width="2">-->
+          <!--              <path stroke-linecap="round" stroke-linejoin="round"-->
+          <!--                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>-->
+          <!--              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>-->
+          <!--            </svg>-->
 
-<!--          </div>-->
+          <!--          </div>-->
         </div>
         <div v-else class="px-2">
           <div class="d-flex justify-content-between align-items-center">
             <form class="col-11 px-1">
             <span class="searchIconMobile position-absolute">
-              <font-awesome-icon icon="search" color="#fcf5ff"/>
+              <font-awesome-icon color="#fcf5ff" icon="search"/>
             </span>
-              <input v-model="SearchUsers" value="" type="text" class="SearchStyle "
-                     placeholder="جستجو دوستان" autocomplete="off">
+              <input v-model="SearchUsers" autocomplete="off" class="SearchStyle " placeholder="جستجو دوستان"
+                     type="text" value="">
             </form>
             <button
-              type="button"
-              class="btn-close text-reset col-1 px-1"
-              @click="want_to_search = !want_to_search"
               aria-label="Close"
+              class="btn-close text-reset col-1 px-1"
+              type="button"
+              @click="want_to_search = !want_to_search"
             ></button>
           </div>
-          <div class="w-100 tw-bg-[#fcf5ff]  rounded p-3" v-if="SearchUsers !== ''">
+          <div v-if="SearchUsers !== ''" class="w-100 tw-bg-[#fcf5ff]  rounded p-3">
             <div
-              class="row styleCursor d-flex justify-content-center align-items-center"
               v-for="(item,idx) in userData"
               :key="idx"
-              @click="goToUserProfile(item)"
+              class="row styleCursor d-flex justify-content-center align-items-center"
               style="padding-top: 10px;padding-bottom: 10px;"
+              @click="goToUserProfile(item)"
             >
               <div class="col-1 d-flex" style="padding-left: 0">
                 <img
                   v-if="item.selfieFileData !== ''"
-                  style="width: 25px;height: 25px;object-fit: contain"
-                  class="myPicture rounded-circle align-self-center"
                   :src="`https://subapi.banoclub.com/${item.selfieFileData}`"
                   alt=""
+                  class="myPicture rounded-circle align-self-center"
+                  style="width: 25px;height: 25px;object-fit: contain"
                 />
                 <img
                   v-else
-                  class="img-fluid myPicture rounded-circle tw-pl-0"
                   :src="userDefault"
                   alt=""
+                  class="img-fluid myPicture rounded-circle tw-pl-0"
                   style="width: 25px; height: 25px;object-fit: contain"
                 />
               </div>
@@ -973,9 +1007,9 @@
               <nuxt-link to="/Social/AccountSetting/MyPage"
               >
                 <font-awesome-icon
-                  icon="home"
-                  color="#b44aff"
                   v-tooltip.bottom-start="'صفحه اصلی'"
+                  color="#b44aff"
+                  icon="home"
                 >
                   >
                 </font-awesome-icon
@@ -985,134 +1019,134 @@
             </div>
 
             <div
-              class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
-              ref="Chat">
+              ref="Chat"
+              class="custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
               <nuxt-link to="/social/Chat"><i
+                v-tooltip.bottom-start="'چت'"
                 class="far fa-comment"
                 style="color: #b44aff"
-                v-tooltip.bottom-start="'چت'"
               ></i
               ></nuxt-link>
             </div>
 
             <div
               class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
-              <nuxt-link to="/social/accountsetting/tickets" class="d-flex align-items-center">
+              <nuxt-link class="d-flex align-items-center" to="/social/accountsetting/tickets">
                 <div v-tooltip.bottom-start="{content:'اعلان ها',delay:{show: 500, hide: 100}}"
                      class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1">
-                  <i class="fas fa-bell"  style="color: #b44aff"></i>
+                  <i class="fas fa-bell" style="color: #b44aff"></i>
                 </div>
               </nuxt-link>
             </div>
 
-              <div  @click="RouteToEditProfile" class="position-relative custom_header_size mx-1">
-                <img
-                  v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
-                  class="img-fluid headerPicture tw-object-cover"
-                  :src="`https://subapi.banoclub.com/${$auth.user.baseData.selfie}`"
-                  alt=""
+            <div class="position-relative custom_header_size mx-1" @click="RouteToEditProfile">
+              <img
+                v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
+                :src="`https://subapi.banoclub.com/${$auth.user.baseData.selfie}`"
+                alt=""
+                class="img-fluid headerPicture tw-object-cover"
 
-                />
-                <img
-                  v-else
-                  class="img-fluid headerPicture  tw-object-cover"
-                  :src="userDefault"
+              />
+              <img
+                v-else
+                :src="userDefault"
+                alt=""
 
-                  alt=""
-                />
+                class="img-fluid headerPicture  tw-object-cover"
+              />
 
-                <div class="showProfileHeader position-absolute" v-if="showProfileHeader && !closeHeader">
-                  <div class="d-flex flex-column">
-                    <div class="userStatus">
-                      <nuxt-link to="/Social/AccountSetting/MyPage">
+              <div v-if="showProfileHeader && !closeHeader" class="showProfileHeader position-absolute">
+                <div class="d-flex flex-column">
+                  <div class="userStatus">
+                    <nuxt-link to="/Social/AccountSetting/MyPage">
+                      <div
+                        class="d-flex align-items-center gap-2 flex-row justify-content-start rounded-circle"
+                        @click="goToMyPage"
+                      >
+                        <img
+                          v-if="loggedInfoData.selfie"
+                          :src="`https://subapi.banoclub.com/${loggedInfoData.selfie}`"
+                          alt=""
+                          class="img-fluid rounded-circle"
+                          style="width: 45px; height: 45px;"
+                          @click="profileHeader"
+                        />
+                        <img
+                          v-else
+                          :src="userDefault"
+                          alt=""
+                          class="img-fluid rounded-circle"
+                          style="width: 45px; height: 45px;"
+                          @click="profileHeader"
+                        />
+                        <!--                        <i class="fas fa-user"></i>-->
                         <div
-                          class="d-flex align-items-center gap-2 flex-row justify-content-start rounded-circle"
-                          @click="goToMyPage"
-                        >
-                          <img
-                            v-if="loggedInfoData.selfie"
-                            class="img-fluid rounded-circle"
-                            style="width: 45px; height: 45px;"
-                            :src="`https://subapi.banoclub.com/${loggedInfoData.selfie}`"
-                            alt=""
-                            @click="profileHeader"
-                          />
-                          <img
-                            v-else
-                            class="img-fluid rounded-circle"
-                            style="width: 45px; height: 45px;"
-                            :src="userDefault"
-                            @click="profileHeader"
-                            alt=""
-                          />
-                          <!--                        <i class="fas fa-user"></i>-->
+                          v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
+                          class="d-flex flex-column align-items-end px-2">
                           <div
                             v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
-                            class="d-flex flex-column align-items-end px-2">
-                            <div
-                              v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
-                              class="profile_pic">{{ $auth.user.baseData.name + ' ' + $auth.user.baseData.familyName }}
-                            </div>
-                            <div
-                              v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
-                              class="d-flex profile_username text-primary tw-cursor-pointer"
-                              @click="goToUserProfile($auth.user.baseData)">
-                              {{ $auth.user.baseData.userName }}
-                              @
-                            </div>
-                          </div>
-                        </div>
-                      </nuxt-link>
-                    </div>
-                    <div class="userStatus">
-                      <nuxt-link to="/Social/AccountSetting/EditProfileBasic">
-                        <div class="d-flex flex-row justify-content-start">
-                          <div class="">
-                            <!--                            <font-awesome-icon icon="cog" color="black"/>-->
-                            <SettingIcon style="width: 18px; height: 18px;"/>
+                            class="profile_pic">{{ $auth.user.baseData.name + ' ' + $auth.user.baseData.familyName }}
                           </div>
                           <div
-                            class="userStatusColor text-dark px-2"
-                            @click="CloseProfileHeader"
-                            style="font-size: 14px;font-weight: 500;"
-                          >
-                            ویرایش اطلاعات
+                            v-if="$auth.user &&$auth.user.baseData && $auth.user.baseData.name && $auth.user.baseData.familyName "
+                            class="d-flex profile_username text-primary tw-cursor-pointer"
+                            @click="goToUserProfile($auth.user.baseData)">
+                            {{ $auth.user.baseData.userName }}
+                            @
                           </div>
-                        </div>
-                      </nuxt-link>
-                    </div>
-                    <div class="userStatus defaultUserStatus">
-                      <div>
-                        <div class="d-flex flex-row justify-content-start align-items-center">
-                          <MoneyIcon fill="#565555" style="width: 18px; height: 18px;"/>
-                          <div
-                            class="userStatusColor text-dark px-2"
-                            style="font-size: 14px;font-weight: 500;"
-                          >
-                            موجودی:
-                            {{ Intl.NumberFormat('fa-IR').format(100000) }}
-                            تومان
-                          </div>
-                          <button @click="openChargeWalletSideNav" class="btn AddReplyBtn text-white">
-                            <PlusIcon fill="#2563eb" style="width: 15px; height: 15px;"/>
-                          </button>
                         </div>
                       </div>
-                    </div>
-
-                    <div class="userStatus" @click="logoutUser">
+                    </nuxt-link>
+                  </div>
+                  <div class="userStatus">
+                    <nuxt-link to="/Social/AccountSetting/EditProfileBasic">
                       <div class="d-flex flex-row justify-content-start">
                         <div class="">
-                          <LogOutIcon style="width: 18px; height: 18px"/>
+                          <!--                            <font-awesome-icon icon="cog" color="black"/>-->
+                          <SettingIcon style="width: 18px; height: 18px;"/>
                         </div>
-                        <div class="userStatusColor text-dark px-2" style="font-size: 14px;font-weight: 500;">
-                          خروج
+                        <div
+                          class="userStatusColor text-dark px-2"
+                          style="font-size: 14px;font-weight: 500;"
+                          @click="CloseProfileHeader"
+                        >
+                          ویرایش اطلاعات
                         </div>
+                      </div>
+                    </nuxt-link>
+                  </div>
+                  <div class="userStatus defaultUserStatus">
+                    <div>
+                      <div class="d-flex flex-row justify-content-start align-items-center">
+                        <MoneyIcon fill="#565555" style="width: 18px; height: 18px;"/>
+                        <div
+                          class="userStatusColor text-dark px-2"
+                          style="font-size: 14px;font-weight: 500;"
+                        >
+                          موجودی:
+                          {{ Intl.NumberFormat('fa-IR').format(100000) }}
+                          تومان
+                        </div>
+                        <button class="btn AddReplyBtn text-white" @click="openChargeWalletSideNav">
+                          <PlusIcon fill="#2563eb" style="width: 15px; height: 15px;"/>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="userStatus" @click="logoutUser">
+                    <div class="d-flex flex-row justify-content-start">
+                      <div class="">
+                        <LogOutIcon style="width: 18px; height: 18px"/>
+                      </div>
+                      <div class="userStatusColor text-dark px-2" style="font-size: 14px;font-weight: 500;">
+                        خروج
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
           </div>
         </div>
 
@@ -1121,11 +1155,11 @@
     <!--Mobile topNav-->
 
     <div
-      class="offcanvas offcanvas-start sidebar-bg"
-      tabindex="-1"
       id="offcanvasChargePayment"
       aria-labelledby="offcanvasChargePayment"
+      class="offcanvas offcanvas-start sidebar-bg"
       style="z-index: 9999999;"
+      tabindex="-1"
     >
 
       <div class="offcanvas-body d-flex flex-column">
@@ -1133,12 +1167,12 @@
         <div class="col-12 pt-3">
           <label>مبلغ</label>
           <div class="d-flex justify-content-center align-items-center">
-            <input type="text" class="with-border" placeholder="مبلغ">
+            <input class="with-border" placeholder="مبلغ" type="text">
             <span class="px-2">تومان</span>
           </div>
         </div>
         <div class="loadmore mt-auto pt-3">
-          <button type="button" class="button tw-w-full mt-auto">
+          <button class="button tw-w-full mt-auto" type="button">
             پرداخت
           </button>
         </div>
@@ -1212,13 +1246,13 @@ export default {
 
   data() {
     return {
-      AdsActive:false,
-      ServicesActive:false,
-      ForumsActive:false,
-      RoomateActive:false,
+      AdsActive: false,
+      ServicesActive: false,
+      ForumsActive: false,
+      RoomateActive: false,
       displayChargeSideNav: false,
       want_to_search: false,
-      FinancialActive:false,
+      FinancialActive: false,
       decrease_width_button: false,
       showProfileHeader: false,
       numberMessage: [1, 2, 3, 4, 5],
@@ -1338,7 +1372,7 @@ export default {
     },
   },
   methods: {
-    RouteToEditProfile(){
+    RouteToEditProfile() {
       this.$router.push('/Social/AccountSetting/EditProfileBasic/')
     },
     openChargeWalletSideNav() {
@@ -1409,12 +1443,10 @@ export default {
     search() {
 
 
-
       this.showProfileHeader = false;
       this.$emit("open");
     },
     profileHeader() {
-
 
 
       this.closeHeader = false
@@ -1531,7 +1563,7 @@ export default {
     console.log(this.$auth)
     window.addEventListener("scroll", this.updateScroll);
     if (!this.$route.query.id) {
-          await this.goToMyPage()
+      await this.goToMyPage()
     } else {
       try {
         const response = await this.$repositories.getUserIndex.getUserIndex(
@@ -1623,16 +1655,18 @@ export default {
 .header_font_sidebar_size {
   font-size: 15px;
   font-weight: 600;
-  color:#5666d3
+  color: #5666d3
 }
 
 .font_sidebar_size {
   font-size: 14px;
   font-weight: 600;
 }
-.header_search input ::placeholder{
-  color:#b44aff !important;
+
+.header_search input ::placeholder {
+  color: #b44aff !important;
 }
+
 .header_search input {
   height: 44px;
   color: #393939;
@@ -1746,8 +1780,8 @@ export default {
 
 .ShortCutToggle {
   transition: 0.2s ease;
-  border:none!important;
-color: white;
+  border: none !important;
+  color: white;
 }
 
 .ShortCutToggle:hover {
@@ -1756,8 +1790,6 @@ color: white;
   color: white;
 
 }
-
-
 
 
 .list-enter-active {
@@ -1779,7 +1811,6 @@ color: white;
     transform: translateY(0) scale(1);
   }
 }
-
 
 
 .list-enter-active,
@@ -1858,7 +1889,6 @@ color: white;
 }
 
 
-
 .headerStyle {
   background: #e7b0fe;
   height: 70px;
@@ -1882,7 +1912,6 @@ color: white;
 a {
   text-decoration: none;
 }
-
 
 
 .SearchContainer {
@@ -1914,18 +1943,20 @@ a {
 }
 
 
-.ActiveChevron{
+.ActiveChevron {
   transition: .2s ease;
   transform: rotate(180deg);
 }
-.ActiveMenu{
+
+.ActiveMenu {
   transition: .2s ease;
- @apply   tw-h-full
+  @apply tw-h-full
 
 }
-.ActiveMenuService{
+
+.ActiveMenuService {
   transition: .2s ease;
-  @apply   tw-h-full
+  @apply tw-h-full
 
 }
 </style>
