@@ -261,6 +261,68 @@
               <span v-if="!decrease_width" class="header_font_sidebar_size">مقالات</span>
             </nuxt-link>
           </div>
+          <div :class="[decrease_width ? '' : '']" class="py-1">
+            <div :class="[decrease_width ? '' : '']" class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+                 @click="consultant=! consultant">
+              <DocIcon class="svg_icons_size !tw-stroke-[#08b69b] !tw-fill-[#08b69b]"/>
+              <span v-if="!decrease_width" class="header_font_sidebar_size">مشاوره</span>
+              <CheveronIcon v-if="!decrease_width" :class="{ActiveChevron:consultant}" class="tw-mr-auto"
+                            style="width: 12px; height: 12px"/>
+            </div>
+            <div v-if="!decrease_width" :class="{ActiveMenu:consultant}" class="px-3 tw-h-0 tw-overflow-hidden">
+              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                  exact-active-class="SingleShortCutActive"
+                  to="/consultation/Consultants"
+                >
+                  <span v-if="!decrease_width" class="font_sidebar_size">همه مشاور ها</span>
+                </nuxt-link>
+              </div>
+              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                  exact-active-class="SingleShortCutActive"
+                  to="/consultation/BecomeConsultant/"
+                >
+                  <span v-if="!decrease_width" class="font_sidebar_size">مشاور شوید</span>
+                </nuxt-link>
+              </div>
+              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                  exact-active-class="SingleShortCutActive"
+                  to="/consultation/MyConsultations/"
+                >
+                  <span v-if="!decrease_width" class="font_sidebar_size">مشاوره های من </span>
+                </nuxt-link>
+              </div>
+              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                  exact-active-class="SingleShortCutActive"
+                  to="/consultation/MyPatiants/"
+                >
+                  <span v-if="!decrease_width" class="font_sidebar_size">بیماران من </span>
+                </nuxt-link>
+              </div>
+              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <nuxt-link
+                  :class="[decrease_width ? 'p-3' : 'px-3']"
+                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                  exact-active-class="SingleShortCutActive"
+                  to="/consultation/MyPayments/"
+
+                >
+                  <span v-if="!decrease_width" class="font_sidebar_size">پرداختی های من</span>
+                </nuxt-link>
+              </div>
+            </div>
+          </div>
           <!--          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
           <!--            <nuxt-link-->
           <!--              exact-active-class="SingleShortCutActive"-->
@@ -601,6 +663,69 @@
                 <!--                <i class="fas fa-comment" style="font-size: 18px"></i>-->
                 <span v-if="!decrease_width" class="header_font_sidebar_size">مقالات</span>
               </nuxt-link>
+            </div>
+            <div :class="[decrease_width ? '' : '']" class="py-1">
+              <div :class="[decrease_width ? '' : '']" class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+                   @click="consultant=! consultant">
+                <DocIcon class="svg_icons_size !tw-stroke-[#08b69b] !tw-fill-[#08b69b]"/>
+                <span v-if="!decrease_width" class="header_font_sidebar_size">مشاوره</span>
+                <CheveronIcon v-if="!decrease_width" :class="{ActiveChevron:consultant}" class="tw-mr-auto"
+                              style="width: 12px; height: 12px"/>
+              </div>
+              <div v-if="!decrease_width" :class="{ActiveMenu:consultant}" class="px-3 tw-h-0 tw-overflow-hidden">
+                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                    exact-active-class="SingleShortCutActive"
+                    to="/consultation/Consultants"
+                  >
+                    <span v-if="!decrease_width" class="font_sidebar_size">همه مشاور ها</span>
+                  </nuxt-link>
+                </div>
+                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                    exact-active-class="SingleShortCutActive"
+                    to="/consultation/BecomeConsultant/"
+                  >
+                    <span v-if="!decrease_width" class="font_sidebar_size">مشاور شوید</span>
+                  </nuxt-link>
+                </div>
+                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                    exact-active-class="SingleShortCutActive"
+                    to="/consultation/MyConsultations/"
+
+                  >
+                    <span v-if="!decrease_width" class="font_sidebar_size">مشاوره های من </span>
+                  </nuxt-link>
+                </div>
+                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                    exact-active-class="SingleShortCutActive"
+                    to="/consultation/MyPatiants/"
+                  >
+                    <span v-if="!decrease_width" class="font_sidebar_size">بیماران من </span>
+                  </nuxt-link>
+                </div>
+                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                  <nuxt-link
+                    :class="[decrease_width ? 'p-3' : 'px-3']"
+                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
+                    exact-active-class="SingleShortCutActive"
+                    to="/consultation/MyPayments/"
+
+                  >
+                    <span v-if="!decrease_width" class="font_sidebar_size">پرداختی های من</span>
+                  </nuxt-link>
+                </div>
+              </div>
             </div>
             <!--            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
             <!--              <nuxt-link-->
@@ -1252,6 +1377,7 @@ export default {
       RoomateActive: false,
       displayChargeSideNav: false,
       want_to_search: false,
+      consultant:false,
       FinancialActive: false,
       decrease_width_button: false,
       showProfileHeader: false,

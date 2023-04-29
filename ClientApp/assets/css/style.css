@@ -107,7 +107,7 @@ html {
 }
 
 input[type="checkbox"] {
-  min-height: 1rem !important;
+  /*min-height: 1rem !important;*/
 }
 
 body {

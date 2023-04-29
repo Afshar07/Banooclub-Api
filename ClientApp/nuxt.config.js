@@ -97,6 +97,12 @@ module.exports = {
             default: resolve(__dirname, "pages/Blog/BlogDetail/_id"),
           },
         },
+        {
+          path: "/consultation/PrePay/:id/:consultantId",
+          components: {
+            default: resolve(__dirname, "pages/consultation/PrePay/_id"),
+          },
+        },
       );
     },
   },

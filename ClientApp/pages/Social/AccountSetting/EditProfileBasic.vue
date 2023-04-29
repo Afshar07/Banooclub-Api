@@ -380,7 +380,7 @@ export default {
                   }
                 });
               this.$toast.success("به روز رسانی با موفقیت انجام شد.");
-
+              this.$auth.fetchUser()
               this.$nuxt.$loading.finish();
             }
           })

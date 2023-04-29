@@ -1,14 +1,14 @@
 import { HubConnectionBuilder, LogLevel } from "@aspnet/signalr";
 
 export default ({ app, store }, inject) => {
-  const hub = new HubConnectionBuilder()
-    .withUrl("https://subapi.banoclub.com/chatHub", {
-      accessTokenFactory: function () {
-        console.log("Getting token for hub");
-      },
-    })
-    .configureLogging(LogLevel.Information)
-    .build();
+    const hub = new HubConnectionBuilder()
+      .withUrl("https://subapi.banoclub.com/chatHub", {
+        accessTokenFactory: function () {
+          console.log("Getting token for hub");
+        },
+      })
+      .configureLogging(LogLevel.Information)
+      .build();
   const PostHub = new HubConnectionBuilder()
     .withUrl("https://subapi.banoclub.com/PostHub", {
       accessTokenFactory: function () {
@@ -18,6 +18,7 @@ export default ({ app, store }, inject) => {
     .configureLogging(LogLevel.Information)
     .build();
   inject("hub", hub,PostHub);
+
   hub.on("SendMessage", (res) => {
     store.commit("sendMessage", res);
     console.log("Message sended by", res);
