@@ -131,6 +131,24 @@ export default [
     component: () => import('@/views/apps/Financial/AllOrders.vue'),
   },
   // *===============================================---*
+  // *--------- consultants ---- ---------------------------------------*
+  // *===============================================---*
+  {
+    path: '/apps/consultant/allConsultants',
+    name: 'apps-consultant-allConsultants',
+    component: () => import('@/views/apps/consultant/allConsultants.vue'),
+  },
+  {
+    path: '/apps/consultant/consultantRequests',
+    name: 'apps-consultant-consultantRequests',
+    component: () => import('@/views/apps/consultant/consultantRequests.vue'),
+  },
+  {
+    path: '/apps/consultant/consultantCategories',
+    name: 'apps-consultant-consultantCategories',
+    component: () => import('@/views/apps/consultant/consultantCategories.vue'),
+  },
+  // *===============================================---*
   // *--------- Upgrade ---- ---------------------------------------*
   // *===============================================---*
   {

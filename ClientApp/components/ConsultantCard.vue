@@ -12,27 +12,27 @@
             <span class="text-muted">متخصص دایی شدن</span>
           </div>
           <div class="d-flex gap-3 my-3 align-items-center flex-wrap">
-                  <span class=" py-1 px-2 rounded d-flex gap-2 align-items-center " style="background-color: #fff9e7">
-                  <LazyStarIcon style="height: 15px;width: 15px"></LazyStarIcon>
-                    <small>4.6</small>
+                  <span class=" py-1 px-2 rounded d-flex gap-2 align-items-center " style="background-color: #ffdb66">
+                  <LazyStarIcon style="height: 15px;width: 15px;fill: white"></LazyStarIcon>
+                    <small class="text-white">4.6</small>
                   </span>
-            <span class=" py-1 px-2 rounded d-flex gap-2 align-items-center " style="background-color: #e6f8f5">
-                  <LazyCommentIcon style="height: 15px;width: 15px"></LazyCommentIcon>
-                    <small>123 دیدگاه</small>
+            <span class=" py-1 px-2 rounded d-flex  gap-2 align-items-center " style="background-color: #71ffe2">
+                  <LazyCommentIcon style="height: 15px;width: 15px;fill:white"></LazyCommentIcon>
+                    <small class="text-white">123 دیدگاه</small>
                   </span>
           </div>
           <div class="d-flex gap-3   align-items-center flex-wrap">
                    <span class=" py-1 px-2 rounded d-flex gap-2 align-items-center " style="background-color: #e7b0fe">
-                  <LazyPhoneIcon style="height: 15px;width: 15px"></LazyPhoneIcon>
-                    <small>فوری</small>
+                  <LazyPhoneIcon style="height: 15px;width: 15px;fill:white"></LazyPhoneIcon>
+                    <small class="text-white">فوری</small>
                   </span>
             <span class=" py-1 px-2 rounded d-flex gap-2 align-items-center " style="background-color: #e7b0fe">
-                  <LazySmartPhoneIcon style="height: 15px;width: 15px"></LazySmartPhoneIcon>
-                    <small>تلفنی</small>
+                  <LazySmartPhoneIcon style="height: 15px;width: 15px;fill:white"></LazySmartPhoneIcon>
+                    <small class="text-white">تلفنی</small>
                   </span>
             <span class=" py-1 px-2 rounded d-flex gap-2 align-items-center " style="background-color: #e7b0fe">
-                  <LazyCommentFillIcon style="height: 15px;width: 15px"></LazyCommentFillIcon>
-                    <small> متنی</small>
+                  <LazyCommentFillIcon style="height: 15px;width: 15px;fill:white"></LazyCommentFillIcon>
+                    <small class="text-white"> متنی</small>
                   </span>
             <!--                  <span class=" py-1 px-2 rounded d-flex gap-2 align-items-center " style="background-color: #e6f8f5">-->
             <!--                  <LazyCommentIcon style="height: 15px;width: 15px"></LazyCommentIcon>-->

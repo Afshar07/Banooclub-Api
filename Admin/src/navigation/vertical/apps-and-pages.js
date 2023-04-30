@@ -151,7 +151,25 @@ export default [
 
     ],
   },
+  {
+    title: 'مشاوره',
+    icon: 'HeartIcon',
+    children: [
+      {
+        title: 'لیست مشاور های فعال',
+        route: 'apps-consultant-allConsultants',
+      },
+      {
+        title: 'لیست درخواست های مشاور شدن',
+        route: 'apps-consultant-consultantRequests',
+      },
+      {
+        title: 'دسته بندی های مشاوره',
+        route: 'apps-consultant-consultantCategories',
+      },
 
+    ],
+  },
   {
     title: 'تبلیغات',
     icon: 'CodesandboxIcon',
