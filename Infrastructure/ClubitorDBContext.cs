@@ -92,6 +92,11 @@ namespace Infrastructure
 
         public DbSet<ConsultCategory> ConsultCategories { get; set; }
 
+        public DbSet<Consultant> Consultants { get; set; }
+        public DbSet<BecomeConsultantRequest> BecomeConsultantRequests { get; set; }
+        public DbSet<BecomeConsultantRequestConsultCategory> BecomeConsultantRequestConsultCategories { get; set; }
+
+
         public BanooClubDBContext(DbContextOptions<BanooClubDBContext> options) : base(options)
         {
 
@@ -99,6 +104,9 @@ namespace Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
+
+            modelbuilder.ApplyConfigurationsFromAssembly(typeof(BanooClubDBContext).Assembly);
+
             modelbuilder.Entity<Ads>().ToTable("Ads", "Service").HasKey(z => z.AdsId);
             modelbuilder.Entity<AdsCategory>().ToTable("AdsCategories", "Service").HasKey(z => z.AdsCategoryId);
             modelbuilder.Entity<AdsChat>().ToTable("AdsChats", "Service").HasKey(z => z.AdsChatId);
