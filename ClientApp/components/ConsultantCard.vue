@@ -1,5 +1,6 @@
 <template>
-  <nuxt-link  to="/"  class="bg-white text-black cursor-pointer shadow row rounded p-md-4 p-2 mb-3   row" style="min-height: 10rem;text-decoration: none">
+  <nuxt-link to="/" class="bg-white text-black cursor-pointer shadow row rounded p-md-4 p-2 mb-3   row"
+             style="min-height: 10rem;text-decoration: none">
     <div class="col-md-6 ">
       <div class="d-flex gap-3 h-100 align-items-start">
         <div class="rounded-circle  d-flex flex-column justify-content-start align-items-center"

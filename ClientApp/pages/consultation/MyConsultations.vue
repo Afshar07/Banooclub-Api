@@ -2,7 +2,7 @@
   <div class="mcontainer NewBg position-relative  px-2">
     <div class="row">
       <div class="col-md-12">
-        <h1 class="h4">مشاوره های من</h1>
+        <h1 class="h4">مشاورین من</h1>
       </div>
       <div class="col-md-12 my-3 ">
         <nuxt-link  to="/"  class="bg-white text-black cursor-pointer shadow row rounded p-md-4 p-2 mb-3   row" style="min-height: 10rem;text-decoration: none">
@@ -58,7 +58,7 @@ export default {
   },
   head(){
     return{
-      title:'مشاوره های من'
+      title:'مشاورین من'
     }
   },
 }

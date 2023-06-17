@@ -1,7 +1,7 @@
 <template>
   <div class="container NewBg  px-2">
     <div class="row  ">
-      <div class="col-md-3 p-4  ">
+      <div class="col-xl-3 col-lg-3 p-4  ">
         <div class="bg-white shadow row rounded-3 p-2">
           <div class="col-md-12 py-3 gap-2 border-bottom p-2 d-flex align-items-center justify-content-start">
             <LazyFilterIcon></LazyFilterIcon>
@@ -44,18 +44,16 @@
               ></v-select>
             </div>
           </div>
-
         </div>
-
       </div>
-      <div class="col-md-9 p-4 " style="height: 1000px">
+      <div class="col-xl-9 col-lg-9 p-4 " style="height: 1000px">
         <div class="bg-white shadow mb-3 row rounded p-2">
           <div class="d-flex flex-md-row flex-column align-items-center justify-content-start">
             <span>مرتب سازی بر اساس : </span>
 
             <ul class="nav nav-pills align-items-end profile_tabs py-3 mr-2" id="pills-tab" role="tablist">
               <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-                <button class="nav-link active" id="products-pills-home-tab" data-bs-toggle="pill"
+                <button class="nav-link active p-2" id="products-pills-home-tab" data-bs-toggle="pill"
                         data-bs-target="#products-pills-home" type="button" role="tab"
                         aria-controls="products-pills-home"
                         aria-selected="true">
@@ -63,13 +61,13 @@
                 </button>
               </li>
               <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+                <button class="nav-link p-2" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
                         type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
                   بالاترین تجربه
                 </button>
               </li>
               <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
-                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+                <button class="nav-link p-2" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
                         type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
                   بیشترین امتیاز
                 </button>
@@ -109,7 +107,7 @@ export default {
   },
   head(){
     return{
-      title:'همه مشاور ها'
+      title:'لیست مشاورین'
     }
   },
 }

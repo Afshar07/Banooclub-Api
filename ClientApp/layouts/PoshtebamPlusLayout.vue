@@ -21,13 +21,13 @@
       @click="closingHeader = true"
     >
 
-        <div :class="decrease_width?'lg:tw-col-span-1 ':'lg:tw-col-span-2'"  class="tw-transition-all NewBg tw-duration-100    m-0 p-0">
+        <div :class="decrease_width?'xl:tw-col-span-1 ':'xl:tw-col-span-2'"  class="tw-transition-all NewBg tw-duration-100    m-0 p-0">
 
         </div>
 
 
 
-        <div :class="decrease_width?'  tw-col-span-12 tw-mr-20':'lg:tw-col-span-10 tw-col-span-12'"  class="   NewBg  tw-min-h-screen   tw-bg-[#faf7ff]">
+        <div :class="decrease_width?' xl:tw-col-span-11  tw-col-span-12 ':'xl:tw-col-span-10 tw-col-span-12'"  class="   NewBg  tw-min-h-screen   tw-bg-[#faf7ff]">
           <Nuxt
             @GetFullName="SetFullName($event)"
           />

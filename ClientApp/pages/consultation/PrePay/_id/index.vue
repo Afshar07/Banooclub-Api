@@ -31,6 +31,22 @@
       </div>
       <div class="col-md-12 bg-white  my-3 rounded shadow p-3">
         <div class="w-100 d-flex align-items-center gap-3">
+          <strong class="">انتخاب زمان</strong>
+        </div>
+        <div class="w-100 p-2 border-bottom d-flex align-items-center justify-content-between">
+          <small class="text-pink">مشاوره پرداخت</small>
+          <small class="text-pink">119000 تومان</small>
+
+        </div>
+        <div style="background-color: #fcf5ff" class="w-100 p-2 my-2 rounded  d-flex align-items-center justify-content-between">
+          <small class="text-pink">مبلغ قابل پرداخت</small>
+          <small class="text-pink">119000 تومان</small>
+
+        </div>
+
+      </div>
+      <div class="col-md-12 bg-white  my-3 rounded shadow p-3">
+        <div class="w-100 d-flex align-items-center gap-3">
           <strong class=""> کد تخفیف</strong>
         </div>
         <div class="w-100 mt-2">

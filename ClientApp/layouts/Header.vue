@@ -277,7 +277,7 @@
                   exact-active-class="SingleShortCutActive"
                   to="/consultation/Consultants"
                 >
-                  <span v-if="!decrease_width" class="font_sidebar_size">همه مشاور ها</span>
+                  <span v-if="!decrease_width" class="font_sidebar_size">لیست مشاورین</span>
                 </nuxt-link>
               </div>
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
@@ -285,11 +285,12 @@
                   :class="[decrease_width ? 'p-3' : 'px-3']"
                   class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                   exact-active-class="SingleShortCutActive"
-                  to="/consultation/BecomeConsultant/"
+                  to="/consultation/MyConsultationInfo/"
                 >
-                  <span v-if="!decrease_width" class="font_sidebar_size">مشاور شوید</span>
+                  <span v-if="!decrease_width" class="font_sidebar_size">اطلاعات مشاوره من</span>
                 </nuxt-link>
               </div>
+
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   :class="[decrease_width ? 'p-3' : 'px-3']"
@@ -297,7 +298,7 @@
                   exact-active-class="SingleShortCutActive"
                   to="/consultation/MyConsultations/"
                 >
-                  <span v-if="!decrease_width" class="font_sidebar_size">مشاوره های من </span>
+                  <span v-if="!decrease_width" class="font_sidebar_size">مشاورین من </span>
                 </nuxt-link>
               </div>
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
@@ -307,7 +308,7 @@
                   exact-active-class="SingleShortCutActive"
                   to="/consultation/MyPatiants/"
                 >
-                  <span v-if="!decrease_width" class="font_sidebar_size">بیماران من </span>
+                  <span v-if="!decrease_width" class="font_sidebar_size">گفتگو های من</span>
                 </nuxt-link>
               </div>
               <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
@@ -380,6 +381,16 @@
               <LogOutIcon class="svg_icons_size  "/>
               <span v-if="!decrease_width" class="header_font_sidebar_size">خروج</span>
             </span>
+          </div>
+          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+            <nuxt-link
+              :class="[decrease_width ? 'p-3' : 'px-3']"
+              class=" p-2 rounded bg-pink  text-white  py-2 w-100 d-flex align-items-center justify-content-center gap-4"
+              exact-active-class="SingleShortCutActive"
+              to="/consultation/BecomeConsultant/"
+            >
+              <span v-if="!decrease_width" class="font_sidebar_size">مشاور شوید</span>
+            </nuxt-link>
           </div>
           <div class="d-flex align-items-center  flex-wrap justify-content-start p-2">
             <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 my-3 px-2">راهنما</strong>
@@ -680,7 +691,7 @@
                     exact-active-class="SingleShortCutActive"
                     to="/consultation/Consultants"
                   >
-                    <span v-if="!decrease_width" class="font_sidebar_size">همه مشاور ها</span>
+                    <span v-if="!decrease_width" class="font_sidebar_size">لیست مشاورین</span>
                   </nuxt-link>
                 </div>
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
@@ -688,11 +699,12 @@
                     :class="[decrease_width ? 'p-3' : 'px-3']"
                     class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                     exact-active-class="SingleShortCutActive"
-                    to="/consultation/BecomeConsultant/"
+                    to="/consultation/MyConsultationInfo/"
                   >
-                    <span v-if="!decrease_width" class="font_sidebar_size">مشاور شوید</span>
+                    <span v-if="!decrease_width" class="font_sidebar_size">اطلاعات مشاوره من</span>
                   </nuxt-link>
                 </div>
+
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     :class="[decrease_width ? 'p-3' : 'px-3']"
@@ -701,7 +713,7 @@
                     to="/consultation/MyConsultations/"
 
                   >
-                    <span v-if="!decrease_width" class="font_sidebar_size">مشاوره های من </span>
+                    <span v-if="!decrease_width" class="font_sidebar_size">مشاورین من </span>
                   </nuxt-link>
                 </div>
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
@@ -711,7 +723,7 @@
                     exact-active-class="SingleShortCutActive"
                     to="/consultation/MyPatiants/"
                   >
-                    <span v-if="!decrease_width" class="font_sidebar_size">بیماران من </span>
+                    <span v-if="!decrease_width" class="font_sidebar_size">گفتگو های من</span>
                   </nuxt-link>
                 </div>
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
@@ -779,6 +791,16 @@
             <!--                </div>-->
             <!--              </div>-->
             <!--            </div>-->
+            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+              <nuxt-link
+                :class="[decrease_width ? 'p-3' : 'px-3']"
+                class=" p-2 rounded bg-pink  text-white  py-2 w-100 d-flex align-items-center justify-content-center gap-4"
+                exact-active-class="SingleShortCutActive"
+                to="/consultation/BecomeConsultant/"
+              >
+                <span v-if="!decrease_width" class="font_sidebar_size">مشاور شوید</span>
+              </nuxt-link>
+            </div>
             <div v-if="!decrease_width" class="d-flex align-items-center  flex-wrap justify-content-start p-2">
               <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 my-3 px-2">راهنما</strong>
               <nuxt-link to="/terms">
@@ -1686,7 +1708,6 @@ export default {
     },
   },
   async mounted() {
-    console.log(this.$auth)
     window.addEventListener("scroll", this.updateScroll);
     if (!this.$route.query.id) {
       await this.goToMyPage()
