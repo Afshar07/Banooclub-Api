@@ -41,6 +41,7 @@ namespace BanooClub.Models.Consulting
 
         public long Id { get; set; }
         public long UserId { get; set; }
+        public User User { get; set; }
         public string NationalCode { get; set; }
         public string MedicalSystemNumber { get; set; }
         public ICollection<BecomeConsultantRequestConsultCategory> Categories { get; set; }

@@ -1,4 +1,5 @@
 ﻿using BanooClub.Extentions;
+using BanooClub.Models;
 using BanooClub.Models.Consulting;
 using BanooClub.Services.Common;
 using BanooClub.Services.ConsultingServices.DTOs;
@@ -89,12 +90,53 @@ namespace BanooClub.Services.ConsultingServices
             return operation.Ok();
         }
 
+        public async Task<IServiceResult<PageModel<BecomeConsultantRequestDTO>>> GetRequests(int page,int size, BecomeConsultantRequestStatus? status)
+        {
+
+            var operation = new ServiceResult<PageModel<BecomeConsultantRequestDTO>>();
+
+            var query = _repository.GetQuery();
+
+            if (status.HasValue)
+                query = query.Where(x => x.Status == status);
+
+            var skip = (page - 1) * size;
+            var totalCount = await query.CountAsync();
+            var data =
+                await
+                query
+                .Include(x => x.State)
+                .Include(x => x.City)
+                .Include(x => x.User)
+                .Select(x => new BecomeConsultantRequestDTO
+                {
+                    BankName = x.BankName,
+                    CartNo = x.CartNo,
+                    City = x.City.Name,
+                    State = x.State.Name,
+                    CityId = x.CityId,
+                    Id = x.Id,
+                    StateId = x.StateId,
+                    PhoneNumber = x.PhoneNumber,
+                    ShabaNo = x.ShabaNo,
+                    NatiaonCode = x.NationalCode,
+                    MedicalSystemNumber = x.MedicalSystemNumber,
+                    UserFullName = x.User.Name + " " + x.User.FamilyName,
+                })
+                .Skip(skip)
+                .Take(size)
+                .ToListAsync();
+
+            var pageModel = new PageModel<BecomeConsultantRequestDTO>(page,size,totalCount,data);
+            return operation.Ok(pageModel);
+        }
     }
 
     public interface IBecomeConsultantRequestService
     {
         Task<IServiceResult> AcceptRequestAndCreateConsultant(long requestId);
         Task<IServiceResult> CreateBecomeConsultantRequest(CreateBecomeConsultantRequestDTO dto);
+        Task<IServiceResult<PageModel<BecomeConsultantRequestDTO>>> GetRequests(int page, int size, BecomeConsultantRequestStatus? status);
         Task<IServiceResult> RejectRequest(long requestId);
     }
 }
