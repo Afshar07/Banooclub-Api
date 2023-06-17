@@ -83,6 +83,8 @@ using BanooClub.Services.ShippingServices;
 using BanooClub.Services.ShippingTypeServices;
 using BanooClub.Services.DashboardServices;
 using BanooClub.Services.DiscountServices;
+using BanooClub.Models.Consulting;
+using BanooClub.Services.ConsultingServices;
 
 namespace BanooClub.Extensions
 {
@@ -96,6 +98,7 @@ namespace BanooClub.Extensions
 
         private static void AddRepositories(IServiceCollection services)
         {
+            services.AddScoped<IBanooClubEFRepository<ConsultCategory>, BanooClubEfRepository<ConsultCategory>>();
             services.AddScoped<IBanooClubEFRepository<User>, BanooClubEfRepository<User>>();
             services.AddScoped<IBanooClubEFRepository<Formal>, BanooClubEfRepository<Formal>>();
             services.AddScoped<IBanooClubEFRepository<Ads>, BanooClubEfRepository<Ads>>();
@@ -154,17 +157,17 @@ namespace BanooClub.Extensions
             services.AddScoped<IBanooClubEFRepository<Order>, BanooClubEfRepository<Order>>();
             services.AddScoped<IBanooClubEFRepository<OrderItem>, BanooClubEfRepository<OrderItem>>();
 
-            services.AddScoped<IBanooClubEFRepository<ServicePack>,BanooClubEfRepository<ServicePack>>();
-            services.AddScoped<IBanooClubEFRepository<ServiceComment>,BanooClubEfRepository<ServiceComment>>();
-            services.AddScoped<IBanooClubEFRepository<ServiceProperty>,BanooClubEfRepository<ServiceProperty>>();
-            services.AddScoped<IBanooClubEFRepository<ServiceCategory>,BanooClubEfRepository<ServiceCategory>>();
-            services.AddScoped<IBanooClubEFRepository<Forum>,BanooClubEfRepository<Forum>>();
-            services.AddScoped<IBanooClubEFRepository<ForumCategory>,BanooClubEfRepository<ForumCategory>>();
-            services.AddScoped<IBanooClubEFRepository<ForumComment>,BanooClubEfRepository<ForumComment>>();
-            services.AddScoped<IBanooClubEFRepository<Rating>,BanooClubEfRepository<Rating>>();
-            services.AddScoped<IBanooClubEFRepository<View>,BanooClubEfRepository<View>>();
-            services.AddScoped<IBanooClubEFRepository<Tag>,BanooClubEfRepository<Tag>>();
-            services.AddScoped<IBanooClubEFRepository<Wallet>,BanooClubEfRepository<Wallet>>();
+            services.AddScoped<IBanooClubEFRepository<ServicePack>, BanooClubEfRepository<ServicePack>>();
+            services.AddScoped<IBanooClubEFRepository<ServiceComment>, BanooClubEfRepository<ServiceComment>>();
+            services.AddScoped<IBanooClubEFRepository<ServiceProperty>, BanooClubEfRepository<ServiceProperty>>();
+            services.AddScoped<IBanooClubEFRepository<ServiceCategory>, BanooClubEfRepository<ServiceCategory>>();
+            services.AddScoped<IBanooClubEFRepository<Forum>, BanooClubEfRepository<Forum>>();
+            services.AddScoped<IBanooClubEFRepository<ForumCategory>, BanooClubEfRepository<ForumCategory>>();
+            services.AddScoped<IBanooClubEFRepository<ForumComment>, BanooClubEfRepository<ForumComment>>();
+            services.AddScoped<IBanooClubEFRepository<Rating>, BanooClubEfRepository<Rating>>();
+            services.AddScoped<IBanooClubEFRepository<View>, BanooClubEfRepository<View>>();
+            services.AddScoped<IBanooClubEFRepository<Tag>, BanooClubEfRepository<Tag>>();
+            services.AddScoped<IBanooClubEFRepository<Wallet>, BanooClubEfRepository<Wallet>>();
             services.AddScoped<IBanooClubEFRepository<CommentLike>, BanooClubEfRepository<CommentLike>>();
             services.AddScoped<IBanooClubEFRepository<Like>, BanooClubEfRepository<Like>>();
 
@@ -174,7 +177,7 @@ namespace BanooClub.Extensions
             services.AddScoped<IBanooClubEFRepository<Shipping>, BanooClubEfRepository<Shipping>>();
             services.AddScoped<IBanooClubEFRepository<ShippingType>, BanooClubEfRepository<ShippingType>>();
             services.AddScoped<IBanooClubEFRepository<Discount>, BanooClubEfRepository<Discount>>();
-            
+
 
         }
 
@@ -262,6 +265,7 @@ namespace BanooClub.Extensions
             services.AddTransient<IShippingTypeService, ShippingTypeService>();
             services.AddTransient<IDashboardService, DashboardService>();
             services.AddTransient<IDiscountService, DiscountService>();
+            services.AddScoped<IConsultCategoryService, ConsultCategoryService>();
 
             services.AddTransient(typeof(IGenerateJwtService), typeof(GenerateJwtService));
             services.AddTransient(typeof(IConfirmationCodeSetting), typeof(ConfirmationCodeSetting));

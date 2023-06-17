@@ -1,4 +1,5 @@
 ﻿using BanooClub.Models;
+using BanooClub.Models.Consulting;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -89,6 +90,7 @@ namespace Infrastructure
         public DbSet<ShippingType> ShippingTypes { get; set; }
         public DbSet<Discount> Discounts { get; set; }
 
+        public DbSet<ConsultCategory> ConsultCategories { get; set; }
 
         public BanooClubDBContext(DbContextOptions<BanooClubDBContext> options) : base(options)
         {
