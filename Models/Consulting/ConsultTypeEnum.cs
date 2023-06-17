@@ -67,7 +67,8 @@ namespace BanooClub.Models.Consulting
         }
         public ConsultCategory(string title, long? parentId = null)
         {
-
+            Title = title;
+            ParentId = parentId;
         }
         public long Id { get; set; }
         public long? ParentId { get; set; }

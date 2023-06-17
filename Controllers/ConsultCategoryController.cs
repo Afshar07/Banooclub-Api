@@ -32,7 +32,7 @@ namespace BanooClub.Controllers
         
         public async Task<ActionResult<IServiceResult<PageModel<ConsultCategoryDTO>>>> Get(int page = 1, int size = 10)
         {
-            var result = await _consultCategoryService.GetCategories(1,10);
+            var result = await _consultCategoryService.GetCategories(page,size);
             return Ok(result);
         }
 
