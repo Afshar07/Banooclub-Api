@@ -21,7 +21,7 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost("[action]")]
-        [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IServiceResult>> Create(CreateConsultCategoryDTO dto)
         {
             var result = await _consultCategoryService.CreateConsultCategory(dto);
@@ -29,7 +29,7 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost("[action]")]
-        [Authorize("Admin")]
+        
         public async Task<ActionResult<IServiceResult<PageModel<ConsultCategoryDTO>>>> Get(int page = 1, int size = 10)
         {
             var result = await _consultCategoryService.GetCategories(1,10);
@@ -37,7 +37,6 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost("[action]")]
-        [Authorize("Admin")]
         public async Task<ActionResult<IServiceResult<List<ConsultCategoryDTO>>>> GetAll()
         {
             var result = await _consultCategoryService.GetCategories();
@@ -45,7 +44,7 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost("[action]")]
-        [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IServiceResult>> Delete(long id)
         {
             var result = await _consultCategoryService.Delete(id);
@@ -53,7 +52,7 @@ namespace BanooClub.Controllers
         }
 
         [HttpPost("[action]")]
-        [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IServiceResult>> Update(UpdateConsultCategoryDTO dto)
         {
             var result = await _consultCategoryService.Update(dto);

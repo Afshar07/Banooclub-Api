@@ -34,6 +34,11 @@
 		<PackageReference Include="SmsIrRestfulNetCore" Version="1.1.4" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
 
+		<PackageReference Include="Serilog.AspNetCore" Version="4.0.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+		<PackageReference Include="Serilog.Sinks.Elasticsearch" Version="8.4.1" />
+		<PackageReference Include="Serilog.Sinks.Seq" Version="5.0.0" />
+
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="ClientApp\.nuxt\App.js" />
