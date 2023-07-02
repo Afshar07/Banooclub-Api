@@ -1,5 +1,7 @@
-﻿using BanooClub.Models.Enums;
+﻿using BanooClub.Models.Consulting;
+using BanooClub.Models.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -7,6 +9,13 @@ namespace BanooClub.Models
 {
     public class User : BaseEntity
     {
+        public User()
+        {
+            Consultants = new List<Consultant>();
+            Orders = new List<Order>();
+            ConsultantUserSchedules = new List<ConsultantUserSchedule>();
+        }
+
         public long UserId { get; set; }
         public string Name { get; set; }
         public string FamilyName { get; set; }
@@ -47,6 +56,10 @@ namespace BanooClub.Models
         public string CityName { get; set; }
         [NotMapped]
         public string StateName { get; set; }
+
+        public List<Consultant> Consultants { get; set; }
+        public List<Order> Orders { get; set; }
+        public List<ConsultantUserSchedule> ConsultantUserSchedules { get; set; }
     }
     public class UserSignDTO
     {

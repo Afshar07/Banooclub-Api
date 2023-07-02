@@ -85,6 +85,7 @@ using BanooClub.Services.DashboardServices;
 using BanooClub.Services.DiscountServices;
 using BanooClub.Models.Consulting;
 using BanooClub.Services.ConsultingServices;
+using BanooClub.Services.SkyroomService;
 
 namespace BanooClub.Extensions
 {
@@ -98,7 +99,14 @@ namespace BanooClub.Extensions
 
         private static void AddRepositories(IServiceCollection services)
         {
+            services.AddScoped<IBanooClubEFRepository<ConsultantUserSchedule>, BanooClubEfRepository<ConsultantUserSchedule>>();
+            services.AddScoped<IBanooClubEFRepository<ConsultantSchedule>, BanooClubEfRepository<ConsultantSchedule>>();
+            services.AddScoped<IBanooClubEFRepository<ConsultantVideoConferanceUrl>, BanooClubEfRepository<ConsultantVideoConferanceUrl>>();
+            services.AddScoped<IBanooClubEFRepository<BecomeConsultantRequestSchedule>, BanooClubEfRepository<BecomeConsultantRequestSchedule>>();
             services.AddScoped<IBanooClubEFRepository<ConsultCategory>, BanooClubEfRepository<ConsultCategory>>();
+            services.AddScoped<IBanooClubEFRepository<ConsultantPrice>, BanooClubEfRepository<ConsultantPrice>>();
+            services.AddScoped<IBanooClubEFRepository<ConsultantConsultCategory>, BanooClubEfRepository<ConsultantConsultCategory>>();
+            services.AddScoped<IBanooClubEFRepository<BecomeConsultantRequestConsultPrice>, BanooClubEfRepository<BecomeConsultantRequestConsultPrice>>();
             services.AddScoped<IBanooClubEFRepository<Consultant>, BanooClubEfRepository<Consultant>>();
             services.AddScoped<IBanooClubEFRepository<BecomeConsultantRequest>, BanooClubEfRepository<BecomeConsultantRequest>>();
             services.AddScoped<IBanooClubEFRepository<BecomeConsultantRequestConsultCategory>, BanooClubEfRepository<BecomeConsultantRequestConsultCategory>>();
@@ -270,6 +278,10 @@ namespace BanooClub.Extensions
             services.AddTransient<IDiscountService, DiscountService>();
             services.AddScoped<IConsultCategoryService, ConsultCategoryService>();
             services.AddScoped<IBecomeConsultantRequestService, BecomeConsultantRequestService>();
+            services.AddScoped<IConsultantService, ConsultantService>();
+            services.AddScoped<ISkyroomService, SkyroomService>();
+            services.AddScoped<IBecomeConsultantRequestScheduleService, BecomeConsultantRequestScheduleService>();
+            services.AddScoped<IConsultantScheduleService, ConsultantScheduleService>();
 
             services.AddTransient(typeof(IGenerateJwtService), typeof(GenerateJwtService));
             services.AddTransient(typeof(IConfirmationCodeSetting), typeof(ConfirmationCodeSetting));

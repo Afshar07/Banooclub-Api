@@ -611,31 +611,51 @@ namespace BanooClub.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BankName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("CartNo")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<long>("CityId")
                         .HasColumnType("bigint");
 
+                    b.Property<int>("ConsultingDurationMinut")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("MedicalSystemNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("NationalCode")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("ShabaNo")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<long>("StateId")
                         .HasColumnType("bigint");
@@ -651,6 +671,8 @@ namespace BanooClub.Migrations
                     b.HasIndex("CityId");
 
                     b.HasIndex("StateId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("BecomeConsultantRequests", "Consulting");
                 });
@@ -671,6 +693,57 @@ namespace BanooClub.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("BecomeConsultantRequestConsultCategories", "Consulting");
+                });
+
+            modelBuilder.Entity("BanooClub.Models.Consulting.BecomeConsultantRequestConsultPrice", b =>
+                {
+                    b.Property<long>("BecomeConsultantRequestId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("Price")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("BecomeConsultantRequestId", "Type");
+
+                    b.ToTable("BecomeConsultantRequestConsultPrices", "Consulting");
+                });
+
+            modelBuilder.Entity("BanooClub.Models.Consulting.BecomeConsultantRequestSchedule", b =>
+                {
+                    b.Property<long>("BecomeConsultantRequestScheduleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("BecomeConsultantRequestId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<TimeSpan>("EntTime")
+                        .HasColumnType("time");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time");
+
+                    b.HasKey("BecomeConsultantRequestScheduleId");
+
+                    b.HasIndex("BecomeConsultantRequestId");
+
+                    b.ToTable("BecomeConsultantRequestSchedules", "Consulting");
                 });
 
             modelBuilder.Entity("BanooClub.Models.Consulting.ConsultCategory", b =>
@@ -704,28 +777,51 @@ namespace BanooClub.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BankName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("CartNo")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<long>("CityId")
                         .HasColumnType("bigint");
+
+                    b.Property<int>("ConsultingDurationMinut")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("MedicalSystemNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("NationalCode")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("ShabaNo")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<long>("StateId")
                         .HasColumnType("bigint");
@@ -739,6 +835,8 @@ namespace BanooClub.Migrations
 
                     b.HasIndex("StateId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Consultants", "Consulting");
                 });
 
@@ -750,11 +848,133 @@ namespace BanooClub.Migrations
                     b.Property<long>("ConsultCategoryId")
                         .HasColumnType("bigint");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.HasKey("ConsultantId", "ConsultCategoryId");
 
                     b.HasIndex("ConsultCategoryId");
 
                     b.ToTable("ConsultantConsultCategories", "Consulting");
+                });
+
+            modelBuilder.Entity("BanooClub.Models.Consulting.ConsultantPrice", b =>
+                {
+                    b.Property<long>("ConsultantId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("Price")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ConsultantId", "Type");
+
+                    b.ToTable("ConsultantPrice", "Consulting");
+                });
+
+            modelBuilder.Entity("BanooClub.Models.Consulting.ConsultantSchedule", b =>
+                {
+                    b.Property<long>("ConsultantScheduleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("ConsultantId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<TimeSpan>("EntTime")
+                        .HasColumnType("time");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time");
+
+                    b.HasKey("ConsultantScheduleId");
+
+                    b.HasIndex("ConsultantId");
+
+                    b.ToTable("ConsultantSchedule", "Consulting");
+                });
+
+            modelBuilder.Entity("BanooClub.Models.Consulting.ConsultantUserSchedule", b =>
+                {
+                    b.Property<long>("ConsultantUserScheduleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("ConsultantId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPayed")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("OrderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<TimeSpan>("ReserveTime")
+                        .HasColumnType("time");
+
+                    b.Property<byte>("Status")
+                        .HasColumnType("tinyint");
+
+                    b.Property<DateTime>("TargetDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ConsultantUserScheduleId");
+
+                    b.HasIndex("ConsultantId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ConsultantUserSchedules", "Consulting");
+                });
+
+            modelBuilder.Entity("BanooClub.Models.Consulting.ConsultantVideoConferanceUrl", b =>
+                {
+                    b.Property<long>("OrderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ConsultantId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ConferanceUrl")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("OrderId", "ConsultantId");
+
+                    b.HasIndex("ConsultantId");
+
+                    b.ToTable("ConsultantVideoConferanceUrls", "Consulting");
                 });
 
             modelBuilder.Entity("BanooClub.Models.Country", b =>
@@ -1449,6 +1669,8 @@ namespace BanooClub.Migrations
 
                     b.HasKey("OrderId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Orders", "Order");
                 });
 
@@ -1458,6 +1680,12 @@ namespace BanooClub.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ConsultType")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("ConsultantId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Count")
                         .HasColumnType("int");
@@ -1484,6 +1712,10 @@ namespace BanooClub.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("OrderItemId");
+
+                    b.HasIndex("ConsultantId");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("OrderItems", "Order");
                 });
@@ -2830,9 +3062,17 @@ namespace BanooClub.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BanooClub.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("City");
 
                     b.Navigation("State");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BanooClub.Models.Consulting.BecomeConsultantRequestConsultCategory", b =>
@@ -2854,23 +3094,53 @@ namespace BanooClub.Migrations
                     b.Navigation("Request");
                 });
 
+            modelBuilder.Entity("BanooClub.Models.Consulting.BecomeConsultantRequestConsultPrice", b =>
+                {
+                    b.HasOne("BanooClub.Models.Consulting.BecomeConsultantRequest", "BecomeConsultantRequest")
+                        .WithMany("BecomeConsultantRequestConsultPrices")
+                        .HasForeignKey("BecomeConsultantRequestId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("BecomeConsultantRequest");
+                });
+
+            modelBuilder.Entity("BanooClub.Models.Consulting.BecomeConsultantRequestSchedule", b =>
+                {
+                    b.HasOne("BanooClub.Models.Consulting.BecomeConsultantRequest", "BecomeConsultantRequest")
+                        .WithMany("BecomeConsultantRequestSchedules")
+                        .HasForeignKey("BecomeConsultantRequestId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("BecomeConsultantRequest");
+                });
+
             modelBuilder.Entity("BanooClub.Models.Consulting.Consultant", b =>
                 {
                     b.HasOne("BanooClub.Models.City", "City")
-                        .WithMany()
+                        .WithMany("Consultants")
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BanooClub.Models.State", "State")
-                        .WithMany()
+                        .WithMany("Consultants")
                         .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BanooClub.Models.User", "User")
+                        .WithMany("Consultants")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("City");
 
                     b.Navigation("State");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BanooClub.Models.Consulting.ConsultantConsultCategory", b =>
@@ -2881,25 +3151,163 @@ namespace BanooClub.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BanooClub.Models.Consulting.Consultant", "Consult")
+                    b.HasOne("BanooClub.Models.Consulting.Consultant", "Consultant")
                         .WithMany("Categories")
                         .HasForeignKey("ConsultantId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Consult");
+                    b.Navigation("Consultant");
 
                     b.Navigation("ConsultCategory");
                 });
 
+            modelBuilder.Entity("BanooClub.Models.Consulting.ConsultantPrice", b =>
+                {
+                    b.HasOne("BanooClub.Models.Consulting.Consultant", "Consultant")
+                        .WithMany("ConsultantPrices")
+                        .HasForeignKey("ConsultantId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Consultant");
+                });
+
+            modelBuilder.Entity("BanooClub.Models.Consulting.ConsultantSchedule", b =>
+                {
+                    b.HasOne("BanooClub.Models.Consulting.Consultant", "Consultant")
+                        .WithMany("ConsultantSchedules")
+                        .HasForeignKey("ConsultantId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Consultant");
+                });
+
+            modelBuilder.Entity("BanooClub.Models.Consulting.ConsultantUserSchedule", b =>
+                {
+                    b.HasOne("BanooClub.Models.Consulting.Consultant", "Consultant")
+                        .WithMany("ConsultantUserSchedules")
+                        .HasForeignKey("ConsultantId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("BanooClub.Models.Order", "Order")
+                        .WithMany("ConsultantUserSchedules")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("BanooClub.Models.User", "User")
+                        .WithMany("ConsultantUserSchedules")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Consultant");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BanooClub.Models.Consulting.ConsultantVideoConferanceUrl", b =>
+                {
+                    b.HasOne("BanooClub.Models.Consulting.Consultant", "Consultant")
+                        .WithMany("ConsultantVideoConferanceUrls")
+                        .HasForeignKey("ConsultantId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("BanooClub.Models.Order", "Order")
+                        .WithMany("ConsultantVideoConferanceUrls")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Consultant");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("BanooClub.Models.Order", b =>
+                {
+                    b.HasOne("BanooClub.Models.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BanooClub.Models.OrderItem", b =>
+                {
+                    b.HasOne("BanooClub.Models.Consulting.Consultant", "Consultant")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("ConsultantId");
+
+                    b.HasOne("BanooClub.Models.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Consultant");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("BanooClub.Models.City", b =>
+                {
+                    b.Navigation("Consultants");
+                });
+
             modelBuilder.Entity("BanooClub.Models.Consulting.BecomeConsultantRequest", b =>
                 {
+                    b.Navigation("BecomeConsultantRequestConsultPrices");
+
+                    b.Navigation("BecomeConsultantRequestSchedules");
+
                     b.Navigation("Categories");
                 });
 
             modelBuilder.Entity("BanooClub.Models.Consulting.Consultant", b =>
                 {
                     b.Navigation("Categories");
+
+                    b.Navigation("ConsultantPrices");
+
+                    b.Navigation("ConsultantSchedules");
+
+                    b.Navigation("ConsultantUserSchedules");
+
+                    b.Navigation("ConsultantVideoConferanceUrls");
+
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("BanooClub.Models.Order", b =>
+                {
+                    b.Navigation("ConsultantUserSchedules");
+
+                    b.Navigation("ConsultantVideoConferanceUrls");
+
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("BanooClub.Models.State", b =>
+                {
+                    b.Navigation("Consultants");
+                });
+
+            modelBuilder.Entity("BanooClub.Models.User", b =>
+                {
+                    b.Navigation("Consultants");
+
+                    b.Navigation("ConsultantUserSchedules");
+
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

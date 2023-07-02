@@ -21,5 +21,7 @@
         public static string PostMediaUrl { get; set; } = MediaBaseUrl + "Post";
         public static string Blog { get; set; } = MediaBaseUrl + "Blog";
         public static string AdsCategory { get; set; } = MediaBaseUrl + "AdsCategory";
+        public static string Consultation { get; set; } = MediaBaseUrl + "VideoConsultation";
+        public static string ConsultationUserProfile { get; set; } = MediaBaseUrl + "ConsultationUserProfile";
     }
 }

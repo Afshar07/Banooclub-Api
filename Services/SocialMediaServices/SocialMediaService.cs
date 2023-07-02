@@ -120,25 +120,29 @@ namespace BanooClub.Services.SocialMediaServices
             OutPutSaveImage outPutSave = new OutPutSaveImage();
             try
             {
+                string fileName = System.Guid.NewGuid() + ".jpg";
+
                 if (base64.StartsWith("data:image/png;base64,"))
                 {
                     base64 = base64.Split(",")[1];
+                } else if (path.Contains("Video"))
+                {
+                    base64 = base64.Split(",")[1];
+                    fileName = System.Guid.NewGuid() + ".mp4";
                 }
                 byte[] contents = Convert.FromBase64String(base64);
 
-                string fileName = System.Guid.NewGuid() + ".jpg";
-                if (path.Contains("Video"))
-                {
-                    fileName = System.Guid.NewGuid() + ".mp4";
-                }
-                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), path, fileName);
+                var direcPath = Path.Combine(Directory.GetCurrentDirectory(), path);
+                if (!Directory.Exists(direcPath))
+                    Directory.CreateDirectory(direcPath);
+                string imagePath = Path.Combine(direcPath, fileName);
 
                 System.IO.File.WriteAllBytes(imagePath, contents);
                 outPutSave.ImageName = fileName;
                 outPutSave.IsSuccess = true;
                 return outPutSave;
             }
-            catch (Exception ex)
+            catch 
             {
                 outPutSave.IsSuccess = false;
                 outPutSave.ImageName = "";

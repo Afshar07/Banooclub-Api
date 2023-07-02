@@ -14,18 +14,49 @@ namespace BanooClub.Controllers
     {
 
         private readonly IBecomeConsultantRequestService _becomeConsultantRequestService;
+        private readonly IBecomeConsultantRequestScheduleService _becomeConsultantRequestScheduleService;
 
-        public BecomeConsultantRequestController(IBecomeConsultantRequestService becomeConsultantRequestService)
+        public BecomeConsultantRequestController
+            (
+                IBecomeConsultantRequestService becomeConsultantRequestService,
+                IBecomeConsultantRequestScheduleService becomeConsultantRequestScheduleService
+            )
         {
             _becomeConsultantRequestService = becomeConsultantRequestService;
+            _becomeConsultantRequestScheduleService = becomeConsultantRequestScheduleService;
         }
 
         [HttpPost("[action]")]
+        [Authorize]
         public async Task<ActionResult<IServiceResult>> CreateRequest(CreateBecomeConsultantRequestDTO dto)
         {
             var result = await _becomeConsultantRequestService.CreateBecomeConsultantRequest(dto);
             return Ok(result);
         }
+
+        [HttpPost("[action]")]
+        [Authorize]
+        public async Task<ActionResult<IServiceResult>> Get()
+        {
+            var result = await _becomeConsultantRequestService.GetLast();
+            return Ok(result);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize]
+        public async Task<ActionResult<IServiceResult>> GetById(long Id)
+        {
+            var result = await _becomeConsultantRequestService.GetById(Id);
+            return Ok(result);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize]
+        public ActionResult GetDurationList()
+        {
+            return Ok(_becomeConsultantRequestService.GetDuration());
+        }
+
         [HttpPost("[action]")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IServiceResult>> AcceptRequest(long requestId)

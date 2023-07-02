@@ -1,10 +1,8 @@
 ﻿using BanooClub.Models;
 using BanooClub.Models.Enums;
 using BanooClub.Services.PaymentServices;
-using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BanooClub.Controllers
@@ -20,11 +18,18 @@ namespace BanooClub.Controllers
             this.paymentService = paymentService;
         }
 
+        //[HttpPost]
+        //[Route("[action]")]
+        //public async Task<object> Create([FromBody] Payment inputDto)
+        //{
+        //    return await paymentService.Create(inputDto);
+        //}
+
         [HttpPost]
         [Route("[action]")]
-        public async Task<object> Create([FromBody] Payment inputDto)
+        public async Task<object> Create(long? orderId)
         {
-            return await paymentService.Create(inputDto);
+            return await paymentService.CreateByOrder(orderId);
         }
 
         [HttpPost]
@@ -64,9 +69,9 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<int> ChangePaymentStatus(string orderId, string transId)
+        public async Task<int> ChangePaymentStatus(string paymentId, string transId)
         {
-            return await paymentService.ChangePaymentStatus(orderId, transId);
+            return await paymentService.ChangePaymentStatus(paymentId, transId);
         }
 
         [HttpPost]

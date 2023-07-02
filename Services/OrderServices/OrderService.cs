@@ -3,6 +3,7 @@ using BanooClub.Models;
 using BanooClub.Models.Enums;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -231,6 +232,53 @@ namespace BanooClub.Services.OrderServices
             };
 
             return data;
+        }
+
+        public async Task<object> GetMyCansultants()
+        {
+            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                   ? _accessor.HttpContext.User.Identity.GetUserId()
+                   : 0;
+
+            return await orderItemRepository
+                .GetQuery()
+                .Where(t => t.ConsultantId != null && t.ConsultantId > 0 && t.Order.UserId == userId && t.Consultant != null)
+                .Select(t => new 
+                {
+                    id = t.OrderItemId,
+                    consultantId = t.ConsultantId,
+                    orderId = t.OrderId,
+                    name = t.Consultant.User.Name,
+                    lName = t.Consultant.User.FamilyName,
+                    type = t.ConsultType,
+                    createDate = t.Order.CreateDate,
+                    price = t.Price,
+                    status = t.Order.User.ConsultantUserSchedules.Where(tt => tt.ConsultantId == t.ConsultantId).Select(tt => tt.Status).FirstOrDefault()
+                })
+                .ToListAsync();
+        }
+
+        public async Task<object> GetMyCansultantsForConsulter()
+        {
+            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                   ? _accessor.HttpContext.User.Identity.GetUserId()
+                   : 0;
+
+            return await orderItemRepository
+                .GetQuery()
+                .Where(t => t.ConsultantId != null && t.ConsultantId > 0 && t.Consultant != null && t.Order.IsPayed == true && t.Consultant.UserId == userId)
+                .Select(t => new
+                {
+                    id = t.OrderItemId,
+                    name = t.Order.User.Name,
+                    consultantId = t.ConsultantId,
+                    lName = t.Order.User.FamilyName,
+                    type = t.ConsultType,
+                    createDate = t.Order.CreateDate,
+                    price = t.Price,
+                    status = t.Order.User.ConsultantUserSchedules.Where(tt => tt.ConsultantId == t.ConsultantId).Select(tt => tt.Status).FirstOrDefault()
+                })
+                .ToListAsync();
         }
     }
 }

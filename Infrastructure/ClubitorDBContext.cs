@@ -95,7 +95,7 @@ namespace Infrastructure
         public DbSet<Consultant> Consultants { get; set; }
         public DbSet<BecomeConsultantRequest> BecomeConsultantRequests { get; set; }
         public DbSet<BecomeConsultantRequestConsultCategory> BecomeConsultantRequestConsultCategories { get; set; }
-
+        public DbSet<BecomeConsultantRequestSchedule> BecomeConsultantRequestSchedules { get; set; }
 
         public BanooClubDBContext(DbContextOptions<BanooClubDBContext> options) : base(options)
         {

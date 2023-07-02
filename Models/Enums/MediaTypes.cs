@@ -19,6 +19,10 @@
         ServiceCategory,
         Post,
         Blog,
-        AdsCategory
+        AdsCategory,
+        ConsultationRequest,
+        Consultation,
+        ConsultationRequestProfileImage,
+        ConsultationProfileImage
     }
 }
