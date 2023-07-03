@@ -59,14 +59,14 @@
             <img
               v-if="post_details.userInfo && post_details.userInfo.selfieFileData && inMyPosts"
               class="IMG-FLUID myPicture"
-              :src="`https://subapi.banoclub.com/${post_details.userInfo.selfieFileData}`"
+              :src="`https://api.banooclub.simagar.com/${post_details.userInfo.selfieFileData}`"
               alt=""
               style="width: 40px; height: 40px;border-radius: 50%; object-fit: contain; cursor: pointer"
             />
             <img
               v-else-if="post_details.userInfo && post_details.userInfo.selfieFileData && !inMyPosts"
               class="IMG-FLUID myPicture"
-              :src="`https://subapi.banoclub.com/media/gallery/profile/${post_details.userInfo.selfieFileData}`"
+              :src="`https://api.banooclub.simagar.com/media/gallery/profile/${post_details.userInfo.selfieFileData}`"
               alt=""
               style="width: 40px; height: 40px;border-radius: 50%; object-fit: contain; cursor: pointer"
             />
@@ -157,8 +157,8 @@
       >
         <vueper-slide v-for="(media,idx) in post_details.medias" :key="idx" :image="media.image">
           <template #content>
-            <img class="post_images" v-if="media.priority === 2" :src="`https://subapi.banoclub.com/media/gallery/post/${media.base64}`"/>
-            <video class="post_images" v-else-if="media.priority == 3" controls :src="`https://subapi.banoclub.com/media/gallery/post/${media.base64}`"></video>
+            <img class="post_images" v-if="media.priority === 2" :src="`https://api.banooclub.simagar.com/media/gallery/post/${media.base64}`"/>
+            <video class="post_images" v-else-if="media.priority == 3" controls :src="`https://api.banooclub.simagar.com/media/gallery/post/${media.base64}`"></video>
           </template>
         </vueper-slide>
       </vueper-slides>

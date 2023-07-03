@@ -164,7 +164,7 @@
             <div class="col-md-6 d-flex align-items-center justify-content-center justify-content-md-start">
               <img
                 v-if="item.photos.length > 0"
-                :src="'https://subapi.banoclub.com/'+ item.photos[0].base64"
+                :src="'https://api.banooclub.simagar.com/'+ item.photos[0].base64"
                 class="tw-w-full tw-h-[7rem] rounded tw-object-cover"
                 alt=""
               />

@@ -93,7 +93,7 @@
     <!--                >-->
     <!--                  <img-->
     <!--                    class="img-fluid myPicture"-->
-    <!--                    :src="`https://subapi.banoclub.com/${comItem.userInfo.selfieFileData}`"-->
+    <!--                    :src="`https://api.banooclub.simagar.com/${comItem.userInfo.selfieFileData}`"-->
     <!--                    alt=""-->
     <!--                  />-->
     <!--                </div>-->
@@ -155,7 +155,7 @@
     <!--                <div class="d-flex align-items-center gap-3">-->
     <!--                  <img-->
     <!--                    class="img-fluid myPicture m-0"-->
-    <!--                    :src="`https://subapi.banoclub.com/${$store.state.HeaderData.selfie}`"-->
+    <!--                    :src="`https://api.banooclub.simagar.com/${$store.state.HeaderData.selfie}`"-->
     <!--                    alt=""-->
     <!--                  />-->
     <!--                  <input-->
@@ -199,7 +199,7 @@
                 <img
                   v-if="item.userInfo.selfieFileData"
                   class="IMG-FLUID myPicture"
-                  :src="`https://subapi.banoclub.com/${item.userInfo.selfieFileData}`"
+                  :src="`https://api.banooclub.simagar.com/${item.userInfo.selfieFileData}`"
                   alt=""
                 />
                 <img

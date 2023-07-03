@@ -148,6 +148,11 @@ export default [
     name: 'apps-consultant-consultantCategories',
     component: () => import('@/views/apps/consultant/consultantCategories.vue'),
   },
+  {
+    path: '/apps/consultant/consultantRequestDetail/:id',
+    name: 'apps-consultant-consultantRequestDetail',
+    component: () => import('@/views/apps/consultant/consultantRequestDetail.vue'),
+  },
   // *===============================================---*
   // *--------- Upgrade ---- ---------------------------------------*
   // *===============================================---*

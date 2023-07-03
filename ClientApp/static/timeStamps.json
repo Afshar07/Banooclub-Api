@@ -1,0 +1,182 @@
+[
+  {
+    "value": "08:00:00",
+    "minute": 0,
+    "hour": 8,
+    "timestamp": 1688358600354
+  },
+  {
+    "value": "08:30:00",
+    "minute": 30,
+    "hour": 8,
+    "timestamp": 1688360400354
+  },
+  {
+    "value": "09:00:00",
+    "minute": 0,
+    "hour": 9,
+    "timestamp": 1688362200354
+  },
+  {
+    "value": "09:30:00",
+    "minute": 30,
+    "hour": 9,
+    "timestamp": 1688364000354
+  },
+  {
+    "value": "10:00:00",
+    "minute": 0,
+    "hour": 10,
+    "timestamp": 1688365800354
+  },
+  {
+    "value": "10:30:00",
+    "minute": 30,
+    "hour": 10,
+    "timestamp": 1688367600354
+  },
+  {
+    "value": "11:00:00",
+    "minute": 0,
+    "hour": 11,
+    "timestamp": 1688369400354
+  },
+  {
+    "value": "11:30:00",
+    "minute": 30,
+    "hour": 11,
+    "timestamp": 1688371200354
+  },
+  {
+    "value": "12:00:00",
+    "minute": 0,
+    "hour": 12,
+    "timestamp": 1688373000354
+  },
+  {
+    "value": "12:30:00",
+    "minute": 30,
+    "hour": 12,
+    "timestamp": 1688374800354
+  },
+  {
+    "value": "13:00:00",
+    "minute": 0,
+    "hour": 13,
+    "timestamp": 1688376600354
+  },
+  {
+    "value": "13:30:00",
+    "minute": 30,
+    "hour": 13,
+    "timestamp": 1688378400354
+  },
+  {
+    "value": "14:00:00",
+    "minute": 0,
+    "hour": 14,
+    "timestamp": 1688380200354
+  },
+  {
+    "value": "14:30:00",
+    "minute": 30,
+    "hour": 14,
+    "timestamp": 1688382000354
+  },
+  {
+    "value": "15:00:00",
+    "minute": 0,
+    "hour": 15,
+    "timestamp": 1688383800354
+  },
+  {
+    "value": "15:30:00",
+    "minute": 30,
+    "hour": 15,
+    "timestamp": 1688385600354
+  },
+  {
+    "value": "16:00:00",
+    "minute": 0,
+    "hour": 16,
+    "timestamp": 1688387400354
+  },
+  {
+    "value": "16:30:00",
+    "minute": 30,
+    "hour": 16,
+    "timestamp": 1688389200354
+  },
+  {
+    "value": "17:00:00",
+    "minute": 0,
+    "hour": 17,
+    "timestamp": 1688391000354
+  },
+  {
+    "value": "17:30:00",
+    "minute": 30,
+    "hour": 17,
+    "timestamp": 1688392800354
+  },
+  {
+    "value": "18:00:00",
+    "minute": 0,
+    "hour": 18,
+    "timestamp": 1688394600354
+  },
+  {
+    "value": "18:30:00",
+    "minute": 30,
+    "hour": 18,
+    "timestamp": 1688396400354
+  },
+  {
+    "value": "19:00:00",
+    "minute": 0,
+    "hour": 19,
+    "timestamp": 1688398200354
+  },
+  {
+    "value": "19:30:00",
+    "minute": 30,
+    "hour": 19,
+    "timestamp": 1688400000354
+  },
+  {
+    "value": "20:00:00",
+    "minute": 0,
+    "hour": 20,
+    "timestamp": 1688401800354
+  },
+  {
+    "value": "20:30:00",
+    "minute": 30,
+    "hour": 20,
+    "timestamp": 1688403600354
+  },
+  {
+    "value": "21:00:00",
+    "minute": 0,
+    "hour": 21,
+    "timestamp": 1688405400354
+  },
+  {
+    "value": "21:30:00",
+    "minute": 30,
+    "hour": 21,
+    "timestamp": 1688407200354
+  },
+  {
+    "value": "22:00:00",
+    "minute": 0,
+    "hour": 22,
+    "timestamp": 1688409000354
+  },
+  {
+    "value": "22:30:00",
+    "minute": 30,
+    "hour": 22,
+    "timestamp": 1688410800354
+  }
+]

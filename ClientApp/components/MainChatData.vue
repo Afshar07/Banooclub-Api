@@ -4,9 +4,9 @@
       <div class="col-md-12 tw-border-b tw-shadow p-3 bg-white">
         <div class="d-flex align-items-center justify-content-between">
           <div class="d-flex align-items-center gap-2">
-            <img v-if="ActiveUser.userPhoto!==null && !$route.query.Photo && ActiveUser.userId!==0 " style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://subapi.banoclub.com/media/gallery/profile/${ActiveUser.userPhoto}`"/>
-            <img v-else-if="$route.query.Photo" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://subapi.banoclub.com/media/gallery/profile/${$route.query.Photo}`"/>
-            <img v-else-if="ActiveUser.userPhoto!==null && ActiveUser.groupId!==0" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://subapi.banoclub.com/media/gallery/group/${ActiveUser.userPhoto}`"/>
+            <img v-if="ActiveUser.userPhoto!==null && !$route.query.Photo && ActiveUser.userId!==0 " style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://api.banooclub.simagar.com/media/gallery/profile/${ActiveUser.userPhoto}`"/>
+            <img v-else-if="$route.query.Photo" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://api.banooclub.simagar.com/media/gallery/profile/${$route.query.Photo}`"/>
+            <img v-else-if="ActiveUser.userPhoto!==null && ActiveUser.groupId!==0" style="width: 50px; height: 50px;" class="rounded-circle" :src="`https://api.banooclub.simagar.com/media/gallery/group/${ActiveUser.userPhoto}`"/>
             <img v-else style="width: 50px; height: 50px;" class="rounded-circle" src="~/assets/images/defaultUser.png"/>
             <small class="tw-text-[#333] tw-text-[15px] tw-font-bold tw-cursor-pointer" @click="goToUserProfile(ActiveUser)">{{ ActiveUser.userName }}</small>
 

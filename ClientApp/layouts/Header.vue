@@ -67,7 +67,8 @@
           </div>
           <div :class="[decrease_width ? '' : '']" class="py-1">
 
-            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+                 class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
                  @click="ServicesActive=!ServicesActive">
               <ProductsIcon class="svg_icons_size tw-fill-[#19faf4]"/>
               <span v-if="!decrease_width" class="header_font_sidebar_size">خدمات </span>
@@ -123,7 +124,8 @@
             </div>
           </div>
           <div :class="[decrease_width ? '' : ' ']" class="py-1">
-            <div v-if="!decrease_width" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+            <div v-if="!decrease_width"
+                 class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
                  @click="AdsActive=!AdsActive">
               <AdsIcon class="svg_icons_size tw-fill-[#9739fc]"/>
               <span class="header_font_sidebar_size">آگهی کالا</span>
@@ -167,7 +169,8 @@
           </div>
           <div :class="[decrease_width ? '' : '']" class="py-1">
 
-            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+                 class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
                  @click="FinancialActive=!FinancialActive">
               <MoneyIcon class="svg_icons_size" fill="#fc9739"/>
               <span v-if="!decrease_width" class="header_font_sidebar_size">مالی</span>
@@ -211,7 +214,8 @@
             </nuxt-link>
           </div>
           <div :class="[decrease_width ? '' : '']" class="py-1">
-            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']" class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+            <div v-if="!decrease_width" :class="[decrease_width ? '' : '']"
+                 class=" tw-cursor-default SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
                  @click="ForumsActive=! ForumsActive">
               <ForumIcon class="svg_icons_size tw-fill-[#3f30ff]"/>
               <span v-if="!decrease_width" class="header_font_sidebar_size">تالار گفتگو</span>
@@ -262,7 +266,8 @@
             </nuxt-link>
           </div>
           <div :class="[decrease_width ? '' : '']" class="py-1">
-            <div :class="[decrease_width ? '' : '']" class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+            <div :class="[decrease_width ? '' : '']"
+                 class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
                  @click="consultant=! consultant">
               <DocIcon class="svg_icons_size !tw-stroke-[#08b69b] !tw-fill-[#08b69b]"/>
               <span v-if="!decrease_width" class="header_font_sidebar_size">مشاوره</span>
@@ -393,18 +398,26 @@
             </nuxt-link>
           </div>
           <div class="d-flex align-items-center  flex-wrap justify-content-start p-2">
-            <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 my-3 px-2">راهنما</strong>
+            <strong
+              class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 my-3 px-2">راهنما</strong>
             <nuxt-link to="/terms">
-              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2 tw-cursor-pointer hover:!tw-text-purple-400">قوانین و مقررات</strong>
+              <strong
+                class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2 tw-cursor-pointer hover:!tw-text-purple-400">قوانین
+                و مقررات</strong>
             </nuxt-link>
             <nuxt-link to="/AboutUs">
-              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start tw-cursor-pointer hover:!tw-text-purple-400 my-3 px-2">درباره</strong>
+              <strong
+                class=" tw-text-[12px] tw-text-[#a3a3a3] border-start tw-cursor-pointer hover:!tw-text-purple-400 my-3 px-2">درباره</strong>
             </nuxt-link>
             <nuxt-link to="/ContactUs">
-              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 px-2">تماس با ما</strong>
+              <strong
+                class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 px-2">تماس
+                با ما</strong>
             </nuxt-link>
             <nuxt-link class="text-decoration-none" to="/Forums/">
-              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 px-2">تالار گفتگو</strong>
+              <strong
+                class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 px-2">تالار
+                گفتگو</strong>
             </nuxt-link>
           </div>
         </div>
@@ -580,7 +593,8 @@
             </div>
             <div :class="[decrease_width ? '' : '']" class="py-1">
 
-              <div :class="[decrease_width ? '' : '']" class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+              <div :class="[decrease_width ? '' : '']"
+                   class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
                    @click="FinancialActive=!FinancialActive">
                 <MoneyIcon class="svg_icons_size" fill="#fc9739"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">مالی</span>
@@ -624,7 +638,8 @@
               </nuxt-link>
             </div>
             <div :class="[decrease_width ? '' : '']" class="py-1">
-              <div :class="[decrease_width ? '' : '']" class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+              <div :class="[decrease_width ? '' : '']"
+                   class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
                    @click="ForumsActive=! ForumsActive">
                 <ForumIcon class="svg_icons_size tw-fill-[#3f30ff]"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">تالار گفتگو</span>
@@ -676,7 +691,8 @@
               </nuxt-link>
             </div>
             <div :class="[decrease_width ? '' : '']" class="py-1">
-              <div :class="[decrease_width ? '' : '']" class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
+              <div :class="[decrease_width ? '' : '']"
+                   class=" tw-cursor-pointer SingleShortCut p-3 py-2 w-100 d-flex align-items-center gap-4"
                    @click="consultant=! consultant">
                 <DocIcon class="svg_icons_size !tw-stroke-[#08b69b] !tw-fill-[#08b69b]"/>
                 <span v-if="!decrease_width" class="header_font_sidebar_size">مشاوره</span>
@@ -791,8 +807,10 @@
             <!--                </div>-->
             <!--              </div>-->
             <!--            </div>-->
-            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+            <div v-if="$auth && $auth.user "
+                 class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
+                v-if="!$auth.user.isConsultant &&(!$auth.user.lastConsultantRequestStatus || $auth.user.lastConsultantRequestStatus === 2  )"
                 :class="[decrease_width ? 'p-3' : 'px-3']"
                 class=" p-2 rounded bg-pink  text-white  py-2 w-100 d-flex align-items-center justify-content-center gap-4"
                 exact-active-class="SingleShortCutActive"
@@ -800,20 +818,37 @@
               >
                 <span v-if="!decrease_width" class="font_sidebar_size">مشاور شوید</span>
               </nuxt-link>
+              <nuxt-link
+                v-else-if="$auth.user.isConsultant"
+                :class="[decrease_width ? 'p-3' : 'px-3']"
+                class=" p-2 rounded bg-pink  text-white  py-2 w-100 d-flex align-items-center justify-content-center gap-4"
+                exact-active-class="SingleShortCutActive"
+                to="/consultation/MyConsultationInfo/"
+              >
+                <span v-if="!decrease_width" class="font_sidebar_size">اطلاعات مشاوره من</span>
+              </nuxt-link>
             </div>
             <div v-if="!decrease_width" class="d-flex align-items-center  flex-wrap justify-content-start p-2">
-              <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 my-3 px-2">راهنما</strong>
+              <strong
+                class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 my-3 px-2">راهنما</strong>
               <nuxt-link to="/terms">
-                <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2 tw-cursor-pointer hover:!tw-text-purple-400">قوانین و مقررات</strong>
+                <strong
+                  class=" tw-text-[12px] tw-text-[#a3a3a3] border-start my-3 px-2 tw-cursor-pointer hover:!tw-text-purple-400">قوانین
+                  و مقررات</strong>
               </nuxt-link>
               <nuxt-link to="/AboutUs">
-                <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start tw-cursor-pointer hover:!tw-text-purple-400 my-3 px-2">درباره</strong>
+                <strong
+                  class=" tw-text-[12px] tw-text-[#a3a3a3] border-start tw-cursor-pointer hover:!tw-text-purple-400 my-3 px-2">درباره</strong>
               </nuxt-link>
               <nuxt-link to="/ContactUs">
-                <strong class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 px-2">تماس با ما</strong>
+                <strong
+                  class=" tw-text-[12px] tw-text-[#a3a3a3] border-start  tw-cursor-pointer hover:!tw-text-purple-400 px-2">تماس
+                  با ما</strong>
               </nuxt-link>
               <nuxt-link class="text-decoration-none" to="/Forums/">
-                <strong class=" tw-text-[12px] tw-text-[#a3a3a3]  tw-cursor-pointer hover:!tw-text-purple-400 border-start px-2">تالار گفتگو</strong>
+                <strong
+                  class=" tw-text-[12px] tw-text-[#a3a3a3]  tw-cursor-pointer hover:!tw-text-purple-400 border-start px-2">تالار
+                  گفتگو</strong>
               </nuxt-link>
             </div>
           </div>
@@ -842,7 +877,8 @@
         <div v-if="!isChatLayout" class="col-lg-5 col-xl-4 header_search tw-relative">
           <SearchIcon
             class="tw-absolute tw-top-1/2 -tw-translate-y-1/2 tw-text-[#b44aff] -tw-translate-x-1/2 tw-flex tw-items-center tw-pointer-events-none"/>
-          <input v-model="SearchUsers" autocomplete="off" class="form-control tw-text-[#b44aff]" placeholder="جستجو دوستان"
+          <input v-model="SearchUsers" autocomplete="off" class="form-control tw-text-[#b44aff]"
+                 placeholder="جستجو دوستان"
                  type="text"
                  value="">
           <div
@@ -860,7 +896,7 @@
               <div class="col-md-1" style="padding-left: 0">
                 <img
                   v-if="item.selfieFileData !== ''"
-                  :src="`https://subapi.banoclub.com/${item.selfieFileData}`"
+                  :src="`https://api.banooclub.simagar.com/${item.selfieFileData}`"
                   alt=""
                   class="img-fluid myPicture rounded-circle tw-pl-0"
                   style="width: 25px; height: 25px;object-fit: contain"
@@ -899,7 +935,8 @@
                   <font-awesome-icon color="#b44aff" icon="home"></font-awesome-icon>
                 </div>
               </nuxt-link>
-              <nuxt-link v-tooltip.bottom-start="{content:'چت',delay:{show: 500, hide: 100}}" class="d-flex align-items-center"
+              <nuxt-link v-tooltip.bottom-start="{content:'چت',delay:{show: 500, hide: 100}}"
+                         class="d-flex align-items-center"
                          to="/social/Chat">
                 <div
                   ref="Chat"
@@ -931,7 +968,7 @@
                 <img
                   v-if="$auth.user && $auth.user.baseData &&  $auth.user.baseData.selfie"
                   v-click-outside="CloseProfileHeader"
-                  :src="`https://subapi.banoclub.com/${$auth.user.baseData.selfie}`"
+                  :src="`https://api.banooclub.simagar.com/${$auth.user.baseData.selfie}`"
                   alt=""
                   class="img-fluid headerPicture tw-object-cover"
                   @click.stop="profileHeader"
@@ -957,7 +994,7 @@
                         >
                           <img
                             v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
-                            :src="`https://subapi.banoclub.com/${$auth.user.baseData.selfie}`"
+                            :src="`https://api.banooclub.simagar.com/${$auth.user.baseData.selfie}`"
                             alt=""
                             class="img-fluid rounded-circle"
                             style="width: 45px; height: 45px;"
@@ -1069,13 +1106,15 @@
               <img alt="" class="tw-h-10  tw-object-cover" src="/banoclub-logo-small.png">
             </nuxt-link>
           </div>
-          <div class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
-               @click="$emit('sidenavToggle')">
+          <div
+            class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
+            @click="$emit('sidenavToggle')">
             <font-awesome-icon color="#b44aff" icon="search" @click="want_to_search = !want_to_search"/>
           </div>
 
-          <div class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
-               @click="$emit('sidenavToggle')">
+          <div
+            class=" custom_header_icon custom_header_size rounded-circle d-flex justify-content-center align-items-center mx-1"
+            @click="$emit('sidenavToggle')">
             <i class="fas fa-cog" style="color: #b44aff"></i>
           </div>
           <!--          <div class="p-3" @click="$emit('sidenavToggle')">-->
@@ -1116,7 +1155,7 @@
               <div class="col-1 d-flex" style="padding-left: 0">
                 <img
                   v-if="item.selfieFileData !== ''"
-                  :src="`https://subapi.banoclub.com/${item.selfieFileData}`"
+                  :src="`https://api.banooclub.simagar.com/${item.selfieFileData}`"
                   alt=""
                   class="myPicture rounded-circle align-self-center"
                   style="width: 25px;height: 25px;object-fit: contain"
@@ -1189,7 +1228,7 @@
             <div class="position-relative custom_header_size mx-1" @click="RouteToEditProfile">
               <img
                 v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
-                :src="`https://subapi.banoclub.com/${$auth.user.baseData.selfie}`"
+                :src="`https://api.banooclub.simagar.com/${$auth.user.baseData.selfie}`"
                 alt=""
                 class="img-fluid headerPicture tw-object-cover"
 
@@ -1212,7 +1251,7 @@
                       >
                         <img
                           v-if="loggedInfoData.selfie"
-                          :src="`https://subapi.banoclub.com/${loggedInfoData.selfie}`"
+                          :src="`https://api.banooclub.simagar.com/${loggedInfoData.selfie}`"
                           alt=""
                           class="img-fluid rounded-circle"
                           style="width: 45px; height: 45px;"
@@ -1399,7 +1438,7 @@ export default {
       RoomateActive: false,
       displayChargeSideNav: false,
       want_to_search: false,
-      consultant:false,
+      consultant: false,
       FinancialActive: false,
       decrease_width_button: false,
       showProfileHeader: false,
@@ -1669,12 +1708,12 @@ export default {
     },
     imgUserAvatar() {
       if (this.userinfo.selfieFileData !== null) {
-        this.userImageApi = `https://subapi.banoclub.com/${this.userinfo.selfieFileData}`;
+        this.userImageApi = `https://api.banooclub.simagar.com/${this.userinfo.selfieFileData}`;
       }
     },
     imageBackground() {
       if (this.userinfo.bannerFileData !== null) {
-        this.BackgroundApi = `https://subapi.banoclub.com/${this.userinfo.bannerFileData}`;
+        this.BackgroundApi = `https://api.banooclub.simagar.com/${this.userinfo.bannerFileData}`;
       }
     },
     async getUserInfo() {

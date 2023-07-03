@@ -44,5 +44,7 @@ class Helper{
     if (title !== ''){context.$toastMessage(context, description, 'error' );
     }
   }
+
+ static baseUrl = 'https://api.banooclub.simagar.com/'
 }
 export default Helper;

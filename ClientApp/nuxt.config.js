@@ -50,6 +50,7 @@ module.exports = {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     "~/plugins/getSsr.js",
+    "~/plugins/utils.js",
     "~/plugins/auth.js",
     {src: "~/plugins/fontawesome.js", mode: "client"},
     {src: "~/plugins/vue-star-rate.js", mode: "client"},
@@ -216,10 +217,10 @@ module.exports = {
   axios: {
     plugins: ["~/plugins/auth.js"],
     credentials: true,
-    baseURL: "https://subapi.banoclub.com/api/",
+    baseURL: "https://api.banooclub.simagar.com/api/",
     // baseURL: 'https://localhost:44330/',
   },
   env: {
-    pic: "https://subapi.banoclub.com/",
+    pic: "https://api.banooclub.simagar.com/",
   },
 };

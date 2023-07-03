@@ -1,7 +1,7 @@
 <template>
   <div class="tw-flex tw-items-center tw-rounded-md p-2 hover:tw-bg-gray-50">
     <nuxt-link to="#" class="text-decoration-none ">
-      <img v-if="item.fileData!=='' || item.fileData!==null" style="width: 49px; height: 49px;" :src="`https://subapi.banoclub.com/${item.fileData}`" class=" tw-w-full tw-h-full tw-rounded-full " alt="">
+      <img v-if="item.fileData!=='' || item.fileData!==null" style="width: 49px; height: 49px;" :src="`https://api.banooclub.simagar.com/${item.fileData}`" class=" tw-w-full tw-h-full tw-rounded-full " alt="">
       <img v-else style="width: 49px; height: 49px;" src="/no_image.png" class=" tw-w-full tw-h-full tw-rounded-full " alt="">
     </nuxt-link>
     <div class="tw-flex-1 px-3">

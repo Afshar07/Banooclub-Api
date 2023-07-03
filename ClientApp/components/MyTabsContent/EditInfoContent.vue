@@ -265,7 +265,7 @@
           <div v-if="nationalCart !== null && !cart">
             <img
               class="img-fluid"
-              :src="`https://subapi.banoclub.com/${nationalCart}`"
+              :src="`https://api.banooclub.simagar.com/${nationalCart}`"
             />
           </div>
         </div>
@@ -297,7 +297,7 @@
       <!--              <div v-if="passport !== null && !pass">-->
       <!--                <img-->
       <!--                  class="img-fluid"-->
-      <!--                  :src="`https://subapi.banoclub.com/${passport}`"-->
+      <!--                  :src="`https://api.banooclub.simagar.com/${passport}`"-->
       <!--                />-->
       <!--              </div>-->
       <!--            </div>-->

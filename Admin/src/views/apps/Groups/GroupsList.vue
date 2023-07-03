@@ -73,7 +73,7 @@
           <!-- Column: delete -->
           <template #cell(fileData)="data">
 
-            <img :src="`https://subapi.banoclub.com/${data.item.fileData}`" width="50px" height="50px" class="rounded-circle" alt="">
+            <img :src="`https://api.banooclub.simagar.com/${data.item.fileData}`" width="50px" height="50px" class="rounded-circle" alt="">
 
           </template>
           <template #cell(createDate)="data">

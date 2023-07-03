@@ -213,9 +213,9 @@ export default {
       ],
       nowDate: new Date(Date.now()),
       dayInMili: 86400000,
-      sessionDuration: 15,
+      sessionDuration: 30,
       defaultStartHour: 8,
-      defaultEndHour: 18
+      defaultEndHour: 23
     }
   },
   mounted() {
@@ -236,7 +236,8 @@ export default {
         tempDate.value = new Date(todayDate).toLocaleTimeString('en-US', {
           hour12: false,
           hour: "2-digit",
-          minute: '2-digit'
+          minute: '2-digit',
+          second:'2-digit'
         })
         tempDate.minute = new Date(todayDate).getMinutes()
         tempDate.hour = new Date(todayDate).getHours()
@@ -249,6 +250,7 @@ export default {
         }
         todayDate = new Date(todayDate.setMinutes(todayDate.getMinutes() + this.sessionDuration))
       }
+      console.log(this.generatedTimestamps)
 
     },
     getSelectedClass(weekDay, timeObj) {

@@ -1,82 +1,63 @@
 <template>
   <b-overlay
-      :show="Categories === null"
+      :show="overlay"
       rounded="sm"
   >
-    <div v-if="Categories !== null">
+    <div v-if="categories !== null">
       <b-modal
           id="modal-delete"
-          centered
-          ok-title="بله"
-
           cancelTitle="خیر"
-          @ok="DeleteCategory"
+          centered
+
+          ok-title="بله"
+          @ok="deleteCategory"
       >
         <span>آیا از حذف کردن این دسته بندی اطمینان دارید ؟ </span>
       </b-modal>
       <b-modal
           id="modal-edit"
           centered
-          ok-title="ویرایش"
           ok-only
+          ok-title="ویرایش"
 
-          @ok="UpdateCategory"
+          @ok="updateCategory"
       >
         <b-form-group>
-          <label >نام دسته بندی</label>
+          <label>نام دسته بندی</label>
           <b-form-input
-              v-if="SelectedCategory!==null"
-              type="text"
+              v-if="selectedCategory!==null"
+              v-model="selectedCategory.title"
               placeholder="نام دسته بندی"
-              v-model="SelectedCategory.title"
-          />
-
-        </b-form-group>
-        <b-form-group>
-          <label >توضیحات دسته بندی</label>
-          <b-form-input
-              v-if="SelectedCategory!==null"
-
               type="text"
-              placeholder="توضیحات دسته بندی"
-              v-model="SelectedCategory.description"
           />
 
         </b-form-group>
+
 
       </b-modal>
       <b-modal
           id="modal-Add"
           centered
-          ok-title="افزودن دسته بندی"
           ok-only
+          ok-title="افزودن دسته بندی"
 
-          @ok.preventDefault()="AddCategory"
+          @ok.preventDefault()="createCategory"
       >
         <b-form-group>
           <label for="email">نام دسته بندی</label>
           <b-form-input
-              type="text"
+              v-model="consultantCategory.title"
               placeholder="نام دسته بندی"
-              v-model="CategoryName"
-          />
-        </b-form-group>
-        <b-form-group>
-          <label for="email">توضیحات دسته بندی</label>
-          <b-form-input
               type="text"
-              placeholder="توضیحات دسته بندی"
-              v-model="CategoryDescription"
           />
         </b-form-group>
-
       </b-modal>
       <!-- Table Container Card -->
       <b-card
-          no-body
           class="mb-0"
+          no-body
       >
-        <b-col lg="12" md="12" class="my-2">
+        <b-col class="my-2" lg="12" md="12">
           <b-row>
             <!--            <b-col lg="10" md="12" class="my-2">-->
             <!--              <b-form-input-->
@@ -85,11 +66,11 @@
             <!--                  placeholder="جستجو بر اساس نام دسته بندی"-->
             <!--              />-->
             <!--            </b-col>-->
-            <b-col lg="2" md="12" class="my-2">
+            <b-col class="my-2" lg="2" md="12">
               <b-button
 
-                  variant="success"
                   v-b-modal.modal-Add
+                  variant="success"
 
               >
                 افزودن دسته بندی جدید
@@ -106,37 +87,37 @@
 
         <b-table
             ref="refUserListTable"
-            class="position-relative"
-            :items="Categories"
-            responsive
             :fields="myTableColumns"
-            primary-key="id"
-            show-empty
+            :items="categories"
             bordered
-            striped
+            class="position-relative"
             empty-text="موردی موجود نیست!"
+            primary-key="id"
+            responsive
+            show-empty
+            striped
         >
 
           <!-- Column: delete -->
 
           <template #cell(Delete)="data">
 
-            <div class="cursor-pointer d-flex flex-row"
-                 v-b-modal.modal-delete
-                 @click="SetSelectedCategory(data.item)"
+            <div v-b-modal.modal-delete
+                 class="cursor-pointer d-flex flex-row"
+                 @click="setSelectedCategory(data.item)"
             >
-              <feather-icon icon="TrashIcon" size="20" class="text-danger" />
+              <feather-icon class="text-danger" icon="TrashIcon" size="20"/>
             </div>
 
           </template>
 
           <template #cell(Edit)="data">
 
-            <div class="cursor-pointer d-flex flex-row"
-                 v-b-modal.modal-edit
-                 @click="SetSelectedCategory(data.item)"
+            <div v-b-modal.modal-edit
+                 class="cursor-pointer d-flex flex-row"
+                 @click="setSelectedCategory(data.item)"
             >
-              <feather-icon class="text-primary" icon="EditIcon" size="20" />
+              <feather-icon class="text-primary" icon="EditIcon" size="20"/>
             </div>
 
           </template>
@@ -146,33 +127,33 @@
           <b-row>
 
             <b-col
+                class="d-flex align-items-center justify-content-center justify-content-sm-start"
                 cols="12"
                 sm="6"
-                class="d-flex align-items-center justify-content-center justify-content-sm-start"
             >
               <!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span>-->
             </b-col>
             <!-- Pagination -->
             <b-col
+                class="d-flex align-items-center justify-content-center justify-content-sm-end"
                 cols="12"
                 sm="6"
-                class="d-flex align-items-center justify-content-center justify-content-sm-end"
             >
 
               <b-pagination
                   v-model="currentPage"
-                  :total-rows="totalCount"
                   :per-page="perPage"
+                  :total-rows="totalCount"
+                  class="mb-0 mt-1 mt-sm-0"
                   first-number
                   last-number
-                  class="mb-0 mt-1 mt-sm-0"
-                  prev-class="prev-item"
                   next-class="next-item"
+                  prev-class="prev-item"
               >
                 <template #prev-text>
-                  <feather-icon style="transform: rotate(180deg)"
-                                icon="ChevronLeftIcon"
+                  <feather-icon icon="ChevronLeftIcon"
                                 size="18"
+                                style="transform: rotate(180deg)"
                   />
                 </template>
                 <template #next-text>
@@ -197,15 +178,31 @@
 <script>
 
 import {
-  BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination, BOverlay, BModal, BFormGroup,BFormSelect
+  BAvatar,
+  BBadge,
+  BButton,
+  BCard,
+  BCol,
+  BDropdown,
+  BDropdownItem,
+  BFormGroup,
+  BFormInput,
+  BFormSelect,
+  BLink,
+  BMedia,
+  BModal,
+  BOverlay,
+  BPagination,
+  BRow,
+  BTable
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
-
-import ForumCategoryGetAll from '@/libs/Api/Forum/ForumCategoryGetAll'
-import ForumCategoryDeleteRequest from '@/libs/Api/Forum/ForumCategoryDeleteRequest'
-import ForumCategoryUpdateRequest from '@/libs/Api/Forum/ForumCategoryUpdateRequest'
-import ForumCategoryCreateRequest from '@/libs/Api/Forum/ForumCategoryCreateRequest'
+import {
+  ConsultCategoryCreate,
+  ConsultCategoryDelete,
+  ConsultCategoryGetAll,
+  ConsultCategoryUpdate
+} from "@/libs/Api/consultant";
 import ToastificationContent from '@core/components/toastification/ToastificationContent'
 
 export default {
@@ -213,17 +210,14 @@ export default {
   name: 'UsersList',
   data() {
     return {
-      Categories: null,
+      overlay: false,
+      categories: null,
       totalCount: null,
-      showDeleteModal: false,
       currentPage: 1,
-      deleteItem: null,
       perPage: 5,
-      CategoryName:'',
-      perPageOptions: [10, 20, 30, 40, 50],
       myTableColumns: [
         {
-          key: 'forumCategoryId',
+          key: 'id',
           label: 'شناسه'
         },
         {
@@ -241,17 +235,17 @@ export default {
         },
         // { key: 'parentId'},
       ],
-      SelectedCategoryId:0,
-      pageNumber: 1,
-      count: 10,
       search: '',
-      CategoryDescription:'',
-      SelectedCategory: null,
+      selectedCategory: null,
+      consultantCategory: {
+        title: '',
+        parentId: null
+      }
 
     }
   },
   async created() {
-    await this.GetAllForumCategory()
+    await this.getAllConsultCategory()
   },
   components: {
 
@@ -276,26 +270,19 @@ export default {
   },
   watch: {
     search: function () {
-      this.GetAllForumCategory()
+      this.getAllConsultCategory()
     },
     currentPage: function () {
-      this.GetAllForumCategory()
+      this.getAllConsultCategory()
     }
   },
   methods: {
-    async UpdateCategory(){
+    async updateCategory() {
       let _this = this
-      let forumCategoryUpdateRequest = new ForumCategoryUpdateRequest(_this)
-      let data = {
-        forumCategoryId: _this.SelectedCategory.forumCategoryId,
-        title: _this.SelectedCategory.title,
-        description: _this.SelectedCategory.description,
-        seoTitle: _this.SelectedCategory.seoTitle,
-        seoDescription: _this.SelectedCategory.seoDescription,
-        createDate:new Date(Date.now())
-      }
-      forumCategoryUpdateRequest.setData(data)
-      await forumCategoryUpdateRequest.fetch(function (content) {
+      _this.overlay = true
+      let consultCategoryUpdate = new ConsultCategoryUpdate(_this)
+      consultCategoryUpdate.setParams(_this.selectedCategory)
+      await consultCategoryUpdate.fetch(function (content) {
         _this.$toast({
           component: ToastificationContent,
           position: 'bottom-center',
@@ -306,24 +293,21 @@ export default {
             text: `دسته بندی بروزرسانی شد`,
           },
         })
-        _this.GetAllForumCategory();
+        _this.getAllConsultCategory();
       }, function (error) {
         console.log(error)
       })
+      _this.overlay = false
+
     },
-    async AddCategory(){
+    async createCategory() {
       let _this = this
-      if(_this.CategoryName!==''){
-        let forumCategoryCreateRequest = new ForumCategoryCreateRequest(_this)
-        let data = {
-          title: this.CategoryName,
-          description: this.CategoryDescription,
-          seoTitle: this.CategoryName,
-          seoDescription: this.CategoryDescription,
-          createDate: new Date(Date.now())
-        }
-        forumCategoryCreateRequest.setRequestParamDataObj(data)
-        await forumCategoryCreateRequest.fetch(function (content) {
+
+      if (_this.consultantCategory.title !== '') {
+        _this.overlay = true
+        let consultCategoryCreate = new ConsultCategoryCreate(_this)
+        consultCategoryCreate.setRequestParamDataObj(_this.consultantCategory)
+        await consultCategoryCreate.fetch(function (content) {
           _this.$toast({
             component: ToastificationContent,
             position: 'bottom-center',
@@ -334,13 +318,13 @@ export default {
               text: `دسته بندی ساخته شد شد`,
             },
           })
-          _this.GetAllForumCategory();
-          _this.CategoryName = ''
-          _this.CategoryDescription = ''
+          _this.getAllConsultCategory();
+          _this.consultantCategory.title = ''
+
         }, function (error) {
           console.log(error)
         })
-      }else{
+      } else {
         _this.$toast({
           component: ToastificationContent,
           position: 'bottom-center',
@@ -352,17 +336,18 @@ export default {
           },
         })
       }
+      _this.overlay = false
 
 
     },
-    async  DeleteCategory(){
+    async deleteCategory() {
       let _this = this
-      let forumCategoryDeleteRequest = new ForumCategoryDeleteRequest(_this)
-      forumCategoryDeleteRequest.setId(this.SelectedCategory.forumCategoryId)
-      await forumCategoryDeleteRequest.fetch(function (content) {
-        console.log(content)
-        if(content ===0){
-          alert(111)
+      _this.overlay = true
+
+      let consultCategoryDelete = new ConsultCategoryDelete(_this)
+      consultCategoryDelete.setId(this.selectedCategory.id)
+      await consultCategoryDelete.fetch(function (content) {
+        if (!content.isSuccess) {
           _this.$toast({
             component: ToastificationContent,
             position: 'bottom-center',
@@ -370,10 +355,10 @@ export default {
               title: `عملیات ناموفق`,
               icon: 'CheckIcon',
               variant: 'success',
-              text: `این دسته بندی مقاله فعال دارد`,
+              text: `این دسته بندی مشاور فعال دارد`,
             },
           })
-        }else{
+        } else {
           _this.$toast({
             component: ToastificationContent,
             position: 'bottom-center',
@@ -384,8 +369,8 @@ export default {
               text: `دسته بندی  حذف شد.`,
             },
           })
-          _this.GetAllForumCategory();
-
+          _this.getAllConsultCategory();
+          _this.selectedCategory = null
 
         }
 
@@ -393,34 +378,27 @@ export default {
       }, function (error) {
         console.log(error)
       })
-    },
+      _this.overlay = false
 
-    SetSelectedCategory(item) {
-      this.SelectedCategory = item
     },
-
-    async GetAllForumCategory() {
+    setSelectedCategory(item) {
+      this.selectedCategory = item
+    },
+    async getAllConsultCategory() {
       let _this = this
-      let forumCategoryGetAll = new ForumCategoryGetAll(_this)
-      let data = {
-        pageNumber:_this.currentPage,
-        Search:_this.search
-      }
-      forumCategoryGetAll.setParams(data)
-      await forumCategoryGetAll.fetch(function (content) {
-        _this.Categories = content.forumCategories
-        _this.totalCount = <content className="forumCategoriesCount"></content>
+      _this.overlay = true
+      let consultCategoryGetAll = new ConsultCategoryGetAll(_this)
+      await consultCategoryGetAll.fetch(function (content) {
+        _this.categories = content.data
 
       }, function (error) {
         console.log(error)
       })
+      _this.overlay = false
+
     },
 
-    showModal(param) {
-      let _this = this
 
-      _this.deleteItem = param
-    },
   },
 }
 </script>

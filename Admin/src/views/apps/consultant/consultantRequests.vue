@@ -1,157 +1,131 @@
 <template>
   <b-overlay
-      :show="consultants === null"
+      :show="overlay"
       rounded="sm"
   >
     <div v-if="consultants !== null">
-      <b-modal
-          id="modal-View"
-          centered
-          ok-title="تغییر وضعیت"
-          cancelTitle="بستن"
-          @ok="OpenChangeStatus"
-      >
-        <div v-if="selectedConsultant!==null" class="row">
-          <div class="col-md-12">
-            <div class="d-flex align-items-center gap-2">
-              <span class="text-secondary">نام مشاور : </span>
-              <span>{{selectedConsultant.title}}</span>
-            </div>
-          </div>
-          <div class="col-md-12 my-2">
-            <div class="text-secondary" style="overflow-wrap: anywhere">
-              {{selectedConsultant.description}}
-            </div>
-          </div>
-        </div>
-      </b-modal>
-      <b-modal
-          id="modal-status"
-          centered
-          ok-title="بروزرسانی"
-          cancelTitle="بستن"
-          @ok="ChangeStatus"
-      >
-        <div class="row">
-          <div class="col-md-12">
-            <span>تغییر وضعیت به: </span>
-          </div>
-          <div class="col-md-12 my-2">
-            <v-select
-                v-model="selectedConsultantStatus"
-                :options="consultantStatus.filter(e=> e.status!== status)"
-                label="name"
-                :reduce="name => name.status"
-                :clearable="false"
-                class="per-page-selector d-inline-block w-100"
-            />
-          </div>
-        </div>
-      </b-modal>
+      <!--      <b-modal-->
+      <!--          id="modal-status"-->
+      <!--          centered-->
+      <!--          ok-title="بروزرسانی"-->
+      <!--          cancelTitle="بستن"-->
+      <!--          @ok="ChangeStatus"-->
+      <!--      >-->
+      <!--        <div class="row">-->
+      <!--          <div class="col-md-12">-->
+      <!--            <span>تغییر وضعیت به: </span>-->
+      <!--          </div>-->
+      <!--          <div class="col-md-12 my-2">-->
+      <!--            <v-select-->
+      <!--                v-model="selectedConsultantStatus"-->
+      <!--                :options="consultantStatus.filter(e=> e.status!== status)"-->
+      <!--                label="name"-->
+      <!--                :reduce="name => name.status"-->
+      <!--                :clearable="false"-->
+      <!--                class="per-page-selector d-inline-block w-100"-->
+      <!--            />-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </b-modal>-->
 
 
-
-
-      <span  v-b-modal.modal-status ref="OpenStatusBtn"  style="display: none"></span>
+      <span ref="OpenStatusBtn" v-b-modal.modal-status style="display: none"></span>
       <!-- Table Container Card -->
       <b-card
-          no-body
+
           class="mb-0"
       >
-        <b-col lg="12" md="12" class="my-2">
-          <b-row>
-            <b-col lg="12" md="12" class="my-2">
-              <b-form-input
-                  id="basicInput"
-                  v-model="search"
-                  placeholder="جستجو بر اساس نام مشاور"
-              />
-            </b-col>
+        <b-row>
+          <b-col class="" cols="12" md="9">
+            <b-form-input
+                id="basicInput"
+                v-model="search"
+                placeholder="جستجو بر اساس نام مشاور"
+            />
+          </b-col>
+          <b-col class="" cols="12" md="3">
+            <v-select
+                v-model="selectedStatus"
+                :options="statuses"
+                :reduce="title => title.value"
+                dir="rtl"
+                label="title"
+            />
+          </b-col>
 
-          </b-row>
-
-        </b-col>
+        </b-row>
 
 
         <b-table
             ref="refUserListTable"
-            class="position-relative"
-            :items="consultants"
-            responsive
             :fields="myTableColumns"
-            primary-key="id"
-            show-empty
+            :items="consultants"
             bordered
-            striped
+            class="position-relative mt-1"
             empty-text="موردی موجود نیست!"
+            primary-key="id"
+            responsive
+            show-empty
+            striped
         >
-          <template #cell(createDate)="data">
-
-            <span>{{ new Date(data.item.createDate).toLocaleDateString('fa-IR') }}</span>
 
 
-          </template>
-          <!-- Column: delete -->
-
-          <template #cell(Delete)="data">
-
-            <div class="cursor-pointer d-flex flex-row"
-                 v-b-modal.modal-delete
-                 @click="setSelectedConsultant(data.item)"
-            >
-              <feather-icon icon="TrashIcon" size="20" class="text-danger" />
-            </div>
-
-          </template>
-          <template #cell(userInfo)="data">
-            <router-link :to="`/apps/users/Detail/${data.item.userInfo.userName}`">
-              <span v-if="data.item.userInfo">{{data.item.userInfo.userName}}@</span>
+          <template #cell(View)="data">
+            <router-link :to="{ name: 'apps-consultant-consultantRequestDetail',params:{id:data.item.id} }"
+                         class="cursor-pointer">
+              <feather-icon class="text-primary" icon="EyeIcon" size="20"/>
             </router-link>
 
-          </template>
-          <template #cell(View)="data">
 
-            <b-link class="cursor-pointer"  v-b-modal.modal-View @click="setSelectedConsultant(data.item)">
-              <feather-icon icon="EyeIcon" size="20" class="text-primary" />
-            </b-link>
+          </template>
+          <template #cell(status)="data">
+            <b-badge v-if="data.item.status===1" variant="primary">
+              تایید شده
+            </b-badge>
+            <b-badge v-if="data.item.status===2" variant="danger">
+              رد شده
+            </b-badge>
+            <b-badge v-if="data.item.status===0" variant="secondary">
+              در انتظار تایید
+            </b-badge>
+
 
           </template>
 
         </b-table>
 
 
-
         <div class="mx-2 mb-2">
           <b-row>
 
             <b-col
+                class="d-flex align-items-center justify-content-center justify-content-sm-start"
                 cols="12"
                 sm="6"
-                class="d-flex align-items-center justify-content-center justify-content-sm-start"
             >
               <!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span>-->
             </b-col>
             <!-- Pagination -->
             <b-col
+                class="d-flex  align-items-center justify-content-center justify-content-sm-end"
                 cols="12"
                 sm="6"
-                class="d-flex align-items-center justify-content-center justify-content-sm-end"
             >
 
               <b-pagination
                   v-model="currentPage"
-                  :total-rows="totalCount"
                   :per-page="perPage"
+                  :total-rows="totalCount"
+                  class="mb-0 mt-1 mt-sm-0"
                   first-number
                   last-number
-                  class="mb-0 mt-1 mt-sm-0"
-                  prev-class="prev-item"
                   next-class="next-item"
+                  prev-class="prev-item"
               >
                 <template #prev-text>
-                  <feather-icon style="transform: rotate(180deg)"
-                                icon="ChevronLeftIcon"
+                  <feather-icon icon="ChevronLeftIcon"
                                 size="18"
+                                style="transform: rotate(180deg)"
                   />
                 </template>
                 <template #next-text>
@@ -176,15 +150,29 @@
 <script>
 
 import {
-  BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination, BOverlay, BModal, BFormGroup,BFormSelect, BTabs, BTab, BCardText
+  BAvatar,
+  BBadge,
+  BButton,
+  BCard,
+  BCardText,
+  BCol,
+  BDropdown,
+  BDropdownItem,
+  BFormGroup,
+  BFormInput,
+  BFormSelect,
+  BLink,
+  BMedia,
+  BModal,
+  BOverlay,
+  BPagination,
+  BRow,
+  BTab,
+  BTable,
+  BTabs
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
-
-import ForumGetAllRequest from '@/libs/Api/Forum/ForumGetAllRequest'
-import DeleteForum from '@/libs/Api/Forum/DeleteForum'
-import ChangeForumStatus from '@/libs/Api/Forum/ChangeForumStatus'
-import ToastificationContent from '@core/components/toastification/ToastificationContent'
+import {GetAllConsultantRequests} from "@/libs/Api/consultant";
 
 export default {
   components: {
@@ -219,43 +207,45 @@ export default {
       consultants: null,
       totalCount: null,
       currentPage: 1,
-      status:1,
-      deleteItem: null,
+      overlay: false,
+      status: 1,
+      selectedStatus: null,
       perPage: 5,
-      consultantStatus:[
+      statuses: [
         {
-          name:'فعال',
-          status:1
+          title: 'در انتظار تایید',
+          value: 0
         },
         {
-          name:'غیر فعال',
-          status:2
+          title: 'تایید شده',
+          value: 1
         },
-
+        {
+          title: 'رد شده',
+          value: 2
+        },
       ],
-      selectedConsultantStatus:0,
       perPageOptions: [10, 20, 30, 40, 50],
       myTableColumns: [
         {
-          key: 'forumId',
+          key: 'id',
           label: 'شناسه'
         },
         {
-          key: 'createDate',
-          label: 'تاریخ ایجاد'
+          key: 'userFullName',
+          label: 'نام و نام خانوادگی'
         },
         {
-          key: 'title',
-          label: 'نام'
+          key: 'phoneNumber',
+          label: 'شماره تماس'
         },
         {
-          key: 'userInfo',
-          label: 'نام کاربری'
+          key: 'natiaonCode',
+          label: 'کد ملی'
         },
-
         {
-          key: 'Delete',
-          label: 'حذف'
+          key: 'status',
+          label: 'وضعیت'
         },
         {
           key: 'View',
@@ -263,7 +253,6 @@ export default {
         },
         // { key: 'parentId'},
       ],
-      pageNumber: 1,
       count: 10,
       search: '',
       selectedConsultant: null,
@@ -280,80 +269,34 @@ export default {
     currentPage: function () {
       this.getAllConsultants()
     },
+    selectedStatus:function (){
+      this.getAllConsultants()
+    }
 
   },
   methods: {
-    async ChangeStatus(){
-      let _this = this
-      let changeForumStatus = new ChangeForumStatus(_this)
-      let data = {
 
-        status:this.SelectedForumStatus,
-        forumId:this.SelectedForum.forumId
-      }
-      changeForumStatus.setParams(data)
-      await changeForumStatus.fetch(function (content) {
-        _this.$toast({
-          component: ToastificationContent,
-          position: 'bottom-center',
-          props: {
-            title: `عملیات موفق`,
-            icon: 'CheckIcon',
-            variant: 'success',
-            text: `وضعیت مشاور با موفقیت تغییر یافت`,
-          },
-        })
-        _this.GetAllForum()
-      }, function (error) {
-        console.log(error)
-      })
-    },
-    OpenChangeStatus(){
-      this.$refs.OpenStatusBtn.click();
-    },
-    async  DeleteForum(){
-      let _this = this
-      let deleteForum = new DeleteForum(_this)
-
-      deleteForum.setId(this.SelectedForum.forumId)
-      await deleteForum.fetch(function (content) {
-        _this.$toast({
-          component: ToastificationContent,
-          position: 'bottom-center',
-          props: {
-            title: `عملیات موفق`,
-            icon: 'CheckIcon',
-            variant: 'success',
-            text: `مشاور حذف شد.`,
-          },
-        })
-        _this.GetAllForum();
-
-      }, function (error) {
-        console.log(error)
-      })
-    },
     setSelectedConsultant(item) {
       this.selectedConsultant = item
     },
     async getAllConsultants() {
       let _this = this
-      let forumGetAllRequest = new ForumGetAllRequest(_this)
+      _this.overlay = true
+      let getAllConsultantRequests = new GetAllConsultantRequests(_this)
       let data = {
-        pageNumber: _this.currentPage,
-        search: _this.search,
-        noComments:'',
-        mostRated:'',
-        mostComments:'',
-        status:this.status
+        page: _this.currentPage,
+        size: 10,
+        status: _this.selectedStatus!==null ?_this.selectedStatus :''
       }
-      forumGetAllRequest.setParams(data)
-      await forumGetAllRequest.fetch(function (content) {
-        _this.consultants = content.forums
-        _this.totalCount = content.forumsCount
+      getAllConsultantRequests.setParams(data)
+      await getAllConsultantRequests.fetch(function (content) {
+        _this.consultants = content.data.items
+        _this.totalCount = content.data.totalCount
       }, function (error) {
         console.log(error)
       })
+      _this.overlay = false
+
     },
 
   },

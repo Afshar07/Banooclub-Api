@@ -50,8 +50,8 @@
     <div class="tw-grid tw-grid-cols-3 tw-gap-1.5">
 
       <div v-for="(item,index) in MyPhotos.slice(0,4)" :key="index" class=" !tw-h-[8rem] md:tw-col-span-1 tw-cols-pan-3 rounded my-1">
-        <img v-if="item.priority===2" :src="`https://subapi.banoclub.com/media/gallery/galleryimages/${item.base64}`" class="tw-w-full rounded !tw-h-[8rem] tw-object-cover" alt="">
-        <video v-else-if="item.priority === 3" class="rounded tw-w-full !tw-h-[8rem] tw-object-cover" controls :src="`https://subapi.banoclub.com/media/gallery/galleryvideos/${item.base64}`"></video>
+        <img v-if="item.priority===2" :src="`https://api.banooclub.simagar.com/media/gallery/galleryimages/${item.base64}`" class="tw-w-full rounded !tw-h-[8rem] tw-object-cover" alt="">
+        <video v-else-if="item.priority === 3" class="rounded tw-w-full !tw-h-[8rem] tw-object-cover" controls :src="`https://api.banooclub.simagar.com/media/gallery/galleryvideos/${item.base64}`"></video>
       </div>
     </div>
 
