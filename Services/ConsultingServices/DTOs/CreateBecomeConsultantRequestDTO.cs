@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BanooClub.Models.Consulting;
+using System;
 using System.Collections.Generic;
 
 namespace BanooClub.Services.ConsultingServices.DTOs
@@ -20,7 +21,7 @@ namespace BanooClub.Services.ConsultingServices.DTOs
         public string ShabaNo { get; set; }
         public string BankName { get; set; }
         public string CartNo { get; set; }
-        public int? DurationMinut { get; set; }
+        public int? DurationMinute { get; set; }
         public string Description { get; set; }
         public string FileData { get; set; }
         public string ImageFileData { get; set; }
@@ -45,6 +46,7 @@ namespace BanooClub.Services.ConsultingServices.DTOs
         public string BankName { get; set; }
         public string CartNo { get; set; }
         public string UserFullName { get; set; }
+        public BecomeConsultantRequestStatus Status { get; internal set; }
     }
 
     public class CreateConsultCategoryDTO

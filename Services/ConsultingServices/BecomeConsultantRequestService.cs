@@ -7,6 +7,7 @@ using BanooClub.Services.Common;
 using BanooClub.Services.ConsultingServices.DTOs;
 using BanooClub.Services.SocialMediaServices;
 using BanooClub.Utilities;
+using Elasticsearch.Net.Specification.IndexLifecycleManagementApi;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -81,7 +82,7 @@ namespace BanooClub.Services.ConsultingServices
             string errorResult = createUpdateValidation(dto, userId);
             if (string.IsNullOrEmpty(errorResult))
             {
-                var request = new BecomeConsultantRequest(userId, dto.NationalCode, dto.MedicalSystemNumber, dto.StateId.Value, dto.CityId.Value, dto.PhoneNumber, dto.ShabaNo, dto.BankName, dto.CartNo, dto.Description, dto.DurationMinut);
+                var request = new BecomeConsultantRequest(userId, dto.NationalCode, dto.MedicalSystemNumber, dto.StateId.Value, dto.CityId.Value, dto.PhoneNumber, dto.ShabaNo, dto.BankName, dto.CartNo, dto.Description, dto.DurationMinute);
                 await _repository.InsertAsync(request);
                 if (dto.Categories != null && dto.Categories.Count > 0)
                     foreach (var category in dto.Categories)
@@ -90,7 +91,7 @@ namespace BanooClub.Services.ConsultingServices
                     foreach (var price in dto.Prices)
                         await _becomeConsultantRequestConsultPriceRepository.InsertAsync(new BecomeConsultantRequestConsultPrice() { BecomeConsultantRequestId = request.Id, Price = price.Price.Value, Type = price.Type.Value });
 
-                var listDurations = await _becomeConsultantRequestScheduleService.CreateCleanIfExist(dto.DurationMinut, request.Id);
+                var listDurations = await _becomeConsultantRequestScheduleService.CreateCleanIfExist(dto.DurationMinute, request.Id);
                 if (dto.SelectedStartedTimes != null && dto.SelectedStartedTimes.Count > 0)
                 {
                     var startTime = dto.SelectedStartedTimes[0];
@@ -172,7 +173,7 @@ namespace BanooClub.Services.ConsultingServices
                 return "شماره کارت باید 16 عدد باشد";
             if (string.IsNullOrEmpty(dto.BankName))
                 return "لطفا نام بانک را وارد کنید";
-            if (dto.DurationMinut == null || dto.DurationMinut <= 0)
+            if (dto.DurationMinute == null || dto.DurationMinute <= 0)
                 return "لطفا بازه نوبت دهی خود را وارد کنید";
             if (dto.Categories == null || dto.Categories.Count <= 0)
                 return "لطفا حداقل یک گروه بندی را انتخاب کنید";
@@ -194,7 +195,7 @@ namespace BanooClub.Services.ConsultingServices
             if (string.IsNullOrEmpty(dto.FileData))
                 return "لطفا فایل معرفی خود را وارد کنید";
             var allDuration = GetDuration();
-            if (!allDuration.Any(t => t.Id == dto.DurationMinut))
+            if (!allDuration.Any(t => t.Id == dto.DurationMinute))
                 return "مدت زمان انتخاب شده مجاز نمی باشد";
             if (dto.SelectedStartedTimes == null || dto.SelectedStartedTimes.Count != 2)
                 return "لطفا بازه شروع و پایان زمانی انتخاب کنید";
@@ -204,7 +205,7 @@ namespace BanooClub.Services.ConsultingServices
             if ((endDate - startDate).TotalMinutes <= 0)
                 return "زمان شروع و پایان صحیح نمی باشد";
 
-            if ((endDate - startDate).TotalMinutes % dto.DurationMinut != 0)
+            if ((endDate - startDate).TotalMinutes % dto.DurationMinute != 0)
                 return "زمان پایان صحیح نمی باشد";
 
             return "";
@@ -344,7 +345,7 @@ namespace BanooClub.Services.ConsultingServices
                             .ToListAsync();
 
                     if (prevImageList != null && prevImageList.Count > 0)
-                       foreach (var prevImageItem in prevImageList)
+                        foreach (var prevImageItem in prevImageList)
                             _mediaRepository.Erase(prevImageItem);
 
                     if (foundMedia != null)
@@ -373,8 +374,8 @@ namespace BanooClub.Services.ConsultingServices
                     {
                         var allPrevScheduale = await _consultantScheduleRepository.GetQuery().Where(t => t.ConsultantId == consultant.Id).ToListAsync();
                         if (allPrevScheduale != null)
-                            while (allPrevScheduale.Count > 0)
-                                _consultantScheduleRepository.Erase(allPrevScheduale[0]);
+                            foreach(var prevSchedual in allPrevScheduale)
+                                _consultantScheduleRepository.Erase(prevSchedual);
 
                         foreach (var item in request.BecomeConsultantRequestSchedules)
                             await _consultantScheduleRepository.InsertAsync(new ConsultantSchedule()
@@ -445,6 +446,7 @@ namespace BanooClub.Services.ConsultingServices
                     NatiaonCode = x.NationalCode,
                     MedicalSystemNumber = x.MedicalSystemNumber,
                     UserFullName = x.User.Name + " " + x.User.FamilyName,
+                    Status = x.Status
                 })
                 .OrderByDescending(t => t.Id)
                 .Skip(skip)
@@ -475,59 +477,104 @@ namespace BanooClub.Services.ConsultingServices
             };
         }
 
-        public async Task<CreateBecomeConsultantRequestDTO> GetLast()
+        public async Task<object> GetLast()
         {
             var userId = _httpContextAccessor.HttpContext.User.GetUserId();
 
-            return await _repository
+            return (await _repository
                 .GetQuery()
                 .Where(t => t.UserId == userId)
                 .OrderByDescending(t => t.CreateDate)
-                .Select(t => new CreateBecomeConsultantRequestDTO
+                .Select(t => new
                 {
-                    NationalCode = t.NationalCode,
-                    MedicalSystemNumber = t.MedicalSystemNumber,
-                    StateId = t.StateId,
-                    CityId = t.CityId,
-                    PhoneNumber = t.PhoneNumber,
-                    ShabaNo = t.ShabaNo,
-                    BankName = t.BankName,
-                    CartNo = t.CartNo,
-                    DurationMinut = t.ConsultingDurationMinut,
-                    Description = t.Description,
-                    FileData = "/Media/Gallery/VideoConsultation/" + _mediaRepository.GetQuery().Where(tt => tt.ObjectId == t.Id && tt.Type == MediaTypes.ConsultationRequest).Select(tt => tt.PictureUrl).FirstOrDefault(),
-                    ImageFileData = "/Media/Gallery/ConsultationUserProfile/" + _mediaRepository.GetQuery().Where(tt => tt.ObjectId == t.Id && tt.Type == MediaTypes.ConsultationRequestProfileImage).Select(tt => tt.PictureUrl).FirstOrDefault(),
+                    t.NationalCode,
+                    t.MedicalSystemNumber,
+                    t.StateId,
+                    t.CityId,
+                    t.PhoneNumber,
+                    t.ShabaNo,
+                    t.BankName,
+                    t.CartNo,
+                    DurationMinute = t.ConsultingDurationMinut,
+                    t.Description,
+                    FileData = _mediaRepository.GetQuery().Where(tt => tt.ObjectId == t.Id && tt.Type == MediaTypes.ConsultationRequest).Select(tt => tt.PictureUrl).FirstOrDefault(),
+                    ImageFileData = _mediaRepository.GetQuery().Where(tt => tt.ObjectId == t.Id && tt.Type == MediaTypes.ConsultationRequestProfileImage).Select(tt => tt.PictureUrl).FirstOrDefault(),
                     Prices = t.BecomeConsultantRequestConsultPrices.Select(tt => new CreateBecomeConsultantRequestPriceDTO { Price = tt.Price, Type = tt.Type }).ToList(),
-                    Categories = t.Categories.Select(tt => tt.CategoryId).ToList(),
-                    SelectedStartedTimes = t.BecomeConsultantRequestSchedules.Where(tt => tt.IsAvailable == true).Select(tt => tt.StartTime).ToList()
+                    Categories = t.Categories.Select(tt => new { id = tt.CategoryId, title = tt.Category.Title }).ToList(),
+                    SelectedStartedTimes = t.BecomeConsultantRequestSchedules.Where(tt => tt.IsAvailable == true).Select(tt => tt.StartTime).ToList(),
+                    userfullname = t.User.Name + " " + t.User.FamilyName
                 })
-                .FirstOrDefaultAsync();
+                .Take(1)
+                .ToListAsync())
+                .Select(t => new
+                {
+                    FileData = !string.IsNullOrEmpty(t.FileData) ? ("/Media/Gallery/VideoConsultation/" + t.FileData) : "",
+                    ImageFileData = !string.IsNullOrEmpty(t.ImageFileData) ? ("/Media/Gallery/ConsultationUserProfile/" + t.ImageFileData) : "",
+                    t.NationalCode,
+                    t.MedicalSystemNumber,
+                    t.StateId,
+                    t.CityId,
+                    t.PhoneNumber,
+                    t.ShabaNo,
+                    t.BankName,
+                    t.CartNo,
+                    t.DurationMinute,
+                    t.Description,
+                    t.Prices,
+                    t.Categories,
+                    t.SelectedStartedTimes,
+                    t.userfullname
+                })
+                .FirstOrDefault();
         }
 
-        public async Task<CreateBecomeConsultantRequestDTO> GetById(long id)
+        public async Task<object> GetById(long id)
         {
-            return await _repository
+            return (await _repository
                .GetQuery()
                .Where(t => t.Id == id)
-               .Select(t => new CreateBecomeConsultantRequestDTO
-               {
-                   NationalCode = t.NationalCode,
-                   MedicalSystemNumber = t.MedicalSystemNumber,
-                   StateId = t.StateId,
-                   CityId = t.CityId,
-                   PhoneNumber = t.PhoneNumber,
-                   ShabaNo = t.ShabaNo,
-                   BankName = t.BankName,
-                   CartNo = t.CartNo,
-                   DurationMinut = t.ConsultingDurationMinut,
-                   Description = t.Description,
-                   FileData = "/Media/Gallery/VideoConsultation/" + _mediaRepository.GetQuery().Where(tt => tt.ObjectId == t.Id && tt.Type == MediaTypes.ConsultationRequest).Select(tt => tt.PictureUrl).FirstOrDefault(),
-                   ImageFileData = "/Media/Gallery/ConsultationUserProfile/" + _mediaRepository.GetQuery().Where(tt => tt.ObjectId == t.Id && tt.Type == MediaTypes.ConsultationRequestProfileImage).Select(tt => tt.PictureUrl).FirstOrDefault(),
-                   Prices = t.BecomeConsultantRequestConsultPrices.Select(tt => new CreateBecomeConsultantRequestPriceDTO { Price = tt.Price, Type = tt.Type }).ToList(),
-                   Categories = t.Categories.Select(tt => tt.CategoryId).ToList(),
-                   SelectedStartedTimes = t.BecomeConsultantRequestSchedules.Where(tt => tt.IsAvailable == true).Select(tt => tt.StartTime).ToList()
-               })
-               .FirstOrDefaultAsync();
+               .OrderByDescending(t => t.CreateDate)
+                .Select(t => new
+                {
+                    t.NationalCode,
+                    t.MedicalSystemNumber,
+                    t.StateId,
+                    t.CityId,
+                    t.PhoneNumber,
+                    t.ShabaNo,
+                    t.BankName,
+                    t.CartNo,
+                    DurationMinute = t.ConsultingDurationMinut,
+                    t.Description,
+                    FileData = _mediaRepository.GetQuery().Where(tt => tt.ObjectId == t.Id && tt.Type == MediaTypes.ConsultationRequest).Select(tt => tt.PictureUrl).FirstOrDefault(),
+                    ImageFileData = _mediaRepository.GetQuery().Where(tt => tt.ObjectId == t.Id && tt.Type == MediaTypes.ConsultationRequestProfileImage).Select(tt => tt.PictureUrl).FirstOrDefault(),
+                    Prices = t.BecomeConsultantRequestConsultPrices.Select(tt => new CreateBecomeConsultantRequestPriceDTO { Price = tt.Price, Type = tt.Type }).ToList(),
+                    Categories = t.Categories.Select(tt => new { id = tt.CategoryId, title = tt.Category.Title }).ToList(),
+                    SelectedStartedTimes = t.BecomeConsultantRequestSchedules.Where(tt => tt.IsAvailable == true).Select(tt => tt.StartTime).ToList(),
+                    userfullname = t.User.Name + " " + t.User.FamilyName
+                })
+                .Take(1)
+                .ToListAsync())
+                .Select(t => new
+                {
+                    FileData = !string.IsNullOrEmpty(t.FileData) ? ("/Media/Gallery/VideoConsultation/" + t.FileData) : "",
+                    ImageFileData = !string.IsNullOrEmpty(t.ImageFileData) ? ("/Media/Gallery/ConsultationUserProfile/" + t.ImageFileData) : "",
+                    t.NationalCode,
+                    t.MedicalSystemNumber,
+                    t.StateId,
+                    t.CityId,
+                    t.PhoneNumber,
+                    t.ShabaNo,
+                    t.BankName,
+                    t.CartNo,
+                    t.DurationMinute,
+                    t.Description,
+                    t.Prices,
+                    t.Categories,
+                    t.SelectedStartedTimes,
+                    t.userfullname
+                })
+                .FirstOrDefault();
         }
     }
 }

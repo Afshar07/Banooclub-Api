@@ -14,7 +14,7 @@ namespace BanooClub.Services.ConsultingServices
         Task<IServiceResult> CreateBecomeConsultantRequest(CreateBecomeConsultantRequestDTO dto);
         Task<IServiceResult<PageModel<BecomeConsultantRequestDTO>>> GetRequests(int page, int size, BecomeConsultantRequestStatus? status);
         Task<IServiceResult> RejectRequest(long requestId);
-        Task<CreateBecomeConsultantRequestDTO> GetLast();
-        Task<CreateBecomeConsultantRequestDTO> GetById(long id);
+        Task<object> GetLast();
+        Task<object> GetById(long id);
     }
 }

@@ -122,14 +122,11 @@ namespace BanooClub.Services.SocialMediaServices
             {
                 string fileName = System.Guid.NewGuid() + ".jpg";
 
-                if (base64.StartsWith("data:image/png;base64,"))
-                {
+                if (base64.IndexOf(",") > -1)
                     base64 = base64.Split(",")[1];
-                } else if (path.Contains("Video"))
-                {
-                    base64 = base64.Split(",")[1];
-                    fileName = System.Guid.NewGuid() + ".mp4";
-                }
+                if (path.Contains("Video"))
+                    fileName = Guid.NewGuid() + ".mp4";
+
                 byte[] contents = Convert.FromBase64String(base64);
 
                 var direcPath = Path.Combine(Directory.GetCurrentDirectory(), path);
