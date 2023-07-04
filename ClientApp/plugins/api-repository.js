@@ -247,7 +247,10 @@ export default (context, inject) => {
     createConsultantRequest: CreateRequestRepository(context, 'BecomeConsultantRequest/CreateRequest'),
     getAllConsultants: CreateRequestRepository(context, 'Consultant/GetList'),
     getConsultantById: CreateRequestRepository(context, 'Consultant/Get'),
-    canComment:CreateRequestRepository(context,'Consultant/CanComment')
+    canComment:CreateRequestRepository(context,'Consultant/CanComment'),
+    getConsultantRequest:CreateRequestRepository(context,'BecomeConsultantRequest/Get'),
+    getSchedules:CreateRequestRepository(context,'Consultant/GetSchedule')
+
 
 
   };

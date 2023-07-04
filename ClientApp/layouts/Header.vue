@@ -807,7 +807,7 @@
             <!--                </div>-->
             <!--              </div>-->
             <!--            </div>-->
-            <div v-if="$auth && $auth.user "
+            <div v-if="$auth && $auth.user  && $auth.user.lastConsultantRequestStatus !==0"
                  class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
               <nuxt-link
                 v-if="$auth.user.consultantId === 0 &&(!$auth.user.lastConsultantRequestStatus || $auth.user.lastConsultantRequestStatus === 2  )"

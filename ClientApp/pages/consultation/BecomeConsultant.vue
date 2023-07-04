@@ -84,7 +84,8 @@
           <div class="col-md-7">
             <small class="p-2">شماره شبا *</small>
             <div class="d-flex gap-2 align-items-center">
-              <input maxlength="24" v-model="consultantRequest.shabaNo" class="with-border FormInputs mt-1" placeholder="شماره شبا"
+              <input v-model="consultantRequest.shabaNo" class="with-border FormInputs mt-1" maxlength="24"
+                     placeholder="شماره شبا"
                      type="text">
               <small>-IR</small>
             </div>
@@ -311,7 +312,7 @@ export default {
             type: 3
           },
         ],
-        selectedStartedTimes: [],
+        startAndEndWork: [],
         categories: [],
 
       },
@@ -434,13 +435,16 @@ export default {
         this.consultantRequest.prices.forEach((item) => {
           item.price = item.price.replaceAll(',', '')
         })
-        delete this.consultantRequest.fileDataPictureUrl
-        delete this.consultantRequest.imagePictureUrl
+        // delete this.consultantRequest.fileDataPictureUrl
+        // delete this.consultantRequest.imagePictureUrl
         if (!this.consultantRequest.shabaNo.includes('IR')) {
           this.consultantRequest.shabaNo = 'IR' + this.consultantRequest.shabaNo
         }
-        this.consultantRequest.selectedStartedTimes.push(this.startDate)
-        this.consultantRequest.selectedStartedTimes.push(this.endDate)
+        if (this.consultantRequest.startAndEndWork.length > 0) {
+          this.consultantRequest.startAndEndWork = []
+        }
+        this.consultantRequest.startAndEndWork.push(this.startDate)
+        this.consultantRequest.startAndEndWork.push(this.endDate)
         this.createConsultantRequest()
 
       } else {
@@ -454,12 +458,11 @@ export default {
         })
 
         const res = await this.$repositories.createConsultantRequest.setPayload(this.consultantRequest)
-        console.log(res)
         if (!res.data.isSuccess) {
           this.$toast.error(res.data.errorMessage)
-          this.consultantRequest['fileDataPictureUrl'] = ''
-          this.consultantRequest['imagePictureUrl'] = ''
-        }else{
+          console.log(this.consultantRequest)
+ 
+        } else {
           this.$toast.success('درخواست شما با موفقیت ثبت شد')
           this.$auth.fetchUser()
           this.$router.push('/social/accountsetting/MyPage')

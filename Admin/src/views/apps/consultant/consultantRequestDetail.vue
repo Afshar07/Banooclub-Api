@@ -26,11 +26,11 @@
 
         <b-col class="mt-1" cols="12" md="4">
           <span class="p-2 text-secondary">استان محل فعالیت</span>
-          <span>{{ consultant.state }}</span>
+          <span>{{ consultant.stateName }}</span>
         </b-col>
         <b-col class="mt-1" cols="12" md="4">
           <span class="p-2 text-secondary">شهر محل فعالیت</span>
-          <span>{{ consultant.city }}</span>
+          <span>{{ consultant.cityName }}</span>
         </b-col>
         <b-col class="mt-1 d-flex align-items-center " cols="12" md="12">
           <span class=" py-0 px-2 text-secondary">حوزه فعالیت</span>
@@ -68,11 +68,11 @@
         </b-col>
         <b-col class="mt-1" cols="12" md="4">
           <span class="p-2 text-secondary">زمان شروع وقت دهی در روز</span>
-          <span>{{ consultant.selectedStartedTimes[0] }}</span>
+          <span>{{ consultant.startAndEndWork[0] }}</span>
         </b-col>
         <b-col class="mt-1" cols="12" md="4">
           <span class="p-2 text-secondary">زمان پایان وقت دهی در روز</span>
-          <span>{{ consultant.selectedStartedTimes[consultant.selectedStartedTimes.length - 1] }}</span>
+          <span>{{ consultant.startAndEndWork[consultant.startAndEndWork.length - 1] }}</span>
         </b-col>
         <b-col class="mt-1" cols="12" md="4">
           <span class="p-2 text-secondary">مشاوره تلفنی</span>

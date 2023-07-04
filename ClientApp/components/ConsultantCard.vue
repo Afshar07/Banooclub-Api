@@ -22,11 +22,11 @@
           <div class="d-flex gap-3 my-3 align-items-center flex-wrap">
                   <span class=" py-1 px-2 rounded d-flex gap-2 align-items-center " style="background-color: #ffdb66">
                   <LazyStarIcon style="height: 15px;width: 15px;fill: white"></LazyStarIcon>
-                    <small class="text-white">4.6</small>
+                    <small class="text-white">{{ consultantInfo.rating }}</small>
                   </span>
             <span class=" py-1 px-2 rounded d-flex  gap-2 align-items-center " style="background-color: #71ffe2">
                   <LazyCommentIcon style="height: 15px;width: 15px;fill:white"></LazyCommentIcon>
-                    <small class="text-white">123 دیدگاه</small>
+                    <small class="text-white">{{ consultantInfo.commentCount }} دیدگاه</small>
                   </span>
           </div>
           <div v-if="consultantInfo.prices.includes(2)" class="d-flex gap-3   align-items-center flex-wrap">
