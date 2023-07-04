@@ -16,5 +16,6 @@ namespace BanooClub.Services.ConsultingServices
         Task<IServiceResult> RejectRequest(long requestId);
         Task<object> GetLast();
         Task<object> GetById(long id);
+        Task<IServiceResult> Delete(long requestId);
     }
 }

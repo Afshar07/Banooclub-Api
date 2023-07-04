@@ -14,6 +14,7 @@ namespace BanooClub.Models
             Consultants = new List<Consultant>();
             Orders = new List<Order>();
             ConsultantUserSchedules = new List<ConsultantUserSchedule>();
+            Activities = new List<Activity>();
         }
 
         public long UserId { get; set; }
@@ -60,6 +61,7 @@ namespace BanooClub.Models
         public List<Consultant> Consultants { get; set; }
         public List<Order> Orders { get; set; }
         public List<ConsultantUserSchedule> ConsultantUserSchedules { get; set; }
+        public List<Activity> Activities { get; set; }
     }
     public class UserSignDTO
     {

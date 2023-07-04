@@ -8,7 +8,7 @@ namespace BanooClub.Services.ConsultingServices
 {
     public interface IBecomeConsultantRequestScheduleService
     {
-        Task<List<BecomeConsultantRequestSchedule>> CreateCleanIfExist(int? durationMinut, long becomeConsultantRequest);
+        Task<List<BecomeConsultantRequestSchedule>> CreateCleanIfExist(int? durationMinut, long becomeConsultantRequest, System.TimeSpan startTime, System.TimeSpan endTime);
         Task<List<GetLastBecomeConsultantRequestSchedulesDTO>> GetLastBecomeConsultantRequestSchedules();
         Task<ServiceResult> UpdateIsSelected(UpdateBecomeConsultantRequestSchedulesDTO input);
     }

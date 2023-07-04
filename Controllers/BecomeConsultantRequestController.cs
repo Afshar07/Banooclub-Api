@@ -14,16 +14,13 @@ namespace BanooClub.Controllers
     {
 
         private readonly IBecomeConsultantRequestService _becomeConsultantRequestService;
-        private readonly IBecomeConsultantRequestScheduleService _becomeConsultantRequestScheduleService;
 
         public BecomeConsultantRequestController
             (
-                IBecomeConsultantRequestService becomeConsultantRequestService,
-                IBecomeConsultantRequestScheduleService becomeConsultantRequestScheduleService
+                IBecomeConsultantRequestService becomeConsultantRequestService
             )
         {
             _becomeConsultantRequestService = becomeConsultantRequestService;
-            _becomeConsultantRequestScheduleService = becomeConsultantRequestScheduleService;
         }
 
         [HttpPost("[action]")]
@@ -70,6 +67,14 @@ namespace BanooClub.Controllers
         public async Task<ActionResult<IServiceResult>> RejectRequest(long requestId)
         {
             var result = await _becomeConsultantRequestService.RejectRequest(requestId);
+            return Ok(result);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<IServiceResult>> Delete(long requestId)
+        {
+            var result = await _becomeConsultantRequestService.Delete(requestId);
             return Ok(result);
         }
 

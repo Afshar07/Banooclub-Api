@@ -131,7 +131,7 @@ namespace BanooClub.Services.CommonServices
                 lastConsultantRequest = _becomeConsultantRequestRepository.GetQuery().Where(t => t.UserId == userId).OrderByDescending(t => t.CreateDate).Select(t => t.Status).FirstOrDefault();
             var obj = new
             {
-                IsConsultant = _consultantRepository.GetQuery().Any(t => t.UserId == userId),
+                ConsultantId = _consultantRepository.GetQuery().Where(t => t.UserId == userId).Select(t => t.Id).FirstOrDefault(),
                 LastConsultantRequestStatus = lastConsultantRequest,
                 Last8Viewer = Last8Viewer,
                 UserInfo = dbUserInfo,

@@ -5,12 +5,15 @@ using BanooClub.Models.Enums;
 using BanooClub.Models.Urls;
 using BanooClub.Services.Common;
 using BanooClub.Services.ConsultingServices.DTOs;
+using BanooClub.Services.SmsServices;
 using BanooClub.Services.SocialMediaServices;
 using BanooClub.Utilities;
 using Elasticsearch.Net.Specification.IndexLifecycleManagementApi;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using SmsIrRestfulNetCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,8 +38,10 @@ namespace BanooClub.Services.ConsultingServices
         private readonly IBanooClubEFRepository<SocialMedia> _mediaRepository;
         private readonly ISocialMediaService _mediaService;
         private readonly IBecomeConsultantRequestScheduleService _becomeConsultantRequestScheduleService;
+        private readonly ISmsSenderService _smsSenderService;
         private BanooClubDBContext _dBContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IConfiguration _configuration;
         public BecomeConsultantRequestService
             (
                 IBanooClubEFRepository<BecomeConsultantRequest> repository,
@@ -54,7 +59,9 @@ namespace BanooClub.Services.ConsultingServices
                 IBanooClubEFRepository<ConsultantPrice> consultantPriceRepository,
                 IBecomeConsultantRequestScheduleService becomeConsultantRequestScheduleService,
                 IBanooClubEFRepository<BecomeConsultantRequestSchedule> becomeConsultantRequestScheduleRepository,
-                IBanooClubEFRepository<ConsultantSchedule> consultantScheduleRepository
+                IBanooClubEFRepository<ConsultantSchedule> consultantScheduleRepository,
+                ISmsSenderService smsSenderService,
+                IConfiguration configuration
             )
         {
             _repository = repository;
@@ -73,6 +80,8 @@ namespace BanooClub.Services.ConsultingServices
             _becomeConsultantRequestScheduleService = becomeConsultantRequestScheduleService;
             _becomeConsultantRequestScheduleRepository = becomeConsultantRequestScheduleRepository;
             _consultantScheduleRepository = consultantScheduleRepository;
+            _smsSenderService = smsSenderService;
+            _configuration = configuration;
         }
 
         public async Task<IServiceResult> CreateBecomeConsultantRequest(CreateBecomeConsultantRequestDTO dto)
@@ -91,47 +100,111 @@ namespace BanooClub.Services.ConsultingServices
                     foreach (var price in dto.Prices)
                         await _becomeConsultantRequestConsultPriceRepository.InsertAsync(new BecomeConsultantRequestConsultPrice() { BecomeConsultantRequestId = request.Id, Price = price.Price.Value, Type = price.Type.Value });
 
-                var listDurations = await _becomeConsultantRequestScheduleService.CreateCleanIfExist(dto.DurationMinute, request.Id);
-                if (dto.SelectedStartedTimes != null && dto.SelectedStartedTimes.Count > 0)
+                if (dto.StartAndEndWork.Count == 2)
                 {
-                    var startTime = dto.SelectedStartedTimes[0];
-                    var endTime = dto.SelectedStartedTimes[1];
-                    foreach (var curTime in listDurations)
+                    var startTime = dto.StartAndEndWork[0];
+                    var endTime = dto.StartAndEndWork[1];
+                    var durationList = await _becomeConsultantRequestScheduleService.CreateCleanIfExist(dto.DurationMinute, request.Id, startTime, endTime);
+                    if (dto.SelectedStartedTimes != null)
                     {
-                        if (curTime.StartTime >= startTime && curTime.StartTime <= endTime && curTime.EntTime >= startTime && curTime.EntTime <= endTime)
+                        foreach (var dayOfWeek in dto.SelectedStartedTimes)
                         {
-                            curTime.IsAvailable = true;
-                            await _becomeConsultantRequestScheduleRepository.Update(curTime);
+                            foreach (var hour in dayOfWeek.selectedTime)
+                            {
+                                var foundThisSchadual = durationList.Where(t => t.DayOfWeek == dayOfWeek.dayOfWeek && t.StartTime == hour).FirstOrDefault();
+                                if (foundThisSchadual != null)
+                                {
+                                    foundThisSchadual.IsAvailable = true;
+                                    await _becomeConsultantRequestScheduleRepository.Update(foundThisSchadual);
+                                }
+                            }
                         }
                     }
                 }
 
-                var outPut = _mediaService.SaveImage(dto.FileData, EntityUrls.Consultation);
-                if (outPut != null && outPut.IsSuccess == true)
+
+                if (!string.IsNullOrEmpty(dto.FileData))
                 {
-                    SocialMedia dbMedia = new SocialMedia()
+                    var outPut = _mediaService.SaveImage(dto.FileData, EntityUrls.Consultation);
+                    if (outPut != null && outPut.IsSuccess == true)
                     {
-                        ObjectId = request.Id,
-                        PictureUrl = outPut.ImageName,
-                        Type = MediaTypes.ConsultationRequest,
-                        Priority = 0,
-                        UpdateDate = DateTime.Now,
-                    };
-                    await _mediaRepository.InsertAsync(dbMedia);
+                        SocialMedia dbMedia = new SocialMedia()
+                        {
+                            ObjectId = request.Id,
+                            PictureUrl = outPut.ImageName,
+                            Type = MediaTypes.ConsultationRequest,
+                            Priority = 0,
+                            UpdateDate = DateTime.Now,
+                        };
+                        await _mediaRepository.InsertAsync(dbMedia);
+                    }
+                }
+                else
+                {
+                    var foundPrevVideoObjectId = await _repository
+                        .GetQuery()
+                        .Where(t => t.UserId == userId && _mediaRepository.GetQuery().Any(tt => tt.ObjectId == t.Id && tt.Type == MediaTypes.ConsultationRequest))
+                        .OrderByDescending(t => t.Id)
+                        .Select(t => t.Id)
+                        .FirstOrDefaultAsync();
+                    if (foundPrevVideoObjectId > 0)
+                    {
+                        var imageUrl = await _mediaRepository.GetQuery().Where(t => t.Type == MediaTypes.ConsultationRequest && t.ObjectId == foundPrevVideoObjectId).Select(t => t.PictureUrl).FirstOrDefaultAsync();
+                        if (!string.IsNullOrEmpty(imageUrl))
+                        {
+                            SocialMedia dbMedia = new SocialMedia()
+                            {
+                                ObjectId = request.Id,
+                                PictureUrl = imageUrl,
+                                Type = MediaTypes.ConsultationRequest,
+                                Priority = 0,
+                                UpdateDate = DateTime.Now,
+                            };
+                            await _mediaRepository.InsertAsync(dbMedia);
+                        }
+                    }
                 }
 
-                var outPutImage = _mediaService.SaveImage(dto.ImageFileData, EntityUrls.ConsultationUserProfile);
-                if (outPutImage != null && outPut.IsSuccess == true)
+                if (!string.IsNullOrEmpty(dto.ImageFileData))
                 {
-                    SocialMedia dbMedia = new SocialMedia()
+                    var outPutImage = _mediaService.SaveImage(dto.ImageFileData, EntityUrls.ConsultationUserProfile);
+                    if (outPutImage != null && outPutImage.IsSuccess == true)
                     {
-                        ObjectId = request.Id,
-                        PictureUrl = outPutImage.ImageName,
-                        Type = MediaTypes.ConsultationRequestProfileImage,
-                        Priority = 0,
-                        UpdateDate = DateTime.Now,
-                    };
-                    await _mediaRepository.InsertAsync(dbMedia);
+                        SocialMedia dbMedia = new SocialMedia()
+                        {
+                            ObjectId = request.Id,
+                            PictureUrl = outPutImage.ImageName,
+                            Type = MediaTypes.ConsultationRequestProfileImage,
+                            Priority = 0,
+                            UpdateDate = DateTime.Now,
+                        };
+                        await _mediaRepository.InsertAsync(dbMedia);
+                    }
+                }
+                else
+                {
+                    var foundPrevVideoObjectId = await _repository
+                        .GetQuery()
+                        .Where(t => t.UserId == userId && _mediaRepository.GetQuery().Any(tt => tt.ObjectId == t.Id && tt.Type == MediaTypes.ConsultationRequestProfileImage))
+                        .OrderByDescending(t => t.Id)
+                        .Select(t => t.Id)
+                        .FirstOrDefaultAsync();
+                    if (foundPrevVideoObjectId > 0)
+                    {
+                        var imageUrl = await _mediaRepository.GetQuery().Where(t => t.Type == MediaTypes.ConsultationRequestProfileImage && t.ObjectId == foundPrevVideoObjectId).Select(t => t.PictureUrl).FirstOrDefaultAsync();
+                        if (!string.IsNullOrEmpty(imageUrl))
+                        {
+                            SocialMedia dbMedia = new SocialMedia()
+                            {
+                                ObjectId = request.Id,
+                                PictureUrl = imageUrl,
+                                Type = MediaTypes.ConsultationRequestProfileImage,
+                                Priority = 0,
+                                UpdateDate = DateTime.Now,
+                            };
+                            await _mediaRepository.InsertAsync(dbMedia);
+                        }
+                    }
                 }
 
                 return operation.Ok();
@@ -192,21 +265,32 @@ namespace BanooClub.Services.ConsultingServices
                 return "لطفا توضیحات را وارد کنید";
             if (dto.Description.Length > 4000)
                 return "توضیحات طولانی می باشد";
-            if (string.IsNullOrEmpty(dto.FileData))
-                return "لطفا فایل معرفی خود را وارد کنید";
+            if (string.IsNullOrEmpty(dto.FileData) && !_repository.GetQuery().Any(t => t.UserId == userId))
+                return "لطفا ویدیو معرفی خود را وارد کنید";
+            if (string.IsNullOrEmpty(dto.ImageFileData) && !_repository.GetQuery().Any(t => t.UserId == userId))
+                return "لطفا تصویر پروفایل خود را وارد کنید";
             var allDuration = GetDuration();
             if (!allDuration.Any(t => t.Id == dto.DurationMinute))
                 return "مدت زمان انتخاب شده مجاز نمی باشد";
-            if (dto.SelectedStartedTimes == null || dto.SelectedStartedTimes.Count != 2)
+            if (dto.StartAndEndWork == null || dto.StartAndEndWork.Count != 2)
                 return "لطفا بازه شروع و پایان زمانی انتخاب کنید";
 
-            var startDate = dto.SelectedStartedTimes[0];
-            var endDate = dto.SelectedStartedTimes[1];
+            var startDate = dto.StartAndEndWork[0];
+            var endDate = dto.StartAndEndWork[1];
             if ((endDate - startDate).TotalMinutes <= 0)
                 return "زمان شروع و پایان صحیح نمی باشد";
 
             if ((endDate - startDate).TotalMinutes % dto.DurationMinute != 0)
                 return "زمان پایان صحیح نمی باشد";
+
+            if (dto.SelectedStartedTimes != null)
+            {
+                if (dto.SelectedStartedTimes.Any(t => t.dayOfWeek == null))
+                    return "زمان های انتخاب شده صحیح نمی باشد";
+                foreach (var dayOfWeek in dto.SelectedStartedTimes)
+                    if (dto.SelectedStartedTimes.Count(t => t.dayOfWeek == dayOfWeek.dayOfWeek) > 1)
+                        return "زمان روز ها تکراری می باشد";
+            }
 
             return "";
         }
@@ -217,6 +301,7 @@ namespace BanooClub.Services.ConsultingServices
 
             var request = await _repository
                 .GetQuery()
+                .Include(t => t.User)
                 .Where(x => x.Id == requestId)
                 .Include(t => t.Categories)
                 .Include(t => t.BecomeConsultantRequestConsultPrices)
@@ -307,6 +392,7 @@ namespace BanooClub.Services.ConsultingServices
                                 IsAvailable = item.IsAvailable,
                                 StartTime = item.StartTime,
                                 IsDeleted = item.IsDeleted,
+                                DayOfWeek = item.DayOfWeek
                             });
                 }
                 else
@@ -374,7 +460,7 @@ namespace BanooClub.Services.ConsultingServices
                     {
                         var allPrevScheduale = await _consultantScheduleRepository.GetQuery().Where(t => t.ConsultantId == consultant.Id).ToListAsync();
                         if (allPrevScheduale != null)
-                            foreach(var prevSchedual in allPrevScheduale)
+                            foreach (var prevSchedual in allPrevScheduale)
                                 _consultantScheduleRepository.Erase(prevSchedual);
 
                         foreach (var item in request.BecomeConsultantRequestSchedules)
@@ -386,19 +472,39 @@ namespace BanooClub.Services.ConsultingServices
                                 IsAvailable = item.IsAvailable,
                                 StartTime = item.StartTime,
                                 IsDeleted = item.IsDeleted,
+                                DayOfWeek = item.DayOfWeek
                             });
                     }
-
                 }
-
                 await _dBContext.Database.CommitTransactionAsync();
+
+                if (!string.IsNullOrEmpty(request.PhoneNumber) && request.PhoneNumber.IsMobile())
+                {
+                    var result = await _smsSenderService.UltraFastSend(new UltraFastSend()
+                    {
+                        Mobile = Convert.ToInt64(request.PhoneNumber),
+                        TemplateId = _configuration.GetValue<int>("smsTemplateIds:confirmSMSTemplate"),
+                        ParameterArray = new List<UltraFastParameters>()
+                        {
+                            new UltraFastParameters()
+                            {
+                                Parameter = "username" , 
+                                ParameterValue =  request.User?.Name + " " + request.User?.FamilyName
+                            },
+                            new UltraFastParameters()
+                            {
+                                Parameter = "status" ,
+                                ParameterValue =  "تایید شده"
+                            }
+                        }.ToArray()
+                    });
+                }
             }
             catch
             {
                 await _dBContext.Database.RollbackTransactionAsync();
                 throw;
             }
-
             return operation.Ok();
         }
 
@@ -406,13 +512,34 @@ namespace BanooClub.Services.ConsultingServices
         {
             var operation = new ServiceResult();
 
-            var request = await _repository.GetQuery().Where(x => x.Id == requestId).FirstOrDefaultAsync();
+            var request = await _repository.GetQuery().Include(t => t.User).Where(x => x.Id == requestId).FirstOrDefaultAsync();
             if (request == null)
                 return operation.Failure("NotFound");
 
             request.Status = BecomeConsultantRequestStatus.Rejected;
 
             await _repository.Update(request);
+            if (!string.IsNullOrEmpty(request.PhoneNumber) && request.PhoneNumber.IsMobile())
+            {
+                var result = await _smsSenderService.UltraFastSend(new UltraFastSend()
+                {
+                    Mobile = Convert.ToInt64(request.PhoneNumber),
+                    TemplateId = _configuration.GetValue<int>("smsTemplateIds:rejectSMSTemplate"),
+                    ParameterArray = new List<UltraFastParameters>()
+                        {
+                            new UltraFastParameters()
+                            {
+                                Parameter = "username" ,
+                                ParameterValue =  request.User?.Name + " " + request.User?.FamilyName
+                            },
+                            new UltraFastParameters()
+                            {
+                                Parameter = "status" ,
+                                ParameterValue =  "رد شده"
+                            }
+                        }.ToArray()
+                });
+            }
 
             return operation.Ok();
         }
@@ -501,8 +628,9 @@ namespace BanooClub.Services.ConsultingServices
                     ImageFileData = _mediaRepository.GetQuery().Where(tt => tt.ObjectId == t.Id && tt.Type == MediaTypes.ConsultationRequestProfileImage).Select(tt => tt.PictureUrl).FirstOrDefault(),
                     Prices = t.BecomeConsultantRequestConsultPrices.Select(tt => new CreateBecomeConsultantRequestPriceDTO { Price = tt.Price, Type = tt.Type }).ToList(),
                     Categories = t.Categories.Select(tt => new { id = tt.CategoryId, title = tt.Category.Title }).ToList(),
-                    SelectedStartedTimes = t.BecomeConsultantRequestSchedules.Where(tt => tt.IsAvailable == true).Select(tt => tt.StartTime).ToList(),
-                    userfullname = t.User.Name + " " + t.User.FamilyName
+                    StartAndEndWork = t.BecomeConsultantRequestSchedules.Where(tt => tt.DayOfWeek == MyDayOfWeek.Sunday).ToList(),
+                    userfullname = t.User.Name + " " + t.User.FamilyName,
+                    consultantId = _consultantRepository.GetQuery().Where(tt => tt.UserId == userId).Select(tt => tt.Id).FirstOrDefault()
                 })
                 .Take(1)
                 .ToListAsync())
@@ -522,8 +650,9 @@ namespace BanooClub.Services.ConsultingServices
                     t.Description,
                     t.Prices,
                     t.Categories,
-                    t.SelectedStartedTimes,
-                    t.userfullname
+                    t.userfullname,
+                    startAndEndWork = t.StartAndEndWork != null && t.StartAndEndWork.Count > 0 ? new List<TimeSpan>() { t.StartAndEndWork.OrderBy(tt => tt.StartTime).Select(tt => tt.StartTime).FirstOrDefault(), t.StartAndEndWork.OrderByDescending(tt => tt.EntTime).Select(tt => tt.EntTime).FirstOrDefault() } : null,
+                    t.consultantId
                 })
                 .FirstOrDefault();
         }
@@ -550,8 +679,10 @@ namespace BanooClub.Services.ConsultingServices
                     ImageFileData = _mediaRepository.GetQuery().Where(tt => tt.ObjectId == t.Id && tt.Type == MediaTypes.ConsultationRequestProfileImage).Select(tt => tt.PictureUrl).FirstOrDefault(),
                     Prices = t.BecomeConsultantRequestConsultPrices.Select(tt => new CreateBecomeConsultantRequestPriceDTO { Price = tt.Price, Type = tt.Type }).ToList(),
                     Categories = t.Categories.Select(tt => new { id = tt.CategoryId, title = tt.Category.Title }).ToList(),
-                    SelectedStartedTimes = t.BecomeConsultantRequestSchedules.Where(tt => tt.IsAvailable == true).Select(tt => tt.StartTime).ToList(),
-                    userfullname = t.User.Name + " " + t.User.FamilyName
+                    userfullname = t.User.Name + " " + t.User.FamilyName,
+                    cityName = t.City.Name,
+                    stateName = t.State.Name,
+                    StartAndEndWork = t.BecomeConsultantRequestSchedules.Where(tt => tt.DayOfWeek == MyDayOfWeek.Sunday).ToList()
                 })
                 .Take(1)
                 .ToListAsync())
@@ -571,10 +702,26 @@ namespace BanooClub.Services.ConsultingServices
                     t.Description,
                     t.Prices,
                     t.Categories,
-                    t.SelectedStartedTimes,
-                    t.userfullname
+                    t.userfullname,
+                    t.cityName,
+                    t.stateName,
+                    startAndEndWork = t.StartAndEndWork != null && t.StartAndEndWork.Count > 0 ? new List<TimeSpan>() { t.StartAndEndWork.OrderBy(tt => tt.StartTime).Select(tt => tt.StartTime).FirstOrDefault(), t.StartAndEndWork.OrderByDescending(tt => tt.EntTime).Select(tt => tt.EntTime).FirstOrDefault() } : null
                 })
                 .FirstOrDefault();
+        }
+
+        public async Task<IServiceResult> Delete(long requestId)
+        {
+            var foundItem = await _repository.GetQuery().Where(t => t.Id == requestId).FirstOrDefaultAsync();
+            if (foundItem != null)
+            {
+                if (foundItem.Status == BecomeConsultantRequestStatus.Accepted)
+                    return new ServiceResult() { IsSuccess = false, ErrorMessage = "امکان حذف وجود ندارد" };
+                await _repository.Delete(foundItem);
+                return new ServiceResult() { IsSuccess = true };
+            }
+
+            return new ServiceResult() { IsSuccess = false, ErrorMessage = "خطا در انجام عملیات" };
         }
     }
 }

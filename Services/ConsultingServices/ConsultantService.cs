@@ -1,6 +1,8 @@
 ﻿using BanooClub.Extentions;
+using BanooClub.Migrations;
 using BanooClub.Models;
 using BanooClub.Models.Consulting;
+using BanooClub.Models.DTO;
 using BanooClub.Models.Enums;
 using BanooClub.Services.Common;
 using BanooClub.Services.SkyroomService;
@@ -8,7 +10,7 @@ using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,6 +25,7 @@ namespace BanooClub.Services.ConsultingServices
         IBanooClubEFRepository<OrderItem> _orderItemRepository;
         IBanooClubEFRepository<ConsultantVideoConferanceUrl> _consultantVideoConferanceUrlRepository;
         IBanooClubEFRepository<ConsultantUserSchedule> _consultantUserScheduleRepository;
+        IBanooClubEFRepository<ConsultantUserScheduleRating> _consultantUserScheduleRatingRepository;
         IBanooClubEFRepository<SocialMedia> _mediaRepository;
         ISkyroomService _skyroomService;
         IHttpContextAccessor _accessor;
@@ -36,6 +39,7 @@ namespace BanooClub.Services.ConsultingServices
                 IBanooClubEFRepository<ConsultantVideoConferanceUrl> consultantVideoConferanceUrlRepository,
                 IBanooClubEFRepository<ConsultantUserSchedule> consultantUserScheduleRepository,
                 IBanooClubEFRepository<SocialMedia> mediaRepository,
+                IBanooClubEFRepository<ConsultantUserScheduleRating> consultantUserScheduleRatingRepository,
                 ISkyroomService skyroomService,
                 IHttpContextAccessor accessor
             )
@@ -50,6 +54,7 @@ namespace BanooClub.Services.ConsultingServices
             _consultantUserScheduleRepository = consultantUserScheduleRepository;
             _mediaRepository = mediaRepository;
             _accessor = accessor;
+            _consultantUserScheduleRatingRepository = consultantUserScheduleRatingRepository;
         }
 
         public async Task<ServiceResult> ChageStatus(long? id)
@@ -72,6 +77,61 @@ namespace BanooClub.Services.ConsultingServices
             return new ServiceResult() { IsSuccess = false, ErrorMessage = "اطلاعاتی یافت نشد" };
         }
 
+        public async Task<object> CreateComment(ConsultantNewCommentDTO input)
+        {
+            string errorResult = createCommentValidation(input);
+            if (string.IsNullOrEmpty(errorResult))
+            {
+                var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                  ? _accessor.HttpContext.User.Identity.GetUserId()
+                  : 0;
+                if (userId > 0)
+                {
+                    var ConsultantUserScheduleId = await _consultantUserScheduleRepository
+                        .GetQuery()
+                        .Where(t => t.ConsultantId == input.id && t.IsPayed == true && t.UserId == userId && !t.ConsultantUserScheduleRatings.Any())
+                        .Select(t => t.ConsultantUserScheduleId)
+                        .FirstOrDefaultAsync();
+
+                    if (ConsultantUserScheduleId > 0)
+                    {
+                        await _consultantUserScheduleRatingRepository
+                       .InsertAsync(new ConsultantUserScheduleRating()
+                       {
+                           ConsultantUserScheduleId = ConsultantUserScheduleId,
+                           CreateDate = DateTime.Now,
+                           Description = input.description,
+                           Rate = input.rate.Value
+                       });
+                    }
+                    else
+                        errorResult = "اطلاعاتی یافت نشد";
+                }
+                else
+                    errorResult = "لطفا ابتدا لاگین کنید";
+            }
+
+
+            return new ServiceResult() { IsSuccess = false, ErrorMessage = errorResult };
+        }
+
+        private string createCommentValidation(ConsultantNewCommentDTO input)
+        {
+            if (input == null)
+                return "لطفا کلیه اطلاعات را وارد کنید";
+            if (input.id == null || input.id <= 0)
+                return "لطفا شناسه مشاوره را وارد کنید";
+            if (input.rate == null)
+                return "لطفا امتیاز خود را وارد کنید";
+            if (input.rate <= 0 || input.rate > 5)
+                return "امتیاز وارد شده مجاز نمی باشد";
+            if (!string.IsNullOrEmpty(input.description) && input.description.Length > 4000)
+                return "توضیحات طولانی می باشد";
+
+
+            return "";
+        }
+
         public async Task<ServiceResult<long>> CreateOrder(long? id, ConsultTypeEnum? type, TimeSpan? targetTime, DateTime? targetDate)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
@@ -79,11 +139,12 @@ namespace BanooClub.Services.ConsultingServices
                    : 0;
             if (userId > 0 && targetTime != null && targetDate != null && type != null)
             {
+                var dayOFWeek = (MyDayOfWeek) ((int)targetDate.Value.DayOfWeek);
                 var foundPrice = await _consultantRepository
                 .GetQuery()
                 .Where(t => t.Id == id && t.ConsultantSchedules
                     .Any(tt =>
-                        tt.StartTime == targetTime && tt.IsAvailable == true) &&
+                        tt.StartTime == targetTime && tt.IsAvailable == true && tt.DayOfWeek == dayOFWeek) &&
                         !t.ConsultantUserSchedules.Any(tt => tt.TargetDate.Year == targetDate.Value.Year && tt.TargetDate.Month == targetDate.Value.Month && tt.TargetDate.Day == targetDate.Value.Day && tt.ReserveTime == targetTime && tt.IsPayed == true)
                        )
                 .SelectMany(t => t.ConsultantPrices)
@@ -243,7 +304,10 @@ namespace BanooClub.Services.ConsultingServices
                         {
                             tt.Price,
                             tt.Type
-                        }).ToList()
+                        }).ToList(),
+                        lastRequestStatus = _becomeConsultantRequestRepository.GetQuery().Where(tt => tt.UserId == t.UserId).OrderByDescending(tt => tt.Id).Select(tt => tt.Status).FirstOrDefault(),
+                        rating = t.ConsultantUserSchedules.SelectMany(tt => tt.ConsultantUserScheduleRatings).Any(tt => tt.IsConfirm == true) ? t.ConsultantUserSchedules.SelectMany(tt => tt.ConsultantUserScheduleRatings).Where(tt => tt.IsConfirm == true).Average(t => t.Rate) : 0,
+                        commentCount = t.ConsultantUserSchedules.SelectMany(tt => tt.ConsultantUserScheduleRatings).Any(tt => tt.IsConfirm == true && !string.IsNullOrEmpty(tt.Description)) ? t.ConsultantUserSchedules.SelectMany(tt => tt.ConsultantUserScheduleRatings).Count(tt => tt.IsConfirm == true && !string.IsNullOrEmpty(tt.Description)) : 0,
                     })
                     .ToListAsync()
                 )
@@ -259,7 +323,11 @@ namespace BanooClub.Services.ConsultingServices
                     t.medicalSystemNumber,
                     t.city,
                     t.state,
-                    t.cd
+                    t.cd,
+                    t.prices,
+                    t.lastRequestStatus,
+                    t.rating,
+                    t.commentCount
                 })
                 .FirstOrDefault();
 
@@ -270,10 +338,37 @@ namespace BanooClub.Services.ConsultingServices
             };
         }
 
-        public async Task<object> GetNotEditedList()
+        public async Task<object> GetComments(long? id, int? pageNumber, int? take)
         {
-            List<object> result = new List<object>();
-            var tempResult = await _consultantRepository.GetQuery()
+            if (pageNumber == null || pageNumber <= 0)
+                pageNumber = 1;
+            if (take == null || take <= 0)
+                take = 10;
+
+            return await _consultantRepository
+                .GetQuery()
+                .Where(t => t.Id == id)
+                .SelectMany(t => t.ConsultantUserSchedules)
+                .SelectMany(t => t.ConsultantUserScheduleRatings)
+                .Where(t => t.IsConfirm == true)
+                .OrderByDescending(t => t.CreateDate)
+                .Skip((pageNumber.Value - 1) * take.Value)
+                .Take(take.Value)
+                .Select(t => new
+                {
+                    userFullname = t.ConsultantUserSchedule.User.Name + " " + t.ConsultantUserSchedule.User.FamilyName,
+                    t.CreateDate,
+                    t.Description,
+                    t.Rate,
+
+                })
+                .ToListAsync();
+        }
+
+        public async Task<object> GetNotEditedList(Models.DTO.ConsultGridFilterDTO input)
+        {
+            input = input ?? new Models.DTO.ConsultGridFilterDTO();
+            var quiryResult = _consultantRepository.GetQuery()
                 .Where(t =>
                         _becomeConsultantRequestRepository
                                 .GetQuery()
@@ -281,49 +376,67 @@ namespace BanooClub.Services.ConsultingServices
                                 .OrderByDescending(tt => tt.CreateDate)
                                 .Select(tt => tt.Status)
                                 .FirstOrDefault() == BecomeConsultantRequestStatus.Accepted
-                        )
-                .Select(t => new
-                {
-                    id = t.Id,
-                    cats = t.Categories.Select(tt => tt.ConsultCategory.Title).ToList(),
-                    name = t.User.Name,
-                    lName = t.User.FamilyName,
-                    userProfile = _mediaRepository.GetQuery().Where(tt => tt.ObjectId == t.Id && tt.Type == MediaTypes.ConsultationProfileImage).Select(tt => tt.PictureUrl).FirstOrDefault(),
+                        );
 
-                })
-                .ToListAsync();
-
-            var allCats = tempResult.SelectMany(t => t.cats).GroupBy(t => t).Select(t => t.Key).ToList();
-            foreach (var cat in allCats)
+            if (input.catIds != null && input.catIds.Count > 0)
+                quiryResult = quiryResult.Where(t => t.Categories.Any(tt => input.catIds.Contains(tt.ConsultCategoryId)));
+            if (!string.IsNullOrEmpty(input.searchInput))
+                quiryResult = quiryResult.Where(t => (t.User.Name + " " + t.User.FamilyName).Contains(input.searchInput));
+            if (input.isActive == true)
             {
-                result.Add(new
-                {
-                    title = cat,
-                    users = tempResult
-                            .Where(t => t.cats.Any(tt => tt == cat))
-                            .Select(t => new
-                            {
-                                t.id,
-                                t.name,
-                                t.lName,
-                                userProfile = !string.IsNullOrEmpty(t.userProfile) ? ("/Media/Gallery/ConsultationUserProfile/" + t.userProfile) : ""
-                            })
-                            .ToList()
-                });
+                var targetDate = DateTime.Now.AddMinutes(-5);
+                quiryResult = quiryResult.Where(t => t.User.Activities.Any(tt => tt.CreateDate >= targetDate));
             }
 
-            return result;
+            var tempResultQuiry = quiryResult.Select(t => new
+            {
+                id = t.Id,
+                cats = t.Categories.Select(tt => tt.ConsultCategory.Title).ToList(),
+                name = t.User.Name,
+                lName = t.User.FamilyName,
+                userProfile = "/Media/Gallery/ConsultationUserProfile/" + _mediaRepository.GetQuery().Where(tt => tt.ObjectId == t.Id && tt.Type == MediaTypes.ConsultationProfileImage).Select(tt => tt.PictureUrl).FirstOrDefault(),
+                medicalSystemNumber = t.MedicalSystemNumber,
+                rating = t.ConsultantUserSchedules.SelectMany(tt => tt.ConsultantUserScheduleRatings).Any(tt => tt.IsConfirm == true) ? t.ConsultantUserSchedules.SelectMany(tt => tt.ConsultantUserScheduleRatings).Where(tt => tt.IsConfirm == true).Average(t => t.Rate) : 0,
+                commentCount = t.ConsultantUserSchedules.SelectMany(tt => tt.ConsultantUserScheduleRatings).Any(tt => tt.IsConfirm == true && !string.IsNullOrEmpty(tt.Description)) ? t.ConsultantUserSchedules.SelectMany(tt => tt.ConsultantUserScheduleRatings).Count(tt => tt.IsConfirm == true && !string.IsNullOrEmpty(tt.Description)) : 0,
+                prices = t.ConsultantPrices.Select(tt => tt.Type).ToList(),
+                successCount =
+                            t.ConsultantUserSchedules.SelectMany(tt => tt.ConsultantUserScheduleRatings).Any(tt => tt.IsConfirm == true && tt.Rate >= 3) ?
+                                    t.ConsultantUserSchedules.SelectMany(tt => tt.ConsultantUserScheduleRatings).Where(tt => tt.IsConfirm == true && tt.Rate >= 3).Count() :
+                                    0,
+            });
+
+            if (input.sort != null && input.sort == ConsultGridFilterDTOSortType.Rating)
+                tempResultQuiry = tempResultQuiry.OrderByDescending(t => t.rating);
+            else
+                tempResultQuiry = tempResultQuiry.OrderByDescending(t => t.id);
+
+            if (input.pageNumber == null || input.pageNumber <= 0)
+                input.pageNumber = 1;
+            if (input.take == null || input.take <= 0)
+                input.take = 10;
+
+            return await
+                tempResultQuiry
+                .Skip((input.pageNumber.Value - 1) * input.take.Value)
+                .Take(input.take.Value)
+                .ToListAsync();
         }
 
-        public async Task<object> GetSchedule(long? id)
+        public async Task<object> GetSchedule(long? id, System.Collections.Generic.List<MyDayOfWeek> days)
         {
-            return (
-                    await _consultantRepository
+            var quiryResult = _consultantRepository
                     .GetQuery()
                     .Where(t => t.Id == id)
-                    .SelectMany(t => t.ConsultantSchedules)
+                    .SelectMany(t => t.ConsultantSchedules);
+
+            if (days != null && days.Count > 0)
+                quiryResult = quiryResult.Where(t => days.Contains(t.DayOfWeek));
+
+            return (
+                    await quiryResult
                     .Select(t => new
                     {
+                        t.DayOfWeek,
                         t.StartTime,
                         t.EntTime,
                         t.IsAvailable,
@@ -334,9 +447,16 @@ namespace BanooClub.Services.ConsultingServices
                 )
                 .Select(t => new
                 {
+                    t.DayOfWeek,
                     t.StartTime,
                     t.EntTime,
                     status = getSchedualStatus(t.hasPayedUser, t.hasNotPayedUser, t.IsAvailable)
+                })
+                .GroupBy(t => t.DayOfWeek)
+                .Select(t => new 
+                {
+                    DayOfWeek = t.Key,
+                    hours = t.ToList()
                 })
                 .ToList()
                 ;
@@ -352,6 +472,24 @@ namespace BanooClub.Services.ConsultingServices
                 return 1;
 
             return -1;
+        }
+
+        public async Task<object> CanComment(long? id)
+        {
+            var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
+                 ? _accessor.HttpContext.User.Identity.GetUserId()
+                 : 0;
+            if (userId > 0)
+            {
+                var ConsultantUserScheduleId = await _consultantUserScheduleRepository
+                .GetQuery()
+                    .Where(t => t.ConsultantId == id && t.IsPayed == true && t.UserId == userId && !t.ConsultantUserScheduleRatings.Any())
+                    .Select(t => t.ConsultantUserScheduleId)
+                    .FirstOrDefaultAsync();
+                return ConsultantUserScheduleId > 0;
+            }
+
+            return false;
         }
     }
 }

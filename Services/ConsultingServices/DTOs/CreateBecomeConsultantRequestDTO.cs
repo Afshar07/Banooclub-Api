@@ -1,4 +1,5 @@
 ﻿using BanooClub.Models.Consulting;
+using BanooClub.Models.DTO;
 using System;
 using System.Collections.Generic;
 
@@ -9,7 +10,7 @@ namespace BanooClub.Services.ConsultingServices.DTOs
         public CreateBecomeConsultantRequestDTO()
         {
             Prices = new List<CreateBecomeConsultantRequestPriceDTO>();
-            SelectedStartedTimes = new List<TimeSpan>();
+            StartAndEndWork = new List<TimeSpan>();
         }
 
         public long? Id { get; set; }
@@ -27,8 +28,9 @@ namespace BanooClub.Services.ConsultingServices.DTOs
         public string ImageFileData { get; set; }
         public List<CreateBecomeConsultantRequestPriceDTO> Prices { get; set; }
         public List<long> Categories { get; set; }
-        public List<TimeSpan> SelectedStartedTimes { get; set; }
-        
+        public List<TimeSpan> StartAndEndWork { get; set; }
+        public List<CreateBecomeConsultantRequestRealSelectedDayDTO> SelectedStartedTimes { get; set; }
+
     }
 
     public class BecomeConsultantRequestDTO

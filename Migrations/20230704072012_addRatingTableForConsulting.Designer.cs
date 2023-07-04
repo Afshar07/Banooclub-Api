@@ -4,14 +4,16 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BanooClub.Migrations
 {
     [DbContext(typeof(BanooClubDBContext))]
-    partial class BanooClubDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230704072012_addRatingTableForConsulting")]
+    partial class addRatingTableForConsulting
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -729,9 +731,6 @@ namespace BanooClub.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DayOfWeek")
-                        .HasColumnType("int");
-
                     b.Property<TimeSpan>("EntTime")
                         .HasColumnType("time");
 
@@ -895,9 +894,6 @@ namespace BanooClub.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DayOfWeek")
-                        .HasColumnType("int");
-
                     b.Property<TimeSpan>("EntTime")
                         .HasColumnType("time");
 
@@ -976,8 +972,7 @@ namespace BanooClub.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(4000)
-                        .HasColumnType("nvarchar(4000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsConfirm")
                         .HasColumnType("bit");

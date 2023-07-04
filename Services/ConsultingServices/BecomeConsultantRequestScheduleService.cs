@@ -1,5 +1,6 @@
 ﻿using BanooClub.Extentions;
 using BanooClub.Models.Consulting;
+using BanooClub.Models.Enums;
 using BanooClub.Services.Common;
 using BanooClub.Services.ConsultingServices.DTOs;
 using Infrastructure;
@@ -16,6 +17,7 @@ namespace BanooClub.Services.ConsultingServices
     {
         readonly IBanooClubEFRepository<BecomeConsultantRequestSchedule> _becomeConsultantRequestScheduleRepository;
         readonly IHttpContextAccessor _httpContextAccessor;
+
         public BecomeConsultantRequestScheduleService
             (
                 IBanooClubEFRepository<BecomeConsultantRequestSchedule> becomeConsultantRequestScheduleRepository,
@@ -26,30 +28,34 @@ namespace BanooClub.Services.ConsultingServices
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<List<BecomeConsultantRequestSchedule>> CreateCleanIfExist(int? durationMinut, long becomeConsultantRequest)
+        public async Task<List<BecomeConsultantRequestSchedule>> CreateCleanIfExist(int? durationMinut, long becomeConsultantRequest, TimeSpan startTime, TimeSpan endTime)
         {
             List<BecomeConsultantRequestSchedule> result = new List<BecomeConsultantRequestSchedule>();
-            if (durationMinut != null && durationMinut.Value > 0 && becomeConsultantRequest > 0)
+            if (durationMinut != null && durationMinut.Value > 0 && becomeConsultantRequest > 0 && startTime != null && endTime != null)
             {
                 var allPrevItems = await _becomeConsultantRequestScheduleRepository.GetQuery().Where(t => t.BecomeConsultantRequestId == becomeConsultantRequest).ToListAsync();
                 while (allPrevItems.Count > 0)
                     _becomeConsultantRequestScheduleRepository.Erase(allPrevItems[0]);
 
-                var startSpan = new TimeSpan();
-                while ((startSpan + TimeSpan.FromMinutes(durationMinut.Value)).TotalHours < 24)
+                foreach (MyDayOfWeek day in Enum.GetValues(typeof(MyDayOfWeek)))
                 {
-                    var endSpan = new TimeSpan(startSpan.Hours, startSpan.Minutes, startSpan.Seconds);
-                    endSpan += TimeSpan.FromMinutes(durationMinut.Value);
-                    var newItem = new BecomeConsultantRequestSchedule()
+                    var startSpan = startTime;
+                    while ((startSpan + TimeSpan.FromMinutes(durationMinut.Value)) <= endTime)
                     {
-                        BecomeConsultantRequestId = becomeConsultantRequest,
-                        CreateDate = DateTime.Now,
-                        StartTime = startSpan,
-                        EntTime = endSpan
-                    };
-                    await _becomeConsultantRequestScheduleRepository.InsertAsync(newItem);
-                    result.Add(newItem);
-                    startSpan += TimeSpan.FromMinutes(durationMinut.Value);
+                        var endSpan = new TimeSpan(startSpan.Hours, startSpan.Minutes, startSpan.Seconds);
+                        endSpan += TimeSpan.FromMinutes(durationMinut.Value);
+                        var newItem = new BecomeConsultantRequestSchedule()
+                        {
+                            BecomeConsultantRequestId = becomeConsultantRequest,
+                            CreateDate = DateTime.Now,
+                            StartTime = startSpan,
+                            EntTime = endSpan,
+                            DayOfWeek = day
+                        };
+                        await _becomeConsultantRequestScheduleRepository.InsertAsync(newItem);
+                        result.Add(newItem);
+                        startSpan += TimeSpan.FromMinutes(durationMinut.Value);
+                    }
                 }
             }
 

@@ -99,6 +99,7 @@ namespace BanooClub.Extensions
 
         private static void AddRepositories(IServiceCollection services)
         {
+            services.AddScoped<IBanooClubEFRepository<ConsultantUserScheduleRating>, BanooClubEfRepository<ConsultantUserScheduleRating>>();
             services.AddScoped<IBanooClubEFRepository<ConsultantUserSchedule>, BanooClubEfRepository<ConsultantUserSchedule>>();
             services.AddScoped<IBanooClubEFRepository<ConsultantSchedule>, BanooClubEfRepository<ConsultantSchedule>>();
             services.AddScoped<IBanooClubEFRepository<ConsultantVideoConferanceUrl>, BanooClubEfRepository<ConsultantVideoConferanceUrl>>();
@@ -282,6 +283,7 @@ namespace BanooClub.Extensions
             services.AddScoped<ISkyroomService, SkyroomService>();
             services.AddScoped<IBecomeConsultantRequestScheduleService, BecomeConsultantRequestScheduleService>();
             services.AddScoped<IConsultantScheduleService, ConsultantScheduleService>();
+            services.AddScoped<IConsultantUserScheduleRatingService, ConsultantUserScheduleRatingService>();
 
             services.AddTransient(typeof(IGenerateJwtService), typeof(GenerateJwtService));
             services.AddTransient(typeof(IConfirmationCodeSetting), typeof(ConfirmationCodeSetting));
