@@ -221,6 +221,6 @@ module.exports = {
     // baseURL: 'https://localhost:44330/',
   },
   env: {
-    pic: "https://api.banooclub.simagar.com/",
+    pic: "https://api.banooclub.simagar.com",
   },
 };

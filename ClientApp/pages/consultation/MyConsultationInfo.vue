@@ -250,7 +250,6 @@ export default {
         }
         todayDate = new Date(todayDate.setMinutes(todayDate.getMinutes() + this.sessionDuration))
       }
-      console.log(this.generatedTimestamps)
 
     },
     getSelectedClass(weekDay, timeObj) {

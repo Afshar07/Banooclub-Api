@@ -244,7 +244,11 @@ export default (context, inject) => {
     GetAllGroups: CreateGroupsRepository(context, 'MessageGroup/GetAll'),
     getAllConsultCategory: CreateRequestRepository(context, 'ConsultCategory/GetAll'),
     getDurations: CreateRequestRepository(context, 'BecomeConsultantRequest/GetDurationList'),
-    createConsultantRequest:CreateRequestRepository(context,'BecomeConsultantRequest/CreateRequest')
+    createConsultantRequest: CreateRequestRepository(context, 'BecomeConsultantRequest/CreateRequest'),
+    getAllConsultants: CreateRequestRepository(context, 'Consultant/GetList'),
+    getConsultantById: CreateRequestRepository(context, 'Consultant/Get'),
+    canComment:CreateRequestRepository(context,'Consultant/CanComment')
+
 
   };
 

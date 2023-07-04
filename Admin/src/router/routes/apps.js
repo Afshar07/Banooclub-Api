@@ -153,6 +153,11 @@ export default [
     name: 'apps-consultant-consultantRequestDetail',
     component: () => import('@/views/apps/consultant/consultantRequestDetail.vue'),
   },
+  {
+    path: '/apps/consultant/consultantComments',
+    name: 'apps-consultant-consultantComments',
+    component: () => import('@/views/apps/consultant/consultantComments.vue'),
+  },
   // *===============================================---*
   // *--------- Upgrade ---- ---------------------------------------*
   // *===============================================---*

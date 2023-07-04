@@ -167,6 +167,10 @@ export default [
         title: 'دسته بندی های مشاوره',
         route: 'apps-consultant-consultantCategories',
       },
+      {
+        title: 'نظرات مشاوران',
+        route: 'apps-consultant-consultantComments',
+      },
 
     ],
   },
