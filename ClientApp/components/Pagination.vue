@@ -1,7 +1,7 @@
 <template>
-  <div class="col-md-12  d-flex justify-content-center my-5 border-top pt-2">
+  <div class="col-md-12  d-flex justify-content-center   ">
     <nav aria-label="Page navigation example">
-      <ul  class="pagination px-0">
+      <ul  class="pagination m-0 px-0">
         <li class="page-item" @click="DecrementSelectedPageId">
           <a class="page-link" href="#" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>

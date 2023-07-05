@@ -189,7 +189,7 @@
                   <span v-if="!decrease_width" class="font_sidebar_size">پرداخت ها</span>
                 </nuxt-link>
               </div>
-              <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3"
+              <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData "
                    class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                 <nuxt-link
                   :class="[decrease_width ? 'p-3' : 'px-3']"
@@ -306,7 +306,8 @@
                   <span v-if="!decrease_width" class="font_sidebar_size">مشاورین من </span>
                 </nuxt-link>
               </div>
-              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+              <div v-if="$auth.user.consultantId!==0" class="d-flex align-items-center py-1"
+                   data-bs-dismiss="offcanvas">
                 <nuxt-link
                   :class="[decrease_width ? 'p-3' : 'px-3']"
                   class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
@@ -387,14 +388,25 @@
               <span v-if="!decrease_width" class="header_font_sidebar_size">خروج</span>
             </span>
           </div>
-          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+          <div v-if="$auth && $auth.user  && $auth.user.lastConsultantRequestStatus !==0"
+               class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
             <nuxt-link
+              v-if="$auth.user.consultantId === 0 &&(!$auth.user.lastConsultantRequestStatus || $auth.user.lastConsultantRequestStatus === 2  )"
               :class="[decrease_width ? 'p-3' : 'px-3']"
               class=" p-2 rounded bg-pink  text-white  py-2 w-100 d-flex align-items-center justify-content-center gap-4"
               exact-active-class="SingleShortCutActive"
               to="/consultation/BecomeConsultant/"
             >
               <span v-if="!decrease_width" class="font_sidebar_size">مشاور شوید</span>
+            </nuxt-link>
+            <nuxt-link
+              v-else-if="$auth.user.consultantId!==0"
+              :class="[decrease_width ? 'p-3' : 'px-3']"
+              class=" p-2 rounded bg-pink  text-white  py-2 w-100 d-flex align-items-center justify-content-center gap-4"
+              exact-active-class="SingleShortCutActive"
+              to="/consultation/MyConsultationInfo/"
+            >
+              <span v-if="!decrease_width" class="font_sidebar_size">اطلاعات مشاوره من</span>
             </nuxt-link>
           </div>
           <div class="d-flex align-items-center  flex-wrap justify-content-start p-2">
@@ -613,7 +625,7 @@
                     <span v-if="!decrease_width" class="font_sidebar_size">پرداخت ها</span>
                   </nuxt-link>
                 </div>
-                <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData && $auth.user.baseData.userType===3"
+                <div v-if=" $auth.user&& $auth.user &&  $auth.user.baseData"
                      class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
                     :class="[decrease_width ? 'p-3' : 'px-3']"
@@ -710,16 +722,16 @@
                     <span v-if="!decrease_width" class="font_sidebar_size">لیست مشاورین</span>
                   </nuxt-link>
                 </div>
-                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
-                  <nuxt-link
-                    :class="[decrease_width ? 'p-3' : 'px-3']"
-                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                    exact-active-class="SingleShortCutActive"
-                    to="/consultation/MyConsultationInfo/"
-                  >
-                    <span v-if="!decrease_width" class="font_sidebar_size">اطلاعات مشاوره من</span>
-                  </nuxt-link>
-                </div>
+                <!--                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
+                <!--                  <nuxt-link-->
+                <!--                    :class="[decrease_width ? 'p-3' : 'px-3']"-->
+                <!--                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"-->
+                <!--                    exact-active-class="SingleShortCutActive"-->
+                <!--                    to="/consultation/MyConsultationInfo/"-->
+                <!--                  >-->
+                <!--                    <span v-if="!decrease_width" class="font_sidebar_size">اطلاعات مشاوره من</span>-->
+                <!--                  </nuxt-link>-->
+                <!--                </div>-->
 
                 <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
                   <nuxt-link
@@ -732,7 +744,8 @@
                     <span v-if="!decrease_width" class="font_sidebar_size">مشاورین من </span>
                   </nuxt-link>
                 </div>
-                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
+                <div v-if="$auth.user.consultantId!==0" class="d-flex align-items-center py-1"
+                     data-bs-dismiss="offcanvas">
                   <nuxt-link
                     :class="[decrease_width ? 'p-3' : 'px-3']"
                     class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"

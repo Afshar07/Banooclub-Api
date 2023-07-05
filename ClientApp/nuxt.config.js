@@ -99,7 +99,7 @@ module.exports = {
           },
         },
         {
-          path: "/consultation/PrePay/:id/:consultantId",
+          path: "/consultation/PrePay/:priceId/:consultantId",
           components: {
             default: resolve(__dirname, "pages/consultation/PrePay/_id"),
           },

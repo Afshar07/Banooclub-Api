@@ -247,10 +247,14 @@ export default (context, inject) => {
     createConsultantRequest: CreateRequestRepository(context, 'BecomeConsultantRequest/CreateRequest'),
     getAllConsultants: CreateRequestRepository(context, 'Consultant/GetList'),
     getConsultantById: CreateRequestRepository(context, 'Consultant/Get'),
-    canComment:CreateRequestRepository(context,'Consultant/CanComment'),
-    getConsultantRequest:CreateRequestRepository(context,'BecomeConsultantRequest/Get'),
-    getSchedules:CreateRequestRepository(context,'Consultant/GetSchedule')
-
+    canComment: CreateRequestRepository(context, 'Consultant/CanComment'),
+    getConsultantRequest: CreateRequestRepository(context, 'BecomeConsultantRequest/Get'),
+    getSchedules: CreateRequestRepository(context, 'Consultant/GetSchedule'),
+    removeSchedule: CreateRequestRepository(context, 'Consultant/UnSelectSchedule'),
+    setSchedule: CreateRequestRepository(context, 'Consultant/SelectSchedule'),
+    createConsultantPayment: CreateRequestRepository(context, 'Consultant/CreatePayment'),
+    createPaymentForConsultant: CreateRequestRepository(context, 'Payment/CreateConsultantPayment'),
+    getMyConsultations: CreateRequestRepository(context, 'Consultant/GetMyCansultants')
 
 
   };

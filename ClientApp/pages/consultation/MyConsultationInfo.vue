@@ -258,7 +258,6 @@
 
           </div>
         </div>
-
         <div class="row p-3">
           <div class="col-md-2 ">
             <button class="btn w-100 text-white " style="background-color:#e7b0fe " type="button" @click="validateData">
@@ -266,36 +265,52 @@
             </button>
           </div>
         </div>
-
-
       </div>
       <div class="col-md-12 my-3 bg-white rounded shadow">
         <div class="row p-3">
-          <div class="col-md-12 border-bottom pb-2 mb-2">
+          <div class="col-md-12 d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
             <strong>زمان های ثبت شده</strong>
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge pill rounded" style="background-color: #b44aff">آزاد</span>
+              <span class="badge pill rounded bg-warning" style="">انتخاب شده</span>
+              <span class="badge pill  bg-success rounded" style="">ثبت شده</span>
+              <span class="badge pill  bg-danger rounded" style="">رزرو شده</span>
+            </div>
           </div>
-          <div class="d-flex position-relative align-items-start gap-2" style="height: 400px;overflow-y: scroll">
-            <div v-for="(weekDay,weekDayIndex) in 7"
+          <div class="d-flex position-relative  align-items-start gap-2" style="height: 400px;overflow-y: scroll">
+            <div v-for="(day,idx) in schedules" :key="idx"
                  class="d-flex  flex-column align-items-center justify-content-start"
                  style="min-width: 5rem">
-              <span class="w-100 p-2 sticky-top top-0 rounded bg-pink text-white text-center shadow">{{
-                  getWeekDayNumber(weekDayIndex)
+              <span
+                class="w-100 p-2 sticky-top top-0 rounded bg-pink text-white text-center shadow">{{
+                  getWeekDayNumber(day)
                 }}</span>
-              <template v-for="(time,timeIndex) in generatedTimestamps">
-
-                <button :class="getSelectedClass(weekDayIndex,time)" :disabled="!isRenderingTime(weekDayIndex,time)"
-                        class="w-100 p-2 rounded bg-purple mt-2 disabled:tw-bg-gray-300 disabled:tw-cursor-not-allowed cursor-pointer cursor-pointer text-center text-white shadow"
-                        type="button"
-
-                        @click="isSelected(weekDayIndex,time)">
-                  {{
-                    time.value
-                  }}
+              <template v-for="(time,timeIndex) in day.hours">
+                <button
+                  :class="getSelectedClass(time,day)"
+                  class="w-100 p-2 rounded bg-purple mt-2 disabled:tw-bg-gray-300 disabled:tw-cursor-not-allowed cursor-pointer cursor-pointer text-center text-white shadow"
+                  type="button"
+                  @click="isSelected(time,day)">
+                  {{ time.startTime }}
                 </button>
               </template>
             </div>
           </div>
         </div>
+        <div class="row p-3">
+          <div v-if="dateObj.length>0" class="col-md-2 ">
+            <button class="btn w-100 text-white " style="background-color:#e7b0fe " type="button"
+                    @click="createSchedule">
+              ثبت
+            </button>
+          </div>
+          <div v-if="removedDates.length>0" class="col-md-2 ">
+            <button class="btn w-100 text-white bg-danger " type="button" @click="removeSchedule">
+              حذف
+            </button>
+          </div>
+        </div>
+
 
       </div>
 
@@ -318,6 +333,7 @@ export default {
       consultantRequest: {},
       newImage: '',
       newFileData: '',
+      newCategories: [],
       categories: [],
       states: [],
       cities: [],
@@ -327,45 +343,28 @@ export default {
       generatedTimestamps: [],
       selectedStamps: [],
       selectedWeekDays: [],
-      weekDays: [
-        {
-          name: 'شنبه',
-          value: 1
-        },
-        {
-          name: 'یک شنبه',
-          value: 2
-        },
-        {
-          name: 'دوشنبه',
-          value: 3
-        },
-        {
-          name: 'سه شنبه',
-          value: 4
-        },
-        {
-          name: 'چهارشنبه',
-          value: 5
-        },
-        {
-          name: 'پنجشنبه',
-          value: 6
-        },
-        {
-          name: 'جمعه',
-          value: 7
-        },
-      ],
+      schedules: null,
+      weekDays: {
+        0: 'یکشنبه',
+        1: 'دوشنبه',
+        2: 'سه شنبه',
+        3: 'چهار شنبه',
+        4: 'پنجشنبه',
+        5: 'جمعه',
+        6: 'شنبه',
+      },
       nowDate: new Date(Date.now()),
       dates: [],
+      removedDates: [],
       dayInMili: 86400000,
       sessionDuration: 30,
       defaultStartHour: 8,
       defaultEndHour: 23,
+      dateObj: [],
       consultantRequestt: null,
     }
   },
+  fetchOnServer: false,
   async fetch() {
     await Promise.all([
       this.getConsultantRequest(),
@@ -374,9 +373,6 @@ export default {
       this.getDurations(),
 
     ])
-  },
-  mounted() {
-    this.getSchedules()
   },
 
   computed: {
@@ -454,123 +450,96 @@ export default {
     },
   },
   methods: {
-    async getSchedules() {
+    getSelectedClass(time, day) {
+      let dayIdx = this.dateObj.findIndex(e => e.dayOfWeek === day.dayOfWeek)
+      let removeDayIdx = this.removedDates.findIndex(e => e.dayOfWeek === day.dayOfWeek)
+      if (dayIdx > -1) {
+        if (this.dateObj[dayIdx].selectedTime.includes(time.startTime)) {
+          return 'bg-warning'
+        }
+      }
+      if (removeDayIdx > -1) {
+        if (this.removedDates[removeDayIdx].selectedTime.includes(time.startTime)) {
+          return 'bg-info'
+        }
+      }
+      if (time.status === 1) {
+        return 'bg-success'
+      }
+      if (time.status === 2) {
+        return 'bg-danger'
+      }
+    },
+    async getSchedules(consultant) {
       try {
         const res = await this.$repositories.getSchedules.setParams({
-          id: this.consultantRequest.consultantId
+          id: consultant.consultantId
         })
-        console.log(res)
+        this.schedules = res.data
       } catch (e) {
         console.log(e)
       } finally {
 
       }
     },
-    generateTimeStamps() {
-      let todayDate = new Date(this.nowDate)
-
-      todayDate = new Date(todayDate.setHours(this.defaultStartHour, 0, 0))
-      let tempDate = {
-        value: '',
-        minute: '',
-        hour: '',
-        timestamp: 0
-      }
-      for (let i = 0; todayDate.getHours() < this.defaultEndHour; i++) {
-        tempDate.value = new Date(todayDate).toLocaleTimeString('en-US', {
-          hour12: false,
-          hour: "2-digit",
-          minute: '2-digit',
-          second: '2-digit'
-        })
-        tempDate.minute = new Date(todayDate).getMinutes()
-        tempDate.hour = new Date(todayDate).getHours()
-        tempDate.timestamp = new Date(todayDate).getTime()
-        this.generatedTimestamps.push(tempDate)
-        tempDate = {
-          value: '',
-          minute: '',
-          hour: ''
+    isSelected(time, day) {
+      if (time.status === -1) {
+        let tmpDateObj = {
+          dayOfWeek: day.dayOfWeek,
+          selectedTime: []
         }
-        todayDate = new Date(todayDate.setMinutes(todayDate.getMinutes() + this.sessionDuration))
-      }
-
-    },
-    getSelectedClass(weekDay, timeObj) {
-      let calculatedDate = new Date(this.calculateDate(weekDay, timeObj))
-      calculatedDate = new Date(calculatedDate).getTime()
-      if (this.selectedStamps.findIndex(e => e.timestamp === calculatedDate) > -1) {
-        return 'bg-success'
-      } else {
-        return
-      }
-
-    },
-    isSelected(weekDay, timeObj) {
-      let calculatedDate = new Date(this.calculateDate(weekDay, timeObj))
-      let tempDate = {
-        value: '',
-        minute: '',
-        hour: '',
-        timestamp: 0
-      }
-      tempDate.value = new Date(calculatedDate).toLocaleTimeString('en-US', {
-        hour12: false,
-        hour: "2-digit",
-        minute: '2-digit'
-      })
-      tempDate.minute = new Date(calculatedDate).getMinutes()
-      tempDate.hour = new Date(calculatedDate).getHours()
-      tempDate.timestamp = new Date(calculatedDate).getTime()
-      let selectedIdx = this.selectedStamps.findIndex(e => e.timestamp === tempDate.timestamp)
-      if (selectedIdx > -1) {
-        this.selectedStamps.splice(selectedIdx, 1)
-      } else {
-        this.selectedStamps.push(tempDate)
-      }
-      tempDate = {
-        value: '',
-        minute: '',
-        hour: '',
-        timestamp: 0
-      }
-      // let idx = this.selectedStamps.findIndex(e=> e.timestamp === tempDate.timestamp)
-      // if(idx>-1){
-      //   this.$set(this.selectedStamps,idx,tempDate)
-      // }else{
-      // }
-
-
-    },
-    calculateDate(weekDay, timeObj) {
-      let calculateDate = new Date(this.nowDate)
-      calculateDate = new Date(calculateDate.setDate(calculateDate.getDate() + weekDay))
-      calculateDate = new Date(calculateDate.setHours(timeObj.hour, timeObj.minute, 0))
-      return calculateDate
-    },
-    isRenderingTime(weekDay, timeObj) {
-      if (weekDay === 0) {
-        let calculateDate = new Date(this.nowDate)
-        calculateDate = new Date(calculateDate.setHours(timeObj.hour, timeObj.minute, 0))
-        if (calculateDate.getHours() >= this.nowDate.getHours() + 2) {
-          return true
+        let idx = this.dateObj.findIndex(e => e.dayOfWeek === day.dayOfWeek)
+        if (idx > -1) {
+          let timeIdx = this.dateObj[idx].selectedTime.findIndex(e => e === time.startTime)
+          if (timeIdx > -1) {
+            this.dateObj[idx].selectedTime.splice(timeIdx, 1)
+          } else {
+            this.dateObj[idx].selectedTime.push(time.startTime)
+          }
+        } else {
+          tmpDateObj.selectedTime.push(time.startTime)
+          this.dateObj.push(tmpDateObj)
         }
-        return false
-      } else {
-        return true
+        tmpDateObj = {
+          dayOfWeek: null,
+          selectedTime: []
+        }
+      } else if (time.status === 1) {
+        let tmpDateObj = {
+          dayOfWeek: day.dayOfWeek,
+          selectedTime: []
+        }
+        let idx = this.removedDates.findIndex(e => e.dayOfWeek === day.dayOfWeek)
+        if (idx > -1) {
+          let timeIdx = this.removedDates[idx].selectedTime.findIndex(e => e === time.startTime)
+          if (timeIdx > -1) {
+            this.removedDates[idx].selectedTime.splice(timeIdx, 1)
+          } else {
+            this.removedDates[idx].selectedTime.push(time.startTime)
+          }
+        } else {
+          tmpDateObj.selectedTime.push(time.startTime)
+          this.removedDates.push(tmpDateObj)
+        }
+        tmpDateObj = {
+          dayOfWeek: null,
+          selectedTime: []
+        }
+      } else if (time.status === 2) {
+        this.$toast.error('این زمان قبلا رزرو شده است')
+
       }
     },
-    getWeekDayNumber(idx) {
-      let calculatedDate = new Date(this.nowDate)
-      calculatedDate = calculatedDate.setDate(calculatedDate.getDate() + idx)
-      return new Date(calculatedDate).toLocaleDateString('fa-IR', {
-        weekday: 'long'
-      })
+
+    getWeekDayNumber(day) {
+
+      return this.weekDays[day.dayOfWeek]
     },
     async getConsultantRequest() {
       try {
         const res = await this.$repositories.getConsultantRequest.setTag()
         this.consultantRequest = res.data
+        this.getSchedules(res.data)
       } catch (e) {
         console.log(e)
       }
@@ -601,13 +570,12 @@ export default {
         this.consultantRequest.imageFileData &&
         this.consultantRequest.fileData &&
         this.consultantRequest.description && this.consultantRequest.categories.length > 0) {
-        this.consultantRequest?.prices?.forEach((item) => {
-          if (typeof item === 'string') {
+        this.consultantRequest?.prices?.forEach((item, idx) => {
+          if (typeof item.price === 'string') {
             item.price = item.price.replaceAll(',', '')
+            this.$set(this.consultantRequest.prices, idx, item)
           }
         })
-        delete this.consultantRequest.fileDataPictureUrl
-        delete this.consultantRequest.imagePictureUrl
         if (!this.consultantRequest.shabaNo.includes('IR')) {
           this.consultantRequest.shabaNo = 'IR' + this.consultantRequest.shabaNo
         }
@@ -617,10 +585,54 @@ export default {
         if (this.startDate) {
           this.consultantRequest.startAndEndWork.push(this.endDate)
         }
+        let hardCopied = JSON.parse(JSON.stringify(this.consultantRequest.categories))
+        this.consultantRequest.categories = []
+        hardCopied.forEach((item) => {
+          if (item.id) {
+            this.consultantRequest.categories.push(item.id)
+          } else {
+            this.consultantRequest.categories.push(item)
+          }
+        })
+        if (this.newImage === '') {
+          this.consultantRequest.imageFileData = ''
+        }
+        if (this.newFileData === '') {
+          this.consultantRequest.fileData = ''
+        }
         this.createConsultantRequest()
 
       } else {
         this.$toast.error('لطفا همه فیلد های اجباری را تکمیل نمایید')
+      }
+    },
+    async removeSchedule() {
+      try {
+        const res = await this.$repositories.removeSchedule.setPayload({
+          consultantId: this.consultantRequest.consultantId,
+          selectedStartedTimes: this.removedDates
+        })
+        this.$toast.success('با موفقیت حذف شد')
+
+        this.dateObj = []
+        this.removedDates = []
+        this.getSchedules(this.consultantRequest)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async createSchedule() {
+      try {
+        const res = await this.$repositories.setSchedule.setPayload({
+          consultantId: this.consultantRequest.consultantId,
+          selectedStartedTimes: this.dateObj
+        })
+        this.$toast.success('با موفقیت ایجاد شد')
+        this.dateObj = []
+        this.removedDates = []
+        this.getSchedules(this.consultantRequest)
+      } catch (e) {
+        console.log(e)
       }
     },
     async createConsultantRequest() {
@@ -630,7 +642,6 @@ export default {
         })
 
         const res = await this.$repositories.createConsultantRequest.setPayload(this.consultantRequest)
-        console.log(res)
         if (!res.data.isSuccess) {
           this.$toast.error(res.data.errorMessage)
 
@@ -688,6 +699,54 @@ export default {
         console.log(e)
       } finally {
 
+      }
+    },
+    generateTimeStamps() {
+      let todayDate = new Date(this.nowDate)
+
+      todayDate = new Date(todayDate.setHours(this.defaultStartHour, 0, 0))
+      let tempDate = {
+        value: '',
+        minute: '',
+        hour: '',
+        timestamp: 0
+      }
+      for (let i = 0; todayDate.getHours() < this.defaultEndHour; i++) {
+        tempDate.value = new Date(todayDate).toLocaleTimeString('en-US', {
+          hour12: false,
+          hour: "2-digit",
+          minute: '2-digit',
+          second: '2-digit'
+        })
+        tempDate.minute = new Date(todayDate).getMinutes()
+        tempDate.hour = new Date(todayDate).getHours()
+        tempDate.timestamp = new Date(todayDate).getTime()
+        this.generatedTimestamps.push(tempDate)
+        tempDate = {
+          value: '',
+          minute: '',
+          hour: ''
+        }
+        todayDate = new Date(todayDate.setMinutes(todayDate.getMinutes() + this.sessionDuration))
+      }
+
+    },
+    calculateDate(weekDay, timeObj) {
+      let calculateDate = new Date(this.nowDate)
+      calculateDate = new Date(calculateDate.setDate(calculateDate.getDate() + weekDay))
+      calculateDate = new Date(calculateDate.setHours(timeObj.hour, timeObj.minute, 0))
+      return calculateDate
+    },
+    isRenderingTime(weekDay, timeObj) {
+      if (weekDay === 0) {
+        let calculateDate = new Date(this.nowDate)
+        calculateDate = new Date(calculateDate.setHours(timeObj.hour, timeObj.minute, 0))
+        if (calculateDate.getHours() >= this.nowDate.getHours() + 2) {
+          return true
+        }
+        return false
+      } else {
+        return true
       }
     },
   },

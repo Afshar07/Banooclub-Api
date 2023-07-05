@@ -1,7 +1,8 @@
 <template>
   <div v-if="consultantInfo" class="container NewBg position-relative  px-2">
     <div class="row ">
-      <div v-if="consultantInfo.id === $auth.user.consultantId" class="col-12 d-flex align-items-center justify-content-between">
+      <div v-if="consultantInfo.id === $auth.user.consultantId"
+           class="col-12 d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-2">
           <small>وضعیت مشاور : </small>
           <small v-if="consultantInfo.lastRequestStatus===1" class="badge bg-success text-white">فعال</small>
@@ -9,12 +10,12 @@
           <small v-if="consultantInfo.lastRequestStatus===0" class="badge bg-secondary text-white">در انتظار
             تایید</small>
         </div>
-  <!--        <button v-if="!isEditingPage" class="p-2 rounded bg-purple text-white tw-cursor-pointer"-->
-  <!--                @click="isEditingPage = true">ویرایش-->
-  <!--        </button>-->
-  <!--        <button v-if="isEditingPage" class="p-2 rounded bg-pink text-white tw-cursor-pointer"-->
-  <!--                @click="isEditingPage = false">ثبت-->
-  <!--        </button>-->
+        <!--        <button v-if="!isEditingPage" class="p-2 rounded bg-purple text-white tw-cursor-pointer"-->
+        <!--                @click="isEditingPage = true">ویرایش-->
+        <!--        </button>-->
+        <!--        <button v-if="isEditingPage" class="p-2 rounded bg-pink text-white tw-cursor-pointer"-->
+        <!--                @click="isEditingPage = false">ثبت-->
+        <!--        </button>-->
 
       </div>
 
@@ -110,11 +111,11 @@
           <div class="w-100 d-flex align-items-center justify-content-between h-100 "
                style="border-right: solid 3px #e7b0fe">
             <strong>نظرات کاربران</strong>
-<!--            <button v-if="canIComment" class="bg-purple text-white rounded shadow p-1" data-bs-target="#createComment"-->
-<!--                    data-bs-toggle="modal">ثبت نظر-->
-<!--            </button>-->
-<!--            <button v-else class="bg-secondary text-white rounded shadow p-1" >برای ثبت نظر باید از این مشاور مشاوره گرفته باشید-->
-<!--            </button>-->
+            <!--            <button v-if="canIComment" class="bg-purple text-white rounded shadow p-1" data-bs-target="#createComment"-->
+            <!--                    data-bs-toggle="modal">ثبت نظر-->
+            <!--            </button>-->
+            <!--            <button v-else class="bg-secondary text-white rounded shadow p-1" >برای ثبت نظر باید از این مشاور مشاوره گرفته باشید-->
+            <!--            </button>-->
           </div>
           <div class=" row">
             <div v-for="i in 6" class="col-md-12 my-3">
@@ -183,10 +184,10 @@
               </div>
             </div>
           </div>
-          <div class="col-md-12 px-2">
-            <button class="btn w-100 text-white " style="background-color:#e7b0fe " type="button">
+          <div v-if="selectedPrice" class="col-md-12 px-2">
+            <nuxt-link :to="`/consultation/PrePay/${selectedPrice.type}/${consultantInfo.id}`" class="btn w-100 text-white " style="background-color:#e7b0fe ">
               ادامه و پرداخت
-            </button>
+            </nuxt-link>
           </div>
 
 
@@ -194,35 +195,35 @@
       </div>
     </div>
 
-<!--    &lt;!&ndash; Modal &ndash;&gt;-->
-<!--    <div id="createComment" aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" tabindex="-1">-->
-<!--      <div class="modal-dialog">-->
-<!--        <div class="modal-content">-->
-<!--          <div class="modal-header">-->
-<!--            <h1 id="exampleModalLabel" class="modal-title fs-5">ثبت نظر</h1>-->
-<!--          </div>-->
-<!--          <div class="modal-body">-->
-<!--            <div class="w-100 row">-->
-<!--              <div class="col-md-12">-->
-<!--                <small class="text-secondary">امتیاز</small>-->
-<!--                <client-only>-->
-<!--                  <vue-star-rating v-model="commentObject.rate" :read-only="false" :show-rating="false"-->
-<!--                                   :star-size="20" ></vue-star-rating>-->
-<!--                </client-only>-->
-<!--              </div>-->
-<!--              <div class="col-md-12">-->
-<!--                <small class="text-secondary">متن نظر</small>-->
-<!--                <textarea v-model="commentObject.description" class="with-border FormInputs"></textarea>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="modal-footer">-->
-<!--            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">بستن</button>-->
-<!--            <button class="bg-pink text-white p-2 rounded " type="button">ثبت</button>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
+    <!--    &lt;!&ndash; Modal &ndash;&gt;-->
+    <!--    <div id="createComment" aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" tabindex="-1">-->
+    <!--      <div class="modal-dialog">-->
+    <!--        <div class="modal-content">-->
+    <!--          <div class="modal-header">-->
+    <!--            <h1 id="exampleModalLabel" class="modal-title fs-5">ثبت نظر</h1>-->
+    <!--          </div>-->
+    <!--          <div class="modal-body">-->
+    <!--            <div class="w-100 row">-->
+    <!--              <div class="col-md-12">-->
+    <!--                <small class="text-secondary">امتیاز</small>-->
+    <!--                <client-only>-->
+    <!--                  <vue-star-rating v-model="commentObject.rate" :read-only="false" :show-rating="false"-->
+    <!--                                   :star-size="20" ></vue-star-rating>-->
+    <!--                </client-only>-->
+    <!--              </div>-->
+    <!--              <div class="col-md-12">-->
+    <!--                <small class="text-secondary">متن نظر</small>-->
+    <!--                <textarea v-model="commentObject.description" class="with-border FormInputs"></textarea>-->
+    <!--              </div>-->
+    <!--            </div>-->
+    <!--          </div>-->
+    <!--          <div class="modal-footer">-->
+    <!--            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">بستن</button>-->
+    <!--            <button class="bg-pink text-white p-2 rounded " type="button">ثبت</button>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
 </template>
 
@@ -239,7 +240,7 @@ export default {
       isEditingPage: false,
       consultantInfo: null,
       selectedPrice: null,
-      canIComment:false,
+      canIComment: false,
       commentObject: {
         id: this.$route.params.Consultant,
         rate: 0,
@@ -265,7 +266,7 @@ export default {
     }
   },
   methods: {
-    async canComment(){
+    async canComment() {
       try {
         const res = await this.$repositories.canComment.setParams({
           id: this.$route.params.Consultant
