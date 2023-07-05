@@ -14,7 +14,7 @@ namespace BanooClub.Services.OrderServices
         object GetByUserId(short pageNumber, byte count);
         object GetByUserIdForAdmin(short pageNumber, byte count, long userId);
         Task<bool> ChangeOrderStatus(long orderId, OrderStatus status);
-        Task<object> GetMyCansultants();
-        Task<object> GetMyCansultantsForConsulter();
+        Task<object> GetMyCansultants(Models.DTO.MyConsultantUserScheduleDTO input);
+        Task<object> GetMyCansultantsForConsulter(Models.DTO.MyConsultantUserScheduleDTO input);
     }
 }

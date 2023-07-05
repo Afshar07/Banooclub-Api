@@ -6,7 +6,7 @@ namespace BanooClub.Models.DTO
 {
     public class CreateBecomeConsultantRequestRealSelectedDayDTO
     {
-        public MyDayOfWeek? dayOfWeek { get; set; }
+        public DayOfWeek? dayOfWeek { get; set; }
         public List<TimeSpan> selectedTime { get; set; }
     }
 }

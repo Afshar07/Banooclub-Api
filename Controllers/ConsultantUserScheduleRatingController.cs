@@ -2,7 +2,6 @@
 using BanooClub.Services.ConsultingServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 using System.Threading.Tasks;
 
 namespace BanooClub.Controllers

@@ -86,7 +86,7 @@ namespace BanooClub.Services.PaymentServices
                 amount = inputDto.Amount,
                 api_key = ApiKey,
                 //callback_uri = "https://banoclub.com/payments/ResponseVerify",
-                callback_uri = "https://localhost:44330/Payment/ChangePaymentStatus",
+                callback_uri = "https://banoclub.com/Payment/ChangePaymentStatus",
                 currency = "IRT",
                 customer_phone = mobile,
                 order_id = inputDto.OrderId.ToString()
@@ -253,7 +253,7 @@ namespace BanooClub.Services.PaymentServices
                                     .Any
                                     (t => 
                                         t.ReserveTime == foundSchadualUser.ReserveTime && t.IsPayed == true && 
-                                        t.CreateDate.Year == createDateT.Year && t.CreateDate.Month  == createDateT.Month && t.CreateDate.Day == createDateT.Day)
+                                        t.TargetDate.Year == createDateT.Year && t.TargetDate.Month  == createDateT.Month && t.TargetDate.Day == createDateT.Day)
                                     )
                                 {
                                     return -99;
@@ -310,9 +310,6 @@ namespace BanooClub.Services.PaymentServices
                                 dbOrder.IsPayed = true;
                                 _paymentServiceLogger.LogInformation("success payment update order. orderId: {orderId}", paymentId);
                                 await orderRepository.Update(dbOrder);
-
-
-
 
                                 dbPayment.Status = model.code;
                                 dbPayment.PaymentStatus = PaymentStatus.Payed;
@@ -540,7 +537,7 @@ namespace BanooClub.Services.PaymentServices
                     {
                         amount = newItem.Amount,
                         api_key = ApiKey,
-                        callback_uri = (foundOrder.hasAnyConsult == true ? "https://banoclub.com/Payment/Verify" : "https://banoclub.com/Payment/ChangePaymentStatus"),
+                        callback_uri = "https://banoclub.com/Payments/ResponseVerify",
                         currency = "IRT",
                         customer_phone = foundOrder.Mobile,
                         order_id = newItem.PaymentId.ToString()

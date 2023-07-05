@@ -37,7 +37,7 @@ namespace BanooClub.Services.ConsultingServices
                 while (allPrevItems.Count > 0)
                     _becomeConsultantRequestScheduleRepository.Erase(allPrevItems[0]);
 
-                foreach (MyDayOfWeek day in Enum.GetValues(typeof(MyDayOfWeek)))
+                foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek)))
                 {
                     var startSpan = startTime;
                     while ((startSpan + TimeSpan.FromMinutes(durationMinut.Value)) <= endTime)

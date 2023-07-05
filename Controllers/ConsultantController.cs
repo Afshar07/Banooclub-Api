@@ -2,6 +2,7 @@
 using BanooClub.Models.DTO;
 using BanooClub.Models.Enums;
 using BanooClub.Services.ConsultingServices;
+using BanooClub.Services.ConsultingServices.DTOs;
 using BanooClub.Services.OrderServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -59,6 +60,20 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]")]
+        public async Task<object> SelectSchedule([FromBody] ConsultantScheualesDTO input)
+        {
+            return await _consultantService.SelectSchedule(input);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<object> UnSelectSchedule([FromBody] ConsultantScheualesDTO input)
+        {
+            return await _consultantService.UnSelectSchedule(input);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
         [Authorize]
         public async Task<object> CreateVideoConfranceRoom(long? id)
         {
@@ -68,17 +83,17 @@ namespace BanooClub.Controllers
         [HttpPost]
         [Route("[action]")]
         [Authorize]
-        public async Task<object> CreatePayment(long? id, ConsultTypeEnum? type, TimeSpan? targetTime, DateTime? targetDate)
+        public async Task<object> CreatePayment(long? id, ConsultTypeEnum? type, TimeSpan? targetTime, DateTime? targetDate, string description)
         {
-            return await _consultantService.CreateOrder(id, type, targetTime, targetDate);
+            return await _consultantService.CreateOrder(id, type, targetTime, targetDate, description);
         }
 
         [HttpPost]
         [Route("[action]")]
         [Authorize]
-        public async Task<object> GetSchedule([FromQuery] long? id, [FromQuery] List<MyDayOfWeek> days)
+        public async Task<object> GetSchedule([FromQuery] long? id, [FromQuery] List<DayOfWeek> days, [FromQuery] DateTime? targetDate)
         {
-            return await _consultantService.GetSchedule(id, days);
+            return await _consultantService.GetSchedule(id, days, targetDate);
         }
 
         [HttpPost]
@@ -92,17 +107,17 @@ namespace BanooClub.Controllers
         [HttpPost]
         [Route("[action]")]
         [Authorize]
-        public async Task<object> GetMyCansultants()
+        public async Task<object> GetMyCansultants([FromQuery] MyConsultantUserScheduleDTO input)
         {
-            return await _orderService.GetMyCansultants();
+            return await _orderService.GetMyCansultants(input);
         }
 
         [HttpPost]
         [Route("[action]")]
         [Authorize]
-        public async Task<object> GetMyCansultantsForConsulter()
+        public async Task<object> GetMyCansultantsForConsulter([FromQuery] MyConsultantUserScheduleDTO input)
         {
-            return await _orderService.GetMyCansultantsForConsulter();
+            return await _orderService.GetMyCansultantsForConsulter(input);
         }
 
         [HttpPost]

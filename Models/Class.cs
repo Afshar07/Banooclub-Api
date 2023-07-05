@@ -15,7 +15,7 @@ namespace BanooClub.Models
             Page = page;
             Size = size;
             TotalCount = totalCount;
-            TotalPage = (int)Math.Floor((decimal)totalCount / size);
+            TotalPage = (int)Math.Ceiling((decimal)totalCount / size);
             Items = items;
         }
     }

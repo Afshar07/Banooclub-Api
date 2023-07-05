@@ -18,16 +18,16 @@ namespace BanooClub.Controllers
             this.paymentService = paymentService;
         }
 
-        //[HttpPost]
-        //[Route("[action]")]
-        //public async Task<object> Create([FromBody] Payment inputDto)
-        //{
-        //    return await paymentService.Create(inputDto);
-        //}
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<object> Create([FromBody] Payment inputDto)
+        {
+            return await paymentService.Create(inputDto);
+        }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<object> Create(long? orderId)
+        public async Task<object> CreateConsultantPayment(long? orderId)
         {
             return await paymentService.CreateByOrder(orderId);
         }
@@ -69,9 +69,9 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<int> ChangePaymentStatus(string paymentId, string transId)
+        public async Task<int> ChangePaymentStatus(string orderId, string transId)
         {
-            return await paymentService.ChangePaymentStatus(paymentId, transId);
+            return await paymentService.ChangePaymentStatus(orderId, transId);
         }
 
         [HttpPost]

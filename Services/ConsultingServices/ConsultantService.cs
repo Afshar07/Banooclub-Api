@@ -1,16 +1,15 @@
 ﻿using BanooClub.Extentions;
-using BanooClub.Migrations;
 using BanooClub.Models;
 using BanooClub.Models.Consulting;
 using BanooClub.Models.DTO;
 using BanooClub.Models.Enums;
 using BanooClub.Services.Common;
+using BanooClub.Services.ConsultingServices.DTOs;
 using BanooClub.Services.SkyroomService;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,6 +18,7 @@ namespace BanooClub.Services.ConsultingServices
     public class ConsultantService : IConsultantService
     {
         IBanooClubEFRepository<Consultant> _consultantRepository;
+        IBanooClubEFRepository<ConsultantSchedule> _consultantScheduleRepository;
         IBanooClubEFRepository<BecomeConsultantRequest> _becomeConsultantRequestRepository;
         IBanooClubEFRepository<SocialMedia> _socialMediaRepository;
         IBanooClubEFRepository<Order> _orderRepository;
@@ -40,6 +40,7 @@ namespace BanooClub.Services.ConsultingServices
                 IBanooClubEFRepository<ConsultantUserSchedule> consultantUserScheduleRepository,
                 IBanooClubEFRepository<SocialMedia> mediaRepository,
                 IBanooClubEFRepository<ConsultantUserScheduleRating> consultantUserScheduleRatingRepository,
+                IBanooClubEFRepository<ConsultantSchedule> consultantScheduleRepository,
                 ISkyroomService skyroomService,
                 IHttpContextAccessor accessor
             )
@@ -55,6 +56,7 @@ namespace BanooClub.Services.ConsultingServices
             _mediaRepository = mediaRepository;
             _accessor = accessor;
             _consultantUserScheduleRatingRepository = consultantUserScheduleRatingRepository;
+            _consultantScheduleRepository = consultantScheduleRepository;
         }
 
         public async Task<ServiceResult> ChageStatus(long? id)
@@ -132,20 +134,22 @@ namespace BanooClub.Services.ConsultingServices
             return "";
         }
 
-        public async Task<ServiceResult<long>> CreateOrder(long? id, ConsultTypeEnum? type, TimeSpan? targetTime, DateTime? targetDate)
+        public async Task<ServiceResult<long>> CreateOrder(long? id, ConsultTypeEnum? type, TimeSpan? targetTime, DateTime? targetDate, string description)
         {
+            if (!string.IsNullOrEmpty(description) && description.Length > 4000)
+                return new ServiceResult<long>() { IsSuccess = false, Data = -7 };
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                    ? _accessor.HttpContext.User.Identity.GetUserId()
                    : 0;
             if (userId > 0 && targetTime != null && targetDate != null && type != null)
             {
-                var dayOFWeek = (MyDayOfWeek) ((int)targetDate.Value.DayOfWeek);
+                var dayOFWeek = (DayOfWeek)((int)targetDate.Value.DayOfWeek);
                 var foundPrice = await _consultantRepository
                 .GetQuery()
                 .Where(t => t.Id == id && t.ConsultantSchedules
                     .Any(tt =>
                         tt.StartTime == targetTime && tt.IsAvailable == true && tt.DayOfWeek == dayOFWeek) &&
-                        !t.ConsultantUserSchedules.Any(tt => tt.TargetDate.Year == targetDate.Value.Year && tt.TargetDate.Month == targetDate.Value.Month && tt.TargetDate.Day == targetDate.Value.Day && tt.ReserveTime == targetTime && tt.IsPayed == true)
+                        !t.ConsultantUserSchedules.Any(tt => tt.TargetDate.Date == targetDate.Value.Date && tt.ReserveTime == targetTime && tt.IsPayed == true)
                        )
                 .SelectMany(t => t.ConsultantPrices)
                 .Where(t => t.Type == type)
@@ -180,7 +184,9 @@ namespace BanooClub.Services.ConsultingServices
                         TargetDate = targetDate.Value,
                         ReserveTime = targetTime.Value,
                         Status = ConsultantUserScheduleStatus.Created,
-                        OrderId = newOrder.OrderId
+                        OrderId = newOrder.OrderId,
+                        Description = description,
+                        DayOfWeek = targetDate.Value.DayOfWeek
                     });
 
                     return new ServiceResult<long>() { IsSuccess = true, Data = newOrder.OrderId };
@@ -422,15 +428,19 @@ namespace BanooClub.Services.ConsultingServices
                 .ToListAsync();
         }
 
-        public async Task<object> GetSchedule(long? id, System.Collections.Generic.List<MyDayOfWeek> days)
+        public async Task<object> GetSchedule(long? id, System.Collections.Generic.List<DayOfWeek> days, DateTime? targetDate)
         {
             var quiryResult = _consultantRepository
                     .GetQuery()
                     .Where(t => t.Id == id)
-                    .SelectMany(t => t.ConsultantSchedules);
+                    .SelectMany(t => t.ConsultantSchedules)
+                    .Where(t => t.IsDeleted != true);
 
             if (days != null && days.Count > 0)
                 quiryResult = quiryResult.Where(t => days.Contains(t.DayOfWeek));
+
+            if (targetDate != null)
+                quiryResult = quiryResult.Where(t => t.DayOfWeek == targetDate.Value.DayOfWeek);
 
             return (
                     await quiryResult
@@ -440,8 +450,8 @@ namespace BanooClub.Services.ConsultingServices
                         t.StartTime,
                         t.EntTime,
                         t.IsAvailable,
-                        hasPayedUser = _consultantUserScheduleRepository.GetQuery().Any(tt => tt.ConsultantId == id && tt.ReserveTime == t.StartTime && tt.IsPayed == true),
-                        hasNotPayedUser = _consultantUserScheduleRepository.GetQuery().Any(tt => tt.ConsultantId == id && tt.ReserveTime == t.StartTime && tt.IsPayed != true),
+                        hasPayedUser = _consultantUserScheduleRepository.GetQuery().Any(tt => tt.ConsultantId == id && tt.ReserveTime == t.StartTime && tt.IsPayed == true && tt.DayOfWeek == t.DayOfWeek && (targetDate == null || tt.TargetDate == targetDate)),
+                        hasNotPayedUser = _consultantUserScheduleRepository.GetQuery().Any(tt => tt.ConsultantId == id && tt.ReserveTime == t.StartTime && tt.IsPayed != true && tt.DayOfWeek == t.DayOfWeek && (targetDate == null || tt.TargetDate == targetDate)),
                     })
                     .ToListAsync()
                 )
@@ -453,7 +463,7 @@ namespace BanooClub.Services.ConsultingServices
                     status = getSchedualStatus(t.hasPayedUser, t.hasNotPayedUser, t.IsAvailable)
                 })
                 .GroupBy(t => t.DayOfWeek)
-                .Select(t => new 
+                .Select(t => new
                 {
                     DayOfWeek = t.Key,
                     hours = t.ToList()
@@ -490,6 +500,67 @@ namespace BanooClub.Services.ConsultingServices
             }
 
             return false;
+        }
+
+        public async Task<object> SelectSchedule(ConsultantScheualesDTO input)
+        {
+            string errorMessage = UpdateScheduleValidation(input);
+
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                foreach (var item in input.SelectedStartedTimes)
+                {
+                    var foundSItem = await _consultantScheduleRepository.GetQuery().Where(t => t.ConsultantId == input.ConsultantId && t.DayOfWeek == item.dayOfWeek && item.selectedTime.Contains(t.StartTime)).ToListAsync();
+                    foreach (var curHour in foundSItem)
+                    {
+                        curHour.IsAvailable = true;
+                        await _consultantScheduleRepository.Update(curHour);
+                    }
+                }
+                return new ServiceResult() { IsSuccess = true };
+            }
+            return new ServiceResult() { IsSuccess = false, ErrorMessage = errorMessage };
+        }
+
+        private string UpdateScheduleValidation(ConsultantScheualesDTO input)
+        {
+            if (input == null)
+                return "لطفا کلیه پارامتر ها را ارسال کنید";
+            if (input.ConsultantId == null || input.ConsultantId <= 0)
+                return "لطفا شناسه مشاوره رو وارد کنید";
+            if (input.SelectedStartedTimes == null)
+                input.SelectedStartedTimes = new System.Collections.Generic.List<CreateBecomeConsultantRequestRealSelectedDayDTO>();
+            foreach (var item in input.SelectedStartedTimes)
+                if (item.selectedTime == null)
+                    item.selectedTime = new System.Collections.Generic.List<TimeSpan>();
+
+            return "";
+        }
+
+        public async Task<object> UnSelectSchedule(ConsultantScheualesDTO input)
+        {
+            string errorMessage = UpdateScheduleValidation(input);
+
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                foreach (var item in input.SelectedStartedTimes)
+                {
+                    var foundSItem = await _consultantScheduleRepository.GetQuery().Where(t => t.ConsultantId == input.ConsultantId && t.DayOfWeek == item.dayOfWeek && item.selectedTime.Contains(t.StartTime)).ToListAsync();
+                    foreach (var curHour in foundSItem)
+                    {
+                        var hasUpcomingReserve = _consultantUserScheduleRepository.GetQuery().Any(tt => tt.ConsultantId == input.ConsultantId && tt.ReserveTime == curHour.StartTime && tt.TargetDate > DateTime.Now);
+                        if (hasUpcomingReserve == true)
+                            return new ServiceResult() { IsSuccess = false, ErrorMessage = " در ساعت  " + curHour.StartTime + " شما رزرو دارید " };
+                    }
+                    foreach (var curHour in foundSItem)
+                    {
+                        curHour.IsAvailable = false;
+                        await _consultantScheduleRepository.Update(curHour);
+                    }
+                }
+                return new ServiceResult() { IsSuccess = true };
+            }
+            return new ServiceResult() { IsSuccess = false, ErrorMessage = errorMessage };
         }
     }
 }

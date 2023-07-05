@@ -70,13 +70,13 @@ namespace BanooClub.Controllers
             return Ok(result);
         }
 
-        [HttpPost("[action]")]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IServiceResult>> Delete(long requestId)
-        {
-            var result = await _becomeConsultantRequestService.Delete(requestId);
-            return Ok(result);
-        }
+        //[HttpPost("[action]")]
+        //[Authorize(Roles = "Admin")]
+        //public async Task<ActionResult<IServiceResult>> Delete(long requestId)
+        //{
+        //    var result = await _becomeConsultantRequestService.Delete(requestId);
+        //    return Ok(result);
+        //}
 
         [HttpPost("[action]")]
         [Authorize(Roles = "Admin")]

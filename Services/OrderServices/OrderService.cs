@@ -1,6 +1,7 @@
 ﻿using BanooClub.Extentions;
 using BanooClub.Models;
 using BanooClub.Models.Enums;
+using BanooClub.Services.ConsultingServices.DTOs;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -234,18 +235,36 @@ namespace BanooClub.Services.OrderServices
             return data;
         }
 
-        public async Task<object> GetMyCansultants()
+        public async Task<object> GetMyCansultants(Models.DTO.MyConsultantUserScheduleDTO input)
         {
+            input = input ?? new Models.DTO.MyConsultantUserScheduleDTO();
+            if (input.pageNumber == null || input.pageNumber <= 0)
+                input.pageNumber = 1;
+            if (input.take == null || input.take <= 0)
+                input.take = 10;
+
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                    ? _accessor.HttpContext.User.Identity.GetUserId()
                    : 0;
 
-            return await orderItemRepository
+            var quiryResult = orderItemRepository
                 .GetQuery()
-                .Where(t => t.ConsultantId != null && t.ConsultantId > 0 && t.Order.UserId == userId && t.Consultant != null)
-                .Select(t => new 
+                .Where(t => t.ConsultantId != null && t.ConsultantId > 0 && t.Order.UserId == userId && t.Consultant != null);
+
+            if (!string.IsNullOrEmpty(input.fullname))
+                quiryResult = quiryResult.Where(t => (t.Consultant.User.Name + " " + t.Consultant.User.FamilyName).Contains(input.fullname));
+            if (input.id != null && input.id > 0)
+                quiryResult = quiryResult.Where(t => t.Order.ConsultantUserSchedules.Any(tt => tt.ConsultantUserScheduleId == input.id));
+
+
+            var total = await quiryResult.CountAsync();
+            quiryResult = quiryResult.OrderByDescending(t => t.OrderItemId).Skip((input.pageNumber.Value - 1) * input.take.Value).Take(input.take.Value);
+
+            var data = (await
+                quiryResult
+                .Select(t => new
                 {
-                    id = t.OrderItemId,
+                    id = t.Order.ConsultantUserSchedules.Select(tt => tt.ConsultantUserScheduleId).FirstOrDefault(),
                     consultantId = t.ConsultantId,
                     orderId = t.OrderId,
                     name = t.Consultant.User.Name,
@@ -253,32 +272,91 @@ namespace BanooClub.Services.OrderServices
                     type = t.ConsultType,
                     createDate = t.Order.CreateDate,
                     price = t.Price,
-                    status = t.Order.User.ConsultantUserSchedules.Where(tt => tt.ConsultantId == t.ConsultantId).Select(tt => tt.Status).FirstOrDefault()
+                    status = t.Order.User.ConsultantUserSchedules.Where(tt => tt.ConsultantId == t.ConsultantId).Select(tt => tt.Status).FirstOrDefault(),
+                    description = t.Order.ConsultantUserSchedules.Select(tt => tt.Description).FirstOrDefault(),
+                    isPayed = t.Order.ConsultantUserSchedules.Select(tt => tt.IsPayed).FirstOrDefault(),
+                    userPic = mediaRepository.GetQuery().Where(z => z.ObjectId == t.Consultant.UserId && z.Type == MediaTypes.Profile).Select(t => t.PictureUrl).FirstOrDefault(),
+                    cats = t.Consultant.Categories.Select(tt => tt.ConsultCategory.Title).ToList()
                 })
-                .ToListAsync();
+                .ToListAsync()
+                )
+                .Select(t => new
+                {
+                    t.id,
+                    t.consultantId,
+                    t.orderId,
+                    t.name,
+                    t.lName,
+                    t.type,
+                    t.createDate,
+                    t.price,
+                    t.status,
+                    t.description,
+                    t.isPayed,
+                    userPic = !string.IsNullOrEmpty(t.userPic) ? ("Media/Gallery/Profile/" + t.userPic) : "",
+                    cats = t.cats != null ? string.Join(',', t.cats) : ""
+                })
+                .ToList<object>();
+            return new PageModel<object>(input.pageNumber.Value, input.take.Value, total, data);
         }
 
-        public async Task<object> GetMyCansultantsForConsulter()
+        public async Task<object> GetMyCansultantsForConsulter(Models.DTO.MyConsultantUserScheduleDTO input)
         {
+            input = input ?? new Models.DTO.MyConsultantUserScheduleDTO();
+            if (input.pageNumber == null || input.pageNumber <= 0)
+                input.pageNumber = 1;
+            if (input.take == null || input.take <= 0)
+                input.take = 10;
+
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                    ? _accessor.HttpContext.User.Identity.GetUserId()
                    : 0;
 
-            return await orderItemRepository
+            var quiryResult = orderItemRepository
                 .GetQuery()
-                .Where(t => t.ConsultantId != null && t.ConsultantId > 0 && t.Consultant != null && t.Order.IsPayed == true && t.Consultant.UserId == userId)
+                .Where(t => t.ConsultantId != null && t.ConsultantId > 0 && t.Consultant != null && t.Order.IsPayed == true && t.Consultant.UserId == userId);
+
+            if (!string.IsNullOrEmpty(input.fullname))
+                quiryResult = quiryResult.Where(t => (t.Order.User.Name + " " + t.Order.User.FamilyName).Contains(input.fullname));
+            if (input.id != null && input.id > 0)
+                quiryResult = quiryResult.Where(t => t.Order.ConsultantUserSchedules.Any(tt => tt.ConsultantUserScheduleId == input.id));
+
+            var total = await quiryResult.CountAsync();
+            quiryResult = quiryResult.OrderByDescending(t => t.OrderItemId).Skip((input.pageNumber.Value - 1) * input.take.Value).Take(input.take.Value);
+            var data = (await
+                quiryResult
                 .Select(t => new
                 {
-                    id = t.OrderItemId,
+                    id = t.Order.ConsultantUserSchedules.Select(tt => tt.ConsultantUserScheduleId).FirstOrDefault(),
                     name = t.Order.User.Name,
                     consultantId = t.ConsultantId,
                     lName = t.Order.User.FamilyName,
                     type = t.ConsultType,
                     createDate = t.Order.CreateDate,
                     price = t.Price,
-                    status = t.Order.User.ConsultantUserSchedules.Where(tt => tt.ConsultantId == t.ConsultantId).Select(tt => tt.Status).FirstOrDefault()
+                    status = t.Order.User.ConsultantUserSchedules.Where(tt => tt.ConsultantId == t.ConsultantId).Select(tt => tt.Status).FirstOrDefault(),
+                    description = t.Order.ConsultantUserSchedules.Select(tt => tt.Description).FirstOrDefault(),
+                    isPayed = t.Order.ConsultantUserSchedules.Select(tt => tt.IsPayed).FirstOrDefault(),
+                    userPic = mediaRepository.GetQuery().Where(z => z.ObjectId == t.Consultant.UserId && z.Type == MediaTypes.Profile).Select(t => t.PictureUrl).FirstOrDefault()
                 })
-                .ToListAsync();
+                .ToListAsync())
+                 .Select(t => new
+                 {
+                     t.id,
+                     t.consultantId,
+                     t.name,
+                     t.lName,
+                     t.type,
+                     t.createDate,
+                     t.price,
+                     t.status,
+                     t.description,
+                     t.isPayed,
+                     userPic = !string.IsNullOrEmpty(t.userPic) ? ("Media/Gallery/Profile/" + t.userPic) : ""
+                 })
+                .ToList<object>();
+
+            return new PageModel<object>(input.pageNumber.Value, input.take.Value, total, data);
         }
     }
 }

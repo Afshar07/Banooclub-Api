@@ -12,6 +12,7 @@ namespace BanooClub.Infrastructure.EntityConfigurations.Consulting
             builder.HasOne(t => t.User).WithMany(t => t.ConsultantUserSchedules).HasForeignKey(t => t.UserId).OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(t => t.Consultant).WithMany(t => t.ConsultantUserSchedules).HasForeignKey(t => t.ConsultantId).OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(t => t.Order).WithMany(t => t.ConsultantUserSchedules).HasForeignKey(t => t.OrderId).OnDelete(DeleteBehavior.NoAction);
+            builder.Property(t => t.Description).HasMaxLength(4000);
 
         }
     }

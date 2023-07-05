@@ -29,8 +29,6 @@ namespace BanooClub.Services.ConsultingServices.DTOs
         public List<CreateBecomeConsultantRequestPriceDTO> Prices { get; set; }
         public List<long> Categories { get; set; }
         public List<TimeSpan> StartAndEndWork { get; set; }
-        public List<CreateBecomeConsultantRequestRealSelectedDayDTO> SelectedStartedTimes { get; set; }
-
     }
 
     public class BecomeConsultantRequestDTO

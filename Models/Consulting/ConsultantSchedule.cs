@@ -1,5 +1,4 @@
-﻿using BanooClub.Models.Enums;
-using System;
+﻿using System;
 
 namespace BanooClub.Models.Consulting
 {
@@ -12,7 +11,7 @@ namespace BanooClub.Models.Consulting
         public TimeSpan EntTime { get; set; }
         public bool IsAvailable { get; set; }
         public DateTime CreateDate { get; set; }
-        public MyDayOfWeek DayOfWeek { get; set; }
+        public DayOfWeek DayOfWeek { get; set; }
 
     }
 }

@@ -4,14 +4,16 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BanooClub.Migrations
 {
     [DbContext(typeof(BanooClubDBContext))]
-    partial class BanooClubDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230705084206_addDescriptionToCosultantSchedule")]
+    partial class addDescriptionToCosultantSchedule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -929,9 +931,6 @@ namespace BanooClub.Migrations
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("DayOfWeek")
-                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasMaxLength(4000)

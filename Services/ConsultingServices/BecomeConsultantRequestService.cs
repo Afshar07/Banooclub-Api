@@ -13,6 +13,7 @@ using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Org.BouncyCastle.Utilities;
 using SmsIrRestfulNetCore;
 using System;
 using System.Collections.Generic;
@@ -105,23 +106,7 @@ namespace BanooClub.Services.ConsultingServices
                     var startTime = dto.StartAndEndWork[0];
                     var endTime = dto.StartAndEndWork[1];
                     var durationList = await _becomeConsultantRequestScheduleService.CreateCleanIfExist(dto.DurationMinute, request.Id, startTime, endTime);
-                    if (dto.SelectedStartedTimes != null)
-                    {
-                        foreach (var dayOfWeek in dto.SelectedStartedTimes)
-                        {
-                            foreach (var hour in dayOfWeek.selectedTime)
-                            {
-                                var foundThisSchadual = durationList.Where(t => t.DayOfWeek == dayOfWeek.dayOfWeek && t.StartTime == hour).FirstOrDefault();
-                                if (foundThisSchadual != null)
-                                {
-                                    foundThisSchadual.IsAvailable = true;
-                                    await _becomeConsultantRequestScheduleRepository.Update(foundThisSchadual);
-                                }
-                            }
-                        }
-                    }
                 }
-
 
                 if (!string.IsNullOrEmpty(dto.FileData))
                 {
@@ -283,15 +268,6 @@ namespace BanooClub.Services.ConsultingServices
             if ((endDate - startDate).TotalMinutes % dto.DurationMinute != 0)
                 return "زمان پایان صحیح نمی باشد";
 
-            if (dto.SelectedStartedTimes != null)
-            {
-                if (dto.SelectedStartedTimes.Any(t => t.dayOfWeek == null))
-                    return "زمان های انتخاب شده صحیح نمی باشد";
-                foreach (var dayOfWeek in dto.SelectedStartedTimes)
-                    if (dto.SelectedStartedTimes.Count(t => t.dayOfWeek == dayOfWeek.dayOfWeek) > 1)
-                        return "زمان روز ها تکراری می باشد";
-            }
-
             return "";
         }
 
@@ -314,9 +290,6 @@ namespace BanooClub.Services.ConsultingServices
             if (request.Status == BecomeConsultantRequestStatus.Accepted)
                 return operation.Failure("AlreadyAccepted");
 
-
-            request.Status = BecomeConsultantRequestStatus.Accepted;
-
             var foundMedia = await _mediaRepository
                 .GetQuery()
                 .Where(t => t.ObjectId == request.Id && t.Type == MediaTypes.ConsultationRequest)
@@ -330,6 +303,8 @@ namespace BanooClub.Services.ConsultingServices
 
             try
             {
+                request.Status = BecomeConsultantRequestStatus.Accepted;
+
                 await _repository.Update(request);
 
                 var consultant = _consultantRepository
@@ -461,7 +436,7 @@ namespace BanooClub.Services.ConsultingServices
                         var allPrevScheduale = await _consultantScheduleRepository.GetQuery().Where(t => t.ConsultantId == consultant.Id).ToListAsync();
                         if (allPrevScheduale != null)
                             foreach (var prevSchedual in allPrevScheduale)
-                                _consultantScheduleRepository.Erase(prevSchedual);
+                                await _consultantScheduleRepository.Delete(prevSchedual);
 
                         foreach (var item in request.BecomeConsultantRequestSchedules)
                             await _consultantScheduleRepository.InsertAsync(new ConsultantSchedule()
@@ -549,30 +524,43 @@ namespace BanooClub.Services.ConsultingServices
 
             var operation = new ServiceResult<PageModel<BecomeConsultantRequestDTO>>();
 
-            var query = _repository.GetQuery();
+            var query = _repository
+                .GetQuery()
+                .Select(t => new 
+                {
+                    BankName = _repository.GetQuery().Where(tt => tt.UserId == t.UserId).OrderByDescending(tt => tt.Id).Select(tt => tt.BankName).FirstOrDefault(),
+                    Id = _repository.GetQuery().Where(tt => tt.UserId == t.UserId).OrderByDescending(tt => tt.Id).Select(tt => tt.Id).FirstOrDefault(),
+                    CartNo = _repository.GetQuery().Where(tt => tt.UserId == t.UserId).OrderByDescending(tt => tt.Id).Select(tt => tt.CartNo).FirstOrDefault(),
+                    City = _repository.GetQuery().Where(tt => tt.UserId == t.UserId).OrderByDescending(tt => tt.Id).Select(tt => tt.City.Name).FirstOrDefault(),
+                    State = _repository.GetQuery().Where(tt => tt.UserId == t.UserId).OrderByDescending(tt => tt.Id).Select(tt => tt.State.Name).FirstOrDefault(),
+                    PhoneNumber = _repository.GetQuery().Where(tt => tt.UserId == t.UserId).OrderByDescending(tt => tt.Id).Select(tt => tt.PhoneNumber).FirstOrDefault(),
+                    ShabaNo = _repository.GetQuery().Where(tt => tt.UserId == t.UserId).OrderByDescending(tt => tt.Id).Select(tt => tt.ShabaNo).FirstOrDefault(),
+                    NatiaonCode = _repository.GetQuery().Where(tt => tt.UserId == t.UserId).OrderByDescending(tt => tt.Id).Select(tt => tt.NationalCode).FirstOrDefault(),
+                    MedicalSystemNumber = _repository.GetQuery().Where(tt => tt.UserId == t.UserId).OrderByDescending(tt => tt.Id).Select(tt => tt.MedicalSystemNumber).FirstOrDefault(),
+                    UserFullName = _repository.GetQuery().Where(tt => tt.UserId == t.UserId).OrderByDescending(tt => tt.Id).Select(tt => tt.User.Name + " " + tt.User.FamilyName).FirstOrDefault(),
+                    Status = _repository.GetQuery().Where(tt => tt.UserId == t.UserId).OrderByDescending(tt => tt.Id).Select(tt => tt.Status).FirstOrDefault()
+                })
+                .Distinct();
 
             if (status.HasValue)
                 query = query.Where(x => x.Status == status);
 
             var skip = (page - 1) * size;
+
             var totalCount = await query.CountAsync();
-            var data =
-                await
-                query
-                .Select(x => new BecomeConsultantRequestDTO
+            var data = await
+                query.Select(x => new BecomeConsultantRequestDTO
                 {
+                    Id = x.Id,
                     BankName = x.BankName,
                     CartNo = x.CartNo,
-                    City = x.City.Name,
-                    State = x.State.Name,
-                    CityId = x.CityId,
-                    Id = x.Id,
-                    StateId = x.StateId,
+                    City = x.City,
+                    State = x.State,
                     PhoneNumber = x.PhoneNumber,
                     ShabaNo = x.ShabaNo,
-                    NatiaonCode = x.NationalCode,
+                    NatiaonCode = x.NatiaonCode,
                     MedicalSystemNumber = x.MedicalSystemNumber,
-                    UserFullName = x.User.Name + " " + x.User.FamilyName,
+                    UserFullName = x.UserFullName,
                     Status = x.Status
                 })
                 .OrderByDescending(t => t.Id)
@@ -628,7 +616,7 @@ namespace BanooClub.Services.ConsultingServices
                     ImageFileData = _mediaRepository.GetQuery().Where(tt => tt.ObjectId == t.Id && tt.Type == MediaTypes.ConsultationRequestProfileImage).Select(tt => tt.PictureUrl).FirstOrDefault(),
                     Prices = t.BecomeConsultantRequestConsultPrices.Select(tt => new CreateBecomeConsultantRequestPriceDTO { Price = tt.Price, Type = tt.Type }).ToList(),
                     Categories = t.Categories.Select(tt => new { id = tt.CategoryId, title = tt.Category.Title }).ToList(),
-                    StartAndEndWork = t.BecomeConsultantRequestSchedules.Where(tt => tt.DayOfWeek == MyDayOfWeek.Sunday).ToList(),
+                    StartAndEndWork = t.BecomeConsultantRequestSchedules.Where(tt => tt.DayOfWeek == DayOfWeek.Sunday).ToList(),
                     userfullname = t.User.Name + " " + t.User.FamilyName,
                     consultantId = _consultantRepository.GetQuery().Where(tt => tt.UserId == userId).Select(tt => tt.Id).FirstOrDefault()
                 })
@@ -682,7 +670,7 @@ namespace BanooClub.Services.ConsultingServices
                     userfullname = t.User.Name + " " + t.User.FamilyName,
                     cityName = t.City.Name,
                     stateName = t.State.Name,
-                    StartAndEndWork = t.BecomeConsultantRequestSchedules.Where(tt => tt.DayOfWeek == MyDayOfWeek.Sunday).ToList()
+                    StartAndEndWork = t.BecomeConsultantRequestSchedules.Where(tt => tt.DayOfWeek == DayOfWeek.Sunday).ToList()
                 })
                 .Take(1)
                 .ToListAsync())
