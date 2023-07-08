@@ -237,7 +237,8 @@ namespace BanooClub.Services.PaymentServices
                     toUserFullname = t.User.Name + " " + t.User.FamilyName,
                     toUserMobile = t.User.Mobile,
                     fromUserFullname = t.Consultant.User.Name + " " + t.Consultant.User.FamilyName,
-                    fromUserMobile = t.Consultant.User.Mobile
+                    fromUserMobile = t.Consultant.User.Mobile,
+                    t.ReserveTime
                 })
                 .FirstOrDefault();
 
@@ -255,6 +256,11 @@ namespace BanooClub.Services.PaymentServices
                             {
                                 Parameter = "username" ,
                                 ParameterValue =  foundItem?.fromUserFullname
+                            },
+                            new UltraFastParameters()
+                            {
+                                Parameter = "time" ,
+                                ParameterValue =  foundItem?.ReserveTime.ToString()
                             }
                         }.ToArray()
                     });
@@ -272,6 +278,11 @@ namespace BanooClub.Services.PaymentServices
                             {
                                 Parameter = "username" ,
                                 ParameterValue =  foundItem?.toUserFullname
+                            },
+                            new UltraFastParameters()
+                            {
+                                Parameter = "time" ,
+                                ParameterValue =  foundItem?.ReserveTime.ToString()
                             }
                         }.ToArray()
                     });
