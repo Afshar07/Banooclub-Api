@@ -613,7 +613,7 @@ export default {
         } else {
           this.$set(this.service_details, 'TotalDiscountPrice', this.service_details.totalPrice - discountValue)
         }
-        console.log(this.service_details)
+
       }
 
     }
@@ -640,7 +640,7 @@ export default {
 
     },
     async CreateOrder(item) {
-      console.log(this.service_details.TotalDiscountPrice)
+
       this.$nuxt.$loading.start();
       try {
         let tmpSubOrders = []
@@ -946,7 +946,7 @@ export default {
   watch: {
     service_details(val) {
       if (val) {
-        console.log(val)
+
       }
     }
   },

@@ -319,7 +319,7 @@ export default {
           count: 500,
           stateId: this.SelectedStateId
         })
-        console.log(this.AllCities)
+
         this.AllCities = res.data.cities
         this.$nuxt.$loading.finish()
         this.$nuxt.loading = false;
@@ -364,7 +364,7 @@ export default {
           )
           .then((response) => {
             if (response.status === 200) {
-              console.log(this.Relation)
+
               this.$axios.post("Users/Update", {
                   name: this.firstName,
                   familyName: this.lastName,

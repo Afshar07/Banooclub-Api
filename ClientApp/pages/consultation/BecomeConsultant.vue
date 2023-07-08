@@ -237,7 +237,6 @@
                 </button>
                 <video
                   :src="consultantRequest.fileDataPictureUrl"
-                  autoplay
                   class="border rounded mt-2 d-flex text-center justify-content-center align-items-center w-100"
                   controls
                 ></video>
@@ -460,8 +459,8 @@ export default {
         const res = await this.$repositories.createConsultantRequest.setPayload(this.consultantRequest)
         if (!res.data.isSuccess) {
           this.$toast.error(res.data.errorMessage)
-          console.log(this.consultantRequest)
- 
+
+
         } else {
           this.$toast.success('درخواست شما با موفقیت ثبت شد')
           this.$auth.fetchUser()

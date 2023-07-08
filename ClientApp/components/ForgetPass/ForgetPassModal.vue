@@ -13,7 +13,7 @@
               </svg>
             </button>
           </div>
-          <form class="tw-p-7 tw-space-y-5 ">
+          <div class="tw-p-7 tw-space-y-5 ">
             <div class="col-12">
               <input
                 type="text"
@@ -27,7 +27,7 @@
                 ارسال رمز عبور
               </button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>

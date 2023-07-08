@@ -25,11 +25,11 @@
         </b-col>
 
         <b-col class="mt-1" cols="12" md="4">
-          <span class="p-2 text-secondary">استان محل فعالیت</span>
-          <span>{{ consultant.stateName }}</span>
+          <span class="p-2 text-secondary">استان محل فعالیت </span>
+          <span>{{  consultant.stateName  }}</span>
         </b-col>
         <b-col class="mt-1" cols="12" md="4">
-          <span class="p-2 text-secondary">شهر محل فعالیت</span>
+          <span class="p-2 text-secondary">شهر محل فعالیت </span>
           <span>{{ consultant.cityName }}</span>
         </b-col>
         <b-col class="mt-1 d-flex align-items-center " cols="12" md="12">
@@ -50,7 +50,7 @@
           <span>{{ consultant.shabaNo }}</span>
         </b-col>
         <b-col class="mt-1" cols="12" md="4">
-          <span class="p-2 text-secondary">نام بانک</span>
+          <span class="p-2 text-secondary">نام بانک </span>
           <span>{{ consultant.bankName }}</span>
         </b-col>
         <b-col class="mt-1" cols="12" md="4">
@@ -107,7 +107,6 @@
         <b-col class="mt-1" cols="12" md="6">
           <video
               :src="baseUrl + consultant.fileData"
-              autoplay
               class="border rounded mt-2 d-flex text-center justify-content-center align-items-center w-100"
               controls
           ></video>

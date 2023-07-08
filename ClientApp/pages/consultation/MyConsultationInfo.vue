@@ -227,7 +227,6 @@
                 </button>
                 <video
                   :src="newFileData"
-                  autoplay
                   class="border rounded mt-2 d-flex text-center justify-content-center align-items-center w-100"
                   controls
                 ></video>
@@ -275,6 +274,7 @@
               <span class="badge pill rounded bg-warning" style="">انتخاب شده</span>
               <span class="badge pill  bg-success rounded" style="">ثبت شده</span>
               <span class="badge pill  bg-danger rounded" style="">رزرو شده</span>
+              <span class="badge pill  bg-primary rounded" style="">پرداخت شده</span>
             </div>
           </div>
           <div class="d-flex position-relative  align-items-start gap-2" style="height: 400px;overflow-y: scroll">
@@ -374,7 +374,7 @@ export default {
 
     ])
   },
-
+  watch: {},
   computed: {
     formattedPhonePrice: {
       get: function () {
@@ -394,7 +394,8 @@ export default {
             /[a-zA-Z+*!@#$%^&*()_;:'"|<>/?{}\u0600-\u06EC/\-/\.]/g,
             ""
           );
-        } else if (!newValue || this.newValue === "") {
+        }
+        else if (!newValue || this.newValue === "") {
           this.consultantRequest.prices[0].price = null;
         }
       },
@@ -417,7 +418,8 @@ export default {
             /[a-zA-Z+*!@#$%^&*()_;:'"|<>/?{}\u0600-\u06EC/\-/\.]/g,
             ""
           );
-        } else if (!newValue || this.newValue === "") {
+        }
+        else if (!newValue || this.newValue === "") {
           this.consultantRequest.prices[1].price = null;
         }
       },
@@ -440,7 +442,8 @@ export default {
             /[a-zA-Z+*!@#$%^&*()_;:'"|<>/?{}\u0600-\u06EC/\-/\.]/g,
             ""
           );
-        } else if (!newValue || this.newValue === "") {
+        }
+        else if (!newValue || this.newValue === "") {
           this.consultantRequest.prices[2].price = null;
         }
       },
@@ -469,6 +472,10 @@ export default {
       if (time.status === 2) {
         return 'bg-danger'
       }
+      if (time.status === 3) {
+
+        return 'bg-primary'
+      }
     },
     async getSchedules(consultant) {
       try {
@@ -476,9 +483,11 @@ export default {
           id: consultant.consultantId
         })
         this.schedules = res.data
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e)
-      } finally {
+      }
+      finally {
 
       }
     },
@@ -493,10 +502,12 @@ export default {
           let timeIdx = this.dateObj[idx].selectedTime.findIndex(e => e === time.startTime)
           if (timeIdx > -1) {
             this.dateObj[idx].selectedTime.splice(timeIdx, 1)
-          } else {
+          }
+          else {
             this.dateObj[idx].selectedTime.push(time.startTime)
           }
-        } else {
+        }
+        else {
           tmpDateObj.selectedTime.push(time.startTime)
           this.dateObj.push(tmpDateObj)
         }
@@ -504,7 +515,8 @@ export default {
           dayOfWeek: null,
           selectedTime: []
         }
-      } else if (time.status === 1) {
+      }
+      else if (time.status === 1) {
         let tmpDateObj = {
           dayOfWeek: day.dayOfWeek,
           selectedTime: []
@@ -514,10 +526,12 @@ export default {
           let timeIdx = this.removedDates[idx].selectedTime.findIndex(e => e === time.startTime)
           if (timeIdx > -1) {
             this.removedDates[idx].selectedTime.splice(timeIdx, 1)
-          } else {
+          }
+          else {
             this.removedDates[idx].selectedTime.push(time.startTime)
           }
-        } else {
+        }
+        else {
           tmpDateObj.selectedTime.push(time.startTime)
           this.removedDates.push(tmpDateObj)
         }
@@ -525,8 +539,13 @@ export default {
           dayOfWeek: null,
           selectedTime: []
         }
-      } else if (time.status === 2) {
+      }
+      else if (time.status === 2) {
         this.$toast.error('این زمان قبلا رزرو شده است')
+
+      }
+      else if (time.status === 3) {
+        this.$toast.error('شما در این زمان یک مشاوره پرداخت شده دارید')
 
       }
     },
@@ -540,8 +559,12 @@ export default {
         const res = await this.$repositories.getConsultantRequest.setTag()
         this.consultantRequest = res.data
         this.getSchedules(res.data)
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e)
+      }
+      finally {
+        this.getCity()
       }
     },
     async handleFile() {
@@ -590,7 +613,8 @@ export default {
         hardCopied.forEach((item) => {
           if (item.id) {
             this.consultantRequest.categories.push(item.id)
-          } else {
+          }
+          else {
             this.consultantRequest.categories.push(item)
           }
         })
@@ -602,7 +626,8 @@ export default {
         }
         this.createConsultantRequest()
 
-      } else {
+      }
+      else {
         this.$toast.error('لطفا همه فیلد های اجباری را تکمیل نمایید')
       }
     },
@@ -617,7 +642,8 @@ export default {
         this.dateObj = []
         this.removedDates = []
         this.getSchedules(this.consultantRequest)
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e)
       }
     },
@@ -631,7 +657,8 @@ export default {
         this.dateObj = []
         this.removedDates = []
         this.getSchedules(this.consultantRequest)
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e)
       }
     },
@@ -645,14 +672,17 @@ export default {
         if (!res.data.isSuccess) {
           this.$toast.error(res.data.errorMessage)
 
-        } else {
+        }
+        else {
           this.$toast.success('درخواست شما با موفقیت ثبت شد')
           this.$auth.fetchUser()
           this.$router.push('/social/accountsetting/MyPage')
         }
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e)
-      } finally {
+      }
+      finally {
         this.$nuxt.$loading.finish()
         this.$nuxt.loading = false
 
@@ -663,7 +693,8 @@ export default {
       try {
         const res = await this.$repositories.getDurations.setTag()
         this.durations = res.data
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e)
       }
 
@@ -673,7 +704,8 @@ export default {
       try {
         const res = await this.$repositories.GetAllStates.GetAllStates()
         this.states = res.data.states
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e)
       }
 
@@ -687,7 +719,8 @@ export default {
 
         })
         this.cities = res.data.cities
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e)
       }
     },
@@ -695,9 +728,11 @@ export default {
       try {
         const res = await this.$repositories.getAllConsultCategory.setTag()
         this.categories = res.data.data
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e)
-      } finally {
+      }
+      finally {
 
       }
     },
@@ -745,7 +780,8 @@ export default {
           return true
         }
         return false
-      } else {
+      }
+      else {
         return true
       }
     },

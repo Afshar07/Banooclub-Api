@@ -79,7 +79,7 @@
               </div>
               <div class="d-flex align-items-center gap-2">
                 <small class="text-secondary">تاریخ رزرو :</small>
-                <small>{{ new Date(item.createDate).toLocaleDateString('fa-IR') + ' - ' + item.hour }}</small>
+                <small>{{ new Date(item.targetDate).toLocaleDateString('fa-IR') + ' - ' + item.hour }}</small>
               </div>
 
             </div>
@@ -93,10 +93,17 @@
                 </div>
                 <div class="d-flex flex-column h-100 justify-content-center align-items-start">
                   <div class="d-flex flex-column justify-content-start align-items-start">
-                    <h5 class="tw-font-bold">{{ item.name + ' ' + item.lName }}</h5>
+                    <nuxt-link :to="`/user/${item.userName}/posts`" style="text-decoration: none" class="text-black ">
+                      <h5 class="tw-font-bold">{{ item.name + ' ' + item.lName }}</h5>
+                    </nuxt-link>
                     <span class="text-muted">{{ item.cats }}</span>
                   </div>
-
+                  <div class="d-flex gap-1">
+                    <small class="text-muted">نوع مشاوره : </small>
+                    <small v-if="item.type===1" class="badge pill bg-pink text-white">تلفنی</small>
+                    <small v-if="item.type===2" class="badge pill bg-purple text-white">تلفنی فوری</small>
+                    <small v-if="item.type===3" class="badge pill bg-info text-white">ویدیویی</small>
+                  </div>
                 </div>
               </div>
             </div>
@@ -117,19 +124,17 @@
                     <small class="text-muted">وضعیت گفتگو : </small>
                     <small v-if="item.status===1" class="badge pill bg-secondary text-white">در انتظار</small>
                     <small v-if="item.status===2" class="badge pill bg-danger text-white">تمام شده</small>
-                    <a v-if="item.status!==2" class="badge pill bg-info text-white" data-bs-target="#changeStatus"
-                       data-bs-toggle="modal"
-                       style="cursor:pointer;" @click="selectedConsult = item">تغییر
-                      وضعیت
-                    </a>
+
 
                   </div>
                   <div class="d-flex gap-1">
-                    <small class="text-muted">نوع مشاوره : </small>
-                    <small v-if="item.type===1" class="badge pill bg-pink text-white">تلفنی</small>
-                    <small v-if="item.type===2" class="badge pill bg-purple text-white">تلفنی فوری</small>
-                    <small v-if="item.type===3" class="badge pill bg-info text-white">ویدیویی</small>
+                    <button v-if="item.status!==2" class="btn btn-info btn-sm text-white" data-bs-target="#changeStatus"
+                       data-bs-toggle="modal"
+                       style="cursor:pointer;" @click="selectedConsult = item">تغییر
+                      وضعیت
+                    </button>
                   </div>
+
                 </div>
               </div>
             </div>
@@ -145,7 +150,7 @@
                         @click="createPayment(item.orderId)">
                   <small>پرداخت</small>
                 </button>
-                <button v-if="item.isPayed && item.type===3 && item.status!==2"
+                <button  data-toggle="tooltip"  title="رمز عبور و نام کاربری شما شماره موبایل شما است" v-if="item.isPayed && item.type===3 && item.status!==2"
                         class="p-1 bg-info rounded shadow text-white" type="button"
                         @click="createSkyRoom(item)">
                   <small>ورود به اسکای روم</small>
@@ -274,7 +279,12 @@ export default {
         const res = await this.$repositories.createSkyRoom.setParams({
           consultantUserScheduleId: item.id
         })
-        window.location.replace(res.data.data)
+        if(res.data.isSuccess){
+          window.location.replace(res.data.data)
+        }else{
+          this.$toast.error(res.data.errorMessage)
+        }
+
       }
       catch (e) {
         console.log(e)

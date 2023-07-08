@@ -67,7 +67,8 @@
                   </div>
 
                   <div class="d-flex gap-1">
-                    <small class="text-muted">مشاوره موفق : 213456</small>
+                    <small v-if="consultantInfo&&consultantInfo.successCount" class="text-muted">مشاوره موفق :
+                      {{ consultantInfo.successCount }}</small>
                   </div>
                 </div>
 
@@ -113,37 +114,47 @@
             <strong>نظرات کاربران</strong>
           </div>
           <div class=" row">
-            <div v-for="(item,idx) in consultantComments" :key="idx" class="col-md-12 my-3">
-              <div class="d-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-center gap-3">
-                  <div
-                    class="rounded-circle   d-flex flex-column justify-content-start align-items-center"
-                    style="height: 100%;">
-                    <img alt="" src="/defaultUser.png" style="object-fit: contain;width: 4rem;height: 4rem">
-                  </div>
-                  <div class="d-flex flex-column align-items-start">
-                    <span>{{ item.userFullname }}</span>
-                    <div class="d-flex gap-2 align-items-center">
-                      <small class=" text-muted">{{ new Date(item.createDate).toLocaleDateString('fa-IR') }}</small>
-                      <small class=" text-muted ps-2">{{
-                          new Date(item.createDate).toLocaleTimeString('fa-IR')
-                        }}</small>
+            <template v-if="consultantComments">
+              <div v-for="(item,idx) in consultantComments" :key="idx" class="col-md-12 my-3">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="d-flex align-items-center gap-3">
+                    <div
+                      class="rounded-circle   d-flex flex-column justify-content-start align-items-center"
+                      style="height: 100%;">
+                      <img v-if="item.userPic" :src="baseUrl + item.userPic" alt=""
+                           style="object-fit: contain;width: 4rem;height: 4rem">
+                      <img v-else alt="" src="/defaultUser.png" style="object-fit: contain;width: 4rem;height: 4rem">
+                    </div>
+                    <div class="d-flex flex-column align-items-start">
+                      <span>{{ item.userFullname }}</span>
+                      <div class="d-flex gap-2 align-items-center">
+                        <small class=" text-muted">{{ new Date(item.createDate).toLocaleDateString('fa-IR') }}</small>
+                        <small class=" text-muted ps-2">{{
+                            new Date(item.createDate).toLocaleTimeString('fa-IR')
+                          }}</small>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <span class=" py-1 px-2 rounded d-flex gap-2 align-items-center " style="background-color: #ffdb66">
+                  <span class=" py-1 px-2 rounded d-flex gap-2 align-items-center " style="background-color: #ffdb66">
                   <LazyStarIcon style="height: 15px;width: 15px;fill:white"></LazyStarIcon>
                     <small class="text-white">{{ item.rate }}</small>
                   </span>
+                </div>
+                <div class="px-2 mt-3">
+                  <p style="overflow-wrap: anywhere">{{ item.description }}</p>
+                </div>
               </div>
-              <div class="px-2 mt-3">
-                <p style="overflow-wrap: anywhere">{{item.description}}</p>
-              </div>
-            </div>
-            <div class="col-md-12 d-flex align-items-center justify-content-center">
-              <button class="p-2 rounded bg-pink text-white" type="button">مشاهده نظرات بیشتر
-              </button>
 
+            </template>
+            <div v-else-if="!consultantComments"
+                 class="d-flex flex-column w-100 align-items-center bg-white justify-content-center shadow rounded p-3 ">
+              <LazySadFaceIcon style="width: 60px;height: 60px;fill: #6c757d"></LazySadFaceIcon>
+              <span class="text-secondary">موردی یافت نشد</span>
+            </div>
+            <div v-if="totalPages.length>1 && page<totalCount"
+                 class="col-md-12 d-flex align-items-center justify-content-center">
+              <button class="p-2 rounded bg-pink text-white" type="button" @click="changePageComment">مشاهده نظرات بیشتر
+              </button>
             </div>
           </div>
         </div>
@@ -208,7 +219,10 @@ export default {
     return {
       isEditingPage: false,
       consultantInfo: null,
-      consultantComments: null,
+      totalCount: 0,
+      page: 1,
+      consultantComments: [],
+      totalPages: [],
       selectedPrice: null,
       pricesObjects: {
         1: 'مشاوره تلفنی',
@@ -229,7 +243,12 @@ export default {
       return process.env.pic
     }
   },
+
   methods: {
+    changePageComment() {
+      this.page++
+      this.getConsultantComments()
+    },
     async getConsultantComments() {
       try {
         const res = await this.$repositories.getConsultantComment.setParams({
@@ -237,8 +256,15 @@ export default {
           pageNumber: this.page,
           take: 10
         })
-        this.consultantComments = res.data
-        console.log(res.data)
+        res.data.data.forEach((item) => {
+          this.consultantComments.push(item)
+        })
+        this.totalCount = res.data.total
+        const result = Math.ceil(res.data.total / 10)
+        for (let i = 1; i <= result; i++) {
+          this.totalPages.push(i);
+        }
+
       }
       catch (e) {
         console.log(e)

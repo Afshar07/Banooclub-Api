@@ -59,7 +59,7 @@
           </div>
           <div class="d-flex gap-1">
             <small class="text-muted">مشاوره موفق : </small>
-            <small>213456</small>
+            <small>{{ consultantInfo.successCount }}</small>
           </div>
         </div>
         <span class="d-flex align-items-center align-self-end gap-2">

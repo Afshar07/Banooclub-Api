@@ -80,7 +80,7 @@
               </div>
               <div class="d-flex align-items-center gap-2">
                 <small class="text-secondary">تاریخ رزرو :</small>
-                <small>{{ new Date(item.createDate).toLocaleDateString('fa-IR') + ' - ' + item.hour }}</small>
+                <small>{{ new Date(item.targetDate).toLocaleDateString('fa-IR') + ' - ' + item.hour }}</small>
               </div>
 
             </div>
@@ -94,7 +94,10 @@
                 </div>
                 <div class="d-flex flex-column h-100 justify-content-center align-items-start">
                   <div class="d-flex flex-column justify-content-start align-items-start">
-                    <h5 class="tw-font-bold">{{ item.name + ' ' + item.lName }}</h5>
+                    <nuxt-link :to="`/consultation/${item.consultantId}`" class="text-black "
+                               style="text-decoration: none">
+                      <h5 class="tw-font-bold">{{ item.name + ' ' + item.lName }}</h5>
+                    </nuxt-link>
                     <span class="text-muted">{{ item.cats }}</span>
                   </div>
 
@@ -147,7 +150,7 @@
                         @click="createPayment(item.orderId)">
                   <small>پرداخت</small>
                 </button>
-                <button v-if="item.isPayed && item.type===3 && item.status!==2"
+                <button  data-toggle="tooltip"  title="پس از ورود به اسکای روم روی دکمه میهمان کلیک کنید" v-if="item.isPayed && item.type===3 && item.status!==2"
                         class="p-1 bg-info rounded shadow text-white" type="button"
                         @click="createSkyRoom(item)">
                   <small>ورود به اسکای روم</small>
@@ -235,7 +238,7 @@ export default {
         this.commentObject.id = this.selectedConsult.id
         const res = await this.$repositories.createConsultComment.setPayload(this.commentObject)
         if (res.data.isSuccess) {
-          this.$toast.success('نظر شما با موفقیت ثبت شد')
+          this.$toast.success('نظر شما با موفقیت ثبت شد و پس از تایید ادمین به نمایش در می‌آید')
           this.getMyConsultations()
           this.commentObject = {
             id: 0,
@@ -277,7 +280,12 @@ export default {
         const res = await this.$repositories.createSkyRoom.setParams({
           consultantUserScheduleId: item.id
         })
-        window.location.replace(res.data.data)
+        if (res.data.isSuccess) {
+          window.location.replace(res.data.data)
+        }
+        else {
+          this.$toast.error(res.data.errorMessage)
+        }
       }
       catch (e) {
         console.log(e)

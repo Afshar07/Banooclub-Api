@@ -64,6 +64,23 @@
 
 
               </template>
+              <template #cell(isConfirmed)="data">
+                <b-badge
+                    v-if="data.item.isConfirm"
+                    pill
+                    variant="primary"
+                >
+                  تایید شده
+                </b-badge>
+                <b-badge
+                    v-if="!data.item.isConfirm"
+                    pill
+                    variant="danger"
+                >
+                 تایید نشده
+                </b-badge>
+
+              </template>
               <!-- Column: delete -->
 
 
@@ -198,6 +215,10 @@ export default {
         {
           key: 'rate',
           label: 'امتیاز'
+        },
+        {
+          key: 'isConfirmed',
+          label: 'وضعیت نظر'
         },
         {
           key: 'consultFullname',

@@ -296,7 +296,7 @@ export default {
 
           }
         )
-        console.log(this.AllServices)
+
         this.AllServices = res.data.services
         this.totalPages = []
         const result = Math.ceil( res.data.servicesCount / 10)

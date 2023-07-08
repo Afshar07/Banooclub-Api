@@ -9,9 +9,12 @@
           <img v-else alt="" height="60" src="/defaultUser.png" style="object-fit: contain" width="60">
           <div class="d-flex flex-column ">
             <strong>{{ consultantInfo.name + ' ' + consultantInfo.lName }}</strong>
+            <div class="d-flex align-items-center gap-2">
+
             <span v-for="(item,idx) in consultantInfo.cats" :key="idx" class="badge pill bg-pink text-white ">{{
                 item
               }}</span>
+            </div>
           </div>
         </div>
 

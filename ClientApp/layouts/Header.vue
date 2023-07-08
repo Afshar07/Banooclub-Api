@@ -801,7 +801,7 @@
                 <span v-if="!decrease_width" class="font_sidebar_size">مشاور شوید</span>
               </nuxt-link>
               <nuxt-link
-                v-else-if="$auth.user.consultantId!==0"
+                v-else-if="$auth.user.consultantId!==0  "
                 :class="[decrease_width ? 'p-3' : 'px-3']"
                 class=" p-2 rounded bg-pink  text-white  py-2 w-100 d-flex align-items-center justify-content-center gap-4"
                 exact-active-class="SingleShortCutActive"

@@ -14,7 +14,7 @@
                  :src="`https://api.banooclub.simagar.com/media/gallery/group/${ActiveUser.userPhoto}`"/>
             <img v-else style="width: 50px; height: 50px;" class="rounded-circle"
                  src="~/assets/images/defaultUser.png"/>
-            <small class="tw-text-[#333] tw-text-[15px] tw-font-bold tw-cursor-pointer" @click="goToUserProfile(ActiveUser)">{{ ActiveUser.userName }}</small>
+            <small class="tw-text-[#333] tw-text-[15px] tw-font-bold tw-cursor-pointer" @click="goToUserProfile(ActiveUser)">{{ ActiveUser.fullName }}</small>
 
           </div>
           <button @click="GoBack" class="btn"><i class="fas fa-chevron-left"></i></button>
