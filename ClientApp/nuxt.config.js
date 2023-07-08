@@ -223,4 +223,9 @@ module.exports = {
   env: {
     pic: "https://api.banooclub.simagar.com",
   },
+  server: {
+    port: 3000, // default: 3000
+    host: '192.168.1.185', // default: localhost,
+    timing: false
+  },
 };

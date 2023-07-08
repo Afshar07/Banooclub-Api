@@ -156,7 +156,7 @@ export default [
     icon: 'HeartIcon',
     children: [
       {
-        title: 'لیست مشاور های فعال',
+        title: 'لیست مشاوره ها',
         route: 'apps-consultant-allConsultants',
       },
       {

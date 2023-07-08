@@ -72,6 +72,51 @@ class RejectConsultantRequest extends WebServiceRequest {
         super.setRequestParam(data)
     }
 }
+class GetAllConsultantComments extends WebServiceRequest {
+    constructor (context) {
+        super(context)
+        super.setTag('ConsultantUserScheduleRating/GetList')
+    }
+    setParams(data){
+        super.setRequestParam(data)
+    }
+}
+class GetCommentDescription extends WebServiceRequest {
+    constructor (context) {
+        super(context)
+        super.setTag('ConsultantUserScheduleRating/Get')
+    }
+    setParams(data){
+        super.setRequestParam(data)
+    }
+}
+class ConfirmConsultantComment extends WebServiceRequest {
+    constructor (context) {
+        super(context)
+        super.setTag('ConsultantUserScheduleRating/Confirm')
+    }
+    setParams(data){
+        super.setRequestParam(data)
+    }
+}
+class DeleteConsultantComment extends WebServiceRequest {
+    constructor (context) {
+        super(context)
+        super.setTag('ConsultantUserScheduleRating/Delete')
+    }
+    setParams(data){
+        super.setRequestParam(data)
+    }
+}
+class GetAllConsultants extends WebServiceRequest {
+    constructor (context) {
+        super(context)
+        super.setTag('ConsultantUserSchedules/GetList')
+    }
+    setParams(data){
+        super.setRequestParam(data)
+    }
+}
 export {
     ConsultCategoryGetAll,
     ConsultCategoryCreate,
@@ -80,5 +125,11 @@ export {
     GetAllConsultantRequests,
     GetConsultantRequest,
     AcceptConsultantRequest,
-    RejectConsultantRequest
+    RejectConsultantRequest,
+    GetAllConsultantComments,
+    GetCommentDescription,
+    ConfirmConsultantComment,
+    DeleteConsultantComment,
+    GetAllConsultants
+
 };

@@ -290,20 +290,9 @@
                   :class="[decrease_width ? 'p-3' : 'px-3']"
                   class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
                   exact-active-class="SingleShortCutActive"
-                  to="/consultation/MyConsultationInfo/"
-                >
-                  <span v-if="!decrease_width" class="font_sidebar_size">اطلاعات مشاوره من</span>
-                </nuxt-link>
-              </div>
-
-              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
-                <nuxt-link
-                  :class="[decrease_width ? 'p-3' : 'px-3']"
-                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                  exact-active-class="SingleShortCutActive"
                   to="/consultation/MyConsultations/"
                 >
-                  <span v-if="!decrease_width" class="font_sidebar_size">مشاورین من </span>
+                  <span v-if="!decrease_width" class="font_sidebar_size">مشاوره های من </span>
                 </nuxt-link>
               </div>
               <div v-if="$auth.user.consultantId!==0" class="d-flex align-items-center py-1"
@@ -317,17 +306,7 @@
                   <span v-if="!decrease_width" class="font_sidebar_size">گفتگو های من</span>
                 </nuxt-link>
               </div>
-              <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
-                <nuxt-link
-                  :class="[decrease_width ? 'p-3' : 'px-3']"
-                  class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                  exact-active-class="SingleShortCutActive"
-                  to="/consultation/MyPayments/"
 
-                >
-                  <span v-if="!decrease_width" class="font_sidebar_size">پرداختی های من</span>
-                </nuxt-link>
-              </div>
             </div>
           </div>
           <!--          <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
@@ -741,7 +720,7 @@
                     to="/consultation/MyConsultations/"
 
                   >
-                    <span v-if="!decrease_width" class="font_sidebar_size">مشاورین من </span>
+                    <span v-if="!decrease_width" class="font_sidebar_size">مشاوره های من </span>
                   </nuxt-link>
                 </div>
                 <div v-if="$auth.user.consultantId!==0" class="d-flex align-items-center py-1"
@@ -755,17 +734,7 @@
                     <span v-if="!decrease_width" class="font_sidebar_size">گفتگو های من</span>
                   </nuxt-link>
                 </div>
-                <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">
-                  <nuxt-link
-                    :class="[decrease_width ? 'p-3' : 'px-3']"
-                    class="SingleShortCut py-2 w-100 d-flex align-items-center gap-4"
-                    exact-active-class="SingleShortCutActive"
-                    to="/consultation/MyPayments/"
 
-                  >
-                    <span v-if="!decrease_width" class="font_sidebar_size">پرداختی های من</span>
-                  </nuxt-link>
-                </div>
               </div>
             </div>
             <!--            <div class="d-flex align-items-center py-1" data-bs-dismiss="offcanvas">-->
@@ -1508,13 +1477,13 @@ export default {
           await this.$repositories.searchUserByName.searchUserByName(val);
         this.userData = response.data;
 
-      } catch (error) {
+      }
+      catch (error) {
         console.log(error);
       }
     },
     closeHeader: function (newVal, oldVal) {
       if (newVal) {
-
 
         this.showProfileHeader = false;
 
@@ -1532,11 +1501,11 @@ export default {
       return process.env.pic;
     },
 
-
     loggedInfoData() {
       if (this.$store.state.loggedInfo) {
         return this.$store.state.loggedInfo;
-      } else {
+      }
+      else {
         return this.$store.state.HeaderData
       }
     },
@@ -1553,10 +1522,12 @@ export default {
           this.imgUserAvatar();
           this.imageBackground();
           return userInfo;
-        } catch (error) {
+        }
+        catch (error) {
           console.log(error);
         }
-      } else {
+      }
+      else {
         try {
           const response =
             await this.$repositories.getUserByToken.getUserByToken();
@@ -1565,7 +1536,8 @@ export default {
           this.imgUserAvatar();
           this.imageBackground();
           return userInfo;
-        } catch (error) {
+        }
+        catch (error) {
           console.log(error);
         }
       }
@@ -1608,7 +1580,8 @@ export default {
           path: `/user/${user.userName}/posts`
         });
         this.SearchUsers = "";
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e)
       }
     },
@@ -1617,7 +1590,8 @@ export default {
         await this.$repositories.deleteASingleFollowing.deleteASingleFollowing(
           this.$route.params.id
         );
-      } catch (error) {
+      }
+      catch (error) {
         console.log(error);
       }
     },
@@ -1629,10 +1603,12 @@ export default {
           );
         if (response.data) {
           this.$toast.success("درخواست دوستی شما ارسال شد");
-        } else {
+        }
+        else {
           this.$toast.error("عملیات قابل اجرا نیست");
         }
-      } catch (error) {
+      }
+      catch (error) {
         console.log(error);
       }
     },
@@ -1642,12 +1618,10 @@ export default {
     },
     search() {
 
-
       this.showProfileHeader = false;
       this.$emit("open");
     },
     profileHeader() {
-
 
       this.closeHeader = false
 
@@ -1674,9 +1648,11 @@ export default {
             bannerFileData: this.bannerImage,
           });
           this.getUserInfo();
-        } catch (error) {
+        }
+        catch (error) {
           console.log(error);
-        } finally {
+        }
+        finally {
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
         }
@@ -1705,9 +1681,11 @@ export default {
             selfieFileData: this.userImage,
           });
           this.getUserInfo();
-        } catch (error) {
+        }
+        catch (error) {
           console.log(error);
-        } finally {
+        }
+        finally {
           this.$nuxt.$loading.finish();
           this.$nuxt.loading = false;
         }
@@ -1745,7 +1723,8 @@ export default {
         this.imgUserAvatar();
         this.imageBackground();
         this.$store.commit("SetUserMypageInfo", MypageData);
-      } catch (error) {
+      }
+      catch (error) {
         console.log(error);
       }
     },
@@ -1754,7 +1733,8 @@ export default {
         const response =
           await this.$repositories.getUserByToken.getUserByToken();
         this.$store.commit("SetUserData", response.data);
-      } catch (error) {
+      }
+      catch (error) {
         console.log(error);
       }
     },
@@ -1763,17 +1743,18 @@ export default {
     window.addEventListener("scroll", this.updateScroll);
     if (!this.$route.query.id) {
       await this.goToMyPage()
-    } else {
+    }
+    else {
       try {
         const response = await this.$repositories.getUserIndex.getUserIndex(
           this.$route.params.id
         );
         this.$store.commit("SetUserData", response.data);
-      } catch (error) {
+      }
+      catch (error) {
         console.log(error);
       }
     }
-
 
   },
 };

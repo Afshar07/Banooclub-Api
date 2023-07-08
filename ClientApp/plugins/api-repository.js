@@ -84,7 +84,6 @@ export default (context, inject) => {
     getAllPlans: createPlanRepository(context, "Plan/GetAll"),
     // Plans repositories end
 
-
     // Social repositories start (Followers/Following, etc)
     getMyFollowers: createSocialRepository(context, "Follower/GetMyFollowers"),
     getMyFollowings: createSocialRepository(context, "Following/GetMyFollowings"),
@@ -117,13 +116,11 @@ export default (context, inject) => {
     getPostsByUserName: createPostRepository(context, 'Post/GetByUserName'),
     // User repositories end
 
-
     // User repositories start
     createAOrder: CreateOrderRepository(context, "Order/Create"),
     getAOrder: CreateOrderRepository(context, "Order/Get"),
     OrderGetByUserId: CreateOrderRepository(context, 'Order/GetByUserId'),
     PayByWallet: CreatePaymentRepository(context, 'Payment/PayByWallet'),
-
 
     // Common repositories start
     getUserIndex: createCommonRepository(context, "Common/GetUserIndex"),
@@ -159,7 +156,6 @@ export default (context, inject) => {
     UpdateDiscount: CreateDiscountRepository(context, "Discount/Update"),
     DeleteDiscount: CreateDiscountRepository(context, "Discount/Delete"),
 
-
     // Discount repository end
 
     // Ticket repository start
@@ -181,11 +177,9 @@ export default (context, inject) => {
     GetOrderedServicesMembers: createServicePackRepository(context, "ServicePack/GetServicePayedMember"),
     // Service repository end
 
-
     getAllServicesCategory: createServiceCategory(context, "ServiceCategory/GetAll"),
     getAServiceCategory: createServiceCategory(context, "ServiceCategory/Get"),
     // Service category repository end
-
 
     createAServiceProperty: createServiceProperty(context, "ServiceProperty/Create"),
     updateAServiceProperty: createServiceProperty(context, "ServiceProperty/Update"),
@@ -254,8 +248,13 @@ export default (context, inject) => {
     setSchedule: CreateRequestRepository(context, 'Consultant/SelectSchedule'),
     createConsultantPayment: CreateRequestRepository(context, 'Consultant/CreatePayment'),
     createPaymentForConsultant: CreateRequestRepository(context, 'Payment/CreateConsultantPayment'),
-    getMyConsultations: CreateRequestRepository(context, 'Consultant/GetMyCansultants')
-
+    getMyConsultations: CreateRequestRepository(context, 'Consultant/GetMyCansultants'),
+    getMyConsultationsForConsulter: CreateRequestRepository(context, 'Consultant/GetMyCansultantsForConsulter'),
+    changeConsultStatus:CreateRequestRepository(context,'Consultant/ChageStatus'),
+    createSkyRoom: CreateRequestRepository(context, 'Consultant/CreateVideoConfranceRoom'),
+    getUser: CreateRequestRepository(context, 'Users/Get'),
+    createConsultComment:CreateRequestRepository(context,'Consultant/CreateComment'),
+    getConsultantComment:CreateRequestRepository(context,'Consultant/GetComments')
 
   };
 

@@ -111,14 +111,9 @@
           <div class="w-100 d-flex align-items-center justify-content-between h-100 "
                style="border-right: solid 3px #e7b0fe">
             <strong>نظرات کاربران</strong>
-            <!--            <button v-if="canIComment" class="bg-purple text-white rounded shadow p-1" data-bs-target="#createComment"-->
-            <!--                    data-bs-toggle="modal">ثبت نظر-->
-            <!--            </button>-->
-            <!--            <button v-else class="bg-secondary text-white rounded shadow p-1" >برای ثبت نظر باید از این مشاور مشاوره گرفته باشید-->
-            <!--            </button>-->
           </div>
           <div class=" row">
-            <div v-for="i in 6" class="col-md-12 my-3">
+            <div v-for="(item,idx) in consultantComments" :key="idx" class="col-md-12 my-3">
               <div class="d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center gap-3">
                   <div
@@ -127,21 +122,22 @@
                     <img alt="" src="/defaultUser.png" style="object-fit: contain;width: 4rem;height: 4rem">
                   </div>
                   <div class="d-flex flex-column align-items-start">
-                    <span>امیرحسین سلیمانی</span>
+                    <span>{{ item.userFullname }}</span>
                     <div class="d-flex gap-2 align-items-center">
-                      <small class=" text-muted">1402/02/05</small>
-                      <small class=" text-muted ps-2">19:49</small>
+                      <small class=" text-muted">{{ new Date(item.createDate).toLocaleDateString('fa-IR') }}</small>
+                      <small class=" text-muted ps-2">{{
+                          new Date(item.createDate).toLocaleTimeString('fa-IR')
+                        }}</small>
                     </div>
                   </div>
                 </div>
                 <span class=" py-1 px-2 rounded d-flex gap-2 align-items-center " style="background-color: #ffdb66">
                   <LazyStarIcon style="height: 15px;width: 15px;fill:white"></LazyStarIcon>
-                    <small class="text-white">4.6</small>
+                    <small class="text-white">{{ item.rate }}</small>
                   </span>
               </div>
               <div class="px-2 mt-3">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem blanditiis dolore eum explicabo
-                  facere nemo odio, rem sed temporibus ut.</p>
+                <p style="overflow-wrap: anywhere">{{item.description}}</p>
               </div>
             </div>
             <div class="col-md-12 d-flex align-items-center justify-content-center">
@@ -185,7 +181,8 @@
             </div>
           </div>
           <div v-if="selectedPrice" class="col-md-12 px-2">
-            <nuxt-link :to="`/consultation/PrePay/${selectedPrice.type}/${consultantInfo.id}`" class="btn w-100 text-white " style="background-color:#e7b0fe ">
+            <nuxt-link :to="`/consultation/PrePay/${selectedPrice.type}/${consultantInfo.id}`"
+                       class="btn w-100 text-white " style="background-color:#e7b0fe ">
               ادامه و پرداخت
             </nuxt-link>
           </div>
@@ -195,35 +192,7 @@
       </div>
     </div>
 
-    <!--    &lt;!&ndash; Modal &ndash;&gt;-->
-    <!--    <div id="createComment" aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" tabindex="-1">-->
-    <!--      <div class="modal-dialog">-->
-    <!--        <div class="modal-content">-->
-    <!--          <div class="modal-header">-->
-    <!--            <h1 id="exampleModalLabel" class="modal-title fs-5">ثبت نظر</h1>-->
-    <!--          </div>-->
-    <!--          <div class="modal-body">-->
-    <!--            <div class="w-100 row">-->
-    <!--              <div class="col-md-12">-->
-    <!--                <small class="text-secondary">امتیاز</small>-->
-    <!--                <client-only>-->
-    <!--                  <vue-star-rating v-model="commentObject.rate" :read-only="false" :show-rating="false"-->
-    <!--                                   :star-size="20" ></vue-star-rating>-->
-    <!--                </client-only>-->
-    <!--              </div>-->
-    <!--              <div class="col-md-12">-->
-    <!--                <small class="text-secondary">متن نظر</small>-->
-    <!--                <textarea v-model="commentObject.description" class="with-border FormInputs"></textarea>-->
-    <!--              </div>-->
-    <!--            </div>-->
-    <!--          </div>-->
-    <!--          <div class="modal-footer">-->
-    <!--            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">بستن</button>-->
-    <!--            <button class="bg-pink text-white p-2 rounded " type="button">ثبت</button>-->
-    <!--          </div>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </div>-->
+
   </div>
 </template>
 
@@ -239,13 +208,8 @@ export default {
     return {
       isEditingPage: false,
       consultantInfo: null,
+      consultantComments: null,
       selectedPrice: null,
-      canIComment: false,
-      commentObject: {
-        id: this.$route.params.Consultant,
-        rate: 0,
-        description: ""
-      },
       pricesObjects: {
         1: 'مشاوره تلفنی',
         2: 'مشاوره تلفنی فوری',
@@ -256,7 +220,7 @@ export default {
   async fetch() {
     await Promise.all([
       this.getConsultant(),
-      this.canComment()
+      this.getConsultantComments()
     ])
   },
 
@@ -266,18 +230,24 @@ export default {
     }
   },
   methods: {
-    async canComment() {
+    async getConsultantComments() {
       try {
-        const res = await this.$repositories.canComment.setParams({
-          id: this.$route.params.Consultant
+        const res = await this.$repositories.getConsultantComment.setParams({
+          id: this.$route.params.Consultant,
+          pageNumber: this.page,
+          take: 10
         })
-        this.canIComment = res.data
-      } catch (e) {
+        this.consultantComments = res.data
+        console.log(res.data)
+      }
+      catch (e) {
         console.log(e)
-      } finally {
+      }
+      finally {
 
       }
     },
+
     setSelectedPrice(item) {
       this.selectedPrice = item
     },
@@ -287,9 +257,11 @@ export default {
           id: this.$route.params.Consultant
         })
         this.consultantInfo = res.data.data
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e)
-      } finally {
+      }
+      finally {
 
       }
     }

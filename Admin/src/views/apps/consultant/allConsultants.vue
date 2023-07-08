@@ -1,73 +1,55 @@
 <template>
   <b-overlay
-      :show="consultants === null"
+      :show="overlay"
       rounded="sm"
   >
     <div v-if="consultants !== null">
+
       <b-modal
-          id="modal-View"
-          centered
-          ok-title="تغییر وضعیت"
+          id="modal-delete"
           cancelTitle="بستن"
-          @ok="OpenChangeStatus"
-      >
-        <div v-if="selectedConsultant!==null" class="row">
-          <div class="col-md-12">
-            <div class="d-flex align-items-center gap-2">
-              <span class="text-secondary">نام مشاور : </span>
-              <span>{{selectedConsultant.title}}</span>
-            </div>
-          </div>
-          <div class="col-md-12 my-2">
-            <div class="text-secondary" style="overflow-wrap: anywhere">
-              {{selectedConsultant.description}}
-            </div>
-          </div>
-        </div>
-      </b-modal>
-      <b-modal
-          id="modal-status"
           centered
-          ok-title="بروزرسانی"
-          cancelTitle="بستن"
-          @ok="ChangeStatus"
+          ok-title="ثبت"
+          @ok="deleteComment"
       >
         <div class="row">
-          <div class="col-md-12">
-            <span>تغییر وضعیت به: </span>
-          </div>
-          <div class="col-md-12 my-2">
-            <v-select
-                v-model="selectedConsultantStatus"
-                :options="consultantStatus.filter(e=> e.status!== status)"
-                label="name"
-                :reduce="name => name.status"
-                :clearable="false"
-                class="per-page-selector d-inline-block w-100"
-            />
-          </div>
+          <span>آیا از حذف این نظر اطمینان دارید؟</span>
         </div>
       </b-modal>
-
-
-
-
-      <span  v-b-modal.modal-status ref="OpenStatusBtn"  style="display: none"></span>
       <!-- Table Container Card -->
       <b-card
-          no-body
           class="mb-0"
+          no-body
       >
-        <b-col lg="12" md="12" class="my-2">
+        <b-col class="my-2" lg="12" md="12">
           <b-row>
-            <b-col lg="12" md="12" class="my-2">
+            <b-col class="my-2" cols="12" md="4">
               <b-form-input
                   id="basicInput"
-                  v-model="search"
+                  v-model="debouncer"
                   placeholder="جستجو بر اساس نام مشاور"
               />
             </b-col>
-
+            <b-col class="my-2" cols="12" md="2">
+              <v-select
+                  v-model="selectedIsPayed"
+                  :options="isPayedStatuses"
+                  :reduce="title => title.value"
+                  dir="rtl"
+                  label="title"
+                  placeholder="وضعیت پرداخت"
+              />
+            </b-col>
+            <b-col class="my-2" cols="12" md="2">
+              <v-select
+                  v-model="selectedStatus"
+                  :options="statuses"
+                  :reduce="title => title.value"
+                  dir="rtl"
+                  label="title"
+                  placeholder="وضعیت مشاوره"
+              />
+            </b-col>
           </b-row>
 
         </b-col>
@@ -75,15 +57,15 @@
 
         <b-table
             ref="refUserListTable"
-            class="position-relative"
-            :items="consultants"
-            responsive
             :fields="myTableColumns"
-            primary-key="id"
-            show-empty
+            :items="consultantRequests"
             bordered
-            striped
+            class="position-relative"
             empty-text="موردی موجود نیست!"
+            primary-key="id"
+            responsive
+            show-empty
+            striped
         >
           <template #cell(createDate)="data">
 
@@ -93,26 +75,30 @@
           </template>
           <!-- Column: delete -->
 
-          <template #cell(Delete)="data">
 
-            <div class="cursor-pointer d-flex flex-row"
-                 v-b-modal.modal-delete
-                 @click="setSelectedConsultant(data.item)"
-            >
-              <feather-icon icon="TrashIcon" size="20" class="text-danger" />
-            </div>
+          <template #cell(isPayed)="data">
+            <b-badge v-if="data.item.isPayed" variant="primary">
+              پرداخت شده
+            </b-badge>
+            <b-badge v-else variant="danger">
+              پرداخت شده
+            </b-badge>
 
           </template>
-          <template #cell(userInfo)="data">
-            <router-link :to="`/apps/users/Detail/${data.item.userInfo.userName}`">
-              <span v-if="data.item.userInfo">{{data.item.userInfo.userName}}@</span>
-            </router-link>
+
+          <template #cell(status)="data">
+            <b-badge v-if="data.item.status===1" variant="secondary">
+              در انتظار
+            </b-badge>
+            <b-badge v-else variant="danger">
+             تمام شده
+            </b-badge>
 
           </template>
           <template #cell(View)="data">
 
-            <b-link class="cursor-pointer"  v-b-modal.modal-View @click="setSelectedConsultant(data.item)">
-              <feather-icon icon="EyeIcon" size="20" class="text-primary" />
+            <b-link v-b-modal.modal-View class="cursor-pointer" @click="setSelectedConsultant(data.item)">
+              <feather-icon class="text-primary" icon="EyeIcon" size="20"/>
             </b-link>
 
           </template>
@@ -120,38 +106,37 @@
         </b-table>
 
 
-
         <div class="mx-2 mb-2">
           <b-row>
 
             <b-col
+                class="d-flex align-items-center justify-content-center justify-content-sm-start"
                 cols="12"
                 sm="6"
-                class="d-flex align-items-center justify-content-center justify-content-sm-start"
             >
               <!--            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span>-->
             </b-col>
             <!-- Pagination -->
             <b-col
+                class="d-flex align-items-center justify-content-center justify-content-sm-end"
                 cols="12"
                 sm="6"
-                class="d-flex align-items-center justify-content-center justify-content-sm-end"
             >
 
               <b-pagination
                   v-model="currentPage"
-                  :total-rows="totalCount"
                   :per-page="perPage"
+                  :total-rows="totalCount"
+                  class="mb-0 mt-1 mt-sm-0"
                   first-number
                   last-number
-                  class="mb-0 mt-1 mt-sm-0"
-                  prev-class="prev-item"
                   next-class="next-item"
+                  prev-class="prev-item"
               >
                 <template #prev-text>
-                  <feather-icon style="transform: rotate(180deg)"
-                                icon="ChevronLeftIcon"
+                  <feather-icon icon="ChevronLeftIcon"
                                 size="18"
+                                style="transform: rotate(180deg)"
                   />
                 </template>
                 <template #next-text>
@@ -177,7 +162,7 @@
 
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination, BOverlay, BModal, BFormGroup,BFormSelect, BTabs, BTab, BCardText
+  BBadge, BDropdown, BDropdownItem, BPagination, BOverlay, BModal, BFormGroup, BFormSelect, BTabs, BTab, BCardText
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 
@@ -185,6 +170,7 @@ import ForumGetAllRequest from '@/libs/Api/Forum/ForumGetAllRequest'
 import DeleteForum from '@/libs/Api/Forum/DeleteForum'
 import ChangeForumStatus from '@/libs/Api/Forum/ChangeForumStatus'
 import ToastificationContent from '@core/components/toastification/ToastificationContent'
+import {GetAllConsultants} from "@/libs/Api/consultant";
 
 export default {
   components: {
@@ -216,28 +202,51 @@ export default {
 
   data() {
     return {
-      consultants: null,
-      totalCount: null,
-      currentPage: 1,
-      status:1,
-      deleteItem: null,
-      perPage: 5,
-      consultantStatus:[
+      consultantRequests: null,
+      isPayedStatuses: [
         {
-          name:'فعال',
-          status:1
+          title: 'پرداخت شده',
+          value: 1
         },
         {
-          name:'غیر فعال',
-          status:2
+          title: 'پرداخت نشده',
+          value: 2
+        },
+      ],
+      selectedStatus: 0,
+      statuses: [
+        {
+          title: 'در انتظار',
+          value: 1
+        },
+        {
+          title: 'تمام شده',
+          value: 2
+        },
+      ],
+      selectedIsPayed: 0,
+      totalCount: null,
+      currentPage: 1,
+      timeout: null,
+      status: 1,
+      overlay: false,
+      perPage: 5,
+      consultantStatus: [
+        {
+          name: 'فعال',
+          status: 1
+        },
+        {
+          name: 'غیر فعال',
+          status: 2
         },
 
       ],
-      selectedConsultantStatus:0,
+      selectedConsultantStatus: 0,
       perPageOptions: [10, 20, 30, 40, 50],
       myTableColumns: [
         {
-          key: 'forumId',
+          key: 'id',
           label: 'شناسه'
         },
         {
@@ -245,21 +254,24 @@ export default {
           label: 'تاریخ ایجاد'
         },
         {
-          key: 'title',
-          label: 'نام'
+          key: 'consultFullname',
+          label: 'نام مشاور'
         },
         {
-          key: 'userInfo',
-          label: 'نام کاربری'
-        },
-
-        {
-          key: 'Delete',
-          label: 'حذف'
+          key: 'userFullname',
+          label: 'نام مشاوره گیرنده'
         },
         {
-          key: 'View',
-          label: 'مشاهده'
+          key: 'isPayed',
+          label: 'وضعیت پرداخت'
+        },
+        {
+          key: 'status',
+          label: 'وضعیت مشاوره'
+        },
+        {
+          key: 'reserveHour',
+          label: 'تاریخ رزرو شده'
         },
         // { key: 'parentId'},
       ],
@@ -280,16 +292,37 @@ export default {
     currentPage: function () {
       this.getAllConsultants()
     },
+    selectedStatus: function () {
+      this.getAllConsultants()
+    },
+    selectedIsPayed: function () {
+      this.getAllConsultants()
+    },
 
   },
+  computed: {
+    debouncer: {
+      get() {
+        return this.search
+      },
+      set(val) {
+        if (this.timeout) {
+          clearTimeout(this.timeout)
+        }
+        this.timeout = setTimeout(() => {
+          this.search = val
+        }, 600)
+      }
+    }
+  },
   methods: {
-    async ChangeStatus(){
+    async ChangeStatus() {
       let _this = this
       let changeForumStatus = new ChangeForumStatus(_this)
       let data = {
 
-        status:this.SelectedForumStatus,
-        forumId:this.SelectedForum.forumId
+        status: this.SelectedForumStatus,
+        forumId: this.SelectedForum.forumId
       }
       changeForumStatus.setParams(data)
       await changeForumStatus.fetch(function (content) {
@@ -308,10 +341,10 @@ export default {
         console.log(error)
       })
     },
-    OpenChangeStatus(){
+    OpenChangeStatus() {
       this.$refs.OpenStatusBtn.click();
     },
-    async  DeleteForum(){
+    async DeleteForum() {
       let _this = this
       let deleteForum = new DeleteForum(_this)
 
@@ -338,19 +371,19 @@ export default {
     },
     async getAllConsultants() {
       let _this = this
-      let forumGetAllRequest = new ForumGetAllRequest(_this)
+      let getAllConsultants = new GetAllConsultants(_this)
       let data = {
         pageNumber: _this.currentPage,
-        search: _this.search,
-        noComments:'',
-        mostRated:'',
-        mostComments:'',
-        status:this.status
+        take: 10,
+        isPayed: _this.selectedIsPayed === 1?true:_this.selectedIsPayed === 2?false:'',
+        status: _this.selectedStatus ? _this.selectedStatus : '',
+        consultFullname: _this.search
       }
-      forumGetAllRequest.setParams(data)
-      await forumGetAllRequest.fetch(function (content) {
-        _this.consultants = content.forums
-        _this.totalCount = content.forumsCount
+      getAllConsultants.setParams(data)
+      await getAllConsultants.fetch(function (content) {
+        console.log(content)
+        _this.consultantRequests = content.data
+        _this.totalCount = content.total
       }, function (error) {
         console.log(error)
       })

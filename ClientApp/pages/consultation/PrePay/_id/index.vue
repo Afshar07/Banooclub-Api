@@ -176,11 +176,14 @@ export default {
     getSelectedClass(time, day) {
       if (this.selectedTime === time.startTime) {
         return 'bg-pink'
-      } else if (time.status === 1) {
+      }
+      else if (time.status === 1) {
         return 'bg-success'
-      } else if (time.status === 2) {
+      }
+      else if (time.status === 2) {
         return 'bg-danger'
-      } else if (time.status === 3) {
+      }
+      else if (time.status === 3) {
         return 'bg-primary'
       }
     },
@@ -197,30 +200,34 @@ export default {
           })
           if (res.data.isSuccess) {
             this.createConsultantPayment(res.data.data)
-          } else {
+          }
+          else {
             this.$toast.error('خطا در انجام عملیات')
           }
-        } catch (e) {
+        }
+        catch (e) {
           console.log(e)
         }
-      } else {
+      }
+      else {
         this.$toast.error('لطفا همه فیلد هارا پر کنید')
       }
     },
     async createConsultantPayment(orderId) {
       try {
-        this.$nextTick(()=>{
-        this.$nuxt.$loading.start()
-      })
+        this.$nextTick(() => {
+          this.$nuxt.$loading.start()
+        })
         const res = await this.$repositories.createPaymentForConsultant.setParams({
           orderId: orderId
         })
         window.location.replace(res.data.data);
 
-        console.log(res)
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e)
-      }finally {
+      }
+      finally {
         this.$nuxt.$loading.finish()
         this.$nuxt.loading = false
 
@@ -235,20 +242,24 @@ export default {
           targetDate: this.startDate
         })
         this.schedules = res.data
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e)
-      } finally {
+      }
+      finally {
 
       }
     },
     isSelected(time, day) {
-      if(time.status!==3){
-      if (time === this.selectedTime) {
-        this.selectedTime = ''
-      } else {
-        this.selectedTime = time.startTime
+      if (time.status !== 3) {
+        if (time === this.selectedTime) {
+          this.selectedTime = ''
+        }
+        else {
+          this.selectedTime = time.startTime
+        }
       }
-      }else{
+      else {
         this.$toast.error('این زمان رزرو شده است')
       }
     },
@@ -262,9 +273,11 @@ export default {
           id: this.$route.params.consultantId
         })
         this.consultantInfo = res.data.data
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e)
-      } finally {
+      }
+      finally {
 
       }
     }

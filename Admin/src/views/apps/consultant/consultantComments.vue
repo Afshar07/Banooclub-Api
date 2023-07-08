@@ -4,34 +4,47 @@
       rounded="sm"
   >
     <div v-if="comments !== null">
-<!--      <b-modal-->
-<!--          id="modal-View"-->
-<!--          cancelTitle="بستن"-->
-<!--          centered-->
-<!--          ok-title="تغییر وضعیت"-->
-<!--          @ok="OpenChangeStatus"-->
-<!--      >-->
-<!--        <div v-if="SelectedForum!==null" class="row">-->
-<!--          <div class="col-md-12">-->
-<!--            <div class="d-flex align-items-center gap-2">-->
-<!--              <span class="text-secondary">نام تالار : </span>-->
-<!--              <span>{{ SelectedForum.title }}</span>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="col-md-12 my-2">-->
-<!--            <div class="text-secondary" style="overflow-wrap: anywhere">-->
-<!--              {{ SelectedForum.description }}-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </b-modal>-->
+      <b-modal
+          id="modal-View"
+          cancelTitle="بستن"
+          centered
+          ok-title="تایید"
+          @ok="changeStatus"
+      >
+        <div v-if="commentDescription!==''" class="row">
+          <div class="col-md-12">
+            <span>{{ commentDescription }}</span>
+          </div>
+        </div>
+      </b-modal>
+      <b-modal
+          id="modal-delete"
+          cancelTitle="بستن"
+          centered
+          ok-title="ثبت"
+          @ok="deleteComment"
+      >
+        <div class="row">
+          <span>آیا از حذف این نظر اطمینان دارید؟</span>
+        </div>
+      </b-modal>
       <!-- Table Container Card -->
       <b-card
           class="mb-0"
-          no-body
       >
 
         <b-row>
+          <b-col class="mb-2" cols="12" >
+            <b-row>
+              <b-col cols="12" md="5">
+                <b-form-input
+                    v-model="debouncer"
+                    placeholder="نام مشاور"
+                    type="text"
+                />
+              </b-col>
+            </b-row>
+          </b-col>
           <b-col cols="12">
             <b-table
                 ref="refUserListTable"
@@ -53,10 +66,12 @@
               </template>
               <!-- Column: delete -->
 
-              <template #cell(userInfo)="data">
-                <router-link :to="`/apps/users/Detail/${data.item.userInfo.userName}`">
-                  <span v-if="data.item.userInfo">{{ data.item.userInfo.userName }}@</span>
-                </router-link>
+
+              <template #cell(Delete)="data">
+
+                <b-link v-b-modal.modal-delete class="cursor-pointer" @click="setSelectedComment(data.item)">
+                  <feather-icon class="text-danger" icon="TrashIcon" size="20"/>
+                </b-link>
 
               </template>
               <template #cell(View)="data">
@@ -70,7 +85,7 @@
             </b-table>
           </b-col>
           <b-col
-              class="d-flex align-items-center justify-content-center justify-content-sm-end"
+              class="d-flex align-items-center justify-content-end "
               cols="12"
               sm="6"
           >
@@ -122,6 +137,13 @@ import ForumGetAllRequest from '@/libs/Api/Forum/ForumGetAllRequest'
 import DeleteForum from '@/libs/Api/Forum/DeleteForum'
 import ChangeForumStatus from '@/libs/Api/Forum/ChangeForumStatus'
 import ToastificationContent from '@core/components/toastification/ToastificationContent'
+import {
+  ConfirmConsultantComment,
+  ConfirmConsultantRequest, DeleteConsultantComment,
+  GetAllComments,
+  GetAllConsultantComments,
+  GetCommentDescription
+} from "@/libs/Api/consultant";
 
 export default {
   components: {
@@ -157,11 +179,16 @@ export default {
       totalCount: null,
       currentPage: 1,
       status: 1,
+      selectedStatus: 0,
       overlay: false,
       perPage: 10,
+      commentDescription: '',
+      createDate: '',
+      search: '',
+
       myTableColumns: [
         {
-          key: 'forumId',
+          key: 'id',
           label: 'شناسه'
         },
         {
@@ -169,14 +196,17 @@ export default {
           label: 'تاریخ ایجاد'
         },
         {
-          key: 'title',
-          label: 'نام'
+          key: 'rate',
+          label: 'امتیاز'
         },
         {
-          key: 'userInfo',
-          label: 'نام کاربری'
+          key: 'consultFullname',
+          label: 'نام مشاور'
         },
-
+        {
+          key: 'userFullname',
+          label: 'نام مشاوره گیرنده'
+        },
         {
           key: 'Delete',
           label: 'حذف'
@@ -188,61 +218,117 @@ export default {
         // { key: 'parentId'},
       ],
       selectedComment: null,
+      timeout:null
 
     }
   },
   async created() {
     await this.getAlLComments()
   },
-
-
-  methods: {
-    // async ChangeStatus() {
-    //   let _this = this
-    //   let changeForumStatus = new ChangeForumStatus(_this)
-    //   let data = {
-    //
-    //     status: this.SelectedForumStatus,
-    //     forumId: this.SelectedForum.forumId
-    //   }
-    //   changeForumStatus.setParams(data)
-    //   await changeForumStatus.fetch(function (content) {
-    //     _this.$toast({
-    //       component: ToastificationContent,
-    //       position: 'bottom-center',
-    //       props: {
-    //         title: `عملیات موفق`,
-    //         icon: 'CheckIcon',
-    //         variant: 'success',
-    //         text: `وضعیت تالار با موفقیت تغییر یافت`,
-    //       },
-    //     })
-    //     _this.GetAllForum()
-    //   }, function (error) {
-    //     console.log(error)
-    //   })
-    // },
-    setSelectedComment(item) {
-      this.selectedComment = item
-    },
-    async getAlLComments() {
-      let _this = this
-      let forumGetAllRequest = new ForumGetAllRequest(_this)
-      let data = {
-        pageNumber: _this.currentPage,
-        search: _this.search,
-        noComments: '',
-        mostRated: '',
-        mostComments: '',
-        status: this.status
+  watch:{
+    search:function (val){
+      this.getAlLComments()
+    }
+  },
+  computed:{
+    debouncer:{
+      get() {
+        return this.search
+      },
+      set(val) {
+        if (this.timeout) {
+          clearTimeout(this.timeout)
+        }
+        this.timeout = setTimeout(() => {
+          this.search = val
+        }, 600)
       }
-      forumGetAllRequest.setParams(data)
-      await forumGetAllRequest.fetch(function (content) {
-        _this.Forums = content.forums
-        _this.totalCount = content.forumsCount
+    }
+  },
+  methods: {
+    async changeStatus() {
+      let _this = this
+      let confirmConsultantComment = new ConfirmConsultantComment(_this)
+      let data = {
+        id: _this.selectedComment.id,
+      }
+      confirmConsultantComment.setParams(data)
+      await confirmConsultantComment.fetch(function (content) {
+        _this.$toast({
+          component: ToastificationContent,
+          position: 'bottom-center',
+          props: {
+            title: `عملیات موفق`,
+            icon: 'CheckIcon',
+            variant: 'success',
+            text: `نظر با موفقیت تایید شد`,
+          },
+        })
+        _this.getAlLComments()
       }, function (error) {
         console.log(error)
       })
+    },
+
+    async deleteComment() {
+      let _this = this
+      let deleteConsultantComment = new DeleteConsultantComment(_this)
+      let data = {
+        id: _this.selectedComment.id,
+      }
+      deleteConsultantComment.setParams(data)
+      await deleteConsultantComment.fetch(function (content) {
+        _this.$toast({
+          component: ToastificationContent,
+          position: 'bottom-center',
+          props: {
+            title: `عملیات موفق`,
+            icon: 'CheckIcon',
+            variant: 'success',
+            text: `نظر با موفقیت حذف شد`,
+          },
+        })
+        _this.getAlLComments()
+      }, function (error) {
+        console.log(error)
+      })
+    },
+    setSelectedComment(item) {
+      this.selectedComment = item
+      this.getCommentDescription()
+    },
+    async getCommentDescription() {
+      let _this = this
+      let getCommentDescription = new GetCommentDescription(_this)
+      let data = {
+        id: this.selectedComment.id
+      }
+      getCommentDescription.setParams(data)
+      await getCommentDescription.fetch(function (content) {
+        _this.commentDescription = content.description
+
+      }, function (error) {
+        console.log(error)
+      })
+    },
+    async getAlLComments() {
+      let _this = this
+      _this.overlay = true
+      let getAllConsultantComments = new GetAllConsultantComments(_this)
+      let data = {
+        pageNumber: _this.currentPage,
+        take: 10,
+        consultFullname: _this.search,
+        createDate: this.createDate,
+      }
+      getAllConsultantComments.setParams(data)
+      await getAllConsultantComments.fetch(function (content) {
+        _this.comments = content.data
+        _this.totalCount = content.total
+      }, function (error) {
+        console.log(error)
+      })
+      _this.overlay = false
     },
 
   },

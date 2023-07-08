@@ -36,19 +36,20 @@
           class="mb-0"
       >
         <b-row>
-          <b-col class="" cols="12" md="9">
-            <b-form-input
-                id="basicInput"
-                v-model="search"
-                placeholder="جستجو بر اساس نام مشاور"
-            />
-          </b-col>
+<!--          <b-col class="" cols="12" md="9">-->
+<!--            <b-form-input-->
+<!--                id="basicInput"-->
+<!--                v-model="search"-->
+<!--                placeholder="جستجو بر اساس نام مشاور"-->
+<!--            />-->
+<!--          </b-col>-->
           <b-col class="" cols="12" md="3">
             <v-select
                 v-model="selectedStatus"
                 :options="statuses"
                 :reduce="title => title.value"
                 dir="rtl"
+                placeholder="وضعیت"
                 label="title"
             />
           </b-col>
