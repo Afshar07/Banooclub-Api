@@ -10,6 +10,7 @@ namespace BanooClub.Models.DTO
         public byte? minRate { get; set; }
         public byte? maxRate { get; set; }
         public DateTime? createDate { get; set; }
+        public bool? isConfirm { get; set; }
 
         public int? pageNumber { get; set; }
         public int? take { get; set; }

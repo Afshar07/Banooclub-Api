@@ -38,6 +38,14 @@ namespace BanooClub.Controllers
         [HttpPost]
         [Route("[action]")]
         [Authorize(Roles = "Admin")]
+        public async Task<object> Delete(long? id)
+        {
+            return await _consultantUserScheduleRatingService.Delete(id);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        [Authorize(Roles = "Admin")]
         public async Task<object> GetList([FromQuery] ConsultantUserScheduleRatingGridFilterDTO input)
         {
             return await _consultantUserScheduleRatingService.GetList(input);

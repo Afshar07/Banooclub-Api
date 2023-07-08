@@ -5,10 +5,11 @@ using BanooClub.Models.Enums;
 using BanooClub.Services.Common;
 using BanooClub.Services.SmsServices;
 using BanooClub.Utilities;
+using Hangfire;
 using Infrastructure;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SmsIrRestfulNetCore;
@@ -26,6 +27,7 @@ namespace BanooClub.Services.PaymentServices
         private readonly IBanooClubEFRepository<Payment> paymentRepository;
         private readonly IBanooClubEFRepository<User> userRepository;
         private readonly IBanooClubEFRepository<Order> orderRepository;
+        private readonly IConfiguration _configuration;
         private readonly IBanooClubEFRepository<OrderItem> orderItemRepository;
         private readonly IBanooClubEFRepository<Wallet> walletRepository;
         private readonly IBanooClubEFRepository<ServicePlan> servicePlanRepository;
@@ -35,6 +37,7 @@ namespace BanooClub.Services.PaymentServices
         private readonly IBanooClubEFRepository<ConsultantUserSchedule> _consultantUserScheduleRepository;
         private readonly ISmsSenderService _smsSenderService;
         private readonly IHttpContextAccessor _accessor;
+        private readonly IBackgroundJobClient _backgroundJobClient;
         private readonly ILogger<PaymentService> _paymentServiceLogger;
         const string ApiKey = "3959a1e0-eb38-465f-8549-db88fb7c2e89";
 
@@ -44,7 +47,8 @@ namespace BanooClub.Services.PaymentServices
                 IBanooClubEFRepository<Order> orderRepository, IBanooClubEFRepository<ServicePlan> servicePlanRepository,
                 IHttpContextAccessor accessor, IBanooClubEFRepository<User> userRepository, IBanooClubEFRepository<Wallet> walletRepository,
                 IBanooClubEFRepository<OrderItem> orderItemRepository, ISmsSenderService smsSenderService, IBanooClubEFRepository<ServicePack> servicePackRepository,
-                ILogger<PaymentService> paymentServiceLogger, IBanooClubEFRepository<ConsultantUserSchedule> consultantUserScheduleRepository
+                ILogger<PaymentService> paymentServiceLogger, IBanooClubEFRepository<ConsultantUserSchedule> consultantUserScheduleRepository,
+                IBackgroundJobClient backgroundJobClient, IConfiguration configuration
             )
         {
             this.paymentRepository = paymentRepository;
@@ -54,8 +58,10 @@ namespace BanooClub.Services.PaymentServices
             this.walletRepository = walletRepository;
             this.servicePlanRepository = servicePlanRepository;
             this.servicePackRepository = servicePackRepository;
+            _configuration = configuration;
             this.adsRepository = adsRepository;
             _consultantUserScheduleRepository = consultantUserScheduleRepository;
+            _backgroundJobClient = backgroundJobClient;
             this.planRepository = planRepository;
             _smsSenderService = smsSenderService;
             _paymentServiceLogger = paymentServiceLogger;
@@ -221,6 +227,59 @@ namespace BanooClub.Services.PaymentServices
             return 1;
         }
 
+        public async Task sendSMSForConsultation(long ConsultantUserScheduleId)
+        {
+            var foundItem = _consultantUserScheduleRepository
+                .GetQuery()
+                .Where(t => t.ConsultantUserScheduleId == ConsultantUserScheduleId)
+                .Select(t => new 
+                {
+                    toUserFullname = t.User.Name + " " + t.User.FamilyName,
+                    toUserMobile = t.User.Mobile,
+                    fromUserFullname = t.Consultant.User.Name + " " + t.Consultant.User.FamilyName,
+                    fromUserMobile = t.Consultant.User.Mobile
+                })
+                .FirstOrDefault();
+
+            if (foundItem != null)
+            {
+                if (!string.IsNullOrEmpty(foundItem.fromUserMobile) && foundItem.fromUserMobile.IsMobile())
+                {
+                    var result = await _smsSenderService.UltraFastSend(new UltraFastSend()
+                    {
+                        Mobile = Convert.ToInt64(foundItem.fromUserMobile),
+                        TemplateId = _configuration.GetValue<int>("smsTemplateIds:consultReminderTemplate"),
+                        ParameterArray = new List<UltraFastParameters>()
+                        {
+                            new UltraFastParameters()
+                            {
+                                Parameter = "username" ,
+                                ParameterValue =  foundItem?.fromUserFullname
+                            }
+                        }.ToArray()
+                    });
+                }
+
+                if (!string.IsNullOrEmpty(foundItem.toUserMobile) && foundItem.toUserMobile.IsMobile())
+                {
+                    var result = await _smsSenderService.UltraFastSend(new UltraFastSend()
+                    {
+                        Mobile = Convert.ToInt64(foundItem.toUserMobile),
+                        TemplateId = _configuration.GetValue<int>("smsTemplateIds:consultReminderTemplate"),
+                        ParameterArray = new List<UltraFastParameters>()
+                        {
+                            new UltraFastParameters()
+                            {
+                                Parameter = "username" ,
+                                ParameterValue =  foundItem?.toUserFullname
+                            }
+                        }.ToArray()
+                    });
+                }
+
+            }
+        }
+
         public async Task<int> ChangePaymentStatus(string paymentId, string transId)
         {
             if (!string.IsNullOrEmpty(paymentId) && !string.IsNullOrEmpty(transId) && paymentId.ToLongReturnZiro() > 0)
@@ -251,9 +310,9 @@ namespace BanooClub.Services.PaymentServices
                                 if (_consultantUserScheduleRepository
                                     .GetQuery()
                                     .Any
-                                    (t => 
-                                        t.ReserveTime == foundSchadualUser.ReserveTime && t.IsPayed == true && 
-                                        t.TargetDate.Year == createDateT.Year && t.TargetDate.Month  == createDateT.Month && t.TargetDate.Day == createDateT.Day)
+                                    (t =>
+                                        t.ReserveTime == foundSchadualUser.ReserveTime && t.IsPayed == true &&
+                                        t.TargetDate.Year == createDateT.Year && t.TargetDate.Month == createDateT.Month && t.TargetDate.Day == createDateT.Day)
                                     )
                                 {
                                     return -99;
@@ -302,6 +361,11 @@ namespace BanooClub.Services.PaymentServices
                                             foundSchadualUser.IsPayed = true;
                                             await _consultantUserScheduleRepository.Update(foundSchadualUser);
                                             _paymentServiceLogger.LogInformation("success payment update user schedual. orderId: {orderId}, ConsultantUserScheduleId: {ConsultantUserScheduleId}", paymentId, foundSchadualUser.ConsultantUserScheduleId);
+                                            var DestinationDate = new DateTime(foundSchadualUser.TargetDate.Year, foundSchadualUser.TargetDate.Month, foundSchadualUser.TargetDate.Day, foundSchadualUser.ReserveTime.Hours, foundSchadualUser.ReserveTime.Minutes, foundSchadualUser.ReserveTime.Seconds);
+                                            DestinationDate = DestinationDate.AddHours(-1);
+                                            var tempId = foundSchadualUser.ConsultantUserScheduleId;
+                                            if (DestinationDate > DateTime.Now)
+                                                _backgroundJobClient.Schedule(() => sendSMSForConsultation(tempId), DestinationDate - DateTime.Now);
                                         }
                                     }
                                 }

@@ -67,8 +67,9 @@ namespace BanooClub.Services.ConsultingServices
 
             var foundUserConsult = await _consultantUserScheduleRepository
                 .GetQuery()
-                .Where(t => t.ConsultantId == id && t.UserId == userId)
+                .Where(t => t.ConsultantUserScheduleId == id && t.Consultant.UserId == userId)
                 .FirstOrDefaultAsync();
+
             if (foundUserConsult != null)
             {
                 foundUserConsult.Status = ConsultantUserScheduleStatus.Finished;
@@ -91,7 +92,7 @@ namespace BanooClub.Services.ConsultingServices
                 {
                     var ConsultantUserScheduleId = await _consultantUserScheduleRepository
                         .GetQuery()
-                        .Where(t => t.ConsultantId == input.id && t.IsPayed == true && t.UserId == userId && !t.ConsultantUserScheduleRatings.Any())
+                        .Where(t => t.ConsultantUserScheduleId == input.id && t.IsPayed == true && t.UserId == userId && !t.ConsultantUserScheduleRatings.Any())
                         .Select(t => t.ConsultantUserScheduleId)
                         .FirstOrDefaultAsync();
 
@@ -105,6 +106,7 @@ namespace BanooClub.Services.ConsultingServices
                            Description = input.description,
                            Rate = input.rate.Value
                        });
+                        return new ServiceResult() { IsSuccess = true };
                     }
                     else
                         errorResult = "اطلاعاتی یافت نشد";
@@ -196,23 +198,25 @@ namespace BanooClub.Services.ConsultingServices
             return new ServiceResult<long>() { IsSuccess = false, ErrorMessage = "خطا در انجام عملیات" };
         }
 
-        public async Task<ServiceResult<string>> CreateVideoConfranceRoom(long? id)
+        public async Task<ServiceResult<string>> CreateVideoConfranceRoom(long? consultantUserScheduleId)
         {
             var userId = _accessor.HttpContext.User.Identity.IsAuthenticated
                    ? _accessor.HttpContext.User.Identity.GetUserId()
                    : 0;
             //var userId = 2;
 
-            var foundItem = await _consultantRepository
+            var foundItem = await _consultantUserScheduleRepository
                 .GetQuery()
-                .Where(t => t.Id == id && t.OrderItems.Any(tt => tt.Order.IsPayed == true && tt.Order.UserId == userId && tt.ConsultType != null && tt.ConsultType == ConsultTypeEnum.VedioConsultancy))
+                .Where(t => t.ConsultantUserScheduleId == consultantUserScheduleId && t.Order.OrderItems.Any(tt => tt.Order.IsPayed == true && (tt.Order.UserId == userId || tt.Consultant.UserId == userId) && tt.ConsultType != null && tt.ConsultType == ConsultTypeEnum.VedioConsultancy))
                 .Select(t => new
                 {
-                    fromUserName = (!string.IsNullOrEmpty(t.User.Name) ? t.User.Name : "") + " " + (!string.IsNullOrEmpty(t.User.FamilyName) ? t.User.FamilyName : ""),
-                    toName = t.OrderItems.Select(tt => tt.Order.User.Name).FirstOrDefault(),
-                    toFamily = t.OrderItems.Select(tt => tt.Order.User.FamilyName).FirstOrDefault(),
-                    orderId = t.OrderItems.Select(tt => tt.OrderId).FirstOrDefault(),
-                    t.Id
+                    fromUserName = (!string.IsNullOrEmpty(t.Consultant.User.Name) ? t.Consultant.User.Name : "") + " " + (!string.IsNullOrEmpty(t.Consultant.User.FamilyName) ? t.Consultant.User.FamilyName : ""),
+                    fromUserUserName = t.Consultant.User.UserName,
+                    fromUserMobile = t.Consultant.User.Mobile,
+                    toName = t.User.Name,
+                    toFamily = t.User.FamilyName,
+                    orderId = t.OrderId,
+                    t.ConsultantId
                 })
                 .FirstOrDefaultAsync();
 
@@ -220,7 +224,7 @@ namespace BanooClub.Services.ConsultingServices
             {
                 var foundVideoUrl = await _consultantVideoConferanceUrlRepository
                     .GetQuery()
-                    .Where(t => t.ConsultantId == foundItem.Id && t.OrderId == foundItem.orderId)
+                    .Where(t => t.ConsultantId == foundItem.ConsultantId && t.OrderId == foundItem.orderId)
                     .Select(t => t.ConferanceUrl)
                     .FirstOrDefaultAsync();
 
@@ -228,56 +232,107 @@ namespace BanooClub.Services.ConsultingServices
                     return new ServiceResult<string>() { Data = foundVideoUrl, IsSuccess = true };
                 else
                 {
+                    long roomUserId = 0;
                     try
                     {
+                        try
+                        {
+                            var foundUser = await _skyroomService.GetUser(new InputModel<GetUserInputModel>() { @params = new GetUserInputModel() { username = foundItem.fromUserMobile } });
+                            if (foundUser != null && foundUser.result != null && foundUser.result.id != null && foundUser.result.id > 0)
+                            {
+                                roomUserId = foundUser.result.id.Value;
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    var createUserResult = await _skyroomService.CreateUser(new InputModel<CreateUserInputModel>()
+                                    {
+                                        @params = new CreateUserInputModel()
+                                        {
+                                            is_public = true,
+                                            nickname = foundItem.fromUserName,
+                                            status = 1,
+                                            password = foundItem.fromUserMobile,
+                                            username = foundItem.fromUserMobile
+                                        }
+                                    });
+                                    if (createUserResult != null && createUserResult.result > 0)
+                                        roomUserId = createUserResult.result;
+                                }
+                                catch
+                                {
+                                    return new ServiceResult<string>() { IsSuccess = false, ErrorMessage = "خطا در ساخت کاربر" };
+                                }
+                            }
+                        }
+                        catch
+                        {
+                            return new ServiceResult<string>() { IsSuccess = false, ErrorMessage = "خطا در یافتن کاربر" };
+                        }
+
                         var result = await _skyroomService.CreateRoome(new InputModel<CreateRoomInputModel>()
                         {
                             @params = new CreateRoomInputModel()
                             {
                                 guest_login = true,
                                 max_users = 2,
-                                name = Guid.NewGuid().ToString() + "_" + id,
+                                name = Guid.NewGuid().ToString() + "_" + consultantUserScheduleId,
                                 title = foundItem.fromUserName + " VS " + foundItem.toName + " " + foundItem.toFamily,
                                 op_login_first = false
                             }
                         });
                         try
                         {
-                            var url = await _skyroomService.GetRoomUrl(new InputModel<GetRomeInfoInputModel>()
+
+                            var addRoomUserResult = await _skyroomService.AddRoomUsers(new InputModel<AddRoomUsersInputModel>()
                             {
-                                @params = new GetRomeInfoInputModel()
+                                @params = new AddRoomUsersInputModel()
                                 {
-                                    language = "fa",
-                                    room_id = result.result
+                                    room_id = result.result,
+                                    users = new System.Collections.Generic.List<UserAddRoomUsersInputModel>()
+                                    {
+                                        new UserAddRoomUsersInputModel() { access = 3, user_id = roomUserId }
+                                    }
                                 }
                             });
 
-                            if (!string.IsNullOrEmpty(url.result))
+                            if (addRoomUserResult != null && addRoomUserResult.result > 0)
                             {
-                                await _consultantVideoConferanceUrlRepository.InsertAsync(new ConsultantVideoConferanceUrl()
+                                var url = await _skyroomService.GetRoomUrl(new InputModel<GetRomeInfoInputModel>()
                                 {
-                                    ConferanceUrl = url.result,
-                                    ConsultantId = foundItem.Id,
-                                    OrderId = foundItem.orderId
+                                    @params = new GetRomeInfoInputModel()
+                                    {
+                                        language = "fa",
+                                        room_id = result.result
+                                    }
                                 });
-                                return new ServiceResult<string>() { IsSuccess = true, Data = url.result };
-                            }
-                            else
-                            {
-                                return new ServiceResult<string>() { IsSuccess = false, ErrorMessage = "خطا در دریافت کنفرانس" };
+
+                                if (!string.IsNullOrEmpty(url.result))
+                                {
+                                    await _consultantVideoConferanceUrlRepository.InsertAsync(new ConsultantVideoConferanceUrl()
+                                    {
+                                        ConferanceUrl = url.result,
+                                        ConsultantId = foundItem.ConsultantId,
+                                        OrderId = foundItem.orderId
+                                    });
+                                    return new ServiceResult<string>() { IsSuccess = true, Data = url.result };
+                                }
+                                else
+                                {
+                                    return new ServiceResult<string>() { IsSuccess = false, ErrorMessage = "خطا در دریافت کنفرانس" };
+                                }
                             }
                         }
                         catch
                         {
                             return new ServiceResult<string>() { IsSuccess = false, ErrorMessage = "خطا در دریافت کنفرانس" };
                         }
-
                     }
                     catch
                     {
                         return new ServiceResult<string>() { IsSuccess = false, ErrorMessage = "خطا در ساخت کنفرانس" };
                     }
-
                 }
             }
 
@@ -314,6 +369,10 @@ namespace BanooClub.Services.ConsultingServices
                         lastRequestStatus = _becomeConsultantRequestRepository.GetQuery().Where(tt => tt.UserId == t.UserId).OrderByDescending(tt => tt.Id).Select(tt => tt.Status).FirstOrDefault(),
                         rating = t.ConsultantUserSchedules.SelectMany(tt => tt.ConsultantUserScheduleRatings).Any(tt => tt.IsConfirm == true) ? t.ConsultantUserSchedules.SelectMany(tt => tt.ConsultantUserScheduleRatings).Where(tt => tt.IsConfirm == true).Average(t => t.Rate) : 0,
                         commentCount = t.ConsultantUserSchedules.SelectMany(tt => tt.ConsultantUserScheduleRatings).Any(tt => tt.IsConfirm == true && !string.IsNullOrEmpty(tt.Description)) ? t.ConsultantUserSchedules.SelectMany(tt => tt.ConsultantUserScheduleRatings).Count(tt => tt.IsConfirm == true && !string.IsNullOrEmpty(tt.Description)) : 0,
+                        successCount =
+                            t.ConsultantUserSchedules.SelectMany(tt => tt.ConsultantUserScheduleRatings).Any(tt => tt.IsConfirm == true && tt.Rate >= 3) ?
+                                    t.ConsultantUserSchedules.SelectMany(tt => tt.ConsultantUserScheduleRatings).Where(tt => tt.IsConfirm == true && tt.Rate >= 3).Count() :
+                                    0
                     })
                     .ToListAsync()
                 )
@@ -333,7 +392,8 @@ namespace BanooClub.Services.ConsultingServices
                     t.prices,
                     t.lastRequestStatus,
                     t.rating,
-                    t.commentCount
+                    t.commentCount,
+                    t.successCount
                 })
                 .FirstOrDefault();
 
@@ -351,12 +411,16 @@ namespace BanooClub.Services.ConsultingServices
             if (take == null || take <= 0)
                 take = 10;
 
-            return await _consultantRepository
+            var quiryResult = _consultantRepository
                 .GetQuery()
                 .Where(t => t.Id == id)
                 .SelectMany(t => t.ConsultantUserSchedules)
                 .SelectMany(t => t.ConsultantUserScheduleRatings)
-                .Where(t => t.IsConfirm == true)
+                .Where(t => t.IsConfirm == true);
+
+            var total = await quiryResult.CountAsync();
+            var data = await
+                quiryResult
                 .OrderByDescending(t => t.CreateDate)
                 .Skip((pageNumber.Value - 1) * take.Value)
                 .Take(take.Value)
@@ -366,9 +430,15 @@ namespace BanooClub.Services.ConsultingServices
                     t.CreateDate,
                     t.Description,
                     t.Rate,
-
+                    userPic = _mediaRepository.GetQuery().Where(z => z.ObjectId == t.ConsultantUserSchedule.UserId && z.Type == MediaTypes.Profile).Select(t => t.PictureUrl).FirstOrDefault(),
                 })
                 .ToListAsync();
+
+            return new
+            {
+                total,
+                data
+            };
         }
 
         public async Task<object> GetNotEditedList(Models.DTO.ConsultGridFilterDTO input)
@@ -390,7 +460,7 @@ namespace BanooClub.Services.ConsultingServices
                 quiryResult = quiryResult.Where(t => (t.User.Name + " " + t.User.FamilyName).Contains(input.searchInput));
             if (input.isActive == true)
             {
-                var targetDate = DateTime.Now.AddMinutes(-5);
+                var targetDate = DateTime.Now.AddMinutes(-60);
                 quiryResult = quiryResult.Where(t => t.User.Activities.Any(tt => tt.CreateDate >= targetDate));
             }
 

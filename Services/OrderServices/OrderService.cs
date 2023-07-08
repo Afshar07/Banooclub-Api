@@ -1,11 +1,10 @@
 ﻿using BanooClub.Extentions;
 using BanooClub.Models;
+using BanooClub.Models.Consulting;
 using BanooClub.Models.Enums;
-using BanooClub.Services.ConsultingServices.DTOs;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,12 +20,14 @@ namespace BanooClub.Services.OrderServices
         private readonly IBanooClubEFRepository<Payment> paymentRepository;
         private readonly IBanooClubEFRepository<User> userRepository;
         private readonly IBanooClubEFRepository<SocialMedia> mediaRepository;
+        private readonly IBanooClubEFRepository<ConsultantUserSchedule> _consultantUserSchedule;
         private readonly IHttpContextAccessor _accessor;
 
         public OrderService(IBanooClubEFRepository<Order> orderRepository, IHttpContextAccessor accessor, IBanooClubEFRepository<SocialMedia> mediaRepository,
             IBanooClubEFRepository<OrderItem> orderItemRepository, IBanooClubEFRepository<User> userRepository,
             IBanooClubEFRepository<Ads> adsRepository, IBanooClubEFRepository<Payment> paymentRepository,
-            IBanooClubEFRepository<ServicePack> servicePackRepository)
+            IBanooClubEFRepository<ServicePack> servicePackRepository,
+            IBanooClubEFRepository<ConsultantUserSchedule> consultantUserSchedule)
         {
             this.orderRepository = orderRepository;
             _accessor = accessor;
@@ -36,6 +37,7 @@ namespace BanooClub.Services.OrderServices
             this.paymentRepository = paymentRepository;
             this.userRepository = userRepository;
             this.mediaRepository = mediaRepository;
+            _consultantUserSchedule = consultantUserSchedule;
         }
         public async Task<long> Create(Order inputDto)
         {
@@ -104,9 +106,9 @@ namespace BanooClub.Services.OrderServices
 
         public async Task<Order> Get(long id)
         {
-            var order = orderRepository.GetQuery().FirstOrDefault(z => z.OrderId == id);
+            var order = await orderRepository.GetQuery().FirstOrDefaultAsync(z => z.OrderId == id);
             order.SubOrders = new List<OrderItem>();
-            var SubOrders = orderItemRepository.GetQuery().Where(z => z.OrderId == id).ToList();
+            var SubOrders = await orderItemRepository.GetQuery().Where(z => z.OrderId == id).ToListAsync();
 
             order.SubOrders = SubOrders;
             foreach (var sub in order.SubOrders)
@@ -196,7 +198,7 @@ namespace BanooClub.Services.OrderServices
                 await orderRepository.Update(dbOrder);
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
@@ -247,36 +249,41 @@ namespace BanooClub.Services.OrderServices
                    ? _accessor.HttpContext.User.Identity.GetUserId()
                    : 0;
 
-            var quiryResult = orderItemRepository
+            var quiryResult = _consultantUserSchedule
                 .GetQuery()
-                .Where(t => t.ConsultantId != null && t.ConsultantId > 0 && t.Order.UserId == userId && t.Consultant != null);
+                .Where(t => t.ConsultantId > 0 && t.Order.UserId == userId && t.Consultant != null);
 
             if (!string.IsNullOrEmpty(input.fullname))
                 quiryResult = quiryResult.Where(t => (t.Consultant.User.Name + " " + t.Consultant.User.FamilyName).Contains(input.fullname));
             if (input.id != null && input.id > 0)
-                quiryResult = quiryResult.Where(t => t.Order.ConsultantUserSchedules.Any(tt => tt.ConsultantUserScheduleId == input.id));
+                quiryResult = quiryResult.Where(t => t.ConsultantUserScheduleId == input.id);
 
 
             var total = await quiryResult.CountAsync();
-            quiryResult = quiryResult.OrderByDescending(t => t.OrderItemId).Skip((input.pageNumber.Value - 1) * input.take.Value).Take(input.take.Value);
+            quiryResult = quiryResult.OrderByDescending(t => t.ConsultantUserScheduleId).Skip((input.pageNumber.Value - 1) * input.take.Value).Take(input.take.Value);
 
             var data = (await
                 quiryResult
                 .Select(t => new
                 {
-                    id = t.Order.ConsultantUserSchedules.Select(tt => tt.ConsultantUserScheduleId).FirstOrDefault(),
+                    id = t.ConsultantUserScheduleId,
                     consultantId = t.ConsultantId,
                     orderId = t.OrderId,
                     name = t.Consultant.User.Name,
                     lName = t.Consultant.User.FamilyName,
-                    type = t.ConsultType,
+                    userName = t.Consultant.User.UserName,
+                    type = t.Order.OrderItems.Select(tt => tt.ConsultType).FirstOrDefault(),
                     createDate = t.Order.CreateDate,
-                    price = t.Price,
-                    status = t.Order.User.ConsultantUserSchedules.Where(tt => tt.ConsultantId == t.ConsultantId).Select(tt => tt.Status).FirstOrDefault(),
-                    description = t.Order.ConsultantUserSchedules.Select(tt => tt.Description).FirstOrDefault(),
-                    isPayed = t.Order.ConsultantUserSchedules.Select(tt => tt.IsPayed).FirstOrDefault(),
-                    userPic = mediaRepository.GetQuery().Where(z => z.ObjectId == t.Consultant.UserId && z.Type == MediaTypes.Profile).Select(t => t.PictureUrl).FirstOrDefault(),
-                    cats = t.Consultant.Categories.Select(tt => tt.ConsultCategory.Title).ToList()
+                    price = t.Order.SumPrice,
+                    status = t.Status,
+                    description = t.Description,
+                    isPayed = t.IsPayed,
+                    userPic = mediaRepository.GetQuery().Where(z => z.ObjectId == t.ConsultantId && z.Type == MediaTypes.ConsultationProfileImage).Select(t => t.PictureUrl).FirstOrDefault(),
+                    cats = t.Consultant.Categories.Select(tt => tt.ConsultCategory.Title).ToList(),
+                    targetDate = t.TargetDate,
+                    hour = t.ReserveTime,
+                    consulterUserId = t.Consultant.UserId,
+                    hasComment = t.ConsultantUserScheduleRatings.Any()
                 })
                 .ToListAsync()
                 )
@@ -293,8 +300,13 @@ namespace BanooClub.Services.OrderServices
                     t.status,
                     t.description,
                     t.isPayed,
-                    userPic = !string.IsNullOrEmpty(t.userPic) ? ("Media/Gallery/Profile/" + t.userPic) : "",
-                    cats = t.cats != null ? string.Join(',', t.cats) : ""
+                    userPic = !string.IsNullOrEmpty(t.userPic) ? ("Media/Gallery/ConsultationUserProfile/" + t.userPic) : "",
+                    cats = t.cats != null ? string.Join(',', t.cats) : "",
+                    t.targetDate,
+                    t.hour,
+                    t.consulterUserId,
+                    canComment = t.hasComment == false && t.isPayed == true && t.status == ConsultantUserScheduleStatus.Finished,
+                    t.userName
                 })
                 .ToList<object>();
             return new PageModel<object>(input.pageNumber.Value, input.take.Value, total, data);
@@ -312,32 +324,36 @@ namespace BanooClub.Services.OrderServices
                    ? _accessor.HttpContext.User.Identity.GetUserId()
                    : 0;
 
-            var quiryResult = orderItemRepository
+            var quiryResult = _consultantUserSchedule
                 .GetQuery()
-                .Where(t => t.ConsultantId != null && t.ConsultantId > 0 && t.Consultant != null && t.Order.IsPayed == true && t.Consultant.UserId == userId);
+                .Where(t => t.ConsultantId > 0 && t.Consultant != null && t.Order.IsPayed == true && t.Consultant.UserId == userId);
 
             if (!string.IsNullOrEmpty(input.fullname))
                 quiryResult = quiryResult.Where(t => (t.Order.User.Name + " " + t.Order.User.FamilyName).Contains(input.fullname));
             if (input.id != null && input.id > 0)
-                quiryResult = quiryResult.Where(t => t.Order.ConsultantUserSchedules.Any(tt => tt.ConsultantUserScheduleId == input.id));
+                quiryResult = quiryResult.Where(t => t.ConsultantUserScheduleId == input.id);
 
             var total = await quiryResult.CountAsync();
-            quiryResult = quiryResult.OrderByDescending(t => t.OrderItemId).Skip((input.pageNumber.Value - 1) * input.take.Value).Take(input.take.Value);
+            quiryResult = quiryResult.OrderByDescending(t => t.ConsultantUserScheduleId).Skip((input.pageNumber.Value - 1) * input.take.Value).Take(input.take.Value);
             var data = (await
                 quiryResult
                 .Select(t => new
                 {
-                    id = t.Order.ConsultantUserSchedules.Select(tt => tt.ConsultantUserScheduleId).FirstOrDefault(),
+                    id = t.ConsultantUserScheduleId,
                     name = t.Order.User.Name,
                     consultantId = t.ConsultantId,
                     lName = t.Order.User.FamilyName,
-                    type = t.ConsultType,
+                    userName = t.Order.User.UserName,
+                    type = t.Order.OrderItems.Select(tt => tt.ConsultType).FirstOrDefault(),
                     createDate = t.Order.CreateDate,
-                    price = t.Price,
-                    status = t.Order.User.ConsultantUserSchedules.Where(tt => tt.ConsultantId == t.ConsultantId).Select(tt => tt.Status).FirstOrDefault(),
-                    description = t.Order.ConsultantUserSchedules.Select(tt => tt.Description).FirstOrDefault(),
-                    isPayed = t.Order.ConsultantUserSchedules.Select(tt => tt.IsPayed).FirstOrDefault(),
-                    userPic = mediaRepository.GetQuery().Where(z => z.ObjectId == t.Consultant.UserId && z.Type == MediaTypes.Profile).Select(t => t.PictureUrl).FirstOrDefault()
+                    price = t.Order.SumPrice,
+                    status = t.Status,
+                    description = t.Description,
+                    isPayed = t.IsPayed,
+                    userPic = mediaRepository.GetQuery().Where(z => z.ObjectId == t.Consultant.UserId && z.Type == MediaTypes.Profile).Select(t => t.PictureUrl).FirstOrDefault(),
+                    targetDate = t.TargetDate,
+                    hour = t.ReserveTime,
+                    t.Order.UserId
                 })
                 .ToListAsync())
                  .Select(t => new
@@ -352,7 +368,11 @@ namespace BanooClub.Services.OrderServices
                      t.status,
                      t.description,
                      t.isPayed,
-                     userPic = !string.IsNullOrEmpty(t.userPic) ? ("Media/Gallery/Profile/" + t.userPic) : ""
+                     userPic = !string.IsNullOrEmpty(t.userPic) ? ("Media/Gallery/Profile/" + t.userPic) : "",
+                     t.targetDate,
+                     t.hour,
+                     pationUserId = t.UserId,
+                     t.userName
                  })
                 .ToList<object>();
 

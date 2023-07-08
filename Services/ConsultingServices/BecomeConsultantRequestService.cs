@@ -27,6 +27,7 @@ namespace BanooClub.Services.ConsultingServices
     {
         private readonly IBanooClubEFRepository<BecomeConsultantRequest> _repository;
         private readonly IBanooClubEFRepository<City> _cityRepository;
+        private readonly IBanooClubEFRepository<User> _userRepository;
         private readonly IBanooClubEFRepository<ConsultCategory> _consultCategoryRepository;
         private readonly IBanooClubEFRepository<BecomeConsultantRequestSchedule> _becomeConsultantRequestScheduleRepository;
         private readonly IBanooClubEFRepository<State> _stateRepository;
@@ -61,10 +62,12 @@ namespace BanooClub.Services.ConsultingServices
                 IBecomeConsultantRequestScheduleService becomeConsultantRequestScheduleService,
                 IBanooClubEFRepository<BecomeConsultantRequestSchedule> becomeConsultantRequestScheduleRepository,
                 IBanooClubEFRepository<ConsultantSchedule> consultantScheduleRepository,
+                IBanooClubEFRepository<User> userRepository,
                 ISmsSenderService smsSenderService,
                 IConfiguration configuration
             )
         {
+            _userRepository = userRepository;
             _repository = repository;
             _httpContextAccessor = httpContextAccessor;
             _consultantRepository = consultantRepository;
@@ -190,6 +193,24 @@ namespace BanooClub.Services.ConsultingServices
                             await _mediaRepository.InsertAsync(dbMedia);
                         }
                     }
+                }
+
+                if (!string.IsNullOrEmpty(request.PhoneNumber) && request.PhoneNumber.IsMobile())
+                {
+                    var foundUser = await _userRepository.GetQuery().Where(t => t.UserId == userId).Select(t => new { t.Name, t.FamilyName }).FirstOrDefaultAsync();
+                    var result = await _smsSenderService.UltraFastSend(new UltraFastSend()
+                    {
+                        Mobile = Convert.ToInt64(request.PhoneNumber),
+                        TemplateId = _configuration.GetValue<int>("smsTemplateIds:newRequestSMSTemplate"),
+                        ParameterArray = new List<UltraFastParameters>()
+                        {
+                            new UltraFastParameters()
+                            {
+                                Parameter = "username" ,
+                                ParameterValue =  foundUser?.Name + " " + foundUser?.FamilyName
+                            }
+                        }.ToArray()
+                    });
                 }
 
                 return operation.Ok();
@@ -465,11 +486,6 @@ namespace BanooClub.Services.ConsultingServices
                             {
                                 Parameter = "username" , 
                                 ParameterValue =  request.User?.Name + " " + request.User?.FamilyName
-                            },
-                            new UltraFastParameters()
-                            {
-                                Parameter = "status" ,
-                                ParameterValue =  "تایید شده"
                             }
                         }.ToArray()
                     });
@@ -506,11 +522,6 @@ namespace BanooClub.Services.ConsultingServices
                             {
                                 Parameter = "username" ,
                                 ParameterValue =  request.User?.Name + " " + request.User?.FamilyName
-                            },
-                            new UltraFastParameters()
-                            {
-                                Parameter = "status" ,
-                                ParameterValue =  "رد شده"
                             }
                         }.ToArray()
                 });

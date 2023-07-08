@@ -36,6 +36,22 @@ namespace BanooClub.Services.ConsultingServices
             return new ServiceResult() { IsSuccess = false, ErrorMessage = "اطلاعاتی یافت نشد" };
         }
 
+        public async Task<object> Delete(long? id)
+        {
+            var foundItem = await _consultantUserScheduleRatingRepository
+               .GetQuery()
+               .Where(t => t.ConsultantUserScheduleRatingId == id)
+               .FirstOrDefaultAsync();
+
+            if (foundItem != null)
+            {
+                await _consultantUserScheduleRatingRepository.Delete(foundItem);
+                return new ServiceResult() { IsSuccess = true };
+            }
+
+            return new ServiceResult() { IsSuccess = false, ErrorMessage = "اطلاعاتی یافت نشد" };
+        }
+
         public async Task<object> GetById(long? id)
         {
             return await _consultantUserScheduleRatingRepository
@@ -68,6 +84,8 @@ namespace BanooClub.Services.ConsultingServices
                 quiryResult = quiryResult.Where(t => t.Rate > input.maxRate);
             if (input.createDate != null)
                 quiryResult = quiryResult.Where(t => t.CreateDate.Year == input.createDate.Value.Year && t.CreateDate.Month == input.createDate.Value.Month && t.CreateDate.Day == input.createDate.Value.Day);
+            if (input.isConfirm != null)
+                quiryResult = quiryResult.Where(t => t.IsConfirm == input.isConfirm);
 
 
             return new
@@ -83,7 +101,8 @@ namespace BanooClub.Services.ConsultingServices
                             consultFullname = (t.ConsultantUserSchedule.Consultant.User.Name + " " + t.ConsultantUserSchedule.Consultant.User.FamilyName),
                             userFullname = (t.ConsultantUserSchedule.User.Name + " " + t.ConsultantUserSchedule.User.FamilyName),
                             rate = t.Rate,
-                            createDate = t.CreateDate
+                            createDate = t.CreateDate,
+                            isConfirm = t.IsConfirm
                         })
                         .ToListAsync()
             };

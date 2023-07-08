@@ -244,6 +244,8 @@ namespace BanooClub.Services.AccountServices
                     var result = await SignInWithoutPassword(model.EncryptedMail);
                     return new ServiceResult<object>().Ok(result.Data);
             }
+
+            
             return new ServiceResult<object>().Ok(0);
         }
 

@@ -1,9 +1,11 @@
 using BanooClub.Extensions;
 using BanooClub.Extentions;
+using BanooClub.HangFire;
 using BanooClub.Hubs;
 using BanooClub.Services.MessageServices;
 using BanooClub.Services.PostServices;
 using BanooClub.Settings;
+using Hangfire;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,6 +42,7 @@ namespace BanooClub
                .AddNewtonsoftJson(options =>
                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                );
+            services.AddCustomHangFireServer(Configuration);
             services.AddStackExchangeRedisCache(options => options.Configuration = this.Configuration.GetConnectionString("redisServerUrl"));
             //services.AddStackExchangeRedisCache(options =>
             //{
@@ -137,11 +140,14 @@ namespace BanooClub
 
             app.UseAuthorization();
 
+            app.UseCustomHangfireDashbord(Configuration);
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<MessageService>("/chatHub");
                 endpoints.MapHub<PostService>("/postHub");
+                endpoints.MapHangfireDashboard();
             });
         }
     }

@@ -75,9 +75,9 @@ namespace BanooClub.Controllers
         [HttpPost]
         [Route("[action]")]
         [Authorize]
-        public async Task<object> CreateVideoConfranceRoom(long? id)
+        public async Task<object> CreateVideoConfranceRoom(long? consultantUserScheduleId)
         {
-            return await _consultantService.CreateVideoConfranceRoom(id);
+            return await _consultantService.CreateVideoConfranceRoom(consultantUserScheduleId);
         }
 
         [HttpPost]
