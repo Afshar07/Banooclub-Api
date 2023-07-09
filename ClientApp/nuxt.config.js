@@ -217,15 +217,15 @@ module.exports = {
   axios: {
     plugins: ["~/plugins/auth.js"],
     credentials: true,
-    baseURL: "https://api.banooclub.simagar.com/api/",
+    baseURL: "https://subapi.banoclub.com/api/",
     // baseURL: 'https://localhost:44330/',
   },
   env: {
-    pic: "https://api.banooclub.simagar.com",
+    pic: "https://subapi.banoclub.com",
   },
-  server: {
-    port: 3000, // default: 3000
-    host: '192.168.1.185', // default: localhost,
-    timing: false
-  },
+  // server: {
+  //   port: 3000, // default: 3000
+  //   host: '192.168.1.185', // default: localhost,
+  //   timing: false
+  // },
 };
