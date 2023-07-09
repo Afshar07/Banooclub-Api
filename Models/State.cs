@@ -1,4 +1,7 @@
-﻿namespace BanooClub.Models
+﻿using BanooClub.Models.Consulting;
+using System.Collections.Generic;
+
+namespace BanooClub.Models
 {
     public class State : BaseEntity
     {
@@ -6,5 +9,7 @@
         public string Name { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
+
+        public List<Consultant> Consultants { get; set; }
     }
 }

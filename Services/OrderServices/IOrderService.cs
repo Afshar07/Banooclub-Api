@@ -1,6 +1,5 @@
 ﻿using BanooClub.Models;
 using BanooClub.Models.Enums;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BanooClub.Services.OrderServices
@@ -15,5 +14,7 @@ namespace BanooClub.Services.OrderServices
         object GetByUserId(short pageNumber, byte count);
         object GetByUserIdForAdmin(short pageNumber, byte count, long userId);
         Task<bool> ChangeOrderStatus(long orderId, OrderStatus status);
+        Task<object> GetMyCansultants(Models.DTO.MyConsultantUserScheduleDTO input);
+        Task<object> GetMyCansultantsForConsulter(Models.DTO.MyConsultantUserScheduleDTO input);
     }
 }

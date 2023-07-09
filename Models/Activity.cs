@@ -7,6 +7,7 @@ namespace BanooClub.Models
     {
         public long ActivityId { get; set; }
         public long UserId { get; set; }
+        public User User { get; set; }
         public ActivityTypes Type { get; set; }
         public long ObjectId { get; set; }
         public DateTime CreateDate { get; set; }

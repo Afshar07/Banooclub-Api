@@ -1,10 +1,8 @@
 ﻿using BanooClub.Models;
 using BanooClub.Models.Enums;
 using BanooClub.Services.PaymentServices;
-using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BanooClub.Controllers
@@ -25,6 +23,13 @@ namespace BanooClub.Controllers
         public async Task<object> Create([FromBody] Payment inputDto)
         {
             return await paymentService.Create(inputDto);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<object> CreateConsultantPayment(long? orderId)
+        {
+            return await paymentService.CreateByOrder(orderId);
         }
 
         [HttpPost]

@@ -2,7 +2,8 @@
 {
     public enum PaymentStatus
     {
+        Processing = 0,
         Payed = 1,
-        Failed
+        Failed = 2
     }
 }
