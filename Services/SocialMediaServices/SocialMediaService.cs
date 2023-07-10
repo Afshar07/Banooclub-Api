@@ -145,7 +145,6 @@ namespace BanooClub.Services.SocialMediaServices
                 outPutSave.ImageName = "";
                 return outPutSave;
             }
-
         }
     }
 }
