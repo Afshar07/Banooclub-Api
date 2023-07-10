@@ -17,6 +17,7 @@
         Followed,
         PostReport,
         Ticket,
-        LikeComment
+        LikeComment,
+        Login
     }
 }

@@ -1,9 +1,5 @@
-﻿using BanooClub.Models;
-using BanooClub.Services.CityServices;
-using Microsoft.AspNetCore.Http;
+﻿using BanooClub.Services.CityServices;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace BanooClub.Controllers
 {

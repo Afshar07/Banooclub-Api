@@ -8,6 +8,7 @@ using BanooClub.Services.SmsServices;
 using BanooClub.Settings;
 using Infrastructure;
 using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
@@ -26,6 +27,7 @@ namespace BanooClub.Services.AccountServices
     public class AccountManagerService : IAccountManagerService
     {
         private readonly IBanooClubEFRepository<User> _userRepository;
+        private readonly IBanooClubEFRepository<Activity> _activityRepository;
         private readonly IBanooClubEFRepository<ViewHistory> _viewHistoryRepository;
         private readonly IBanooClubEFRepository<UserSetting> _userSettingRepository;
         private readonly IBanooClubEFRepository<UserType> _roleRepository;
@@ -42,8 +44,10 @@ namespace BanooClub.Services.AccountServices
 
         public AccountManagerService(IEncryptService encryptService, IGenerateJwtService generateJwtService,
             IDistributedCache cache, ILogger<AccountManagerService> logger, IDateTime dateTime, IDistributedCache distributedCache,
-        IBanooClubEFRepository<UserType> roleRepository, IBanooClubEFRepository<User> userRepository, IBanooClubEFRepository<ViewHistory> viewHistoryRepository,
-            IConfirmationCodeSetting confirmationCodeSetting, ISmsSenderService smsSenderService, IDecryptService decryptService, IBanooClubEFRepository<UserSetting> userSettingRepository)
+            IBanooClubEFRepository<UserType> roleRepository, IBanooClubEFRepository<User> userRepository, IBanooClubEFRepository<ViewHistory> viewHistoryRepository,
+            IConfirmationCodeSetting confirmationCodeSetting, ISmsSenderService smsSenderService, IDecryptService decryptService, IBanooClubEFRepository<UserSetting> userSettingRepository,
+            IBanooClubEFRepository<Activity> activityRepository
+            )
         {
             _encryptService = encryptService;
             _generateJwtService = generateJwtService;
@@ -58,6 +62,7 @@ namespace BanooClub.Services.AccountServices
             _userSettingRepository = userSettingRepository;
             _viewHistoryRepository = viewHistoryRepository;
             this.distributedCache = distributedCache;
+            _activityRepository = activityRepository;
         }
 
         #region SignIn
@@ -129,7 +134,8 @@ namespace BanooClub.Services.AccountServices
                         var BBB = new
                         {
                             Data = jwtResult.Data,
-                            Status = (int)SignStatus.Success
+                            Status = (int)SignStatus.Success,
+                            user?.UserId
                         };
                         return new ServiceResult<object>().Ok(BBB);
                     }
@@ -179,7 +185,8 @@ namespace BanooClub.Services.AccountServices
                         var BBB = new
                         {
                             Data = jwtResult.Data,
-                            Status = (int)SignStatus.Success
+                            Status = (int)SignStatus.Success,
+                            user?.UserId
                         };
                         return new ServiceResult<object>().Ok(BBB);
                     }
@@ -219,6 +226,7 @@ namespace BanooClub.Services.AccountServices
                     if (jwtResult.IsSuccess)
                     {
                         await _cache.RemoveAsync(user.Mobile);
+                        await LogSuccessLoginInActivity(new { user?.UserId, Status = (int) 7 });
                         return new ServiceResult<object>().Ok(jwtResult.Data);
                     }
                 }
@@ -230,20 +238,56 @@ namespace BanooClub.Services.AccountServices
             }
         }
 
+        async Task LogSuccessLoginInActivity(object input)
+        {
+            if (input != null)
+            {
+                var propeties = input.GetType().GetProperties();
+                var foundProp = propeties.Where(t => t.Name == "Status").FirstOrDefault();
+                if (foundProp != null)
+                {
+                    var foundUserIdProps = propeties.Where(t => t.Name == "UserId").FirstOrDefault();
+                    if (foundUserIdProps != null)
+                    {
+                        var curStatus = (int)foundProp.GetValue(input);
+                        if (curStatus == 7)
+                        {
+                            var userId = (long)foundUserIdProps.GetValue(input);
+                            if (userId > 0)
+                            {
+                                await _activityRepository.InsertAsync(new Activity()
+                                {
+                                    CreateDate = System.DateTime.Now,
+                                    Description = "ورود کاربر",
+                                    ObjectId = userId,
+                                    Type = ActivityTypes.Login,
+                                    UserId = userId,
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         public async Task<IServiceResult<object>> SignIn(UserSignDTO model)
         {
             switch (model.Type)
             {
                 case (int)AuthTypes.Mobile:
                     var mobileResult = await SignInWithMobileOrEmail(model.Type, model.Mobile, model.Mail, model.Password, model.VerifyCode);
+                    await LogSuccessLoginInActivity(mobileResult.Data);
                     return new ServiceResult<object>().Ok(mobileResult.Data);
                 case (int)AuthTypes.Email:
                     var mailResult = await SignInWithMobileOrEmail(model.Type, model.Mobile, model.Mail, model.Password, model.VerifyCode);
+                    await LogSuccessLoginInActivity(mailResult.Data);
                     return new ServiceResult<object>().Ok(mailResult.Data);
                 case (int)AuthTypes.WithoutPassword:
                     var result = await SignInWithoutPassword(model.EncryptedMail);
                     return new ServiceResult<object>().Ok(result.Data);
             }
+
+
             return new ServiceResult<object>().Ok(0);
         }
 

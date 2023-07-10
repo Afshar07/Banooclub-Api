@@ -1,5 +1,7 @@
+using BanooClub.Extentions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace BanooClub
 {
@@ -12,6 +14,7 @@ namespace BanooClub
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog(SerilogConfig.ConfigureLogger)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

@@ -480,3 +480,4 @@ $RECYCLE.BIN/
 /bin/Release/netcoreapp3.1/BanooClub.pdb
 /bin/Release/netcoreapp3.1/BanooClub.exe
 /bin/Release/netcoreapp3.1/BanooClub.runtimeconfig.dev.json
+/wwwroot/Media/*

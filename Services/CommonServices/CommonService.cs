@@ -1,5 +1,6 @@
 ﻿using BanooClub.Extentions;
 using BanooClub.Models;
+using BanooClub.Models.Consulting;
 using BanooClub.Models.Enums;
 using BanooClub.Services.LogServices;
 using BanooClub.Services.TicketServices;
@@ -29,6 +30,8 @@ namespace BanooClub.Services.CommonServices
         private readonly IBanooClubEFRepository<User> userRepository;
         private readonly IBanooClubEFRepository<State> stateRepository;
         private readonly IBanooClubEFRepository<City> cityRepository;
+        private readonly IBanooClubEFRepository<Consultant> _consultantRepository;
+        private readonly IBanooClubEFRepository<BecomeConsultantRequest> _becomeConsultantRequestRepository;
         private readonly IBanooClubEFRepository<FollowRequest> followRequestRepository;
         public CommonService(ILogService logService, IUserService userService
             , IBanooClubEFRepository<UserSetting> userSettingRepository
@@ -43,6 +46,8 @@ namespace BanooClub.Services.CommonServices
             , IBanooClubEFRepository<State> stateRepository
             , IBanooClubEFRepository<City> cityRepository
             , IBanooClubEFRepository<FollowRequest> followRequestRepository
+            , IBanooClubEFRepository<Consultant> consultantRepository
+            , IBanooClubEFRepository<BecomeConsultantRequest> becomeConsultantRequestRepository
             , ITicketService ticketService, IHttpContextAccessor accessor)
         {
             _logService = logService;
@@ -61,6 +66,8 @@ namespace BanooClub.Services.CommonServices
             this.stateRepository = stateRepository;
             this.cityRepository = cityRepository;
             this.followRequestRepository = followRequestRepository;
+            _consultantRepository = consultantRepository;
+            _becomeConsultantRequestRepository = becomeConsultantRequestRepository;
         }
 
 
@@ -119,8 +126,13 @@ namespace BanooClub.Services.CommonServices
             var userRoomate = dbUserInfo.UserSetting.ActiveRoomate;
             var dbPostIdsForLike = postRepository.GetQuery().Where(z => z.UserId == userId).Select(x => x.PostId).ToList();
             var dbLikes = postLikeRepository.GetQuery().Where(z => dbPostIdsForLike.Contains(z.PostId)).Count();
+            BecomeConsultantRequestStatus? lastConsultantRequest = null;
+            if (_becomeConsultantRequestRepository.GetQuery().Any(t => t.UserId == userId))
+                lastConsultantRequest = _becomeConsultantRequestRepository.GetQuery().Where(t => t.UserId == userId).OrderByDescending(t => t.CreateDate).Select(t => t.Status).FirstOrDefault();
             var obj = new
             {
+                ConsultantId = _consultantRepository.GetQuery().Where(t => t.UserId == userId).Select(t => t.Id).FirstOrDefault(),
+                LastConsultantRequestStatus = lastConsultantRequest,
                 Last8Viewer = Last8Viewer,
                 UserInfo = dbUserInfo,
                 UnreadTicketCount = dbtickets,
@@ -384,7 +396,7 @@ namespace BanooClub.Services.CommonServices
                     };
                     Last8Viewer.Add(obj);
                 }
-                
+
                 var IsPrivate = userSettingRepository.GetQuery().FirstOrDefault(z => z.UserId == userId).IsPrivateSocial;
                 var dbUserInfo = _userService.Get(userId);
 

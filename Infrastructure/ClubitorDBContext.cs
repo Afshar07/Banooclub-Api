@@ -1,4 +1,5 @@
 ﻿using BanooClub.Models;
+using BanooClub.Models.Consulting;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -16,8 +17,8 @@ namespace Infrastructure
         public DbSet<AdsComment> AdsComments { get; set; }
         public DbSet<AdsPayment> AdsPayments { get; set; }
         public DbSet<Chat> Chats { get; set; }
-        public DbSet<ConsultComment> ConsultComments { get; set; }
-        public DbSet<ConsultSchedule> ConsultSchedules { get; set; }
+        //public DbSet<ConsultComment> ConsultComments { get; set; }
+        //public DbSet<ConsultSchedule> ConsultSchedules { get; set; }
         public DbSet<Faq> Faqs { get; set; }
         public DbSet<Formal> Formals { get; set; }
         public DbSet<Friendship> Friendships { get; set; }
@@ -28,9 +29,9 @@ namespace Infrastructure
         public DbSet<Package> Packages { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Report> Reports { get; set; }
-        public DbSet<RequestConsult> RequestConsults { get; set; }
+        //public DbSet<RequestConsult> RequestConsults { get; set; }
         public DbSet<Roomate> Roomates { get; set; }
-        public DbSet<ServiceConsult> ServiceConsults { get; set; }
+        //public DbSet<ServiceConsult> ServiceConsults { get; set; }
         public DbSet<ServiceType> ServiceTypes { get; set; }
         public DbSet<SystemPayment> SystemPayments { get; set; }
         public DbSet<User> Users { get; set; }
@@ -89,6 +90,12 @@ namespace Infrastructure
         public DbSet<ShippingType> ShippingTypes { get; set; }
         public DbSet<Discount> Discounts { get; set; }
 
+        public DbSet<ConsultCategory> ConsultCategories { get; set; }
+
+        public DbSet<Consultant> Consultants { get; set; }
+        public DbSet<BecomeConsultantRequest> BecomeConsultantRequests { get; set; }
+        public DbSet<BecomeConsultantRequestConsultCategory> BecomeConsultantRequestConsultCategories { get; set; }
+        public DbSet<BecomeConsultantRequestSchedule> BecomeConsultantRequestSchedules { get; set; }
 
         public BanooClubDBContext(DbContextOptions<BanooClubDBContext> options) : base(options)
         {
@@ -97,14 +104,17 @@ namespace Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
+
+            modelbuilder.ApplyConfigurationsFromAssembly(typeof(BanooClubDBContext).Assembly);
+
             modelbuilder.Entity<Ads>().ToTable("Ads", "Service").HasKey(z => z.AdsId);
             modelbuilder.Entity<AdsCategory>().ToTable("AdsCategories", "Service").HasKey(z => z.AdsCategoryId);
             modelbuilder.Entity<AdsChat>().ToTable("AdsChats", "Service").HasKey(z => z.AdsChatId);
             modelbuilder.Entity<AdsComment>().ToTable("AdsComments", "Service").HasKey(z => z.AdsCommentId);
             modelbuilder.Entity<AdsPayment>().ToTable("AdsPayments", "Service").HasKey(z => z.AdsPaymentId);
             modelbuilder.Entity<Chat>().ToTable("Chats", "Service").HasKey(z => z.ChatId);
-            modelbuilder.Entity<ConsultComment>().ToTable("ConsultComments", "Service").HasKey(z => z.ConsultCommentId);
-            modelbuilder.Entity<ConsultSchedule>().ToTable("ConsultSchedules", "Service").HasKey(z => z.ConsultScheduleId);
+            //modelbuilder.Entity<ConsultComment>().ToTable("ConsultComments", "Service").HasKey(z => z.ConsultCommentId);
+            //modelbuilder.Entity<ConsultSchedule>().ToTable("ConsultSchedules", "Service").HasKey(z => z.ConsultScheduleId);
             modelbuilder.Entity<Discount>().ToTable("Discounts", "Service").HasKey(z => z.DiscountId);
             modelbuilder.Entity<Faq>().ToTable("Faqs", "Service").HasKey(z => z.FaqId);
             modelbuilder.Entity<Formal>().ToTable("Formals", "User").HasKey(z => z.FormalId);
@@ -116,9 +126,9 @@ namespace Infrastructure
             modelbuilder.Entity<Package>().ToTable("Packages", "System").HasKey(z => z.PackageId);
             modelbuilder.Entity<Payment>().ToTable("Payments", "Payment").HasKey(z => z.PaymentId);
             modelbuilder.Entity<Report>().ToTable("Reports", "Service").HasKey(z => z.ReportId);
-            modelbuilder.Entity<RequestConsult>().ToTable("Consults", "Request").HasKey(z => z.RequestConsultId);
+            //modelbuilder.Entity<RequestConsult>().ToTable("Consults", "Request").HasKey(z => z.RequestConsultId);
             modelbuilder.Entity<Roomate>().ToTable("Roomates", "Service").HasKey(z => z.RoomateId);
-            modelbuilder.Entity<ServiceConsult>().ToTable("Consults", "Service").HasKey(z => z.ConsultId);
+            //modelbuilder.Entity<ServiceConsult>().ToTable("Consults", "Service").HasKey(z => z.ConsultId);
             modelbuilder.Entity<ServiceType>().ToTable("Types", "Service").HasKey(z => z.TypeId);
             modelbuilder.Entity<SystemPayment>().ToTable("Payments", "System").HasKey(z => z.SystemPaymentId);
             modelbuilder.Entity<User>().ToTable("Users", "User").HasKey(z => z.UserId);

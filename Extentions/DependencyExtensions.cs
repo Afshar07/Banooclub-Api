@@ -13,8 +13,7 @@ using BanooClub.Services.CityServices;
 using BanooClub.Services.CNTRYServices;
 using BanooClub.Services.Common;
 using BanooClub.Services.CommonServices;
-using BanooClub.Services.ConcultCommentServices;
-using BanooClub.Services.ConsultScheduleServices;
+
 using BanooClub.Services.CryptographyServices;
 using BanooClub.Services.DateTimeServices;
 using BanooClub.Services.FaqServices;
@@ -40,11 +39,9 @@ using BanooClub.Services.PostNKServices;
 using BanooClub.Services.PostReportServices;
 using BanooClub.Services.PostServices;
 using BanooClub.Services.ReportServices;
-using BanooClub.Services.RequestConsultServices;
 using BanooClub.Services.ReviewServices;
 using BanooClub.Services.RoomateDocServices;
 using BanooClub.Services.RoomateServices;
-using BanooClub.Services.ServiceConsultServices;
 using BanooClub.Services.ServiceTypeServices;
 using BanooClub.Services.SmsServices;
 using BanooClub.Services.SocialMediaServices;
@@ -86,6 +83,10 @@ using BanooClub.Services.ShippingServices;
 using BanooClub.Services.ShippingTypeServices;
 using BanooClub.Services.DashboardServices;
 using BanooClub.Services.DiscountServices;
+using BanooClub.Models.Consulting;
+using BanooClub.Services.ConsultingServices;
+using BanooClub.Services.SkyroomService;
+using BanooClub.Services.ConsultantUserSchedulesService;
 
 namespace BanooClub.Extensions
 {
@@ -99,6 +100,18 @@ namespace BanooClub.Extensions
 
         private static void AddRepositories(IServiceCollection services)
         {
+            services.AddScoped<IBanooClubEFRepository<ConsultantUserScheduleRating>, BanooClubEfRepository<ConsultantUserScheduleRating>>();
+            services.AddScoped<IBanooClubEFRepository<ConsultantUserSchedule>, BanooClubEfRepository<ConsultantUserSchedule>>();
+            services.AddScoped<IBanooClubEFRepository<ConsultantSchedule>, BanooClubEfRepository<ConsultantSchedule>>();
+            services.AddScoped<IBanooClubEFRepository<ConsultantVideoConferanceUrl>, BanooClubEfRepository<ConsultantVideoConferanceUrl>>();
+            services.AddScoped<IBanooClubEFRepository<BecomeConsultantRequestSchedule>, BanooClubEfRepository<BecomeConsultantRequestSchedule>>();
+            services.AddScoped<IBanooClubEFRepository<ConsultCategory>, BanooClubEfRepository<ConsultCategory>>();
+            services.AddScoped<IBanooClubEFRepository<ConsultantPrice>, BanooClubEfRepository<ConsultantPrice>>();
+            services.AddScoped<IBanooClubEFRepository<ConsultantConsultCategory>, BanooClubEfRepository<ConsultantConsultCategory>>();
+            services.AddScoped<IBanooClubEFRepository<BecomeConsultantRequestConsultPrice>, BanooClubEfRepository<BecomeConsultantRequestConsultPrice>>();
+            services.AddScoped<IBanooClubEFRepository<Consultant>, BanooClubEfRepository<Consultant>>();
+            services.AddScoped<IBanooClubEFRepository<BecomeConsultantRequest>, BanooClubEfRepository<BecomeConsultantRequest>>();
+            services.AddScoped<IBanooClubEFRepository<BecomeConsultantRequestConsultCategory>, BanooClubEfRepository<BecomeConsultantRequestConsultCategory>>();
             services.AddScoped<IBanooClubEFRepository<User>, BanooClubEfRepository<User>>();
             services.AddScoped<IBanooClubEFRepository<Formal>, BanooClubEfRepository<Formal>>();
             services.AddScoped<IBanooClubEFRepository<Ads>, BanooClubEfRepository<Ads>>();
@@ -107,8 +120,8 @@ namespace BanooClub.Extensions
             services.AddScoped<IBanooClubEFRepository<AdsComment>, BanooClubEfRepository<AdsComment>>();
             services.AddScoped<IBanooClubEFRepository<AdsPayment>, BanooClubEfRepository<AdsPayment>>();
             services.AddScoped<IBanooClubEFRepository<Chat>, BanooClubEfRepository<Chat>>();
-            services.AddScoped<IBanooClubEFRepository<ConsultComment>, BanooClubEfRepository<ConsultComment>>();
-            services.AddScoped<IBanooClubEFRepository<ConsultSchedule>, BanooClubEfRepository<ConsultSchedule>>();
+            //services.AddScoped<IBanooClubEFRepository<ConsultComment>, BanooClubEfRepository<ConsultComment>>();
+            //services.AddScoped<IBanooClubEFRepository<ConsultSchedule>, BanooClubEfRepository<ConsultSchedule>>();
             services.AddScoped<IBanooClubEFRepository<Faq>, BanooClubEfRepository<Faq>>();
             services.AddScoped<IBanooClubEFRepository<Friendship>, BanooClubEfRepository<Friendship>>();
             services.AddScoped<IBanooClubEFRepository<FriendshipPostComment>, BanooClubEfRepository<FriendshipPostComment>>();
@@ -118,9 +131,9 @@ namespace BanooClub.Extensions
             services.AddScoped<IBanooClubEFRepository<Package>, BanooClubEfRepository<Package>>();
             services.AddScoped<IBanooClubEFRepository<Payment>, BanooClubEfRepository<Payment>>();
             services.AddScoped<IBanooClubEFRepository<Report>, BanooClubEfRepository<Report>>();
-            services.AddScoped<IBanooClubEFRepository<RequestConsult>, BanooClubEfRepository<RequestConsult>>();
+            //services.AddScoped<IBanooClubEFRepository<RequestConsult>, BanooClubEfRepository<RequestConsult>>();
             services.AddScoped<IBanooClubEFRepository<Roomate>, BanooClubEfRepository<Roomate>>();
-            services.AddScoped<IBanooClubEFRepository<ServiceConsult>, BanooClubEfRepository<ServiceConsult>>();
+            //services.AddScoped<IBanooClubEFRepository<ServiceConsult>, BanooClubEfRepository<ServiceConsult>>();
             services.AddScoped<IBanooClubEFRepository<ServiceType>, BanooClubEfRepository<ServiceType>>();
             services.AddScoped<IBanooClubEFRepository<SystemPayment>, BanooClubEfRepository<SystemPayment>>();
             services.AddScoped<IBanooClubEFRepository<UserComment>, BanooClubEfRepository<UserComment>>();
@@ -157,17 +170,17 @@ namespace BanooClub.Extensions
             services.AddScoped<IBanooClubEFRepository<Order>, BanooClubEfRepository<Order>>();
             services.AddScoped<IBanooClubEFRepository<OrderItem>, BanooClubEfRepository<OrderItem>>();
 
-            services.AddScoped<IBanooClubEFRepository<ServicePack>,BanooClubEfRepository<ServicePack>>();
-            services.AddScoped<IBanooClubEFRepository<ServiceComment>,BanooClubEfRepository<ServiceComment>>();
-            services.AddScoped<IBanooClubEFRepository<ServiceProperty>,BanooClubEfRepository<ServiceProperty>>();
-            services.AddScoped<IBanooClubEFRepository<ServiceCategory>,BanooClubEfRepository<ServiceCategory>>();
-            services.AddScoped<IBanooClubEFRepository<Forum>,BanooClubEfRepository<Forum>>();
-            services.AddScoped<IBanooClubEFRepository<ForumCategory>,BanooClubEfRepository<ForumCategory>>();
-            services.AddScoped<IBanooClubEFRepository<ForumComment>,BanooClubEfRepository<ForumComment>>();
-            services.AddScoped<IBanooClubEFRepository<Rating>,BanooClubEfRepository<Rating>>();
-            services.AddScoped<IBanooClubEFRepository<View>,BanooClubEfRepository<View>>();
-            services.AddScoped<IBanooClubEFRepository<Tag>,BanooClubEfRepository<Tag>>();
-            services.AddScoped<IBanooClubEFRepository<Wallet>,BanooClubEfRepository<Wallet>>();
+            services.AddScoped<IBanooClubEFRepository<ServicePack>, BanooClubEfRepository<ServicePack>>();
+            services.AddScoped<IBanooClubEFRepository<ServiceComment>, BanooClubEfRepository<ServiceComment>>();
+            services.AddScoped<IBanooClubEFRepository<ServiceProperty>, BanooClubEfRepository<ServiceProperty>>();
+            services.AddScoped<IBanooClubEFRepository<ServiceCategory>, BanooClubEfRepository<ServiceCategory>>();
+            services.AddScoped<IBanooClubEFRepository<Forum>, BanooClubEfRepository<Forum>>();
+            services.AddScoped<IBanooClubEFRepository<ForumCategory>, BanooClubEfRepository<ForumCategory>>();
+            services.AddScoped<IBanooClubEFRepository<ForumComment>, BanooClubEfRepository<ForumComment>>();
+            services.AddScoped<IBanooClubEFRepository<Rating>, BanooClubEfRepository<Rating>>();
+            services.AddScoped<IBanooClubEFRepository<View>, BanooClubEfRepository<View>>();
+            services.AddScoped<IBanooClubEFRepository<Tag>, BanooClubEfRepository<Tag>>();
+            services.AddScoped<IBanooClubEFRepository<Wallet>, BanooClubEfRepository<Wallet>>();
             services.AddScoped<IBanooClubEFRepository<CommentLike>, BanooClubEfRepository<CommentLike>>();
             services.AddScoped<IBanooClubEFRepository<Like>, BanooClubEfRepository<Like>>();
 
@@ -177,7 +190,7 @@ namespace BanooClub.Extensions
             services.AddScoped<IBanooClubEFRepository<Shipping>, BanooClubEfRepository<Shipping>>();
             services.AddScoped<IBanooClubEFRepository<ShippingType>, BanooClubEfRepository<ShippingType>>();
             services.AddScoped<IBanooClubEFRepository<Discount>, BanooClubEfRepository<Discount>>();
-            
+
 
         }
 
@@ -191,8 +204,8 @@ namespace BanooClub.Extensions
             services.AddScoped<IAdsCommentService, AdsCommentService>();
             services.AddScoped<IAdsPaymentService, AdsPaymentService>();
             services.AddScoped<IChatService, ChatService>();
-            services.AddScoped<IConsultCommentService, ConsultCommentService>();
-            services.AddScoped<IConsultScheduleService, ConsultScheduleService>();
+            //services.AddScoped<IConsultCommentService, ConsultCommentService>();
+            //services.AddScoped<IConsultScheduleService, ConsultScheduleService>();
             services.AddScoped<IFaqService, FaqService>();
             services.AddScoped<IFriendshipCommentService, FriendshipCommentService>();
             services.AddScoped<IFriendshipPostCommentService, FriendshipPostCommentService>();
@@ -202,9 +215,9 @@ namespace BanooClub.Extensions
             services.AddScoped<IPackageService, PackageService>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IReportService, ReportService>();
-            services.AddScoped<IRequestConsultService, RequestConsultService>();
+            //services.AddScoped<IRequestConsultService, RequestConsultService>();
             services.AddScoped<IRoomateService, RoomateService>();
-            services.AddScoped<IServiceConsultService, ServiceConsultService>();
+            //services.AddScoped<IServiceConsultService, ServiceConsultService>();
             services.AddScoped<IServiceTypeService, ServiceTypeService>();
             services.AddScoped<ISystemPaymentService, SystemPaymentService>();
             services.AddScoped<IUserCommentService, UserCommentService>();
@@ -265,6 +278,14 @@ namespace BanooClub.Extensions
             services.AddTransient<IShippingTypeService, ShippingTypeService>();
             services.AddTransient<IDashboardService, DashboardService>();
             services.AddTransient<IDiscountService, DiscountService>();
+            services.AddScoped<IConsultCategoryService, ConsultCategoryService>();
+            services.AddScoped<IBecomeConsultantRequestService, BecomeConsultantRequestService>();
+            services.AddScoped<IConsultantService, ConsultantService>();
+            services.AddScoped<ISkyroomService, SkyroomService>();
+            services.AddScoped<IBecomeConsultantRequestScheduleService, BecomeConsultantRequestScheduleService>();
+            services.AddScoped<IConsultantScheduleService, ConsultantScheduleService>();
+            services.AddScoped<IConsultantUserScheduleRatingService, ConsultantUserScheduleRatingService>();
+            services.AddScoped<IConsultantUserSchedulesService, ConsultantUserSchedulesService>();
 
             services.AddTransient(typeof(IGenerateJwtService), typeof(GenerateJwtService));
             services.AddTransient(typeof(IConfirmationCodeSetting), typeof(ConfirmationCodeSetting));
