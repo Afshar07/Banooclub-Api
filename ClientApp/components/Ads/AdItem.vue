@@ -7,7 +7,7 @@
                  :to="`/user/${AdsDetail.userInfo.userName}/posts`">
         <img
           class="headerPicture"
-          :src="`https://api.banooclub.simagar.com/${AdsDetail.userInfo.selfieFileData}`"
+          :src="`https://subapi.banoclub.com/${AdsDetail.userInfo.selfieFileData}`"
           alt=""
 
           style="border-radius: 50%; cursor: pointer;    width: 30px;  height: 30px;box-shadow: 0 0 9px rgb(72 69 72);"
@@ -32,7 +32,7 @@
         </svg>
       </button>
       <img v-if="AdsDetail.photos && AdsDetail.photos.length>0" class="tw-w-full tw-h-[7rem] tw-object-cover"
-           :src="`https://api.banooclub.simagar.com/${AdsDetail.photos[0].base64}`" :alt="AdsDetail.title">
+           :src="`https://subapi.banoclub.com/${AdsDetail.photos[0].base64}`" :alt="AdsDetail.title">
       <img v-else src="/nopicture.jpg" class="tw-w-full tw-h-[7rem] tw-object-cover" :alt="AdsDetail.title">
     </div>
 

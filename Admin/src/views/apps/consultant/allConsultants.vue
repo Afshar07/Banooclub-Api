@@ -166,8 +166,6 @@ import {
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 
-import ForumGetAllRequest from '@/libs/Api/Forum/ForumGetAllRequest'
-import DeleteForum from '@/libs/Api/Forum/DeleteForum'
 import ChangeForumStatus from '@/libs/Api/Forum/ChangeForumStatus'
 import ToastificationContent from '@core/components/toastification/ToastificationContent'
 import {GetAllConsultants} from "@/libs/Api/consultant";
@@ -316,56 +314,7 @@ export default {
     }
   },
   methods: {
-    async ChangeStatus() {
-      let _this = this
-      let changeForumStatus = new ChangeForumStatus(_this)
-      let data = {
 
-        status: this.SelectedForumStatus,
-        forumId: this.SelectedForum.forumId
-      }
-      changeForumStatus.setParams(data)
-      await changeForumStatus.fetch(function (content) {
-        _this.$toast({
-          component: ToastificationContent,
-          position: 'bottom-center',
-          props: {
-            title: `عملیات موفق`,
-            icon: 'CheckIcon',
-            variant: 'success',
-            text: `وضعیت مشاور با موفقیت تغییر یافت`,
-          },
-        })
-        _this.GetAllForum()
-      }, function (error) {
-        console.log(error)
-      })
-    },
-    OpenChangeStatus() {
-      this.$refs.OpenStatusBtn.click();
-    },
-    async DeleteForum() {
-      let _this = this
-      let deleteForum = new DeleteForum(_this)
-
-      deleteForum.setId(this.SelectedForum.forumId)
-      await deleteForum.fetch(function (content) {
-        _this.$toast({
-          component: ToastificationContent,
-          position: 'bottom-center',
-          props: {
-            title: `عملیات موفق`,
-            icon: 'CheckIcon',
-            variant: 'success',
-            text: `مشاور حذف شد.`,
-          },
-        })
-        _this.GetAllForum();
-
-      }, function (error) {
-        console.log(error)
-      })
-    },
     setSelectedConsultant(item) {
       this.selectedConsultant = item
     },

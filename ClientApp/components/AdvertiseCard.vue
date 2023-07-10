@@ -6,7 +6,7 @@
           <div class="row g-0">
             <div class="col-md-4 order-1" style="height: 200px">
               <img
-                :src="`https://api.banooclub.simagar.com/${ $props.AdvertiseData.photos[0].base64}`"
+                :src="`https://subapi.banoclub.com/${ $props.AdvertiseData.photos[0].base64}`"
                 class="img-fluid rounded-start" alt="..." height="100%">
             </div>
             <div class="col-md-8 order-0">

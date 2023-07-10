@@ -7,7 +7,7 @@
       <b-card
           v-if=" postData &&  postData.medias!==null && postData.medias.length>0"
           class="CardImg"
-          :img-src="`https://api.banooclub.simagar.com/media/gallery/post/${postData.medias[0].base64}`"
+          :img-src="`https://subapi.banoclub.com/media/gallery/post/${postData.medias[0].base64}`"
           img-alt="Card image cap"
           img-top
           :title="postData.title"

@@ -3,7 +3,7 @@
     <div class="d-flex flex-column tw-py-1" >
       <div class="tw-flex tw-py-1">
         <div class="tw-w-10 tw-h-10 tw-rounded-full tw-relative tw-flex-shrink-0">
-          <img style="width: 40px;height: 40px;object-fit: contain;" v-if="Comment.userInfo.selfieFileData" :src="`https://api.banooclub.simagar.com/${Comment.userInfo.selfieFileData}`" alt="" class="tw-absolute tw-rounded-full">
+          <img style="width: 40px;height: 40px;object-fit: contain;" v-if="Comment.userInfo.selfieFileData" :src="`https://subapi.banoclub.com/${Comment.userInfo.selfieFileData}`" alt="" class="tw-absolute tw-rounded-full">
           <img v-else :src="userDefault" alt="" class="tw-absolute tw-h-full tw-rounded-full tw-w-full">
         </div>
         <div>
@@ -27,7 +27,7 @@
       </div>
         <div  class="tw-flex tw-py-3 tw-pr-5" v-for="(el,idx) in Comment.filter(e=> e.baseId === Comment.serviceCommentId)" :key="idx" >
           <div class="tw-w-10 tw-h-10 tw-rounded-full tw-relative tw-flex-shrink-0">
-            <img :src="`https://api.banooclub.simagar.com/${el.userInfo.selfieFileData}`" alt="" class="tw-absolute tw-h-full tw-rounded-full tw-w-full">
+            <img :src="`https://subapi.banoclub.com/${el.userInfo.selfieFileData}`" alt="" class="tw-absolute tw-h-full tw-rounded-full tw-w-full">
           </div>
           <div>
             <div class="tw-text-gray-700 tw-py-2 tw-px-3 tw-rounded-md tw-bg-gray-100 tw-relative lg:tw-mr-5 tw-mr-2 lg:tw-ml-12">

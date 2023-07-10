@@ -9,7 +9,7 @@
           <b-avatar
               v-if="ServiceData.userInfo"
               size="42"
-              :src="`https://api.banooclub.simagar.com/${ServiceData.userInfo.selfieFileData}`"
+              :src="`https://subapi.banoclub.com/${ServiceData.userInfo.selfieFileData}`"
           />
         </b-media-aside>
         <b-media-body>
@@ -49,7 +49,7 @@
       </div>
       <!--/ payment  -->
         <div v-for="item in ServiceData.medias" class="d-flex align-items-center justify-content-around">
-          <img :src="`https://api.banooclub.simagar.com/media/gallery/service/${item.base64}`" width="100px" height="100px" alt="">
+          <img :src="`https://subapi.banoclub.com/media/gallery/service/${item.base64}`" width="100px" height="100px" alt="">
 
         </div>
 

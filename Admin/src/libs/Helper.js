@@ -45,6 +45,6 @@ class Helper{
     }
   }
 
- static baseUrl = 'https://api.banooclub.simagar.com/'
+ static baseUrl = 'https://subapi.banoclub.com/'
 }
 export default Helper;

@@ -87,9 +87,9 @@
               <div class="d-flex gap-3 h-100 align-items-start">
                 <div class="rounded-circle  d-flex flex-column justify-content-center align-items-center"
                      style="height: 100%">
-                  <img v-if="item.userPic" :src="baseUrl+'/' +item.userPic" alt=""
+                  <img v-if="item.userPic" class="rounded-circle" :src="baseUrl+'/' +item.userPic" alt=""
                        style="object-fit: contain;width: 5rem;height: 5rem">
-                  <img v-else alt="" src="/defaultUser.png" style="object-fit: contain;width: 5rem;height: 5rem">
+                  <img v-else alt="" class="rounded-circle" src="/defaultUser.png" style="object-fit: contain;width: 5rem;height: 5rem">
                 </div>
                 <div class="d-flex flex-column h-100 justify-content-center align-items-start">
                   <div class="d-flex flex-column justify-content-start align-items-start">

@@ -9,7 +9,7 @@
     >
       <div v-if="SelectedPost" class="row">
         <div class="col-md-12">
-          <img v-if="SelectedPost.medias.length>0" style="width: 100%;height: 400px;object-fit: contain" :src="`https://api.banooclub.simagar.com/media/gallery/post/${SelectedPost.medias[0].base64}`" alt="">
+          <img v-if="SelectedPost.medias.length>0" style="width: 100%;height: 400px;object-fit: contain" :src="`https://subapi.banoclub.com/media/gallery/post/${SelectedPost.medias[0].base64}`" alt="">
         </div>
         <div class="col-md-12 mt-3 p-2 border-top shadow">
           {{SelectedPost.description}}

@@ -32,13 +32,13 @@
           </div>
           <div v-if="SelectedMedia!==null" class="modal-body">
             <img v-if="SelectedMedia.priority == 1 || SelectedMedia.priority == 2" class="tw-w-full tw-h-full"
-                 :src="`https://api.banooclub.simagar.com/media/gallery/Service/${SelectedMedia.base64}`" alt="Product Image"
+                 :src="`https://subapi.banoclub.com/media/gallery/Service/${SelectedMedia.base64}`" alt="Product Image"
                  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
             <video
               v-else-if="SelectedMedia.priority == 3"
               class="w-100 tw-h-full"
               controls
-              :src="`https://api.banooclub.simagar.com/media/gallery/Service/${SelectedMedia.base64}`"
+              :src="`https://subapi.banoclub.com/media/gallery/Service/${SelectedMedia.base64}`"
             ></video>
           </div>
 
@@ -51,7 +51,7 @@
         <div v-if="service_details && service_details.userInfo" class="tw-flex tw-items-center">
           <nuxt-link :to="`/user/${service_details.userInfo.userId}/posts`" class="text-decoration-none">
             <img v-if="service_details.userInfo &&service_details.userInfo.selfieFileData!==null "
-                 :src="`https://api.banooclub.simagar.com/${service_details.userInfo.selfieFileData}`" alt="profile_image"
+                 :src="`https://subapi.banoclub.com/${service_details.userInfo.selfieFileData}`" alt="profile_image"
                  class="tw-bg-gray-200 tw-border tw-border-white tw-rounded-full tw-w-10 tw-h-10">
             <img v-else :src="userDefault" alt="profile_image"
                  class="tw-bg-gray-200 tw-border tw-border-white tw-rounded-full tw-w-10 tw-h-10">
@@ -187,7 +187,7 @@
                     data-bs-toggle="modal" data-bs-target="#MediaModal"
                     style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
               <img @click="SetSelectedMedia(slide)" class="tw-w-full tw-h-full"
-                   :src="`https://api.banooclub.simagar.com/media/gallery/Service/${slide.base64}`"
+                   :src="`https://subapi.banoclub.com/media/gallery/Service/${slide.base64}`"
                    :alt="service_details.title"
                    style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
             </button>
@@ -196,7 +196,7 @@
               <video
                 class="w-100 tw-h-full"
                 controls
-                :src="`https://api.banooclub.simagar.com/media/gallery/Service/${slide.base64}`"
+                :src="`https://subapi.banoclub.com/media/gallery/Service/${slide.base64}`"
               ></video>
             </button>
           </template>
@@ -221,7 +221,7 @@
           @click.native="$refs.vueperslides2 && $refs.vueperslides2.goToSlide(i)">
           <template #content>
             <img v-if="slide.priority == 1 || slide.priority == 2" class=" tw-w-full"
-                 :src="`https://api.banooclub.simagar.com/media/gallery/Service/${slide.base64}`" :alt="service_details.title"
+                 :src="`https://subapi.banoclub.com/media/gallery/Service/${slide.base64}`" :alt="service_details.title"
                  style="object-fit: cover;object-position: center !important; height: 100px;">
             <img v-else-if="slide.priority == 3" class=" tw-w-full"
                  src="/video_player.jpg"
@@ -422,7 +422,7 @@
               <div class="tw-grid tw-grid-cols-12">
                 <div class="tw-col-span-1 tw-rounded-full tw-relative tw-flex tw-items-center ">
                   <img v-if="comment.userInfo && comment.userInfo.selfieFileData!==null"
-                       :src="`https://api.banooclub.simagar.com/media/gallery/profile/${comment.userInfo.selfieFileData}`"
+                       :src="`https://subapi.banoclub.com/media/gallery/profile/${comment.userInfo.selfieFileData}`"
                        alt="" class="tw-absolute tw-h-[40px] tw-rounded-full tw-w-[50px]">
                   <img v-else :src="userDefault" alt="" class="tw-absolute tw-h-[40px] tw-rounded-full tw-w-[50px]">
                 </div>
@@ -469,7 +469,7 @@
                    :key="idx">
                 <div class="tw-col-span-1 tw-rounded-full tw-relative tw-flex tw-items-center">
                   <img v-if="el.userInfo && el.userInfo.selfieFileData!==null"
-                       :src="`https://api.banooclub.simagar.com/media/gallery/profile/${el.userInfo.selfieFileData}`" alt=""
+                       :src="`https://subapi.banoclub.com/media/gallery/profile/${el.userInfo.selfieFileData}`" alt=""
                        class="tw-absolute tw-h-[40px] tw-rounded-full tw-w-[50px]">
                   <img v-else :src="userDefault" alt="" class="tw-absolute tw-h-[40px] tw-rounded-full tw-w-[50px]">
                 </div>

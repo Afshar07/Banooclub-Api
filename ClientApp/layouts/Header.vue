@@ -878,7 +878,7 @@
               <div class="col-md-1" style="padding-left: 0">
                 <img
                   v-if="item.selfieFileData !== ''"
-                  :src="`https://api.banooclub.simagar.com/${item.selfieFileData}`"
+                  :src="`https://subapi.banoclub.com/${item.selfieFileData}`"
                   alt=""
                   class="img-fluid myPicture rounded-circle tw-pl-0"
                   style="width: 25px; height: 25px;object-fit: contain"
@@ -950,7 +950,7 @@
                 <img
                   v-if="$auth.user && $auth.user.baseData &&  $auth.user.baseData.selfie"
                   v-click-outside="CloseProfileHeader"
-                  :src="`https://api.banooclub.simagar.com/${$auth.user.baseData.selfie}`"
+                  :src="`https://subapi.banoclub.com/${$auth.user.baseData.selfie}`"
                   alt=""
                   class="img-fluid headerPicture tw-object-cover"
                   @click.stop="profileHeader"
@@ -976,7 +976,7 @@
                         >
                           <img
                             v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
-                            :src="`https://api.banooclub.simagar.com/${$auth.user.baseData.selfie}`"
+                            :src="`https://subapi.banoclub.com/${$auth.user.baseData.selfie}`"
                             alt=""
                             class="img-fluid rounded-circle"
                             style="width: 45px; height: 45px;"
@@ -1137,7 +1137,7 @@
               <div class="col-1 d-flex" style="padding-left: 0">
                 <img
                   v-if="item.selfieFileData !== ''"
-                  :src="`https://api.banooclub.simagar.com/${item.selfieFileData}`"
+                  :src="`https://subapi.banoclub.com/${item.selfieFileData}`"
                   alt=""
                   class="myPicture rounded-circle align-self-center"
                   style="width: 25px;height: 25px;object-fit: contain"
@@ -1210,7 +1210,7 @@
             <div class="position-relative custom_header_size mx-1" @click="RouteToEditProfile">
               <img
                 v-if="$auth.user && $auth.user.baseData && $auth.user.baseData.selfie"
-                :src="`https://api.banooclub.simagar.com/${$auth.user.baseData.selfie}`"
+                :src="`https://subapi.banoclub.com/${$auth.user.baseData.selfie}`"
                 alt=""
                 class="img-fluid headerPicture tw-object-cover"
 
@@ -1233,7 +1233,7 @@
                       >
                         <img
                           v-if="loggedInfoData.selfie"
-                          :src="`https://api.banooclub.simagar.com/${loggedInfoData.selfie}`"
+                          :src="`https://subapi.banoclub.com/${loggedInfoData.selfie}`"
                           alt=""
                           class="img-fluid rounded-circle"
                           style="width: 45px; height: 45px;"
@@ -1699,12 +1699,12 @@ export default {
     },
     imgUserAvatar() {
       if (this.userinfo.selfieFileData !== null) {
-        this.userImageApi = `https://api.banooclub.simagar.com/${this.userinfo.selfieFileData}`;
+        this.userImageApi = `https://subapi.banoclub.com/${this.userinfo.selfieFileData}`;
       }
     },
     imageBackground() {
       if (this.userinfo.bannerFileData !== null) {
-        this.BackgroundApi = `https://api.banooclub.simagar.com/${this.userinfo.bannerFileData}`;
+        this.BackgroundApi = `https://subapi.banoclub.com/${this.userinfo.bannerFileData}`;
       }
     },
     async getUserInfo() {

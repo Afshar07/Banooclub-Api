@@ -43,7 +43,7 @@
         />
         </b-form-group>
         <div class="position-relative" v-if=" SelectedCategory!==null&&SelectedCategory.fileData!==null">
-          <img v-if="BaseImgUrl===''" :src="`https://api.banooclub.simagar.com/media/gallery/adsCategory/${SelectedCategory.fileData}`" width="100px" height="100px" alt="">
+          <img v-if="BaseImgUrl===''" :src="`https://subapi.banoclub.com/media/gallery/adsCategory/${SelectedCategory.fileData}`" width="100px" height="100px" alt="">
           <img v-else :src="BaseImgUrl" width="100px" height="100px" alt="">
         </div>
       </b-modal>
@@ -130,7 +130,7 @@
           <!-- Column: delete -->
           <template #cell(fileData)="data">
 
-            <img :src="`https://api.banooclub.simagar.com/media/gallery/adsCategory/${data.item.fileData}`" width="50px" height="50px" alt="">
+            <img :src="`https://subapi.banoclub.com/media/gallery/adsCategory/${data.item.fileData}`" width="50px" height="50px" alt="">
           </template>
           <template #cell(Delete)="data">
 

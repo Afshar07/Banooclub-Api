@@ -492,7 +492,7 @@
         <!--                <div class="tw-grid tw-grid-cols-2">-->
         <!--                  <div class="UserInfoCard  tw-bg-white tw-rounded tw-shadow">-->
         <!--                    <div class="UserInfoCardImg tw-justify-center tw-flex tw-shadow tw-object-cover ">-->
-        <!--                      <img :src="`https://api.banooclub.simagar.com/media/gallery/profile/${SelectedUser.selfieFileData}`" class="tw-rounded-full tw-shadow-xl tw-relative tw-bottom-10 tw-w-24 tw-h-24"  alt="">-->
+        <!--                      <img :src="`https://subapi.banoclub.com/media/gallery/profile/${SelectedUser.selfieFileData}`" class="tw-rounded-full tw-shadow-xl tw-relative tw-bottom-10 tw-w-24 tw-h-24"  alt="">-->
         <!--                    </div>-->
         <!--                    <div class="UserInfoCardBody tw-flex tw-flex-col">-->
         <!--                      <div class="tw-flex tw-items-center tw-justify-between">-->

@@ -7,7 +7,7 @@ import {initialAbility} from "@/libs/acl/config";
 import ToastificationContent from "@core/components/toastification/ToastificationContent";
 
 class WebServiceRequest {
-    static baseUrl = 'https://api.banooclub.simagar.com/api/';
+    static baseUrl = 'https://subapi.banoclub.com/api/';
     // static baseUrl = 'https://api.furfit.simagar.com/api/';
 
     constructor (context) {

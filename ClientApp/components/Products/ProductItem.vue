@@ -7,7 +7,7 @@
                  :to="`/user/${service_details.userInfo.userName}/posts`">
         <img
           class="headerPicture"
-          :src="`https://api.banooclub.simagar.com/media/gallery/profile/${service_details.userInfo.selfieFileData}`"
+          :src="`https://subapi.banoclub.com/media/gallery/profile/${service_details.userInfo.selfieFileData}`"
           alt=""
 
           style="border-radius: 50%; cursor: pointer;    width: 30px;  height: 30px;box-shadow: 0 0 9px rgb(72 69 72);"
@@ -27,7 +27,7 @@
     <div class="card-media tw-h-40">
       <nuxt-link :to="`/Products/${service_details.servicePackId}`">
         <img v-if="service_details.medias!==null"
-             :src="`https://api.banooclub.simagar.com/media/gallery/Service/${service_details.medias[0].base64}`"
+             :src="`https://subapi.banoclub.com/media/gallery/Service/${service_details.medias[0].base64}`"
              :alt="service_details.title" style="object-fit: cover;object-position: center; height: 160px !important;"/>
         <img v-else src="/nopicture.jpg" :alt="service_details.title"
              style="object-fit: cover;object-position: center; height: 160px !important;"/>
