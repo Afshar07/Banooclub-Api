@@ -243,6 +243,7 @@ export default {
       return process.env.pic
     }
   },
+  fetchOnServer:false,
 
   methods: {
     changePageComment() {
@@ -279,6 +280,9 @@ export default {
     },
     async getConsultant() {
       try {
+        this.$nextTick(()=>{
+          this.$nuxt.$loading.start()
+        })
         const res = await this.$repositories.getConsultantById.setParams({
           id: this.$route.params.Consultant
         })
@@ -288,6 +292,8 @@ export default {
         console.log(e)
       }
       finally {
+        this.$nuxt.$loading.finish()
+        this.$nuxt.loading = false
 
       }
     }
