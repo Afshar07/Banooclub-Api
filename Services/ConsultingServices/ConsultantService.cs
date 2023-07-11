@@ -145,6 +145,9 @@ namespace BanooClub.Services.ConsultingServices
                    : 0;
             if (userId > 0 && targetTime != null && targetDate != null && type != null)
             {
+                var tempDate = new DateTime(targetDate.Value.Year, targetDate.Value.Month, targetDate.Value.Day, targetTime.Value.Hours, targetTime.Value.Minutes, targetTime.Value.Seconds);
+                if (tempDate < DateTime.Now)
+                    return new ServiceResult<long>() { IsSuccess = false, Data = -8 };
                 var dayOFWeek = (DayOfWeek)((int)targetDate.Value.DayOfWeek);
                 var foundPrice = await _consultantRepository
                 .GetQuery()
@@ -383,8 +386,8 @@ namespace BanooClub.Services.ConsultingServices
                     t.lName,
                     t.cats,
                     t.des,
-                    v = !string.IsNullOrEmpty(t.v) ? ("/Media/Gallery/VideoConsultation/" + t.v) : "",
-                    upi = !string.IsNullOrEmpty(t.upi) ? ("/Media/Gallery/ConsultationUserProfile/" + t.upi) : "",
+                    v = !string.IsNullOrEmpty(t.v) ? ("Media/Gallery/VideoConsultation/" + t.v) : "",
+                    upi = !string.IsNullOrEmpty(t.upi) ? ("Media/Gallery/ConsultationUserProfile/" + t.upi) : "",
                     t.medicalSystemNumber,
                     t.city,
                     t.state,
@@ -419,7 +422,7 @@ namespace BanooClub.Services.ConsultingServices
                 .Where(t => t.IsConfirm == true);
 
             var total = await quiryResult.CountAsync();
-            var data = await
+            var data = (await
                 quiryResult
                 .OrderByDescending(t => t.CreateDate)
                 .Skip((pageNumber.Value - 1) * take.Value)
@@ -432,7 +435,17 @@ namespace BanooClub.Services.ConsultingServices
                     t.Rate,
                     userPic = _mediaRepository.GetQuery().Where(z => z.ObjectId == t.ConsultantUserSchedule.UserId && z.Type == MediaTypes.Profile).Select(t => t.PictureUrl).FirstOrDefault(),
                 })
-                .ToListAsync();
+                .ToListAsync()
+                )
+                .Select(t => new 
+                {
+                    t.userFullname,
+                    t.CreateDate,
+                    t.Description,
+                    t.Rate,
+                    userPic = !string.IsNullOrEmpty(t.userPic) ? ("Media/Gallery/Profile/" + t.userPic) : "",
+                })
+                .ToList();
 
             return new
             {
@@ -530,7 +543,7 @@ namespace BanooClub.Services.ConsultingServices
                     t.DayOfWeek,
                     t.StartTime,
                     t.EntTime,
-                    status = getSchedualStatus(t.hasPayedUser, t.hasNotPayedUser, t.IsAvailable)
+                    status = getSchedualStatus(t.hasPayedUser, t.hasNotPayedUser, t.IsAvailable, targetDate, t.StartTime)
                 })
                 .GroupBy(t => t.DayOfWeek)
                 .Select(t => new
@@ -542,8 +555,10 @@ namespace BanooClub.Services.ConsultingServices
                 ;
         }
 
-        int getSchedualStatus(bool hasPayedUser, bool hasNotPayedUser, bool isAvailable)
+        int getSchedualStatus(bool hasPayedUser, bool hasNotPayedUser, bool isAvailable, DateTime? targetDate, TimeSpan startTime)
         {
+            if (targetDate != null && targetDate.Value.Date == DateTime.Now.Date && startTime.Hours <= DateTime.Now.Hour && startTime.Minutes <= DateTime.Now.Minute && startTime.Seconds <= DateTime.Now.Second)
+                return 4;
             if (hasPayedUser)
                 return 3;
             if (hasNotPayedUser)
