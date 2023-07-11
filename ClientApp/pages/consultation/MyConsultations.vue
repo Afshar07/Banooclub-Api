@@ -68,7 +68,7 @@
           </div>
         </div>
       </div>
-      <div v-if="myConsultations && !isRequesting" class="p-0">
+      <div v-if="myConsultations" class="p-0">
         <div v-for="(item,idx) in myConsultations" :key="idx" class="col-md-12 my-3 ">
           <div class="bg-white text-black cursor-pointer shadow row rounded p-md-4 p-2 row"
                style="min-height: 10rem;text-decoration: none"
@@ -88,9 +88,10 @@
               <div class="d-flex gap-3 h-100 align-items-start">
                 <div class="rounded-circle  d-flex flex-column justify-content-center align-items-center"
                      style="height: 100%">
-                  <img v-if="item.userPic" class="rounded-circle" :src="baseUrl+'/' +item.userPic" alt=""
+                  <img v-if="item.userPic" :src="baseUrl+'/' +item.userPic" alt="" class="rounded-circle"
                        style="object-fit: cover;width: 5rem;height: 5rem">
-                  <img v-else alt="" class="rounded-circle" src="/defaultUser.png" style="object-fit: cover;width: 5rem;height: 5rem">
+                  <img v-else alt="" class="rounded-circle" src="/defaultUser.png"
+                       style="object-fit: cover;width: 5rem;height: 5rem">
                 </div>
                 <div class="d-flex flex-column h-100 justify-content-center align-items-start">
                   <div class="d-flex flex-column justify-content-start align-items-start">
@@ -150,8 +151,9 @@
                         @click="createPayment(item.orderId)">
                   <small>پرداخت</small>
                 </button>
-                <button  data-toggle="tooltip"  title="پس از ورود به اسکای روم روی دکمه میهمان کلیک کنید" v-if="item.isPayed && item.type===3 && item.status!==2"
-                        class="p-1 bg-info rounded shadow text-white" type="button"
+                <button v-if="item.isPayed && item.type===3 && item.status!==2" class="p-1 bg-info rounded shadow text-white"
+                        data-toggle="tooltip"
+                        title="پس از ورود به اسکای روم روی دکمه میهمان کلیک کنید" type="button"
                         @click="createSkyRoom(item)">
                   <small>ورود به اسکای روم</small>
                 </button>
@@ -168,7 +170,6 @@
         </div>
 
       </div>
-      <LazySpinner v-if="isRequesting"></LazySpinner>
       <div v-if="totalPages.length>1" class="col-md-12 bg-white p-3 mb-3    rounded shadow">
         <LazyCustomPagination :activePage="page" :totalPages="totalPages" @PageChanged="changePage($event)"/>
       </div>
@@ -237,6 +238,7 @@ export default {
       try {
         this.commentObject.id = this.selectedConsult.id
         const res = await this.$repositories.createConsultComment.setPayload(this.commentObject)
+
         if (res.data.isSuccess) {
           this.$toast.success('نظر شما با موفقیت ثبت شد و پس از تایید ادمین به نمایش در می‌آید')
           this.getMyConsultations()
@@ -323,7 +325,9 @@ export default {
     },
     async getMyConsultations() {
       try {
-        this.isRequesting = true
+        this.$nextTick(() => {
+          this.$nuxt.$loading.start()
+        })
         const res = await this.$repositories.getMyConsultations.setParams({
           fullname: this.searchCommand,
           pageNumber: this.page,
@@ -340,7 +344,9 @@ export default {
         console.log(e)
       }
       finally {
-        this.isRequesting = false
+        this.$nuxt.$loading.finish()
+        this.$nuxt.loading = false
+
       }
     },
   }

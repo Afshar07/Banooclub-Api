@@ -67,7 +67,7 @@
           </div>
         </div>
       </div>
-      <div v-if="myConsultations && !isRequesting" class="p-0">
+      <div v-if="myConsultations" class="p-0">
         <div v-for="(item,idx) in myConsultations" :key="idx" class="col-md-12 my-3 ">
           <div class="bg-white text-black cursor-pointer shadow row rounded p-md-4 p-2 row"
                style="min-height: 10rem;text-decoration: none"
@@ -87,13 +87,14 @@
               <div class="d-flex gap-3 h-100 align-items-start">
                 <div class="rounded-circle  d-flex flex-column justify-content-center align-items-center"
                      style="height: 100%">
-                  <img v-if="item.userPic" class="rounded-circle" :src="baseUrl+'/' +item.userPic" alt=""
+                  <img v-if="item.userPic" :src="baseUrl+'/' +item.userPic" alt="" class="rounded-circle"
                        style="object-fit: cover;width: 5rem;height: 5rem">
-                  <img v-else alt="" class="rounded-circle" src="/defaultUser.png" style="object-fit: cover;width: 5rem;height: 5rem">
+                  <img v-else alt="" class="rounded-circle" src="/defaultUser.png"
+                       style="object-fit: cover;width: 5rem;height: 5rem">
                 </div>
                 <div class="d-flex flex-column h-100 justify-content-center align-items-start">
                   <div class="d-flex flex-column justify-content-start align-items-start">
-                    <nuxt-link :to="`/user/${item.userName}/posts`" style="text-decoration: none" class="text-black ">
+                    <nuxt-link :to="`/user/${item.userName}/posts`" class="text-black " style="text-decoration: none">
                       <h5 class="tw-font-bold">{{ item.name + ' ' + item.lName }}</h5>
                     </nuxt-link>
                     <span class="text-muted">{{ item.cats }}</span>
@@ -129,8 +130,8 @@
                   </div>
                   <div class="d-flex gap-1">
                     <button v-if="item.status!==2" class="btn btn-info btn-sm text-white" data-bs-target="#changeStatus"
-                       data-bs-toggle="modal"
-                       style="cursor:pointer;" @click="selectedConsult = item">تغییر
+                            data-bs-toggle="modal"
+                            style="cursor:pointer;" @click="selectedConsult = item">تغییر
                       وضعیت
                     </button>
                   </div>
@@ -150,8 +151,9 @@
                         @click="createPayment(item.orderId)">
                   <small>پرداخت</small>
                 </button>
-                <button  data-toggle="tooltip"  title="رمز عبور و نام کاربری شما شماره موبایل شما است" v-if="item.isPayed && item.type===3 && item.status!==2"
-                        class="p-1 bg-info rounded shadow text-white" type="button"
+                <button v-if="item.isPayed && item.type===3 && item.status!==2" class="p-1 bg-info rounded shadow text-white"
+                        data-toggle="tooltip"
+                        title="رمز عبور و نام کاربری شما شماره موبایل شما است" type="button"
                         @click="createSkyRoom(item)">
                   <small>ورود به اسکای روم</small>
                 </button>
@@ -167,8 +169,7 @@
         </div>
 
       </div>
-      <LazySpinner v-if="isRequesting"></LazySpinner>
-      <div v-if="totalPages.length>1"  class="col-md-12 bg-white p-3 mb-3    rounded shadow">
+      <div v-if="totalPages.length>1" class="col-md-12 bg-white p-3 mb-3    rounded shadow">
         <LazyCustomPagination :activePage="page" :totalPages="totalPages"
                               @PageChanged="changePage($event)"/>
 
@@ -238,6 +239,9 @@ export default {
   methods: {
     async changeStatus() {
       try {
+        this.$nextTick(() => {
+          this.$nuxt.$loading.start()
+        })
         const res = await this.$repositories.changeConsultStatus.setParams({
           id: this.selectedConsult.id
         })
@@ -251,6 +255,11 @@ export default {
       }
       catch (e) {
         console.log(e)
+      }
+      finally {
+        this.$nuxt.$loading.finish()
+        this.$nuxt.loading = false
+
       }
     },
     async getUser(item) {
@@ -279,9 +288,10 @@ export default {
         const res = await this.$repositories.createSkyRoom.setParams({
           consultantUserScheduleId: item.id
         })
-        if(res.data.isSuccess){
+        if (res.data.isSuccess) {
           window.location.replace(res.data.data)
-        }else{
+        }
+        else {
           this.$toast.error(res.data.errorMessage)
         }
 
@@ -322,6 +332,9 @@ export default {
     },
     async getMyConsultations() {
       try {
+        this.$nextTick(() => {
+          this.$nuxt.$loading.start()
+        })
         this.isRequesting = true
         const res = await this.$repositories.getMyConsultationsForConsulter.setParams({
           fullname: this.searchCommand,
@@ -339,7 +352,8 @@ export default {
         console.log(e)
       }
       finally {
-        this.isRequesting = false
+        this.$nuxt.$loading.finish()
+        this.$nuxt.loading = false
       }
     },
   }
