@@ -221,7 +221,7 @@ module.exports = {
     // baseURL: 'https://localhost:44330/',
   },
   env: {
-    pic: "https://subapi.banoclub.com",
+    pic: "https://subapi.banoclub.com/",
   },
   // server: {
   //   port: 3000, // default: 3000
