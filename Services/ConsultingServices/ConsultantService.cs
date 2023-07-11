@@ -383,8 +383,8 @@ namespace BanooClub.Services.ConsultingServices
                     t.lName,
                     t.cats,
                     t.des,
-                    v = !string.IsNullOrEmpty(t.v) ? ("/Media/Gallery/VideoConsultation/" + t.v) : "",
-                    upi = !string.IsNullOrEmpty(t.upi) ? ("/Media/Gallery/ConsultationUserProfile/" + t.upi) : "",
+                    v = !string.IsNullOrEmpty(t.v) ? ("Media/Gallery/VideoConsultation/" + t.v) : "",
+                    upi = !string.IsNullOrEmpty(t.upi) ? ("Media/Gallery/ConsultationUserProfile/" + t.upi) : "",
                     t.medicalSystemNumber,
                     t.city,
                     t.state,
@@ -419,7 +419,7 @@ namespace BanooClub.Services.ConsultingServices
                 .Where(t => t.IsConfirm == true);
 
             var total = await quiryResult.CountAsync();
-            var data = await
+            var data = (await
                 quiryResult
                 .OrderByDescending(t => t.CreateDate)
                 .Skip((pageNumber.Value - 1) * take.Value)
@@ -432,7 +432,17 @@ namespace BanooClub.Services.ConsultingServices
                     t.Rate,
                     userPic = _mediaRepository.GetQuery().Where(z => z.ObjectId == t.ConsultantUserSchedule.UserId && z.Type == MediaTypes.Profile).Select(t => t.PictureUrl).FirstOrDefault(),
                 })
-                .ToListAsync();
+                .ToListAsync()
+                )
+                .Select(t => new 
+                {
+                    t.userFullname,
+                    t.CreateDate,
+                    t.Description,
+                    t.Rate,
+                    userPic = !string.IsNullOrEmpty(t.userPic) ? ("Media/Gallery/Profile/" + t.userPic) : "",
+                })
+                .ToList();
 
             return new
             {
