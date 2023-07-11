@@ -145,6 +145,9 @@ namespace BanooClub.Services.ConsultingServices
                    : 0;
             if (userId > 0 && targetTime != null && targetDate != null && type != null)
             {
+                var tempDate = new DateTime(targetDate.Value.Year, targetDate.Value.Month, targetDate.Value.Day, targetTime.Value.Hours, targetTime.Value.Minutes, targetTime.Value.Seconds);
+                if (tempDate < DateTime.Now)
+                    return new ServiceResult<long>() { IsSuccess = false, Data = -8 };
                 var dayOFWeek = (DayOfWeek)((int)targetDate.Value.DayOfWeek);
                 var foundPrice = await _consultantRepository
                 .GetQuery()
@@ -540,7 +543,7 @@ namespace BanooClub.Services.ConsultingServices
                     t.DayOfWeek,
                     t.StartTime,
                     t.EntTime,
-                    status = getSchedualStatus(t.hasPayedUser, t.hasNotPayedUser, t.IsAvailable)
+                    status = getSchedualStatus(t.hasPayedUser, t.hasNotPayedUser, t.IsAvailable, targetDate, t.StartTime)
                 })
                 .GroupBy(t => t.DayOfWeek)
                 .Select(t => new
@@ -552,8 +555,10 @@ namespace BanooClub.Services.ConsultingServices
                 ;
         }
 
-        int getSchedualStatus(bool hasPayedUser, bool hasNotPayedUser, bool isAvailable)
+        int getSchedualStatus(bool hasPayedUser, bool hasNotPayedUser, bool isAvailable, DateTime? targetDate, TimeSpan startTime)
         {
+            if (targetDate != null && targetDate.Value.Date == DateTime.Now.Date && startTime.Hours <= DateTime.Now.Hour && startTime.Minutes <= DateTime.Now.Minute && startTime.Seconds <= DateTime.Now.Second)
+                return 4;
             if (hasPayedUser)
                 return 3;
             if (hasNotPayedUser)
