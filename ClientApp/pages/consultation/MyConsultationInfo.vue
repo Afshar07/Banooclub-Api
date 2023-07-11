@@ -556,6 +556,9 @@ export default {
     },
     async getConsultantRequest() {
       try {
+        this.$nextTick(() => {
+          this.$nuxt.$loading.start()
+        })
         const res = await this.$repositories.getConsultantRequest.setTag()
         this.consultantRequest = res.data
         this.getSchedules(res.data)
@@ -565,6 +568,9 @@ export default {
       }
       finally {
         this.getCity()
+        this.$nuxt.$loading.finish()
+        this.$nuxt.loading = false
+
       }
     },
     async handleFile() {
