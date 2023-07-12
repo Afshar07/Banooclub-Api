@@ -557,7 +557,7 @@ namespace BanooClub.Services.ConsultingServices
 
         int getSchedualStatus(bool hasPayedUser, bool hasNotPayedUser, bool isAvailable, DateTime? targetDate, TimeSpan startTime)
         {
-            if (targetDate != null && targetDate.Value.Date == DateTime.Now.Date && startTime.Hours <= DateTime.Now.Hour && startTime.Minutes <= DateTime.Now.Minute && startTime.Seconds <= DateTime.Now.Second)
+            if (targetDate != null && targetDate.Value.Date <= DateTime.Now.Date && startTime.Hours <= DateTime.Now.Hour && startTime.Minutes <= DateTime.Now.Minute && startTime.Seconds <= DateTime.Now.Second)
                 return 4;
             if (hasPayedUser)
                 return 3;

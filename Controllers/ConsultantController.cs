@@ -90,7 +90,7 @@ namespace BanooClub.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        [Authorize]
+        //[Authorize]
         public async Task<object> GetSchedule([FromQuery] long? id, [FromQuery] List<DayOfWeek> days, [FromQuery] DateTime? targetDate)
         {
             return await _consultantService.GetSchedule(id, days, targetDate);
