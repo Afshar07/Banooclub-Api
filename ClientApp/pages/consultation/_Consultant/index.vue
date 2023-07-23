@@ -82,7 +82,7 @@
               <div class="w-100 d-flex h-100 px-2" style="border-right: solid 3px #e7b0fe">
                 <strong>درباره من</strong>
               </div>
-              <div class="mt-2 px-2">
+              <div style="overflow-wrap: anywhere!important"  class="mt-2 px-2">
                 <textarea v-if="isEditingPage" class="form-control with-border" placeholder="درباره من "
                           rows="10"></textarea>
                 <div v-else v-html="consultantInfo.des"></div>
@@ -140,8 +140,8 @@
                     <small class="text-white">{{ item.rate }}</small>
                   </span>
                 </div>
-                <div class="px-2 mt-3">
-                  <p style="overflow-wrap: anywhere">{{ item.description }}</p>
+                <div style="overflow-wrap: anywhere" class="px-2 mt-3">
+                  <p  style="overflow-wrap: anywhere">{{ item.description }}</p>
                 </div>
               </div>
 
