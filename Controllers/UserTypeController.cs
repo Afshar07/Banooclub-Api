@@ -61,12 +61,13 @@ namespace BanooClub.Controllers
             await userTypeService.Delete(id);
         }
 
-        [HttpPost]
-        [Route("[action]")]
-        public List<UserType> GetByCommand(string sql)
-        {
-            return userTypeService.GetByCommand(sql).ToList();
-        }
+        //[HttpPost]
+        //[Route("[action]")]
+        //public List<UserType> GetByCommand(string sql)
+        //{
+        //    return userTypeService.GetByCommand(sql).ToList();
+        //}
+
         [HttpPost]
         [Route("[action]")]
         public object UpdateByCmd(string name, int id)
