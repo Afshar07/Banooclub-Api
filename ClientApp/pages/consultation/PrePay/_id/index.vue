@@ -63,7 +63,7 @@
             <template v-for="(time,timeIndex) in day.hours">
               <button
                 :class="getSelectedClass(time,day)"
-                :disabled="time.status===-1"
+                :disabled="time.status===-1|| time.status===4"
                 class="w-100 p-2 rounded bg-purple mt-2 disabled:tw-bg-gray-300 disabled:tw-cursor-not-allowed cursor-pointer cursor-pointer text-center text-white shadow"
                 type="button"
                 @click="isSelected(time,day)">
@@ -189,6 +189,9 @@ export default {
       else if (time.status === 3) {
         return 'bg-primary'
       }
+      else if (time.status === 4) {
+        return 'bg-Gray'
+      }
     },
 
     async createPayment() {
@@ -254,16 +257,20 @@ export default {
       }
     },
     isSelected(time, day) {
-      if (time.status !== 3) {
+      if (time.status === 3) {
+        this.$toast.error('این زمان رزرو شده است')
+
+      }
+      else if (time.status === 4) {
+        this.$toast.error('زمان گذشته است')
+      }
+      else {
         if (time === this.selectedTime) {
           this.selectedTime = ''
         }
         else {
           this.selectedTime = time.startTime
         }
-      }
-      else {
-        this.$toast.error('این زمان رزرو شده است')
       }
     },
 
