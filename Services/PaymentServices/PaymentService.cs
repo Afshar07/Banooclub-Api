@@ -249,7 +249,7 @@ namespace BanooClub.Services.PaymentServices
                     var result = await _smsSenderService.UltraFastSend(new UltraFastSend()
                     {
                         Mobile = Convert.ToInt64(foundItem.fromUserMobile),
-                        TemplateId = _configuration.GetValue<int>("smsTemplateIds:consultReminderTemplate"),
+                        TemplateId = _configuration.GetValue<int>("smsTemplateIds:consultReminderForConsulterTemplate"),
                         ParameterArray = new List<UltraFastParameters>()
                         {
                             new UltraFastParameters()
@@ -271,7 +271,7 @@ namespace BanooClub.Services.PaymentServices
                     var result = await _smsSenderService.UltraFastSend(new UltraFastSend()
                     {
                         Mobile = Convert.ToInt64(foundItem.toUserMobile),
-                        TemplateId = _configuration.GetValue<int>("smsTemplateIds:consultReminderTemplate"),
+                        TemplateId = _configuration.GetValue<int>("smsTemplateIds:consultReminderForPatientTemplate"),
                         ParameterArray = new List<UltraFastParameters>()
                         {
                             new UltraFastParameters()
