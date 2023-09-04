@@ -847,9 +847,19 @@
         <div :class="[!isChatLayout ? 'col-xl-4' : 'col-xl-6']" class="col-lg-2 d-flex align-items-center">
 
           <button class="btn ms-3 ShortCutToggle position-relative h-100" type="button" @click="decreaseWidthButton">
-            <i
-              :class="!decrease_width?' tw-text-white  tw-transform tw-rotate-0':' tw-text-white  tw-transform tw-rotate-[24deg]'"
-              class="fas fa-thumbtack   tw-transition tw-z-20 tw-z-10 "></i>
+            <!--            <i-->
+            <!--              :class="!decrease_width?' tw-text-white  tw-transform tw-rotate-0':' tw-text-white  tw-transform tw-rotate-[24deg]'"-->
+            <!--              class="fas fa-   tw-transition tw-z-20 tw-z-10 "></i>-->
+            <svg v-if="decrease_width" class=" tw-transition tw-z-20  tw-fill-white tw-z-10 tw-w-[20px] tw-h-[20px]"
+                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12 3C11.175 3 10.5 3.675 10.5 4.5C10.5 5.325 11.175 6 12 6C12.825 6 13.5 5.325 13.5 4.5C13.5 3.675 12.825 3 12 3ZM12 18C11.175 18 10.5 18.675 10.5 19.5C10.5 20.325 11.175 21 12 21C12.825 21 13.5 20.325 13.5 19.5C13.5 18.675 12.825 18 12 18ZM12 10.5C11.175 10.5 10.5 11.175 10.5 12C10.5 12.825 11.175 13.5 12 13.5C12.825 13.5 13.5 12.825 13.5 12C13.5 11.175 12.825 10.5 12 10.5Z"></path>
+            </svg>
+            <svg v-if="!decrease_width"
+                 class=" tw-transition tw-z-20  tw-fill-white tw-z-10 tw-w-[20px] tw-h-[20px]"
+                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 4H21V6H3V4ZM3 19H21V21H3V19ZM3 14H21V16H3V14ZM3 9H21V11H3V9Z"></path>
+            </svg>
 
           </button>
           <nuxt-link to="/social/AccountSetting/MyPage">
@@ -1079,10 +1089,16 @@
           <div class="col-lg-2 d-flex align-items-center" data-bs-target="#test" data-bs-toggle="offcanvas">
 
             <button class="btn ms-3 ShortCutToggle position-relative h-100" type="button">
-              <i
-                :class="!decrease_width?' tw-text-white  tw-transform tw-rotate-0':' tw-text-white tw-transform tw-rotate-[24deg]'"
-                class="fas fa-thumbtack   tw-transition tw-z-20 tw-z-10 "></i>
-
+              <svg v-if="decrease_width" class=" tw-transition tw-z-20  tw-fill-white tw-z-10 tw-w-[20px] tw-h-[20px]"
+                   viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12 3C11.175 3 10.5 3.675 10.5 4.5C10.5 5.325 11.175 6 12 6C12.825 6 13.5 5.325 13.5 4.5C13.5 3.675 12.825 3 12 3ZM12 18C11.175 18 10.5 18.675 10.5 19.5C10.5 20.325 11.175 21 12 21C12.825 21 13.5 20.325 13.5 19.5C13.5 18.675 12.825 18 12 18ZM12 10.5C11.175 10.5 10.5 11.175 10.5 12C10.5 12.825 11.175 13.5 12 13.5C12.825 13.5 13.5 12.825 13.5 12C13.5 11.175 12.825 10.5 12 10.5Z"></path>
+              </svg>
+              <svg v-if="!decrease_width"
+                   class=" tw-transition tw-z-20  tw-fill-white tw-z-10 tw-w-[20px] tw-h-[20px]"
+                   viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 4H21V6H3V4ZM3 19H21V21H3V19ZM3 14H21V16H3V14ZM3 9H21V11H3V9Z"></path>
+              </svg>
             </button>
             <nuxt-link to="/social/AccountSetting/MyPage">
               <img alt="" class="tw-h-10  tw-object-cover" src="/banoclub-logo-small.png">
@@ -1165,7 +1181,7 @@
         </div>
       </div>
     </section>
-    <section class="sticky_footer d-xl-none d-block w-100">
+    <section v-if="$route.path!=='/social/Chat'" class="sticky_footer d-xl-none d-block w-100">
       <div class="headerStyleMobile py-2">
         <div class="headerIcon">
           <div class="d-flex flex-row justify-content-around align-items-center">
@@ -2086,7 +2102,7 @@ export default {
   position: relative;
   background: #e7b0fe;
   color: #fff;
-  height: 70px;
+  height: 55px;
 }
 
 a {

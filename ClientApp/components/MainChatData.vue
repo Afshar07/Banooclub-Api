@@ -25,9 +25,7 @@
             <MyMessageItem v-if="ActiveUser.userId!==0" v-for="(item,idx) in ChatData" :key="idx" :Message="item" />
             <GroupMessageItem v-if="ActiveUser.groupId!==0" v-for="(item,idx) in ChatData" :key="idx" :Message="item" ></GroupMessageItem>
           </div>
-          <div class="col-md-12 p-0 px-0 bg-white p-1  " >
          <SendMessageInput @GetMessage="sendMessage($event)"></SendMessageInput>
-          </div>
         </div>
 
 
@@ -296,9 +294,9 @@ export default {
 }
 
 .ChatContainer{
-  height: 600px;
-  max-height: 600px;
-  min-height: 600px;
+  height: 850px;
+  max-height: 850px;
+  min-height: 850px;
   overflow-y: scroll;
   background: url("/chat-bg.jpg") no-repeat;
   background-size: cover;

@@ -10,9 +10,9 @@
       </label>
     </label>
     <input type="checkbox" ref="BannerModal" id="my-modal-5" class="tw-modal-toggle"/>
-    <label for="my-modal-5"  class="tw-modal my-0 cursor-pointer">
-      <label class="tw-modal-box  tw-max-w-3xl relative" style="z-index: 9999!important;" for="">
-        <SelectBanner @SendBannerPic="UploadBanner" @SetBannerPic="callInputMethod"></SelectBanner>
+    <label for="my-modal-5"  class="tw-modal my-5 cursor-pointer">
+      <label class="tw-modal-box tw-bg-white  tw-max-w-3xl " style="z-index: 9999!important;" for="">
+        <SelectBanner  @SendBannerPic="UploadBanner" @SetBannerPic="callInputMethod"></SelectBanner>
 
       </label>
     </label>
