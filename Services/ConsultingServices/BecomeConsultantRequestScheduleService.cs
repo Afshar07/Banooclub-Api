@@ -1,6 +1,5 @@
 ﻿using BanooClub.Extentions;
 using BanooClub.Models.Consulting;
-using BanooClub.Models.Enums;
 using BanooClub.Services.Common;
 using BanooClub.Services.ConsultingServices.DTOs;
 using Infrastructure;
