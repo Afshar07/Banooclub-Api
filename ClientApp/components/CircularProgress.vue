@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-radial-progress" :class="{'TextRed':RadialProgress<=30,'TextYellow':RadialProgress<=60,'TextGreen':RadialProgress<=100}" :style="`--value:${RadialProgress}`" style=" --size:4rem; --thickness: 2px;">{{ RadialProgress }}%</div>
+  <div class="tw-radial-progress z-[999]" :class="{'TextRed':RadialProgress<=30,'TextYellow':RadialProgress<=60,'TextGreen':RadialProgress<=100}" :style="`--value:${RadialProgress}`" style=" --size:4rem; --thickness: 2px;">{{ RadialProgress }}%</div>
 </template>
 
 <script>

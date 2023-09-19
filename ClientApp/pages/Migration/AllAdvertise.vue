@@ -15,192 +15,180 @@
           </button>
         </div>
     </div>
-    <div class="tab-content bg-white rounded tw-shadow p-3 my-3" id="pills-tabContent">
+    <div class="tab-content bg-white  rounded tw-shadow p-md-3 p-0 tw-mx-auto  my-3" id="pills-tabContent">
+      <div class="col-md-12 ">
+        <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
+          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" @click="ActiveTab=1">
+            <button class="nav-link active" id="products-pills-home-tab" data-bs-toggle="pill"
+                    type="button" role="tab" aria-controls="products-pills-home" aria-selected="true">
+              همه آگهی ها
+            </button>
+          </li>
+          <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" @click="ActiveTab=2">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" type="button" role="tab"
+                    aria-controls="pills-profile" aria-selected="false">
+              پیشنهادات
 
-      <div class="row boxMainContent mx-auto">
-        <div class="col-12  px-0">
-          <div class="row mx-auto">
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div v-if="ActiveTab===1" class=" row ">
+        <div class="col-md-3  mt-3">
+          <div class="row">
             <div class="col-md-12">
-              <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" @click="ActiveTab=1">
-                  <button class="nav-link active" id="products-pills-home-tab" data-bs-toggle="pill"
-                          type="button" role="tab" aria-controls="products-pills-home" aria-selected="true">
-                    همه آگهی ها
-                  </button>
-                </li>
-                <li class="nav-item" role="presentation m-0" style="margin: 0 !important;" @click="ActiveTab=2">
-                  <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" type="button" role="tab"
-                          aria-controls="pills-profile" aria-selected="false">
-                    پیشنهادات
+              <div class="accordion " id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                    <button
+                      class="accordion-button p-2 w-100   "
+                      type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne"
+                      aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                      <div class="tw-w-full tw-flex tw-items-center tw-justify-between">
 
-                  </button>
-                </li>
-              </ul>
-            </div>
-            <div v-if="ActiveTab===1" class="tab-pane fade show active row" id="products-pills-home" role="tabpanel"
-                 aria-labelledby="products-pills-home-tab">
-              <div class="col-md-12">
-                <div class="row">
-                  <div class="col-md-3  mt-3">
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="accordion " id="accordionPanelsStayOpenExample">
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="panelsStayOpen-headingFour">
-                              <button
-                                class="accordion-button p-2 w-100   "
-                                type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne"
-                                aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                <div class="tw-w-full tw-flex tw-items-center tw-justify-between">
-
-                                <small> فیلتر ها</small>
-                                <LazyFilterIcon class="tw-fill-white"></LazyFilterIcon>
-                                </div>
-                              </button>
-                            </h2>
-                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
-                                 aria-labelledby="panelsStayOpen-headingFour">
-                              <div class="accordion-body">
-                                <div class="d-flex  gap-2">
-                                  <LazySlideCheckBox v-model="Ladder" :UniqueId="1"></LazySlideCheckBox>
-                                  <div class="d-flex align-items-center gap-2">
-                                    <LazyFireIcon class="tw-fill-red-500 tw-w-6 tw-h-6"></LazyFireIcon>
-
-                                    <small>آتیش زدم</small>
-                                  </div>
-
-                                </div>
-                                <div class="d-flex align-items-end my-2  gap-2">
-                                  <LazySlideCheckBox v-model="Exchange" :UniqueId="2"></LazySlideCheckBox>
-                                  <div class="d-flex align-items-center gap-2">
-                                    <LazyExChangeIcon class="tw-fill-sky-500 tw-w-6 tw-h-6"></LazyExChangeIcon>
-                                    <small>قابل معاوضه</small>
-                                  </div>
-
-                                </div>
-
-
-                              </div>
-                            </div>
-
-                          </div>
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="panelsStayOpen-headingSeven">
-                              <button
-                                class="accordion-button p-2 w-100 d-flex align-items-center justify-content-between tw-shadow-lg"
-                                type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeven"
-                                aria-expanded="true" aria-controls="panelsStayOpen-collapseSeven">
-                                <small> قیمت</small>
-                              </button>
-                            </h2>
-                            <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse show"
-                                 aria-labelledby="panelsStayOpen-headingSeven">
-                              <div class="accordion-body">
-                                <div class="d-flex align-items-center gap-2">
-                                  <input type="tel" v-model="PriceFrom" placeholder="مثلا از 100000 تومان"
-                                         class=" my-1 SearchStyle p-1 Form-Control border ">
-                                  <small>-</small>
-                                  <input type="tel" v-model="PriceTo" placeholder="مثلا تا 200000 تومان"
-                                         class=" my-1 SearchStyle p-1 Form-Control border ">
-                                </div>
-
-                              </div>
-                            </div>
-
-                          </div>
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                              <button class="accordion-button p-2" type="button" data-bs-toggle="collapse"
-                                      data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true"
-                                      aria-controls="panelsStayOpen-collapseOne">
-
-                                <small> دسته بندی</small>
-                              </button>
-                            </h2>
-                            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show"
-                                 aria-labelledby="panelsStayOpen-headingOne">
-                              <div class="accordion-body">
-                                <v-select
-                                  :options="categories"
-                                  label="name"
-                                  dir="rtl"
-                                  placeholder="دسته بندی"
-                                  v-model="SelectedCategoryId"
-                                  :reduce="(name) => name.adsCategoryId"
-
-                                ></v-select>
-
-                              </div>
-                            </div>
-                          </div>
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                              <button class="accordion-button p-2" type="button" data-bs-toggle="collapse"
-                                      data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true"
-                                      aria-controls="panelsStayOpen-collapseOne">
-                                <small> شهر و استان</small>
-                              </button>
-                            </h2>
-                            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show"
-                                 aria-labelledby="panelsStayOpen-headingOne">
-                              <div class="accordion-body">
-
-                                <v-select
-                                  @input="GetCity"
-                                  :options="AllStates"
-                                  label="name"
-                                  dir="rtl"
-                                  placeholder="استان"
-                                  v-model="SelectedStateId"
-                                  :reduce="(name) => name.stateId"
-
-                                ></v-select>
-
-
-                                <v-select
-
-                                  :options="AllCities"
-                                  label="name"
-                                  dir="rtl"
-                                  class="my-3"
-                                  placeholder="شهر"
-                                  v-model="SelectedCityId"
-                                  :reduce="(name) => name.cityId"
-
-                                ></v-select>
-                              </div>
-                            </div>
-                          </div>
-
-                        </div>
+                        <small> فیلتر ها</small>
+                        <LazyFilterIcon class="tw-fill-white"></LazyFilterIcon>
                       </div>
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                       aria-labelledby="panelsStayOpen-headingFour">
+                    <div class="accordion-body">
+                      <div class="d-flex  gap-2">
+                        <LazySlideCheckBox v-model="Ladder" :UniqueId="1"></LazySlideCheckBox>
+                        <div class="d-flex align-items-center gap-2">
+                          <LazyFireIcon class="tw-fill-red-500 tw-w-6 tw-h-6"></LazyFireIcon>
+
+                          <small>آتیش زدم</small>
+                        </div>
+
+                      </div>
+                      <div class="d-flex align-items-end my-2  gap-2">
+                        <LazySlideCheckBox v-model="Exchange" :UniqueId="2"></LazySlideCheckBox>
+                        <div class="d-flex align-items-center gap-2">
+                          <LazyExChangeIcon class="tw-fill-sky-500 tw-w-6 tw-h-6"></LazyExChangeIcon>
+                          <small>قابل معاوضه</small>
+                        </div>
+
+                      </div>
+
+
                     </div>
                   </div>
-                  <div class="col-md-9">
-                    <div class="row">
-                      <div class="col-md-12 mt-3">
-                        <input type="search" v-model="Search" class="SearchStyle" placeholder="جستجو در میان آگهی ها">
-                      </div>
-                      <div class="col-md-12"  style="height: 1000px; overflow-y: scroll">
-                        <LazyAllAdsTabContent :Ads="AllAds" :categories="categories"/>
 
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingSeven">
+                    <button
+                      class="accordion-button p-2 w-100 d-flex align-items-center justify-content-between tw-shadow-lg"
+                      type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeven"
+                      aria-expanded="true" aria-controls="panelsStayOpen-collapseSeven">
+                      <small> قیمت</small>
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse show"
+                       aria-labelledby="panelsStayOpen-headingSeven">
+                    <div class="accordion-body">
+                      <div class="d-flex align-items-center gap-2">
+                        <input type="tel" v-model="PriceFrom" placeholder="مثلا از 100000 تومان"
+                               class=" my-1 SearchStyle p-1 Form-Control border ">
+                        <small>-</small>
+                        <input type="tel" v-model="PriceTo" placeholder="مثلا تا 200000 تومان"
+                               class=" my-1 SearchStyle p-1 Form-Control border ">
                       </div>
+
+                    </div>
+                  </div>
+
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                    <button class="accordion-button p-2" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapseOne">
+
+                      <small> دسته بندی</small>
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show"
+                       aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
+                      <v-select
+                        :options="categories"
+                        label="name"
+                        dir="rtl"
+                        placeholder="دسته بندی"
+                        v-model="SelectedCategoryId"
+                        :reduce="(name) => name.adsCategoryId"
+
+                      ></v-select>
+
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div v-if="ActiveTab===2" class="tab-pane show active row" id="pills-profile" role="tabpanel"
-                 aria-labelledby="pills-profile-tab">
-              <div class="col-md-12">
-                <LazyFirstTabContentAds :Ads="AllAds" :categories="categories"/>
-              </div>
-            </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                    <button class="accordion-button p-2" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapseOne">
+                      <small> شهر و استان</small>
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show"
+                       aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
 
+                      <v-select
+                        @input="GetCity"
+                        :options="AllStates"
+                        label="name"
+                        dir="rtl"
+                        placeholder="استان"
+                        v-model="SelectedStateId"
+                        :reduce="(name) => name.stateId"
+
+                      ></v-select>
+
+
+                      <v-select
+
+                        :options="AllCities"
+                        label="name"
+                        dir="rtl"
+                        class="my-3"
+                        placeholder="شهر"
+                        v-model="SelectedCityId"
+                        :reduce="(name) => name.cityId"
+
+                      ></v-select>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <input type="search" v-model="Search" class="SearchStyle my-3" placeholder="جستجو در میان آگهی ها">
+          <div style="height: 1000px; overflow-y: scroll">
+            <LazyAllAdsTabContent :Ads="AllAds" :categories="categories"/>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 mt-3">
+            </div>
+            <div class="col-md-12"  >
+            </div>
           </div>
         </div>
       </div>
-
+      <div v-if="ActiveTab===2" class="tab-pane show active row" id="pills-profile" role="tabpanel"
+           aria-labelledby="pills-profile-tab">
+        <div class="col-md-12">
+          <LazyFirstTabContentAds :Ads="AllAds" :categories="categories"/>
+        </div>
+      </div>
     </div>
 
 

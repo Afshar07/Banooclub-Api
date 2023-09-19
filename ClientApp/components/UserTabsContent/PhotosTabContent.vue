@@ -1,74 +1,109 @@
 <template>
   <div>
-    <div class="modal fade" id="MediaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div id="MediaModal" aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade"
+         style="direction: ltr!important" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
 
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
           </div>
-          <div v-if="SelectedMedia!==null" class="modal-body">
-            <img v-if="SelectedMedia.priority == 1 || SelectedMedia.priority == 2" class="tw-w-full tw-h-full" :src="`https://subapi.banoclub.com/media/gallery/galleryimages/${SelectedMedia.base64}`" alt="Product Image"
-                 style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
-            <video
-              v-else-if="SelectedMedia.priority == 3"
-              class="w-100 tw-h-full"
-              controls
-              :src="`https://subapi.banoclub.com/media/gallery/galleryvideos/${SelectedMedia.base64}`"
-            ></video>
+          <div class="modal-body">
+            <VueperSlides
+              ref="new_carousel"
+              :arrows="true"
+              :breakpoints="{ 425:{visibleSlides: 1,  slideMultiple: 1}, 426: { visibleSlides: 1,  slideMultiple: 2 } , 769: { visibleSlides: 2,  slideMultiple: 2,  gap:0 }}"
+              :bullets="false"
+              :gap="1"
+              :rtl="true"
+              :touchable="false"
+              :visible-slides="3"
+              fixed-height="30rem"
+            >
+              <VueperSlide v-for="(item,idx) in MyPhotos">
+                <template #content>
+                  <img v-if="item.priority === 1 || item.priority === 2"
+                       :src="`https://subapi.banoclub.com/media/gallery/galleryimages/${item.base64}`"
+                       alt="Product Image"
+                       class="tw-w-full tw-h-full "
+                       style="object-fit: contain;object-position: center !important;">
+                  <video
+                    v-else-if="item.priority === 3"
+                    :src="`https://subapi.banoclub.com/media/gallery/galleryvideos/${item.base64}`"
+                    class="tw-w-full tw-h-full"
+                    controls
+                  ></video>
+                </template>
+              </VueperSlide>
+            </VueperSlides>
           </div>
+
+          <!--          <div v-if="SelectedMedia!==null" class="modal-body">-->
+          <!--            <img v-if="SelectedMedia.priority == 1 || SelectedMedia.priority == 2"-->
+          <!--                 :src="`https://subapi.banoclub.com/media/gallery/galleryimages/${SelectedMedia.base64}`"-->
+          <!--                 alt="Product Image"-->
+          <!--                 class="tw-w-full tw-h-full"-->
+          <!--                 style="object-fit: contain;object-position: center !important;height: 330px;!important; ">-->
+          <!--            <video-->
+          <!--              v-else-if="SelectedMedia.priority == 3"-->
+          <!--              :src="`https://subapi.banoclub.com/media/gallery/galleryvideos/${SelectedMedia.base64}`"-->
+          <!--              class="w-100 tw-h-full"-->
+          <!--              controls-->
+          <!--            ></video>-->
+          <!--          </div>-->
 
         </div>
       </div>
     </div>
     <div
-      class="offcanvas offcanvas-start sidebar-bg"
-      tabindex="-1"
       id="offcanvasExample"
       aria-labelledby="offcanvasExample"
+      class="offcanvas offcanvas-start sidebar-bg"
       style="z-index: 9999999;"
+      tabindex="-1"
     >
       <div class="offcanvas-header pb-0 pt-3">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel">افزودن به گالری</h5>
-        <button ref="closeGalleryModal" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                aria-label="Close"></button>
+        <h5 id="offcanvasExampleLabel" class="offcanvas-title">افزودن به گالری</h5>
+        <button ref="closeGalleryModal" aria-label="Close" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                type="button"></button>
       </div>
 
       <div class="offcanvas-body d-flex flex-column">
-        <div uk-form-custom class="w-full">
-          <div @click="uploadNewPicture" class="tw-bg-gray-100
+        <div class="w-full" uk-form-custom>
+          <div class="tw-bg-gray-100
               tw-border-2 tw-border-dashed tw-flex tw-flex-col tw-h-32 tw-items-center
-              tw-justify-center tw-relative tw-w-full tw-rounded-lg mb-3">
+              tw-justify-center tw-relative tw-w-full tw-rounded-lg mb-3" @click="uploadNewPicture">
             <UploadFileIcon style="width: 48px; height: 48px;"/>
           </div>
           <input
-            ref="file"
-            type="file"
-            accept="image/*,video/*"
-            multiple="multiple"
-            class="form-control-file my-file d-none"
             id="my-file"
+            ref="file"
+            accept="image/*,video/*"
+            class="form-control-file my-file d-none"
+            multiple="multiple"
+            type="file"
             @change="onFileChange"
           />
         </div>
         <div class="overflow-scroll">
           <div
-            class="col-md-12 col-6 d-inline-block photos position-relative p-0"
             v-for="(item,idx) in BaseImgUrls"
             :key="idx"
+            class="col-md-12 col-6 d-inline-block photos position-relative p-0"
           >
-            <img v-if="item.priority === 2" class="img-fluid tw-rounded-lg mb-3" :src="item.base64"/>
-            <video v-else-if="item.priority == 3" class="w-100 tw-h-full tw-rounded-lg mb-3" controls :src="item.base64"></video>
+            <img v-if="item.priority === 2" :src="item.base64" class="img-fluid tw-rounded-lg mb-3"/>
+            <video v-else-if="item.priority == 3" :src="item.base64" class="w-100 tw-h-full tw-rounded-lg mb-3"
+                   controls></video>
             <span class="position-absolute deleteIcon m-3" style="top: 0" @click="deleteImage(item)">
-              <font-awesome-icon icon="trash" color="#ff4d4d" size="lg"/>
+              <font-awesome-icon color="#ff4d4d" icon="trash" size="lg"/>
             </span>
           </div>
         </div>
-        <div class="col-12 text-center" v-if="BaseImgUrls && BaseImgUrls.length === 0">
+        <div v-if="BaseImgUrls && BaseImgUrls.length === 0" class="col-12 text-center">
           <p class="text-warning fw-bold">هیچ تصویری بارگذاری نشده است.</p>
         </div>
-        <div class="loadmore mt-auto" v-if="BaseImgUrls && BaseImgUrls.length > 0">
-          <button type="button" class="button tw-w-full mt-auto" @click="UploadImages">
+        <div v-if="BaseImgUrls && BaseImgUrls.length > 0" class="loadmore mt-auto">
+          <button class="button tw-w-full mt-auto" type="button" @click="UploadImages">
             بارگذاری
           </button>
         </div>
@@ -77,48 +112,55 @@
     <div class="bg-white p-4 tab_content_back">
       <div class="tw-w-full    p-3 d-flex align-items-center justify-content-between gap-3   ">
         <div class="d-flex align-items-center gap-2">
-          <img src="/girl-icon-gallery.png" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" alt="">
+          <img alt="" class="tw-w-[7rem] tw-h-[7rem] tw-object-contain" src="/girl-icon-gallery.png">
           <div class="d-flex align-items-center flex-column">
             <h1 class="text-purple h6" style="font-weight: bolder!important;">گالری من</h1>
             <strong class="text-pink">My Gallery</strong>
           </div>
         </div>
-        <button  data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" v-tooltip="{content:'افزودن عکس جدید'}" class="btn AddReplyBtn text-white">
+        <button v-tooltip="{content:'افزودن عکس جدید'}" aria-controls="offcanvasExample"
+                class="btn AddReplyBtn text-white"
+                data-bs-target="#offcanvasExample" data-bs-toggle="offcanvas">
           <LazyPlusIcon fill="#ff6f9e" style="width: 30px; height: 30px;"/>
         </button>
       </div>
 
       <div class="row">
         <div
-          class="col-md-4 my-3"
           v-for="(item,idx) in MyPhotos"
           :key="idx"
-
+          class="col-lg-4 col-6 my-3"
         >
           <div class="position-relative">
-<!--            <a href="#offcanvasExampleeee" data-bs-toggle="offcanvas">-->
-            <button  v-if="item.priority === 1 || item.priority === 2" class="btn tw-w-full tw-h-full ShowMediaModal"    style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
-              <span class="position-absolute tw-left-1 deleteIcon m-3" style="top: 0" @click.prevent="renderConfirmationModal(item.base64)">
-                <font-awesome-icon icon="trash" color="#ff4d4d" size="lg"/>
+            <!--            <a href="#offcanvasExampleeee" data-bs-toggle="offcanvas">-->
+            <div v-if="item.priority === 1 || item.priority === 2" class="  tw-h-full ShowMediaModal">
+              <span class="position-absolute tw-left-1 deleteIcon m-3"
+                    @click.prevent="renderConfirmationModal(item.base64)">
+                <font-awesome-icon color="#ff4d4d" icon="trash" size="lg"/>
               </span>
+              <img :src="`https://subapi.banoclub.com/media/gallery/galleryimages/${item.base64}`"
+                   class="tw-w-full tw-shadow tw-rounded tw-h-60" data-bs-target="#MediaModal"
+                   data-bs-toggle="modal"
+                   style="object-fit: cover;object-position: center !important;"
+                   @click="SetSelectedMedia(item)">
+            </div>
+            <button v-else-if="item.priority === 3" class="btn ShowMediaModal w-100 tw-h-full">
 
-              <img data-bs-toggle="modal" data-bs-target="#MediaModal"  @click="SetSelectedMedia(item)" class="tw-w-full tw-shadow tw-rounded tw-h-full" :src="`https://subapi.banoclub.com/media/gallery/galleryimages/${item.base64}`"  style="object-fit: contain;object-position: center !important;height: 330px;!important; ">
-            </button>
-            <button  v-else-if="item.priority === 3" class="btn ShowMediaModal w-100 tw-h-full"   >
-
-                <span class="position-absolute tw-left-1 deleteIcon m-3" style="top: 0" @click.prevent="renderConfirmationModal(item.base64)">
-                <font-awesome-icon icon="trash" color="#ff4d4d" size="lg"/>
+                <span class="position-absolute tw-left-1 deleteIcon m-3" style="top: 0"
+                      @click.prevent="renderConfirmationModal(item.base64)">
+                <font-awesome-icon color="#ff4d4d" icon="trash" size="lg"/>
               </span>
               <video
-                data-bs-toggle="modal" data-bs-target="#MediaModal"
-                @click="SetSelectedMedia(item)"
+                :src="`https://subapi.banoclub.com/media/gallery/galleryvideos/${item.base64}`"
                 class="w-100 tw-h-full tw-shadow tw-rounded"
                 controls
-                :src="`https://subapi.banoclub.com/media/gallery/galleryvideos/${item.base64}`"
+                data-bs-target="#MediaModal"
+                data-bs-toggle="modal"
+                @click="SetSelectedMedia(item)"
               ></video>
             </button>
 
-<!--            </a>-->
+            <!--            </a>-->
           </div>
         </div>
       </div>
@@ -156,9 +198,12 @@
 <script>
 import PlusIcon from "../Icons/PlusIcon";
 import UploadFileIcon from "../Icons/UploadFileIcon";
+import {VueperSlides, VueperSlide} from 'vueperslides'
+import 'vueperslides/dist/vueperslides.css'
+
 export default {
   name: "PhotosTabContent",
-  components: {UploadFileIcon, PlusIcon},
+  components: {UploadFileIcon, PlusIcon, VueperSlides, VueperSlide},
   data() {
     return {
       isRenderingDeleteConfirmation: false,
@@ -169,7 +214,7 @@ export default {
       images: [],
       imgId: 0,
       MyPhotos: [],
-      SelectedMedia:null,
+      SelectedMedia: null,
       swiperOptionTop: {
         loop: false,
         loopedSlides: 5,
@@ -190,7 +235,7 @@ export default {
     this.MyPhotos = response.data;
   },
   methods: {
-    SetSelectedMedia(slide){
+    SetSelectedMedia(slide) {
       this.SelectedMedia = slide
     },
     async confirmDeletingPhoto() {
@@ -199,9 +244,11 @@ export default {
         await this.$repositories.deleteMedia.deleteMedia(this.tempImageName);
         this.closeDeleteConfirmationModal();
         this.$fetch();
-      } catch (error) {
+      }
+      catch (error) {
         console.log(error);
-      } finally {
+      }
+      finally {
         this.$nuxt.$loading.finish();
       }
     },
@@ -216,7 +263,6 @@ export default {
       // Split item and get name of media
       this.tempImageName = item.split("/")[item.split("/").length - 1];
     },
-
 
     async UploadImages() {
       this.$nextTick(() => {
@@ -261,22 +307,25 @@ export default {
 
       that.Uploaded = true;
       Array.prototype.forEach.call(this.$refs.file.files, (element) => {
-        if(!(element.type==='image/jpeg'||element.type==='image/png'||element.type==='video/mp4')){
+        if (!(element.type === 'image/jpeg' || element.type === 'image/png' || element.type === 'video/mp4')) {
           this.$toast.error('فرمت یکی از فایل های وارد شده نامعتبر است')
-        }else if ((element.type==='image/jpeg'||element.type==='image/png')&& element.type>512000){
+        }
+        else if ((element.type === 'image/jpeg' || element.type === 'image/png') && element.type > 512000) {
           this.$toast.error('سایز عکس بزرگتر از 512 کیلوبایت است')
-        }else if(element.type==='video/mp4' && element.size > 3000000){
+        }
+        else if (element.type === 'video/mp4' && element.size > 3000000) {
           this.$toast.error('سایز ویدیو بزرگتر از 3 مگابایت است')
-        }else{
+        }
+        else {
           f.push(element);
         }
       });
       f.forEach((element) => {
         const tmpBaseImgUrls = {
-          base64:'',
-          priority:0
+          base64: '',
+          priority: 0
         }
-        if(this.$refs.file.files[0].type.includes("image")){
+        if (this.$refs.file.files[0].type.includes("image")) {
           tmpBaseImgUrls.base64 = URL.createObjectURL(element)
           tmpBaseImgUrls.priority = 2
         }
@@ -284,7 +333,7 @@ export default {
           tmpBaseImgUrls.base64 = URL.createObjectURL(element)
           tmpBaseImgUrls.priority = 3
         }
-        const clone = { ...tmpBaseImgUrls };
+        const clone = {...tmpBaseImgUrls};
         this.BaseImgUrls.push(clone);
 
         const reader = new FileReader();
@@ -292,18 +341,18 @@ export default {
           return function () {
             const binaryData = reader.result;
             const tmpImage = {
-              base64:'',
-              priority:0
+              base64: '',
+              priority: 0
             }
-            if(tmpBaseImgUrls.priority === 2){
+            if (tmpBaseImgUrls.priority === 2) {
               tmpImage.base64 = window.btoa(binaryData)
               tmpImage.priority = 2
             }
-            else{
+            else {
               tmpImage.base64 = window.btoa(binaryData)
               tmpImage.priority = 3
             }
-            const clone = { ...tmpImage };
+            const clone = {...tmpImage};
             that.images.push(clone);
 
           };
@@ -319,7 +368,6 @@ export default {
       this.images.splice(idx, 1);
 
     },
-
 
   }
 

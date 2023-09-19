@@ -1,10 +1,7 @@
 <template>
   <div>
-    <div v-if="Ads.length>0" class="tw-grid tw-grid-cols-1 md:tw-grid-cols-5 tw-justify-center tw-mx-auto  ">
-
-
-      <AdItem  class="tw-my-3 tw-mx-auto"  v-for="item in Ads" :AdsDetail="item" />
-
+    <div v-if="Ads.length>0" class="tw-grid tw-grid-cols-2 md:tw-grid-cols-6 tw-gap-3    ">
+      <AdItem  class="tw-my-3 tw-col-span-1 md:tw-col-span-2"  v-for="item in Ads" :AdsDetail="item" />
     </div>
     <div v-else class="tw-flex tw-col-span-5 tw-items-center tw-justify-center" @click="$router.push('/Migration/CreateAdvertise/')">
       <div  class="row my-3" >

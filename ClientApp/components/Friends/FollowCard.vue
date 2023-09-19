@@ -1,9 +1,9 @@
 <template>
   <div class="row "  v-if="followList">
-    <div @click="goToUserProfile(item.userInfo)" class="col-md-3  tw-cursor-pointer my-2 p-3"
+    <div @click="goToUserProfile(item.userInfo)" class="col-md-3 col-6  tw-cursor-pointer my-2 p-3"
          v-for="(item, index) in followList" :key="index">
       <div class="rounded shadow border d-flex flex-column bg-white justify-content-center align-items-center ">
-            <div class="Card-Img tw-w-full tw-h-[10rem] relative">
+            <div class="Card-Img tw-w-full md:tw-h-[10rem] tw-h-[7rem] relative">
               <img :src="isARequestCard ? requestUserAvatar(item) : userAvatar(item)" class="custom-image tw-absolute -tw-translate-y-1/4  tw-top-1/4  -tw-translate-x-1/2 tw-left-1/2 " alt="">
               <img alt="User Avatar" :src="isARequestCard ? requestUserBanner(item) : userBanner(item)" class="tw-w-full tw-h-full tw-object-cover  "/>
 
@@ -24,11 +24,11 @@
           <button v-if="!isARequestCard" type="button" style="border-radius: .375rem" class="bg-pink rounded p-2 text-white" @click.stop="unfollowUser(item)">
             حذف
           </button>
-          <div class="w-100 d-flex align-items-center gap-2 mb-2" v-if="isARequestCard">
-            <button type="button" class="bg-pink rounded p-2 text-white" @click.stop="acceptFollowReq(item.followRequestId)">
+          <div class="d-flex flex-wrap d-flex align-items-center justify-content-center gap-2 mb-2" v-if="isARequestCard">
+            <button type="button" class="bg-pink tw-btn tw-btn-sm rounded p-2 text-white" @click.stop="acceptFollowReq(item.followRequestId)">
               قبول درخواست
             </button>
-            <button type="button" class="bg-purple rounded p-2 text-white" @click.stop="rejectFollowReq(item.followRequestId)">
+            <button type="button" class="bg-purple tw-btn tw-btn-sm rounded p-2 text-white" @click.stop="rejectFollowReq(item.followRequestId)">
               رد درخواست
             </button>
           </div>

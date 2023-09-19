@@ -124,7 +124,7 @@
                 v-model="SelectedStateId"
               ></v-select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 my-md-0 my-2">
               <v-select
                 :options="AllCities"
                 label="name"
@@ -210,7 +210,7 @@
         </div>
       </form>
     </div>
-    <div class="tw-fixed tw-bottom-0 tw-left-0 tw-p-10">
+    <div class="tw-fixed tw-bottom-10 tw-left-0 tw-p-10">
       <LazyCircularProgress :RadialProgress="FilledCount"></LazyCircularProgress>
 
     </div>

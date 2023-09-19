@@ -16,7 +16,7 @@
       </div>
 
     </div>
-    <div class="tab-content bg-white tw-shadow my-3 tw-rounded p-3" id="pills-tabContent" v-if="!$fetchState.pending">
+    <div class="tab-content bg-white tw-shadow my-3 tw-rounded p-md-3 p-0" id="pills-tabContent" v-if="!$fetchState.pending">
       <ul class="nav nav-pills align-items-end profile_tabs py-3" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation m-0" style="margin: 0 !important;">
           <button class="nav-link active" id="products-pills-home-tab" data-bs-toggle="pill"
@@ -33,20 +33,12 @@
         </li>
       </ul>
       <div class="tab-pane fade show active" id="products-pills-home" role="tabpanel" aria-labelledby="products-pills-home-tab">
-        <div class="row boxMainContent mx-auto">
-          <div class="col-12 text-center px-0">
-                <LazyAllServicesTabContentWish v-if="ServicesWishList.length>0" :services="ServicesWishList" :categories="categories"/>
-              <span v-else>شما خدمت مورد علاقه ندارید</span>
-          </div>
-        </div>
+          <LazyAllServicesTabContentWish v-if="ServicesWishList.length>0" :services="ServicesWishList" :categories="categories"/>
+          <span v-else>شما خدمت مورد علاقه ندارید</span>
       </div>
       <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-        <div class="row boxMainContent mx-auto">
-          <div class="col-12 text-center px-0">
-            <LazyAllAdsTabContentWish v-if="AdsWishList.length>0" :Ads="AdsWishList" :categories="categories"/>
-            <span v-else>شما آگهی مورد علاقه ندارید</span>
-          </div>
-        </div>
+        <LazyAllAdsTabContentWish v-if="AdsWishList.length>0" :Ads="AdsWishList" :categories="categories"/>
+        <span v-else>شما آگهی مورد علاقه ندارید</span>
       </div>
     </div>
 
