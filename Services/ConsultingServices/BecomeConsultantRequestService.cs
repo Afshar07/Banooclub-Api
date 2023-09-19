@@ -585,18 +585,8 @@ namespace BanooClub.Services.ConsultingServices
         {
             return new List<IdTitleKeyValueDTO>()
             {
-                new IdTitleKeyValueDTO() { Id = 5, Title = "پنج دقیقه" },
-                new IdTitleKeyValueDTO() { Id = 10, Title = "ده دقیقه" },
-                new IdTitleKeyValueDTO() { Id = 15, Title = "پانزده دقیقه" },
                 new IdTitleKeyValueDTO() { Id = 20, Title = "بیست دقیقه" },
-                new IdTitleKeyValueDTO() { Id = 25, Title = "بیست و پنج دقیقه" },
-                new IdTitleKeyValueDTO() { Id = 30, Title = "سی دقیقه" },
-                new IdTitleKeyValueDTO() { Id = 35, Title = "سی و پنج دقیقه" },
                 new IdTitleKeyValueDTO() { Id = 40, Title = "چهل دقیقه" },
-                new IdTitleKeyValueDTO() { Id = 45, Title = "چهل و پنج دقیقه" },
-                new IdTitleKeyValueDTO() { Id = 50, Title = "پنجاه دقیقه" },
-                new IdTitleKeyValueDTO() { Id = 55, Title = "پنجاه و پنج دقیقه" },
-                new IdTitleKeyValueDTO() { Id = 60, Title = "شست دقیقه" }
 
             };
         }
