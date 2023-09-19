@@ -420,35 +420,37 @@ export default {
       }
     },
     validateData() {
-      if (this.consultantRequest.durationMinute &&
-        this.consultantRequest.cityId &&
-        this.consultantRequest.stateId &&
-        this.consultantRequest.shabaNo &&
-        this.consultantRequest.cartNo &&
-        this.consultantRequest.bankName &&
-        this.consultantRequest.phoneNumber &&
-        this.consultantRequest.nationalCode &&
-        this.consultantRequest.imageFileData &&
-        this.consultantRequest.fileData &&
-        this.consultantRequest.description && this.consultantRequest.categories.length > 0) {
-        this.consultantRequest.prices.forEach((item) => {
-          item.price = item.price.replaceAll(',', '')
-        })
-        // delete this.consultantRequest.fileDataPictureUrl
-        // delete this.consultantRequest.imagePictureUrl
-        if (!this.consultantRequest.shabaNo.includes('IR')) {
-          this.consultantRequest.shabaNo = 'IR' + this.consultantRequest.shabaNo
-        }
-        if (this.consultantRequest.startAndEndWork.length > 0) {
-          this.consultantRequest.startAndEndWork = []
-        }
-        this.consultantRequest.startAndEndWork.push(this.startDate)
-        this.consultantRequest.startAndEndWork.push(this.endDate)
-        this.createConsultantRequest()
-
-      } else {
-        this.$toast.error('لطفا همه فیلد های اجباری را تکمیل نمایید')
-      }
+      this.createConsultantRequest()
+      //
+      // if (this.consultantRequest.durationMinute &&
+      //   this.consultantRequest.cityId &&
+      //   this.consultantRequest.stateId &&
+      //   this.consultantRequest.shabaNo &&
+      //   this.consultantRequest.cartNo &&
+      //   this.consultantRequest.bankName &&
+      //   this.consultantRequest.phoneNumber &&
+      //   this.consultantRequest.nationalCode &&
+      //   this.consultantRequest.imageFileData &&
+      //   this.consultantRequest.fileData &&
+      //   this.consultantRequest.description && this.consultantRequest.categories.length > 0) {
+      //   this.consultantRequest.prices.forEach((item) => {
+      //     item.price = item.price.replaceAll(',', '')
+      //   })
+      //   // delete this.consultantRequest.fileDataPictureUrl
+      //   // delete this.consultantRequest.imagePictureUrl
+      //   if (!this.consultantRequest.shabaNo.includes('IR')) {
+      //     this.consultantRequest.shabaNo = 'IR' + this.consultantRequest.shabaNo
+      //   }
+      //   if (this.consultantRequest.startAndEndWork.length > 0) {
+      //     this.consultantRequest.startAndEndWork = []
+      //   }
+      //   this.consultantRequest.startAndEndWork.push(this.startDate)
+      //   this.consultantRequest.startAndEndWork.push(this.endDate)
+      //   this.createConsultantRequest()
+      //
+      // } else {
+      //   this.$toast.error('لطفا همه فیلد های اجباری را تکمیل نمایید')
+      // }
     },
     async createConsultantRequest() {
       try {
@@ -459,8 +461,6 @@ export default {
         const res = await this.$repositories.createConsultantRequest.setPayload(this.consultantRequest)
         if (!res.data.isSuccess) {
           this.$toast.error(res.data.errorMessage)
-
-
         } else {
           this.$toast.success('درخواست شما با موفقیت ثبت شد')
           this.$auth.fetchUser()

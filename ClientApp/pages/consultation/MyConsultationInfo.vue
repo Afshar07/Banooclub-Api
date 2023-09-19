@@ -588,32 +588,6 @@ export default {
       }
     },
     validateData() {
-      if (this.consultantRequest.durationMinute &&
-        this.consultantRequest.cityId &&
-        this.consultantRequest.stateId &&
-        this.consultantRequest.shabaNo &&
-        this.consultantRequest.cartNo &&
-        this.consultantRequest.bankName &&
-        this.consultantRequest.phoneNumber &&
-        this.consultantRequest.nationalCode &&
-        this.consultantRequest.imageFileData &&
-        this.consultantRequest.fileData &&
-        this.consultantRequest.description && this.consultantRequest.categories.length > 0) {
-        this.consultantRequest?.prices?.forEach((item, idx) => {
-          if (typeof item.price === 'string') {
-            item.price = item.price.replaceAll(',', '')
-            this.$set(this.consultantRequest.prices, idx, item)
-          }
-        })
-        if (!this.consultantRequest.shabaNo.includes('IR')) {
-          this.consultantRequest.shabaNo = 'IR' + this.consultantRequest.shabaNo
-        }
-        if (this.startDate) {
-          this.consultantRequest.startAndEndWork.push(this.startDate)
-        }
-        if (this.startDate) {
-          this.consultantRequest.startAndEndWork.push(this.endDate)
-        }
         let hardCopied = JSON.parse(JSON.stringify(this.consultantRequest.categories))
         this.consultantRequest.categories = []
         hardCopied.forEach((item) => {
@@ -624,18 +598,58 @@ export default {
             this.consultantRequest.categories.push(item)
           }
         })
-        if (this.newImage === '') {
-          this.consultantRequest.imageFileData = ''
-        }
-        if (this.newFileData === '') {
-          this.consultantRequest.fileData = ''
-        }
-        this.createConsultantRequest()
 
-      }
-      else {
-        this.$toast.error('لطفا همه فیلد های اجباری را تکمیل نمایید')
-      }
+
+      this.createConsultantRequest()
+
+      // if (this.consultantRequest.durationMinute &&
+      //   this.consultantRequest.cityId &&
+      //   this.consultantRequest.stateId &&
+      //   this.consultantRequest.shabaNo &&
+      //   this.consultantRequest.cartNo &&
+      //   this.consultantRequest.bankName &&
+      //   this.consultantRequest.phoneNumber &&
+      //   this.consultantRequest.nationalCode &&
+      //   this.consultantRequest.imageFileData &&
+      //   this.consultantRequest.fileData &&
+      //   this.consultantRequest.description && this.consultantRequest.categories.length > 0) {
+      //   this.consultantRequest?.prices?.forEach((item, idx) => {
+      //     if (typeof item.price === 'string') {
+      //       item.price = item.price.replaceAll(',', '')
+      //       this.$set(this.consultantRequest.prices, idx, item)
+      //     }
+      //   })
+      //   if (!this.consultantRequest.shabaNo.includes('IR')) {
+      //     this.consultantRequest.shabaNo = 'IR' + this.consultantRequest.shabaNo
+      //   }
+      //   if (this.startDate) {
+      //     this.consultantRequest.startAndEndWork.push(this.startDate)
+      //   }
+      //   if (this.startDate) {
+      //     this.consultantRequest.startAndEndWork.push(this.endDate)
+      //   }
+      //   let hardCopied = JSON.parse(JSON.stringify(this.consultantRequest.categories))
+      //   this.consultantRequest.categories = []
+      //   hardCopied.forEach((item) => {
+      //     if (item.id) {
+      //       this.consultantRequest.categories.push(item.id)
+      //     }
+      //     else {
+      //       this.consultantRequest.categories.push(item)
+      //     }
+      //   })
+      //   if (this.newImage === '') {
+      //     this.consultantRequest.imageFileData = ''
+      //   }
+      //   if (this.newFileData === '') {
+      //     this.consultantRequest.fileData = ''
+      //   }
+      //   this.createConsultantRequest()
+      //
+      // }
+      // else {
+      //   this.$toast.error('لطفا همه فیلد های اجباری را تکمیل نمایید')
+      // }
     },
     async removeSchedule() {
       try {
@@ -674,7 +688,14 @@ export default {
           this.$nuxt.$loading.start()
         })
 
-        const res = await this.$repositories.createConsultantRequest.setPayload(this.consultantRequest)
+        let tempX = {...this.consultantRequest};
+        if (this.newImage === '') {
+          tempX.imageFileData = ''
+        }
+        if (this.newFileData === '') {
+          tempX.fileData = ''
+        }
+        const res = await this.$repositories.createConsultantRequest.setPayload(tempX);
         if (!res.data.isSuccess) {
           this.$toast.error(res.data.errorMessage)
 
